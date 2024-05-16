@@ -72,9 +72,7 @@ const NavBar = () => {
                         <Image
                             className={`${styles['enlaces__logo']} ${'cursor-pointer'}`}
                             alt='Logo de empresa'
-                            // src={logo}
-                            src={Logo}
-                            
+                            src={logo}
                             width={50}
                             height={50}
                             as='image'
