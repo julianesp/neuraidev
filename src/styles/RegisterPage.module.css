@@ -1,0 +1,15 @@
+.login {
+  display: grid;
+  grid-template-columns: minmax(300px, 430px);
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 15px 0;
+}
+
+.login input {
+  padding: 10px;
+
+  border-radius: 10px;
+}

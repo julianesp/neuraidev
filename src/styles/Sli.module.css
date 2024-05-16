@@ -1,0 +1,10 @@
+.slider {
+  height: 300px;
+  width: 300px;
+  background-color: #000;
+}
+
+.slider .carousel {
+  height: 50px;
+  border: 5px solid red;
+}

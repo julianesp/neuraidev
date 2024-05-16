@@ -1,0 +1,121 @@
+/* Estilos para el contenedor principal del carrusel */
+.slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 350px;
+  width: 200px;
+}
+
+/* Estilos para el carrusel de imágenes */
+.slider #carousel {
+  flex-direction: column;
+
+  /* Puedes ajustar este valor según tus necesidades */
+  max-width: 1000px;
+
+  overflow: hidden;
+
+  width: 80%;
+  height: inherit; /* Ajusta la altura según tus necesidades */
+
+  /* object-fit: contain; */
+
+  margin-bottom: 5px;
+}
+
+/* Estilos para las imágenes individuales en el carrusel */
+.slider #carousel .image {
+  position: absolute;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* object-fit: cover; */
+
+  /* I want hidden the others imagens when these is presentation */
+  overflow: hidden;
+
+  /* Las imágenes ocuparán todo el ancho disponible */
+  width: 120%;
+
+  height: inherit;
+
+  transition: transform 0.3s ease-in-out;
+}
+
+.slider #carousel .image img {
+  width: 50px;
+  height: 50px;
+  /* max-width: 100%; */
+  /* Imagen dentro del contenedor */
+  /* max-height: 100%; */
+
+  border-radius: 20px;
+  border-radius: 30px;
+}
+
+/* Estilos para la imagen activa */
+.slider #carousel .image.active {
+  transform: translateX(0) scale(1);
+}
+
+/* Estilos para las imágenes inactivas */
+.slider #carousel .image:not(.active) {
+  transform: translateX(200%);
+}
+
+/* Estilos para las flechas de navegación */
+.slider .flechas {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#flechas {
+  position: absolute;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  bottom: -45px;
+}
+
+#flechas button {
+  background: none;
+  /* border: 1px solid #000; */
+  cursor: pointer;
+  outline: none;
+  margin: 0 5px;
+  border: unset;
+
+  #prevBtn,
+  #nextBtn {
+    position: relative;
+  }
+
+  #nextBtn img {
+    transform: rotate(180deg);
+  }
+  #prevBtn:active,
+  #nextBtn:active {
+    transform: scale(0.2);
+    transition-duration: 0.9s;
+  }
+}
+
+#flechas button #prevBtn img {
+  /* border: 2px solid #fff; */
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+#flechas button #nextBtn img {
+  /* border: 2px solid #fff; */
+  border-radius: 50%;
+  background-color: #fff;
+}

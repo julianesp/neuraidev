@@ -1,0 +1,54 @@
+/* Carousel.module.scss */
+
+.carousel {
+  width: 100%;
+  max-width: 400px; /* Ajusta el ancho máximo según tus preferencias */
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.carousel__inner {
+  display: flex;
+  flex-direction: row;
+  width: 400%;
+}
+
+.item {
+  overflow: hidden;
+  width: 100%;
+}
+
+.item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+#arrows {
+  position: relative;
+
+  .prev,
+  .next {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px; /* Ajusta el tamaño según tus preferencias */
+    height: 30px; /* Ajusta el tamaño según tus preferencias */
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  /* Posicionamiento de las flechas */
+  .prev {
+    left: 5px; /* Ajusta la posición según tus preferencias */
+  }
+
+  .next {
+    right: 5px; /* Ajusta la posición según tus preferencias */
+  }
+}

@@ -1,0 +1,118 @@
+/* Estilos para el contenedor principal del carrusel */
+.slider {
+  /* position: relative; */
+  /* display: flex; */
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  /* padding: 20px; */
+
+  height: 100%;
+
+  /* background-color: 2px solid red; */
+}
+
+/* Estilos para el carrusel de imágenes */
+#carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Puedes ajustar este valor según tus necesidades */
+  /* max-width: 1000px;  */
+
+  overflow: hidden;
+
+  /* width: 100%; */
+  height: 100%; /* Ajusta la altura según tus necesidades */
+
+  object-fit: contain;
+}
+
+/* Estilos para las imágenes individuales en el carrusel */
+#carousel .image {
+  position: absolute;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  object-fit: cover;
+
+  /* I want hidden the others imagens when these is presentation */
+  overflow: hidden;
+
+  /* Las imágenes ocuparán todo el ancho disponible */
+  width: 120%;
+
+  /* height: 100px; */
+
+  transition: transform 0.3s ease-in-out;
+}
+
+.image img {
+  width: 320px;
+  height: 50%;
+  /* max-width: 100%; */
+  /* Imagen dentro del contenedor */
+  /* max-height: 100%; */
+}
+
+/* Estilos para la imagen activa */
+.image.active {
+  transform: translateX(0) scale(1);
+}
+
+/* Estilos para las imágenes inactivas */
+.image:not(.active) {
+  transform: translateX(200%);
+}
+
+/* Estilos para las flechas de navegación */
+.slider .flechas {
+  /* display: flex;
+  justify-content: center; */
+  /* margin-top: 10px; */
+}
+
+#arrows {
+  position: absolute;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100px;
+
+  /* bottom: -45px; */
+}
+
+#arrows button {
+  background: none;
+  /* border: 1px solid #000; */
+  cursor: pointer;
+  /* outline: none; */
+  /* margin: 0 5px; */
+  border: unset;
+  width: 100px;
+  height: 100px;
+
+  & #prevBtn,
+  #nextBtn {
+    position: relative;
+  }
+  #prevBtn,
+  #nextBtn img {
+    /* border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: #fff; */
+    background-color: unset;
+  }
+  #nextBtn img {
+    transform: rotate(180deg);
+  }
+  #prevBtn:active,
+  #nextBtn:active {
+    transform: scale(0.2);
+    transition-duration: 0.9s;
+  }
+}

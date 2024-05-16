@@ -1,0 +1,22 @@
+{
+    "services": [
+        {
+            "id": 1,
+            "ubicacion": "/public/images/services/cirugia_laparoscopia_1.jpg",
+            "alt": "Cirugía laparoscopia",
+            "description": "Cirugía laparoscopia"
+        },
+        {
+            "id": 2,
+            "ubicacion": "/public/images/services/colecistectomia.jpg",
+            "alt": "Colecistectomia",
+            "description": "Colecistectomia"
+        },
+        {
+            "id": 3,
+            "ubicacion": "/public/images/services/patologias.jpg",
+            "alt": "Patologias",
+            "description": "Patologia"
+        }
+    ]
+}

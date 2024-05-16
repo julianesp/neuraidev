@@ -1,0 +1,312 @@
+.dev {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  margin-top: 3.85rem;
+
+  /* background-color: rgba(#bababa, 0.5); */
+
+  /* z-index: 1000; */
+}
+
+.dev .description {
+  /* position: relative; */
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 50px;
+  margin-bottom: 3.5rem;
+
+  width: 100%;
+  height: 490px;
+  top: -115px;
+  /* bottom: 0; */
+
+  background-color: rgba(24, 28, 36, 0.9);
+  border-end-end-radius: 230px;
+  border-bottom-left-radius: 230px;
+
+  z-index: 1;
+
+  animation: colorDesplazamiento 0.5s ease-in;
+}
+
+@keyframes colorDesplazamiento {
+  0% {
+    transform: translateY(-350px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.dev .description p {
+  padding-top: 50px;
+
+  text-align: justify;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.dev .description p span {
+  display: flex;
+  opacity: 0;
+}
+
+.dev .description p span:nth-child(1) {
+  animation: showFirst 1s forwards 0.7s; /* Agregamos un retraso de 1 segundo para que comience después de la animación del fondo */
+}
+
+.dev .description p span:nth-child(2) {
+  animation: showSecond 1s forwards 1.2s; /* Retraso de 2 segundos */
+}
+
+.dev .description p span:nth-child(3) {
+  animation: showThird 1s forwards 1.7s; /* Retraso de 3 segundos */
+  margin-bottom: 20px;
+}
+
+@keyframes showFirst {
+  0% {
+    transform: translateX(-200px);
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes showSecond {
+  0% {
+    transform: translateY(-100px);
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes showThird {
+  0% {
+    transform: translateY(100px);
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes aumento {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(2.4);
+    opacity: 1;
+  }
+}
+
+.dev .description img {
+  opacity: 0;
+  z-index: 2;
+}
+
+.dev .description .me {
+  /* position: absolute; */
+
+  width: 250px;
+  height: 250px;
+
+  /* margin-top: 150px; */
+  /* margin-bottom: 150px; */
+
+  /* background-image: url('../../../public/images/doctor.jpg'); */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  border-radius: 50%;
+
+  top: -70px;
+
+  /* margin-top: 50px; */
+
+  animation: aparecer;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-delay: 2.75s;
+
+  z-index: -1;
+}
+
+@keyframes aparecer {
+  0% {
+    opacity: 0;
+    left: -200px;
+  }
+
+  100% {
+    opacity: 1;
+    left: 10px;
+  }
+}
+
+.study {
+  position: relative;
+
+  /* @include subTitles; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  margin-top: 450px;
+  margin-bottom: 30px;
+  padding: 15px 0;
+
+  width: 100%;
+  height: auto;
+
+  background-color: rgba(216, 207, 207, 0.7);
+  border-radius: 20px 20px;
+}
+
+.study h2 {
+  padding-top: 15px;
+  padding-bottom: 25px;
+
+  color: #000;
+
+  text-decoration: underline;
+}
+
+.study .study__container {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 20px;
+
+  height: auto;
+}
+
+/* Estilos para imagen diplomas */
+
+.study .study__container .study--areas {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+
+  width: 140px;
+  height: 150px;
+
+  margin-bottom: 20px;
+  padding: 0 1px;
+
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #baba;
+  box-shadow: 5px 5px 1px #baba;
+}
+
+.study .study__container .study--areas p {
+  font-size: 1rem;
+  text-align: center;
+}
+
+.study .study__container .study--areas img {
+  position: fixed;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  top: 115px;
+  bottom: 0;
+  left: 35px;
+
+  width: calc(100% - 70px);
+  height: calc(100% - 170px);
+
+  border-radius: 20px;
+  object-fit: fill;
+
+  z-index: 100;
+}
+
+.study .study__container .study--areas .image-button--cerrar {
+  position: fixed;
+  z-index: 402;
+
+  width: 40px;
+  height: 40px;
+
+  top: 100px;
+  right: 20px;
+
+  background-color: rgb(25, 174, 226);
+  border-radius: 50%;
+  border-color: transparent;
+
+  color: #fff;
+
+  font-size: medium;
+  font-weight: bolder;
+}
+
+/* -------------- */
+
+.portfolio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  border: 1px solid #bababa;
+  border-radius: 10px;
+
+  margin: 0 auto 50px;
+  padding: 30px 0;
+
+  width: 95%;
+}
+
+.portfolio h3 {
+  padding-bottom: 20px;
+  color: #fff;
+  text-decoration: underline;
+}
+.portfolio .portfolio__empresas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-wrap: wrap;
+}
+.portfolio .portfolio__empresas .empresa {
+  margin-right: 20px;
+}
+
+.portfolio .portfolio__empresas .empresa img {
+  padding: 10px;
+
+  border: 1px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #bababa;
+}

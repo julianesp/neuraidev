@@ -1,0 +1,50 @@
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.input,
+.textarea,
+.inputFile,
+.button {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.inputFile {
+  padding: 5px;
+}
+
+.button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,12 @@
+.mein {
+  margin-top: 50px;
+}
+
+/* @media screen and (min-width: 1024px) {
+  .mein {
+    width: 80dvw;
+
+    display: grid;
+    grid-template-columns: 1fr 0.2fr;
+  }
+} */
