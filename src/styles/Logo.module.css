@@ -3,17 +3,17 @@
   --clippy: circle(0 0, 0 0, 0 100%, 0% 100%);
 } */
 
-/* body {
+.logo__container {
+  /* Ajusta el tamaño general del logo aquí */
+  width: 50px; /* Cambia el tamaño según tus necesidades */
+  height: 50px; /* Cambia el tamaño según tus necesidades */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100lvh;
-
-  background-color: #5e5959;
-} */
+}
 
 .hair {
-  position: absolute;
+  /* position: absolute; */
 
   top: 5px;
 
@@ -104,8 +104,8 @@
 
   z-index: 10;
 
-  width: 175px;
-  height: 220px;
+  width: 50px;
+  height: 50px;
 
   /* border: 1px solid rgb(179, 86, 10); */
 
@@ -116,6 +116,9 @@
 
   background-color: rgb(249 197 154);
   box-shadow: 0 10px 20px 0 #000;
+
+  transform: scale(.25);
+  transform-origin: top left;
 }
 
 .face .robot {
@@ -154,7 +157,7 @@
   position: relative;
 }
 
-.ears .ear-left {
+.ears .ear__left {
   position: absolute;
 
   top: 80px;
@@ -172,7 +175,7 @@
   border-bottom-right-radius: 10px;
 }
 
-.ears .ear-right {
+.ears .ear__right {
   position: absolute;
 
   top: 80px;
@@ -210,7 +213,7 @@
   height: 20px;
 }
 
-.face .eye .eye-left .eyelash {
+.face .eye .eye__left .eyelash {
   position: absolute;
 
   border: 1px solid #000;
@@ -222,7 +225,7 @@
   height: 5px;
 }
 
-.face .eye .eye-right .eyelash {
+.face .eye .eye__right .eyelash {
   /* display: none; */
 
   position: absolute;

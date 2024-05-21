@@ -1,16 +1,14 @@
-import NavBar from '../containers/NavBar.js';
-import Footer from '../containers/Footer.js';
-import styles from '../styles/Layout.module.css';
+import NavBar from "../containers/NavBar.js";
+import Footer from "../containers/Footer.js";
+import styles from "../styles/Layout.module.css";
 
 const Layout = ({ children }) => (
-    <>
-        <NavBar />
+  <>
+    <NavBar />
 
-        <main className={styles.mein}>
-            {children}
-        </main>
-        <Footer />
-    </>
-)
+    <main className={styles.mein}>{children}</main>
+    <Footer />
+  </>
+);
 
-export default Layout
+export default Layout;
