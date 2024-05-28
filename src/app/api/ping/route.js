@@ -8,8 +8,3 @@ export function GET() {
     message: "Obtenido tareas",
   });
 }
-export function POST() {
-  return NextResponse.json({
-    message: "Creando tareas",
-  });
-}
