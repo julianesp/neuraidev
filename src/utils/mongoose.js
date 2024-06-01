@@ -5,21 +5,21 @@ const conn = {
 };
 
 export async function connectedDB() {
-    // para cuando se está conectado, no vuelvas a hacer una conexion
-    if(conn.isConnected) return;
+  // para cuando se está conectado, no vuelvas a hacer una conexion
+  if (conn.isConnected) return;
 
-    const db = await connect('mongodb://localhost/neuraidev')
+  const db = await connect("mongodb://localhost/neuraidev");
 
-    // en la siguiente linea se llamar al nombre de la base por consola
-    console.log(`Nombre de user: ${db.connection.db.databaseName}`);
-    // readyState devuelve valores 0, 1
-    // conn.isConnected = db.connection[0].readyState;
-}   
+  // en la siguiente linea se llamar al nombre de la base por consola
+  console.log(`Nombre de user: ${db.connection.db.databaseName}`);
+  // readyState devuelve valores 0, 1
+  // conn.isConnected = db.connection[0].readyState;
+}
 
-connection.on('connected', () => {
-    console.log('Mongoose está conectado');
-})
+connection.on("connected", () => {
+  console.log("Mongoose está conectado");
+});
 
-connection.on('error', (err) => {
-    console.log('Mongoose está desconectado', err);
-})
+connection.on("error", (err) => {
+  console.log("Mongoose está desconectado", err);
+});

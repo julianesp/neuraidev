@@ -28,3 +28,5 @@ const taskSchema = new Schema(
 );
 
 export default models.Tasks || model("Task", taskSchema);
+
+// module.exports = Tasks;
