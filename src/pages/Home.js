@@ -1,27 +1,29 @@
 import React, { useContext } from "react";
 import Head from "next/head";
-import Layout from "../components/Layout.js";
+// import Layout from "../components/Layout.js";
+
 import Image from "next/image.js";
 import Slider from "../containers/Slider.js";
 // images doc
-import d1 from "/public/images/doctor/1.png";
-import d2 from "/public/images/doctor/2.png";
-import d3 from "/public/images/doctor/3.png";
+import d1 from "/public/images/phone.png";
+import d2 from "/public/images/phone.png";
+import d3 from "/public/images/phone.png";
 
 // images cirugias
-import c1 from "/public/images/cirugias/cirugia_vesicula.png";
-import c2 from "/public/images/cirugias/colonoscopia.png";
-import c3 from "/public/images/cirugias/lapa_vesicula.png";
-import c4 from "/public/images/services/cirugia_laparoscopia_1.jpg";
-import c5 from "/public/images/services/colecistectomia.jpg";
-import c6 from "/public/images/services/patologias.jpg";
-import c7 from "/public/images/services/colonoscopia.jpg";
+import c1 from "/public/images/phone.png";
+import c2 from "/public/images/phone.png";
+import c3 from "/public/images/phone.png";
+import c4 from "/public/images/phone.png";
+import c5 from "/public/images/phone.png";
+import c6 from "/public/images/phone.png";
+import c7 from "/public/images/phone.png";
 
 import VisorImages from "../components/VisorImages.js";
 // import imagesInfo from '../../data/images.json'
 import styles from "../styles/Home.module.scss";
 import ImageSlider from "../containers/ImageSlider.js";
 import { Publicaciones } from "../components/Publicaciones.js";
+import RootLayout from "@/app/layout.js";
 
 const Home = () => {
   const imagePath = [d1, d2, d3];
@@ -31,14 +33,14 @@ const Home = () => {
   // const { publicaciones } = useContext(Publicaciones);
 
   return (
-    <Layout>
-      <Head>
-        <title>Servicio de cirugía general</title>
-        {/* <link rel="icon" href="../app/favicon.ico" /> */}
-        <meta name="description" content="Servicio de cirugía general" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-
+    // <Layout>
+    // <Head>
+    //   <title>Servicio de cirugía general</title>
+    //   {/* <link rel="icon" href="../app/favicon.ico" /> */}
+    //   <meta name="description" content="Servicio de cirugía general" />
+    //   <meta name="viewport" content="width=device-width, initial-scale=1" />
+    // </Head>
+    <RootLayout>
       <main className={styles.container}>
         <section className={styles.presentation}>
           <ImageSlider imagePaths={imagePath} enableTransition={true} />
@@ -47,6 +49,8 @@ const Home = () => {
         <section className={styles.tratamientos}>
           <div className={styles.area}>
             <h3>Servicios</h3>
+
+            
 
             <ul>
               <li>Formateo PC</li>
@@ -64,7 +68,7 @@ const Home = () => {
         </section> */}
 
         <section className={styles.horario}>
-          <ImageSlider imagePaths={cirugias} enableTransition={false} />
+          {/* <ImageSlider imagePaths={cirugias} enableTransition={false} /> */}
         </section>
 
         <section className={styles.publications}>
@@ -86,7 +90,7 @@ const Home = () => {
           </article>
         </section>
       </main>
-    </Layout>
+    </RootLayout>
   );
 };
 
