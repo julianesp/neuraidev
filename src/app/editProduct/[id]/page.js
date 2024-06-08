@@ -24,6 +24,28 @@ const getProductById = async (id) => {
   }
 };
 
+export const generateStaticParams = async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/products", {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error("No se pudieron recuperar los productos");
+    }
+
+    const products = await res.json();
+
+    // Retorna un array de objetos con los parámetros para las rutas dinámicas
+    return products.map((product) => ({
+      id: product._id.toString(),
+    }));
+  } catch (error) {
+    console.error("Error al obtener los productos:", error);
+    return [];
+  }
+};
+
 export default async function EditProduct({ params }) {
   const { id } = params;
   const { product } = await getProductById(id);

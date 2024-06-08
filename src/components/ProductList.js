@@ -9,7 +9,7 @@ const getProducts = async () => {
     });
 
     if (!res.ok) {
-      throw new Error("Failed to fetch products");
+      throw new Error("No se pudieron recuperar los productos");
     }
 
     return res.json();
@@ -23,7 +23,7 @@ export default async function ProductsList() {
 
   if (!result || !result.products) {
     // Maneja el caso donde no hay productos
-    return <div>No products found</div>;
+    return <div>Accesorio no encontrado</div>;
   }
 
   const { products } = await getProducts();

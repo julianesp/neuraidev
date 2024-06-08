@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 export default function RemoveBtn({ id }) {
   const router = useRouter();
   const removeProduct = async () => {
-    const confirmed = confirm("Are you sure?");
+    const confirmed = confirm("¿Seguro que quieres eliminar el accesorio?");
 
     if (confirmed) {
       const res = await fetch(`http://localhost:3000/api/products?id=${id}`, {

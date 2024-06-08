@@ -10,13 +10,13 @@ import d2 from "/public/images/phone.png";
 import d3 from "/public/images/phone.png";
 
 // images cirugias
-import c1 from "/public/images/phone.png";
-import c2 from "/public/images/phone.png";
-import c3 from "/public/images/phone.png";
-import c4 from "/public/images/phone.png";
-import c5 from "/public/images/phone.png";
-import c6 from "/public/images/phone.png";
-import c7 from "/public/images/phone.png";
+import c1 from "/public/images/1.jpg";
+import c2 from "/public/images/2.jpg";
+import c3 from "/public/images/3.jpg";
+import c4 from "/public/images/4.jpg";
+import c5 from "/public/images/5.jpg";
+import c6 from "/public/images/6.jpg";
+import c7 from "/public/images/7.jpg";
 
 import VisorImages from "../components/VisorImages.js";
 // import imagesInfo from '../../data/images.json'
