@@ -14,6 +14,6 @@ const topicSchema = new Schema(
 );
 
 const ProductModel =
-  mongoose.models.Product || mongoose.model("Producto", topicSchema);
+  mongoose.models.Producto || mongoose.model("Producto", topicSchema);
 
 export default ProductModel;

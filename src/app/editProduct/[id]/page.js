@@ -10,12 +10,17 @@ const getProductById = async (id) => {
     });
 
     if (!res.ok) {
-      throw new Error("Failed to fetch product");
+      throw new Error("No se pudo recuperar el producto");
     }
 
-    return res.json();
+    const data = await res.json();
+    return { product: data };
+
+    // return res.json();
   } catch (error) {
-    console.log(error);
+    console.error("Error al obtener el producto:", error);
+    return { product: null };
+    // console.log(error);
   }
 };
 

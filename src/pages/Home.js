@@ -25,7 +25,7 @@ import ImageSlider from "../containers/ImageSlider.js";
 import { Publicaciones } from "../components/Publicaciones.js";
 import RootLayout from "@/app/layout.js";
 
-const Home = () => {
+const Inicio = () => {
   const imagePath = [d1, d2, d3];
   const cirugias = [c1, c2, c3, c4, c5, c6, c7];
 
@@ -40,41 +40,39 @@ const Home = () => {
     //   <meta name="description" content="Servicio de cirugía general" />
     //   <meta name="viewport" content="width=device-width, initial-scale=1" />
     // </Head>
-    <RootLayout>
-      <main className={styles.container}>
-        <section className={styles.presentation}>
-          <ImageSlider imagePaths={imagePath} enableTransition={true} />
-        </section>
 
-        <section className={styles.tratamientos}>
-          <div className={styles.area}>
-            <h3>Servicios</h3>
+    <main className={styles.container}>
+      <section className={styles.presentation}>
+        <ImageSlider imagePaths={imagePath} enableTransition={true} />
+      </section>
 
-            
+      <section className={styles.tratamientos}>
+        <div className={styles.area}>
+          <h3>Servicios</h3>
 
-            <ul>
-              <li>Formateo PC</li>
-              <li>Mantenimiento PC</li>
-              <li>Instalación programas</li>
-              <li>Desarrollo páginas web</li>
-            </ul>
+          <ul>
+            <li>Formateo PC</li>
+            <li>Mantenimiento PC</li>
+            <li>Instalación programas</li>
+            <li>Desarrollo páginas web</li>
+          </ul>
 
-            <button>Ver más</button>
-          </div>
-        </section>
+          <button>Ver más</button>
+        </div>
+      </section>
 
-        {/* <section className={styles.info}>
+      {/* <section className={styles.info}>
           <h2>Información</h2>
         </section> */}
 
-        <section className={styles.horario}>
-          {/* <ImageSlider imagePaths={cirugias} enableTransition={false} /> */}
-        </section>
+      <section className={styles.horario}>
+        {/* <ImageSlider imagePaths={cirugias} enableTransition={false} /> */}
+      </section>
 
-        <section className={styles.publications}>
-          <h1>Publicaciones</h1>
+      <section className={styles.publications}>
+        <h1>Publicaciones</h1>
 
-          {/* <div>
+        {/* <div>
             {publicaciones.map((publicacion, index) => (
               <div key={index}>
                 <h2>{publicacion.titulo}</h2>
@@ -82,16 +80,15 @@ const Home = () => {
               </div>
             ))}
           </div> */}
-        </section>
+      </section>
 
-        <section className={styles.eventos__municipales}>
-          <article className={styles.evento}>
-            <p className="text-4xl">Eventos de mi pueblo</p>
-          </article>
-        </section>
-      </main>
-    </RootLayout>
+      <section className={styles.eventos__municipales}>
+        <article className={styles.evento}>
+          <p className="text-4xl">Eventos de mi pueblo</p>
+        </article>
+      </section>
+    </main>
   );
 };
 
-export default Home;
+export default Inicio;

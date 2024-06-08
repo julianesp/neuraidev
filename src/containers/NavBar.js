@@ -1,3 +1,5 @@
+//navbar
+
 "use client";
 
 import React, { useState, useRef, useEffect, useContext } from "react";
@@ -63,45 +65,43 @@ const NavBar = () => {
   const username = userInfo?.username;
 
   return (
-    <nav className={styles.container} ref={menuRef}>
-      <>
-        <Link href="/">
-          <div className={styles["container__principal"]}>
-            <Logo />
-          </div>
+    <div className={styles.container} ref={menuRef}>
+      <Link href="/">
+        <div className={styles["container__principal"]}>
+          <Logo />
+        </div>
+      </Link>
+
+      <div className={styles.circle} onClick={menuBurger}>
+        <button>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <menu
+        className={`${styles["enlaces__menu"]} ${
+          burgerOpen ? styles.open : styles.closed
+        }`}
+      >
+        <Link href="/" onClick={handleLinkClick}>
+          Inicio
         </Link>
 
-        <div className={styles.circle} onClick={menuBurger}>
-          <button>
-            <div></div>
-            <div></div>
-            <div></div>
-          </button>
-        </div>
+        <Link href="/blog" onClick={handleLinkClick}>
+          Blog
+        </Link>
 
-        <menu
-          className={`${styles["enlaces__menu"]} ${
-            burgerOpen ? styles.open : styles.closed
-          }`}
-        >
-          <Link href="/" onClick={handleLinkClick}>
-            Inicio
-          </Link>
+        <Link href="/addProduct" onClick={handleLinkClick}>
+          Accesorios
+        </Link>
 
-          <Link href="/blog" onClick={handleLinkClick}>
-            Blog
-          </Link>
-
-          <Link href="/products" onClick={handleLinkClick}>
-            Accesorios
-          </Link>
-
-          <Link href="/perfil" onClick={handleLinkClick}>
-            Sobre mí
-          </Link>
-        </menu>
-      </>
-    </nav>
+        <Link href="/perfil" onClick={handleLinkClick}>
+          Sobre mí
+        </Link>
+      </menu>
+    </div>
   );
 };
 

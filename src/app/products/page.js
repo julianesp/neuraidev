@@ -1,15 +1,15 @@
 //app\products\page.js
 import ProductList from "@/components/ProductList";
-import RootLayout from "../layout";
 
-export default function Home() {
-  return (
-    <RootLayout>
-      <ProductList />
-    </RootLayout>
-  );
+export default function Page() {
+  return <ProductList />;
 }
 {
-  //  </productlist>
   <ProductList />;
 }
+//app\products\page.js
+// import Productlist from "@/components/ProductsList";
+
+// export default function Home() {
+//   return <Productlist></Productlist>;
+// }

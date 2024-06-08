@@ -21,7 +21,7 @@ export default function RemoveBtn({ id }) {
 
   return (
     <button onClick={removeProduct} className="btn btn-error ml-2">
-      Delete
+      Eliminar
     </button>
   );
 }

@@ -8,10 +8,10 @@ export async function connectedDB() {
   // para cuando se está conectado, no vuelvas a hacer una conexion
   if (conn.isConnected) return;
 
-  const db = await connect("mongodb://localhost/neuraidev");
+  const db = await connect("mongodb://localhost:27017/neuraidev");
 
   // en la siguiente linea se llamar al nombre de la base por consola
-  console.log(`Nombre de user: ${db.connection.db.databaseName}`);
+  console.log(`Nombre de usuario: ${db.connection.db.databaseName}`);
   // readyState devuelve valores 0, 1
   // conn.isConnected = db.connection[0].readyState;
 }

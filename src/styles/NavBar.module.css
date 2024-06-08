@@ -161,7 +161,7 @@
   gap: 0.34rem;
 }
 
-.container .circle button > div {
+.container .circle button > span {
   /* background: #fff; */
   background: #fff;
   height: 3px;

@@ -39,7 +39,7 @@ export default function EditProductForm({ id, name, image, price, category }) {
   return (
     <>
       <div className="flex justify-between items-center">
-        <h1 className="font-bold py-10 text-2xl">Update Product</h1>
+        <h1 className="mt-9 font-bold py-10 text-2xl">Actualizar accesorio</h1>
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <input
@@ -69,7 +69,7 @@ export default function EditProductForm({ id, name, image, price, category }) {
         />
 
         <button className="btn btn-primary w-full max-w-xs">
-          Update Product
+          Actualizar accesorio
         </button>
       </form>
     </>

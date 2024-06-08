@@ -5,6 +5,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "react-daisyui";
 import RootLayout from "../layout";
+import Link from "next/link";
+import Image from "next/image";
+import guide from "../../../public/images/list_images.png";
 
 export default function AddProduct() {
   const [name, setName] = useState("");
@@ -42,11 +45,14 @@ export default function AddProduct() {
   };
 
   return (
-    <RootLayout>
+    <>
       <div className="flex justify-between items-center">
         {/* <Button color="primary">Añadir nuevo prodcuto</Button> */}
-        <h1 className="font-bold py-10 text-2xl ">Añadir nuevo producto</h1>
+        <h1 className="mt-9 font-bold py-10 text-2xl ">
+          Añadir nuevo producto
+        </h1>
       </div>
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <input
           onChange={(e) => setName(e.target.value)}
@@ -81,9 +87,22 @@ export default function AddProduct() {
         />
 
         <button type="submit" className="btn btn-primary w-full max-w-xs">
-          Add Product
+          Agregar accesorio
         </button>
+        <Link href="/products">
+          <h1 className="mt-9 btn btn-primary w-full max-w-xs">
+            Mostrar accesorios
+          </h1>
+        </Link>
       </form>
-    </RootLayout>
+
+      <Image
+        className="mt-8"
+        src={guide}
+        alt="Imagen guía"
+        width={500}
+        height={700}
+      />
+    </>
   );
 }
