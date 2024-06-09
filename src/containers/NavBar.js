@@ -65,7 +65,7 @@ const NavBar = () => {
   const username = userInfo?.username;
 
   return (
-    <div className={styles.container} ref={menuRef}>
+    <div className={`${styles.container}`} ref={menuRef}>
       <Link href="/">
         <div className={styles["container__principal"]}>
           <Logo />
@@ -97,7 +97,7 @@ const NavBar = () => {
           Accesorios
         </Link>
 
-        <Link href="/perfil" onClick={handleLinkClick}>
+        <Link href="/profile" onClick={handleLinkClick}>
           Sobre mí
         </Link>
       </menu>

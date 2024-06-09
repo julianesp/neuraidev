@@ -53,7 +53,10 @@
   align-items: center;
   flex-direction: column;
 
-  top: 100%;
+  /*posicionamiento vertical igual al despliegue*/
+  margin-top: 50px;
+
+  top: 60%;
   left: -300px;
 
   height: 50vh;
@@ -70,9 +73,11 @@
 
 .container .enlaces__menu.open {
   position: absolute;
-  width: 250px;
-
+  
   left: 2px;
+  
+  width: 250px;
+  height: 350px;
 
   transition: 0.3s ease-in all;
   /* filter: blur(5px); */
@@ -82,6 +87,7 @@
 
   /* filter: blur(4px); */
   padding-left: 0;
+  /* margin-top: 50px; */
 }
 
 @keyframes showMenuBurger {

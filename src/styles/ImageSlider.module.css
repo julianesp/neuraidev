@@ -2,14 +2,18 @@
   position: relative;
   /*puede eliminarse*/
   overflow: hidden;
+  
+  margin-bottom: 30px;
+
+  top: 50px;
 
   width: 100%;
   min-width: 370px;
   max-width: 550px;
 
   height: 350px;
-  /* border: 2px solid #fff;
-  border-radius: 20px; */
+  border: 2px solid #000;
+  border-radius: 20px;
 }
 
 .transition {

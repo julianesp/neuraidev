@@ -5,9 +5,9 @@ import Head from "next/head";
 import Image from "next/image.js";
 import Slider from "../containers/Slider.js";
 // images doc
-import d1 from "/public/images/phone.png";
-import d2 from "/public/images/phone.png";
-import d3 from "/public/images/phone.png";
+import d1 from "/public/images/1.jpg";
+import d2 from "/public/images/2.jpg";
+import d3 from "/public/images/3.jpg";
 
 // images cirugias
 import c1 from "/public/images/1.jpg";
@@ -33,20 +33,12 @@ const Inicio = () => {
   // const { publicaciones } = useContext(Publicaciones);
 
   return (
-    // <Layout>
-    // <Head>
-    //   <title>Servicio de cirugía general</title>
-    //   {/* <link rel="icon" href="../app/favicon.ico" /> */}
-    //   <meta name="description" content="Servicio de cirugía general" />
-    //   <meta name="viewport" content="width=device-width, initial-scale=1" />
-    // </Head>
-
     <main className={styles.container}>
-      <section className={styles.presentation}>
+      <section className={`mt-6 ${styles.presentation}`}>
         <ImageSlider imagePaths={imagePath} enableTransition={true} />
       </section>
 
-      <section className={styles.tratamientos}>
+      <section className={`mb-0 ${styles.tratamientos}`}>
         <div className={styles.area}>
           <h3>Servicios</h3>
 
@@ -69,8 +61,9 @@ const Inicio = () => {
         {/* <ImageSlider imagePaths={cirugias} enableTransition={false} /> */}
       </section>
 
-      <section className={styles.publications}>
-        <h1>Publicaciones</h1>
+      {/* className={styles.publications} */}
+      <section>
+        <ImageSlider imagePaths={imagePath} enableTransition={false} />
 
         {/* <div>
             {publicaciones.map((publicacion, index) => (
@@ -82,9 +75,11 @@ const Inicio = () => {
           </div> */}
       </section>
 
-      <section className={styles.eventos__municipales}>
-        <article className={styles.evento}>
-          <p className="text-4xl">Eventos de mi pueblo</p>
+      <section className={`p-1 ${styles.eventos__municipales}`}>
+        <article
+          className={`flex justify-center items-center w-screen h-80 mx-3 p-3 mt-10 rounded-xl border-slate-500 border-solid border-2 ${styles.evento}`}
+        >
+          <h2 className="text-2xl">Eventos municipales</h2>
         </article>
       </section>
     </main>

@@ -25,11 +25,11 @@ const Contacto = () => {
       </article>
 
       <article className={styles.description}>
-        <p>Servicio de cirugía general</p>
+        <p>neurai.dev</p>
       </article>
 
       <article className={styles.ubicacion}>
-        <p>Sibundoy - Putumayo</p>
+        <p>Colón - Putumayo</p>
         {/* <p>Información: 313-862-7818</p> */}
         <div className={styles.call}>
           Llámame:
@@ -47,7 +47,7 @@ const Contacto = () => {
         <ul>
           <li>
             <Link
-              href="https://www.facebook.com/ALIRIO.SOLARTE"
+              href="https://www.facebook.com/profile.php?id=100085485673809"
               target="_blank"
               rel="noreferrer"
               passHref
@@ -58,7 +58,7 @@ const Contacto = () => {
 
           <li>
             <Link
-              href="https://www.instagram.com/alirio8308/"
+              href="https://www.instagram.com/alexriob/"
               target="_blank"
               rel="noreferrer"
               passHref
@@ -69,7 +69,7 @@ const Contacto = () => {
 
           <li>
             <Link
-              href="https://www.instagram.com/alirio8308/"
+              href="https://wa.me/573174503604"
               target="_blank"
               rel="noreferrer"
               passHref
@@ -80,7 +80,7 @@ const Contacto = () => {
 
           <li className={styles.tiktok}>
             <Link
-              href="https://www.tiktok.com/@cirugia_general?is_from_webapp=1&sender_device=pc"
+              href="https://www.tiktok.com/@julii1295?_t=8n2OQ52Q4aD&_r=1"
               target="_blank"
               rel="noreferrer"
               passHref
