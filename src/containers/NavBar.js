@@ -4,12 +4,14 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-// import Image from "next/image";
+import Image from "next/image";
 // import logo from "../../public/assets/logo.jpg";
-import styles from "../styles/NavBar.module.css";
+import styles from "../styles/NavBar.module.scss";
 // import { UserContext } from '@/UserContext.js';
 // import { UserContext } from "../UserContext";
-import Logo from "@/components/Logo";
+// import Logo from "@/components/Logo";
+// import logo from "../../public/images/logo.png";
+// import logo from "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=a3de913f-bf54-4804-812c-710efeeb25d6";
 
 const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
@@ -42,33 +44,17 @@ const NavBar = () => {
     };
   }, []);
 
-  //
-  // useEffect(() => {
-  //     const response = UseFetch('http://localhost:4000/profile', {
-  //         credentials: 'include',
-  //     }).then(response => {
-  //         response.json().then(userInfo => {
-  //             setUserInfo(userInfo);
-  //         })
-  //     })
-  // },)
-
-  // function logout() {
-  //   fetch("http://localhost:4000/logout", {
-  //     credentials: "include",
-  //     method: "POST",
-  //   });
-  //   // setUsername(null);
-  //   setUserInfo(null);
-  // }
-
-  // const username = userInfo?.username;
-
   return (
     <div className={`${styles.container}`} ref={menuRef}>
       <Link href="/">
         <div className={styles["container__principal"]}>
-          <Logo />
+          {/* <Logo /> */}
+          <Image
+            alt="Logo"
+            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=a3de913f-bf54-4804-812c-710efeeb25d6"
+            width={40}
+            height={40}
+          />
         </div>
       </Link>
 
