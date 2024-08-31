@@ -79,6 +79,10 @@ const NavBar = () => {
           Blog
         </Link>
 
+        <Link href="/Store" onClick={handleLinkClick}>
+          Tienda
+        </Link>
+
         <Link href="/Profile" onClick={handleLinkClick}>
           Sobre mí
         </Link>
