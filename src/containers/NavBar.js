@@ -2,13 +2,13 @@
 
 "use client";
 
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import logo from "../../public/assets/logo.jpg";
+// import Image from "next/image";
+// import logo from "../../public/assets/logo.jpg";
 import styles from "../styles/NavBar.module.css";
 // import { UserContext } from '@/UserContext.js';
-import { UserContext } from "../UserContext";
+// import { UserContext } from "../UserContext";
 import Logo from "@/components/Logo";
 
 const NavBar = () => {
@@ -17,7 +17,7 @@ const NavBar = () => {
 
   // fetch
   // const [username, setUsername] = useState(null);
-  const { userInfo, setUserInfo } = useContext(UserContext);
+  // const { userInfo, setUserInfo } = useContext(UserContext);
 
   const menuBurger = () => {
     setBurgerOpen(!burgerOpen);
@@ -53,16 +53,16 @@ const NavBar = () => {
   //     })
   // },)
 
-  function logout() {
-    fetch("http://localhost:4000/logout", {
-      credentials: "include",
-      method: "POST",
-    });
-    // setUsername(null);
-    setUserInfo(null);
-  }
+  // function logout() {
+  //   fetch("http://localhost:4000/logout", {
+  //     credentials: "include",
+  //     method: "POST",
+  //   });
+  //   // setUsername(null);
+  //   setUserInfo(null);
+  // }
 
-  const username = userInfo?.username;
+  // const username = userInfo?.username;
 
   return (
     <div className={`${styles.container}`} ref={menuRef}>
@@ -89,15 +89,11 @@ const NavBar = () => {
           Inicio
         </Link>
 
-        <Link href="/blog" onClick={handleLinkClick}>
+        <Link href="/Blog" onClick={handleLinkClick}>
           Blog
         </Link>
 
-        <Link href="/addProduct" onClick={handleLinkClick}>
-          Accesorios
-        </Link>
-
-        <Link href="/profile" onClick={handleLinkClick}>
+        <Link href="/Profile" onClick={handleLinkClick}>
           Sobre mí
         </Link>
       </menu>

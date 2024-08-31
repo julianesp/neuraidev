@@ -7,7 +7,7 @@ import face from "../../public/assets/redes/facebook.png";
 import ins from "../../public/assets/redes/instagram.png";
 import tik from "../../public/assets/redes/tiktok.png";
 import wha from "../../public/assets/redes/whatsapp.png";
-import map from "../../public/map.png";
+
 import arrow from "../../public/next.png";
 import phone from "../../public/phone.png";
 import styles from "../styles/Footer.module.css";
