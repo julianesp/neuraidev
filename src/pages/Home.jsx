@@ -54,8 +54,7 @@ const Inicio = () => {
               <li>Desarrollo páginas web</li>
             </ul>
 
-            {/* <button>Ver más</button> */}
-            <Link href="Services">Ver más</Link>
+            <Link href="/Services">Ver más</Link>
           </div>
         </section>
 
