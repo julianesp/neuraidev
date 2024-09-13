@@ -17,10 +17,6 @@ const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
   const menuRef = useRef(null);
 
-  // fetch
-  // const [username, setUsername] = useState(null);
-  // const { userInfo, setUserInfo } = useContext(UserContext);
-
   const menuBurger = () => {
     setBurgerOpen(!burgerOpen);
   };

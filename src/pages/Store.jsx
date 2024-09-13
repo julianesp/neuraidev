@@ -1,9 +1,12 @@
-import React from 'react'
+import RootLayout from "@/app/layout";
+import React from "react";
 
 const Store = () => {
   return (
-    <div>Tienda de accesorios</div>
-  )
-}
+    <RootLayout>
+      <div>Tienda de accesorios</div>
+    </RootLayout>
+  );
+};
 
-export default Store
+export default Store;

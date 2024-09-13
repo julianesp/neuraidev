@@ -11,6 +11,7 @@ import wha from "../../public/assets/redes/whatsapp.png";
 import arrow from "../../public/next.png";
 import phone from "../../public/phone.png";
 import styles from "../styles/Footer.module.css";
+import RootLayout from "@/app/layout";
 
 const Contacto = () => {
   const [menuOption, setMenuOptions] = useState(false);
