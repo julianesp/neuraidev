@@ -1,0 +1,118 @@
+.image {
+  position: relative;
+  overflow: hidden;
+
+  margin-top: 40px;
+
+  width: 100%;
+  min-width: 300px;
+  max-width: 700px;
+  height: 350px;
+}
+
+.transition {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.image img {
+  width: 100%;
+  // min-width: 300px;
+  // max-width: 550px;
+  height: 350px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.image .buttonContainer {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  top: 50%;
+}
+
+.image .buttonContainer button {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.image .buttonContainer button:active {
+  transform: scale(0.7);
+  transition: 0.5s ease-out all;
+}
+
+.image .buttonContainer button:active .image {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.image .buttonContainer button img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.overlayButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.image .overlayButton {
+  opacity: 1;
+}
+
+@media screen and (min-width: 700px) {
+  .image {
+    // width: 100%;
+    & img {
+      // width: 550px;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .image {
+    width: 1000px;
+    height: 400px;
+    overflow: visible;
+
+    margin: 0;
+
+    & img {
+      width: 1000px;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 10%;
+
+      transform: scale(0.8);
+      transform-origin: center center;
+    }
+
+    & .buttonContainer {
+      // display: inline;
+
+      width: inherit;
+
+      & button {
+        margin: 0 auto;
+        & img {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

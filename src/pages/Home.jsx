@@ -24,10 +24,10 @@ const Inicio = () => {
       d1: "/images/1.jpg",
     },
     {
-      d2: "/images/1.jpg",
+      d2: "/images/2.jpg",
     },
     {
-      d3: "/images/1.jpg",
+      d3: "/images/3.jpg",
     },
   ];
 
