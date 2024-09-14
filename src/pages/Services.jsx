@@ -1,12 +1,25 @@
+"use client";
+
+import { React, useState, useEffect } from "react";
 import RootLayout from "@/app/layout";
-import React from "react";
+import styles from "@/styles/Services.module.scss";
 
 const Services = () => {
-  //   return <div>Services</div>;
-  <RootLayout>
-    <h1>Servicios</h1>
-    <p>Contenido de servicios</p>
-  </RootLayout>;
+  // Solution for hydratation errors
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+  if (!isLoaded) return null;
+
+  return (
+    <RootLayout>
+      <div className={`${styles.services} mt-16`}>
+        <h1>Servicios</h1>
+        <p>Contenido de servicios</p>
+      </div>
+    </RootLayout>
+  );
 };
 
 export default Services;
