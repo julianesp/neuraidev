@@ -21,3 +21,33 @@
   padding: 10px 20px;
   cursor: pointer;
 }
+
+@mixin fondo_claro {
+  padding: 10px;
+
+  width: auto;
+
+  border: 1px solid #fff;
+
+  background-color: #fff;
+  color: #000;
+}
+
+@mixin fondo_dark {
+  padding: 5px;
+
+  width: calc(100% - 10px);
+  // height: auto;
+
+  border: 1px solid #000;
+  border-radius: 10px;
+
+  background-color: #000;
+  color: #fff;
+}
+
+@mixin shadow_light {
+  border: 1px solid #818080;
+  background-color: #bababa;
+  box-shadow: -5px 5px 10px #baba;
+}

@@ -5,9 +5,9 @@ import Image from "next/image";
 import Head from "next/head";
 
 import dev from "/public/images/dev.jpg";
-import tecni from "/public/diploma.png";
-import tecno from "/public/diploma.png";
-import styles from "@/styles/Perfil.module.css";
+import tecni from "/public/images/tecnico.png";
+import tecno from "/public/images/tecnologo.png";
+import styles from "@/styles/Perfil.module.scss";
 import RootLayout from "@/app/layout";
 
 const Profile = () => {
@@ -45,30 +45,38 @@ const Profile = () => {
       <div className={styles.dev}>
         <div className={styles.description}>
           <p>
-            <span>Julián España,</span>
-            <span>Desarrollador</span>
-            <span>Frontend</span>
+            <span>¡Hola! 👋🏼</span>
+            <span>Soy</span>
+            <span>Julián España</span>
           </p>
           <div>
             <Image
               className={styles.me}
-              alt="Médico cirujano"
+              alt="Desarrollador web"
               src={dev}
               priority
             />
           </div>
         </div>
+
         <div className={styles.study}>
-          <h2>Descripción profesional</h2>
+          <h2>Descripción personal</h2>
+
+          <p>
+            Soy técnico en sistemas con más de 5 años de experiencia 🪛🖥️.
+            <br />
+            Especialista en instalación de programas.
+          </p>
+
           <div className={styles.study__container}>
             <div className={styles["study--areas"]}>
-              <p id="titulo">Estudio 1</p>
+              <p id="titulo">Técnico sistemas</p>
               <button className={styles["image-button"]} onClick={toggleImage}>
                 Ver
               </button>
               {showImage && (
                 <div className="image-modal">
-                  <Image src={dev} alt="Imagen" priority />
+                  <Image src={tecni} alt="Imagen" priority />
                   <button
                     className={styles["image-button--cerrar"]}
                     onClick={closeImage}
@@ -79,13 +87,13 @@ const Profile = () => {
               )}
             </div>
             <div className={styles["study--areas"]}>
-              <p id="titulo">Estudio 2</p>
+              <p id="titulo">Tecnólogo ADSI</p>
               <button className={styles["image-button"]} onClick={toggleImage1}>
                 Ver
               </button>
               {showImage1 && (
                 <div className="image-modal">
-                  <Image src={dev} alt="Imagen" priority />
+                  <Image src={tecno} alt="Imagen" priority />
                   <button
                     className={styles["image-button--cerrar"]}
                     onClick={closeImage2}

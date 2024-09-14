@@ -1,3 +1,5 @@
+@import "./mixins";
+
 .dev {
   position: relative;
 
@@ -175,20 +177,43 @@
   margin-bottom: 30px;
   padding: 15px 0;
 
+  overflow: hidden;
+
+  // filter: blur(3px);
+
   width: 100%;
   height: auto;
 
-  background-color: rgba(216, 207, 207, 0.7);
-  border-radius: 20px 20px;
+  // background-color: rgba(216, 207, 207, 0.7);
+  background-color: rgba(24, 28, 36, 0.9);
+  border-radius: 20px;
 }
 
 .study h2 {
-  padding-top: 15px;
-  padding-bottom: 25px;
+  // @include fondo_claro;
 
-  color: #000;
+  margin-bottom: 15px;
+  margin: 0 15px 20px;
 
-  text-decoration: underline;
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.2rem;
+
+  text-decoration: none;
+
+  // backdrop-filter: blur(10px);
+  // z-index: 1;
+}
+
+.study p {
+  // @include shadow_light;
+  margin: 0 10px 20px;
+  padding: 10px;
+
+  border-radius: 10px;
+  border: 1px solid #fff;
+
+  color: #fff;
 }
 
 .study .study__container {
@@ -228,6 +253,7 @@
 .study .study__container .study--areas p {
   font-size: 1rem;
   text-align: center;
+  color: #000;
 }
 
 .study .study__container .study--areas img {
@@ -268,6 +294,10 @@
 
   font-size: medium;
   font-weight: bolder;
+}
+
+.study .study__container .study--areas button {
+  @include fondo_dark;
 }
 
 /* -------------- */
