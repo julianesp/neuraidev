@@ -300,43 +300,26 @@
   @include fondo_dark;
 }
 
-/* -------------- */
-
-.portfolio {
+.redes {
+  @include border_dark;
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
 
-  border: 1px solid #bababa;
-  border-radius: 10px;
+  margin-top: 25px;
 
-  margin: 0 auto 50px;
-  padding: 30px 0;
 
-  width: 95%;
-}
 
-.portfolio h3 {
-  padding-bottom: 20px;
-  color: #fff;
-  text-decoration: underline;
-}
-.portfolio .portfolio__empresas {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  & .title {
+    margin-bottom: 20px;
+  }
 
-  flex-wrap: wrap;
-}
-.portfolio .portfolio__empresas .empresa {
-  margin-right: 20px;
-}
+  & .links {
+    display: flex;
+    gap: 0 30px;
 
-.portfolio .portfolio__empresas .empresa img {
-  padding: 10px;
-
-  border: 1px solid #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 10px #bababa;
+    & img {
+      width: 80px;
+      height: 80px;
+    }
+  }
 }

@@ -108,6 +108,10 @@
   @include dark_button;
 
   margin-top: 20px;
+
+  width: calc(100% - 50px);
+
+  text-align: center;
 }
 
 .container .horario {

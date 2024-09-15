@@ -10,7 +10,7 @@ import wha from "../../public/assets/redes/whatsapp.png";
 
 import arrow from "../../public/next.png";
 import phone from "../../public/phone.png";
-import styles from "../styles/Footer.module.css";
+import styles from "../styles/Footer.module.scss";
 import RootLayout from "@/app/layout";
 
 const Contacto = () => {
@@ -32,12 +32,12 @@ const Contacto = () => {
       <article className={styles.ubicacion}>
         <p>Colón - Putumayo</p>
         {/* <p>Información: 313-862-7818</p> */}
-        <div className={styles.call}>
+        {/* <div className={styles.call}>
           Llámame:
           <a href="tel:+3174503604">
             <Image src={phone} alt="Imagen de teléfono" />
           </a>
-        </div>
+        </div> */}
       </article>
 
       <article

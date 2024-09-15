@@ -7,8 +7,11 @@ import Head from "next/head";
 import dev from "/public/images/dev.jpg";
 import tecni from "/public/images/tecnico.png";
 import tecno from "/public/images/tecnologo.png";
+import linkedin from "/public/images/linkedin.png";
+import github from "/public/images/github.png";
 import styles from "@/styles/Perfil.module.scss";
 import RootLayout from "@/app/layout";
+import Link from "next/link";
 
 const Profile = () => {
   const [showImage, setShowImage] = useState(false);
@@ -103,6 +106,25 @@ const Profile = () => {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+
+        <div className={styles.redes}>
+          <div className={styles.title}>
+            <h1>Redes profesionales</h1>
+          </div>
+
+          <div className={styles.links}>
+            <Link
+              href="https://www.linkedin.com/in/julianesprio/"
+              target="_blank"
+            >
+              <Image alt="LinkedIn" src={linkedin} />
+            </Link>
+
+            <Link href="https://github.com/julianesp" target="_blank">
+              <Image alt="GitHub" src={github} />
+            </Link>
           </div>
         </div>
       </div>

@@ -51,3 +51,10 @@
   background-color: #bababa;
   box-shadow: -5px 5px 10px #baba;
 }
+
+@mixin border_dark {
+  padding: 30px;
+
+  border: 1px solid #000;
+  border-radius: 20px;
+}
