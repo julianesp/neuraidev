@@ -81,6 +81,8 @@
 
       margin-top: 10px;
 
+      height: 400px;
+
       & h1 {
         @include header_h1;
       }
@@ -89,7 +91,7 @@
         @include celeste_button;
         @include contraer;
 
-        margin: 0 auto;
+        margin: 5px auto 0;
         text-align: center;
         transition: 0.3s ease-out all;
 
