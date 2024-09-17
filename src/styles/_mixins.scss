@@ -13,8 +13,22 @@
   // align-items: center;
 }
 
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 @mixin dark_button {
   background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+@mixin celeste_button {
+  background-color: rgba(48, 100, 204, 0.9);
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -53,8 +67,31 @@
 }
 
 @mixin border_dark {
-  padding: 30px;
+  padding: 10px;
 
   border: 1px solid #000;
   border-radius: 20px;
+}
+
+@mixin header_h1 {
+  @include border_dark();
+
+  margin: 0 auto;
+
+  text-align: center;
+
+  width: calc(100% - 100px);
+
+  background-color: #000;
+
+  color: #fff;
+}
+
+@mixin contraer {
+  transition: 0.3s ease-out all;
+
+  &:hover {
+    transition: 0.3s ease-out all;
+    transform: scale(0.9);
+  }
 }

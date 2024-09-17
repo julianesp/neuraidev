@@ -58,26 +58,48 @@ const Inicio = () => {
           </div>
         </section>
 
-        {/* <section className={styles.info}>
-          <h2>Información</h2>
-        </section> */}
+        <section className={`${styles.accesorios}`}>
+          <article className={styles.tipo}>
+            <h1>Accesorios celulares</h1>
+            <ImageSlider imagePaths={imagePath} enableTransition={false} />
 
-        <section className={styles.horario}>
-          {/* <ImageSlider imagePaths={cirugias} enableTransition={false} /> */}
-        </section>
+            <Link href="#">Ver más</Link>
+          </article>
 
-        {/* className={styles.publications} */}
-        <section>
-          <ImageSlider imagePaths={imagePath} enableTransition={false} />
+          <article className={styles.tipo}>
+            <h1>Accesorios computador</h1>
+            <ImageSlider imagePaths={imagePath} enableTransition={false} />
 
-          {/* <div>
-            {publicaciones.map((publicacion, index) => (
-              <div key={index}>
-                <h2>{publicacion.titulo}</h2>
-                <p>{publicacion.contenido}</p>
-              </div>
-            ))}
-          </div> */}
+            <Link href="#">Ver más</Link>
+          </article>
+
+          <article className={styles.tipo}>
+            <h1>Accesorios computador</h1>
+            <ImageSlider imagePaths={imagePath} enableTransition={false} />
+
+            <Link href="#">Ver más</Link>
+          </article>
+
+          <article className={styles.tipo}>
+            <h1>Libros</h1>
+            <ImageSlider imagePaths={imagePath} enableTransition={false} />
+
+            <Link href="#">Ver más</Link>
+          </article>
+
+          <article className={styles.tipo}>
+            <h1>Accesorios damas</h1>
+            <ImageSlider imagePaths={imagePath} enableTransition={false} />
+
+            <Link href="#">Ver más</Link>
+          </article>
+
+          <article className={styles.tipo}>
+            <h1>Accesorios varios</h1>
+            <ImageSlider imagePaths={imagePath} enableTransition={false} />
+
+            <Link href="#">Ver más</Link>
+          </article>
         </section>
 
         <section className={`p-1 ${styles.eventos__municipales}`}>
