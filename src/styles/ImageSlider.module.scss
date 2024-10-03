@@ -2,12 +2,12 @@
   position: relative;
   overflow: hidden;
 
-  margin-top: 40px;
+  // margin-top: 40px;
 
-  width: 100%;
-  min-width: 300px;
-  max-width: 700px;
-  height: 350px;
+  width: 290px;
+  // min-width: 300px;
+  // max-width: 700px;
+  height: 290px;
 }
 
 .transition {
@@ -16,9 +16,9 @@
 
 .image img {
   width: 100dvw;
-  // min-width: 300px;
-  // max-width: 550px;
-  height: 350px;
+  width: calc(100% - 15px);
+
+  // border: 1px solid #000;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
