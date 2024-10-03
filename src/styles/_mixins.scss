@@ -1,21 +1,14 @@
-@mixin center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: red;
-  // border: 1px solid green;
-}
-
 @mixin flex-center {
   display: flex;
   justify-content: center;
-  // align-items: center;
+  align-items: center;
 }
 
 @mixin flex-column {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin dark_button {

@@ -1,0 +1,23 @@
+@import "./mixins";
+
+.container {
+    // @include border_dark;
+
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    gap: .35rem;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    // grid-template-rows: 22rem;
+
+    margin-top: 20px;
+
+    width: calc(100dvw - 10px);
+    // height: 600px;
+
+    // border: 1px solid #000;
+
+    & img {
+        @include border_dark;
+    }
+}

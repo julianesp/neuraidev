@@ -10,6 +10,7 @@ import { Publicaciones } from "../components/Publicaciones.js";
 import RootLayout from "@/app/layout.js";
 import Services from "../pages/Services.jsx";
 import Head from "next/head.js";
+import Articles from "@/containers/Articles.jsx";
 
 const Inicio = () => {
   // Solution for hydratation errors
@@ -44,18 +45,7 @@ const Inicio = () => {
         </section>
 
         <section className={`mb-0 ${styles.tratamientos}`}>
-          <div className={styles.area}>
-            <h3>Servicios</h3>
-
-            <ul>
-              <li>Formateo PC</li>
-              <li>Mantenimiento PC</li>
-              <li>Instalación programas</li>
-              <li>Desarrollo páginas web</li>
-            </ul>
-
-            <Link href="/Services">Ver más</Link>
-          </div>
+          <Services />
         </section>
 
         <section className={`${styles.accesorios}`}>
@@ -101,6 +91,11 @@ const Inicio = () => {
           >
             <h2 className="text-2xl">Eventos municipales</h2>
           </article>
+        </section>
+
+        <section className={styles.varios}>
+          <h1>Varios</h1>
+          <Articles />
         </section>
       </main>
     </RootLayout>
