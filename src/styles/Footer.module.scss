@@ -9,14 +9,15 @@
   padding-top: 10px;
   padding-bottom: 10px;
 
-  height: auto;
+  width: 100dvw;
+  // height: 100%;
 
   background-color: rgba(48, 100, 204, 0.9);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 
-  bottom: 0;
-  top: 0;
+  bottom: 0px;
+  // top: 100px;
 }
 
 .footer .flecha {

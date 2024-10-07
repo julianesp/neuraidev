@@ -44,8 +44,20 @@ const Inicio = () => {
           <ImageSlider imagePaths={imagePath} enableTransition={true} />
         </section>
 
-        <section className={`mb-0 ${styles.tratamientos}`}>
-          <Services />
+        <section className={styles.tratamientos}>
+          <section className={styles.area}>
+            <h3>Servicios</h3>
+
+            <ul>
+              <li>Formateo PC</li>
+              <li>Mantenimiento PC</li>
+              <li>Instalación programas</li>
+              <li>Desarrollo páginas web</li>
+            </ul>
+
+            <Link href="/Services">Ver más</Link>
+          </section>
+          {/* <Services /> */}
         </section>
 
         <section className={`${styles.accesorios}`}>

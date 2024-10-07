@@ -1,43 +1,11 @@
 @import "./mixins";
 
-.area {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 20px 0;
-    margin-bottom: 20px;
-    width: 95%;
+.services{ 
+  
+  margin-top: 60px;
 
-    transition: all 0.5s ease-out;
-
-    border: 1px solid #fff;
-    border-radius: 20px;
-    box-shadow: 3px 3px 10px #fff;
-
-    & h3 {
-      text-decoration: underline;
-      font-weight: bolder;
-      font-size: 1.25rem;
-    }
-
-    & ul {
-      margin: 0 auto;
-      text-align: left;
-      // width: 100%;
-      & li {
-        list-style: circle;
-        font-size: 1rem;
-      }
-    }
-
-    & a {
-      @include dark_button;
-
-      margin-top: 20px;
-
-      width: calc(100% - 50px);
-
-      text-align: center;
-    }
+  & p {
+    margin-bottom: 50px;
+    @include border_dark;
   }
+}

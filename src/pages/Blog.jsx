@@ -1,7 +1,16 @@
+"use client";
+
 import RootLayout from "@/app/layout";
-import React from "react";
+import { React, useState, useEffect } from "react";
 
 const Blog = () => {
+  // Solution for hydratation errors
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+  if (!isLoaded) return null;
+
   return (
     <RootLayout>
       <section
