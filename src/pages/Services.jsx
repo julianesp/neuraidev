@@ -32,12 +32,17 @@ const Services = () => {
   return (
     <RootLayout>
       <section className={styles.services}>
-        <ImageSlider imagePaths={imagePaths} enableTransition={false} />
+        <ImageSlider
+          className={`h-max`}
+          imagePaths={imagePaths}
+          enableTransition={false}
+        />
         <ul>
           <li>Formateo PC</li>
           <li>Mantenimiento PC</li>
           <li>Instalación programas</li>
           <li>Desarrollo páginas web</li>
+          <li>Este texto indica las imagenes que van en el slider</li>
         </ul>
 
         <p>Space for presentation my websites</p>
