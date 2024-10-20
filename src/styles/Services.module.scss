@@ -18,3 +18,29 @@
     object-fit: cover;
   }
 }
+
+.projects {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & h2 {
+    margin-bottom: 30px;
+    @include header_h1;
+  }
+
+  & article {
+    display: flex;
+    gap: 0 25px;
+
+    margin-top: 20px;
+
+
+
+    & img {
+      border: 1px solid #000;
+      border-radius: 35%;
+    }
+  }
+}
