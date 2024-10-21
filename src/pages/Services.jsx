@@ -6,6 +6,7 @@ import Link from "next/link";
 import ImageSlider from "@/containers/ImageSlider";
 import styles from "@/styles/Services.module.scss";
 import Image from "next/image";
+import { imagesFormat } from "@/data/imageData";
 
 const Services = () => {
   // Solution for hydratation errors
@@ -40,6 +41,24 @@ const Services = () => {
 
   const sitesWeb = [imagesSites[0].contab, imagesSites[1].ase];
 
+  const imageFormat = [
+    {
+      formateo_1: "/images/formateo/mainboard_1.jpg",
+    },
+    {
+      formateo_2: "/images/formateo/mainboard_2.jpg",
+    },
+    {
+      formateo_3: "/images/formateo/teclado_1.jpg",
+    },
+  ];
+
+  const format = [
+    imageFormat[0].formateo_1,
+    imageFormat[1].formateo_2,
+    imageFormat[2].formateo_3,
+  ];
+
   return (
     <RootLayout>
       <section className={styles.services}>
@@ -48,16 +67,22 @@ const Services = () => {
           imagePaths={imagePaths}
           enableTransition={false}
         />
-        <ul>
-          <li>Formateo PC</li>
-          <li>Mantenimiento PC</li>
-          <li>Instalación programas</li>
-          <li>Desarrollo páginas web</li>
-          <li>Este texto indica las imagenes que van en el slider</li>
-        </ul>
 
         <p>Space for presentation formateo service</p>
         <p>Space for presentation Mantenimiento service</p>
+      </section>
+
+      <section className={styles.tecnico}>
+        <h2>Técnico en sistemas</h2>
+
+        <div className={styles.image}>
+          <p>Formateo</p>
+          <ImageSlider
+            className={`h-44`}
+            imagePaths={format}
+            enableTransition={true}
+          />
+        </div>
       </section>
 
       <section className={styles.projects}>
