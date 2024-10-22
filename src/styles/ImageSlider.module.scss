@@ -16,8 +16,9 @@
 }
 
 .image img {
-  // width: 100dvw;
-  // width: calc(100% - 15px);
+  width: 100%;
+  height: auto;
+  max-height: 300px;
 
   // border: 1px solid #000;
   border-top-left-radius: 20px;

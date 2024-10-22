@@ -59,6 +59,20 @@ const Services = () => {
     imageFormat[2].formateo_3,
   ];
 
+  const imageSoft = [
+    {
+      soft_1: "/images/software/software.jpg",
+    },
+    {
+      soft_2: "/images/software/hdd.jpg",
+    },
+    {
+      soft_3: "/images/software/code.jpg",
+    },
+  ];
+
+  const soft = [imageSoft[0].soft_1, imageSoft[1].soft_2, imageSoft[2].soft_3];
+
   return (
     <RootLayout>
       <section className={styles.services}>
@@ -67,9 +81,6 @@ const Services = () => {
           imagePaths={imagePaths}
           enableTransition={false}
         />
-
-        <p>Space for presentation formateo service</p>
-        <p>Space for presentation Mantenimiento service</p>
       </section>
 
       <section className={styles.tecnico}>
@@ -77,6 +88,13 @@ const Services = () => {
 
         <div className={styles.image}>
           <p>Formateo</p>
+          <ImageSlider
+            className={``}
+            imagePaths={soft}
+            enableTransition={true}
+          />
+
+          <p>Mantenimiento</p>
           <ImageSlider
             className={`h-44`}
             imagePaths={format}

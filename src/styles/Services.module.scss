@@ -22,6 +22,7 @@
 .tecnico {
   @include flex-column;
 
+  margin-top: 30px;
   margin-bottom: 50px;
 
   & h2 {
@@ -32,11 +33,11 @@
 
   & .image {
   @include flex-column;
-  margin-top: 15px;
     
     & p {
       font-size: larger;
-      // text-align: center;
+      margin-top: 30px;
+     
     }
   }
 }
