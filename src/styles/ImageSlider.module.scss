@@ -4,11 +4,11 @@
 
   // margin-top: 40px;
 
-  width: 290px;
-  // min-width: 300px;
-  // max-width: 700px;
-  // height: 290px;
-  height: auto;
+  // width: 300px;
+  min-width: 300px;
+  max-width: 700px;
+  height: 290px;
+  // height: auto;
 }
 
 .transition {
@@ -16,9 +16,10 @@
 }
 
 .image img {
-  width: 100%;
-  height: auto;
-  max-height: 300px;
+  // width: 100%;
+  // height: auto;
+  // max-height: 300px;
+  width: 100dvw;
 
   // border: 1px solid #000;
   border-top-left-radius: 20px;

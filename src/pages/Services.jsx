@@ -87,24 +87,28 @@ const Services = () => {
         <h2>Técnico en sistemas</h2>
 
         <div className={styles.image}>
-          <p>Formateo</p>
-          <ImageSlider
-            className={``}
-            imagePaths={soft}
-            enableTransition={true}
-          />
+          <div className={styles.enfoque}>
+            <p>Formateo</p>
+            <ImageSlider
+              className={``}
+              imagePaths={soft}
+              enableTransition={true}
+            />
+          </div>
 
-          <p>Mantenimiento</p>
-          <ImageSlider
-            className={`h-44`}
-            imagePaths={format}
-            enableTransition={true}
-          />
+          <div className={styles.enfoque}>
+            <p>Mantenimiento</p>
+            <ImageSlider
+              className={`h-44`}
+              imagePaths={format}
+              enableTransition={true}
+            />
+          </div>
         </div>
       </section>
 
       <section className={styles.projects}>
-        <h2>Mis proyectos</h2>
+        <h2>Desarrollo web</h2>
 
         <article>
           <div>
