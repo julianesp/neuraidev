@@ -114,28 +114,28 @@
 }
 
 .footer .redes {
-  position: static;
+  // position: static;
 
-  /* display: none; */
+  // display: none;
   justify-content: center;
   align-items: center;
+  transition: 0.3s ease-in;
 
-  margin: 10px 0;
-
-  bottom: 5px;
+  // bottom: 60px;
 }
 .footer .redes.tiktok {
   background-color: #fff;
   border-radius: 50%;
 }
 
+// contenedor de redes.
 .footer .redes ul {
   display: flex;
   gap: 0 2.5rem;
 
   list-style: none;
-  margin: 7px 0;
-  padding: 0;
+  // margin: 7px 0;
+  // padding: 0;
 }
 
 .footer .redes ul li img {
@@ -146,10 +146,10 @@
 .footer .redes.open {
   position: fixed;
 
-  padding: 0 5px;
+  // padding: 0 5px;
 
-  bottom: 50px;
-  left: 10px;
+  bottom: 60px;
+  left: 50px;
 
   transition: 0.3s ease-in;
 
@@ -174,7 +174,8 @@
 .footer .redes.closed {
   display: flex;
 
-  right: -100px;
+  // right: -100px;
+  bottom: 60px;
 
   transition: 0.5s ease-out;
 
@@ -188,11 +189,11 @@
 
 @keyframes hiddenMenuBurger {
   from {
-    transform: translateX(-300px);
+    transform: translateX(-500px);
   }
 
   to {
-    transform: translateX(-500px);
+    transform: translateX(0px);
   }
 }
 
