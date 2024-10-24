@@ -11,6 +11,8 @@ import RootLayout from "@/app/layout.js";
 import Services from "../pages/Services.jsx";
 import Head from "next/head.js";
 import Articles from "@/containers/Articles.jsx";
+import Accesorios from "@/containers/Accesorios.jsx";
+import AccessoryCard from "@/containers/Accesorios.jsx";
 
 const Inicio = () => {
   // Solution for hydratation errors
@@ -102,6 +104,11 @@ const Inicio = () => {
             className={`flex justify-center items-center w-screen h-80 mx-3 p-3 mt-10 rounded-xl border-slate-500 border-solid border-2 ${styles.evento}`}
           >
             <h2 className="text-2xl">Eventos municipales</h2>
+            <AccessoryCard
+              imageUrl="/images/1.jpg"
+              description="subiendo primera imagen desde la web"
+              price="3.500"
+            />
           </article>
         </section>
 
