@@ -1,115 +1,3 @@
-// "use client";
-
-// import React, { useState } from "react";
-// import Link from "next/link";
-// import Image from "next/image";
-// import face from "../../public/assets/redes/facebook.png";
-// import ins from "../../public/assets/redes/instagram.png";
-// import tik from "../../public/assets/redes/tiktok.png";
-// import wha from "../../public/assets/redes/whatsapp.png";
-
-// import arrow from "../../public/next.png";
-// import phone from "../../public/phone.png";
-// import styles from "../styles/Footer.module.scss";
-// import RootLayout from "@/app/layout";
-
-// const Contacto = () => {
-//   const [menuOption, setMenuOptions] = useState(false);
-//   const switchOptions = () => {
-//     setMenuOptions(!menuOption);
-//   };
-
-//   return (
-//     <div className={styles.footer}>
-//       <article className={styles.flecha} onClick={switchOptions}>
-//         <Image alt="Links to navigation" src={arrow} priority />
-//       </article>
-
-//       <article className={styles.description}>
-//         <p>neurai.dev</p>
-//       </article>
-
-//       <article className={styles.ubicacion}>
-//         <p>Colón - Putumayo</p>
-//       </article>
-
-//       <article
-//         className={`${styles.redes} ${
-//           menuOption ? styles.open : styles.closed
-//         }`}
-//       >
-//         <ul>
-//           <li>
-//             <Link
-//               href="https://www.facebook.com/profile.php?id=100085485673809"
-//               target="_blank"
-//               rel="noreferrer"
-//               passHref
-//             >
-//               <Image alt="Facebook" src={face} priority />
-//             </Link>
-//           </li>
-
-//           <li>
-//             <Link
-//               href="https://www.instagram.com/alexriob/"
-//               target="_blank"
-//               rel="noreferrer"
-//               passHref
-//             >
-//               <Image alt="Instagram" src={ins} priority />
-//             </Link>
-//           </li>
-
-//           <li>
-//             <Link
-//               href="https://wa.me/573174503604"
-//               target="_blank"
-//               rel="noreferrer"
-//               passHref
-//             >
-//               <Image alt="Whatsapp" src={wha} priority />
-//             </Link>
-//           </li>
-
-//           <li className={styles.tiktok}>
-//             <Link
-//               href="https://www.tiktok.com/@julii1295?_t=8n2OQ52Q4aD&_r=1"
-//               target="_blank"
-//               rel="noreferrer"
-//               passHref
-//             >
-//               <Image alt="TikTok" src={tik} priority />
-//             </Link>
-//           </li>
-//         </ul>
-//       </article>
-
-//       <article className={styles.externo}>
-//         <Link
-//           href="https://www.flaticon.es/iconos-gratis/facebook"
-//           title="facebook iconos"
-//           target="_blank"
-//           rel="noreferrer"
-//         >
-//           Iconos creados por Freepik - Flaticon
-//         </Link>
-//         <br />
-//         <Link
-//           href="https://unsplash.com/"
-//           title="facebook iconos"
-//           target="_blank"
-//           rel="noreferrer"
-//         >
-//           Unsplash
-//         </Link>
-//       </article>
-//     </div>
-//   );
-// };
-
-// export default Contacto;
-
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -125,6 +13,7 @@ import styles from "../styles/Footer.module.scss";
 const Contacto = () => {
   const [menuOption, setMenuOptions] = useState(false);
   const menuRef = useRef(null);
+  const flechaRef = useRef(null);
 
   const switchOptions = () => {
     setMenuOptions(!menuOption);
@@ -133,8 +22,13 @@ const Contacto = () => {
   // Función para cerrar el menú cuando se hace clic fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOptions(false);
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        flechaRef.current &&
+        !flechaRef.current.contains(event.target)
+      ) {
+        setMenuOptions(false); // Oculta las redes sociales si haces clic fuera
       }
     };
 
@@ -151,7 +45,11 @@ const Contacto = () => {
 
   return (
     <div className={styles.footer}>
-      <article className={styles.flecha} onClick={switchOptions}>
+      <article
+        ref={flechaRef} // Referencia para el botón de la flecha
+        className={styles.flecha}
+        onClick={switchOptions}
+      >
         <Image alt="Links to navigation" src={arrow} priority />
       </article>
 
@@ -164,7 +62,7 @@ const Contacto = () => {
       </article>
 
       <article
-        ref={menuRef} // Referencia para el menú
+        ref={menuRef} // Referencia para el menú de redes sociales
         className={`${styles.redes} ${menuOption ? styles.open : styles.closed}`}
       >
         <ul>
