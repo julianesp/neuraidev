@@ -76,44 +76,61 @@
   }
 
   & .accesorios {
+    display: flex;
+    
     margin: 5px;
     /* Asegurar que ocupe todo el ancho */
-    width: 100%; 
     // height: 405px;
     
+    width: 100%; 
     /* Scroll horizontal */
     overflow-x: auto; 
     /* Evitar que los artículos se dividan en varias líneas */
     white-space: nowrap; 
     padding: 10px;
-
+    
     & .tipo {
       @include border_dark;
-      // @include flex-column;
-
       /* Mostrar los artículos en línea */
-      display: inline-block; 
+      // display: inline-block; 
+      
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
       text-align: center;
-      // height: 400px;
-      width: 300px; /* Ajusta el ancho según sea necesario */
-      height: 385px;
-      margin-right: 15px; /* Espacio entre los artículos */
-      vertical-align: top;
+      
+      /* Ajusta el ancho según sea necesario */
+      // width: 250px; 
+      // height: 385px;
+      margin-right: 10px; /* Espacio entre los artículos */
+      // vertical-align: top;
 
+      &.slider {
+        & img {
+
+          // width: 100px;
+        }
+      }
 
       & h1 {
         @include header_h1;
+
+        font-size: 12px;
+        
       }
 
       & a {
         @include celeste_button;
         @include contraer;
 
-        margin: 5px auto 0;
+        // margin: 5px auto 0;
+        margin-top: 20px;
         text-align: center;
         transition: 0.3s ease-out all;
 
-        width: calc(100% - 50px);
+        // width: calc(100% - 50px);
+        width: 120px;
       }
     }
   }
