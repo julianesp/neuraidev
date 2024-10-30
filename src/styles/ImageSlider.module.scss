@@ -2,12 +2,10 @@
   position: relative;
   overflow: hidden;
 
-  // margin-top: 40px;
-
-  // width: 300px;
+  width: 250px;
   // min-width: 300px;
   // max-width: 500px;
-  height: 250px;
+  // height: 250px;
   // height: auto;
 }
 
@@ -17,10 +15,8 @@
 
 
 .image img {
-
-
-  width: inherit;
-  // width: 100dvw;
+  // width: inherit;
+  width: 100dvw;
   // max-width: 500px;
   height: 300px;
   

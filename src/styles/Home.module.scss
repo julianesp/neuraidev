@@ -116,7 +116,9 @@
       & h1 {
         @include header_h1;
 
-        font-size: 12px;
+        margin: 0 0 15px;
+
+        font-size: 1.1rem;
         
       }
 

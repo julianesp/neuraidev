@@ -100,7 +100,7 @@ const Inicio = () => {
           <article
             className={`flex justify-center items-center w-screen h-80 mx-3 p-3 mt-10 rounded-xl border-slate-500 border-solid border-2 ${styles.evento}`}
           >
-            <h2 className="text-2xl">Eventos municipales</h2>
+            <h2 className="text-2xl">Falta agregar accesorios en file .json</h2>
             <AccessoryCard
               imageUrl="/images/1.jpg"
               description="subiendo primera imagen desde la web"
