@@ -74,7 +74,8 @@ const Profile = () => {
           <div className={styles.study__container}>
             <div className={styles["study--areas"]}>
               <p id="titulo">Técnico sistemas</p>
-              <button className={styles["image-button"]} onClick={toggleImage}>
+              <p id="logo">SENA</p>
+              {/* <button className={styles["image-button"]} onClick={toggleImage}>
                 Ver
               </button>
               {showImage && (
@@ -87,11 +88,12 @@ const Profile = () => {
                     X
                   </button>
                 </div>
-              )}
+              )} */}
             </div>
             <div className={styles["study--areas"]}>
               <p id="titulo">Tecnólogo ADSI</p>
-              <button className={styles["image-button"]} onClick={toggleImage1}>
+              <p>SENA</p>
+              {/* <button className={styles["image-button"]} onClick={toggleImage1}>
                 Ver
               </button>
               {showImage1 && (
@@ -104,7 +106,7 @@ const Profile = () => {
                     X
                   </button>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
