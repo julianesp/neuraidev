@@ -1,10 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ContainerAccesories = () => {
-  return (
-    <div>ContainerAccesories</div>
-    
-  )
-}
+  return <div>ContainerAccesories</div>;
+};
 
-export default ContainerAccesories
+export default ContainerAccesories;

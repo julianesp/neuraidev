@@ -1,6 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link.js";
+import Head from "next/head";
 
 import VisorImages from "../components/VisorImages.js";
 // import imagesInfo from '../../data/images.json'
@@ -9,7 +10,6 @@ import ImageSlider from "../containers/ImageSlider.js";
 import { Publicaciones } from "../components/Publicaciones.js";
 import RootLayout from "@/app/layout.js";
 import Services from "../pages/Services.jsx";
-import Head from "next/head.js";
 import Articles from "@/containers/Articles.jsx";
 import Accesorios from "@/containers/Accesorios.jsx";
 import AccessoryCard from "@/containers/Accesorios.jsx";
@@ -37,9 +37,11 @@ const Inicio = () => {
   const imagePath = [accesorios[0].d1, accesorios[1].d2, accesorios[2].d3];
 
   return (
-    <RootLayout>
+    <>
       <Head>
         <title>Inicio</title>
+        <link rel="icon" href="/favicon.ico" />
+        <meta content="Página de inicio" />
       </Head>
       <main className={styles.container}>
         <section className={`mt-6 ${styles.presentation}`}>
@@ -114,7 +116,7 @@ const Inicio = () => {
           <Articles />
         </section>
       </main>
-    </RootLayout>
+    </>
   );
 };
 
