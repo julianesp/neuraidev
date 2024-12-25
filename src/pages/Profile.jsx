@@ -5,8 +5,6 @@ import Image from "next/image";
 import Head from "next/head";
 
 import dev from "/public/images/dev.jpg";
-import tecni from "/public/images/tecnico.png";
-import tecno from "/public/images/tecnologo.png";
 import linkedin from "/public/images/linkedin.png";
 import github from "/public/images/github.png";
 import styles from "@/styles/Perfil.module.scss";
