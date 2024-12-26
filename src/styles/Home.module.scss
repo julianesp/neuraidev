@@ -137,6 +137,11 @@
     }
   }
 
+  & .aleatorio{
+    display: flex;
+    flex-direction: row;
+  }
+
   & .varios {
     // @include border_dark;
     margin-top: 20px;

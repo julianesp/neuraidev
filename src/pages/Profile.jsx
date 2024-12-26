@@ -64,9 +64,9 @@ const Profile = () => {
           <h2>Descripción personal</h2>
 
           <p>
-            Soy técnico en sistemas con más de 5 años de experiencia 🪛🖥️.
+            {/* Soy técnico en sistemas con más de 5 años de experiencia 🪛🖥️. */}
             <br />
-            Especialista en instalación de programas.
+            {/* Especialista en instalación de programas. */}
           </p>
 
           <div className={styles.study__container}>

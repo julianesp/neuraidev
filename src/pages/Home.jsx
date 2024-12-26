@@ -2,17 +2,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link.js";
 import Head from "next/head";
-
-import VisorImages from "../components/VisorImages.js";
-// import imagesInfo from '../../data/images.json'
 import styles from "../styles/Home.module.scss";
 import ImageSlider from "../containers/ImageSlider.js";
-import { Publicaciones } from "../components/Publicaciones.js";
-import RootLayout from "@/app/layout.js";
-import Services from "../pages/Services.jsx";
-import Articles from "@/containers/Articles.jsx";
-import Accesorios from "@/containers/Accesorios.jsx";
-import AccessoryCard from "@/containers/Accesorios.jsx";
+import ProductList from "@/containers/ProductList.jsx";
+import ProductItem from "@/components/ProductItem";
 
 const Inicio = () => {
   // Solution for hydratation errors
@@ -98,22 +91,15 @@ const Inicio = () => {
           </article>
         </section>
 
-        <section className={`p-1 ${styles.eventos__municipales}`}>
-          <article
-            className={`flex justify-center items-center w-screen h-80 mx-3 p-3 mt-10 rounded-xl border-slate-500 border-solid border-2 ${styles.evento}`}
-          >
-            {/* <h2 className="text-2xl">Falta agregar accesorios en file .json</h2> */}
-            <AccessoryCard
-              imageUrl="/images/1.jpg"
-              description="subiendo primera imagen desde la web"
-              price="3.500"
-            />
+        <section className={styles.aleatorio}>
+          <article>
+            <ProductList />
           </article>
         </section>
 
         <section className={styles.varios}>
           <h1>Varios</h1>
-          <Articles />
+          {/* <Articles /> */}
         </section>
       </main>
     </>
