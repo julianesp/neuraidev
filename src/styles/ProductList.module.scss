@@ -1,8 +1,23 @@
-.productList {
-    display: flex;
-    // flex-direction: row;
-    justify-content: center;
+@import "mixins.scss";
 
-    overflow-x: auto;
-    width: 100vw;
+.productList {
+  display: flex;
+  // flex-direction: row;
+  justify-content: center;
+  overflow-x: auto;
+
+  margin-top: 50px;
+
+  white-space: nowrap;
+
+  width: calc(100% - 20px);
+
+  & .container {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    
+    margin: 0;
+  }
 }

@@ -18,19 +18,18 @@ const ProductItem = ({ product }) => {
       />
 
         <div className={styles.productInfo}>
-        <h2>{product.title}</h2>
+        <p>{product.title}</p>
         <p>{product.description}</p>
         <p>${product.price}</p>
 
-        <figure onClick={handleClick}>
+        {/* <figure onClick={handleClick}>
           <Image
             alt="Add to cart"
-            // src="/images/6.jpg"
             width={300}
             height={300}
           />
         </figure>
-        {cart}
+        {cart} */}
       </div>
     </div>
   );

@@ -138,8 +138,13 @@
   }
 
   & .aleatorio{
+    
     display: flex;
-    flex-direction: row;
+    overflow-x: auto;
+    
+    width: 300px;
+
+
   }
 
   & .varios {
