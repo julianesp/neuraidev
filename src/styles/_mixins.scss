@@ -59,10 +59,18 @@
   box-shadow: -5px 5px 10px #baba;
 }
 
-@mixin border_dark {
-  padding: 10px;
+@mixin border {
+  border: 1px solid #bababa;
+  border-radius: 20px;
+}
 
+@mixin border_dark {
   border: 1px solid #000;
+  border-radius: 20px;
+}
+
+@mixin border_gray {
+  border: 1px solid #bababa;
   border-radius: 20px;
 }
 

@@ -4,21 +4,21 @@
       "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado_genius.jpg?alt=media&token=5a9ecc50-db16-4d9a-b00c-a01de3c506b3",
       "title": "Teclaso Genius básico",
       "description": "Teclado Genius básico con conexión USB",
-      "price": "3.500"
+      "price": "39.500"
     },
     {
       "id": 2,
       "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
       "title": "Bombillo USB",
       "description": "Bombillo USB para iluminar tu teclado",
-      "price": "5.000"
+      "price": "9.900"
     },
     {
       "id": 3,
       "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fluces_bici.jpg?alt=media&token=6dca1abb-ec2d-41ed-88a1-5fb7dc4474aa",
       "title": "Luces bicicleta",
       "description": "Luces delatera y trasera para bicicleta con batería recargable",
-      "price": "7.200"
+      "price": "34.900"
     }
   ]
   

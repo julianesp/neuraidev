@@ -141,8 +141,10 @@
     
     display: flex;
     overflow-x: auto;
-    
-    width: 300px;
+    margin-top: 50px;
+    white-space: nowrap;
+
+    width: calc(100vw - 0px);
 
 
   }
