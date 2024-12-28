@@ -9,10 +9,20 @@ const ProductItem = ({ product }) => {
     setCart("useState funcionando");
   };
 
+  const [currentImage, setCurrentImage] = useState(
+    Array.isArray(product.images) ? product.images[0] : product.images,
+  );
+
+  const handleImageChange = (index) => {
+    if (Array.isArray(product.images)) {
+      setCurrentImage(product.images[index]);
+    }
+  };
+
   return (
     <div className={styles.productItem}>
       <Image
-        src={product.image}
+        src={currentImage}
         alt="Accesorio"
         width={300}
         height={300}
