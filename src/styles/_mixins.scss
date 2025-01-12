@@ -74,6 +74,13 @@
   border-radius: 20px;
 }
 
+@mixin border_white {
+  padding: 10px;
+  border: 1px solid #bababa;
+  border-radius: 20px;
+  background-color: #fff;
+}
+
 @mixin header_h1 {
   @include border_dark();
 
@@ -98,3 +105,5 @@
     transform: scale(0.9);
   }
 }
+
+// @mixin

@@ -62,6 +62,14 @@
   /* text-transform: uppercase; */
 }
 
+.footer .information {
+  @include contraer;
+  & a {
+    @include contraer;
+    @include border_white;
+  }
+}
+
 .footer .ubicacion {
   display: flex;
   flex-direction: column;

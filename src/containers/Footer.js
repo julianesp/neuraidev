@@ -8,6 +8,7 @@ import ins from "../../public/assets/redes/instagram.png";
 import tik from "../../public/assets/redes/tiktok.png";
 import wha from "../../public/assets/redes/whatsapp.png";
 import arrow from "../../public/next.png";
+import Politicas from "@/pages/Politicas";
 import styles from "../styles/Footer.module.scss";
 
 const Contacto = () => {
@@ -55,6 +56,15 @@ const Contacto = () => {
 
       <article className={styles.description}>
         <p>neurai.dev</p>
+      </article>
+
+      <article className={styles.information}>
+        <h2>Información</h2>
+        <Link href="Politicas">Políticas de privacidad</Link>
+
+        <h2>Atención al cliente</h2>
+
+        <h2>Horario de atención</h2>
       </article>
 
       <article className={styles.ubicacion}>
