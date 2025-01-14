@@ -63,10 +63,23 @@
 }
 
 .footer .information {
-  @include contraer;
+  & h2 {
+    font-weight: bolder;
+    font-size: 1.2rem;
+    color: #fff;
+    text-decoration: underline;
+  }
   & a {
+    // @include contraer;
+    // @include border_white;
+  }
+
+  & h3 {
     @include contraer;
-    @include border_white;
+
+    color: #fff;
+
+    line-height: 35px;
   }
 }
 
@@ -167,8 +180,9 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 80px 1fr 50px;
     grid-template-areas:
-      "especialidad especialidad especialidad"
-      "direccion . mapa" ". externo .";
+      "logo logo logo"
+      "direccion . mapa"
+      ". externo .";
 
     justify-items: center;
   }

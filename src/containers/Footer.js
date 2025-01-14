@@ -60,11 +60,15 @@ const Contacto = () => {
 
       <article className={styles.information}>
         <h2>Información</h2>
-        <Link href="Politicas">Políticas de privacidad</Link>
-
-        <h2>Atención al cliente</h2>
-
-        <h2>Horario de atención</h2>
+        <h3>
+          <Link href="Politicas">Políticas de privacidad</Link>
+        </h3>
+        <h3>
+          <Link href="Clientes">Atención al cliente</Link>
+        </h3>
+        <h3>
+          <Link href="Horario">Horario de atención</Link>
+        </h3>
       </article>
 
       <article className={styles.ubicacion}>
