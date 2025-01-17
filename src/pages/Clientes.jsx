@@ -13,57 +13,54 @@ const Clientes = () => {
   return (
     <RootLayout>
       <div className={styles.container}>
-        <h1>Políticas y Privacidad</h1>
-        <section>
-          <h2>Introducción</h2>
-          <p>
-            Bienvenido a nuestra página de políticas y privacidad. Aquí
-            encontrará información sobre cómo manejamos sus datos personales.
-          </p>
-        </section>
-        <section>
-          <h2>Recolección de Información</h2>
-          <p>
-            Recopilamos información personal que usted nos proporciona
-            directamente, así como información recopilada automáticamente a
-            través de su uso de nuestros servicios.
-          </p>
-        </section>
-        <section>
-          <h2>Uso de la Información</h2>
-          <p>
-            Utilizamos la información recopilada para proporcionar, mantener y
-            mejorar nuestros servicios, así como para comunicarnos con usted.
-          </p>
-        </section>
-        <section>
-          <h2>Compartir Información</h2>
-          <p>
-            No compartimos su información personal con terceros, excepto en las
-            circunstancias descritas en esta política.
-          </p>
-        </section>
-        <section>
-          <h2>Seguridad</h2>
-          <p>
-            Implementamos medidas de seguridad para proteger su información
-            personal contra el acceso no autorizado y la divulgación.
-          </p>
-        </section>
-        <section>
-          <h2>Sus Derechos</h2>
-          <p>
-            Usted tiene derecho a acceder, corregir o eliminar su información
-            personal, así como a oponerse al procesamiento de sus datos.
-          </p>
-        </section>
-        <section>
-          <h2>Contacto</h2>
-          <p>
-            Si tiene alguna pregunta sobre nuestras políticas de privacidad, no
-            dude en contactarnos.
-          </p>
-        </section>
+        <h1>Atención al cliente</h1>
+
+        <p>
+          En <strong>neurai.dev</strong>, estamos comprometidos a brindarte la
+          mejor experiencia posible. Estaremos disponibles para ayudarte con
+          cualquier duda, consulta o inconveniente que puedas tener.
+        </p>
+        <h2>¿Cómo podemos ayudarte?</h2>
+        <ul>
+          <li>Consultas sobre productos y servicios.</li>
+          <li>Soporte técnico para tus compras.</li>
+          <li>Devoluciones, cambios y garantías.</li>
+          <li>Sugerencias y retroalimentación.</li>
+        </ul>
+
+        <h2>Contáctanos</h2>
+        <p>
+          Puedes comunicarte con nosotros a través de los siguientes canales:
+        </p>
+        <ul>
+          <li>
+            <strong>Correo electrónico:</strong>{" "}
+            <a href="mailto:julii1295@gmail.com">enviar mensaje</a>
+          </li>
+          <li>
+            <strong>Chat en línea:</strong> Disponible en nuestra página
+            principal.
+          </li>
+        </ul>
+        <h2>Preguntas Frecuentes</h2>
+        <p>
+          Antes de contactarnos, te invitamos a visitar nuestra sección de{" "}
+          <a href="/faqs">Preguntas Frecuentes (FAQs)</a>, donde hemos
+          recopilado las respuestas a las dudas más comunes.
+        </p>
+        <p>
+          Agradecemos tu confianza en <strong>neurai.dev</strong>. Estamos aquí
+          para ayudarte y asegurarnos de que tengas una experiencia excepcional.
+        </p>
+
+        <h2>Horarios de atención</h2>
+        <p>
+          El horario de atención es de <strong>lunes a viernes</strong>, de{" "}
+          <strong>8:00 AM a 6:00 PM</strong>. Fuera de este horario, puedes
+          dejarnos un mensaje a través de las redes sociales que se encuentran
+          en el botón del lado inferior izquierdo y te responderemos lo antes
+          posible.
+        </p>
       </div>
     </RootLayout>
   );

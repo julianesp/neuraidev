@@ -16,7 +16,19 @@
 
   align-items: center;
   justify-items: center;
-  width: 250px;
+  // width: 350px;
+
+  // margin-left: 10px;
+  margin: 0 10px 10px 10px;
+  padding: 10px;
+
+  @include shadow_light;
+
+  text-align: center;
+  height: 350px;
+
+  background-color: rgba(191, 226, 240, 0.6);
+  border: none;
 
   & .productImage {
     grid-area: productImage;
@@ -38,18 +50,8 @@
     grid-area: productAction;
   }
 
-  // margin-bottom: 5px;
-  margin-left: 10px;
-
-  text-align: center;
-
-  // width: inherit;
-  height: 350px;
-
-  // background-color: rgba(#944949, 0.3);
-
   & img {
-    @include border;
+    // @include border;
     // box-shadow: 5px 5px 10px #817e7e;
     object-fit: contain;
 

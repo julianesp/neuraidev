@@ -2,18 +2,18 @@
 
 .productList {
   display: flex;
-  // flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   
 
-  white-space: nowrap;
+  // white-space: nowrap;
 
   // width: calc(100% - 20px);
 
   & .container {
     display: flex;
 
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
     
     margin: 0;

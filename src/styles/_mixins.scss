@@ -54,9 +54,10 @@
 }
 
 @mixin shadow_light {
-  border: 1px solid #818080;
+  // border: 1px solid #818080;
   background-color: #bababa;
-  box-shadow: -5px 5px 10px #baba;
+  box-shadow: 5px 5px 10px #baba;
+  
 }
 
 @mixin border {

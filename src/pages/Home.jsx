@@ -59,7 +59,7 @@ const Inicio = () => {
 
         <section className={`${styles.accesorios}`}>
           <article className={styles.tipo}>
-            <h1>Accesorios celulares</h1>
+            <h2>Accesorios celulares</h2>
             <ImageSlider
               className={styles.slider}
               imagePaths={imagePath}
@@ -70,21 +70,21 @@ const Inicio = () => {
           </article>
 
           <article className={styles.tipo}>
-            <h1>Accesorios computador</h1>
+            <h2>Accesorios computador</h2>
             <ImageSlider imagePaths={imagePath} enableTransition={false} />
 
             <Link href="#">Ver más</Link>
           </article>
 
           <article className={styles.tipo}>
-            <h1>Accesorios damas</h1>
+            <h2>Accesorios damas</h2>
             <ImageSlider imagePaths={imagePath} enableTransition={false} />
 
             <Link href="#">Ver más</Link>
           </article>
 
           <article className={styles.tipo}>
-            <h1>Accesorios varios</h1>
+            <h2>Accesorios varios</h2>
             <ImageSlider imagePaths={imagePath} enableTransition={false} />
 
             <Link href="#">Ver más</Link>
@@ -95,11 +95,6 @@ const Inicio = () => {
           <article>
             <ProductList />
           </article>
-        </section>
-
-        <section className={styles.varios}>
-          <h1>Varios</h1>
-          {/* <Articles /> */}
         </section>
       </main>
     </>

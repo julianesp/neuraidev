@@ -13,7 +13,7 @@ const Politicas = () => {
   return (
     <RootLayout>
       <div className={styles.container}>
-        <h1>Políticas y Privacidad</h1>
+        <h1>Políticas y privacidad</h1>
         <section>
           <h2>Introducción</h2>
           <p>

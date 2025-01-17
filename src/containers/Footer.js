@@ -66,9 +66,6 @@ const Contacto = () => {
         <h3>
           <Link href="Clientes">Atención al cliente</Link>
         </h3>
-        <h3>
-          <Link href="Horario">Horario de atención</Link>
-        </h3>
       </article>
 
       <article className={styles.ubicacion}>
