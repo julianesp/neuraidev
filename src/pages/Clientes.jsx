@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import RootLayout from "@/app/layout";
 import styles from "@/styles/Politicas.module.scss";
+import Link from "next/link";
 
 const Clientes = () => {
   // Solution for hydratation errors
@@ -35,7 +36,7 @@ const Clientes = () => {
         <ul>
           <li>
             <strong>Correo electrónico:</strong>{" "}
-            <a href="mailto:julii1295@gmail.com">enviar mensaje</a>
+            <Link href="mailto:julii1295@gmail.com">enviar mensaje</Link>
           </li>
           <li>
             <strong>Chat en línea:</strong> Disponible en nuestra página
@@ -45,7 +46,7 @@ const Clientes = () => {
         <h2>Preguntas Frecuentes</h2>
         <p>
           Antes de contactarnos, te invitamos a visitar nuestra sección de{" "}
-          <a href="/faqs">Preguntas Frecuentes (FAQs)</a>, donde hemos
+          <Link href="/faqs">Preguntas Frecuentes (FAQs)</Link>, donde hemos
           recopilado las respuestas a las dudas más comunes.
         </p>
         <p>

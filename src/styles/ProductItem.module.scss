@@ -1,6 +1,7 @@
 @import "./mixins.scss";
 
 .productItem {
+  position: relative;
   @include border_dark;
 
   display: grid;
@@ -16,19 +17,42 @@
 
   align-items: center;
   justify-items: center;
-  // width: 350px;
 
-  // margin-left: 10px;
   margin: 0 10px 10px 10px;
   padding: 10px;
-
-  @include shadow_light;
 
   text-align: center;
   height: 350px;
 
-  background-color: rgba(191, 226, 240, 0.6);
-  border: none;
+  box-shadow: 5px 5px 10px #c0cfd1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 54.2%; // Ocupa la mitad del alto del elemento
+    background-color: rgba(64, 191, 241, 0.8); // Mismo color de fondo
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    z-index: -1; // Coloca el fondo detrás del contenido
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 115px;
+    left: 0;
+    width: 100%;
+    height: 45px; // Altura de las olas
+    background-color: rgba(64, 191, 241, 0.8); // Color de las olas
+    clip-path: path(
+      "M0,30 Q50,60 100,30 T200,30 T300,30 T400,30 V60 H0 Z"
+    ); // Olas con curvas cuadráticas
+    z-index: 1;
+    transform: rotate(180deg); // Voltea las olas
+  }
 
   & .productImage {
     grid-area: productImage;
@@ -52,12 +76,12 @@
 
   & img {
     // @include border;
-    // box-shadow: 5px 5px 10px #817e7e;
+
     object-fit: contain;
 
     width: calc(100% - 30px);
-    // width: 300px;
-    height: 210px;
+    width: 300px;
+    height: 150px;
     padding: 0;
   }
 
@@ -79,5 +103,11 @@
   & a {
     @include celeste_button;
     margin: 5px 0;
+    transition: 0.3s ease-in all;
+
+    &:hover {
+      transform: scale(0.9);
+      transition: 0.3s ease-out all;
+    }
   }
 }
