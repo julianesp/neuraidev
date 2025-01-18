@@ -6,6 +6,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/NavBar.module.scss";
+
 const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
   const menuRef = useRef(null);

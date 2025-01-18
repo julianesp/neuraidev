@@ -6,7 +6,6 @@ import Link from "next/link";
 import ImageSlider from "@/containers/ImageSlider";
 import styles from "@/styles/Services.module.scss";
 import Image from "next/image";
-import { imagesFormat } from "@/data/imageData";
 
 const Services = () => {
   // Solution for hydratation errors
