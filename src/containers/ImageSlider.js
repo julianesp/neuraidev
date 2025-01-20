@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import left from "../../public/left.png";
-import right from "../../public/right.png";
 import styles from "../styles/ImageSlider.module.scss";
 
 const Procedimientos = ({ imagePaths, enableTransition = true }) => {
@@ -44,7 +42,7 @@ const Procedimientos = ({ imagePaths, enableTransition = true }) => {
         <button onClick={goToPreviousSlide} className={styles.left}>
           <Image
             alt="Arrow left"
-            src={left}
+            src="https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/left.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9sZWZ0LnBuZyIsImlhdCI6MTczNzIyMTk4MCwiZXhwIjoxNzY4NzU3OTgwfQ.dxcKBnmSXq3EbOOS2YUlRQM4D51EzLZqh3v0_Do_cOk&t=2025-01-18T17%3A39%3A41.112Z"
             width={20}
             height={20}
             priority={true}
@@ -54,7 +52,7 @@ const Procedimientos = ({ imagePaths, enableTransition = true }) => {
         <button onClick={goToNextSlide} className={styles.right}>
           <Image
             alt="Arrow right"
-            src={right}
+            src="https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/right.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9yaWdodC5wbmciLCJpYXQiOjE3MzcyMjIzMjgsImV4cCI6MTc2ODc1ODMyOH0.lZOLaPChl0zcOUffOTx321_u5XG2R0jgnvbyH8WGJ8M&t=2025-01-18T17%3A45%3A28.651Z"
             width={20}
             height={20}
             priority={true}

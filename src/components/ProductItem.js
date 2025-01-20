@@ -4,10 +4,10 @@ import styles from "../styles/ProductItem.module.scss";
 import Link from "next/link";
 
 const ProductItem = ({ product }) => {
-  const [cart, setCart] = useState([]);
-  const handleClick = (e) => {
-    setCart("useState funcionando");
-  };
+  // const [cart, setCart] = useState([]);
+  // const handleClick = (e) => {
+  //   setCart("useState funcionando");
+  // };
 
   const [currentImage, setCurrentImage] = useState(
     Array.isArray(product.images) ? product.images[0] : product.images,

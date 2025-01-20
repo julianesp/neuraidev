@@ -7,7 +7,23 @@ import ImageSlider from "../containers/ImageSlider.js";
 import ProductList from "@/containers/ProductList.jsx";
 import ProductItem from "@/components/ProductItem";
 
+import accesorios from "../../public/accesories.json";
+
+
 const Inicio = () => {
+  async function getAccesorios() {
+    // Simulamos una llamada a API
+    return [
+      {
+        id: "1",
+        imagenes: ["/images/1.jpg"],
+        titulo: "Collar de Plata",
+        descripcion: "Hermoso collar de plata con diseño elegante",
+        precio: 99.99,
+      },
+    ];
+  }
+  const accesories = getAccesorios();
   // Solution for hydratation errors
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
@@ -37,8 +53,11 @@ const Inicio = () => {
         <meta content="Página de inicio" />
       </Head>
       <main className={styles.container}>
-        <section className={`mt-6 ${styles.presentation}`}>
-          <ImageSlider imagePaths={imagePath} enableTransition={true} />
+        <section className={` ${styles.presentation}`}>
+          <ImageSlider
+            imagePaths={imagePath}
+            enableTransition={true}
+          />
         </section>
 
         <section className={styles.tratamientos}>
@@ -94,6 +113,9 @@ const Inicio = () => {
         <section className={styles.aleatorio}>
           <article>
             <ProductList />
+            {/* <TemplateAccesorie /> */}
+
+            
           </article>
         </section>
       </main>
