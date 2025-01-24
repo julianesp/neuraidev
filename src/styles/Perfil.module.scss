@@ -319,16 +319,23 @@
   .dev {
     display: grid;
 
-    grid-template-areas: "texto texto" "descripcion descripcion" "redes redes";
+    grid-template-areas: "texto texto" "descripcion redes" ". .";
 
     & .description {
       grid-area: texto;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: space-around;
+
+      padding: 0 150px;
+      margin-bottom: 50px;
 
       top: 0px;
 
-      height: 510px;
+      height: 410px;
+
+      & .texto {
+      }
     }
 
     & .study {
