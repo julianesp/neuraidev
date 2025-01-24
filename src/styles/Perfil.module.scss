@@ -7,29 +7,17 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  margin-top: 3.85rem;
-
-  /* background-color: rgba(#bababa, 0.5); */
-
-  /* z-index: 1000; */
 }
 
 .dev .description {
-  /* position: relative; */
-  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  margin-top: 50px;
-  margin-bottom: 3.5rem;
-
-  width: 100%;
+  width: 100vw;
   height: 490px;
-  top: -115px;
-  /* bottom: 0; */
+  // top: -115px;
 
   background-color: rgba(24, 28, 36, 0.9);
   border-end-end-radius: 230px;
@@ -173,7 +161,7 @@
   align-items: center;
   flex-direction: column;
 
-  margin-top: 450px;
+  margin-top: 20px;
   margin-bottom: 30px;
   padding: 15px 0;
 
@@ -312,8 +300,6 @@
 
   margin-top: 25px;
 
-
-
   & .title {
     margin-bottom: 20px;
   }
@@ -325,6 +311,39 @@
     & img {
       width: 80px;
       height: 80px;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .dev {
+    display: grid;
+
+    grid-template-areas: "texto texto" "descripcion redes" ". .";
+
+    & .description {
+      grid-area: texto;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      padding: 0 150px;
+      margin-bottom: 50px;
+
+      top: 0px;
+
+      height: 410px;
+
+      & .texto {
+      }
+    }
+
+    & .study {
+      grid-area: descripcion;
+    }
+
+    & .redes {
+      grid-area: redes;
     }
   }
 }

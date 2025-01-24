@@ -43,14 +43,18 @@ const Profile = () => {
       <Head>
         <title>Sobre mí</title>
       </Head>
+
       <div className={styles.dev}>
         <div className={styles.description}>
-          <p>
-            <span>¡Hola! 👋🏼</span>
-            <span>Soy</span>
-            <span>Julián España</span>
-          </p>
-          <div>
+          <div className={styles.texto}>
+            <p>
+              <span>¡Hola! 👋🏼</span>
+              <span>Soy</span>
+              <span>Julián España</span>
+            </p>
+          </div>
+
+          <div className={styles.face}>
             <Image
               className={styles.me}
               alt="Desarrollador web"
