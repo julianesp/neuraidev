@@ -161,15 +161,12 @@
   align-items: center;
   flex-direction: column;
 
-  margin-top: 20px;
-  margin-bottom: 30px;
-  padding: 15px 0;
-
   overflow: hidden;
 
   // filter: blur(3px);
 
-  width: 100%;
+  width: 100vw;
+  max-width: 600px;
   height: auto;
 
   // background-color: rgba(216, 207, 207, 0.7);
@@ -180,8 +177,9 @@
 .study h2 {
   // @include fondo_claro;
 
-  margin-bottom: 15px;
-  margin: 0 15px 20px;
+  // margin-bottom: 15px;
+  // margin: 0 15px 20px;
+  padding: 10px 0;
 
   color: #fff;
   font-weight: 900;
@@ -195,11 +193,11 @@
 
 .study p {
   // @include shadow_light;
-  margin: 0 10px 20px;
-  padding: 10px;
+  // margin: 0 10px 20px;
+  // padding: 10px;
 
   border-radius: 10px;
-  border: 1px solid #fff;
+  // border: 1px solid #fff;
 
   color: #fff;
 }
@@ -320,6 +318,7 @@
     display: grid;
 
     grid-template-areas: "texto texto" "descripcion redes" ". .";
+    gap: 0 20px;
 
     & .description {
       grid-area: texto;
@@ -334,16 +333,35 @@
 
       height: 410px;
 
+      border-end-end-radius: 0;
+
       & .texto {
       }
     }
 
     & .study {
       grid-area: descripcion;
+      padding: 30px;
+
+      & .study__container {
+        margin-top: 20px;
+
+        & .study--areas {
+          & p {
+            width: 80px;
+            height: 30px;
+          }
+        }
+      }
     }
 
     & .redes {
       grid-area: redes;
+    }
+
+    & .study,
+    & .redes {
+      margin: 0 25px;
     }
   }
 }

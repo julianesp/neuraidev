@@ -9,14 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.2",
+    "@radix-ui/react-slot": "^1.1.1",
     "axios": "^1.7.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.474.0",
     "mongoose": "^8.4.1",
     "next": "^14.2.23",
     "react": "^18",
     "react-daisyui": "^5.0.0",
     "react-dom": "^18",
     "sass": "^1.77.2",
-    "sharp": "^0.33.3"
+    "sharp": "^0.33.3",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "20.14.2",

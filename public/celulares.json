@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "images": [
+            "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/funda%20iphone%20xs/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy9mdW5kYSBpcGhvbmUgeHMvMS5qcGciLCJpYXQiOjE3Mzc4NTQ5NTcsImV4cCI6MTc2OTM5MDk1N30.yPuY2tZ9aTL1Om9BdP_dNxPMVkQw4_dGoz960_haYBE&t=2025-01-26T01%3A29%3A17.918Z",
+            "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/funda%20iphone%20xs/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy9mdW5kYSBpcGhvbmUgeHMvMi5qcGciLCJpYXQiOjE3Mzc4NTQ5NzQsImV4cCI6MTc2OTM5MDk3NH0.STCZ3NX_2na25TW2gWGVh1zcV8otlwV56_W0arl0i8A&t=2025-01-26T01%3A29%3A35.084Z",
+            "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/funda%20iphone%20xs/3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy9mdW5kYSBpcGhvbmUgeHMvMy5qcGciLCJpYXQiOjE3Mzc4NTQ5ODcsImV4cCI6MTc2OTM5MDk4N30.WzdQOuDSVDTy3lYjHcJd2dEWEdukDlMi9x2Q5ipWIk4&t=2025-01-26T01%3A29%3A47.788Z"
+        ],
+        "title": "iPhone 15 Pro Max",
+        "description": "Protege tu celular con esta funda de pasta dura",
+        "price": "14.900"
+    },
+    {
+        "id": 2,
+        "images": [
+            "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/usb%20tipo%202%20meters/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy91c2IgdGlwbyAyIG1ldGVycy8xLmpwZyIsImlhdCI6MTczNzg1ODI5MywiZXhwIjoxNzY5Mzk0MjkzfQ.eQh5X0Xf-WxrQqoRgQYImwl0bIFMA_KZPZ9B--lKAtw&t=2025-01-26T02%3A24%3A53.336Z",
+            "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/usb%20tipo%202%20meters/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy91c2IgdGlwbyAyIG1ldGVycy8yLmpwZyIsImlhdCI6MTczNzg1ODMyMSwiZXhwIjoxNzY5Mzk0MzIxfQ.yIzrUuhvGzVZRyG2OXHQo0QwbbI8I6nEbdgeboeBxFA&t=2025-01-26T02%3A25%3A22.042Z"
+        ],
+        "title": "USB Tipo C - 2 metros",
+        "description": "Disponible para carga rápida",
+        "price": "39.900"
+    }
+]

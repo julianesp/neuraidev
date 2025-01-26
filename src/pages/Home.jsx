@@ -5,25 +5,13 @@ import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import ImageSlider from "../containers/ImageSlider.js";
 import ProductList from "@/containers/ProductList.jsx";
-import ProductItem from "@/components/ProductItem";
+import ProductItem from "@/components/ProductItem_original";
 
-import accesorios from "../../public/accesories.json";
-
+const API = "/accesories.json";
+const API_CELULARES = "/celulares.json";
+const API_COMPUTADORES = "/computadores.json";
 
 const Inicio = () => {
-  async function getAccesorios() {
-    // Simulamos una llamada a API
-    return [
-      {
-        id: "1",
-        imagenes: ["/images/1.jpg"],
-        titulo: "Collar de Plata",
-        descripcion: "Hermoso collar de plata con diseño elegante",
-        precio: 99.99,
-      },
-    ];
-  }
-  const accesories = getAccesorios();
   // Solution for hydratation errors
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
@@ -54,10 +42,15 @@ const Inicio = () => {
       </Head>
       <main className={styles.container}>
         <section className={` ${styles.presentation}`}>
-          <ImageSlider
-            imagePaths={imagePath}
-            enableTransition={true}
-          />
+          <ImageSlider imagePaths={imagePath} enableTransition={true} />
+        </section>
+
+        <section>
+          <h1 className="text-3xl font-bold mb-6">
+            Nuestros Productos Destacados
+          </h1>
+          <ProductList API={API} maxImages={1}/>
+          <ProductList API={API_CELULARES} maxImages={1} />
         </section>
 
         <section className={styles.tratamientos}>
@@ -84,6 +77,8 @@ const Inicio = () => {
               imagePaths={imagePath}
               enableTransition={false}
             />
+
+            <ProductList API={API_CELULARES } />
 
             <Link href="#">Ver más</Link>
           </article>
@@ -112,10 +107,11 @@ const Inicio = () => {
 
         <section className={styles.aleatorio}>
           <article>
-            <ProductList />
-            {/* <TemplateAccesorie /> */}
+            <ProductList API={API} maxImages={1} />
+          </article>
 
-            
+          <article>
+            <ProductList API={API_COMPUTADORES} maxImages={1} />
           </article>
         </section>
       </main>

@@ -67,48 +67,27 @@ const Profile = () => {
         <div className={styles.study}>
           <h2>Descripción personal</h2>
 
+          <p>Hola! 😉</p>
           <p>
-            {/* Soy técnico en sistemas con más de 5 años de experiencia 🪛🖥️. */}
-            <br />
-            {/* Especialista en instalación de programas. */}
+            Apasionado por la lectura, los paseos tranquilos y la música,
+            especialmente el hard rock. Disfruto tocar la guitarra  y, aunque disfrutaba correr, ahora valoro el ritmo pausado
+            de la vida caminando.
           </p>
 
           <div className={styles.study__container}>
             <div className={styles["study--areas"]}>
               <p id="titulo">Técnico sistemas</p>
               <p id="logo">SENA</p>
-              {/* <button className={styles["image-button"]} onClick={toggleImage}>
-                Ver
-              </button>
-              {showImage && (
-                <div className="image-modal">
-                  <Image src={tecni} alt="Imagen" priority />
-                  <button
-                    className={styles["image-button--cerrar"]}
-                    onClick={closeImage}
-                  >
-                    X
-                  </button>
-                </div>
-              )} */}
             </div>
+
             <div className={styles["study--areas"]}>
               <p id="titulo">Tecnólogo ADSI</p>
               <p>SENA</p>
-              {/* <button className={styles["image-button"]} onClick={toggleImage1}>
-                Ver
-              </button>
-              {showImage1 && (
-                <div className="image-modal">
-                  <Image src={tecno} alt="Imagen" priority />
-                  <button
-                    className={styles["image-button--cerrar"]}
-                    onClick={closeImage2}
-                  >
-                    X
-                  </button>
-                </div>
-              )} */}
+            </div>
+
+            <div className={styles["study--areas"]}>
+              <p id="titulo">Ingeniero de software</p>
+              <p>Ibero</p>
             </div>
           </div>
         </div>
