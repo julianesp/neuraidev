@@ -9,7 +9,7 @@ import ProductItem from "@/components/ProductItem_original";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
-const API_COMPUTADORES = "/computadores.json";
+const API_COMPUTADORES = "/computers.json";
 
 const Inicio = () => {
   // Solution for hydratation errors
@@ -45,11 +45,12 @@ const Inicio = () => {
           <ImageSlider imagePaths={imagePath} enableTransition={true} />
         </section>
 
-        <section>
+        <section className={styles.aleatorio}>
           <h1 className="text-3xl font-bold mb-6">
             Nuestros Productos Destacados
           </h1>
-          <ProductList API={API} maxImages={1}/>
+          <ProductList API={API} maxImages={1} />
+          <ProductList API={API} maxImages={1} />
           <ProductList API={API_CELULARES} maxImages={1} />
         </section>
 
@@ -77,17 +78,18 @@ const Inicio = () => {
               imagePaths={imagePath}
               enableTransition={false}
             />
-
-            <ProductList API={API_CELULARES } />
-
             <Link href="#">Ver más</Link>
+
+            {/* <ProductList API={API_CELULARES} maxImages={1}/> */}
           </article>
 
           <article className={styles.tipo}>
             <h2>Accesorios computador</h2>
-            <ImageSlider imagePaths={imagePath} enableTransition={false} />
+            {/* <ImageSlider imagePaths={imagePath} enableTransition={false} />
 
-            <Link href="#">Ver más</Link>
+            <Link href="#">Ver más</Link> */}
+
+            <ProductList API={API_COMPUTADORES} maxImages={1} />
           </article>
 
           <article className={styles.tipo}>
