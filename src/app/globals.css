@@ -1,3 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    z-index: 1;
+    font-family: 'Lato', sans-serif;
+
+    /* margin-top: 63px; */
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    padding: 0;
+
+    box-sizing: content-box;
+
+    height: 100%;
+
+
+
+    /* background-color: rgba(133, 102, 48, 0.25);
+    border: 1px solid rgba(222, 185, 121, 0.2);
+    border-radius: 20px; */
+    /* box-shadow: 5px 5px 10px rgb(222, 185, 121); */
+}
