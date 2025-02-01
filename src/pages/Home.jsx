@@ -137,7 +137,7 @@ const Inicio = () => {
             </article>
           </section>
 
-          <section>
+          <section >
             <p>
               agregando informacion agregando informacionagregando
               informacionagregando informacionagregando informacionagregando
