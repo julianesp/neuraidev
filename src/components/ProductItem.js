@@ -82,7 +82,7 @@ const ProductItem = ({ product, maxImages }) => {
       <p>{product.title}</p>
       <p>${product.price}</p>
 
-      <Link href={`/products/${product.id}`}>Ver</Link>
+      <Link href={`/products/${product.id}`} className="btn glass" >Ver</Link>
 
       {images.length > 1 && (
         <div className={styles.thumbnails}>
