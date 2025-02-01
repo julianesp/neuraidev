@@ -46,11 +46,23 @@ const Inicio = () => {
         </section>
 
         <section className={styles.aleatorio}>
-          <h1 className="text-3xl font-bold mb-6">
+          <h1 className="text-2xl font-bold mb-6">Accesorios en aleatorio</h1>
+          <ProductList API={API} maxImages={1} />
+        </section>
+
+        <section className={styles.aleatorio}>
+          <h1 className="text-2xl font-bold mb-6">
             Nuestros Productos Destacados
           </h1>
+
           <ProductList API={API} maxImages={1} />
-          <ProductList API={API} maxImages={1} />
+        </section>
+
+        <section className={styles.aleatorio}>
+          <h1 className="text-2xl font-bold mb-6">
+            Nuestros Productos Destacados
+          </h1>
+
           <ProductList API={API_CELULARES} maxImages={1} />
         </section>
 
@@ -71,47 +83,96 @@ const Inicio = () => {
         </section>
 
         <section className={`${styles.accesorios}`}>
-          <article className={styles.tipo}>
-            <h2>Accesorios celulares</h2>
-            <ImageSlider
-              className={styles.slider}
-              imagePaths={imagePath}
-              enableTransition={false}
-            />
-            <Link href="#">Ver más</Link>
+          <section>
+            <article className={styles.tipo}>
+              <h2>Accesorios celulares</h2>
+              <h1>Colocar aqui a lado otra seccion con otra informacion</h1>
+              <ImageSlider
+                className={styles.slider}
+                imagePaths={imagePath}
+                enableTransition={false}
+              />
+              <Link href="#">Ver más</Link>
 
-            {/* <ProductList API={API_CELULARES} maxImages={1}/> */}
-          </article>
+              {/* <ProductList API={API_CELULARES} maxImages={1}/> */}
+            </article>
 
-          <article className={styles.tipo}>
-            <h2>Accesorios computador</h2>
-            {/* <ImageSlider imagePaths={imagePath} enableTransition={false} />
+            <article className={styles.tipo}>
+              <h2>Accesorios celulares</h2>
+              <h1>Colocar aqui a lado otra seccion con otra informacion</h1>
+              <ImageSlider
+                className={styles.slider}
+                imagePaths={imagePath}
+                enableTransition={false}
+              />
+              <Link href="#">Ver más</Link>
 
-            <Link href="#">Ver más</Link> */}
+              {/* <ProductList API={API_CELULARES} maxImages={1}/> */}
+            </article>
 
-            <ProductList API={API_COMPUTADORES} maxImages={1} />
-          </article>
+            <article className={styles.tipo}>
+              <h2>Accesorios celulares</h2>
+              <h1>Colocar aqui a lado otra seccion con otra informacion</h1>
+              <ImageSlider
+                className={styles.slider}
+                imagePaths={imagePath}
+                enableTransition={false}
+              />
+              <Link href="#">Ver más</Link>
 
-          <article className={styles.tipo}>
-            <h2>Accesorios damas</h2>
-            <ImageSlider imagePaths={imagePath} enableTransition={false} />
+              {/* <ProductList API={API_CELULARES} maxImages={1}/> */}
+            </article>
 
-            <Link href="#">Ver más</Link>
-          </article>
+            <article className={styles.tipo}>
+              <h2>Accesorios celulares</h2>
+              <h1>Colocar aqui a lado otra seccion con otra informacion</h1>
+              <ImageSlider
+                className={styles.slider}
+                imagePaths={imagePath}
+                enableTransition={false}
+              />
+              <Link href="#">Ver más</Link>
 
-          <article className={styles.tipo}>
-            <h2>Accesorios varios</h2>
-            <ImageSlider imagePaths={imagePath} enableTransition={false} />
+              {/* <ProductList API={API_CELULARES} maxImages={1}/> */}
+            </article>
+          </section>
 
-            <Link href="#">Ver más</Link>
-          </article>
+          <section>
+            <p>
+              agregando informacion agregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacionagregando informacionagregando informacionagregando
+              informacion
+            </p>
+          </section>
         </section>
 
         <section className={styles.aleatorio}>
           <article>
             <ProductList API={API} maxImages={1} />
           </article>
+        </section>
 
+        <section className={styles.aleatorio}>
           <article>
             <ProductList API={API_COMPUTADORES} maxImages={1} />
           </article>

@@ -7,12 +7,13 @@
   flex-direction: column;
   align-items: center;
 
-  margin-top: 50px;
+  margin-top: 20px;
   padding-top: 10px;
-  padding-bottom: 10px;
+  // padding-bottom: 10px;
 
   width: 100dvw;
   // height: 100%;
+  // left: -10px;
 
   background-color: rgba(48, 100, 204, 0.9);
   border-top-left-radius: 15px;
@@ -185,6 +186,8 @@
       ". externo .";
 
     justify-items: center;
+
+    width: 100%;
   }
 
   .footer .description {

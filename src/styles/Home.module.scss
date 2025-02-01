@@ -14,7 +14,7 @@
   border-radius: 20px;
 
   & .presentation {
-    // position: relative;
+    position: relative;
 
     display: flex;
     justify-content: center;
@@ -91,7 +91,6 @@
     padding: 10px;
 
     & .tipo {
-      position: relative;
       @include border_dark;
       /* Mostrar los artículos en línea */
       // display: inline-block;
@@ -116,8 +115,6 @@
       }
 
       & h2 {
-        position: absolute;
-
         top: -10px;
 
         width: calc(100% - 50px);
@@ -196,13 +193,25 @@
   right: 0;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
   .container .tratamientos .area a {
     cursor: pointer;
     transition: all 0.5s ease-out;
 
     &:hover {
       transform: scale(0.95);
+    }
+  }
+
+  .container {
+    & .accesorios {
+      display: grid;
+      justify-content: center;
+
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+
+      width: 600px;
     }
   }
 }
