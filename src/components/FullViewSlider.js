@@ -4,14 +4,26 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useSlider from "@/hooks/useSlider";
+import Image from "next/image";
+import styles from "@/styles/FullViewSlider.module.scss";
 
 export default function FullViewportSlider({ slides }) {
   const { currentSlide, goToNextSlide, goToPrevSlide, resetTimer } = useSlider(
     slides.length,
   );
 
+  // Comprobación de seguridad para asegurarnos de que slides[currentSlide] existe
+  const currentSlideData = slides[currentSlide] || {};
+  const {
+    images = [],
+    title = "",
+    description = "",
+    price = "",
+    id = "",
+  } = currentSlideData;
+
   return (
-    <div className="relative h-full w-full">
+    <div className={`${styles.container} relative h-full w-full`}>
       <AnimatePresence initial={false}>
         <motion.div
           key={currentSlide}
@@ -21,19 +33,23 @@ export default function FullViewportSlider({ slides }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <img
-            src={slides[currentSlide].image || "/placeholder.svg"}
-            alt={slides[currentSlide].title}
-            className="h-full w-full object-cover"
+          <Image
+            src={images[0] || "/placeholder.svg"}
+            alt={title}
+            layout="fill"
+            objectFit="cover"
+            priority
           />
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
             <div className="text-center">
-              <h2 className="text-4xl font-bold text-white mb-4">
-                {slides[currentSlide].title}
-              </h2>
+              <h2 className="text-4xl font-bold text-white mb-4">{title}</h2>
+              <p className="text-xl text-white mb-4">{description}</p>
+              <p className="text-2xl font-bold text-white mb-6">
+                Precio: ${price}
+              </p>
               <Button asChild>
-                <a href={slides[currentSlide].link} className="text-lg">
-                  Learn More
+                <a href={`/product/${id}`} className="text-lg">
+                  Ver Detalles
                 </a>
               </Button>
             </div>

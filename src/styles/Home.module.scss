@@ -194,39 +194,45 @@
 }
 
 @media screen and (min-width: 1024px) {
-  // .container .tratamientos .area a {
-  //   cursor: pointer;
-  //   transition: all 0.5s ease-out;
-
-  //   &:hover {
-  //     transform: scale(0.95);
-  //   }
-  // }
-
   .container {
     display: grid;
-    grid-template-areas: "presentacion presentacion", "categorias aleatorio",
+    grid-template-areas: "presentacion presentacion", "categorias categorias",
       "servicios servicios";
-    
+
+    margin-top: 56px;
 
     & .presentation {
       grid-area: presentacion;
+      grid-row: 1;
+
+      margin-top: 0;
+
+      width: 100%;
+
+      border: 1px solid #000;
     }
 
-    // & .accesorios {
-    //   & .varios {
-    //     grid-area: categorias;
-    //   }
+    & .accesorios {
+      grid-area: categorias;
+      grid-row: 2;
 
-    //   & .several {
-    //     grid-area: aleatorio;
-    //   }
-      
-    // }
+      display: grid;
 
-    // & .tratamientos {
-    //   grid-area: servicios;
-    // }
+      grid-template-columns: 1.5fr 1fr;
+
+      & .varios {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+
+    & .tratamientos {
+      grid-area: servicios;
+      grid-row: 3;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
 
     // & .presentation {
     //   width: 1000px;

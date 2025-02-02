@@ -41,33 +41,8 @@ const Inicio = () => {
       <main className={styles.container}>
         <section className={` ${styles.presentation}`}>
           {/* <ImageSlider imagePaths={imagePath} enableTransition={true} /> */}
-          <FullViewportSlider slides={API}/>
+          <FullViewportSlider slides={API} />
         </section>
-
-        {/* <section
-          className={styles.aleatorio}
-          class="glass"
-          data-theme="cupcake"
-        >
-          <h1 className="text-2xl font-bold mb-6">Accesorios en aleatorio</h1>
-          <ProductList API={API} maxImages={1} />
-        </section> */}
-
-        {/* <section className={styles.aleatorio}>
-          <h1 className="text-2xl font-bold mb-6">
-            Nuestros Productos Destacados
-          </h1>
-
-          <ProductList API={API} maxImages={1} />
-        </section>
-
-        <section className={styles.aleatorio}>
-          <h1 className="text-2xl font-bold mb-6">
-            Nuestros Productos Destacados
-          </h1>
-
-          <ProductList API={API_CELULARES} maxImages={1} />
-        </section> */}
 
         <section className={`${styles.accesorios}`}>
           <section className={styles.varios}>
@@ -135,7 +110,10 @@ const Inicio = () => {
 
             <Link href="/Services">Ver más</Link>
           </section>
-          {/* <Services /> */}
+
+          <section className={styles.area}>
+            <p>Espacio para mostrar imagenes</p>
+          </section>
         </section>
 
         {/* <section className={styles.aleatorio}>
