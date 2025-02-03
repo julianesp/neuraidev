@@ -35,7 +35,7 @@ const Procedimientos = ({ imagePaths, enableTransition = true }) => {
         alt="Slide"
         width={300}
         height={290}
-        priority={true}
+        priority={true} 
       />
 
       <div className={styles.buttonContainer}>

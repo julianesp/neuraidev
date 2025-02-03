@@ -5,10 +5,10 @@
 @tailwind utilities;
 
 body {
-    z-index: 1;
+
     font-family: 'Lato', sans-serif;
 
-    /* margin-top: 63px; */
+
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 20px;
@@ -20,8 +20,5 @@ body {
 
 
 
-    /* background-color: rgba(133, 102, 48, 0.25);
-    border: 1px solid rgba(222, 185, 121, 0.2);
-    border-radius: 20px; */
-    /* box-shadow: 5px 5px 10px rgb(222, 185, 121); */
+
 }

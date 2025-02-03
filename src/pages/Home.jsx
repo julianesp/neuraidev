@@ -41,7 +41,7 @@ const Inicio = () => {
       <main className={styles.container}>
         <section className={` ${styles.presentation}`}>
           {/* <ImageSlider imagePaths={imagePath} enableTransition={true} /> */}
-          <FullViewportSlider slides={API} />
+          <FullViewportSlider slides={API_CELULARES} />
         </section>
 
         <section className={`${styles.accesorios}`}>
