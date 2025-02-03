@@ -93,7 +93,15 @@ const Inicio = () => {
           </section>
 
           <section className={styles.several}>
-            <ProductList API={API_CELULARES} maxImages={1} />
+            <div className={styles.titulo}>
+              <h2>Varios</h2>
+            </div>
+            {/* colocar display grid para repartir lugares  */}
+            {/* crear clases para cada una */}
+
+            <div className={styles.api}>
+              <ProductList API={API_CELULARES} maxImages={1} />
+            </div>
           </section>
         </section>
 

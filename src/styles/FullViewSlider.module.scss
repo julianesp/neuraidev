@@ -1,13 +1,25 @@
 @import "./mixins.scss";
-.container {
-  height: 91vh;
 
-  & .boton {
-    @include contraer;
-    @include border_white;
-    position: absolute;
-    bottom: 10px;
-    
-    font-size: 20px;
+.container {
+    height: 50vh;
+
+    & .boton {
+        position: absolute;
+        bottom: 10px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+  .container {
+    height: 91vh;
+
+    & .boton {
+      @include contraer;
+      @include border_white;
+      position: absolute;
+      bottom: 10px;
+
+      font-size: 20px;
+    }
   }
 }
