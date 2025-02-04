@@ -1,12 +1,12 @@
 @import "./mixins.scss";
 
 .container {
-    height: 50vh;
+  height: 50vh;
 
-    & .boton {
-        position: absolute;
-        bottom: 10px;
-    }
+  & .boton {
+    position: absolute;
+    bottom: 10px;
+  }
 }
 
 @media screen and (min-width: 1024px) {
@@ -14,7 +14,7 @@
     height: 91vh;
 
     & .boton {
-      @include contraer;
+      @include expandir;
       @include border_white;
       position: absolute;
       bottom: 10px;

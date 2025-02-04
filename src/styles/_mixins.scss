@@ -93,6 +93,18 @@
 
   color: #fff;
 }
+@mixin header_h2 {
+  @include border_dark();
+
+  margin: 0 auto;
+
+  text-align: center;
+  font-size: 1.1rem;
+
+  background-color: #000;
+
+  color: #fff;
+}
 
 @mixin contraer {
   transition: 0.3s ease-out all;
@@ -100,6 +112,15 @@
   &:hover {
     transition: 0.3s ease-out all;
     transform: scale(0.95);
+  }
+}
+
+@mixin expandir {
+  transition: 0.3s ease-out all;
+
+  &:hover {
+    transition: 0.3s ease-out all;
+    transform: scale(1.25);
   }
 }
 

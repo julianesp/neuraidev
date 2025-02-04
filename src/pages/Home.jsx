@@ -11,6 +11,7 @@ import FullViewportSlider from "@/components/FullViewSlider";
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
+const API_PRESENTATION = "/presentation.json";
 
 const Inicio = () => {
   // Solution for hydratation errors
@@ -41,7 +42,7 @@ const Inicio = () => {
       <main className={styles.container}>
         <section className={` ${styles.presentation}`}>
           {/* <ImageSlider imagePaths={imagePath} enableTransition={true} /> */}
-          <FullViewportSlider slides={API_CELULARES} />
+          <FullViewportSlider slides={API_PRESENTATION} />
         </section>
 
         <section className={`${styles.accesorios}`}>
@@ -53,42 +54,46 @@ const Inicio = () => {
                 imagePaths={imagePath}
                 enableTransition={false}
               />
-              <Link href="#">Ver más</Link>
-
-              {/* <ProductList API={API_CELULARES} maxImages={1}/> */}
+              <Link href="#">
+                <p>Ver más</p>
+              </Link>
             </article>
             <article className={styles.tipo}>
-              <h2>Accesorios celulares</h2>
+              <h2>Accesorios computador</h2>
               <ImageSlider
                 className={styles.slider}
                 imagePaths={imagePath}
                 enableTransition={false}
               />
               <Link href="#">Ver más</Link>
-
-              {/* <ProductList API={API_CELULARES} maxImages={1}/> */}
             </article>
             <article className={styles.tipo}>
-              <h2>Accesorios celulares</h2>
+              <h2>Accesorios damas</h2>
               <ImageSlider
                 className={styles.slider}
                 imagePaths={imagePath}
                 enableTransition={false}
               />
               <Link href="#">Ver más</Link>
-
-              {/* <ProductList API={API_CELULARES} maxImages={1}/> */}
             </article>
             <article className={styles.tipo}>
-              <h2>Accesorios celulares</h2>
+              <h2>Libros nuevos</h2>
               <ImageSlider
                 className={styles.slider}
                 imagePaths={imagePath}
                 enableTransition={false}
               />
               <Link href="#">Ver más</Link>
+            </article>
 
-              {/* <ProductList API={API_CELULARES} maxImages={1}/> */}
+            <article className={styles.tipo}>
+              <h2>Libros usados</h2>
+              <ImageSlider
+                className={styles.slider}
+                imagePaths={imagePath}
+                enableTransition={false}
+              />
+              <Link href="#">Ver más</Link>
             </article>
           </section>
 
