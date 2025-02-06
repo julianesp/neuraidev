@@ -5,6 +5,7 @@ const nextConfig = {
   swcMinify: true,
 
   images: {
+    domains: ["www.pexels.com"],
     remotePatterns: [
       {
         protocol: "https",
@@ -13,6 +14,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "pixabay.com",
+      },
+      {
+        protocol: "https",
+        hostname: "pexels.com",
       },
       {
         protocol: "https",

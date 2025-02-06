@@ -14,10 +14,20 @@ const API_COMPUTADORES = "/computers.json";
 const API_PRESENTATION = "/presentation.json";
 
 const Inicio = () => {
-  // Solution for hydratation errors
+  const [presentationSlides, setPresentationSlides] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // Solution for hydratation errors
   useEffect(() => {
     setIsLoaded(true);
+
+    // Cargar los datos de presentación
+    fetch(API_PRESENTATION)
+      .then((response) => response.json())
+      .then((data) => setPresentationSlides(data))
+      .catch((error) =>
+        console.error("Error loading presentation data:", error),
+      );
   }, []);
   if (!isLoaded) return null;
 
@@ -43,6 +53,10 @@ const Inicio = () => {
         <section className={` ${styles.presentation}`}>
           {/* <ImageSlider imagePaths={imagePath} enableTransition={true} /> */}
           <FullViewportSlider slides={API_PRESENTATION} />
+
+          {/* {presentationSlides.length > 0 && (
+            <FullViewportSlider slides={presentationSlides} />
+          )} */}
         </section>
 
         <section className={`${styles.accesorios}`}>
