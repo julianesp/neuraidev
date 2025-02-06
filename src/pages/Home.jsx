@@ -7,29 +7,59 @@ import ImageSlider from "../containers/ImageSlider.js";
 import ProductList from "@/containers/ProductList.jsx";
 import ProductItem from "@/components/ProductItem_original";
 import FullViewportSlider from "@/components/FullViewSlider";
+import CarouselDemo from "@/components/CarouselDemo";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_PRESENTATION = "/presentation.json";
+const images = "/celulares.json";
 
 const Inicio = () => {
   const [presentationSlides, setPresentationSlides] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // Carousel
+  const [data, setData] = useState([]);
 
   // Solution for hydratation errors
   useEffect(() => {
     setIsLoaded(true);
 
     // Cargar los datos de presentación
-    fetch(API_PRESENTATION)
+    // fetch(API_PRESENTATION)
+    //   .then((response) => response.json())
+    //   .then((data) => setPresentationSlides(data))
+    //   .catch((error) =>
+    //     console.error("Error loading presentation data:", error),
+    //   );
+    fetch("/accesories.json")
       .then((response) => response.json())
-      .then((data) => setPresentationSlides(data))
-      .catch((error) =>
-        console.error("Error loading presentation data:", error),
-      );
+      .then((products) => {
+        const normalizedData = products.map((product) => ({
+          ...product,
+          images: Array.isArray(product.images)
+            ? product.images
+            : [product.images],
+        }));
+        setData(normalizedData);
+      });
   }, []);
   if (!isLoaded) return null;
+
+  // useEffect(() => {
+  //   fetch("/path-to-your-json/data.json")
+  //     .then((response) => response.json())
+  //     .then((products) => {
+  //       const normalizedData = products.map((product) => ({
+  //         ...product,
+  //         images: Array.isArray(product.images)
+  //           ? product.images
+  //           : [product.images],
+  //       }));
+  //       setData(normalizedData);
+  //     });
+  // }, []);
 
   const accesorios = [
     {
@@ -51,12 +81,10 @@ const Inicio = () => {
       </Head>
       <main className={styles.container}>
         <section className={` ${styles.presentation}`}>
-          {/* <ImageSlider imagePaths={imagePath} enableTransition={true} /> */}
-          <FullViewportSlider slides={API_PRESENTATION} />
-
-          {/* {presentationSlides.length > 0 && (
-            <FullViewportSlider slides={presentationSlides} />
-          )} */}
+          {/* <Carousel enableTransition={true}/>
+           */}
+          <CarouselDemo apiUrl={API_CELULARES} />
+          {/* <Carousel apiUrl={API_CELULARES}/> */}
         </section>
 
         <section className={`${styles.accesorios}`}>

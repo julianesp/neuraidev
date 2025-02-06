@@ -5,7 +5,7 @@ const nextConfig = {
   swcMinify: true,
 
   images: {
-    domains: ["www.pexels.com"],
+    // domains: ["www.pexels.com"],
     remotePatterns: [
       {
         protocol: "https",

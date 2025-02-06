@@ -90,8 +90,6 @@
     white-space: nowrap;
     padding: 10px;
 
-    
-
     h2 {
       @include header_h2;
       @include contraer;
@@ -106,7 +104,6 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      
 
       & .titulo {
         @include header_h1;
@@ -144,7 +141,6 @@
     margin-top: 20px;
     padding: 15px 0;
     // height: 100%;
-    
 
     & h1 {
       @include header_h1;
@@ -205,9 +201,15 @@
 
       margin-top: 0;
 
-      width: 100%;
-
       border: 1px solid #000;
+
+      width: 100vw;
+
+      .carrusel > {
+        img {
+          width: 100vw;
+        }
+      }
     }
 
     & .accesorios {
