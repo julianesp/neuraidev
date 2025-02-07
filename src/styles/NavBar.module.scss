@@ -1,3 +1,5 @@
+@import "./mixins";
+
 .container {
   z-index: 100;
 
@@ -6,24 +8,17 @@
   display: flex;
   justify-content: space-between;
 
-  padding: 0;
-  margin-top: 5px;
+  // padding: 0;
+  // margin-top: 0px;
 
   width: 99vw;
   height: 55px;
 
   top: 0px;
-  left: 0px;
+  // left: 0px;
 
   border: 1px solid #fff;
   border-radius: 30px;
-
-  // border-top-left-radius: 0px;
-  // border-top-right-radius: 0px;
-  // border-end-end-radius: 30px;
-  // border-end-start-radius: 30px;
-
-  // background-color: rgba(24, 28, 36, 0.6);
   background-color: rgba(133, 102, 48, 0.25);
 
   backdrop-filter: blur(5px);
@@ -47,6 +42,7 @@
 }
 
 .container .container__principal .enlaces__logo {
+  // filter: blur(5px);
   border-radius: 50%;
 }
 
@@ -67,17 +63,17 @@
   margin-top: 50px;
 
   top: 60%;
-  left: -300px;
+  left: -490px;
 
   height: 50vh;
   width: 200px;
 
-  border-radius: 20px;
+  border-radius: 10px;
 
   /* background-color: rgba(255, 255, 255, 0.9); */
 
-  background-color: rgba(24, 28, 36, 0.9);
-
+  // background-color: rgba(24, 28, 36, 0.9);
+  background-color: rgba(133, 102, 48, 0.9);
   /* backdrop-filter: blur(4px); */
 }
 
@@ -90,47 +86,41 @@
   height: 350px;
 
   transition: 0.3s ease-in all;
-  /* filter: blur(5px); */
 
-  animation-name: showMenuBurger;
-  animation-duration: 0.5s;
-
-  /* filter: blur(4px); */
   padding-left: 0;
-  /* margin-top: 50px; */
 }
 
-@keyframes showMenuBurger {
-  from {
-    transform: translateX(-200px);
-  }
+// @keyframes showMenuBurger {
+//   from {
+//     transform: translateX(-200px);
+//   }
 
-  to {
-    transform: translateX(0);
-  }
-}
+//   to {
+//     transform: translateX(0);
+//   }
+// }
 
 .container .enlaces__menu.closed {
-  position: absolute;
+  // position: absolute;
 
   display: flex;
 
-  /* right: -300px; */
+  right: -200px;
 
-  transition: 0.5s ease-out;
+  // transition: 0.5s ease-out;
 
-  animation-name: hiddenMenuBurger;
-  animation-duration: 0.5s;
+  // animation-name: hiddenMenuBurger;
+  // animation-duration: 0.5s;
 }
 
-@keyframes hiddenMenuBurger {
-  from {
-    transform: translateX(0px);
-  }
-  to {
-    transform: translateX(-200px);
-  }
-}
+// @keyframes hiddenMenuBurger {
+//   from {
+//     transform: translateX(0px);
+//   }
+//   to {
+//     transform: translateX(-200px);
+//   }
+// }
 
 .container .enlaces__menu a {
   display: flex;
@@ -152,9 +142,6 @@
   margin-bottom: 15px;
 }
 
-.container .enlaces__menu a:hover {
-}
-
 .container .circle {
   display: flex;
   align-items: center;
@@ -173,7 +160,7 @@
   height: 4rem;
 
   border: 0;
-  background: transparent;
+  // background: transparent;
   gap: 0.34rem;
 }
 
@@ -183,19 +170,19 @@
   height: 3px;
   width: 50%;
   /* border-radius: 5px; */
-  transition: all 0.5s;
-  transform-origin: left;
+  // transition: all 0.5s;
+  // transform-origin: left;
 }
 
 .container .circle button:hover div:first-child {
-  transform: rotate(44deg);
+  // transform: rotate(44deg);
 }
 .container .circle button:hover div:nth-child(2) {
-  opacity: 0;
+  // opacity: 0;
 }
 
 .container .circle button:hover div:last-child {
-  transform: rotate(-44deg);
+  // transform: rotate(-44deg);
 }
 
 /* screens responsives */

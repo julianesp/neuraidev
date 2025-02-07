@@ -6,6 +6,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/NavBar.module.scss";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
@@ -54,6 +55,10 @@ const NavBar = () => {
           <span></span>
           <span></span>
         </button>
+      </div>
+
+      <div>
+        <ThemeSwitcher />
       </div>
 
       <menu

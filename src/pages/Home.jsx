@@ -79,7 +79,9 @@ const Inicio = () => {
         <link rel="icon" href="/favicon.ico" />
         <meta content="Página de inicio" />
       </Head>
-      <main className={styles.container}>
+      <main
+        className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}
+      >
         <section className={` ${styles.presentation}`}>
           {/* <Carousel enableTransition={true}/>
            */}
@@ -96,9 +98,7 @@ const Inicio = () => {
                 imagePaths={imagePath}
                 enableTransition={false}
               />
-              <Link href="#">
-                <p>Ver más</p>
-              </Link>
+              <Link href="#">Ver más</Link>
             </article>
             <article className={styles.tipo}>
               <h2>Accesorios computador</h2>

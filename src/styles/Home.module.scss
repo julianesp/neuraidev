@@ -220,15 +220,24 @@
 
       display: grid;
 
-      grid-template-columns: 1.5fr 1fr;
+      grid-template-columns: 1fr 1fr;
+
+      margin-left: 80px;
+      margin-right: 80px;
 
       & .varios {
         display: flex;
         flex-wrap: wrap;
+        // width: 600px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       & .several {
         // display: flex;
+        margin-right: 80px;
       }
     }
 
@@ -239,22 +248,5 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
     }
-
-    // & .presentation {
-    //   width: 1000px;
-    // }
-    // & .accesorios {
-    //   & .varios {
-    //     display: grid;
-    //     justify-content: center;
-
-    //     grid-template-columns: 2fr .5fr;
-    //     grid-template-rows: 1fr;
-
-    //     // width: 600px;
-
-    //     border: 1px solid #000;
-    //   }
-    // }
   }
 }
