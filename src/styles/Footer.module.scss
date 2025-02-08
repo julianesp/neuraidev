@@ -2,6 +2,8 @@
 
 .footer {
   position: relative;
+  // position: sticky;
+
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
@@ -9,9 +11,25 @@
   margin-top: 20px;
   padding-top: 10px;
   bottom: 0;
-  background-color: rgba(48, 100, 204, 0.9);
+  background-color: rgba(48, 100, 204, 0.45);
+  // background-color: rgba(133, 102, 48, 0.25);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  border: 1px solid #fff;
+
+  backdrop-filter: blur(5px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    filter: blur(5px);
+    z-index: -1;
+  }
 
   .flecha {
     position: fixed;
@@ -33,15 +51,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    margin-bottom: 50px;
     vertical-align: middle;
+
     width: calc(100% - 30px);
     height: 30px;
     background-color: #fff;
     border-radius: 20px;
 
-    p {
+    box-shadow: 10px 15px 15px #222121;
+
+    h3 {
       color: #000;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
     }
   }
 

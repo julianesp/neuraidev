@@ -10,11 +10,14 @@ import wha from "../../public/assets/redes/whatsapp.png";
 import arrow from "../../public/next.png";
 import Politicas from "@/pages/Politicas";
 import styles from "../styles/Footer.module.scss";
+import nav from "@/containers/NavBar";
 
 const Contacto = () => {
   const [menuOption, setMenuOptions] = useState(false);
   const menuRef = useRef(null);
   const flechaRef = useRef(null);
+
+  const [isAtBottom, setIsAtBottom] = useState(false);
 
   const switchOptions = () => {
     setMenuOptions(!menuOption);
@@ -22,6 +25,16 @@ const Contacto = () => {
 
   // Función para cerrar el menú cuando se hace clic fuera
   useEffect(() => {
+    // boton ocultar footer
+    const handleScroll = () => {
+      const isBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight;
+      setIsAtBottom(isBottom);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+
     const handleClickOutside = (event) => {
       if (
         menuRef.current &&
@@ -31,6 +44,11 @@ const Contacto = () => {
       ) {
         setMenuOptions(false); // Oculta las redes sociales si haces clic fuera
       }
+    };
+
+    // Función para hacer scroll al footer
+    const scrollToFooter = () => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     };
 
     // Detectar clics en toda la ventana
@@ -55,7 +73,7 @@ const Contacto = () => {
       </article>
 
       <article className={styles.description}>
-        <p>neurai.dev</p>
+        <h3>neurai.dev</h3>
       </article>
 
       <article className={styles.information}>

@@ -9,12 +9,6 @@ export default function RootLayout({ children }) {
     <React.Fragment>
       <html>
         <body>
-          {/* <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          /> */}
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
           </ThemeProvider>

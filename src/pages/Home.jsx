@@ -5,9 +5,8 @@ import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import ImageSlider from "../containers/ImageSlider.js";
 import ProductList from "@/containers/ProductList.jsx";
-import ProductItem from "@/components/ProductItem_original";
-import FullViewportSlider from "@/components/FullViewSlider";
 import CarouselDemo from "@/components/CarouselDemo";
+import ParticlesComponent from "@/components/Particles";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
@@ -90,6 +89,12 @@ const Inicio = () => {
         </section>
 
         <section className={`${styles.accesorios}`}>
+          {/* <ParticlesComponent id="Particles" className={styles.particles} /> */}
+
+          <div className={styles.particlesWrapper}>
+            {/* <ParticlesComponent id="Particles" /> */}
+          </div>
+
           <section className={styles.varios}>
             <article className={styles.tipo}>
               <h2>Accesorios celulares</h2>
