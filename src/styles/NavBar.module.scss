@@ -1,18 +1,18 @@
 @import "./mixins";
 
 .container {
-  // z-index: 100;
+  z-index: 100;
 
   position: fixed;
+  display: grid;
+  grid-template-areas: "logo . menunav";
+  grid-template-columns: 60px 1fr 60px;
+  grid-template-rows: 1fr;
 
-  display: flex;
-  justify-content: space-between;
+  align-items: center;
 
-  // padding: 0;
-  // margin-top: 0px;
-
-  width: 99vw;
-  height: 55px;
+  width: 100vw;
+  height: 45px;
 
   top: 0px;
   // left: 0px;
@@ -21,24 +21,31 @@
   border-radius: 30px;
   background-color: rgba(133, 102, 48, 0.25);
 
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0;
+
   backdrop-filter: blur(5px);
 }
 
-.container a {
-  left: 200px;
-  margin-left: 10px;
+.container .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-area: logo;
 }
 
 .container .container__principal {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  // justify-content: space-between;
+  // align-items: center;
 
-  margin: 0 0 0 3px;
+  grid-area: logo;
 
-  width: 40px;
-  height: 40px;
-  border: none;
+  // margin: 0 0 0 3px;
+
+  // width: 40px;
+  // height: 40px;
+  // border: none;
 }
 
 .container .container__principal .enlaces__logo {
@@ -147,7 +154,7 @@
   align-items: center;
   justify-content: center;
 
-  /* margin-right: 5px; */
+  grid-area: menunav;
 }
 
 .container .circle button {
@@ -157,7 +164,7 @@
   flex-direction: column;
 
   width: 4rem;
-  height: 4rem;
+  // height: 4rem;
 
   border: 0;
   // background: transparent;

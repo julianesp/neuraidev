@@ -36,18 +36,20 @@ const NavBar = () => {
   }, []);
 
   return (
-    <div className={`${styles.container}`} ref={menuRef}>
-      <Link href="/">
-        <div className={styles["container__principal"]}>
-          {/* <Logo /> */}
-          <Image
-            alt="Logo"
-            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=a3de913f-bf54-4804-812c-710efeeb25d6"
-            width={40}
-            height={40}
-          />
-        </div>
-      </Link>
+    <div className={styles.container} ref={menuRef}>
+      <div className={styles.logo}>
+        <Link href="/">
+          <div className={styles["container__principal"]}>
+            {/* <Logo /> */}
+            <Image
+              alt="Logo"
+              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=a3de913f-bf54-4804-812c-710efeeb25d6"
+              width={40}
+              height={40}
+            />
+          </div>
+        </Link>
+      </div>
 
       <div className={styles.circle} onClick={menuBurger}>
         <button>
@@ -57,9 +59,7 @@ const NavBar = () => {
         </button>
       </div>
 
-      <div>
-        <ThemeSwitcher />
-      </div>
+      <div>{/* <ThemeSwitch<er /> */}</div>
 
       <menu
         className={`${styles["enlaces__menu"]} ${

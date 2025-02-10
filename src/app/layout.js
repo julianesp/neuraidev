@@ -9,9 +9,9 @@ export default function RootLayout({ children }) {
     <React.Fragment>
       <html>
         <body>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
-          </ThemeProvider>
+          </ThemeProvider> */}
           <NavBar />
           {children}
           <Footer />

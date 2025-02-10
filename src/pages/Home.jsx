@@ -89,8 +89,6 @@ const Inicio = () => {
         </section>
 
         <section className={`${styles.accesorios}`}>
-          {/* <ParticlesComponent id="Particles" className={styles.particles} /> */}
-
           <div className={styles.particlesWrapper}>
             {/* <ParticlesComponent id="Particles" /> */}
           </div>
