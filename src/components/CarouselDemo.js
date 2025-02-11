@@ -69,6 +69,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Link from "next/link";
+import Image from "next/image";
 
 const CarouselDemo = ({ apiUrl, linkUrl }) => {
   const [images, setImages] = useState([]);
@@ -128,7 +129,7 @@ const CarouselDemo = ({ apiUrl, linkUrl }) => {
 
   return (
     <div>
-      <Carousel className="w-full max-w-xs">
+      <Carousel className=" max-w-xs relative w-screen">
         <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem
@@ -138,10 +139,12 @@ const CarouselDemo = ({ apiUrl, linkUrl }) => {
               <div className="p-1">
                 <Card>
                   <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <img
+                    <Image
                       src={image}
                       alt={`Accesorio ${index + 1}`}
                       className="w-full h-full object-cover"
+                      width={320}
+                      height={100}
                     />
                   </CardContent>
                 </Card>
@@ -150,14 +153,18 @@ const CarouselDemo = ({ apiUrl, linkUrl }) => {
           ))}
         </CarouselContent>
         <CarouselPrevious
+          className="absolute ml-14"
           onClick={() => handleUserInteraction(handlePrevious)}
         />
-        <CarouselNext onClick={() => handleUserInteraction(handleNext)} />
+        <CarouselNext
+          className="absolute mr-14"
+          onClick={() => handleUserInteraction(handleNext)}
+        />
       </Carousel>
 
       {/* Botón para abrir en nueva pestaña */}
       <div className="mt-4 text-center">
-        <Link 
+        <Link
           href="#"
           target="_blank"
           rel="noopener noreferrer"

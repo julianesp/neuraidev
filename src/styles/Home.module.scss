@@ -19,8 +19,9 @@
     display: flex;
     justify-content: center;
 
-    width: 95%;
-    margin-top: 15px;
+    width: 100vw;
+    // width: 95%;
+    // margin-top: 15px;
   }
 
   & .tratamientos {
@@ -202,7 +203,7 @@
     grid-template-areas: "presentacion presentacion", "categorias categorias",
       "servicios servicios";
 
-    margin-top: 56px;
+    margin: 0;
 
     & .presentation {
       animation: appear 0.9s;
