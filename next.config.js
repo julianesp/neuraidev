@@ -15,10 +15,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "pixabay.com",
       },
-      {
-        protocol: "https",
-        hostname: "pexels.com",
-      },
+      // {
+      //   protocol: "https",
+      //   hostname: "pexels.com",
+      // },
       {
         protocol: "https",
         hostname: "unsplash.com",

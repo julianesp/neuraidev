@@ -1,65 +1,5 @@
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import { Card, CardContent } from "@/components/ui/card";
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-// } from "@/components/ui/carousel";
-// import Image from "next/image";
-
-// export default function CarouselDemo({ apiUrl }) {
-//   const [images, setImages] = useState([]);
-
-//   useEffect(() => {
-//     if (!apiUrl) return;
-
-//     fetch(apiUrl)
-//       .then((response) => response.json())
-//       .then((data) => {
-//         const extractedImages = data
-//           .map((item) =>
-//             Array.isArray(item.images) ? item.images[0] : item.images,
-//           )
-//           .filter((image) => image);
-//         setImages(extractedImages);
-//       })
-//       .catch((error) => console.error("Error al cargar el JSON:", error));
-//   }, [apiUrl]);
-
-//   return (
-//     <Carousel className="w-full max-w-xs">
-//       <CarouselContent>
-//         {images.map((image, index) => (
-//           <CarouselItem key={index}>
-//             <div className="p-1">
-//               <Card>
-//                 <CardContent className="flex aspect-square items-center justify-center p-6">
-//                   <Image
-//                     src={image}
-//                     width={100}
-//                     height={100}
-//                     alt={`Accesorio ${index + 1}`}
-//                     className="w-full h-full object-cover"
-//                   />
-//                 </CardContent>
-//               </Card>
-//             </div>
-//           </CarouselItem>
-//         ))}
-//       </CarouselContent>
-//       <CarouselPrevious />
-//       <CarouselNext />
-//     </Carousel>
-//   );
-// }
-
 "use client";
 
-import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -68,113 +8,64 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import Link from "next/link";
+
 import Image from "next/image";
 
-const CarouselDemo = ({ apiUrl, linkUrl }) => {
-  const [images, setImages] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const slideInterval = 5000; // 5 segundos
-  let intervalId;
+import styles from "@/styles/Carousel.module.scss";
 
-  useEffect(() => {
-    if (!apiUrl) return;
+const images = [
+  "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/presentation/presentationFormateo.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9wcmVzZW50YXRpb24vcHJlc2VudGF0aW9uRm9ybWF0ZW8uanBnIiwiaWF0IjoxNzM5NTg4ODIxLCJleHAiOjE3NzExMjQ4MjF9.Q3S1LMTRV3mQrxdl-jktDMClc6corCx3OyK6H1Fh7E8",
+      
+  "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/presentation/studio.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9wcmVzZW50YXRpb24vc3R1ZGlvLnBuZyIsImlhdCI6MTczOTU4ODg1NSwiZXhwIjoxNzcxMTI0ODU1fQ.o18MzlbjUguamnHOkdWpCx-EvHmhRadXegr-DxnHSK4g",
+  "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/presentation/books.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9wcmVzZW50YXRpb24vYm9va3MuanBnIiwiaWF0IjoxNzM5NTg4ODY5LCJleHAiOjE3NzExMjQ4Njl9.gr7lGYZFmUykkGQVWZeTpBOCSJz-DVlpggBgW65WAiY",
+  "/images/image4.jpg",
+  "/images/image5.jpg",
+];
 
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        const extractedImages = data
-          .map((item) =>
-            Array.isArray(item.images) ? item.images[0] : item.images,
-          )
-          .filter((image) => image);
-        setImages(extractedImages);
-      })
-      .catch((error) => console.error("Error al cargar el JSON:", error));
-  }, [apiUrl]);
-
-  useEffect(() => {
-    startAutoSlide();
-    return stopAutoSlide;
-  }, [currentIndex, images]);
-
-  const startAutoSlide = () => {
-    stopAutoSlide();
-    intervalId = setInterval(() => {
-      handleNext();
-    }, slideInterval);
-  };
-
-  const stopAutoSlide = () => {
-    clearInterval(intervalId);
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
-
-  const handlePrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1,
-    );
-  };
-
-  const handleUserInteraction = (action) => {
-    stopAutoSlide();
-    action();
-    setTimeout(() => {
-      startAutoSlide();
-    }, slideInterval);
-  };
-
+export function CarouselDemo() {
   return (
-    <div>
-      <Carousel className=" max-w-xs relative w-screen">
-        <CarouselContent>
-          {images.map((image, index) => (
-            <CarouselItem
-              key={index}
-              className={index === currentIndex ? "block" : "hidden"}
-            >
-              <div className="p-1">
-                <Card>
-                  <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <Image
-                      src={image}
-                      alt={`Accesorio ${index + 1}`}
-                      className="w-full h-full object-cover"
-                      width={320}
-                      height={100}
-                    />
-                  </CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious
-          className="absolute ml-14"
-          onClick={() => handleUserInteraction(handlePrevious)}
-        />
-        <CarouselNext
-          className="absolute mr-14"
-          onClick={() => handleUserInteraction(handleNext)}
-        />
-      </Carousel>
+    // <Carousel className={`${styles.carusel} w-full `}>
+    //   <CarouselContent>
+    //     {Array.from({ length: 5 }).map((_, index) => (
+    //       <CarouselItem key={index}>
+    //         <div className="p-1">
+    //           <Card>
+    //             <CardContent className="flex aspect-square items-center justify-center p-6">
+    //               <span className="text-4xl font-semibold">{index + 1}</span>
+    //             </CardContent>
+    //           </Card>
+    //         </div>
+    //       </CarouselItem>
+    //     ))}
+    //   </CarouselContent>
+    //   <CarouselPrevious />
+    //   <CarouselNext />
+    // </Carousel>
 
-      {/* Botón para abrir en nueva pestaña */}
-      <div className="mt-4 text-center">
-        <Link
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg"
-        >
-          Ver más detalles
-        </Link>
-      </div>
-    </div>
+    <Carousel className={`${styles.carusel} w-full`}>
+      <CarouselContent>
+        {images.map((src, index) => (
+          <CarouselItem key={index}>
+            <div className="p-1">
+              <Card className="w-full h-full">
+                <CardContent className="flex items-center justify-center p-6 w-full h-full">
+                  <Image
+                    src={src}
+                    alt={`Imagen ${index + 1}`}
+                    className="w-full h-full object-cover rounded-lg"
+                    width={320}
+                    height={320}
+                  />
+                </CardContent>
+              </Card>
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
   );
-};
+}
 
 export default CarouselDemo;

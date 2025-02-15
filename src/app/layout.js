@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
 
   return (
     <React.Fragment>
-      <html>
+      <html lang="es" suppressHydrationWarning>
         <head>
           <link
             rel="icon"
@@ -43,6 +43,7 @@ export default function RootLayout({ children }) {
           {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
           </ThemeProvider> */}
+          {/* <ThemeProvider>{children}</ThemeProvider> */}
           <NavBar />
           {children}
           <Footer />

@@ -11,25 +11,11 @@
   margin-top: 20px;
   padding-top: 10px;
   bottom: 0;
-  background-color: rgba(48, 100, 204, 0.45);
-  // background-color: rgba(133, 102, 48, 0.25);
+  background-color: rgba(48, 100, 204, 0.95);
+
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   border: 1px solid #fff;
-
-  // backdrop-filter: blur(5px);
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: inherit;
-    filter: blur(5px);
-    z-index: -1;
-  }
 
   .flecha {
     position: fixed;

@@ -6,7 +6,6 @@ import styles from "../styles/Home.module.scss";
 import ImageSlider from "../containers/ImageSlider.js";
 import ProductList from "@/containers/ProductList.jsx";
 import CarouselDemo from "@/components/CarouselDemo";
-import ParticlesComponent from "@/components/Particles";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
@@ -84,7 +83,7 @@ const Inicio = () => {
         <section className={` ${styles.presentation}`}>
           {/* <Carousel enableTransition={true}/>
            */}
-          <CarouselDemo apiUrl={API_CELULARES} />
+          <CarouselDemo apiUrl={API_PRESENTATION} />
           {/* <Carousel apiUrl={API_CELULARES}/> */}
         </section>
 
@@ -174,17 +173,9 @@ const Inicio = () => {
           </section>
         </section>
 
-        {/* <section className={styles.aleatorio}>
-          <article>
-            <ProductList API={API} maxImages={1} />
-          </article>
+        <section className={styles.publicidad}>
+          {/* <CarouselDemo apiUrl={API_CELULARES}/> */}
         </section>
-
-        <section className={styles.aleatorio}>
-          <article>
-            <ProductList API={API_COMPUTADORES} maxImages={1} />
-          </article>
-        </section> */}
       </main>
     </>
   );
