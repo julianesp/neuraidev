@@ -1,2 +1,38 @@
-.carusel {
+.carousel {
+  & .carouselContent {
+    & .carouselItem {
+      & .card {
+        & .cardContent {
+          //   height: 300px;
+          // width: 1000px;
+
+          & img {
+            // height: inherit;
+            // object-fit: contain;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (width > 768px) {
+  .carousel {
+    & .carouselContent {
+      & .carouselItem {
+        & .card {
+          & .cardContent {
+            & img {
+              height: inherit;
+
+              //   object-fit: contain;
+            //   object-position: left bottom;
+              object-position: 0px -175px;
+              width: 80%;
+            }
+          }
+        }
+      }
+    }
+  }
 }

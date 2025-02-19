@@ -22,19 +22,20 @@ const images = [
 
 export function CarouselDemo() {
   return (
-    <Carousel className={`${styles.carusel} w-full`}>
-      <CarouselContent>
+    <Carousel className={`${styles.carousel} w-full`}>
+      <CarouselContent className={styles.carouselContent}>
         {images.map((src, index) => (
-          <CarouselItem key={index}>
+          <CarouselItem key={index} className={styles.carouselItem}>
             <div className="p-1">
-              <Card className="">
+              <Card className={styles.card}>
+                {/* sm:h-60 md:h-80 */}
                 <CardContent
-                  className={`${styles.image} flex items-center justify-center p-0 w-full  h-48 sm:h-60 md:h-80`}
+                  className={`${styles.cardContent} flex items-center justify-center p-0 w-full  sm:h-4/6 md:h-80 `}
                 >
                   <Image
                     src={src}
                     alt={`Imagen ${index + 1}`}
-                    className="w-full h-full object-cover rounded-lg "
+                    className="w-full object-cover rounded-lg "
                     width={320}
                     height={320}
                   />
