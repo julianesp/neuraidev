@@ -1,9 +1,7 @@
 @import "./mixins";
 
-.services{ 
+.services {
   @include flex-column;
-
-  
 
   height: 100%;
   margin-top: 60px;
@@ -28,18 +26,17 @@
   & h2 {
     margin-bottom: 30px;
     @include header_h1;
-    
   }
 
   & .image {
-  @include flex-column;
-  text-align: center;
-    
+    @include flex-column;
+    text-align: center;
+
     & p {
       margin-top: 30px;
       margin-bottom: 20px;
       font-size: larger;
-      text-decoration: underline;     
+      text-decoration: underline;
     }
   }
 }
@@ -70,11 +67,10 @@
 
 @media screen and (min-width: 768px) {
   .tecnico {
-
     & .image {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
     }
   }
 }

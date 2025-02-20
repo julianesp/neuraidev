@@ -6,31 +6,22 @@ import styles from "../styles/Home.module.scss";
 import ImageSlider from "../containers/ImageSlider.js";
 import ProductList from "@/containers/ProductList.jsx";
 import CarouselDemo from "@/components/CarouselDemo";
+import ImageCarousel from "@/components/ImageCarousel";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_PRESENTATION = "/presentation.json";
-const images = "/celulares.json";
 
 const Inicio = () => {
   const [presentationSlides, setPresentationSlides] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Carousel
   const [data, setData] = useState([]);
 
   // Solution for hydratation errors
   useEffect(() => {
     setIsLoaded(true);
-
-    // Cargar los datos de presentación
-    // fetch(API_PRESENTATION)
-    //   .then((response) => response.json())
-    //   .then((data) => setPresentationSlides(data))
-    //   .catch((error) =>
-    //     console.error("Error loading presentation data:", error),
-    //   );
     fetch("/accesories.json")
       .then((response) => response.json())
       .then((products) => {
@@ -44,20 +35,6 @@ const Inicio = () => {
       });
   }, []);
   if (!isLoaded) return null;
-
-  // useEffect(() => {
-  //   fetch("/path-to-your-json/data.json")
-  //     .then((response) => response.json())
-  //     .then((products) => {
-  //       const normalizedData = products.map((product) => ({
-  //         ...product,
-  //         images: Array.isArray(product.images)
-  //           ? product.images
-  //           : [product.images],
-  //       }));
-  //       setData(normalizedData);
-  //     });
-  // }, []);
 
   const accesorios = [
     {
@@ -81,25 +58,21 @@ const Inicio = () => {
         className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}
       >
         <section className={` ${styles.presentation}`}>
-          {/* <Carousel enableTransition={true}/>
-           */}
           <CarouselDemo apiUrl={API_PRESENTATION} />
-          {/* <Carousel apiUrl={API_CELULARES}/> */}
         </section>
 
-        <section className={`${styles.accesorios}`}>
-          <div className={styles.particlesWrapper}>
-            {/* <ParticlesComponent id="Particles" /> */}
-          </div>
-
+        <section className={`${styles.accesories}`}>
           <section className={styles.varios}>
             <article className={styles.tipo}>
               <h2>Accesorios celulares</h2>
+
               <ImageSlider
                 className={styles.slider}
                 imagePaths={imagePath}
                 enableTransition={false}
               />
+              {/* <CarouselDemo apiUrl={API} /> */}
+
               <Link href="#">Ver más</Link>
             </article>
             <article className={styles.tipo}>
@@ -141,17 +114,17 @@ const Inicio = () => {
             </article>
           </section>
 
-          <section className={styles.several}>
+          {/* colocar display grid para repartir lugares 
+            crear clases para cada una */}
+          {/* <section className={styles.several}>
             <div className={styles.titulo}>
-              <h2>Varios</h2>
+              <h2>Anuncios</h2>
             </div>
-            {/* colocar display grid para repartir lugares  */}
-            {/* crear clases para cada una */}
 
             <div className={styles.api}>
               <ProductList API={API_CELULARES} maxImages={1} />
             </div>
-          </section>
+          </section> */}
         </section>
 
         <section className={styles.tratamientos}>
@@ -174,7 +147,10 @@ const Inicio = () => {
         </section>
 
         <section className={styles.publicidad}>
-          {/* <CarouselDemo apiUrl={API_CELULARES}/> */}
+          <h3>Publicidad</h3>
+          <h3>Publicidad</h3>
+          <h3>Publicidad</h3>
+          <h3>Publicidad</h3>
         </section>
       </main>
     </>

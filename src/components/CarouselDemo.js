@@ -52,3 +52,63 @@ export function CarouselDemo() {
 }
 
 export default CarouselDemo;
+
+// "use client";
+
+// import { Card, CardContent } from "@/components/ui/card";
+// import {
+//   Carousel,
+//   CarouselContent,
+//   CarouselItem,
+//   CarouselNext,
+//   CarouselPrevious,
+// } from "@/components/ui/carousel";
+
+// import Image from "next/image";
+// import styles from "@/styles/Carousel.module.scss";
+
+// export function CarouselDemo({ images = [] }) {
+//   return (
+//     <Carousel className={`${styles.carousel} w-full`}>
+//       <CarouselContent className={styles.carouselContent}>
+//         {Array.isArray(images) && images.length > 0 ? (
+//           images.map((src, index) => (
+//             <CarouselItem key={index} className={styles.carouselItem}>
+//               <div className="p-1">
+//                 <Card className={styles.card}>
+//                   <CardContent
+//                     className={`${styles.cardContent} flex items-center justify-center p-0 w-full sm:h-4/6 md:h-80 `}
+//                   >
+//                     <Image
+//                       src={src}
+//                       alt={`Imagen ${index + 1}`}
+//                       className="w-full object-cover rounded-lg "
+//                       width={320}
+//                       height={320}
+//                     />
+//                   </CardContent>
+//                 </Card>
+//               </div>
+//             </CarouselItem>
+//           ))
+//         ) : (
+//           <p className="text-center text-gray-500">
+//             No hay imágenes disponibles
+//           </p>
+//         )}
+//       </CarouselContent>
+//       {/* <CarouselPrevious />
+//       <CarouselNext /> */}
+//       <CarouselPrevious
+//         onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}
+//       />
+//       <CarouselNext
+//         onClick={() =>
+//           setCurrentIndex((prev) => Math.min(prev + 1, images.length - 1))
+//         }
+//       />
+//     </Carousel>
+//   );
+// }
+
+// export default CarouselDemo;

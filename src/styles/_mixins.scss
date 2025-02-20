@@ -59,6 +59,20 @@
   box-shadow: 5px 5px 10px #baba;
 }
 
+@mixin shadowRight {
+  border-bottom-right-radius: 50px;
+  border: 1px solid #baba;
+  box-shadow: 5px 5px 10px #baba;
+  border-top: none;
+  border-left: none;
+}
+@mixin shadowLeft {
+  border-bottom-left-radius: 50px;
+  border: 1px solid #baba;
+  box-shadow: -5px 5px 10px #baba;
+  border-top: none;
+}
+
 @mixin border {
   border: 1px solid #bababa;
   border-radius: 20px;
@@ -66,7 +80,7 @@
 
 @mixin border_dark {
   border: 1px solid #000;
-  border-radius: 20px;
+  // border-radius: 20px;
 }
 
 @mixin border_gray {
