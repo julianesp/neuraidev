@@ -7,11 +7,33 @@ import ImageSlider from "../containers/ImageSlider.js";
 import ProductList from "@/containers/ProductList.jsx";
 import CarouselDemo from "@/components/CarouselDemo";
 import ImageCarousel from "@/components/ImageCarousel";
+import Advertisement from "@/components/Advertisement";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_PRESENTATION = "/presentation.json";
+
+const ads = [
+  {
+    businessName: "Peluquería",
+    description: "Mejorar presentacion de personas",
+    imageUrl: "",
+    linkUrl: "#",
+  },
+  {
+    businessName: "Peluquería",
+    description: "Mejorar presentacion de personas",
+    imageUrl: "",
+    linkUrl: "#",
+  },
+  {
+    businessName: "Peluquería",
+    description: "Mejorar presentacion de personas",
+    imageUrl: "",
+    linkUrl: "#",
+  },
+];
 
 const Inicio = () => {
   const [presentationSlides, setPresentationSlides] = useState();
@@ -147,10 +169,7 @@ const Inicio = () => {
         </section>
 
         <section className={styles.publicidad}>
-          <h3>Publicidad</h3>
-          <h3>Publicidad</h3>
-          <h3>Publicidad</h3>
-          <h3>Publicidad</h3>
+          <Advertisement ads={ads} />
         </section>
       </main>
     </>

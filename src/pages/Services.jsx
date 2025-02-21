@@ -6,6 +6,9 @@ import Link from "next/link";
 import ImageSlider from "@/containers/ImageSlider";
 import styles from "@/styles/Services.module.scss";
 import Image from "next/image";
+import CarouselDemo from "@/components/CarouselDemo";
+
+const WORKING = "/tecnico_sistemas.json";
 
 const Services = () => {
   // Solution for hydratation errors
@@ -75,11 +78,7 @@ const Services = () => {
   return (
     <RootLayout>
       <section className={styles.services}>
-        <ImageSlider
-          className={`h-max`}
-          imagePaths={imagePaths}
-          enableTransition={false}
-        />
+        <CarouselDemo apiUrl={WORKING} />
       </section>
 
       <section className={styles.tecnico}>

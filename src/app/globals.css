@@ -6,7 +6,6 @@
 @tailwind utilities;
 
 body {
-
     font-family: 'Lato', sans-serif;
 
     margin: 0;
@@ -15,8 +14,4 @@ body {
     box-sizing: content-box;
 
     height: 100%;
-
-
-
-
 }
