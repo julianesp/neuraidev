@@ -41,7 +41,6 @@ const Inicio = () => {
 
   const [data, setData] = useState([]);
 
-  // Solution for hydratation errors
   useEffect(() => {
     setIsLoaded(true);
     fetch("/accesories.json")
