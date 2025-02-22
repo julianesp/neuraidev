@@ -22,14 +22,14 @@ const ads = [
     linkUrl: "#",
   },
   {
-    businessName: "Peluquería",
-    description: "Mejorar presentacion de personas",
+    businessName: "Agropecuaria",
+    description: "Encuentre lo mejor en abonos",
     imageUrl: "",
     linkUrl: "#",
   },
   {
-    businessName: "Peluquería",
-    description: "Mejorar presentacion de personas",
+    businessName: "Tercena  ",
+    description: "La mejor calidad en carnes",
     imageUrl: "",
     linkUrl: "#",
   },
