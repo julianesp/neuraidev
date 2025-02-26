@@ -1,14 +1,19 @@
 .carousel {
+  margin-bottom: 25px;
+  // border: 1px solid #000;
+  
+
   & .carouselContent {
     & .carouselItem {
       & .card {
         & .cardContent {
-          //   height: 300px;
+          // height: 50vh;
           // width: 1000px;
 
           & img {
-            // height: inherit;
+            // height: 500px;
             // object-fit: contain;
+            // object-position: 0px -17px;
           }
         }
       }
@@ -26,7 +31,7 @@
               height: inherit;
 
               //   object-fit: contain;
-            //   object-position: left bottom;
+              //   object-position: left bottom;
               object-position: 0px -175px;
               width: 80%;
             }

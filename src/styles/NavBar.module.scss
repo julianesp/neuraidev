@@ -17,9 +17,9 @@
   top: 0px;
   // left: 0px;
 
-  border: 1px solid #fff;
+  border: 1px solid #f0f4f8;
   border-radius: 30px;
-  background-color: rgba(133, 102, 48, 0.25);
+  background-color: rgba(#bcccdc, 0.25);
 
   border-top-left-radius: 0px;
   border-top-right-radius: 0;
@@ -77,11 +77,7 @@
 
   border-radius: 10px;
 
-  /* background-color: rgba(255, 255, 255, 0.9); */
-
-  // background-color: rgba(24, 28, 36, 0.9);
-  background-color: rgba(133, 102, 48, 0.9);
-  /* backdrop-filter: blur(4px); */
+  background-color: rgba(#627d98, 0.9);
 }
 
 .container .enlaces__menu.open {
@@ -97,37 +93,11 @@
   padding-left: 0;
 }
 
-// @keyframes showMenuBurger {
-//   from {
-//     transform: translateX(-200px);
-//   }
-
-//   to {
-//     transform: translateX(0);
-//   }
-// }
-
 .container .enlaces__menu.closed {
-  // position: absolute;
-
   display: flex;
 
   right: -200px;
-
-  // transition: 0.5s ease-out;
-
-  // animation-name: hiddenMenuBurger;
-  // animation-duration: 0.5s;
 }
-
-// @keyframes hiddenMenuBurger {
-//   from {
-//     transform: translateX(0px);
-//   }
-//   to {
-//     transform: translateX(-200px);
-//   }
-// }
 
 .container .enlaces__menu a {
   display: flex;
@@ -141,7 +111,7 @@
   text-decoration: none;
 
   border: 1px solid #fff;
-  /* background-color: #000; */
+  // /* background-color: #000; */
   border-radius: 10px;
 
   width: 190px;
@@ -164,21 +134,14 @@
   flex-direction: column;
 
   width: 4rem;
-  // height: 4rem;
-
-  border: 0;
-  // background: transparent;
   gap: 0.34rem;
 }
 
 .container .circle button > span {
-  /* background: #fff; */
   background: #fff;
+  background: #000;
   height: 3px;
   width: 50%;
-  /* border-radius: 5px; */
-  // transition: all 0.5s;
-  // transform-origin: left;
 }
 
 @media screen and (min-width: 1024px) {
@@ -225,7 +188,7 @@
     .enlaces__menu a {
       transition: 0.5s ease-in all;
 
-      color: #fff;
+      // color: #fff;
       font-size: 1.2rem;
 
       border: none;

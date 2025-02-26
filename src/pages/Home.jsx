@@ -13,6 +13,7 @@ const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_PRESENTATION = "/presentation.json";
+// const imagesData = "/presentation.json";
 
 const ads = [
   {
@@ -35,11 +36,27 @@ const ads = [
   },
 ];
 
+const imagesData = [
+  {
+    id: 1,
+    images: [
+      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/presentation/presentationFormateo.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9wcmVzZW50YXRpb24vcHJlc2VudGF0aW9uRm9ybWF0ZW8uanBnIiwiaWF0IjoxNzQwNDQ1MTg4LCJleHAiOjE3NzE5ODExODh9.xabEBNZ0LO0hAOu4XFgKBxzHJmpRk6lwBmsgibGdIls",
+    ],
+  },
+  {
+    id: 2,
+    images:
+      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/presentation/contavsib.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9wcmVzZW50YXRpb24vY29udGF2c2liLmpwZyIsImlhdCI6MTc0MDQ0NTIzOSwiZXhwIjoxNzcxOTgxMjM5fQ.NH5PlczGcHafNYVapMBOMwD0SXZYzjsn-ICkwaO2OK4",
+  },
+];
+
 const Inicio = () => {
   const [presentationSlides, setPresentationSlides] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
-
   const [data, setData] = useState([]);
+  const [images, setImages] = useState([]);
+  const [presentationImages, setPresentationImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -54,6 +71,22 @@ const Inicio = () => {
         }));
         setData(normalizedData);
       });
+
+    fetch(API_PRESENTATION)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          // Normalizar las imágenes a un array
+          const normalized = data.map((item) => ({
+            ...item,
+            images: Array.isArray(item.images) ? item.images : [item.images],
+          }));
+          const allImages = normalized.flatMap((item) => item.images);
+          setPresentationImages(allImages);
+        }
+      })
+      .catch((error) => console.error("Error cargando presentación:", error))
+      .finally(() => setLoading(false));
   }, []);
   if (!isLoaded) return null;
 
@@ -79,7 +112,27 @@ const Inicio = () => {
         className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}
       >
         <section className={` ${styles.presentation}`}>
-          <CarouselDemo apiUrl={API_PRESENTATION} />
+          {/* <CarouselDemo apiUrl={API_PRESENTATION} /> */}
+          <CarouselDemo apiUrl={API_CELULARES}/>
+        </section>
+
+        <section className={styles.tratamientos}>
+          <section className={styles.area}>
+            <h3>Servicios</h3>
+
+            <ul>
+              <li>Formateo PC</li>
+              <li>Mantenimiento PC</li>
+              <li>Instalación programas</li>
+              <li>Desarrollo páginas web</li>
+            </ul>
+
+            <Link href="/Services">Ver más</Link>
+          </section>
+
+          <section className={styles.area}>
+            <p>Espacio para mostrar imagenes</p>
+          </section>
         </section>
 
         <section className={`${styles.accesories}`}>
@@ -87,22 +140,23 @@ const Inicio = () => {
             <article className={styles.tipo}>
               <h2>Accesorios celulares</h2>
 
-              <ImageSlider
+              {/* <ImageSlider
                 className={styles.slider}
                 imagePaths={imagePath}
                 enableTransition={false}
-              />
-              {/* <CarouselDemo apiUrl={API} /> */}
+              /> */}
+              <CarouselDemo apiUrl={API_CELULARES}/>
 
               <Link href="#">Ver más</Link>
             </article>
             <article className={styles.tipo}>
               <h2>Accesorios computador</h2>
-              <ImageSlider
+              {/* <ImageSlider
                 className={styles.slider}
                 imagePaths={imagePath}
                 enableTransition={false}
-              />
+              /> */}
+              <CarouselDemo apiUrl={API_COMPUTADORES}/>
               <Link href="#">Ver más</Link>
             </article>
             <article className={styles.tipo}>
@@ -146,25 +200,6 @@ const Inicio = () => {
               <ProductList API={API_CELULARES} maxImages={1} />
             </div>
           </section> */}
-        </section>
-
-        <section className={styles.tratamientos}>
-          <section className={styles.area}>
-            <h3>Servicios</h3>
-
-            <ul>
-              <li>Formateo PC</li>
-              <li>Mantenimiento PC</li>
-              <li>Instalación programas</li>
-              <li>Desarrollo páginas web</li>
-            </ul>
-
-            <Link href="/Services">Ver más</Link>
-          </section>
-
-          <section className={styles.area}>
-            <p>Espacio para mostrar imagenes</p>
-          </section>
         </section>
 
         <section className={styles.publicidad}>
