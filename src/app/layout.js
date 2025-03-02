@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "@/containers/NavBar";
 import Footer from "@/containers/Footer";
 import "./globals.css";
+import "@/styles/AccesoriosDestacados.module.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 export default function RootLayout({ children }) {

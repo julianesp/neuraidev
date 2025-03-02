@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "nombre": "Collar Elegante",
+        "descripcion": "Collar elegante con piedras preciosas",
+        "precio": 29.99,
+        "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzEuanBnIiwiaWF0IjoxNzQwNzk1MzI2LCJleHAiOjE3NzIzMzEzMjZ9.5STAurrj3Ub5dwsZpjsa90Msnkicpukdo6f3Ett1F8Y",
+        "destacado": true
+    },
+    {
+        "id": 2,
+        "nombre": "Pulsera Artesanal",
+        "descripcion": "Pulsera hecha a mano con materiales exclusivos",
+        "precio": 19.99,
+        "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/usb%20tipo%202%20meters/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy91c2IgdGlwbyAyIG1ldGVycy8xLmpwZyIsImlhdCI6MTc0MDc5NTM1NSwiZXhwIjoxNzcyMzMxMzU1fQ.0E8Z_A18pdmK4Xod1g1Wziva94lPnMmoWOWv1vkKjxE",
+        "destacado": true
+    },
+    {
+        "id": 3,
+        "nombre": "Aretes de Plata",
+        "descripcion": "Aretes de plata 925 con diseño moderno",
+        "precio": 24.99,
+        "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzEuanBnIiwiaWF0IjoxNzQwNzk1MzI2LCJleHAiOjE3NzIzMzEzMjZ9.5STAurrj3Ub5dwsZpjsa90Msnkicpukdo6f3Ett1F8Y",
+        "destacado": true
+    },
+    {
+        "id": 4,
+        "nombre": "Anillo Ajustable",
+        "descripcion": "Anillo ajustable con diseño minimalista",
+        "precio": 15.99,
+        "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/usb%20tipo%202%20meters/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy91c2IgdGlwbyAyIG1ldGVycy8xLmpwZyIsImlhdCI6MTc0MDc5NTM1NSwiZXhwIjoxNzcyMzMxMzU1fQ.0E8Z_A18pdmK4Xod1g1Wziva94lPnMmoWOWv1vkKjxE",
+        "destacado": true
+    }
+]

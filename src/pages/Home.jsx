@@ -8,12 +8,46 @@ import ProductList from "@/containers/ProductList.jsx";
 import CarouselDemo from "@/components/CarouselDemo";
 import ImageCarousel from "@/components/ImageCarousel";
 import Advertisement from "@/components/Advertisement";
+import AccesoriosBase from "@/components/Accesorio/AccesoriosBase";
+import AccesoriosDestacados from "@/components/Accesorio/AccesoriosDestacados";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_PRESENTATION = "/presentation.json";
 // const imagesData = "/presentation.json";
+
+const accesoriosData = [
+  {
+    id: 1,
+    nombre: "Collar Elegante",
+    descripcion: "Collar elegante con piedras preciosas",
+    precio: 29.99,
+    precioAnterior: 39.99,
+    descuento: 25,
+    imagen: "/accesorios/collar.jpg",
+    calificacion: 4,
+    numResenas: 128,
+    destacado: true,
+  },
+  {
+    id: 2,
+    nombre: "Pulsera Vintage",
+    descripcion: "Pulsera de estilo vintage con acabado en plata",
+    precio: 19.99,
+    precioAnterior: 0,
+    descuento: 0,
+    imagen: "/accesorios/pulsera.jpg",
+    calificacion: 5,
+    numResenas: 93,
+    destacado: true,
+  },
+  // Más accesorios...
+];
+
+const handleAccesorioClick = (accesorio) => {
+  console.log("Accesorio seleccionado:", accesorio.nombre);
+};
 
 const ads = [
   {
@@ -113,7 +147,15 @@ const Inicio = () => {
       >
         <section className={` ${styles.presentation}`}>
           {/* <CarouselDemo apiUrl={API_PRESENTATION} /> */}
-          <CarouselDemo apiUrl={API_CELULARES}/>
+          <CarouselDemo apiUrl={API_CELULARES} />
+        </section>
+
+        <section>
+          <AccesoriosDestacados
+            accesorios={accesoriosData}
+            mostrarDescripcion={true}
+            onAccesorioClick={handleAccesorioClick}
+          />
         </section>
 
         <section className={styles.tratamientos}>
@@ -145,7 +187,7 @@ const Inicio = () => {
                 imagePaths={imagePath}
                 enableTransition={false}
               /> */}
-              <CarouselDemo apiUrl={API_CELULARES}/>
+              <CarouselDemo apiUrl={API_CELULARES} />
 
               <Link href="#">Ver más</Link>
             </article>
@@ -156,7 +198,7 @@ const Inicio = () => {
                 imagePaths={imagePath}
                 enableTransition={false}
               /> */}
-              <CarouselDemo apiUrl={API_COMPUTADORES}/>
+              <CarouselDemo apiUrl={API_COMPUTADORES} />
               <Link href="#">Ver más</Link>
             </article>
             <article className={styles.tipo}>
