@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { obtenerAccesoriosDestacados } from "../accesoriosService";
 import Image from "next/image";
+import style from "@/styles/AccesoriosDestacados.module.scss";
 
 /**
  * Componente para mostrar accesorios destacados
@@ -108,7 +109,7 @@ const AccesoriosDestacados = () => {
 
   // Renderizar el componente con los accesorios cargados
   return (
-    <div className="bg-yellow-50 p-6 rounded-lg">
+    <div className={`${style.container} bg-yellow-50 p-6 rounded-lg`}>
       <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
 
       {/* Navegación para móviles */}
@@ -241,3 +242,4 @@ const AccesoriosDestacados = () => {
 };
 
 export default AccesoriosDestacados;
+

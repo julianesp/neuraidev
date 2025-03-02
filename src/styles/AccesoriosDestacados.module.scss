@@ -1,0 +1,16 @@
+@import "./mixins";
+
+@media screen and (min-width: 320px) and (max-width: 424px) {
+  .container {
+    @include border_gray;
+    width: 310px;
+    min-width: 310px;
+    max-width: 500px;
+
+    margin: 0;
+    padding: 15px;
+
+    border: 1px solid #000;
+    background-color: rgba(188, 204, 220, 0.25);
+  }
+}

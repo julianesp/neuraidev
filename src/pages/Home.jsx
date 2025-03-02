@@ -153,7 +153,7 @@ const Inicio = () => {
         <section>
           <AccesoriosDestacados
             accesorios={accesoriosData}
-            mostrarDescripcion={true}
+            mostrarDescripcion={false}
             onAccesorioClick={handleAccesorioClick}
           />
         </section>
