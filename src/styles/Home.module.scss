@@ -20,6 +20,11 @@
     // margin-top: 15px;
   }
 
+  & .destacados{
+    margin: 0 50px;
+    padding: 0 50px;
+  }
+
   & .tratamientos {
     @include flex-column;
 

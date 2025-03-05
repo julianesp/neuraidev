@@ -150,7 +150,7 @@ const Inicio = () => {
           <CarouselDemo apiUrl={API_CELULARES} />
         </section>
 
-        <section>
+        <section className={styles.destacados}>
           <AccesoriosDestacados
             accesorios={accesoriosData}
             mostrarDescripcion={false}
