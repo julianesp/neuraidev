@@ -3,7 +3,7 @@ import NavBar from "@/containers/NavBar";
 import Footer from "@/containers/Footer";
 import "./globals.css";
 import "@/styles/AccesoriosDestacados.module.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import styles from "@/styles/Layout.module.scss";
 
 export default function RootLayout({ children }) {
   manifest: "/manifest.json";
@@ -41,13 +41,11 @@ export default function RootLayout({ children }) {
         </head>
 
         <body>
-          {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-          </ThemeProvider> */}
-          {/* <ThemeProvider>{children}</ThemeProvider> */}
-          <NavBar />
-          {children}
-          <Footer />
+          <div className={styles.layoutContainer}>
+            <NavBar />
+            <main className={styles.mainContent}>{children}</main>
+            <Footer />
+          </div>
         </body>
       </html>
     </React.Fragment>

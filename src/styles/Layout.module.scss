@@ -1,0 +1,25 @@
+.mein {
+  margin-top: 50px;
+}
+
+/* @media screen and (min-width: 1024px) {
+  .mein {
+    width: 80dvw;
+
+    display: grid;
+    grid-template-columns: 1fr 0.2fr;
+  }
+} */
+
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* This ensures the container takes at least the full viewport height */
+
+  .mainContent {
+    flex: 1;
+    /* This makes the main content expand to fill available space */
+    padding: 0 20px;
+  }
+}
