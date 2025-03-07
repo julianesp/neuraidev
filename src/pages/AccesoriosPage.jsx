@@ -24,7 +24,8 @@ export default function AccesoriosPage() {
         "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzMuanBnIiwiaWF0IjoxNzQxMzExNTc2LCJleHAiOjE3NzI4NDc1NzZ9.fF5vP2bvIfPEqqlvPQyiZB2u8Y_Xzuu3tZZMuR-2gjU",
         "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzEuanBnIiwiaWF0IjoxNzQxMzExNTk0LCJleHAiOjE3NzI4NDc1OTR9.DVrpDKKJCSImCM6xYWfTFi17cslpwQVACtnL8jgThNA",
       ],
-      video: "/placeholder.svg?height=300&width=800",
+      video:
+        "/https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/store.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9zdG9yZS5wbmciLCJpYXQiOjE3NDAxMDk4NzksImV4cCI6MTc3MTY0NTg3OX0.TJG-NcrDlATRTk5uhH_NcvmnauUoNJrGOQPmpVleDj4",
     },
     {
       id: 2,
@@ -36,7 +37,8 @@ export default function AccesoriosPage() {
         "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzMuanBnIiwiaWF0IjoxNzQxMzExNTc2LCJleHAiOjE3NzI4NDc1NzZ9.fF5vP2bvIfPEqqlvPQyiZB2u8Y_Xzuu3tZZMuR-2gjU",
         "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzEuanBnIiwiaWF0IjoxNzQxMzExNTk0LCJleHAiOjE3NzI4NDc1OTR9.DVrpDKKJCSImCM6xYWfTFi17cslpwQVACtnL8jgThNA",
       ],
-      video: "/placeholder.svg?height=300&width=800",
+      video:
+        "/https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/store.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9zdG9yZS5wbmciLCJpYXQiOjE3NDAxMDk4NzksImV4cCI6MTc3MTY0NTg3OX0.TJG-NcrDlATRTk5uhH_NcvmnauUoNJrGOQPmpVleDj4",
     },
   ];
 
@@ -51,7 +53,10 @@ export default function AccesoriosPage() {
             <CarouselItem key={index}>
               <div className="flex items-center justify-center p-1">
                 <Image
-                  src={imagen || "/placeholder.svg"}
+                  src={
+                    imagen ||
+                    "/https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/store.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9zdG9yZS5wbmciLCJpYXQiOjE3NDAxMDk4NzksImV4cCI6MTc3MTY0NTg3OX0.TJG-NcrDlATRTk5uhH_NcvmnauUoNJrGOQPmpVleDj4"
+                  }
                   alt={`Imagen ${index + 1} de ${accesorioActual.nombre}`}
                   width={800}
                   height={400}
@@ -87,7 +92,10 @@ export default function AccesoriosPage() {
         </h2>
         <div className="relative rounded-lg overflow-hidden">
           <Image
-            src={accesorioActual.video || "/placeholder.svg"}
+            src={
+              accesorioActual.video ||
+              "/https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/store.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9zdG9yZS5wbmciLCJpYXQiOjE3NDAxMDk4NzksImV4cCI6MTc3MTY0NTg3OX0.TJG-NcrDlATRTk5uhH_NcvmnauUoNJrGOQPmpVleDj4"
+            }
             alt="Video de presentación"
             width={800}
             height={300}
@@ -114,7 +122,7 @@ export default function AccesoriosPage() {
           >
             <div className="p-2">
               <Image
-                src={`/placeholder.svg?height=150&width=150`}
+                src={`/https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/store.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9zdG9yZS5wbmciLCJpYXQiOjE3NDAxMDk4NzksImV4cCI6MTc3MTY0NTg3OX0.TJG-NcrDlATRTk5uhH_NcvmnauUoNJrGOQPmpVleDj4`}
                 alt={`Accesorio ${item}`}
                 width={150}
                 height={150}

@@ -1,19 +1,47 @@
 .carousel {
   margin-bottom: 25px;
-  // border: 1px solid #000;
-  
+  position: relative; // Añadido para posicionar correctamente los botones
+
+  // Estilo para los botones de navegación
+  :global(.carousel-prev),
+  :global(.carousel-next) {
+    // background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgb(7, 7, 7);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  :global(.carousel-prev) {
+    left: 10px;
+  }
+
+  :global(.carousel-next) {
+    right: 10px;
+  }
 
   & .carouselContent {
     & .carouselItem {
       & .card {
         & .cardContent {
-          // height: 50vh;
-          // width: 1000px;
+          height: 300px; // Altura fija para todas las imágenes
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden; // Para evitar que las imágenes se salgan del contenedor
 
           & img {
-            // height: 500px;
-            // object-fit: contain;
-            // object-position: 0px -17px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; // Mantiene la proporción y cubre el espacio
           }
         }
       }
@@ -27,17 +55,32 @@
       & .carouselItem {
         & .card {
           & .cardContent {
-            & img {
-              height: inherit;
+            height: 400px; // Mayor altura para pantallas más grandes
 
-              //   object-fit: contain;
-              //   object-position: left bottom;
-              object-position: 0px -175px;
-              width: 80%;
+            & img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: center; // Centra la imagen
             }
           }
         }
       }
+    }
+
+    // Ajustes adicionales para los botones en pantallas grandes
+    :global(.carousel-prev),
+    :global(.carousel-next) {
+      width: 50px;
+      height: 50px;
+    }
+
+    :global(.carousel-prev) {
+      left: 20px;
+    }
+
+    :global(.carousel-next) {
+      right: 20px;
     }
   }
 }
