@@ -59,9 +59,10 @@ export const obtenerAccesorioPorId = async (id) => {
     return null;
   }
 };
-
-export default {
+// Crear el objeto de servicios antes de exportarlo
+const accesoriosService = {
   obtenerAccesorios,
   obtenerAccesoriosDestacados,
   obtenerAccesorioPorId,
 };
+export default accesoriosService;

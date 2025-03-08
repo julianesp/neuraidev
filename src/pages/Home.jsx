@@ -265,15 +265,14 @@ const Inicio = () => {
           />
         </section>
 
-        <section>
+        {/* <section>
           <h1>accesorios</h1>
           <Link href={`/ProductoDetalle`}>Ver más</Link>
-          {/* <ProductoDetalle /> */}
-        </section>
+        </section> */}
 
-        <section>
+        {/* <section>
           <AccesoriosPage />
-        </section>
+        </section> */}
 
         <section className={styles.tratamientos}>
           <section className={styles.area}>
@@ -360,38 +359,6 @@ const Inicio = () => {
               <ProductList API={API_CELULARES} maxImages={1} />
             </div>
           </section> */}
-        </section>
-
-        <section>
-          <div className="container mx-auto py-12 px-4">
-            <h1 className="text-3xl font-bold mb-6">
-              Bienvenido a nuestra tienda
-            </h1>
-
-            {/* Opción 1: Usando el componente Button con Link */}
-            <div className="mb-4">
-              <Link href="/AccesoriosPage">
-                <Button className="px-6">Ver Accesorios</Button>
-              </Link>
-            </div>
-
-            {/* Opción 2: Usando Link directamente con estilos de botón */}
-            <div className="mb-4">
-              <Link
-                href="/accesorios"
-                className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-              >
-                Explorar Accesorios
-              </Link>
-            </div>
-
-            {/* Opción 3: Usando el componente Button con asChild */}
-            <div>
-              <Button asChild>
-                <Link href="/accesorios">Catálogo de Accesorios</Link>
-              </Button>
-            </div>
-          </div>
         </section>
 
         <section className={styles.publicidad}>

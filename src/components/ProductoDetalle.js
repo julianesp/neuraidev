@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Play, ShoppingCart } from "lucide-react";
@@ -16,11 +16,20 @@ const ProductoDetalle = ({ producto = {} }) => {
         ? producto.images
         : [producto.images];
 
+  // Usar useCallback para memorizar la función startAutoplay
+  const startAutoplay = useCallback(() => {
+    const newTimer = setTimeout(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setAutoplay(true);
+    }, 5000);
+    setTimer(newTimer);
+  }, [images.length]); // Solo se recrea si images.length cambia
+
   // Iniciar autoplay cuando el componente monta
   useEffect(() => {
     startAutoplay();
     return () => clearTimeout(timer);
-  }, []);
+  }, [startAutoplay, timer]);
 
   // Actualizar el timer cuando cambia la imagen actual
   useEffect(() => {
@@ -28,16 +37,16 @@ const ProductoDetalle = ({ producto = {} }) => {
       clearTimeout(timer);
       startAutoplay();
     }
-  }, [currentImageIndex, autoplay]);
+  }, [currentImageIndex, autoplay, startAutoplay, timer]);
 
   // Función para iniciar el autoplay
-  const startAutoplay = () => {
-    const newTimer = setTimeout(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      setAutoplay(true);
-    }, 5000);
-    setTimer(newTimer);
-  };
+  // const startAutoplay = () => {
+  //   const newTimer = setTimeout(() => {
+  //     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  //     setAutoplay(true);
+  //   }, 5000);
+  //   setTimer(newTimer);
+  // };
 
   // Funciones para cambiar manualmente las imágenes
   const prevImage = () => {
@@ -83,12 +92,34 @@ const ProductoDetalle = ({ producto = {} }) => {
       <div className="max-w-4xl mx-auto">
         {/* Slider de imágenes */}
         <div className="relative h-96 bg-gray-100 rounded-xl overflow-hidden shadow-md mb-8">
+          {/* {images.map((img, idx) => (
+            <div
+              key={idx}
+              className={`absolute inset-0 transition-opacity  ease-in-out ${
+                idx === currentImageIndex ? "opacity-100" : "opacity-0"
+              }`}
+              style={{transitionDuration:'2000ms'}}
+            >
+              <Image
+                src={
+                  img ||
+                  "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/funda%20iphone%20xs/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy9mdW5kYSBpcGhvbmUgeHMvMS5qcGciLCJpYXQiOjE3NDE0MDI2MTcsImV4cCI6MTc3MjkzODYxN30.m0HxaFk-b1MM-BN4SvETr6THXURPT_bce2ttGsSDwM0"
+                }
+                alt={`Imagen ${idx + 1} de ${producto.title || "Producto"}`}
+                layout="fill"
+                objectFit="contain"
+                className="p-6"
+              />
+            </div>
+          ))} */}
           {images.map((img, idx) => (
             <div
               key={idx}
-              className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+              className={`absolute inset-0 transition-opacity ease-in-out ${
                 idx === currentImageIndex ? "opacity-100" : "opacity-0"
               }`}
+              style={{ transitionDuration: "2000ms" }}
+              // {/* Duración personalizada de 2 segundos */}
             >
               <Image
                 src={
@@ -218,7 +249,7 @@ const ProductoDetalle = ({ producto = {} }) => {
               >
                 <div className="aspect-square relative bg-gray-50">
                   <Image
-                    src={`/related-${item}.jpg`}
+                    src={`https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/usb%20tipo%202%20meters/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy91c2IgdGlwbyAyIG1ldGVycy8xLmpwZyIsImlhdCI6MTc0MTQ1MzMwMSwiZXhwIjoxNzcyOTg5MzAxfQ.aCyi-QRfw7EpNrIQ6nItyJviRx3e3nElGYzYWt1ErxE`}
                     alt={`Accesorio relacionado ${item}`}
                     layout="fill"
                     objectFit="contain"

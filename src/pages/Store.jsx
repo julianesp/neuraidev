@@ -12,8 +12,7 @@ const Store = () => {
 
   return (
     <RootLayout>
-      <div className="mt-16">Tienda de accesorios</div>
-      <ProductoDetalle/>
+      <ProductoDetalle />
     </RootLayout>
   );
 };
