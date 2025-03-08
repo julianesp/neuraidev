@@ -32,6 +32,7 @@
   justify-content: center;
   align-items: center;
   grid-area: logo;
+  cursor: pointer;
 }
 
 .container .container__principal {
@@ -104,7 +105,7 @@
   align-items: center;
   justify-content: center;
 
-  color: #fff;
+  color: #000;
   font-size: 1.3rem;
   font-weight: 700;
 
@@ -186,7 +187,7 @@
     }
 
     .enlaces__menu a {
-      transition: 0.5s ease-in all;
+      transition: 0.2s ease-in all;
 
       // color: #fff;
       font-size: 1.2rem;
@@ -203,10 +204,11 @@
     .enlaces__menu a:hover {
       padding: 0 15px;
 
-      transition: 0.5s ease-in all;
+      transition: 0.2s ease-in all;
+      transform: scale(0.9);
 
       animation: none;
-      color: #fff;
+      // color: #fff;
       text-decoration: underline;
     }
   }

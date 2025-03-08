@@ -12,12 +12,22 @@ import AccesoriosBase from "@/components/Accesorio/AccesoriosBase";
 import AccesoriosDestacados from "@/components/Accesorio/AccesoriosDestacados";
 import AccesoriosPage from "./AccesoriosPage";
 import { Button } from "@/components/ui/button";
+import ProductSlider from "@/components/ProductoDetalle";
+import ProductoDetalle from "@/components/ProductoDetalle";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_PRESENTATION = "/presentation.json";
-// const imagesData = "/presentation.json";
+
+// IDs especificos para cada categpria de accesorios
+const CATEGORIA_IDS = {
+  CELULARES: "celulares",
+  COMPUTADORES: "computadores",
+  DAMAS: "damas",
+  LIBROS_NUEVOS: "libros-nuevos",
+  LIBROS_USADOS: "libros-usados",
+};
 
 const accesoriosData = [
   {
@@ -256,6 +266,12 @@ const Inicio = () => {
         </section>
 
         <section>
+          <h1>accesorios</h1>
+          <Link href={`/ProductoDetalle`}>Ver más</Link>
+          {/* <ProductoDetalle /> */}
+        </section>
+
+        <section>
           <AccesoriosPage />
         </section>
 
@@ -290,7 +306,9 @@ const Inicio = () => {
               /> */}
               <CarouselDemo apiUrl={API_CELULARES} />
 
-              <Link href="AccesoriosPage">Ver más</Link>
+              <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.CELULARES}`}>
+                Ver más
+              </Link>
             </article>
             <article className={styles.tipo}>
               <h2>Accesorios computador</h2>
@@ -300,35 +318,34 @@ const Inicio = () => {
                 enableTransition={false}
               /> */}
               <CarouselDemo apiUrl={API_COMPUTADORES} />
-              <Link href="#">Ver más</Link>
+              <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.COMPUTADORES}`}>
+                Ver más
+              </Link>
             </article>
             <article className={styles.tipo}>
               <h2>Accesorios damas</h2>
-              <ImageSlider
-                className={styles.slider}
-                imagePaths={imagePath}
-                enableTransition={false}
-              />
-              <Link href="#">Ver más</Link>
+
+              <CarouselDemo apiUrl={API_COMPUTADORES} />
+              <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.DAMAS}`}>
+                Ver más
+              </Link>
             </article>
             <article className={styles.tipo}>
               <h2>Libros nuevos</h2>
-              <ImageSlider
-                className={styles.slider}
-                imagePaths={imagePath}
-                enableTransition={false}
-              />
-              <Link href="#">Ver más</Link>
+
+              <CarouselDemo apiUrl={API_COMPUTADORES} />
+              <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.LIBROS_NUEVOS}`}>
+                Ver más
+              </Link>
             </article>
 
             <article className={styles.tipo}>
               <h2>Libros usados</h2>
-              <ImageSlider
-                className={styles.slider}
-                imagePaths={imagePath}
-                enableTransition={false}
-              />
-              <Link href="#">Ver más</Link>
+
+              <CarouselDemo apiUrl={API_COMPUTADORES} />
+              <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.LIBROS_USADOS}`}>
+                Ver más
+              </Link>
             </article>
           </section>
 

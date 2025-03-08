@@ -1,10 +1,19 @@
 import RootLayout from "@/app/layout";
-import React from "react";
+import ProductoDetalle from "@/components/ProductoDetalle";
+import React, { useState, useEffect } from "react";
 
 const Store = () => {
+  // Solution for hydratation errors
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+  if (!isLoaded) return null;
+
   return (
     <RootLayout>
-      <div>Tienda de accesorios</div>
+      <div className="mt-16">Tienda de accesorios</div>
+      <ProductoDetalle/>
     </RootLayout>
   );
 };

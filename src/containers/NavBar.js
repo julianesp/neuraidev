@@ -38,7 +38,7 @@ const NavBar = () => {
   return (
     <div className={styles.container} ref={menuRef}>
       <div className={styles.logo}>
-        <Link href="/">
+        <Link href="/Home">
           <div className={styles["container__principal"]}>
             {/* <Logo /> */}
             <Image
