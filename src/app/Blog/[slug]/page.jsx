@@ -89,3 +89,14 @@ export default function PostPage() {
     </>
   );
 }
+
+export async function generateStaticParams() {
+  // Obtén todos tus posts/slugs
+  // Por ejemplo, si tienes tus posts en algún lugar:
+  const posts = await getAllPosts(); // implementa esta función según tu fuente de datos
+
+  // Devuelve un array de objetos con los parámetros para cada ruta
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
