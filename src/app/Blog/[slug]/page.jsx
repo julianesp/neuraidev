@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Head from "next/head";
 import { useParams, notFound } from "next/navigation";
