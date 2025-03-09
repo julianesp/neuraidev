@@ -19,6 +19,7 @@ const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_PRESENTATION = "/presentation.json";
+const API_DESTACADOS = "/destacados.json";
 
 // IDs especificos para cada categpria de accesorios
 const CATEGORIA_IDS = {
@@ -66,13 +67,13 @@ const ads = [
     businessName: "Peluquería",
     description: "Mejorar presentacion de personas",
     imageUrl: "",
-    linkUrl: "#",
+    linkUrl: "/business/Tienda",
   },
   {
     businessName: "Agropecuaria",
     description: "Encuentre lo mejor en abonos",
     imageUrl: "",
-    linkUrl: "#",
+    linkUrl: "/business/Peluqueria",
   },
   {
     businessName: "Tercena  ",
@@ -259,9 +260,10 @@ const Inicio = () => {
 
         <section className={styles.destacados}>
           <AccesoriosDestacados
-            accesorios={accesoriosData}
-            mostrarDescripcion={false}
-            onAccesorioClick={handleAccesorioClick}
+            // accesorios={accesoriosData}
+            // accesorios={API_DESTACADOS}
+            // mostrarDescripcion={false}
+            // onAccesorioClick={handleAccesorioClick}
           />
         </section>
 

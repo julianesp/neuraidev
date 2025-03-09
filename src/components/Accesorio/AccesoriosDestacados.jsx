@@ -200,13 +200,9 @@ const AccesoriosDestacados = () => {
 
             <div className="p-4">
               <h3 className="font-semibold text-lg">{accesorio.nombre}</h3>
-              <p className="text-gray-600 mt-1 text-sm">
-                {accesorio.descripcion}
-              </p>
+              <p className="text-black mt-1 text-sm">{accesorio.descripcion}</p>
               <div className="mt-2 flex items-center">
-                <span className="font-bold text-lg">
-                  ${accesorio.precio.toFixed(2)}
-                </span>
+                <span className="font-bold text-lg">${accesorio.precio}</span>
               </div>
             </div>
           </div>
@@ -231,7 +227,7 @@ const AccesoriosDestacados = () => {
 
       <div className="mt-6 text-center">
         <p className="text-gray-600 mb-4">
-          Estos son nuestros productos más populares
+          Estos son los productos más populares
         </p>
         <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors">
           Ver todos los destacados
@@ -242,4 +238,3 @@ const AccesoriosDestacados = () => {
 };
 
 export default AccesoriosDestacados;
-
