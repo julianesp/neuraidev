@@ -4,7 +4,8 @@
  */
 
 // URL del archivo JSON
-const API_URL = "/accesoriosDestacados.json";
+// const API_URL = "/accesoriosDestacados.json";
+const API_URL = "/destacados.json";
 
 /**
  * Obtiene todos los accesorios disponibles
