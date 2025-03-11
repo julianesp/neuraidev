@@ -1,5 +1,3 @@
-//navbar
-
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -38,21 +36,48 @@ const NavBar = () => {
   return (
     <div className={styles.container} ref={menuRef}>
       <div className={styles.logo}>
-        <Link href="/Home">
-          <div className={styles["container__principal"]}>
-            {/* <Logo /> */}
+        <Link href="/">
+          <div className={styles.container__principal}>
             <Image
               alt="Logo"
               src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=a3de913f-bf54-4804-812c-710efeeb25d6"
               width={40}
               height={40}
-              priority="true"
-              
+              priority={true}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
         </Link>
       </div>
+
+      <nav className={styles.nav_container}>
+        <ul
+          className={`${styles.enlaces__menu} ${
+            burgerOpen ? styles.open : styles.closed
+          }`}
+        >
+          <li>
+            <Link href="/" onClick={handleLinkClick}>
+              Inicio
+            </Link>
+          </li>
+          <li>
+            <Link href="/Blog" onClick={handleLinkClick}>
+              Blog
+            </Link>
+          </li>
+          <li>
+            <Link href="/Store" onClick={handleLinkClick}>
+              Tienda
+            </Link>
+          </li>
+          <li>
+            <Link href="/Profile" onClick={handleLinkClick}>
+              Sobre mí
+            </Link>
+          </li>
+        </ul>
+      </nav>
 
       <div className={styles.circle} onClick={menuBurger}>
         <button>
@@ -61,30 +86,6 @@ const NavBar = () => {
           <span></span>
         </button>
       </div>
-
-      <div>{/* <ThemeSwitch<er /> */}</div>
-
-      <menu
-        className={`${styles["enlaces__menu"]} ${
-          burgerOpen ? styles.open : styles.closed
-        }`}
-      >
-        <Link href="/" onClick={handleLinkClick}>
-          Inicio
-        </Link>
-
-        <Link href="/Blog" onClick={handleLinkClick}>
-          Blog
-        </Link>
-
-        <Link href="/Store" onClick={handleLinkClick}>
-          Tienda
-        </Link>
-
-        <Link href="/Profile" onClick={handleLinkClick}>
-          Sobre mí
-        </Link>
-      </menu>
     </div>
   );
 };

@@ -67,9 +67,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div>
-          <ModeToggle />
-        </div>
+        <div>{/* <ModeToggle /> */}</div>
 
         <div className={styles.study}>
           <h2>Descripción personal</h2>
