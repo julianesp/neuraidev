@@ -59,14 +59,16 @@ const Profile = () => {
             <Image
               className={styles.me}
               alt="Desarrollador web"
-              src={dev}
-              priority
+              src="https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/dev.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9kZXYuanBnIiwiaWF0IjoxNzQxNjYwMTY3LCJleHAiOjE3NzMxOTYxNjd9._F1LkjTqPiwWS-zD_pF-siLFzRaaT9EdY4ddVgixAXk"
+              width={100}
+              height={100}
+              priority="true"
             />
           </div>
         </div>
 
         <div>
-          <ModeToggle/>
+          <ModeToggle />
         </div>
 
         <div className={styles.study}>
@@ -75,8 +77,9 @@ const Profile = () => {
           <p>Hola! 😉</p>
           <p>
             Apasionado por la lectura, los paseos tranquilos y la música,
-            especialmente el hard rock. Disfruto tocar la guitarra  y, aunque disfrutaba correr, ahora valoro el ritmo pausado
-            de la vida caminando.
+            especialmente el hard rock. Disfruto tocar la guitarra y, aunque
+            disfrutaba correr, ahora valoro el ritmo pausado de la vida
+            caminando.
           </p>
 
           <div className={styles.study__container}>
