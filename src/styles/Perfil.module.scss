@@ -194,7 +194,7 @@
 .study p {
   // @include shadow_light;
   // margin: 0 10px 20px;
-  // padding: 10px;
+  padding: 0 50px;
 
   border-radius: 10px;
   // border: 1px solid #fff;
@@ -210,6 +210,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 0 20px;
+  padding-top: 20px;
 
   height: auto;
 }
@@ -292,9 +293,13 @@
 }
 
 .redes {
-  @include border_dark;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #969090;
+  padding: 20px;
+  width: 100vw;
 
   margin-top: 25px;
 
@@ -309,6 +314,8 @@
     & img {
       width: 80px;
       height: 80px;
+      background-color: #fff;
+      border-radius: 50%;
     }
   }
 }

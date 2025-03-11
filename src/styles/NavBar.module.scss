@@ -2,214 +2,166 @@
 
 .container {
   z-index: 100;
-
   position: fixed;
-  display: grid;
-  grid-template-areas: "logo . menunav";
-  grid-template-columns: 60px 1fr 60px;
-  grid-template-rows: 1fr;
-
+  display: flex;
+  justify-content: flex-start; /* Cambio a flex-start para mejor control */
   align-items: center;
+  width: 100%;
+  height: 60px;
+  top: 0;
+  left: 0;
+  padding: 0 15px;
 
-  width: 100vw;
-  height: 45px;
-
-  top: 0px;
-  // left: 0px;
-
-  border: 1px solid #f0f4f8;
-  border-radius: 30px;
+  border-bottom: 1px solid #f0f4f8;
   background-color: rgba(#bcccdc, 0.25);
-
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0;
-
   backdrop-filter: blur(5px);
 }
 
-.container .logo {
+.logo {
   display: flex;
-  justify-content: center;
   align-items: center;
-  grid-area: logo;
   cursor: pointer;
 }
 
-.container .container__principal {
+.container__principal {
   display: flex;
-  // justify-content: space-between;
-  // align-items: center;
-
-  grid-area: logo;
-
-  // margin: 0 0 0 3px;
-
-  // width: 40px;
-  // height: 40px;
-  // border: none;
-}
-
-.container .container__principal .enlaces__logo {
-  // filter: blur(5px);
-  border-radius: 50%;
-}
-
-.container .container__principal img {
-  // border: 1px solid #fff;
-
-  border: none;
-}
-
-.container .enlaces__menu {
-  position: relative;
-
-  display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
-
-  margin-top: 50px;
-
-  top: 60%;
-  left: -490px;
-
-  height: 50vh;
-  width: 200px;
-
-  border-radius: 10px;
-
-  background-color: rgba(#627d98, 0.9);
+  justify-content: center;
 }
 
-.container .enlaces__menu.open {
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 101;
   position: absolute;
+  right: 15px;
+  top: 10px;
 
-  left: 2px;
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    gap: 5px;
+    padding: 0;
 
+    span {
+      display: block;
+      background-color: #000;
+      height: 3px;
+      width: 24px;
+      transition: all 0.3s ease;
+    }
+  }
+}
+
+.nav_container {
+  position: relative;
+}
+
+.enlaces__menu {
+  position: fixed;
+  top: 60px;
+  right: -250px;
   width: 250px;
-  height: 350px;
-
-  transition: 0.3s ease-in all;
-
-  padding-left: 0;
-}
-
-.container .enlaces__menu.closed {
-  display: flex;
-
-  right: -200px;
-}
-
-.container .enlaces__menu a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #000;
-  font-size: 1.3rem;
-  font-weight: 700;
-
-  text-decoration: none;
-
-  border: 1px solid #fff;
-  // /* background-color: #000; */
+  background-color: rgba(#627d98, 0.9);
   border-radius: 10px;
-
-  width: 190px;
-  height: 40px;
-  margin-bottom: 15px;
-}
-
-.container .circle {
+  padding: 20px 0;
+  list-style: none;
+  margin: 0;
+  transition: all 0.3s ease;
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  grid-area: menunav;
-}
-
-.container .circle button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-  width: 4rem;
-  gap: 0.34rem;
+  li {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  a {
+    display: block;
+    padding: 10px 15px;
+    color: #000;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-radius: 5px;
+    margin: 0 15px;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+  }
 }
 
-.container .circle button > span {
-  background: #fff;
-  background: #000;
-  height: 3px;
-  width: 50%;
+.enlaces__menu.open {
+  right: 0;
 }
 
+// Desktop styles
 @media screen and (min-width: 1024px) {
   .container {
-    // position: relative;
+    padding: 0 40px;
+    height: 70px;
+    justify-content: space-between;
+  }
 
-    .circle {
-      display: none;
+  .circle {
+    display: none;
+  }
+
+  .nav_container {
+    position: static;
+    margin-left: auto; /* Empuja el nav al extremo derecho */
+  }
+
+  .enlaces__menu {
+    position: static;
+    width: auto;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
+    li {
+      width: auto;
+      margin: 0 0 0 30px;
     }
 
-    .enlaces__menu {
-      display: flex;
-      justify-content: right;
-      background-color: transparent;
-
-      position: absolute;
-    }
-
-    .enlaces__menu.closed {
-      flex-direction: row;
-
+    a {
+      font-size: 1.1rem;
+      padding: 8px 5px;
+      color: #000;
+      font-weight: 500;
       margin: 0;
-      padding: 0;
 
-      width: auto; /* Ajuste dinámico */
-      height: 50px;
-
-      top: 7px;
-      // left: 1010px;
-      right: 20px;
-
-      // quitar fondo oscuro a enlaces
-      background-color: transparent;
-      background: none;
-      border: none;
-      box-shadow: none;
-      animation: none;
+      &:hover {
+        background-color: transparent;
+        text-decoration: underline;
+        transform: none;
+      }
     }
+  }
 
-    .enlaces__menu.open {
-      background-color: transparent;
-    }
-
-    .enlaces__menu a {
-      transition: 0.2s ease-in all;
-
-      // color: #fff;
-      font-size: 1.2rem;
-
-      border: none;
-      animation: none;
-
-      /* Ajustar el ancho de los enlaces */
-      width: auto; /* Ancho automático basado en el contenido */
-      padding: 0 15px; /* Espaciado interno para hacerlos más pequeños */
-      margin-right: 10px; /* Espacio entre enlaces y al lado derecho */
-    }
-
-    .enlaces__menu a:hover {
-      padding: 0 15px;
-
-      transition: 0.2s ease-in all;
-      transform: scale(0.9);
-
-      animation: none;
-      // color: #fff;
-      text-decoration: underline;
-    }
+  .enlaces__menu.open,
+  .enlaces__menu.closed {
+    right: 0;
   }
 }
