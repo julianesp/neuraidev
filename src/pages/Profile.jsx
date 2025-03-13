@@ -10,7 +10,6 @@ import github from "/public/images/github.png";
 import styles from "@/styles/Perfil.module.scss";
 import RootLayout from "@/app/layout";
 import Link from "next/link";
-import { ModeToggle } from "@/components/ModeToggle";
 
 const Profile = () => {
   const [showImage, setShowImage] = useState(false);
@@ -66,8 +65,6 @@ const Profile = () => {
             />
           </div>
         </div>
-
-        <div>{/* <ModeToggle /> */}</div>
 
         <div className={styles.study}>
           <h2>Descripción personal</h2>
