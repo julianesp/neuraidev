@@ -14,6 +14,7 @@ import AccesoriosPage from "./AccesoriosPage";
 import { Button } from "@/components/ui/button";
 import ProductSlider from "@/components/ProductoDetalle";
 import ProductoDetalle from "@/components/ProductoDetalle";
+import AccesoriosNuevos from "@/components/accesoriosNuevos/AccesoriosNuevos";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
@@ -260,11 +261,15 @@ const Inicio = () => {
 
         <section className={styles.destacados}>
           <AccesoriosDestacados
-            // accesorios={accesoriosData}
-            // accesorios={API_DESTACADOS}
-            // mostrarDescripcion={false}
-            // onAccesorioClick={handleAccesorioClick}
+          // accesorios={accesoriosData}
+          // accesorios={API_DESTACADOS}
+          // mostrarDescripcion={false}
+          // onAccesorioClick={handleAccesorioClick}
           />
+        </section>
+
+        <section className={styles.destacados}>
+          <AccesoriosNuevos />
         </section>
 
         {/* <section>

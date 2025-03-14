@@ -8,6 +8,7 @@
   align-items: center;
   overflow: hidden;
   margin-top: 60px;
+  margin-top: -15px;
 
   & .presentation {
     position: relative;
@@ -181,7 +182,7 @@
   }
 }
 
-@media screen and (min-width: 1024px) {
+@media (width > 767px) {
   .container {
     display: grid;
     grid-template-areas:
@@ -193,7 +194,6 @@
     grid-template-rows: auto;
     gap: 20px; /* Espacio entre elementos */
 
-    margin-top: 47px;
     margin-bottom: 50px;
     padding-bottom: 20px;
 
@@ -264,5 +264,11 @@
         // padding: 20px;
       }
     }
+  }
+}
+
+@media (width > 768px) and (width < 1439px) {
+  .container {
+    margin-top: -2px;
   }
 }

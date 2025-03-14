@@ -722,6 +722,18 @@
       grid-template-columns: 1fr 1fr;
       grid-template-areas: "texto face";
 
+      animation: cerrarBordes 0.5s;
+
+      @keyframes cerrarBordes {
+        0% {
+          transform: translateY(-350px);
+          
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
       & .texto {
         grid-area: texto;
         display: flex;
@@ -752,9 +764,7 @@
         // margin-top: 20px;
 
         & .study--areas {
-          
           & p:nth-child(2) {
-            
           }
         }
       }
