@@ -10,6 +10,7 @@ import github from "/public/images/github.png";
 import styles from "@/styles/Perfil.module.scss";
 import RootLayout from "@/app/layout";
 import Link from "next/link";
+import BackToTop from "@/components/backTop/BackToTop";
 
 const Profile = () => {
   const [showImage, setShowImage] = useState(false);
@@ -114,6 +115,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
+      <BackToTop/>
     </RootLayout>
   );
 };

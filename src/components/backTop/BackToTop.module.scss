@@ -1,0 +1,74 @@
+// Estilos para el botón de volver arriba
+.backToTop {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #4b5563; // Color base gris que combina con tu UI existente
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+
+  &:hover {
+    background-color: #374151; // Un tono más oscuro al hacer hover
+    transform: translateY(0) scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  // Animación de rebote similar a la que usas en tus enlaces
+  @keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+
+  // Clase para la animación de rebote
+  &.bounceAnimation {
+    animation: bounce 1s;
+  }
+
+  // Ajustes responsive
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+@media (width >= 320px) {
+    .backToTop {
+        bottom: 70px;
+        right: 10px;
+    }
+}

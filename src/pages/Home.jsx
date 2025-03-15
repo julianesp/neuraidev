@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import ProductSlider from "@/components/ProductoDetalle";
 import ProductoDetalle from "@/components/ProductoDetalle";
 import AccesoriosNuevos from "@/components/accesoriosNuevos/AccesoriosNuevos";
+import BackToTop from "@/components/backTop/BackToTop";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
@@ -258,7 +259,117 @@ const Inicio = () => {
           {/* <CarouselDemo apiUrl={API_PRESENTATION} /> */}
           <CarouselDemo apiUrl={API_CELULARES} />
         </section>
+        {/* <section
+          className={`${styles.linksDirect} w-full h-12 flex items-center justify-center mb-6`}
+        >
+          <a
+            href="#services"
+            onClick={(e) => {
+              e.preventDefault();
+              const element = document.getElementById("services");
+              const offsetTop =
+                element.getBoundingClientRect().top + window.pageYOffset - 100;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth",
+              });
+            }}
+            className="border-solid border-2 p-3 rounded-md bg-slate-400 mr-4"
+          >
+            Servicios
+          </a>
+          <a
+            href="#accesories"
+            onClick={(e) => {
+              e.preventDefault();
+              const element = document.getElementById("accesories");
+              const offsetTop =
+                element.getBoundingClientRect().top + window.pageYOffset - 70;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth",
+              });
+            }}
+            className="border-solid border-2 p-3 rounded-md bg-slate-400"
+          >
+            Accesorios
+          </a>
+        </section> */}
 
+        <section
+          className={`${styles.linksDirect} w-full h-12 flex items-center justify-center mb-6`}
+        >
+          <a
+            href="#services"
+            onClick={(e) => {
+              e.preventDefault();
+              const element = document.getElementById("services");
+
+              // First scroll to the element
+              const offsetTop =
+                element.getBoundingClientRect().top + window.pageYOffset - 100;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth",
+              });
+
+              // After scrolling is complete, add the bounce animation class
+              setTimeout(() => {
+                // First remove any existing animation
+                element.classList.remove(styles.bounceAnimation);
+
+                // Force a reflow so the animation can be applied again
+                void element.offsetWidth;
+
+                // Add the animation class
+                element.classList.add(styles.bounceAnimation);
+
+                // Remove the class after animation completes
+                setTimeout(() => {
+                  element.classList.remove(styles.bounceAnimation);
+                }, 1000);
+              }, 500); // Wait for scroll to complete
+            }}
+            className="border-solid border-2 p-3 rounded-md bg-slate-400 mr-4"
+          >
+            Servicios
+          </a>
+          <a
+            href="#accesories"
+            onClick={(e) => {
+              e.preventDefault();
+              const element = document.getElementById("accesories");
+
+              // First scroll to the element
+              const offsetTop =
+                element.getBoundingClientRect().top + window.pageYOffset - 80;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth",
+              });
+
+              // After scrolling is complete, add the bounce animation class
+              setTimeout(() => {
+                // First remove any existing animation
+                element.classList.remove(styles.bounceAnimation);
+
+                // Force a reflow so the animation can be applied again
+                void element.offsetWidth;
+
+                // Add the animation class
+                element.classList.add(styles.bounceAnimation);
+
+                // Remove the class after animation completes
+                setTimeout(() => {
+                  element.classList.remove(styles.bounceAnimation);
+                }, 1000);
+              }, 500); // Wait for scroll to complete
+            }}
+            className="border-solid border-2 p-3 rounded-md bg-slate-400"
+          >
+            Accesorios
+          </a>
+        </section>
         <section className={styles.destacados}>
           <AccesoriosDestacados
           // accesorios={accesoriosData}
@@ -267,23 +378,19 @@ const Inicio = () => {
           // onAccesorioClick={handleAccesorioClick}
           />
         </section>
-
         <section className={styles.destacados}>
           <AccesoriosNuevos />
         </section>
-
         {/* <section>
           <h1>accesorios</h1>
           <Link href={`/ProductoDetalle`}>Ver más</Link>
         </section> */}
-
         {/* <section>
           <AccesoriosPage />
         </section> */}
-
         <section className={styles.tratamientos}>
           <section className={styles.area}>
-            <h3>Servicios</h3>
+            <h3 id="services">Servicios</h3>
 
             <ul>
               <li>Formateo PC</li>
@@ -299,11 +406,10 @@ const Inicio = () => {
             <p>Espacio para mostrar imagenes</p>
           </section>
         </section>
-
         <section className={`${styles.accesories}`}>
           <section className={styles.varios}>
             <article className={styles.tipo}>
-              <h2>Accesorios celulares</h2>
+              <h2 id="accesories">Accesorios celulares</h2>
 
               {/* <ImageSlider
                 className={styles.slider}
@@ -367,10 +473,12 @@ const Inicio = () => {
             </div>
           </section> */}
         </section>
-
         <section className={styles.publicidad}>
           <Advertisement ads={ads} />
         </section>
+
+        {/* BackToTop */}
+        <BackToTop />
       </main>
     </>
   );

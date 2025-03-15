@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Head from "next/head";
 import styles from "@/styles/Blog.module.scss"; // Necesitarás crear este archivo de estilos
+import BackToTop from "@/components/backTop/BackToTop";
 
 // Array de publicaciones - aquí puedes ir añadiendo tus nuevas publicaciones
 const posts = [
@@ -69,6 +70,8 @@ export default function BlogPage() {
             </div>
           )}
         </section>
+
+        <BackToTop/>
       </main>
     </>
   );
