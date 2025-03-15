@@ -126,7 +126,7 @@
 //   return <BusinessPage businessData={safeBusinessData} />;
 // }
 
-import BusinessPage from "@/components/BusinessPage";
+import BusinessPage from "@/components/BusinessPage/page";
 
 // En una aplicación real, esto vendría de una base de datos
 // Aquí es solo simulado para demostración

@@ -1,0 +1,24 @@
+.presentation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+
+  @media (width > 425px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "imagen texto";
+    justify-items: center;
+    gap: 0 10px;
+
+
+    & .imagen {
+      grid-area: imagen;
+    }
+
+    & .text {
+      grid-area: texto;
+    }
+  }
+}

@@ -1,9 +1,9 @@
 {
     "id": "peluqueria",
-    "name": "Barber Jam",
+    "name": "Peluquería",
     "description": "Mejoramos tu estilo con cortes modernos y tratamientos profesionales para cabello y barba",
-    "logo": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/barber_jam_profile.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9iYXJiZXJfamFtX3Byb2ZpbGUuanBnIiwiaWF0IjoxNzQyMDUxNTE2LCJleHAiOjE3NDI2NTYzMTZ9.UcypwrwKW-n6ueLvE-5-Id5N3zGofbpqzat36Y9llDw",
-    "headerImage": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/barber_jam.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9iYXJiZXJfamFtLmpwZyIsImlhdCI6MTc0MjA1MTA4MywiZXhwIjoxNzQyNjU1ODgzfQ.R8KIXZWbtrm_4A1Ra3vd9nsczQidFpRCtqKUmIEk1ic",
+    "logo": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDU0MjE0LCJleHAiOjE3NzM1OTAyMTR9.h0gutKcfC5OqEr6zVWM8rM3YrQQbSso31Wo7s-4KE8A",
+    "headerImage": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDU0MjE0LCJleHAiOjE3NzM1OTAyMTR9.h0gutKcfC5OqEr6zVWM8rM3YrQQbSso31Wo7s-4KE8A",
     "categories": [
         {
             "id": "cortes",

@@ -179,7 +179,7 @@
 
 "use client";
 import { useState, useEffect } from "react";
-import BusinessPage from "@/components/BusinessPage";
+import BusinessPage from "@/components/BusinessPage/page";
 import tiendaData from "../../../public/peluqueria.json";
 
 export default function Peluqueria() {

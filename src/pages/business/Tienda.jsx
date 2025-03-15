@@ -164,7 +164,7 @@
 
 "use client";
 import { useState, useEffect } from "react";
-import BusinessPage from "@/components/BusinessPage";
+import BusinessPage from "@/components/BusinessPage/page";
 import tiendaData from "../../../public/tienda.json";
 
 export default function TiendaPage() {
