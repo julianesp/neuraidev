@@ -1,0 +1,231 @@
+{
+    "id": "peluqueria",
+    "name": "Barber Jam",
+    "description": "Mejoramos tu estilo con cortes modernos y tratamientos profesionales para cabello y barba",
+    "logo": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/barber_jam_profile.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9iYXJiZXJfamFtX3Byb2ZpbGUuanBnIiwiaWF0IjoxNzQyMDUxNTE2LCJleHAiOjE3NDI2NTYzMTZ9.UcypwrwKW-n6ueLvE-5-Id5N3zGofbpqzat36Y9llDw",
+    "headerImage": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/barber_jam.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9iYXJiZXJfamFtLmpwZyIsImlhdCI6MTc0MjA1MTA4MywiZXhwIjoxNzQyNjU1ODgzfQ.R8KIXZWbtrm_4A1Ra3vd9nsczQidFpRCtqKUmIEk1ic",
+    "categories": [
+        {
+            "id": "cortes",
+            "name": "Cortes"
+        },
+        {
+            "id": "barberia",
+            "name": "Barbería"
+        },
+        {
+            "id": "tratamientos",
+            "name": "Tratamientos"
+        },
+        {
+            "id": "productos",
+            "name": "Productos"
+        }
+    ],
+    "featuredProducts": [
+        {
+            "id": "corte1",
+            "name": "Corte Clásico",
+            "regularPrice": "25000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "corte2",
+            "name": "Fade + Diseño",
+            "regularPrice": "35000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "barba1",
+            "name": "Afeitado Tradicional",
+            "regularPrice": "20000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "combo1",
+            "name": "Corte + Barba Completo",
+            "regularPrice": "45000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        }
+    ],
+    "promotionProducts": [
+        {
+            "id": "promo1",
+            "name": "Paquete Novio (Corte, Barba, Facial)",
+            "regularPrice": "65000",
+            "salePrice": "50000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "promo2",
+            "name": "Padre e Hijo (2 cortes)",
+            "regularPrice": "50000",
+            "salePrice": "40000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "promo3",
+            "name": "Tinte para Cabello + Corte",
+            "regularPrice": "80000",
+            "salePrice": "65000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "promo4",
+            "name": "Membresía Mensual (4 cortes)",
+            "regularPrice": "100000",
+            "salePrice": "80000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        }
+    ],
+    "dailyOffers": [
+        {
+            "id": "offer1",
+            "name": "Martes de Corte",
+            "regularPrice": "25000",
+            "salePrice": "20000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "offer2",
+            "name": "Jueves de Barba",
+            "regularPrice": "20000",
+            "salePrice": "15000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "offer3",
+            "name": "Primera Visita",
+            "regularPrice": "25000",
+            "salePrice": "18000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "offer4",
+            "name": "Referido",
+            "regularPrice": "25000",
+            "salePrice": "22000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        }
+    ],
+    "newProducts": [
+        {
+            "id": "new1",
+            "name": "Cera Fijadora Premium",
+            "regularPrice": "35000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "new2",
+            "name": "Aceite para Barba",
+            "regularPrice": "28000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "new3",
+            "name": "Afeitadora Profesional",
+            "regularPrice": "150000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        },
+        {
+            "id": "new4",
+            "name": "Shampoo Anticaída",
+            "regularPrice": "45000",
+            "image": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUzMTQ2LCJleHAiOjE3NDI2NTc5NDZ9.aaUQZ60rfEgP-3tiL2POxD5K-RWZyWiyMnI3hG6M660"
+        }
+    ],
+    "socialMedia": [
+        {
+            "type": "whatsapp",
+            "url": "https://wa.me/573123456789"
+        },
+        {
+            "type": "facebook",
+            "url": "https://facebook.com/barberjam"
+        },
+        {
+            "type": "instagram",
+            "url": "https://instagram.com/barberjam"
+        },
+        {
+            "type": "tiktok",
+            "url": "https://tiktok.com/@barberjam"
+        }
+    ],
+    "services": [
+        {
+            "id": "serv1",
+            "name": "Corte Degradado",
+            "description": "Corte con degradado perfecto, incluye lavado y peinado",
+            "duration": "45 min",
+            "price": "30000"
+        },
+        {
+            "id": "serv2",
+            "name": "Arreglo de Barba",
+            "description": "Recorte y perfilado de barba con navaja caliente",
+            "duration": "30 min",
+            "price": "20000"
+        },
+        {
+            "id": "serv3",
+            "name": "Coloración",
+            "description": "Tinte profesional para cabello, incluye lavado",
+            "duration": "60 min",
+            "price": "60000"
+        },
+        {
+            "id": "serv4",
+            "name": "Tratamiento Capilar",
+            "description": "Hidratación profunda para cabello maltratado",
+            "duration": "40 min",
+            "price": "45000"
+        },
+        {
+            "id": "serv5",
+            "name": "Facial Masculino",
+            "description": "Limpieza facial completa con mascarilla",
+            "duration": "30 min",
+            "price": "35000"
+        },
+        {
+            "id": "serv6",
+            "name": "Depilación de Cejas",
+            "description": "Perfilado profesional de cejas con cera o hilo",
+            "duration": "15 min",
+            "price": "15000"
+        }
+    ],
+    "barberos": [
+        {
+            "id": "barb1",
+            "name": "Carlos Rodríguez",
+            "especialidad": "Cortes urbanos y diseños",
+            "experiencia": "8 años",
+            "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/barbero1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9iYXJiZXJvMS5qcGciLCJpYXQiOjE3NDIwNTMxNTEsImV4cCI6MTc3MzU4OTE1MX0.VEqLz7nIJucaG7udrXZ-4DxmCl3HQgZ2XLR8zitf3JA"
+        },
+        {
+            "id": "barb2",
+            "name": "Miguel Ángel",
+            "especialidad": "Barba y afeitado tradicional",
+            "experiencia": "12 años",
+            "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/barbero2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9iYXJiZXJvMi5qcGciLCJpYXQiOjE3NDIwNTMxNzcsImV4cCI6MTc3MzU4OTE3N30.2s2jKdOXL6_uYvtJ_kXkPMsA6RD4P2KvT5MVHf5KMBM"
+        },
+        {
+            "id": "barb3",
+            "name": "Fernando Torres",
+            "especialidad": "Coloración y tratamientos",
+            "experiencia": "7 años",
+            "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/barbero3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9iYXJiZXJvMy5qcGciLCJpYXQiOjE3NDIwNTMyMDQsImV4cCI6MTc3MzU4OTIwNH0.jdJH90UJrZrLSFIb4E0T7qEa2Jvl-Fiy2XLwYGD0NEA"
+        }
+    ],
+    "horario": {
+        "lunes": "10:00 - 20:00",
+        "martes": "10:00 - 20:00",
+        "miercoles": "10:00 - 20:00",
+        "jueves": "10:00 - 20:00",
+        "viernes": "10:00 - 21:00",
+        "sabado": "09:00 - 21:00",
+        "domingo": "10:00 - 16:00"
+    }
+}
