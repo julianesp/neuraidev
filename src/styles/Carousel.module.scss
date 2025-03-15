@@ -1,5 +1,5 @@
 .carousel {
-  margin-bottom: 25px;
+  // margin-bottom: 25px;
   position: relative; // Añadido para posicionar correctamente los botones
 
   // Estilo para los botones de navegación
@@ -32,7 +32,7 @@
     & .carouselItem {
       & .card {
         & .cardContent {
-          height: 300px; // Altura fija para todas las imágenes
+          height: 180px; // Altura fija para todas las imágenes
           display: flex;
           align-items: center;
           justify-content: center;
@@ -40,7 +40,7 @@
 
           & img {
             width: 100%;
-            height: 100%;
+            height: 190px;
             object-fit: cover; // Mantiene la proporción y cubre el espacio
           }
         }

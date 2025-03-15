@@ -1,0 +1,73 @@
+// _variables.scss - Variables globales para tu proyecto Next.js
+
+// Variables de colores principales
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$accent-color: #f39c12;
+$success-color: #27ae60;
+$warning-color: #e67e22;
+$danger-color: #e74c3c;
+$info-color: #1abc9c;
+
+// Neutros
+$white: #ffffff;
+$black: #000000;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+
+// Variantes de colores principales
+$primary-light: lighten($primary-color, 15%);
+$primary-dark: darken($primary-color, 15%);
+$secondary-light: lighten($secondary-color, 15%);
+$secondary-dark: darken($secondary-color, 15%);
+
+// Colores de texto
+$text-primary: $gray-900;
+$text-secondary: $gray-700;
+$text-muted: $gray-600;
+$text-light: $gray-100;
+
+// Colores de fondo
+$bg-primary: $white;
+$bg-secondary: $gray-100;
+$bg-dark: $gray-800;
+
+// Colores de bordes
+$border-color: $gray-300;
+$border-color-dark: $gray-600;
+
+// Colores de enlaces
+$link-color: $primary-color;
+$link-hover-color: darken($primary-color, 15%);
+
+// Variables de branding (sustituye con tus propios colores)
+$brand-primary: #1e88e5; // Cambia a tu color principal de marca
+$brand-secondary: #26a69a; // Cambia a tu color secundario de marca
+$brand-tertiary: #7e57c2; // Cambia a tu color terciario de marca
+
+// Paleta de colores específica para la aplicación
+// Puedes agregar más colores específicos según sea necesario
+$feature-1-color: #f44336;
+$feature-2-color: #3f51b5;
+$feature-3-color: #ff9800;
+
+// Shadow variables
+$box-shadow-sm: 0 0.125rem 0.25rem rgba($black, 0.075);
+$box-shadow: 0 0.5rem 1rem rgba($black, 0.15);
+$box-shadow-lg: 0 1rem 3rem rgba($black, 0.175);
+
+// Gradientes
+$gradient-primary: linear-gradient(135deg, $primary-color, $primary-dark);
+$gradient-secondary: linear-gradient(135deg, $secondary-color, $secondary-dark);
+$gradient-accent: linear-gradient(
+  135deg,
+  $accent-color,
+  darken($accent-color, 15%)
+);
