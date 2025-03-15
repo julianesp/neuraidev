@@ -1,4 +1,5 @@
 import RootLayout from "@/app/layout";
+import BackToTop from "@/components/backTop/BackToTop";
 import ProductoDetalle from "@/components/ProductoDetalle";
 import React, { useState, useEffect } from "react";
 
@@ -13,6 +14,8 @@ const Store = () => {
   return (
     <RootLayout>
       <ProductoDetalle />
+
+      <BackToTop/>
     </RootLayout>
   );
 };
