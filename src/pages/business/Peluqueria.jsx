@@ -1,16 +1,26 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import BusinessPage from "@/components/BusinessPage";
 
 export default function PeluqueriaPage() {
+  // Solution for hydratation errors
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+  if (!isLoaded) return null;
+
   // Sample data for a salon/peluquería
   const peluqueriaData = {
     id: "peluqueria123",
-    name: "Peluquería Estilos",
+    name: "Barber Jam",
     description:
       "Mejoramos tu presentación personal con los mejores cortes y tratamientos capilares",
-    logo: "/images/businesses/peluqueria-logo.jpg",
-    headerImage: "/images/businesses/peluqueria-header.jpg",
+    logo: "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/barber_jam_profile.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9iYXJiZXJfamFtX3Byb2ZpbGUuanBnIiwiaWF0IjoxNzQyMDUxNTE2LCJleHAiOjE3NDI2NTYzMTZ9.UcypwrwKW-n6ueLvE-5-Id5N3zGofbpqzat36Y9llDw",
+    // headerImage: "/images/businesses/peluqueria-header.jpg",
+    headerImage:
+      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/barber_jam.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9iYXJiZXJfamFtLmpwZyIsImlhdCI6MTc0MjA1MTA4MywiZXhwIjoxNzQyNjU1ODgzfQ.R8KIXZWbtrm_4A1Ra3vd9nsczQidFpRCtqKUmIEk1ic",
 
     // Categories specialized for a salon
     categories: [
@@ -26,25 +36,29 @@ export default function PeluqueriaPage() {
         id: "serv1",
         name: "Corte Caballero",
         regularPrice: "15000",
-        image: "/images/services/corte-caballero.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "serv2",
         name: "Corte Dama",
         regularPrice: "25000",
-        image: "/images/services/corte-dama.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "serv3",
         name: "Peinado Especial",
         regularPrice: "35000",
-        image: "/images/services/peinado.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "serv4",
         name: "Barba y Bigote",
         regularPrice: "12000",
-        image: "/images/services/barba.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
     ],
 
@@ -55,28 +69,32 @@ export default function PeluqueriaPage() {
         name: "Tinte + Corte",
         regularPrice: "85000",
         salePrice: "65000",
-        image: "/images/services/tinte.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "promo2",
         name: "Keratina Brasileña",
         regularPrice: "150000",
         salePrice: "120000",
-        image: "/images/services/keratina.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "promo3",
         name: "Manicure + Pedicure",
         regularPrice: "45000",
         salePrice: "35000",
-        image: "/images/services/manicure.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "promo4",
         name: "Depilación Facial",
         regularPrice: "18000",
         salePrice: "14000",
-        image: "/images/services/depilacion.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
     ],
 
@@ -87,28 +105,32 @@ export default function PeluqueriaPage() {
         name: "Hidratación Profunda",
         regularPrice: "45000",
         salePrice: "30000",
-        image: "/images/services/hidratacion.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "offer2",
         name: "Cepillado y Planchado",
         regularPrice: "35000",
         salePrice: "25000",
-        image: "/images/services/cepillado.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "offer3",
         name: "Corte Infantil",
         regularPrice: "18000",
         salePrice: "12000",
-        image: "/images/services/corte-infantil.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "offer4",
         name: "Brushing",
         regularPrice: "28000",
         salePrice: "20000",
-        image: "/images/services/brushing.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
     ],
 
@@ -118,25 +140,29 @@ export default function PeluqueriaPage() {
         id: "new1",
         name: "Mechas Balayage",
         regularPrice: "120000",
-        image: "/images/services/balayage.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "new2",
         name: "Tratamiento Botox Capilar",
         regularPrice: "180000",
-        image: "/images/services/botox.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "new3",
         name: "Diseño de Cejas",
         regularPrice: "25000",
-        image: "/images/services/cejas.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
       {
         id: "new4",
         name: "Extensiones de Pestañas",
         regularPrice: "85000",
-        image: "/images/services/pestanas.jpg",
+        image:
+          "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/business/presentation.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9idXNpbmVzcy9wcmVzZW50YXRpb24ucG5nIiwiaWF0IjoxNzQyMDUyMTAwLCJleHAiOjE3NDI2NTY5MDB9.LJ_x6wwS-eFTFGHHWPIgnG7gzE8pCrfCwZrJ5X_peiM",
       },
     ],
 

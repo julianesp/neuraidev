@@ -48,16 +48,23 @@ const businessesData = {
 };
 
 // Esta función se ejecuta durante el build para generar las rutas estáticas
-export async function getStaticPaths() {
-  // Genera las rutas para cada negocio en businessesData
-  const paths = Object.keys(businessesData).map((id) => ({
-    params: { businessId: id }, // Asegúrate de que coincida con el nombre del archivo [businessId].js
-  }));
+// export async function getStaticPaths() {
+//   // Genera las rutas para cada negocio en businessesData
+//   const paths = Object.keys(businessesData).map((id) => ({
+//     params: { businessId: id }, // Asegúrate de que coincida con el nombre del archivo [businessId].js
+//   }));
 
-  return {
-    paths,
-    fallback: false, // 404 para cualquier ruta no definida en paths
-  };
+//   return {
+//     paths,
+//     fallback: false, // 404 para cualquier ruta no definida en paths
+//   };
+// }
+
+// Esta función reemplaza a getStaticPaths
+export async function generateStaticParams() {
+  return Object.keys(businessesData).map((id) => ({
+    businessId: id,
+  }));
 }
 
 // Esta función se ejecuta durante el build para cada ruta generada
@@ -91,7 +98,30 @@ export async function getStaticProps({ params }) {
   };
 }
 
-export default function BusinessDetailPage({ businessData }) {
-  // Ahora los datos del negocio vienen directamente de las props, no de useParams
-  return <BusinessPage businessData={businessData} />;
+// export default function BusinessDetailPage({ businessData }) {
+//   // Ahora los datos del negocio vienen directamente de las props, no de useParams
+//   return <BusinessPage businessData={businessData} />;
+// }
+
+// Esta función es el componente principal de la página
+export default function BusinessDetailPage({ params }) {
+  const { businessId } = params;
+  const businessData = businessesData[businessId] || null;
+
+  // Si no se encuentra el negocio, puedes manejar esto de otra manera
+  if (!businessData) {
+    return <div>Negocio no encontrado</div>;
+  }
+
+  // Asegúrate de que todos los campos requeridos estén presentes
+  const safeBusinessData = {
+    ...businessData,
+    featuredProducts: businessData.featuredProducts || [],
+    promotionProducts: businessData.promotionProducts || [],
+    dailyOffers: businessData.dailyOffers || [],
+    newProducts: businessData.newProducts || [],
+    socialMedia: businessData.socialMedia || [],
+  };
+
+  return <BusinessPage businessData={safeBusinessData} />;
 }

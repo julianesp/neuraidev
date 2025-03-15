@@ -130,6 +130,7 @@ const ProductoDetalle = ({ producto = {} }) => {
                 layout="fill"
                 objectFit="contain"
                 className="p-6"
+                width={100}
               />
             </div>
           ))}
@@ -254,6 +255,7 @@ const ProductoDetalle = ({ producto = {} }) => {
                     layout="fill"
                     objectFit="contain"
                     className="p-3"
+                    width={100}
                   />
                 </div>
                 <div className="p-3">

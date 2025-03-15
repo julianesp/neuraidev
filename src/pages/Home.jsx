@@ -66,14 +66,14 @@ const handleAccesorioClick = (accesorio) => {
 
 const ads = [
   {
-    businessName: "Peluquería",
-    description: "Mejorar presentacion de personas",
+    businessName: "Negocio",
+    description: "Descripción de negocio",
     imageUrl: "",
     linkUrl: "/business/Tienda",
   },
   {
-    businessName: "Agropecuaria",
-    description: "Encuentre lo mejor en abonos",
+    businessName: "Peluquería",
+    description: "Mejore su presentación",
     imageUrl: "",
     linkUrl: "/business/Peluqueria",
   },
@@ -370,24 +370,15 @@ const Inicio = () => {
             Accesorios
           </a>
         </section>
+
         <section className={styles.destacados}>
-          <AccesoriosDestacados
-          // accesorios={accesoriosData}
-          // accesorios={API_DESTACADOS}
-          // mostrarDescripcion={false}
-          // onAccesorioClick={handleAccesorioClick}
-          />
+          <AccesoriosDestacados />
         </section>
+
         <section className={styles.destacados}>
           <AccesoriosNuevos />
         </section>
-        {/* <section>
-          <h1>accesorios</h1>
-          <Link href={`/ProductoDetalle`}>Ver más</Link>
-        </section> */}
-        {/* <section>
-          <AccesoriosPage />
-        </section> */}
+
         <section className={styles.tratamientos}>
           <section className={styles.area}>
             <h3 id="services">Servicios</h3>
@@ -406,36 +397,30 @@ const Inicio = () => {
             <p>Espacio para mostrar imagenes</p>
           </section>
         </section>
+
         <section className={`${styles.accesories}`}>
           <section className={styles.varios}>
+            <h1 id="accesories">Accesorios</h1>
             <article className={styles.tipo}>
-              <h2 id="accesories">Accesorios celulares</h2>
+              <h2>Celulares</h2>
 
-              {/* <ImageSlider
-                className={styles.slider}
-                imagePaths={imagePath}
-                enableTransition={false}
-              /> */}
               <CarouselDemo apiUrl={API_CELULARES} />
 
               <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.CELULARES}`}>
                 Ver más
               </Link>
             </article>
+
             <article className={styles.tipo}>
-              <h2>Accesorios computador</h2>
-              {/* <ImageSlider
-                className={styles.slider}
-                imagePaths={imagePath}
-                enableTransition={false}
-              /> */}
+              <h2>Computadores</h2>
+
               <CarouselDemo apiUrl={API_COMPUTADORES} />
               <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.COMPUTADORES}`}>
                 Ver más
               </Link>
             </article>
             <article className={styles.tipo}>
-              <h2>Accesorios damas</h2>
+              <h2>Damas</h2>
 
               <CarouselDemo apiUrl={API_COMPUTADORES} />
               <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.DAMAS}`}>
@@ -460,19 +445,8 @@ const Inicio = () => {
               </Link>
             </article>
           </section>
-
-          {/* colocar display grid para repartir lugares 
-            crear clases para cada una */}
-          {/* <section className={styles.several}>
-            <div className={styles.titulo}>
-              <h2>Anuncios</h2>
-            </div>
-
-            <div className={styles.api}>
-              <ProductList API={API_CELULARES} maxImages={1} />
-            </div>
-          </section> */}
         </section>
+
         <section className={styles.publicidad}>
           <Advertisement ads={ads} />
         </section>
