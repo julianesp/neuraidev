@@ -69,6 +69,8 @@ const AccesoriosContainer = ({
                   layout="fill"
                   objectFit="cover"
                   className="rounded-lg"
+                  // width={100}
+                  // height={100}
                 />
               </div>
             ))}
@@ -182,8 +184,10 @@ const AccesoriosContainer = ({
                           <Image
                             src={item.imagenPrincipal}
                             alt={item.nombre}
-                            layout="fill"
+                            // layout="fill"
                             objectFit="cover"
+                            width={100}
+                            height={100}
                           />
                         </div>
                         <h3 className="font-medium text-sm truncate">

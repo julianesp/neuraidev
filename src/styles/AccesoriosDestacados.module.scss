@@ -13,3 +13,14 @@
     background-color: rgba(188, 204, 220, 0.25);
   }
 }
+
+@media (min-width: 768px) {
+  .container {
+    width: 48%; /* Changed from 300px to percentage-based for responsive layout */
+    margin: 10px 1%;
+
+    & .accesories {
+      /* Any specific styles for accesories within the container at 768px+ */
+    }
+  }
+}

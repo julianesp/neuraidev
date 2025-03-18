@@ -8,16 +8,18 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  margin-top: 60px;
+
   margin-top: -15px;
+
+  @media (min-width: 1024px) {
+    margin-top: -3px;
+  }
 
   #services,
   #accesories,
   [id] {
-    scroll-margin-top: 100px; /* Adjust based on your navbar height */
+    scroll-margin-top: 100px;
   }
-
-  /* Add this to your Home.module.scss file */
 
   @keyframes bounce {
     0% {
@@ -51,8 +53,7 @@
     justify-content: center;
 
     width: 100vw;
-    // width: 95%;
-    // margin-top: 15px;
+    height: 300px;
   }
 
   & .linksDirect {
@@ -63,11 +64,19 @@
       background-color: $white;
       color: $black;
     }
+
+    @media (width: 1024px) {
+      margin-bottom: 0;
+    }
   }
 
   & .destacados {
-    margin: 0 50px;
-    padding: 0 50px;
+    // margin: 0 50px;
+    // padding: 0 50px;
+
+    @media (width: 1024px) {
+      margin-top: 0;
+    }
   }
 
   & .tratamientos {
@@ -121,142 +130,18 @@
         text-align: center;
       }
     }
+
+    @media (width: 1024px) {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 
-  // & .accesories {
-  //   position: relative;
-  //   display: flex;
-  //   flex-direction: column;
-
-  //   margin: 2rem auto;
-  //   padding: 2rem 0 0 0;
-
-  //   width: 100%;
-
-  //   overflow-x: auto;
-  //   white-space: nowrap;
-  //   // padding: 10px;
-
-  //   h2 {
-  //     width: calc(100% - 30px);
-  //   }
-
-  //   a {
-  //     @include celeste_button;
-  //   }
-
-  //   & .varios {
-  //     position: relative;
-  //     display: grid;
-  //     grid-template-columns: 1fr;
-  //     gap: 1rem;
-  //     padding-top: 150px;
-
-  //     @media (min-width: 375px) {
-  //       grid-template-columns: repeat(2, 1fr);
-  //     }
-
-  //     @media (min-width: 576px) {
-  //       grid-template-columns: repeat(3, 1fr);
-  //     }
-
-  //     @media (min-width: 768px) {
-  //       grid-template-columns: repeat(4, 1fr);
-  //     }
-
-  //     @media (min-width: 992px) {
-  //       grid-template-columns: repeat(5, 1fr);
-  //     }
-  //     padding: 10px 0;
-  //     text-align: center;
-  //     height: auto;
-
-  //     & h1 {
-  //       text-align: center;
-  //       font-size: 2.5rem;
-  //       font-weight: 700;
-  //       color: $primary-color;
-  //       margin-bottom: 1.5rem;
-  //       position: relative;
-
-  //       &:after {
-  //         content: "";
-  //         position: absolute;
-  //         bottom: -10px;
-  //         left: 50%;
-  //         transform: translateX(-50%);
-  //         width: 80px;
-  //         height: 3px;
-  //         background-color: $accent-color;
-  //       }
-  //     }
-
-  //     & .tipo {
-  //       height: auto;
-  //       background: white;
-  //       border-radius: 10px;
-  //       overflow: hidden;
-  //       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  //       display: flex;
-  //       flex-direction: column;
-  //       transition: transform 0.3s ease;
-
-  //       &:hover {
-  //         transform: translateY(-5px);
-  //       }
-  //       & h2 {
-  //         padding: 1rem;
-  //         font-size: 0.9rem;
-  //         font-weight: 400;
-  //         color: #333;
-  //         background: #f8f8f8;
-  //         margin: 0;
-  //       }
-  //       a {
-  //         padding: 0.8rem;
-  //         text-align: center;
-  //         background: #0070f3;
-  //         color: white;
-  //         text-decoration: none;
-  //         font-weight: 400;
-  //         font-size: 0.9rem;
-  //         width: 80px;
-  //         margin-top: auto;
-  //         margin: 0 auto;
-
-  //         &:hover {
-  //           background: #0051cc;
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   & .several {
-  //     position: relative;
-  //     display: flex;
-  //     flex-direction: column;
-
-  //     & .titulo {
-  //       @include header_h1;
-  //       top: 0;
-  //       text-align: center;
-  //       width: 100px;
-  //       margin-top: 20px;
-  //       margin-bottom: 10px;
-  //     }
-
-  //     & .api {
-  //       overflow-x: scroll;
-  //     }
-  //   }
-  // }
-
-  /* Estilos específicos para la sección de accesorios */
   .accesories {
     position: relative;
     width: 100%;
-    margin: 2rem auto;
-    padding: 2rem 0;
+    margin: 1rem auto;
+    padding: 1rem 0;
     background-color: #f5f5f5;
 
     .varios {
@@ -264,7 +149,7 @@
       max-width: 1200px;
       margin: 0 auto;
       position: relative;
-      padding-top: 80px; /* Espacio para el título */
+      padding-top: 40px;
       display: flex;
       flex-direction: column;
       gap: 2rem;
@@ -326,7 +211,7 @@
           font-weight: 500;
           font-size: 0.9rem;
           width: 100px;
-          margin: .2rem auto;
+          margin: 0.2rem auto;
           border-radius: 5px;
           display: block;
 
@@ -338,7 +223,6 @@
     }
   }
 
-  /* Media queries para dispositivos más grandes */
   @media (min-width: 425px) {
     .accesories {
       .varios {
@@ -355,6 +239,10 @@
         }
       }
     }
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 0;
   }
 
   @media (min-width: 992px) {
@@ -382,20 +270,22 @@
   }
 }
 
-@media (width > 767px) {
+@media (width > 768px) {
   .container {
     display: grid;
     grid-template-areas:
       "presentacion presentacion"
+      "directos aside"
+      "servicios aside"
       "products aside"
-      "servicios aside";
+      "conjunto aside";
 
     grid-template-columns: 2fr 20%; /* Ajuste de tamaño */
     grid-template-rows: auto;
     gap: 20px; /* Espacio entre elementos */
 
-    margin-bottom: 50px;
-    padding-bottom: 20px;
+    // margin-bottom: 50px;
+    // padding-bottom: 20px;
 
     & .presentation {
       position: relative;
@@ -411,29 +301,17 @@
       }
     }
 
-    & .accesories {
-      // justify-content: center;
+    & .destacados {
+      width: 100%;
+      padding: 0 15px;
+      margin: 20px 0;
 
-      // grid-area: products;
-      // display: flex;
-      // flex-wrap: wrap;
-      // justify-content: center;
-      // align-items: center;
-
-      // padding: 30px;
-
-      // & .varios {
-      //   @include shadowRight;
-
-      //   flex-wrap: wrap;
-
-      //   display: flex;
-
-      //   align-items: center;
-
-      //   padding: 20px 0;
-      //   margin-left: 10px;
-      // }
+      @media (min-width: 768px) {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap; /* In case you add more components later */
+      }
     }
 
     & .tratamientos {
@@ -464,11 +342,5 @@
         // padding: 20px;
       }
     }
-  }
-}
-
-@media (width > 768px) and (width < 1439px) {
-  .container {
-    margin-top: -2px;
   }
 }

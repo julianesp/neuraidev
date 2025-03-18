@@ -82,7 +82,9 @@ const ProductItem = ({ product, maxImages }) => {
       <p>{product.title}</p>
       <p>${product.price}</p>
 
-      <Link href={`/products/${product.id}`} className="btn glass" >Ver</Link>
+      <Link href={`/products/${product.id}`} className="btn glass">
+        Ver
+      </Link>
 
       {images.length > 1 && (
         <div className={styles.thumbnails}>
@@ -91,8 +93,8 @@ const ProductItem = ({ product, maxImages }) => {
               key={index}
               src={image || "/placeholder.svg"}
               alt={`Thumbnail ${index + 1}`}
-              width={50}
-              height={50}
+              width={100}
+              height={100}
               onClick={() => handleImageChange(index)}
               className={currentImage === image ? styles.active : ""}
             />

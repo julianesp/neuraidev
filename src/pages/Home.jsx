@@ -255,46 +255,11 @@ const Inicio = () => {
       <main
         className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}
       >
-        <section className={` ${styles.presentation}`}>
-          {/* <CarouselDemo apiUrl={API_PRESENTATION} /> */}
-          <CarouselDemo apiUrl={API_CELULARES} />
+        <section className={`${styles.presentation}`}>
+          <div className="w-full">
+            <CarouselDemo apiUrl={API_CELULARES} />
+          </div>
         </section>
-        {/* <section
-          className={`${styles.linksDirect} w-full h-12 flex items-center justify-center mb-6`}
-        >
-          <a
-            href="#services"
-            onClick={(e) => {
-              e.preventDefault();
-              const element = document.getElementById("services");
-              const offsetTop =
-                element.getBoundingClientRect().top + window.pageYOffset - 100;
-              window.scrollTo({
-                top: offsetTop,
-                behavior: "smooth",
-              });
-            }}
-            className="border-solid border-2 p-3 rounded-md bg-slate-400 mr-4"
-          >
-            Servicios
-          </a>
-          <a
-            href="#accesories"
-            onClick={(e) => {
-              e.preventDefault();
-              const element = document.getElementById("accesories");
-              const offsetTop =
-                element.getBoundingClientRect().top + window.pageYOffset - 70;
-              window.scrollTo({
-                top: offsetTop,
-                behavior: "smooth",
-              });
-            }}
-            className="border-solid border-2 p-3 rounded-md bg-slate-400"
-          >
-            Accesorios
-          </a>
-        </section> */}
 
         <section
           className={`${styles.linksDirect} w-full h-12 flex items-center justify-center mb-6`}
@@ -373,11 +338,11 @@ const Inicio = () => {
 
         <section className={styles.destacados}>
           <AccesoriosDestacados />
-        </section>
-
-        <section className={styles.destacados}>
           <AccesoriosNuevos />
         </section>
+
+        {/* <section className={styles.destacados}>
+        </section> */}
 
         <section className={styles.tratamientos}>
           <section className={styles.area}>
@@ -401,6 +366,7 @@ const Inicio = () => {
         <section className={`${styles.accesories}`}>
           <section className={styles.varios}>
             <h1 id="accesories">Accesorios</h1>
+
             <article className={styles.tipo}>
               <h2>Celulares</h2>
 
@@ -415,6 +381,7 @@ const Inicio = () => {
               <h2>Computadores</h2>
 
               <CarouselDemo apiUrl={API_COMPUTADORES} />
+
               <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.COMPUTADORES}`}>
                 Ver más
               </Link>

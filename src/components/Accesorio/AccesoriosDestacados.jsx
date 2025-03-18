@@ -113,7 +113,9 @@ const AccesoriosDestacados = () => {
       <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
 
       {/* Navegación para móviles */}
-      <div className="flex justify-between items-center mb-4">
+      <div
+        className={`flex justify-between items-center mb-4 ${style.accesories}`}
+      >
         <button
           onClick={scrollLeft}
           disabled={currentIndex === 0}
