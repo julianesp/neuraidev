@@ -1,3 +1,11 @@
+.carouselContainer {
+  position: relative;
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .carousel {
   position: relative;
   height: 100%;
@@ -6,7 +14,7 @@
 
   :global(.carousel-prev),
   :global(.carousel-next) {
-    background-color: rgb(7, 7, 7);
+    background-color: rgb(255, 255, 255);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -15,9 +23,18 @@
     justify-content: center;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    // transform: translateY(-50%);
     z-index: 10;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #000;
+      color: #fff;
+      transform: scale(0.9);
+      transition: 0.3s ease-out;
+    }
   }
 
   :global(.carousel-prev) {
@@ -38,6 +55,7 @@
         height: 100%;
 
         & .cardContent {
+          width: 100%;
           height: 100%;
           display: flex;
           align-items: center;
@@ -52,6 +70,51 @@
         }
       }
     }
+  }
+}
+
+/* Indicadores */
+.indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // margin-top: 10px;
+  margin: 0 auto;
+  gap: 8px;
+  position: absolute;
+  bottom: 0px;
+
+  left: 0;
+  right: 0;
+  z-index: 5;
+  width: 150px;
+  height: 30px;
+  padding: 5px 0;
+
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #000;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #000;
+  border: none;
+  padding: 0px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &.active {
+    // background-color: rgb(0, 0, 0);
+    border: 5px solid #fff;
+    transform: scale(1.2);
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.8);
   }
 }
 
@@ -86,5 +149,14 @@
     :global(.carousel-next) {
       right: 20px;
     }
+  }
+
+  .indicators {
+    bottom: 20px;
+  }
+
+  .indicator {
+    width: 12px;
+    height: 12px;
   }
 }

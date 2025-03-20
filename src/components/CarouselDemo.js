@@ -1,154 +1,20 @@
-// "use client";
-
-// import { Card, CardContent } from "@/components/ui/card";
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-// } from "@/components/ui/carousel";
-
-// import Image from "next/image";
-// import { useEffect, useState } from "react";
-
-// import styles from "@/styles/Carousel.module.scss";
-
-// export function CarouselDemo({ images = [], apiUrl }) {
-//   const [imageData, setImageData] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     // Si se proporciona un apiUrl, carga las imágenes desde la API
-//     if (apiUrl) {
-//       setLoading(true);
-//       setError(null);
-
-//       fetch(apiUrl)
-//         .then((response) => {
-//           if (!response.ok) {
-//             throw new Error(`Error HTTP: ${response.status}`);
-//           }
-//           return response.json();
-//         })
-//         .then((data) => {
-//           console.log("Datos cargados del JSON:", data); // Para depuración
-
-//           let extractedImages = [];
-
-//           // Intenta extraer las imágenes según diferentes estructuras posibles
-//           if (Array.isArray(data)) {
-//             // Caso 1: El JSON es un array de objetos, cada uno con una propiedad 'images'
-//             extractedImages = data.flatMap((item) => {
-//               // Si item.images es un array, lo usamos directamente
-//               if (Array.isArray(item.images)) {
-//                 return item.images;
-//               }
-//               // Si item.images es una string, la convertimos en un elemento de array
-//               else if (typeof item.images === "string") {
-//                 return [item.images];
-//               }
-//               // Si el item tiene propiedades como d1, d2, etc. (como en tu variable 'accesorios')
-//               else {
-//                 return Object.values(item).filter(
-//                   (value) =>
-//                     typeof value === "string" &&
-//                     (value.includes("http") || value.includes("/")),
-//                 );
-//               }
-//             });
-//           } else if (typeof data === "object" && data !== null) {
-//             // Caso 2: El JSON es un objeto único con propiedades que contienen URLs
-//             extractedImages = Object.values(data).filter(
-//               (value) =>
-//                 typeof value === "string" &&
-//                 (value.includes("http") || value.includes("/")),
-//             );
-//           }
-
-//           console.log("Imágenes extraídas:", extractedImages); // Para depuración
-//           setImageData(extractedImages);
-//         })
-//         .catch((error) => {
-//           console.error("Error cargando imágenes:", error);
-//           setError(error.message);
-//         })
-//         .finally(() => setLoading(false));
-//     }
-//   }, [apiUrl]);
-
-//   // Usa las imágenes proporcionadas directamente o las cargadas desde la API
-//   const displayImages = images.length > 0 ? images : imageData;
-
-//   if (loading) {
-//     return <div>Cargando imágenes...</div>;
-//   }
-
-//   if (error) {
-//     return <div>Error: {error}</div>;
-//   }
-
-//   if (!displayImages || displayImages.length === 0) {
-//     return (
-//       <div>No hay imágenes disponibles. Verifique la estructura del JSON.</div>
-//     );
-//   }
-
-//   return (
-//     <Carousel className={`${styles.carousel} w-full`}>
-//       <CarouselContent className={styles.carouselContent}>
-//         {displayImages.map((src, index) => (
-//           <CarouselItem key={index} className={styles.carouselItem}>
-//             <div className="p-1">
-//               <Card className={styles.card}>
-//                 <CardContent className={`${styles.cardContent} p-0`}>
-//                   <Image
-//                     src={src}
-//                     alt={`Imagen ${index + 1}`}
-//                     className="rounded-lg"
-//                     width={800}
-//                     height={600}
-//                     priority={index === 0} // Prioriza la carga de la primera imagen
-//                     sizes="(max-width: 768px) 100vw, 80vw"
-//                   />
-//                 </CardContent>
-//               </Card>
-//             </div>
-//           </CarouselItem>
-//         ))}
-//       </CarouselContent>
-//       <CarouselPrevious />
-//       <CarouselNext />
-//     </Carousel>
-//   );
-// }
-
-// export default CarouselDemo;
-
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-
 import styles from "@/styles/Carousel.module.scss";
 
 export function CarouselDemo({ images = [], apiUrl }) {
   const [imageData, setImageData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
+  const autoplayTimerRef = useRef(null);
+
+  // Cargar imágenes desde API (mismo código que antes)
   useEffect(() => {
-    // Si se proporciona un apiUrl, carga las imágenes desde la API
     if (apiUrl) {
       setLoading(true);
       setError(null);
@@ -161,24 +27,15 @@ export function CarouselDemo({ images = [], apiUrl }) {
           return response.json();
         })
         .then((data) => {
-          console.log("Datos cargados del JSON:", data); // Para depuración
-
           let extractedImages = [];
 
-          // Intenta extraer las imágenes según diferentes estructuras posibles
           if (Array.isArray(data)) {
-            // Caso 1: El JSON es un array de objetos, cada uno con una propiedad 'images'
             extractedImages = data.flatMap((item) => {
-              // Si item.images es un array, lo usamos directamente
               if (Array.isArray(item.images)) {
                 return item.images;
-              }
-              // Si item.images es una string, la convertimos en un elemento de array
-              else if (typeof item.images === "string") {
+              } else if (typeof item.images === "string") {
                 return [item.images];
-              }
-              // Si el item tiene propiedades como d1, d2, etc. (como en tu variable 'accesorios')
-              else {
+              } else {
                 return Object.values(item).filter(
                   (value) =>
                     typeof value === "string" &&
@@ -187,7 +44,6 @@ export function CarouselDemo({ images = [], apiUrl }) {
               }
             });
           } else if (typeof data === "object" && data !== null) {
-            // Caso 2: El JSON es un objeto único con propiedades que contienen URLs
             extractedImages = Object.values(data).filter(
               (value) =>
                 typeof value === "string" &&
@@ -195,7 +51,6 @@ export function CarouselDemo({ images = [], apiUrl }) {
             );
           }
 
-          console.log("Imágenes extraídas:", extractedImages); // Para depuración
           setImageData(extractedImages);
         })
         .catch((error) => {
@@ -206,8 +61,90 @@ export function CarouselDemo({ images = [], apiUrl }) {
     }
   }, [apiUrl]);
 
-  // Usa las imágenes proporcionadas directamente o las cargadas desde la API
+  // Obtener las imágenes a mostrar
   const displayImages = images.length > 0 ? images : imageData;
+
+  // Función para iniciar el autoplay usando useRef para evitar problemas de dependencias
+  const startAutoplayRef = useRef(() => {});
+
+  // Definimos la función real de autoplay
+  useEffect(() => {
+    // Definimos la función dentro del efecto para tener acceso a los valores más recientes
+    startAutoplayRef.current = () => {
+      console.log("Iniciando autoplay");
+      if (autoplayTimerRef.current) {
+        clearTimeout(autoplayTimerRef.current);
+      }
+
+      if (!displayImages || displayImages.length <= 1) return;
+
+      autoplayTimerRef.current = setTimeout(() => {
+        if (!isPaused) {
+          console.log("Avanzando al siguiente slide");
+          setCurrentIndex(
+            (prevIndex) => (prevIndex + 1) % displayImages.length,
+          );
+        }
+        startAutoplayRef.current(); // Llamar recursivamente a través de la referencia
+      }, 5000);
+    };
+  }, [displayImages, isPaused]);
+
+  // Iniciar autoplay al montar el componente
+  useEffect(() => {
+    console.log("Configurando autoplay inicial");
+    // Llamamos a la función de inicio inmediatamente después de montar
+    startAutoplayRef.current();
+
+    return () => {
+      console.log("Limpiando temporizador al desmontar");
+      if (autoplayTimerRef.current) {
+        clearTimeout(autoplayTimerRef.current);
+      }
+    };
+  }, []); // Sin dependencias para ejecutar solo al montar/desmontar
+
+  // Función para pausar temporalmente el autoplay
+  const pauseAutoplay = () => {
+    console.log("Pausando autoplay");
+
+    // Detener cualquier temporizador existente
+    if (autoplayTimerRef.current) {
+      clearTimeout(autoplayTimerRef.current);
+    }
+
+    setIsPaused(true);
+
+    // Reanudar después de 5 segundos
+    setTimeout(() => {
+      console.log("Reanudando autoplay después de pausa");
+      setIsPaused(false);
+      // Reiniciar el autoplay explícitamente
+      startAutoplayRef.current();
+    }, 5000);
+  };
+
+  // Navegación manual
+  const goToPrevious = () => {
+    const newIndex =
+      currentIndex === 0 ? displayImages.length - 1 : currentIndex - 1;
+    console.log("Cambiando a slide anterior:", newIndex);
+    setCurrentIndex(newIndex);
+    pauseAutoplay();
+  };
+
+  const goToNext = () => {
+    const newIndex = (currentIndex + 1) % displayImages.length;
+    console.log("Cambiando a slide siguiente:", newIndex);
+    setCurrentIndex(newIndex);
+    pauseAutoplay();
+  };
+
+  const goToSlide = (index) => {
+    console.log("Cambiando a slide específico:", index);
+    setCurrentIndex(index);
+    pauseAutoplay();
+  };
 
   if (loading) {
     return <div>Cargando imágenes...</div>;
@@ -224,20 +161,21 @@ export function CarouselDemo({ images = [], apiUrl }) {
   }
 
   return (
-    <Carousel className={`${styles.carousel} w-full h-full`}>
-      <CarouselContent className={styles.carouselContent}>
-        {displayImages.map((src, index) => (
-          <CarouselItem key={index} className={styles.carouselItem}>
+    <div className={styles.carouselContainer}>
+      <div className={styles.carousel}>
+        <div className={styles.carouselContent}>
+          {/* Solo mostramos la imagen actual */}
+          <div className={styles.carouselItem} key={currentIndex}>
             <div className="p-1 h-full">
-              <Card className={styles.card}>
-                <CardContent className={`${styles.cardContent} p-0`}>
+              <div className={styles.card}>
+                <div className={`${styles.cardContent} p-0`}>
                   <Image
-                    src={src}
-                    alt={`Imagen ${index + 1}`}
+                    src={displayImages[currentIndex]}
+                    alt={`Imagen ${currentIndex + 1}`}
                     className="rounded-lg"
                     width={800}
                     height={600}
-                    priority={index === 0} // Prioriza la carga de la primera imagen
+                    priority={true}
                     sizes="(max-width: 768px) 100vw, 80vw"
                     style={{
                       width: "100%",
@@ -245,15 +183,66 @@ export function CarouselDemo({ images = [], apiUrl }) {
                       objectFit: "cover",
                     }}
                   />
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
-          </CarouselItem>
+          </div>
+        </div>
+
+        {/* Botones de navegación */}
+        <button
+          onClick={goToPrevious}
+          className="carousel-prev"
+          aria-label="Anterior"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <button
+          onClick={goToNext}
+          className="carousel-next"
+          aria-label="Siguiente"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      {/* Indicadores */}
+      <div className={styles.indicators}>
+        {displayImages.map((_, index) => (
+          <button
+            key={index}
+            className={`${styles.indicator} ${
+              index === currentIndex ? styles.active : ""
+            }`}
+            onClick={() => goToSlide(index)}
+            aria-label={`Ir a imagen ${index + 1}`}
+          />
         ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
+      </div>
+    </div>
   );
 }
 
