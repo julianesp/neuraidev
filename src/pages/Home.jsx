@@ -370,7 +370,7 @@ const Inicio = () => {
             <article className={styles.tipo}>
               <h2>Celulares</h2>
 
-              <CarouselDemo apiUrl={API_CELULARES} />
+              <CarouselDemo className="h-80" apiUrl={API_CELULARES} showIndicators={false}/>
 
               <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.CELULARES}`}>
                 Ver más
@@ -380,7 +380,7 @@ const Inicio = () => {
             <article className={styles.tipo}>
               <h2>Computadores</h2>
 
-              <CarouselDemo apiUrl={API_COMPUTADORES} />
+              <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
 
               <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.COMPUTADORES}`}>
                 Ver más
@@ -389,7 +389,7 @@ const Inicio = () => {
             <article className={styles.tipo}>
               <h2>Damas</h2>
 
-              <CarouselDemo apiUrl={API_COMPUTADORES} />
+              <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
               <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.DAMAS}`}>
                 Ver más
               </Link>
@@ -397,7 +397,7 @@ const Inicio = () => {
             <article className={styles.tipo}>
               <h2>Libros nuevos</h2>
 
-              <CarouselDemo apiUrl={API_COMPUTADORES} />
+              <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
               <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.LIBROS_NUEVOS}`}>
                 Ver más
               </Link>
@@ -406,7 +406,7 @@ const Inicio = () => {
             <article className={styles.tipo}>
               <h2>Libros usados</h2>
 
-              <CarouselDemo apiUrl={API_COMPUTADORES} />
+              <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
               <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.LIBROS_USADOS}`}>
                 Ver más
               </Link>
