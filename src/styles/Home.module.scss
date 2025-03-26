@@ -75,8 +75,12 @@
     // margin: 0 50px;
     // padding: 0 50px;
 
-    @media (width: 1024px) {
-      margin-top: 0;
+    @media (width > 768px) {
+      // width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
     }
   }
 
@@ -302,18 +306,18 @@
       }
     }
 
-    & .destacados {
-      width: 100%;
-      padding: 0 15px;
-      margin: 20px 0;
+    // & .destacados {
+    //   width: 100%;
+    //   padding: 0 15px;
+    //   margin: 20px 0;
 
-      @media (min-width: 768px) {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        flex-wrap: wrap; /* In case you add more components later */
-      }
-    }
+    //   @media (min-width: 768px) {
+    //     display: flex;
+    //     flex-direction: row;
+    //     justify-content: space-between;
+    //     flex-wrap: nowrap; /* In case you add more components later */
+    //   }
+    // }
 
     & .tratamientos {
       grid-area: servicios;

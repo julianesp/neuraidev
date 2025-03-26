@@ -1,34 +1,65 @@
-[
-    {
-        "id": 1,
-        "nombre": "Collar Elegante",
-        "descripcion": "Collar elegante con piedras preciosas",
-        "precio": 29.99,
-        "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzEuanBnIiwiaWF0IjoxNzQwNzk1MzI2LCJleHAiOjE3NzIzMzEzMjZ9.5STAurrj3Ub5dwsZpjsa90Msnkicpukdo6f3Ett1F8Y",
-        "destacado": true
-    },
-    {
-        "id": 2,
-        "nombre": "Pulsera Artesanal",
-        "descripcion": "Pulsera hecha a mano con materiales exclusivos",
-        "precio": 19.99,
-        "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/usb%20tipo%202%20meters/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy91c2IgdGlwbyAyIG1ldGVycy8xLmpwZyIsImlhdCI6MTc0MDc5NTM1NSwiZXhwIjoxNzcyMzMxMzU1fQ.0E8Z_A18pdmK4Xod1g1Wziva94lPnMmoWOWv1vkKjxE",
-        "destacado": true
-    },
-    {
-        "id": 3,
-        "nombre": "Aretes de Plata",
-        "descripcion": "Aretes de plata 925 con diseño moderno",
-        "precio": 24.99,
-        "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzEuanBnIiwiaWF0IjoxNzQwNzk1MzI2LCJleHAiOjE3NzIzMzEzMjZ9.5STAurrj3Ub5dwsZpjsa90Msnkicpukdo6f3Ett1F8Y",
-        "destacado": true
-    },
-    {
-        "id": 4,
-        "nombre": "Anillo Ajustable",
-        "descripcion": "Anillo ajustable con diseño minimalista",
-        "precio": 15.99,
-        "imagen": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/usb%20tipo%202%20meters/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy91c2IgdGlwbyAyIG1ldGVycy8xLmpwZyIsImlhdCI6MTc0MDc5NTM1NSwiZXhwIjoxNzcyMzMxMzU1fQ.0E8Z_A18pdmK4Xod1g1Wziva94lPnMmoWOWv1vkKjxE",
-        "destacado": true
+{
+    "accesorios": [
+        {
+            "id": 1,
+            "nombre": "Luces para bicicleta",
+            "descripcion": "Con batería recargable mediante USB tipo v. Cuentan con 3 modos de iluminación. Luz delantera cuenta con luz alta, baja y parpadeo. En paquete incluye lámpara, USB y resortes para sujetar.",
+            "imagenes": [
+                {
+                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMS5qcGciLCJpYXQiOjE3NDI5NTYzMzIsImV4cCI6MTc3NDQ5MjMzMn0.q0brOUei6-NJWIDKP7007TAstOMQXDI1w7708mfh3RM"
+                },
+                {
+                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMi5qcGciLCJpYXQiOjE3NDI5NTYzNTgsImV4cCI6MTc3NDQ5MjM1OH0.Rvl_OqWTrHs8jvGpbBwoumeu-7G7pGm8fuAqCKsDyEg"
+                },
+                {
+                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMy5qcGciLCJpYXQiOjE3NDI5NTYzODIsImV4cCI6MTc3NDQ5MjM4Mn0.cGRQpMJUMDGZ8C2I6WfY16GkPKq4BSi6tPI8l2usQqs"
+                },
+                {
+                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/4.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvNC5qcGciLCJpYXQiOjE3NDI5NTY0MTEsImV4cCI6MTc3NDQ5MjQxMX0.3divsnOQ-3JiOTEIRUQElNFkBdVnzA8UeB7qZVOAr_U"
+                }
+            ],
+            "imagenPrincipal": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMS5qcGciLCJpYXQiOjE3NDI5NTYzMzIsImV4cCI6MTc3NDQ5MjMzMn0.q0brOUei6-NJWIDKP7007TAstOMQXDI1w7708mfh3RM",
+            "precio": 34900,
+            "categoria": "damas"
+        },
+        {
+            "id": 2,
+            "nombre": "Disco SSD mSATA 256 GB",
+            "descripcion": "¡Optimiza el rendimiento de tu equipo! 🚀 Este SSD tipo mSATA ofrece velocidad y confiabilidad. Ideal para quienes buscan mayor rapidez en la transferencia de datos. 📂 Perfecto para laptops (portátiles) 💻",
+            "imagenes": [
+                {
+                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/ssd%20mSata/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9zc2QgbVNhdGEvMS5qcGciLCJpYXQiOjE3NDI4NzAzNzQsImV4cCI6MTc3NDQwNjM3NH0.ufbta37bGQSK8rErZt0EBVpcRFwhOm8JnUH9cXoX5Aw"
+                },
+                {
+                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/ssd%20mSata/3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9zc2QgbVNhdGEvMy5qcGciLCJpYXQiOjE3NDI4NzA0NTMsImV4cCI6MTc3NDQwNjQ1M30.tOyZe7TwROcjw1akU2juHXCV9TSvinUTNbyKRyID_vE"
+                },
+                {
+                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/ssd%20mSata/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9zc2QgbVNhdGEvMi5qcGciLCJpYXQiOjE3NDI4NzA0MjgsImV4cCI6MTc3NDQwNjQyOH0.B10qHG_ZLtvs4xIFKZU8HK7onQ8eimNBK5JBOfCbuiM"
+                }
+            ],
+            "imagenPrincipal": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/ssd%20mSata/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9zc2QgbVNhdGEvMS5qcGciLCJpYXQiOjE3NDI4NzAzNzQsImV4cCI6MTc3NDQwNjM3NH0.ufbta37bGQSK8rErZt0EBVpcRFwhOm8JnUH9cXoX5Aw",
+            "precio": 119900,
+            "categoria": "computador"
+        },
+        {
+            "id": 3,
+            "nombre": "USB Tipo C - 2 metros",
+            "descripcion": "Diseñado para ofrecer durabilidad y rendimiento óptimos. Está recubierto con un material resistente que lo protege contra el desgaste diario, lo que lo hace ideal para entornos exigentes. Soporta una potencia de hasta 100W, lo que lo convierte en una excelente opción para carga rápida.",
+            "imagenes": [
+                {
+                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/usb%20t%20c%202%20metros/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy91c2IgdCBjIDIgbWV0cm9zLzEuanBnIiwiaWF0IjoxNzQyODcxMTUwLCJleHAiOjE3NzQ0MDcxNTB9.K9vtInBmomcXdmVBzDnENR4usObHFmQ9IYCGETr0byQ"
+                },
+                {
+                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/usb%20t%20c%202%20metros/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy91c2IgdCBjIDIgbWV0cm9zLzIuanBnIiwiaWF0IjoxNzQyODcxMTc2LCJleHAiOjE3NzQ0MDcxNzZ9.mzxZ7PK-r8noA98X4orhgELrvuH0hwJEX6h_RqaUXi0"
+                }
+            ],
+            "imagenPrincipal": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/usb%20t%20c%202%20metros/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy91c2IgdCBjIDIgbWV0cm9zLzEuanBnIiwiaWF0IjoxNzQyODcxMTUwLCJleHAiOjE3NzQ0MDcxNTB9.K9vtInBmomcXdmVBzDnENR4usObHFmQ9IYCGETr0byQ",
+            "precio": 39900,
+            "categoria": "celulares"
+        }
+    ],
+    "configuracion": {
+        "telefono": "+573174503604",
+        "whatsappMensaje": "Hola, estoy interesado en el accesorio destacado: "
     }
-]
+}

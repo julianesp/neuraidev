@@ -10,18 +10,18 @@ import ImageCarousel from "@/components/ImageCarousel";
 import Advertisement from "@/components/Advertisement";
 import AccesoriosBase from "@/components/Accesorio/AccesoriosBase";
 import AccesoriosDestacados from "@/components/Accesorio/AccesoriosDestacados";
-import AccesoriosPage from "./AccesoriosPage";
+
 import { Button } from "@/components/ui/button";
-import ProductSlider from "@/components/ProductoDetalle";
-import ProductoDetalle from "@/components/ProductoDetalle";
-import AccesoriosNuevos from "@/components/accesoriosNuevos/AccesoriosNuevos";
+import AccesoriosNuevos from "@/components/Accesorio/AccesoriosNuevos";
 import BackToTop from "@/components/backTop/BackToTop";
+import AccesoriosContainer from "@/app/accesorios/destacados/page";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_PRESENTATION = "/presentation.json";
 const API_DESTACADOS = "/destacados.json";
+const API_ACCESORIOS_CONTAINER = "/accesoriesContainer.json";
 
 // IDs especificos para cada categpria de accesorios
 const CATEGORIA_IDS = {
@@ -99,7 +99,7 @@ const imagesData = [
   },
 ];
 
-const Inicio = () => {
+export default function Inicio() {
   const [presentationSlides, setPresentationSlides] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
@@ -336,6 +336,9 @@ const Inicio = () => {
           </a>
         </section>
 
+        {/* <AccesoriosContainer apiUrl={API_ACCESORIOS_CONTAINER}
+        /> */}
+
         <section className={styles.destacados}>
           <AccesoriosDestacados />
           <AccesoriosNuevos />
@@ -370,7 +373,11 @@ const Inicio = () => {
             <article className={styles.tipo}>
               <h2>Celulares</h2>
 
-              <CarouselDemo className="h-80" apiUrl={API_CELULARES} showIndicators={false}/>
+              <CarouselDemo
+                className="h-80"
+                apiUrl={API_CELULARES}
+                showIndicators={false}
+              />
 
               <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.CELULARES}`}>
                 Ver más
@@ -423,6 +430,6 @@ const Inicio = () => {
       </main>
     </>
   );
-};
+}
 
-export default Inicio;
+// export default Inicio;

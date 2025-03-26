@@ -1,4 +1,6 @@
-// import React, { useState, useEffect, useCallback } from "react";
+// "use client";
+
+// import React, { useState } from "react";
 // import Image from "next/image";
 // import Link from "next/link";
 // import { ChevronLeft, ChevronRight, Play, ShoppingCart } from "lucide-react";
@@ -6,8 +8,6 @@
 
 // const ProductoDetalle = ({ producto = {} }) => {
 //   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-//   const [autoplay, setAutoplay] = useState(true);
-//   const [timer, setTimer] = useState(null);
 
 //   // Normalizar imágenes para prevenir errores
 //   const images =
@@ -17,61 +17,15 @@
 //         ? producto.images
 //         : [producto.images];
 
-//   // Usar useCallback para memorizar la función startAutoplay
-//   const startAutoplay = useCallback(() => {
-//     const newTimer = setTimeout(() => {
-//       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-//       setAutoplay(true);
-//     }, 5000);
-//     setTimer(newTimer);
-//   }, [images.length]); // Solo se recrea si images.length cambia
-
-//   // Iniciar autoplay cuando el componente monta
-//   useEffect(() => {
-//     startAutoplay();
-//     return () => clearTimeout(timer);
-//   }, [startAutoplay, timer]);
-
-//   // Actualizar el timer cuando cambia la imagen actual
-//   useEffect(() => {
-//     if (autoplay) {
-//       clearTimeout(timer);
-//       startAutoplay();
-//     }
-//   }, [currentImageIndex, autoplay, startAutoplay, timer]);
-
-//   // Función para iniciar el autoplay
-//   // const startAutoplay = () => {
-//   //   const newTimer = setTimeout(() => {
-//   //     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-//   //     setAutoplay(true);
-//   //   }, 5000);
-//   //   setTimer(newTimer);
-//   // };
-
 //   // Funciones para cambiar manualmente las imágenes
 //   const prevImage = () => {
-//     clearTimeout(timer);
-//     setAutoplay(false);
 //     setCurrentImageIndex(
 //       (prevIndex) => (prevIndex - 1 + images.length) % images.length,
 //     );
-
-//     // Esperar 5 segundos antes de reanudar el autoplay
-//     setTimeout(() => {
-//       setAutoplay(true);
-//     }, 5000);
 //   };
 
 //   const nextImage = () => {
-//     clearTimeout(timer);
-//     setAutoplay(false);
 //     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-
-//     // Esperar 5 segundos antes de reanudar el autoplay
-//     setTimeout(() => {
-//       setAutoplay(true);
-//     }, 5000);
 //   };
 
 //   // Formatear precio
@@ -100,7 +54,7 @@
 //                 className={`absolute inset-0 transition-opacity ease-in-out ${
 //                   idx === currentImageIndex ? "opacity-100" : "opacity-0"
 //                 }`}
-//                 style={{ transitionDuration: "2000ms" }}
+//                 style={{ transitionDuration: "1000ms" }}
 //               >
 //                 <Image
 //                   src={
@@ -145,6 +99,8 @@
 //                           ? "bg-blue-600 w-6"
 //                           : "bg-gray-300 w-2 hover:bg-gray-400"
 //                       }`}
+//                       onClick={() => setCurrentImageIndex(idx)}
+//                       style={{ cursor: "pointer" }}
 //                     />
 //                   ))}
 //                 </div>
@@ -276,7 +232,7 @@
 //       "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzIuanBnIiwiaWF0IjoxNzQxNDAyNjgxLCJleHAiOjE3NzI5Mzg2ODF9.Eb3zeTptmP5_hkQ4xU1WhhKgDYCJY9S1nll6Gx4Wnmk",
 //     ],
 //     videoUrl:
-//       "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/funda%20iphone%20xs/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy9mdW5kYSBpcGhvbmUgeHMvMS5qcGciLCJpYXQiOjE3NDE0MDI2MTcsImV4cCI6MTc3MjkzODYxN30.m0HxaFk-b1MM-BN4SvETr6THXURPT_bce2ttGsSDwM0",
+//       "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/videos/rosemary%20oil.mp4?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS92aWRlb3Mvcm9zZW1hcnkgb2lsLm1wNCIsImlhdCI6MTc0Mjg3MjMzNywiZXhwIjoxNzc0NDA4MzM3fQ.uXDmno4W63ON2Or4YEqrl0iyPyH52XsOuLQ9Fk8c6PE",
 //   };
 
 //   return {
@@ -286,27 +242,69 @@
 //   };
 // }
 
-import React, { useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Play, ShoppingCart } from "lucide-react";
 import RootLayout from "@/app/layout";
 
-const ProductoDetalle = ({ producto = {} }) => {
+const ProductoDetalle = ({ productos, productoId }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [productoActual, setProductoActual] = useState(null);
+  const [accesoriosDestacados, setAccesoriosDestacados] = useState([]);
+  const [productosRelacionados, setProductosRelacionados] = useState([]);
+
+  // Cargar el producto actual y los accesorios destacados
+  useEffect(() => {
+    // Si recibimos directamente un array de productos
+    if (productos && productos.length > 0) {
+      // Encontrar el producto actual por ID
+      const producto = productos.find(p => p.id === productoId) || productos[0];
+      setProductoActual(producto);
+      
+      // Filtrar productos destacados
+      const destacados = productos.filter(p => p.destacado === true);
+      setAccesoriosDestacados(destacados);
+      
+      // Filtrar productos relacionados (misma categoría)
+      if (producto.categoria) {
+        const relacionados = productos
+          .filter(p => p.categoria === producto.categoria && p.id !== producto.id)
+          .slice(0, 4); // Mostrar máximo 4 relacionados
+        setProductosRelacionados(relacionados);
+      }
+    }
+  }, [productos, productoId]);
+
+  // Si no hay producto, mostrar mensaje de carga
+  if (!productoActual) {
+    return (
+      <RootLayout>
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-xl shadow-md p-8 text-center">
+              <p>Cargando producto...</p>
+            </div>
+          </div>
+        </div>
+      </RootLayout>
+    );
+  }
 
   // Normalizar imágenes para prevenir errores
   const images =
-    !producto || !producto.images
+    !productoActual || !productoActual.images
       ? ["/placeholder.jpg"]
-      : Array.isArray(producto.images)
-        ? producto.images
-        : [producto.images];
+      : Array.isArray(productoActual.images)
+        ? productoActual.images
+        : [productoActual.images];
 
   // Funciones para cambiar manualmente las imágenes
   const prevImage = () => {
     setCurrentImageIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length,
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
     );
   };
 
@@ -343,16 +341,11 @@ const ProductoDetalle = ({ producto = {} }) => {
                 style={{ transitionDuration: "1000ms" }}
               >
                 <Image
-                  src={
-                    img ||
-                    "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/funda%20iphone%20xs/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy9mdW5kYSBpcGhvbmUgeHMvMS5qcGciLCJpYXQiOjE3NDE0MDI2MTcsImV4cCI6MTc3MjkzODYxN30.m0HxaFk-b1MM-BN4SvETr6THXURPT_bce2ttGsSDwM0"
-                  }
-                  alt={`Imagen ${idx + 1} de ${producto.title || "Producto"}`}
+                  src={img || "/placeholder.jpg"}
+                  alt={`Imagen ${idx + 1} de ${productoActual.title || "Producto"}`}
                   layout="fill"
                   objectFit="contain"
                   className="p-6"
-                  // width={100}
-                  // height={100}
                 />
               </div>
             ))}
@@ -398,7 +391,7 @@ const ProductoDetalle = ({ producto = {} }) => {
           <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
             <div className="p-6">
               <h1 className="text-2xl font-bold text-gray-800 mb-2">
-                {producto.title || "Accesorio Premium"}
+                {productoActual.title || "Accesorio Premium"}
               </h1>
 
               <div className="bg-gray-50 p-5 rounded-lg mb-6">
@@ -406,7 +399,7 @@ const ProductoDetalle = ({ producto = {} }) => {
                   Descripción de accesorio
                 </h2>
                 <p className="text-gray-600 leading-relaxed">
-                  {producto.description ||
+                  {productoActual.description ||
                     "Este accesorio de alta calidad está diseñado para mejorar la experiencia del usuario. Fabricado con materiales duraderos y acabados premium, es compatible con todos los modelos recientes. Incluye garantía de un año y soporte técnico."}
                 </p>
               </div>
@@ -415,11 +408,11 @@ const ProductoDetalle = ({ producto = {} }) => {
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
                 <div className="flex items-baseline">
                   <span className="text-3xl font-bold text-green-600 mr-2">
-                    {formatPrice(producto.price || 299999)}
+                    {formatPrice(productoActual.price || 299999)}
                   </span>
-                  {producto.oldPrice && (
+                  {productoActual.oldPrice && (
                     <span className="text-lg text-gray-400 line-through">
-                      {formatPrice(producto.oldPrice)}
+                      {formatPrice(productoActual.oldPrice)}
                     </span>
                   )}
                 </div>
@@ -440,13 +433,13 @@ const ProductoDetalle = ({ producto = {} }) => {
                 </h2>
 
                 <div className="bg-gray-50 rounded-xl overflow-hidden relative aspect-video">
-                  {producto.videoUrl ? (
+                  {productoActual.videoUrl ? (
                     <video
                       controls
                       className="w-full h-full object-cover"
                       poster="/video-thumbnail.jpg"
                     >
-                      <source src={producto.videoUrl} type="video/mp4" />
+                      <source src={productoActual.videoUrl} type="video/mp4" />
                       Tu navegador no soporta la reproducción de video.
                     </video>
                   ) : (
@@ -467,34 +460,98 @@ const ProductoDetalle = ({ producto = {} }) => {
             </h2>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((item) => (
-                <div
-                  key={item}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-1"
-                >
-                  <div className="aspect-square relative bg-gray-50">
-                    <Image
-                      src={`https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/usb%20tipo%202%20meters/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy91c2IgdGlwbyAyIG1ldGVycy8xLmpwZyIsImlhdCI6MTc0MTQ1MzMwMSwiZXhwIjoxNzcyOTg5MzAxfQ.aCyi-QRfw7EpNrIQ6nItyJviRx3e3nElGYzYWt1ErxE`}
-                      alt={`Accesorio relacionado ${item}`}
-                      layout="fill"
-                      objectFit="contain"
-                      className="p-3"
-                      // width={100}
-                      // height={100}
-                    />
+              {productosRelacionados.length > 0 ? (
+                productosRelacionados.map((item) => (
+                  <Link 
+                    href={`/productos/${item.id}`}
+                    key={item.id}
+                    className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-1"
+                  >
+                    <div className="aspect-square relative bg-gray-50">
+                      <Image
+                        src={Array.isArray(item.images) ? item.images[0] : (item.images || "/placeholder.jpg")}
+                        alt={item.title || `Accesorio relacionado`}
+                        layout="fill"
+                        objectFit="contain"
+                        className="p-3"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <h3 className="font-medium text-gray-800 truncate">
+                        {item.title || `Accesorio ${item.id}`}
+                      </h3>
+                      <p className="text-green-600 font-semibold mt-1">
+                        {formatPrice(item.price)}
+                      </p>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                // Productos de ejemplo si no hay relacionados
+                [1, 2, 3, 4].map((item) => (
+                  <div
+                    key={item}
+                    className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-1"
+                  >
+                    <div className="aspect-square relative bg-gray-50">
+                      <Image
+                        src="/placeholder.jpg"
+                        alt={`Accesorio relacionado ${item}`}
+                        layout="fill"
+                        objectFit="contain"
+                        className="p-3"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <h3 className="font-medium text-gray-800 truncate">
+                        Accesorio {item}
+                      </h3>
+                      <p className="text-green-600 font-semibold mt-1">
+                        {formatPrice(149999 + item * 10000)}
+                      </p>
+                    </div>
                   </div>
-                  <div className="p-3">
-                    <h3 className="font-medium text-gray-800 truncate">
-                      Accesorio {item}
-                    </h3>
-                    <p className="text-green-600 font-semibold mt-1">
-                      {formatPrice(149999 + item * 10000)}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
+
+          {/* Accesorios destacados */}
+          {accesoriosDestacados.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-xl font-bold text-gray-800 mb-6">
+                Accesorios destacados
+              </h2>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {accesoriosDestacados.map((item) => (
+                  <Link 
+                    href={`/productos/${item.id}`}
+                    key={item.id} 
+                    className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-1"
+                  >
+                    <div className="aspect-square relative bg-gray-50">
+                      <Image
+                        src={Array.isArray(item.images) ? item.images[0] : (item.images || "/placeholder.jpg")}
+                        alt={item.title || `Accesorio destacado`}
+                        layout="fill"
+                        objectFit="contain"
+                        className="p-3"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <h3 className="font-medium text-gray-800 truncate">
+                        {item.title || `Accesorio ${item.id}`}
+                      </h3>
+                      <p className="text-green-600 font-semibold mt-1">
+                        {formatPrice(item.price)}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </RootLayout>
@@ -503,27 +560,30 @@ const ProductoDetalle = ({ producto = {} }) => {
 
 export default ProductoDetalle;
 
-// Datos de ejemplo para previsualización
-export async function getStaticProps() {
-  const producto = {
-    id: "accesorio-premium",
-    title: "Accesorio Premium Ultra",
-    description:
-      "Este accesorio de alta calidad está diseñado para mejorar la experiencia del usuario. Fabricado con materiales duraderos y acabados premium, es compatible con todos los modelos recientes. Incluye garantía de un año y soporte técnico especializado.",
-    price: 299999,
-    oldPrice: 349999,
-    images: [
-      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzIuanBnIiwiaWF0IjoxNzQxNDAyNjgxLCJleHAiOjE3NzI5Mzg2ODF9.Eb3zeTptmP5_hkQ4xU1WhhKgDYCJY9S1nll6Gx4Wnmk",
-      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/funda%20iphone%20xs/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy9mdW5kYSBpcGhvbmUgeHMvMS5qcGciLCJpYXQiOjE3NDE0MDI2MTcsImV4cCI6MTc3MjkzODYxN30.m0HxaFk-b1MM-BN4SvETr6THXURPT_bce2ttGsSDwM0",
-      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzIuanBnIiwiaWF0IjoxNzQxNDAyNjgxLCJleHAiOjE3NzI5Mzg2ODF9.Eb3zeTptmP5_hkQ4xU1WhhKgDYCJY9S1nll6Gx4Wnmk",
-    ],
-    videoUrl:
-      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20celulares/funda%20iphone%20xs/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNlbHVsYXJlcy9mdW5kYSBpcGhvbmUgeHMvMS5qcGciLCJpYXQiOjE3NDE0MDI2MTcsImV4cCI6MTc3MjkzODYxN30.m0HxaFk-b1MM-BN4SvETr6THXURPT_bce2ttGsSDwM0",
-  };
-
-  return {
-    props: {
-      producto,
-    },
-  };
+// Función para obtener datos del servidor
+export async function getServerSideProps(context) {
+  const { id } = context.params; // Obtener el ID del producto de la URL
+  
+  try {
+    // Importar las funciones de utilidad
+    const { getAllProductos } = require('../utils/productos');
+    
+    // Cargar todos los productos
+    const productosData = getAllProductos();
+    
+    return {
+      props: {
+        productos: productosData,
+        productoId: id,
+      },
+    };
+  } catch (error) {
+    console.error("Error loading productos:", error);
+    return {
+      props: {
+        productos: [],
+        productoId: id,
+      },
+    };
+  }
 }

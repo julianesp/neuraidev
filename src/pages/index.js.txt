@@ -1,0 +1,196 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import RootLayout from "@/app/layout";
+
+const ProductosIndex = ({ productos }) => {
+  const [accesoriosDestacados, setAccesoriosDestacados] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("todos");
+
+  useEffect(() => {
+    // Filtrar productos destacados
+    if (productos && productos.length > 0) {
+      // Destacados
+      const destacados = productos.filter(p => p.destacado === true);
+      setAccesoriosDestacados(destacados);
+      
+      // Obtener categorías únicas para el filtro
+      const uniqueCategorias = ["todos", ...new Set(productos.map(p => p.categoria))];
+      setCategorias(uniqueCategorias);
+    }
+  }, [productos]);
+
+  // Formatear precio
+  const formatPrice = (price) => {
+    if (!price) return "$0";
+
+    const numericPrice =
+      typeof price === "string"
+        ? parseFloat(price.replace(/[^\d.-]/g, ""))
+        : price;
+
+    return `$${numericPrice.toLocaleString("es-CO")}`;
+  };
+
+  // Filtrar productos por categoría seleccionada
+  const productosFiltrados = categoriaSeleccionada === "todos"
+    ? accesoriosDestacados
+    : accesoriosDestacados.filter(p => p.categoria === categoriaSeleccionada);
+
+  return (
+    <RootLayout>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+            Accesorios Destacados
+          </h1>
+
+          {/* Filtro por categorías */}
+          {categorias.length > 1 && (
+            <div className="mb-8">
+              <div className="flex flex-wrap gap-2 justify-center">
+                {categorias.map(categoria => (
+                  <button
+                    key={categoria}
+                    onClick={() => setCategoriaSeleccionada(categoria)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      categoriaSeleccionada === categoria
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                    }`}
+                  >
+                    {categoria === "todos" ? "Todos" : categoria.replace("accesorios-", "").charAt(0).toUpperCase() + categoria.replace("accesorios-", "").slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {productosFiltrados.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {productosFiltrados.map((item) => (
+                <Link
+                  href={`/productos/${item.id}`}
+                  key={item.id}
+                  className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-1"
+                >
+                  <div className="aspect-square relative bg-gray-50">
+                    <Image
+                      src={Array.isArray(item.images) ? item.images[0] : (item.images || "/imagenes/placeholder.jpg")}
+                      alt={item.title || `Accesorio destacado`}
+                      layout="fill"
+                      objectFit="contain"
+                      className="p-3"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-medium text-gray-800 text-lg mb-2">
+                      {item.title || `Accesorio ${item.id}`}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                      {item.description?.substring(0, 100) || "Descripción no disponible"}...
+                    </p>
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <p className="text-green-600 font-semibold text-xl">
+                          {formatPrice(item.price)}
+                        </p>
+                        {item.oldPrice && (
+                          <p className="text-gray-400 line-through text-sm">
+                            {formatPrice(item.oldPrice)}
+                          </p>
+                        )}
+                      </div>
+                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                        Destacado
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center p-12 bg-gray-50 rounded-lg">
+              <p className="text-gray-600">No hay accesorios destacados disponibles para esta categoría.</p>
+            </div>
+          )}
+          
+          {/* Todos los productos */}
+          {categoriaSeleccionada === "todos" && productos.length > accesoriosDestacados.length && (
+            <div className="mt-16">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+                Todos los Accesorios
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {productos
+                  .filter(item => !item.destacado)
+                  .map((item) => (
+                    <Link
+                      href={`/productos/${item.id}`}
+                      key={item.id}
+                      className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-1"
+                    >
+                      <div className="aspect-square relative bg-gray-50">
+                        <Image
+                          src={Array.isArray(item.images) ? item.images[0] : (item.images || "/imagenes/placeholder.jpg")}
+                          alt={item.title || `Accesorio`}
+                          layout="fill"
+                          objectFit="contain"
+                          className="p-3"
+                        />
+                      </div>
+                      <div className="p-4">
+                        <h3 className="font-medium text-gray-800 text-lg mb-2">
+                          {item.title || `Accesorio ${item.id}`}
+                        </h3>
+                        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                          {item.description?.substring(0, 100) || "Descripción no disponible"}...
+                        </p>
+                        <p className="text-green-600 font-semibold text-xl">
+                          {formatPrice(item.price)}
+                        </p>
+                        {item.oldPrice && (
+                          <p className="text-gray-400 line-through text-sm">
+                            {formatPrice(item.oldPrice)}
+                          </p>
+                        )}
+                      </div>
+                    </Link>
+                  ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </RootLayout>
+  );
+};
+
+export default ProductosIndex;
+
+// Función para obtener datos del servidor
+export async function getServerSideProps() {
+  try {
+    // Importar las funciones de utilidad
+    const { getAllProductos } = require('../utils/productos');
+    
+    // Cargar todos los productos
+    const productosData = getAllProductos();
+    
+    return {
+      props: {
+        productos: productosData,
+      },
+    };
+  } catch (error) {
+    console.error("Error loading productos:", error);
+    return {
+      props: {
+        productos: [],
+      },
+    };
+  }
+}

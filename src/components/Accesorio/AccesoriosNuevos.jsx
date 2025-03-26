@@ -1,7 +1,10 @@
+"use client";
+
 import React, { useState, useRef, useEffect } from "react";
 import { obtenerAccesoriosDestacados } from "../accesoriosService";
 import Image from "next/image";
 import style from "@/styles/AccesoriosDestacados.module.scss";
+import Link from "next/link";
 
 /**
  * Componente para mostrar accesorios destacados
@@ -73,7 +76,6 @@ const AccesoriosNuevos = () => {
   // Renderizar mensaje de carga
   if (cargando) {
     return (
-      //edit this
       <div className="bg-yellow-50 p-1 rounded-lg text-center">
         <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
         <div className="animate-pulse flex justify-center items-center h-48">
@@ -110,10 +112,14 @@ const AccesoriosNuevos = () => {
   // Renderizar el componente con los accesorios cargados
   return (
     <div className={`${style.container} bg-yellow-50 p-6 rounded-lg`}>
-      <h2 className="text-2xl font-bold mb-6">Accesorios nuevos</h2>
+      <h2 className="text-2xl font-bold mb-6">
+        Accesorios nuevos
+      </h2>
 
       {/* Navegación para móviles */}
-      <div className="flex justify-between items-center mb-4">
+      <div
+        className={`flex justify-between items-center mb-1 ${style.accesories}`}
+      >
         <button
           onClick={scrollLeft}
           disabled={currentIndex === 0}
@@ -143,7 +149,7 @@ const AccesoriosNuevos = () => {
         <button
           onClick={scrollRight}
           disabled={currentIndex === destacados.length - 1}
-          className={`bg-yellow-500 text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${currentIndex === destacados.length - 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`bg-yellow-500 text-justify flex justify-center items-center text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${currentIndex === destacados.length - 1 ? "opacity-50 cursor-not-allowed" : ""}`}
           aria-label="Siguiente accesorio"
         >
           <svg
@@ -166,7 +172,7 @@ const AccesoriosNuevos = () => {
       {/* Contenedor con scroll horizontal */}
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
+        className="flex items-center overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-1"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -174,38 +180,88 @@ const AccesoriosNuevos = () => {
         }}
       >
         {destacados.map((accesorio, index) => (
-          <div
+          <Link
             key={accesorio.id}
-            className="accesorio-card border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 snap-start mx-2"
+            href={`/accesorios/${accesorio.id}`}
+            className="accesorio-card border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 snap-start mx-2 flex flex-col items-center"
             style={{
               minWidth: "calc(100% - 1rem)",
               width: "calc(100% - 1rem)",
               opacity: currentIndex === index ? 1 : 0.7,
               transform: `scale(${currentIndex === index ? 1 : 0.95})`,
             }}
-            onClick={() => {
+            onClick={(e) => {
+              // Prevenir navegación para permitir el manejo de scroll primero
+              e.preventDefault();
               setCurrentIndex(index);
               scrollToItem(index);
+
+              // Navegar después de un breve delay para permitir la animación
+              setTimeout(() => {
+                window.location.href = `/accesorios/${accesorio.id}`;
+              }, 300);
             }}
           >
-            <div className="relative h-48 w-full">
+            <div className="relative h-48 w-56">
               <Image
-                src={accesorio.imagen || "/placeholder-accesorio.jpg"}
+                src={
+                  accesorio.imagenPrincipal ||
+                  (accesorio.imagenes && accesorio.imagenes.length > 0
+                    ? accesorio.imagenes[0].url
+                    : "/placeholder-accesorio.jpg")
+                }
                 alt={accesorio.nombre}
                 className="object-cover h-full w-full"
-                width={100}
-                height={200}
+                layout="fill"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
 
-            <div className="p-4">
+            {/* <div className="p-2 w-56">
               <h3 className="font-semibold text-lg">{accesorio.nombre}</h3>
-              <p className="text-black mt-1 text-sm">{accesorio.descripcion}</p>
+              <p className="text-black mt-1 text-sm line-clamp-2">
+                {accesorio.descripcion}
+              </p>
               <div className="mt-2 flex items-center">
-                <span className="font-bold text-lg">${accesorio.precio}</span>
+                <span className="font-bold text-lg">
+                  $
+                  {typeof accesorio.precio === "number"
+                    ? accesorio.precio
+                    : accesorio.precio}
+                </span>
+                {accesorio.precioAnterior && (
+                  <span className="text-gray-500 line-through ml-2 text-sm">
+                    $
+                    {typeof accesorio.precioAnterior === "number"
+                      ? accesorio.precioAnterior.toFixed(2)
+                      : accesorio.precioAnterior}
+                  </span>
+                )}
+              </div>
+            </div> */}
+            <div className="p-2 w-56">
+              <h3 className="font-semibold text-lg">{accesorio.nombre}</h3>
+              <p className="text-black mt-1 text-sm line-clamp-2">
+                {accesorio.descripcion}
+              </p>
+              <div className="mt-2 flex items-center">
+                <span className="font-bold text-lg">
+                  $
+                  {typeof accesorio.precio === "number"
+                    ? accesorio.precio.toLocaleString("es-CL")
+                    : accesorio.precio}
+                </span>
+                {accesorio.precioAnterior && (
+                  <span className="text-gray-500 line-through ml-2 text-sm">
+                    $
+                    {typeof accesorio.precioAnterior === "number"
+                      ? accesorio.precioAnterior.toLocaleString("es-CL")
+                      : accesorio.precioAnterior}
+                  </span>
+                )}
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
@@ -229,9 +285,12 @@ const AccesoriosNuevos = () => {
         <p className="text-gray-600 mb-4">
           Estos son los productos más populares
         </p>
-        <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors">
-          Ver todos los destacados
-        </button>
+        <Link
+          href="/accesorios/nuevos"
+          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+        >
+          Ver todos los nuevos
+        </Link>
       </div>
     </div>
   );

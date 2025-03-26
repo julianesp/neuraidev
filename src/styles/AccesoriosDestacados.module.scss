@@ -7,8 +7,7 @@
     min-width: 320px;
     max-width: 500px;
 
-    margin: 10px 0;
-    // padding: 5px;
+    margin-bottom: 10px;
 
     background-color: rgba(188, 204, 220, 0.25);
   }
@@ -16,7 +15,7 @@
 
 @media (min-width: 768px) {
   .container {
-    width: 48%; /* Changed from 300px to percentage-based for responsive layout */
+    width: 40%; /* Changed from 300px to percentage-based for responsive layout */
     margin: 10px 1%;
 
     & .accesories {
