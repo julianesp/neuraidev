@@ -6,7 +6,11 @@ import path from "path";
 export async function GET(request, { params }) {
   try {
     const { id } = params;
-    const filePath = path.join(process.cwd(), "data", "productos.json");
+    const filePath = path.join(
+      process.cwd(),
+      "/public",
+      "accesoriosDestacados.json",
+    );
     const fileContents = readFileSync(filePath, "utf8");
     const productos = JSON.parse(fileContents);
 
