@@ -3,7 +3,16 @@ const path = require("path");
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  // output: "export",
+  trailingSlash: true,
+
+  exportPathMap: async function () {
+    const paths = {
+      "/": { page: "/" },
+      // Agrega aquí otras páginas estáticas
+    };
+
+    return paths;
+  },
 
   images: {
     // domains: ["www.pexels.com"],
