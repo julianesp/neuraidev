@@ -278,7 +278,7 @@
 // export default AccesoriosDestacados;
 
 import React from "react";
-import AccesoriosContainer from "@/components/AccesoriosContainer";
+import AccesoriosContainer from "@/containers/AccesoriosContainer";
 import { notFound } from "next/navigation";
 
 // Añade esta función para generar rutas estáticas
