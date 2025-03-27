@@ -37,6 +37,7 @@ export default function AdvertisementToggle({ ads = [] }) {
             alt="Toggle Anuncios"
             width={24}
             height={24}
+            priority
           />
         </button>
       )}
@@ -92,9 +93,10 @@ function AdContent({
             "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/local.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9sb2NhbC5wbmciLCJpYXQiOjE3NDAxMDYzMDUsImV4cCI6MTc3MTY0MjMwNX0.Um9CF_Uju100xYcVbMfcgSjrZjCgxbLXFb7Gb-Bmwrc"
           }
           alt={businessName}
-          layout="fill"
-          objectFit="cover"
           className="p-2"
+          priority
+          width={200}
+          height={200}
         />
       </div>
       <div className="p-4">

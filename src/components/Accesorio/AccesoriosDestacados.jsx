@@ -210,8 +210,8 @@ const AccesoriosDestacados = () => {
                 }
                 alt={accesorio.nombre}
                 className="object-cover h-full w-full"
-                layout="fill"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                width={300}
+                height={300}
               />
             </div>
 

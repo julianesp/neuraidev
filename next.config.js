@@ -3,7 +3,7 @@ const path = require("path");
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: "export",
+  // output: "export",
 
   images: {
     // domains: ["www.pexels.com"],

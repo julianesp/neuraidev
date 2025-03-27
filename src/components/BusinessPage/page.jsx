@@ -50,6 +50,7 @@ const BusinessPage = ({ businessData }) => {
               className="w-full h-full object-cover"
               width={100}
               height={100}
+              priority
             />
           )}
           ${styles.presentation}
@@ -67,6 +68,7 @@ const BusinessPage = ({ businessData }) => {
                     className={`w-full h-full object-contain`}
                     width={200}
                     height={200}
+                    priority
                   />
                 </div>
               )}
