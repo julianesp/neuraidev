@@ -5,14 +5,14 @@ const nextConfig = {
   swcMinify: true,
   trailingSlash: true,
 
-  exportPathMap: async function () {
-    const paths = {
-      "/": { page: "/" },
-      // Agrega aquí otras páginas estáticas
-    };
+  // exportPathMap: async function () {
+  //   const paths = {
+  //     "/": { page: "/" },
+  //     // Agrega aquí otras páginas estáticas
+  //   };
 
-    return paths;
-  },
+  //   return paths;
+  // },
 
   images: {
     // domains: ["www.pexels.com"],
