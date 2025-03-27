@@ -1,101 +1,3 @@
-// "use client";
-
-// import React, { useEffect, useState } from "react";
-// import { useParams } from "next/navigation";
-// import AccesoriosContainer from "@/containers/AccesoriosContainer";
-// import Link from "next/link";
-
-// export default function AccesorioDetallePage() {
-//   const params = useParams();
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(false);
-//   const [accesorio, setAccesorio] = useState(null);
-//   const [otrosAccesorios, setOtrosAccesorios] = useState([]);
-
-//   useEffect(() => {
-//     async function cargarAccesorio() {
-//       try {
-//         setLoading(true);
-
-//         // Cargar datos de accesorios
-//         const response = await fetch("/accesorios-destacados.json");
-
-//         if (!response.ok) {
-//           throw new Error("Error al cargar los datos");
-//         }
-
-//         const data = await response.json();
-//         const accesorios = data.accesorios || data;
-
-//         if (!Array.isArray(accesorios)) {
-//           throw new Error("Formato de datos no válido");
-//         }
-
-//         // Encontrar el accesorio por ID
-//         const accesorioEncontrado = accesorios.find(
-//           (acc) => acc.id === params.id,
-//         );
-
-//         if (!accesorioEncontrado) {
-//           setError(true);
-//           return;
-//         }
-
-//         // Obtener otros accesorios (excluyendo el actual)
-//         const otrosAccesoriosData = accesorios.filter(
-//           (acc) => acc.id !== params.id,
-//         );
-
-//         setAccesorio(accesorioEncontrado);
-//         setOtrosAccesorios(otrosAccesoriosData);
-//         setError(false);
-//       } catch (err) {
-//         console.error("Error al cargar el accesorio:", err);
-//         setError(true);
-//       } finally {
-//         setLoading(false);
-//       }
-//     }
-
-//     cargarAccesorio();
-//   }, [params.id]);
-
-//   if (loading) {
-//     return (
-//       <div className="max-w-6xl mx-auto p-4 bg-white rounded-lg shadow-lg flex justify-center items-center min-h-[300px]">
-//         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-//       </div>
-//     );
-//   }
-
-//   if (error || !accesorio) {
-//     return (
-//       <div className="max-w-6xl mx-auto p-4 bg-white rounded-lg shadow-lg">
-//         <h1 className="text-xl font-bold text-center">
-//           No se encontró el accesorio
-//         </h1>
-//         <div className="text-center mt-4">
-//           <Link
-//             href="/accesorios/destacados"
-//             className="text-blue-600 hover:underline"
-//           >
-//             Ver todos los accesorios
-//           </Link>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div>
-//       <AccesoriosContainer
-//         accesorio={accesorio}
-//         otrosAccesorios={otrosAccesorios}
-//       />
-//     </div>
-//   );
-// }
-
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -103,6 +5,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import style from "@/styles/AccesoriosDestacados.module.scss";
 import Link from "next/link";
+import { getAllProductos } from "@/utils/productos";
 
 const obtenerAccesoriosDestacados = "/accesoriosDestacados.json";
 
