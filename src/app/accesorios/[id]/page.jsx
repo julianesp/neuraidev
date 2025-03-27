@@ -285,7 +285,7 @@ import { notFound } from "next/navigation";
 export async function generateStaticParams() {
   try {
     // Importa los datos del JSON directamente
-    const accesoriosData = require("@/data/accesoriosDestacados.json");
+    const accesoriosData = require("/accesoriosDestacados.json");
 
     // Determinar la estructura del JSON
     const accesorios = accesoriosData.accesorios || accesoriosData;
