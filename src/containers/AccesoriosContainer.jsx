@@ -240,7 +240,7 @@ const AccesoriosContainer = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         {/* Carrusel principal */}
-        <div className="relative h-96">
+        <div className="relative h-60">
           <div className="h-full w-full relative overflow-hidden rounded-lg">
             {tieneImagenes ? (
               accesorio.imagenes.map((imagen, index) => {
@@ -256,9 +256,10 @@ const AccesoriosContainer = ({
                     <Image
                       src={imagenUrl}
                       alt={`${accesorio.nombre} - Imagen ${index + 1}`}
-                      layout="fill"
-                      objectFit="contain"
-                      className="rounded-lg"
+                      width={250}
+                      height={250}
+                      className="rounded-lg absolute h-full w-full inset-0 object-contain"
+                      priority={index === mainSlideIndex}
                     />
                   </div>
                 );
@@ -268,9 +269,9 @@ const AccesoriosContainer = ({
                 <Image
                   src={imagenPrincipal}
                   alt={accesorio.nombre}
-                  layout="fill"
-                  objectFit="contain"
                   className="rounded-lg"
+                  width={100}
+                  height={100}
                 />
               </div>
             ) : (
@@ -296,7 +297,7 @@ const AccesoriosContainer = ({
                 </button>
 
                 {/* Indicadores de posición */}
-                <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+                <div className="absolute left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950">
                   {accesorio.imagenes.map((_, index) => (
                     <button
                       key={index}
@@ -412,10 +413,8 @@ const AccesoriosContainer = ({
                               <Image
                                 src={itemImageUrl}
                                 alt={item.nombre || ""}
-                                // width={100}
-                                // height={100}
-                                layout="fill"
-                                objectFit="cover"
+                                width={100}
+                                height={100}
                                 className="w-full h-full object-cover"
                               />
                             </div>
@@ -471,7 +470,7 @@ const AccesoriosContainer = ({
       )}
 
       {/* Información de depuración - Eliminar en producción */}
-      {process.env.NODE_ENV !== "production" && (
+      {/* {process.env.NODE_ENV !== "production" && (
         <div className="mt-8 p-4 bg-gray-100 rounded-lg text-xs">
           <details>
             <summary className="cursor-pointer font-semibold">
@@ -485,7 +484,7 @@ const AccesoriosContainer = ({
             </div>
           </details>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -14,7 +14,7 @@ export default function ProductoLista({ productos }) {
             <Image
               src={producto.images?.[0] || "/placeholder.svg"}
               alt={producto.title}
-              fill
+              
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover rounded"
               priority={producto.id <= 4} // Priorizar la carga de las primeras 4 imágenes

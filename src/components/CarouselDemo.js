@@ -425,7 +425,7 @@ export function CarouselDemo({ images = [], apiUrl, showIndicators = true }) {
                     className="rounded-lg"
                     width={800}
                     height={600}
-                    priority={true}
+                    priority
                     sizes="(max-width: 768px) 100vw, 80vw"
                     style={{
                       width: "100%",

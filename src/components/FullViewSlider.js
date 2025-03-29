@@ -30,8 +30,8 @@ export default function FullViewportSlider({ slides }) {
           <Image
             src={images}
             alt="Slide image"
-            layout="fill"
-            objectFit="cover"
+            width={100}
+            height={100}
             priority
           />
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
