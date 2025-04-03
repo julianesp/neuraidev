@@ -6,19 +6,19 @@
             "descripcion": "Con batería recargable mediante USB tipo v. Cuentan con 3 modos de iluminación. Luz delantera cuenta con luz alta, baja y parpadeo. En paquete incluye lámpara, USB y resortes para sujetar.",
             "imagenes": [
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMS5qcGciLCJpYXQiOjE3NDI5NTYzMzIsImV4cCI6MTc3NDQ5MjMzMn0.q0brOUei6-NJWIDKP7007TAstOMQXDI1w7708mfh3RM"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F1.jpg?alt=media&token=438191c2-2046-4ed2-bc83-bebe7040b7620.q0brOUei6-NJWIDKP7007TAstOMQXDI1w7708mfh3RM"
                 },
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMi5qcGciLCJpYXQiOjE3NDI5NTYzNTgsImV4cCI6MTc3NDQ5MjM1OH0.Rvl_OqWTrHs8jvGpbBwoumeu-7G7pGm8fuAqCKsDyEg"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F2.jpg?alt=media&token=065d6403-1db8-4098-a31c-0d3049d16ec5"
                 },
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMy5qcGciLCJpYXQiOjE3NDI5NTYzODIsImV4cCI6MTc3NDQ5MjM4Mn0.cGRQpMJUMDGZ8C2I6WfY16GkPKq4BSi6tPI8l2usQqs"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F3.jpg?alt=media&token=4e8c1f64-8267-43bd-ab88-339ba1c22f8e"
                 },
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/4.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvNC5qcGciLCJpYXQiOjE3NDI5NTY0MTEsImV4cCI6MTc3NDQ5MjQxMX0.3divsnOQ-3JiOTEIRUQElNFkBdVnzA8UeB7qZVOAr_U"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F4.jpg?alt=media&token=b966d88d-5b40-426e-9448-9873eb8da94d"
                 }
             ],
-            "imagenPrincipal": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMS5qcGciLCJpYXQiOjE3NDI5NTYzMzIsImV4cCI6MTc3NDQ5MjMzMn0.q0brOUei6-NJWIDKP7007TAstOMQXDI1w7708mfh3RM",
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F1.jpg?alt=media&token=438191c2-2046-4ed2-bc83-bebe7040b762",
             "precio": 34900,
             "categoria": "damas"
         }

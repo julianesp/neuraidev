@@ -6,19 +6,19 @@
             "descripcion": "Con batería recargable mediante USB tipo v. Cuentan con 3 modos de iluminación. Luz delantera cuenta con luz alta, baja y parpadeo. En paquete incluye lámpara, USB y resortes para sujetar.",
             "imagenes": [
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMS5qcGciLCJpYXQiOjE3NDI5NTYzMzIsImV4cCI6MTc3NDQ5MjMzMn0.q0brOUei6-NJWIDKP7007TAstOMQXDI1w7708mfh3RM"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F1.jpg?alt=media&token=438191c2-2046-4ed2-bc83-bebe7040b762"
                 },
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMi5qcGciLCJpYXQiOjE3NDI5NTYzNTgsImV4cCI6MTc3NDQ5MjM1OH0.Rvl_OqWTrHs8jvGpbBwoumeu-7G7pGm8fuAqCKsDyEg"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F2.jpg?alt=media&token=065d6403-1db8-4098-a31c-0d3049d16ec5"
                 },
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMy5qcGciLCJpYXQiOjE3NDI5NTYzODIsImV4cCI6MTc3NDQ5MjM4Mn0.cGRQpMJUMDGZ8C2I6WfY16GkPKq4BSi6tPI8l2usQqs"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F3.jpg?alt=media&token=4e8c1f64-8267-43bd-ab88-339ba1c22f8e"
                 },
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/4.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvNC5qcGciLCJpYXQiOjE3NDI5NTY0MTEsImV4cCI6MTc3NDQ5MjQxMX0.3divsnOQ-3JiOTEIRUQElNFkBdVnzA8UeB7qZVOAr_U"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F4.jpg?alt=media&token=b966d88d-5b40-426e-9448-9873eb8da94d"
                 }
             ],
-            "imagenPrincipal": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMS5qcGciLCJpYXQiOjE3NDI5NTYzMzIsImV4cCI6MTc3NDQ5MjMzMn0.q0brOUei6-NJWIDKP7007TAstOMQXDI1w7708mfh3RM",
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F1.jpg?alt=media&token=438191c2-2046-4ed2-bc83-bebe7040b762",
             "precio": 34900,
             "categoria": "damas"
         },
@@ -28,16 +28,16 @@
             "descripcion": "¡Optimiza el rendimiento de tu equipo! 🚀 Este SSD tipo mSATA ofrece velocidad y confiabilidad. Ideal para quienes buscan mayor rapidez en la transferencia de datos. 📂 Perfecto para laptops (portátiles) 💻",
             "imagenes": [
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/ssd%20mSata/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9zc2QgbVNhdGEvMS5qcGciLCJpYXQiOjE3NDI4NzAzNzQsImV4cCI6MTc3NDQwNjM3NH0.ufbta37bGQSK8rErZt0EBVpcRFwhOm8JnUH9cXoX5Aw"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F1.jpg?alt=media&token=7d43c880-f88b-4793-a288-05795856f4300.ufbta37bGQSK8rErZt0EBVpcRFwhOm8JnUH9cXoX5Aw"
                 },
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/ssd%20mSata/3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9zc2QgbVNhdGEvMy5qcGciLCJpYXQiOjE3NDI4NzA0NTMsImV4cCI6MTc3NDQwNjQ1M30.tOyZe7TwROcjw1akU2juHXCV9TSvinUTNbyKRyID_vE"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F2.jpg?alt=media&token=aac519a4-e48b-4039-851a-8cef55b6e440"
                 },
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/ssd%20mSata/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9zc2QgbVNhdGEvMi5qcGciLCJpYXQiOjE3NDI4NzA0MjgsImV4cCI6MTc3NDQwNjQyOH0.B10qHG_ZLtvs4xIFKZU8HK7onQ8eimNBK5JBOfCbuiM"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F3.jpg?alt=media&token=76f939e0-0ab1-4a0d-848a-df2f82869ae9"
                 }
             ],
-            "imagenPrincipal": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/ssd%20mSata/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9zc2QgbVNhdGEvMS5qcGciLCJpYXQiOjE3NDI4NzAzNzQsImV4cCI6MTc3NDQwNjM3NH0.ufbta37bGQSK8rErZt0EBVpcRFwhOm8JnUH9cXoX5Aw",
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F1.jpg?alt=media&token=7d43c880-f88b-4793-a288-05795856f430",
             "precio": 119900,
             "categoria": "computador"
         },
@@ -47,13 +47,13 @@
             "descripcion": "Diseñado para ofrecer durabilidad y rendimiento óptimos. Está recubierto con un material resistente que lo protege contra el desgaste diario, lo que lo hace ideal para entornos exigentes. Soporta una potencia de hasta 100W, lo que lo convierte en una excelente opción para carga rápida.",
             "imagenes": [
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/usb%20t%20c%202%20metros/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy91c2IgdCBjIDIgbWV0cm9zLzEuanBnIiwiaWF0IjoxNzQyODcxMTUwLCJleHAiOjE3NzQ0MDcxNTB9.K9vtInBmomcXdmVBzDnENR4usObHFmQ9IYCGETr0byQ"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F1.jpg?alt=media&token=621f828d-8f87-4cc8-b4c5-dd2792f796b2"
                 },
                 {
-                    "url": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/usb%20t%20c%202%20metros/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy91c2IgdCBjIDIgbWV0cm9zLzIuanBnIiwiaWF0IjoxNzQyODcxMTc2LCJleHAiOjE3NzQ0MDcxNzZ9.mzxZ7PK-r8noA98X4orhgELrvuH0hwJEX6h_RqaUXi0"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F2.jpg?alt=media&token=be13e458-9295-4d8a-a9d4-4bb577d4a4e2"
                 }
             ],
-            "imagenPrincipal": "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/usb%20t%20c%202%20metros/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy91c2IgdCBjIDIgbWV0cm9zLzEuanBnIiwiaWF0IjoxNzQyODcxMTUwLCJleHAiOjE3NzQ0MDcxNTB9.K9vtInBmomcXdmVBzDnENR4usObHFmQ9IYCGETr0byQ",
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F1.jpg?alt=media&token=621f828d-8f87-4cc8-b4c5-dd2792f796b2",
             "precio": 39900,
             "categoria": "celulares"
         }

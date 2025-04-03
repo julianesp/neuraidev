@@ -2,9 +2,9 @@
     {
         "id": 1,
         "images": [
-            "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzEuanBnIiwiaWF0IjoxNzM3ODU5MDgyLCJleHAiOjE3NjkzOTUwODJ9.qX-IKsKu2PlrXNOFm4r7IBoQjB3Ia4_0yMYZB4Uj1ao&t=2025-01-26T02%3A38%3A02.666Z",
-            "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/2.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzIuanBnIiwiaWF0IjoxNzM3ODU5MDk4LCJleHAiOjE3NjkzOTUwOTh9.718LcD8sXMJE4RwzOTvltDJzVkhNW-IudsxG3hM7FMY&t=2025-01-26T02%3A38%3A18.887Z",
-            "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/multi%20puerto%20usb%203%208%20puertos/3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9tdWx0aSBwdWVydG8gdXNiIDMgOCBwdWVydG9zLzMuanBnIiwiaWF0IjoxNzM3ODU5MTEyLCJleHAiOjE3NjkzOTUxMTJ9.TNzkwDT2y3gRWvvRWNkcdxaJyklJHKq--HeeTznkPv8&t=2025-01-26T02%3A38%3A32.110Z"
+            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F1.jpg?alt=media&token=c1f2342c-a40c-4e2e-abaa-d5cf13847d14",
+            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F2.jpg?alt=media&token=5364140d-bf2c-4b26-bcd9-760a96ab8d26",
+            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F3.jpg?alt=media&token=15cba429-a31a-4b8d-b26f-aa7d4b813655"
         ],
         "title": "Multi puerto USB 3 - 8 puerto",
         "description": "Aumenta la capacidad de tu computador con estos 8 puertos",
