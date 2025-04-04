@@ -4,7 +4,7 @@
 // import Image from "next/image";
 // import styles from "@/styles/Carousel.module.scss";
 
-// export function CarouselDemo({ images = [], apiUrl }) {
+// export function CarouselDemo({ images = [], apiUrl, showIndicators = true }) {
 //   const [imageData, setImageData] = useState([]);
 //   const [loading, setLoading] = useState(false);
 //   const [error, setError] = useState(null);
@@ -175,7 +175,7 @@
 //                     className="rounded-lg"
 //                     width={800}
 //                     height={600}
-//                     priority={true}
+//                     priority
 //                     sizes="(max-width: 768px) 100vw, 80vw"
 //                     style={{
 //                       width: "100%",
@@ -190,58 +190,64 @@
 //         </div>
 
 //         {/* Botones de navegación */}
-//         <button
-//           onClick={goToPrevious}
-//           className="carousel-prev"
-//           aria-label="Anterior"
-//         >
-//           <svg
-//             xmlns="http://www.w3.org/2000/svg"
-//             viewBox="0 0 24 24"
-//             fill="none"
-//             stroke="currentColor"
-//             strokeWidth="2"
-//             strokeLinecap="round"
-//             strokeLinejoin="round"
-//             className="h-4 w-4"
-//           >
-//             <polyline points="15 18 9 12 15 6"></polyline>
-//           </svg>
-//         </button>
+//         {displayImages.length > 1 && (
+//           <>
+//             <button
+//               onClick={goToPrevious}
+//               className="carousel-prev"
+//               aria-label="Anterior"
+//             >
+//               <svg
+//                 xmlns="http://www.w3.org/2000/svg"
+//                 viewBox="0 0 24 24"
+//                 fill="none"
+//                 stroke="currentColor"
+//                 strokeWidth="2"
+//                 strokeLinecap="round"
+//                 strokeLinejoin="round"
+//                 className="h-4 w-4"
+//               >
+//                 <polyline points="15 18 9 12 15 6"></polyline>
+//               </svg>
+//             </button>
 
-//         <button
-//           onClick={goToNext}
-//           className="carousel-next"
-//           aria-label="Siguiente"
-//         >
-//           <svg
-//             xmlns="http://www.w3.org/2000/svg"
-//             viewBox="0 0 24 24"
-//             fill="none"
-//             stroke="currentColor"
-//             strokeWidth="2"
-//             strokeLinecap="round"
-//             strokeLinejoin="round"
-//             className="h-4 w-4"
-//           >
-//             <polyline points="9 18 15 12 9 6"></polyline>
-//           </svg>
-//         </button>
+//             <button
+//               onClick={goToNext}
+//               className="carousel-next"
+//               aria-label="Siguiente"
+//             >
+//               <svg
+//                 xmlns="http://www.w3.org/2000/svg"
+//                 viewBox="0 0 24 24"
+//                 fill="none"
+//                 stroke="currentColor"
+//                 strokeWidth="2"
+//                 strokeLinecap="round"
+//                 strokeLinejoin="round"
+//                 className="h-4 w-4"
+//               >
+//                 <polyline points="9 18 15 12 9 6"></polyline>
+//               </svg>
+//             </button>
+//           </>
+//         )}
 //       </div>
 
-//       {/* Indicadores */}
-//       <div className={styles.indicators}>
-//         {displayImages.map((_, index) => (
-//           <button
-//             key={index}
-//             className={`${styles.indicator} ${
-//               index === currentIndex ? styles.active : ""
-//             }`}
-//             onClick={() => goToSlide(index)}
-//             aria-label={`Ir a imagen ${index + 1}`}
-//           />
-//         ))}
-//       </div>
+//       {/* Indicadores - ahora condicionales basados en prop showIndicators */}
+//       {showIndicators && displayImages.length > 1 && (
+//         <div className={styles.indicators}>
+//           {displayImages.map((_, index) => (
+//             <button
+//               key={index}
+//               className={`${styles.indicator} ${
+//                 index === currentIndex ? styles.active : ""
+//               }`}
+//               onClick={() => goToSlide(index)}
+//               aria-label={`Ir a imagen ${index + 1}`}
+//             />
+//           ))}
+//         </div>
+//       )}
 //     </div>
 //   );
 // }
@@ -254,7 +260,12 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import styles from "@/styles/Carousel.module.scss";
 
-export function CarouselDemo({ images = [], apiUrl, showIndicators = true }) {
+export function CarouselDemo({
+  images = [],
+  apiUrl,
+  showIndicators = true,
+  showArrows = true, // Nueva prop para controlar la visibilidad de las flechas
+}) {
   const [imageData, setImageData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -365,7 +376,7 @@ export function CarouselDemo({ images = [], apiUrl, showIndicators = true }) {
 
     setIsPaused(true);
 
-    // Reanudar después de 5 segundos
+    // Reanudar después de 1 segundo
     setTimeout(() => {
       console.log("Reanudando autoplay después de pausa");
       setIsPaused(false);
@@ -439,8 +450,8 @@ export function CarouselDemo({ images = [], apiUrl, showIndicators = true }) {
           </div>
         </div>
 
-        {/* Botones de navegación */}
-        {displayImages.length > 1 && (
+        {/* Botones de navegación - ahora condicionales basados en prop showArrows */}
+        {showArrows && displayImages.length > 1 && (
           <>
             <button
               onClick={goToPrevious}
@@ -483,7 +494,7 @@ export function CarouselDemo({ images = [], apiUrl, showIndicators = true }) {
         )}
       </div>
 
-      {/* Indicadores - ahora condicionales basados en prop showIndicators */}
+      {/* Indicadores - condicionales basados en prop showIndicators */}
       {showIndicators && displayImages.length > 1 && (
         <div className={styles.indicators}>
           {displayImages.map((_, index) => (

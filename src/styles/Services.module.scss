@@ -3,8 +3,8 @@
 .services {
   @include flex-column;
 
-  height: 100%;
-  margin-top: 60px;
+  // height: 100%;
+  // margin-top: 60px;
 
   & p {
     margin-bottom: 50px;
@@ -20,8 +20,8 @@
 .tecnico {
   @include flex-column;
 
-  margin-top: 60px;
-  margin-bottom: 50px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 
   & h2 {
     margin-bottom: 30px;

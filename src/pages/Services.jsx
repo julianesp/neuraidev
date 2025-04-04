@@ -78,7 +78,7 @@ const Services = () => {
   return (
     <RootLayout>
       <section className={styles.services}>
-        <CarouselDemo apiUrl={WORKING} />
+        <CarouselDemo apiUrl={WORKING} showArrows={true} />
       </section>
 
       <section className={styles.tecnico}>
@@ -87,20 +87,12 @@ const Services = () => {
         <div className={styles.image}>
           <div className={styles.enfoque}>
             <p>Formateo</p>
-            <ImageSlider
-              className={``}
-              imagePaths={soft}
-              enableTransition={true}
-            />
+            <CarouselDemo apiUrl={WORKING} showArrows={false} />
           </div>
 
           <div className={styles.enfoque}>
             <p>Mantenimiento</p>
-            <ImageSlider
-              className={`h-44`}
-              imagePaths={format}
-              enableTransition={true}
-            />
+            <CarouselDemo apiUrl={WORKING} showArrows={false} />
           </div>
         </div>
       </section>
