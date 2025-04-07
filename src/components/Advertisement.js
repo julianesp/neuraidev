@@ -19,6 +19,24 @@ export default function AdvertisementToggle({ ads = [] }) {
     window.addEventListener("resize", checkScreenSize);
 
     return () => window.removeEventListener("resize", checkScreenSize);
+
+    // evitar que se oculte el botón
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const footer = document.querySelector("footer"); // O el selector de tu footer
+      const button = document.querySelector(".store-button"); // Añade esta clase a tu botón
+
+      if (scrollPosition >= documentHeight - 100) {
+        // Estamos cerca del footer
+        button.style.bottom = "120px"; // Ajusta este valor según sea necesario
+      } else {
+        button.style.bottom = "16px"; // Posición normal
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -26,7 +44,7 @@ export default function AdvertisementToggle({ ads = [] }) {
       {isMobile && (
         <button
           onClick={() => setIsVisible(!isVisible)}
-          className="fixed bottom-1 right-1 text-white p-3 rounded-full shadow-lg z-50 md:hidden flex items-center justify-center w-12 h-12 backdrop-blur-md bg-white/10"
+          className="fixed bottom-4 right-1 text-white p-3 rounded-full shadow-lg z-9999 md:hidden flex items-center justify-center w-12 h-12 backdrop-blur-md bg-white/10"
         >
           <Image
             src={
