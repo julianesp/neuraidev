@@ -12,9 +12,11 @@ export default function ProductoLista({ productos }) {
         <div key={producto.id} className="border rounded-lg p-4 shadow-md">
           <div className="relative w-full h-48 mb-4">
             <Image
-              src={producto.images?.[0] || "/placeholder.svg"}
+              src={
+                producto.images?.[0] ||
+                "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
+              }
               alt={producto.title}
-              
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover rounded"
               priority={producto.id <= 4} // Priorizar la carga de las primeras 4 imágenes

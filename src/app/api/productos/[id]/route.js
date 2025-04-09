@@ -58,11 +58,11 @@ const datosAccesorios = [
     descripcion: "¡Optimiza el rendimiento de tu equipo!",
     imagenes: [
       {
-        url: "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/ssd%20mSata/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9zc2QgbVNhdGEvMS5qcGciLCJpYXQiOjE3NDI4NzAzNzQsImV4cCI6MTc3NDQwNjM3NH0.ufbta37bGQSK8rErZt0EBVpcRFwhOm8JnUH9cXoX5Aw",
+        url: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
       },
     ],
     imagenPrincipal:
-      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/ssd%20mSata/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy9zc2QgbVNhdGEvMS5qcGciLCJpYXQiOjE3NDI4NzAzNzQsImV4cCI6MTc3NDQwNjM3NH0.ufbta37bGQSK8rErZt0EBVpcRFwhOm8JnUH9cXoX5Aw",
+      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
     precio: 119900,
     categoria: "computador",
   },
@@ -72,11 +72,11 @@ const datosAccesorios = [
     descripcion: "Diseñado para ofrecer durabilidad y rendimiento óptimos.",
     imagenes: [
       {
-        url: "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/usb%20t%20c%202%20metros/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy91c2IgdCBjIDIgbWV0cm9zLzEuanBnIiwiaWF0IjoxNzQyODcxMTUwLCJleHAiOjE3NzQ0MDcxNTB9.K9vtInBmomcXdmVBzDnENR4usObHFmQ9IYCGETr0byQ",
+        url: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
       },
     ],
     imagenPrincipal:
-      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesorios%20computers/usb%20t%20c%202%20metros/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaW9zIGNvbXB1dGVycy91c2IgdCBjIDIgbWV0cm9zLzEuanBnIiwiaWF0IjoxNzQyODcxMTUwLCJleHAiOjE3NzQ0MDcxNTB9.K9vtInBmomcXdmVBzDnENR4usObHFmQ9IYCGETr0byQ",
+      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
     precio: 39900,
     categoria: "celulares",
   },

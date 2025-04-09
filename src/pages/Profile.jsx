@@ -59,7 +59,7 @@ const Profile = () => {
             <Image
               className={styles.me}
               alt="Desarrollador web"
-              src="https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/dev.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9kZXYuanBnIiwiaWF0IjoxNzQxNjYwMTY3LCJleHAiOjE3NzMxOTYxNjd9._F1LkjTqPiwWS-zD_pF-siLFzRaaT9EdY4ddVgixAXk"
+              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
               width={100}
               height={100}
               priority="true"

@@ -9,8 +9,8 @@ async function getAccesorios() {
     {
       id: "1",
       imagenes: [
-        "/placeholder.svg?height=300&width=300",
-        "/placeholder.svg?height=300&width=300",
+        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
       ],
       titulo: "Collar de Plata",
       descripcion: "Hermoso collar de plata con diseño elegante",
@@ -19,8 +19,8 @@ async function getAccesorios() {
     {
       id: "2",
       imagenes: [
-        "/placeholder.svg?height=300&width=300",
-        "/placeholder.svg?height=300&width=300",
+        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
       ],
       titulo: "Pulsera de Oro",
       descripcion:

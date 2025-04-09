@@ -209,7 +209,7 @@ const NightSkyHero = () => {
           zIndex: 10,
           color: "white",
           textAlign: "center",
-          padding: "2rem",
+          padding: "0rem",
           height: "100vh",
           display: "flex",
           flexDirection: "column",

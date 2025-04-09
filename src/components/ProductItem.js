@@ -91,7 +91,10 @@ const ProductItem = ({ product, maxImages }) => {
           {images.map((image, index) => (
             <Image
               key={index}
-              src={image || "/placeholder.svg"}
+              src={
+                image ||
+                "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
+              }
               alt={`Thumbnail ${index + 1}`}
               width={100}
               height={100}

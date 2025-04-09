@@ -4,7 +4,6 @@ import Footer from "@/containers/Footer";
 import "./globals.css";
 import "@/styles/AccesoriosDestacados.module.css";
 import styles from "@/styles/Layout.module.scss";
-import AdvertisementToggle from "@/components/Advertisement";
 
 export default function RootLayout({ children }) {
   manifest: "/manifest.json";
@@ -19,28 +18,6 @@ export default function RootLayout({ children }) {
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ];
   }
-
-  const ads = [
-    {
-      businessName: "Negocio",
-      description: "Descripción de negocio",
-      imageUrl: "",
-      linkUrl: "/business/Tienda",
-    },
-    {
-      businessName: "Peluquería",
-      description: "Mejore su presentación",
-      imageUrl: "",
-      linkUrl: "/business/Peluqueria",
-    },
-    {
-      businessName: "Tercena  ",
-      description: "La mejor calidad en carnes",
-      imageUrl: "",
-      linkUrl: "#",
-    },
-  ];
-
   return (
     <React.Fragment>
       <html lang="es" suppressHydrationWarning>
@@ -66,7 +43,6 @@ export default function RootLayout({ children }) {
           <div className={styles.layoutContainer}>
             <NavBar />
             <main className={styles.mainContent}>{children}</main>
-            <AdvertisementToggle ads={ads} />
             <Footer />
           </div>
         </body>

@@ -8,449 +8,74 @@
 //   justify-content: center;
 //   align-items: center;
 //   overflow: hidden;
-
+//   position: relative;
+//   width: 100%;
 //   margin-top: -15px;
 
 //   @media (min-width: 1024px) {
 //     margin-top: -3px;
 //   }
 
-//   #services,
-//   #accesories,
-//   [id] {
-//     scroll-margin-top: 100px;
-//   }
-
-//   @keyframes bounce {
-//     0% {
-//       transform: translateY(0);
-//     }
-//     20% {
-//       transform: translateY(-10px);
-//     }
-//     40% {
-//       transform: translateY(5px);
-//     }
-//     60% {
-//       transform: translateY(-5px);
-//     }
-//     80% {
-//       transform: translateY(2px);
-//     }
-//     100% {
-//       transform: translateY(0);
-//     }
-//   }
-
-//   // parallax
-//   /* Añadir estos estilos a Home.module.scss */
-
-//   .parallaxContainer {
-//     position: relative;
-//     overflow: hidden;
-//     width: 100%;
-//   }
-
-//   .parallaxSection {
-//     background-attachment: fixed;
-//     background-position: center;
-//     background-repeat: no-repeat;
-//     background-size: cover;
-//     min-height: 400px;
-//     position: relative;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: center;
-//   }
-
-//   .parallaxContent {
-//     background-color: rgba(255, 255, 255, 0.8);
-//     padding: 2rem;
-//     border-radius: 8px;
-//     max-width: 800px;
-//     margin: 0 auto;
-//     text-align: center;
-//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-//     transition: transform 0.3s ease;
-//   }
-
-//   .parallaxContent:hover {
-//     transform: translateY(-5px);
-//   }
-
-//   .serviceParallax {
-//     background-image: url("/path-to-service-background.jpg");
-//   }
-
-//   .accesoriesParallax {
-//     background-image: url("/path-to-accessories-background.jpg");
-//   }
-
-//   /* Animación para elementos en parallax */
+//   // Estilos para animaciones
 //   .fadeInUp {
 //     opacity: 0;
-//     transform: translateY(20px);
+//     transform: translateY(50px);
 //     transition:
-//       opacity 0.5s ease,
-//       transform 0.5s ease;
+//       opacity 0.8s ease,
+//       transform 0.8s ease;
 //   }
 
-//   .fadeInUp.visible {
+//   .fadeInLeft {
+//     opacity: 0;
+//     transform: translateX(-50px);
+//     transition:
+//       opacity 0.8s ease,
+//       transform 0.8s ease;
+//   }
+
+//   .fadeInRight {
+//     opacity: 0;
+//     transform: translateX(50px);
+//     transition:
+//       opacity 0.8s ease,
+//       transform 0.8s ease;
+//   }
+
+//   .visible {
 //     opacity: 1;
 //     transform: translateY(0);
 //   }
 
+//   .visibleLeft,
+//   .visibleRight {
+//     opacity: 1;
+//     transform: translateX(0);
+//   }
+
 //   .bounceAnimation {
-//     animation: bounce 1s ease-out;
+//     animation: bounce 1s;
 //   }
 
-//   & .presentation {
-//     position: relative;
-
-//     display: flex;
-//     justify-content: center;
-
-//     width: 100vw;
-//     height: 300px;
-//   }
-
-//   & .linksDirect {
-//     margin-top: 20px;
-//     height: 60px;
-//     background-color: $gray-800;
-
-//     & a {
-//       background-color: $white;
-//       color: $black;
+//   @keyframes bounce {
+//     0%,
+//     20%,
+//     50%,
+//     80%,
+//     100% {
+//       transform: translateY(0);
 //     }
-
-//     @media (width: 1024px) {
-//       margin-bottom: 0;
+//     40% {
+//       transform: translateY(-20px);
 //     }
-//   }
-
-//   & .destacados {
-//     // margin: 0 50px;
-//     // padding: 0 50px;
-
-//     @media (width > 768px) {
-//       // width: 100vw;
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//       flex-wrap: nowrap;
+//     60% {
+//       transform: translateY(-10px);
 //     }
-//   }
-
-//   & .tratamientos {
-//     @include flex-column;
-
-//     margin: 30px 0;
-//     padding: 15px 0;
-//     width: 100%;
-//     height: auto;
-//     background-color: #000;
-//     color: #fff;
-
-//     & .area {
-//       display: flex;
-//       justify-content: center;
-//       align-items: center;
-//       flex-direction: column;
-//       padding: 20px 0;
-//       margin-bottom: 20px;
-//       width: 95%;
-
-//       transition: all 0.5s ease-out;
-
-//       border: 1px solid #fff;
-//       border-radius: 20px;
-//       box-shadow: 3px 3px 10px #fff;
-
-//       & h3 {
-//         text-decoration: underline;
-//         font-weight: bolder;
-//         font-size: 1.25rem;
-//       }
-
-//       & ul {
-//         margin: 0 auto;
-//         text-align: left;
-//         // width: 100%;
-//         & li {
-//           list-style: circle;
-//           font-size: 1rem;
-//         }
-//       }
-
-//       & a {
-//         @include dark_button;
-
-//         margin-top: 20px;
-
-//         width: calc(100% - 50px);
-
-//         text-align: center;
-//       }
-//     }
-
-//     @media (width: 1024px) {
-//       margin-top: 0;
-//       margin-bottom: 0;
-//     }
-//   }
-
-//   .accesories {
-//     position: relative;
-//     width: 100%;
-//     margin: 1rem auto;
-//     padding: 1rem 0;
-//     background-color: #f5f5f5;
-
-//     .varios {
-//       width: 95%;
-//       max-width: 1200px;
-//       margin: 0 auto;
-//       position: relative;
-//       padding-top: 40px;
-//       display: flex;
-//       flex-direction: column;
-//       gap: 2rem;
-
-//       h1 {
-//         position: absolute;
-//         top: 0;
-//         left: 0;
-//         width: 100%;
-//         text-align: center;
-//         font-size: 1.5rem;
-//         font-weight: 700;
-//         color: $black;
-//         margin-bottom: 1.3rem;
-
-//         &:after {
-//           content: "";
-//           position: absolute;
-//           bottom: -1px;
-//           left: 50%;
-//           transform: translateX(-50%);
-//           width: 200px;
-//           height: 3px;
-//           background-color: #f39c12; /* Usa tu variable $accent-color */
-//         }
-//       }
-
-//       .tipo {
-//         background: white;
-//         border-radius: 10px;
-//         overflow: hidden;
-//         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-//         display: flex;
-//         flex-direction: column;
-//         transition: transform 0.3s ease;
-//         // margin-bottom: 1.5rem;
-
-//         &:hover {
-//           transform: translateY(-5px);
-//         }
-
-//         h2 {
-//           padding: 1rem;
-//           font-size: 1.2rem;
-//           font-weight: 600;
-//           color: #333;
-//           background: #f8f8f8;
-//           margin: 0;
-//           width: 100%;
-//           text-align: center;
-//         }
-
-//         a {
-//           padding: 0.5rem;
-//           text-align: center;
-//           background: #0070f3;
-//           color: white;
-//           text-decoration: none;
-//           font-weight: 500;
-//           font-size: 0.9rem;
-//           width: 100px;
-//           margin: 0.2rem auto;
-//           border-radius: 5px;
-//           display: block;
-
-//           &:hover {
-//             background: #0051cc;
-//           }
-//         }
-//       }
-//     }
-//   }
-
-//   @media (min-width: 425px) {
-//     .accesories {
-//       .varios {
-//         display: grid;
-//         grid-template-columns: repeat(2, 1fr);
-//         gap: 1.5rem;
-
-//         h1 {
-//           grid-column: span 2;
-//         }
-
-//         .tipo {
-//           margin-bottom: 0;
-//         }
-//       }
-//     }
-//   }
-
-//   @media (min-width: 1024px) {
-//     margin-top: 0;
-//   }
-
-//   @media (min-width: 992px) {
-//     .accesories {
-//       .varios {
-//         grid-template-columns: repeat(3, 1fr);
-
-//         h1 {
-//           grid-column: span 3;
-//         }
-//       }
-//     }
-//   }
-
-//   @media (min-width: 1200px) {
-//     .accesories {
-//       .varios {
-//         grid-template-columns: repeat(4, 1fr);
-
-//         h1 {
-//           grid-column: span 4;
-//         }
-//       }
-//     }
-//   }
-// }
-
-// @media (width > 768px) {
-//   .container {
-//     display: grid;
-//     grid-template-areas:
-//       "presentacion presentacion"
-//       "directos aside"
-//       "servicios aside"
-//       "products aside"
-//       "conjunto aside";
-
-//     grid-template-columns: 2fr 20%; /* Ajuste de tamaño */
-//     grid-template-rows: auto;
-//     gap: 20px; /* Espacio entre elementos */
-
-//     // margin-bottom: 50px;
-//     // padding-bottom: 20px;
-
-//     & .presentation {
-//       position: relative;
-
-//       grid-area: presentacion;
-
-//       margin-top: 0;
-
-//       width: 100%;
-
-//       .carrusel img {
-//         width: 100vw;
-//       }
-//     }
-
-//     // & .destacados {
-//     //   width: 100%;
-//     //   padding: 0 15px;
-//     //   margin: 20px 0;
-
-//     //   @media (min-width: 768px) {
-//     //     display: flex;
-//     //     flex-direction: row;
-//     //     justify-content: space-between;
-//     //     flex-wrap: nowrap; /* In case you add more components later */
-//     //   }
-//     // }
-
-//     & .tratamientos {
-//       grid-area: servicios;
-
-//       display: grid;
-//       grid-template-columns: 1fr 1fr;
-//       grid-row: 3;
-//     }
-
-//     & .publicidad {
-//       grid-area: aside;
-
-//       display: flex;
-//       flex-direction: column;
-//       align-items: center;
-//       gap: 10px;
-
-//       margin-right: 10px;
-
-//       width: 100%;
-//       height: 100%;
-
-//       @include shadowLeft;
-
-//       h3 {
-//         border: 1px solid #000;
-//         // padding: 20px;
-//       }
-//     }
-//   }
-// }
-
-// @import "./mixins.scss";
-// @import "./variables";
-
-// /* styles to presentation of start page */
-// .container {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   overflow: hidden;
-
-//   margin-top: -15px;
-
-//   @media (min-width: 1024px) {
-//     margin-top: -3px;
 //   }
 
 //   #services,
 //   #accesories,
 //   [id] {
 //     scroll-margin-top: 100px;
-//   }
-
-//   @keyframes bounce {
-//     0% {
-//       transform: translateY(0);
-//     }
-//     20% {
-//       transform: translateY(-10px);
-//     }
-//     40% {
-//       transform: translateY(5px);
-//     }
-//     60% {
-//       transform: translateY(-5px);
-//     }
-//     80% {
-//       transform: translateY(2px);
-//     }
-//     100% {
-//       transform: translateY(0);
-//     }
 //   }
 
 //   // Estilos mejorados de parallax para integración correcta
@@ -467,7 +92,6 @@
 //     background-position: center;
 //     background-repeat: no-repeat;
 //     background-size: cover;
-//     min-height: 400px;
 //     width: 100%;
 //     position: relative;
 //     display: flex;
@@ -478,99 +102,51 @@
 //     padding: 0;
 //   }
 
-//   .parallaxOverlay {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
+//   & .presentacion {
+//     position: relative;
 //     width: 100%;
-//     height: 100%;
 //     z-index: 1;
 //   }
 
-//   .parallaxContent {
+//   & .publicidad {
 //     position: relative;
+//     width: 100%;
 //     z-index: 2;
-//     width: 100%;
-//     padding: 2rem;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: center;
-//   }
-
-//   .contentBox {
-//     background-color: rgba(255, 255, 255, 0.9);
-//     padding: 2rem;
-//     border-radius: 8px;
-//     max-width: 90%;
-//     margin: 0 auto;
-//     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-//     transition: transform 0.3s ease;
-
-//     &:hover {
-//       transform: translateY(-5px);
-//     }
-
-//     @media (min-width: 768px) {
-//       max-width: 80%;
-//     }
-//   }
-
-//   /* Animación para elementos en parallax */
-//   .fadeInUp {
-//     opacity: 0;
-//     transform: translateY(20px);
-//     transition:
-//       opacity 0.5s ease,
-//       transform 0.5s ease;
-//   }
-
-//   .fadeInUp.visible {
-//     opacity: 1;
-//     transform: translateY(0);
-//   }
-
-//   .bounceAnimation {
-//     animation: bounce 1s ease-out;
-//   }
-
-//   & .presentation {
-//     position: relative;
-//     display: flex;
-//     justify-content: center;
-//     width: 100%;
-//     height: 300px;
-//     margin: 0;
-//     padding: 0;
-//     overflow: hidden;
+//     margin-top: 20px;
 //   }
 
 //   & .linksDirect {
+//     position: relative;
 //     margin-top: 20px;
 //     height: 60px;
 //     background-color: $gray-800;
 //     width: 100%;
 //     z-index: 10;
-//     position: relative;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
 
 //     & a {
 //       background-color: $white;
 //       color: $black;
+//       z-index: 11;
 //     }
 
-//     @media (width: 1024px) {
+//     @media (min-width: 1024px) {
 //       margin-bottom: 0;
 //     }
 //   }
 
 //   & .destacados {
+//     position: relative;
 //     width: 100%;
 //     z-index: 5;
-//     position: relative;
 //     background-color: #fff;
 //     padding: 20px 0;
+//     margin-top: 20px;
+//     clear: both;
 
-//     @media (width > 768px) {
+//     @media (min-width: 768px) {
 //       display: flex;
 //       align-items: center;
 //       justify-content: center;
@@ -580,7 +156,7 @@
 
 //   & .tratamientos {
 //     @include flex-column;
-
+//     position: relative;
 //     margin: 30px 0;
 //     padding: 15px 0;
 //     width: 100%;
@@ -588,7 +164,7 @@
 //     background-color: rgba(0, 0, 0, 0.7);
 //     color: #fff;
 //     z-index: 5;
-//     position: relative;
+//     clear: both;
 
 //     & .area {
 //       display: flex;
@@ -598,9 +174,7 @@
 //       padding: 20px 0;
 //       margin-bottom: 20px;
 //       width: 95%;
-
 //       transition: all 0.5s ease-out;
-
 //       border: 1px solid #fff;
 //       border-radius: 20px;
 //       box-shadow: 3px 3px 10px rgba(255, 255, 255, 0.5);
@@ -615,7 +189,6 @@
 //       & ul {
 //         margin: 0 auto;
 //         text-align: left;
-//         // width: 100%;
 //         & li {
 //           list-style: circle;
 //           font-size: 1rem;
@@ -624,16 +197,13 @@
 
 //       & a {
 //         @include dark_button;
-
 //         margin-top: 20px;
-
 //         width: calc(100% - 50px);
-
 //         text-align: center;
 //       }
 //     }
 
-//     @media (width: 1024px) {
+//     @media (min-width: 1024px) {
 //       margin-top: 0;
 //       margin-bottom: 0;
 //     }
@@ -642,31 +212,39 @@
 //   .accesories {
 //     position: relative;
 //     width: 100%;
-//     margin: 1rem auto;
-//     padding: 1rem 0;
-//     background-color: rgba(245, 245, 245, 0.95);
+//     margin: 0 auto;
+//     padding: 2rem 0;
+//     background-color: #f5f5f5;
 //     z-index: 5;
+//     clear: both;
 
 //     .varios {
 //       width: 95%;
 //       max-width: 1200px;
 //       margin: 0 auto;
 //       position: relative;
-//       padding-top: 40px;
+//       padding: 40px 0 0 0;
 //       display: flex;
 //       flex-direction: column;
-//       gap: 2rem;
+//       gap: 1.5rem;
+
+//       .accesoriesTitle {
+//         margin-top: 0;
+//         padding-bottom: 10px;
+//         border-bottom: 3px solid #f39c12;
+//         display: inline-block;
+//         text-align: center;
+//         width: 100%;
+//       }
 
 //       h1 {
-//         position: absolute;
-//         top: 0;
-//         left: 0;
+//         position: relative;
 //         width: 100%;
 //         text-align: center;
-//         font-size: 1.5rem;
+//         font-size: 1.8rem;
 //         font-weight: 700;
 //         color: $black;
-//         margin-bottom: 1.3rem;
+//         margin-bottom: 2rem;
 
 //         &:after {
 //           content: "";
@@ -676,7 +254,7 @@
 //           transform: translateX(-50%);
 //           width: 200px;
 //           height: 3px;
-//           background-color: #f39c12; /* Usa tu variable $accent-color */
+//           background-color: #f39c12;
 //         }
 //       }
 
@@ -688,7 +266,6 @@
 //         display: flex;
 //         flex-direction: column;
 //         transition: transform 0.3s ease;
-//         // margin-bottom: 1.5rem;
 
 //         &:hover {
 //           transform: translateY(-5px);
@@ -737,6 +314,10 @@
 //           grid-column: span 2;
 //         }
 
+//         .accesoriesTitle {
+//           grid-column: span 2;
+//         }
+
 //         .tipo {
 //           margin-bottom: 0;
 //         }
@@ -756,6 +337,10 @@
 //         h1 {
 //           grid-column: span 3;
 //         }
+
+//         .accesoriesTitle {
+//           grid-column: span 3;
+//         }
 //       }
 //     }
 //   }
@@ -768,44 +353,70 @@
 //         h1 {
 //           grid-column: span 4;
 //         }
+
+//         .accesoriesTitle {
+//           grid-column: span 4;
+//         }
 //       }
 //     }
 //   }
 // }
 
-// @media (width > 768px) {
+// @media (min-width: 768px) {
 //   .container {
 //     display: grid;
 //     grid-template-areas:
 //       "presentacion presentacion"
+//       "publicidad publicidad"
 //       "directos aside"
+//       "destacados aside"
 //       "servicios aside"
-//       "products aside"
-//       "conjunto aside";
+//       "products aside";
 
-//     grid-template-columns: 2fr 20%; /* Ajuste de tamaño */
-//     grid-template-rows: auto;
-//     gap: 20px; /* Espacio entre elementos */
+//     grid-template-columns: 2fr 20%;
+//     grid-template-rows: auto auto auto auto auto auto;
+//     gap: 20px;
+//     overflow: visible;
 
-//     & .presentation {
-//       position: relative;
+//     & .presentacion {
 //       grid-area: presentacion;
 //       margin-top: 0;
 //       width: 100%;
+//     }
 
-//       .carrusel img {
-//         width: 100vw;
-//       }
+//     & .publicidad {
+//       grid-area: publicidad;
+//       width: 100%;
+//       margin-top: 0;
+//     }
+
+//     & .linksDirect {
+//       grid-area: directos;
+//       margin-top: 0;
+//     }
+
+//     & .destacados {
+//       grid-area: destacados;
+//       margin-top: 0;
 //     }
 
 //     & .tratamientos {
 //       grid-area: servicios;
 //       display: grid;
 //       grid-template-columns: 1fr 1fr;
-//       grid-row: 3;
+//       margin-top: 0;
 //     }
 
-//     & .publicidad {
+//     & .accesories {
+//       grid-area: products;
+//       margin-top: 0;
+//     }
+
+//     & .publicidad:nth-child(2) {
+//       grid-area: publicidad;
+//     }
+
+//     & .publicidad:nth-child(n + 6) {
 //       grid-area: aside;
 //       display: flex;
 //       flex-direction: column;
@@ -813,7 +424,7 @@
 //       gap: 10px;
 //       margin-right: 10px;
 //       width: 100%;
-//       height: 100%;
+//       margin-top: 0;
 //       @include shadowLeft;
 
 //       h3 {
@@ -833,14 +444,15 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-
-  margin-top: -15px;
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
 
   @media (min-width: 1024px) {
-    margin-top: -3px;
+    margin-top: 70px; /* Ajustado para el navbar más alto en desktop */
   }
 
-  // estilos para animacion gsap
+  // Estilos para animaciones
   .fadeInUp {
     opacity: 0;
     transform: translateY(50px);
@@ -902,67 +514,6 @@
     scroll-margin-top: 100px;
   }
 
-  @keyframes bounce {
-    0% {
-      transform: translateY(0);
-    }
-    20% {
-      transform: translateY(-10px);
-    }
-    40% {
-      transform: translateY(5px);
-    }
-    60% {
-      transform: translateY(-5px);
-    }
-    80% {
-      transform: translateY(2px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-
-  // Animaciones de scroll
-  .fadeInUp {
-    opacity: 0;
-    transform: translateY(50px);
-    transition:
-      opacity 0.6s ease,
-      transform 0.6s ease;
-  }
-
-  .fadeInLeft {
-    opacity: 0;
-    transform: translateX(-50px);
-    transition:
-      opacity 0.6s ease,
-      transform 0.6s ease;
-  }
-
-  .fadeInRight {
-    opacity: 0;
-    transform: translateX(50px);
-    transition:
-      opacity 0.6s ease,
-      transform 0.6s ease;
-  }
-
-  .visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .visibleLeft {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .visibleRight {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
   // Estilos mejorados de parallax para integración correcta
   .parallaxContainer {
     position: relative;
@@ -977,7 +528,6 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    // min-height: 400px;
     width: 100%;
     position: relative;
     display: flex;
@@ -988,86 +538,69 @@
     padding: 0;
   }
 
-  .parallaxOverlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    z-index: 1;
-  }
-
-  .parallaxContent {
+  & .presentacion {
     position: relative;
-    z-index: 2;
     width: 100%;
-    height: 430px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .contentBox {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 2rem;
-    border-radius: 8px;
-    max-width: 90%;
-    margin: 0 auto;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-
-    &:hover {
-      transform: translateY(-5px);
-    }
-
-    @media (min-width: 768px) {
-      max-width: 80%;
-    }
-  }
-
-  .bounceAnimation {
-    animation: bounce 1s ease-out;
-  }
-
-  & .presentation {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 300px;
-    margin: 0;
-    padding: 0;
+    max-width: 100vw;
+    height: auto;
+    max-height: 300px;
     overflow: hidden;
+    z-index: 1;
+
+    & > div {
+      width: 100%;
+      height: 100%;
+      max-height: 300px;
+    }
+  }
+
+  & .publicidad {
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    z-index: 2;
+    // margin-top: 10px;
+
+    & img {
+      width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: contain;
+    }
   }
 
   & .linksDirect {
+    position: relative;
     margin-top: 20px;
     height: 60px;
     background-color: $gray-800;
     width: 100%;
     z-index: 10;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     & a {
       background-color: $white;
       color: $black;
+      z-index: 11;
     }
 
-    @media (width: 1024px) {
+    @media (min-width: 1024px) {
       margin-bottom: 0;
     }
   }
 
   & .destacados {
+    position: relative;
     width: 100%;
     z-index: 5;
-    position: relative;
     background-color: #fff;
     padding: 20px 0;
+    margin-top: 20px;
+    clear: both;
 
-    @media (width > 768px) {
+    @media (min-width: 768px) {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1077,7 +610,7 @@
 
   & .tratamientos {
     @include flex-column;
-
+    position: relative;
     margin: 30px 0;
     padding: 15px 0;
     width: 100%;
@@ -1085,7 +618,7 @@
     background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
     z-index: 5;
-    position: relative;
+    clear: both;
 
     & .area {
       display: flex;
@@ -1095,9 +628,7 @@
       padding: 20px 0;
       margin-bottom: 20px;
       width: 95%;
-
       transition: all 0.5s ease-out;
-
       border: 1px solid #fff;
       border-radius: 20px;
       box-shadow: 3px 3px 10px rgba(255, 255, 255, 0.5);
@@ -1112,7 +643,6 @@
       & ul {
         margin: 0 auto;
         text-align: left;
-        // width: 100%;
         & li {
           list-style: circle;
           font-size: 1rem;
@@ -1121,16 +651,13 @@
 
       & a {
         @include dark_button;
-
         margin-top: 20px;
-
         width: calc(100% - 50px);
-
         text-align: center;
       }
     }
 
-    @media (width: 1024px) {
+    @media (min-width: 1024px) {
       margin-top: 0;
       margin-bottom: 0;
     }
@@ -1143,23 +670,26 @@
     padding: 2rem 0;
     background-color: #f5f5f5;
     z-index: 5;
+    clear: both;
 
     .varios {
       width: 95%;
       max-width: 1200px;
       margin: 0 auto;
       position: relative;
+      padding: 40px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
 
       .accesoriesTitle {
         margin-top: 0;
         padding-bottom: 10px;
         border-bottom: 3px solid #f39c12;
         display: inline-block;
+        text-align: center;
+        width: 100%;
       }
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
 
       h1 {
         position: relative;
@@ -1178,7 +708,7 @@
           transform: translateX(-50%);
           width: 200px;
           height: 3px;
-          background-color: #f39c12; /* Usa tu variable $accent-color */
+          background-color: #f39c12;
         }
       }
 
@@ -1190,7 +720,6 @@
         display: flex;
         flex-direction: column;
         transition: transform 0.3s ease;
-        // margin-bottom: 1.5rem;
 
         &:hover {
           transform: translateY(-5px);
@@ -1239,6 +768,10 @@
           grid-column: span 2;
         }
 
+        .accesoriesTitle {
+          grid-column: span 2;
+        }
+
         .tipo {
           margin-bottom: 0;
         }
@@ -1258,6 +791,10 @@
         h1 {
           grid-column: span 3;
         }
+
+        .accesoriesTitle {
+          grid-column: span 3;
+        }
       }
     }
   }
@@ -1270,56 +807,102 @@
         h1 {
           grid-column: span 4;
         }
+
+        .accesoriesTitle {
+          grid-column: span 4;
+        }
       }
     }
   }
 }
 
-@media (width > 768px) {
+@media (min-width: 768px) {
   .container {
     display: grid;
     grid-template-areas:
       "presentacion presentacion"
+      "publicidad publicidad"
       "directos aside"
+      "destacados aside"
       "servicios aside"
-      "products aside"
-      "conjunto aside";
+      "products aside";
 
-    grid-template-columns: 2fr 20%; /* Ajuste de tamaño */
-    grid-template-rows: auto;
-    gap: 20px; /* Espacio entre elementos */
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto auto auto auto;
+    gap: 10px;
+    overflow: visible;
+    max-width: 100%;
 
-    & .presentation {
-      position: relative;
+    & .presentacion {
       grid-area: presentacion;
       margin-top: 0;
       width: 100%;
+    }
 
-      .carrusel img {
-        width: 100vw;
-      }
+    & .publicidad {
+      grid-area: publicidad;
+      width: 100%;
+      margin-top: 0;
+    }
+
+    & .linksDirect {
+      grid-area: directos;
+      margin-top: 0;
+    }
+
+    & .destacados {
+      grid-area: destacados;
+      margin-top: 0;
     }
 
     & .tratamientos {
       grid-area: servicios;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-row: 3;
+      margin-top: 0;
     }
 
-    & .publicidad {
+    & .accesories {
+      grid-area: products;
+      margin-top: 0;
+    }
+
+    & .publicidad:nth-child(2) {
+      grid-area: publicidad;
+    }
+
+    & .publicidad:nth-child(n + 6) {
       grid-area: aside;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
       margin-right: 10px;
-      width: 100%;
-      height: 100%;
+      width: 200px;
+      max-width: 25vw;
+      margin-top: 0;
+      padding: 10px;
+      background-color: rgba(245, 245, 245, 0.95);
       @include shadowLeft;
 
       h3 {
         border: 1px solid #000;
+      }
+
+      @media (max-width: 992px) {
+        position: fixed;
+        right: 0;
+        top: 150px;
+        width: 180px;
+        z-index: 999;
+        background: white;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        transition: transform 0.3s ease;
+
+        &.hidden {
+          transform: translateX(100%);
+        }
       }
     }
   }

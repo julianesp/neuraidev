@@ -11,6 +11,7 @@ export default function AdvertisementToggle({ ads = [] }) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Comprobar si es dispositivo móvil
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth >= 320 && window.innerWidth <= 767);
     };
@@ -18,39 +19,44 @@ export default function AdvertisementToggle({ ads = [] }) {
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
 
-    return () => window.removeEventListener("resize", checkScreenSize);
-
-    // evitar que se oculte el botón
+    // Manejar la posición del botón cuando se hace scroll
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
-      const footer = document.querySelector("footer"); // O el selector de tu footer
-      const button = document.querySelector(".store-button"); // Añade esta clase a tu botón
+      const toggleButton = document.querySelector(
+        `.${styles.storeToggleButton}`,
+      );
 
+      if (!toggleButton) return;
+
+      // Ajustar la posición cuando estamos cerca del footer
       if (scrollPosition >= documentHeight - 100) {
-        // Estamos cerca del footer
-        button.style.bottom = "120px"; // Ajusta este valor según sea necesario
+        toggleButton.style.bottom = "120px"; // Alejar del footer
       } else {
-        button.style.bottom = "16px"; // Posición normal
+        toggleButton.style.bottom = "24px"; // Posición normal
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
     <div className={`${styles.container} relative`}>
+      {/* Botón flotante para móviles */}
       {isMobile && (
         <button
           onClick={() => setIsVisible(!isVisible)}
-          className="fixed bottom-4 right-1 text-white p-3 rounded-full shadow-lg z-9999 md:hidden flex items-center justify-center w-12 h-12 backdrop-blur-md bg-white/10"
+          className={`${styles.storeToggleButton} fixed bottom-1 right-4 z-50 p-3 rounded-full shadow-lg flex items-center justify-center w-12 h-12 backdrop-blur-md bg-white/80 border border-gray-200`}
+          style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
         >
           <Image
             src={
-              isVisible
-                ? "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/store.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9zdG9yZS5wbmciLCJpYXQiOjE3NDAxMDk4NzksImV4cCI6MTc3MTY0NTg3OX0.TJG-NcrDlATRTk5uhH_NcvmnauUoNJrGOQPmpVleDj4"
-                : "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/store.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9zdG9yZS5wbmciLCJpYXQiOjE3NDAxMDk4NzksImV4cCI6MTc3MTY0NTg3OX0.TJG-NcrDlATRTk5uhH_NcvmnauUoNJrGOQPmpVleDj4"
+              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
             }
             alt="Toggle Anuncios"
             width={24}
@@ -60,17 +66,19 @@ export default function AdvertisementToggle({ ads = [] }) {
         </button>
       )}
 
+      {/* Contenido de anuncios */}
       {isMobile ? (
         <AnimatePresence>
           {isVisible && (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className={`${styles.motion} fixed bg-white shadow-md rounded-lg overflow-hidden max-w-sm w-52`}
+              className={`${styles.motion} fixed bottom-3 right-4 z-40 bg-white shadow-md rounded-lg overflow-hidden max-w-sm w-52`}
+              style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
             >
-              <div className="max-h-[80vh] overflow-y-auto">
+              <div className="max-h-[60vh] overflow-y-auto">
                 {Array.isArray(ads) &&
                   ads.map((ad, index) => <AdContent key={index} {...ad} />)}
               </div>
@@ -108,7 +116,7 @@ function AdContent({
         <Image
           src={
             imageUrl ||
-            "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/local.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9sb2NhbC5wbmciLCJpYXQiOjE3NDAxMDYzMDUsImV4cCI6MTc3MTY0MjMwNX0.Um9CF_Uju100xYcVbMfcgSjrZjCgxbLXFb7Gb-Bmwrc"
+            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e2a-2396-4934-925b-75863006bb4b"
           }
           alt={businessName}
           className="p-2"
@@ -118,17 +126,12 @@ function AdContent({
         />
       </div>
       <div className="p-4">
-        <h2 className="p-6 text-xl font-semibold mb-2">{businessName}</h2>
+        <h2 className="text-xl font-semibold mb-2">{businessName}</h2>
         <p className="text-gray-600 mb-4">{description}</p>
-        {/* <Link
-          href={linkUrl}
-          className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-        >
-          Más información
-        </Link> */}
+
         <Link
           href={businessId ? `/business/${businessId}` : linkUrl}
-          className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+          className="inline-block bg-blue-500 text-white px-2 py-2 rounded hover:bg-blue-600 transition-colors"
         >
           Más información
         </Link>

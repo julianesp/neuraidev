@@ -1,58 +1,34 @@
-// .container {
-//   display: flex;
-//   // padding: 5px;
-
-//   .image {
-//     display: flex;
-//     flex-direction: column;
-//   }
-// }
-// .motion {
-//   background-color: rgba(255, 255, 255, 0.9);
-//   border-bottom-left-radius: 25px;
-
-//   // right: 10px;
-//   left: 250px;
-
-//   @media (width >= 320px) {
-//     left: 110px;
-//     bottom: 55px;
-//     border: 1px solid #000;
-//   }
-// }
+/* Añade estos estilos a tu archivo Advertisement.module.scss */
 
 .container {
-  display: flex;
-  
+  position: relative;
 }
 
 .motion {
-  bottom: 16px;
-  right: 16px;
-  border-radius: 0.5rem;
-  z-index: 40;
+  z-index: 9999;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
 
-  /* Centrar en mobile */
-  @media (max-width: 640px) {
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    max-width: 300px;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
+/* Estilos para el botón de tienda */
+.storeToggleButton {
+  position: fixed !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+  transition: bottom 0.3s ease;
+  bottom: 5px;
+}
+
+/* Para dispositivos móviles */
+@media (max-width: 767px) {
+  .container {
+    position: static;
   }
 
-  /* Para tablets */
-  @media (min-width: 641px) and (max-width: 1023px) {
-    bottom: 24px;
-    right: 24px;
-    width: 320px;
-  }
-
-  /* Para desktop */
-  @media (min-width: 1024px) {
-    right: 32px;
-    width: 350px;
+  .motion {
+    position: fixed;
+    bottom: 75px;
+    right: 16px;
+    max-height: 60vh;
+    overflow-y: auto;
   }
 }
