@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,6 +9,8 @@ import styles from "@/styles/Advertisement.module.scss";
 export default function AdvertisementToggle({ ads = [] }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isNearFooter, setIsNearFooter] = useState(false);
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     // Comprobar si es dispositivo móvil
@@ -21,19 +23,16 @@ export default function AdvertisementToggle({ ads = [] }) {
 
     // Manejar la posición del botón cuando se hace scroll
     const handleScroll = () => {
+      if (!buttonRef.current) return;
+
       const scrollPosition = window.scrollY + window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
-      const toggleButton = document.querySelector(
-        `.${styles.storeToggleButton}`,
-      );
-
-      if (!toggleButton) return;
 
       // Ajustar la posición cuando estamos cerca del footer
       if (scrollPosition >= documentHeight - 100) {
-        toggleButton.style.bottom = "120px"; // Alejar del footer
+        setIsNearFooter(true);
       } else {
-        toggleButton.style.bottom = "24px"; // Posición normal
+        setIsNearFooter(false);
       }
     };
 
@@ -49,21 +48,31 @@ export default function AdvertisementToggle({ ads = [] }) {
     <div className={`${styles.container} relative`}>
       {/* Botón flotante para móviles */}
       {isMobile && (
-        <button
-          onClick={() => setIsVisible(!isVisible)}
-          className={`${styles.storeToggleButton} fixed bottom-1 right-4 z-50 p-3 rounded-full shadow-lg flex items-center justify-center w-12 h-12 backdrop-blur-md bg-white/80 border border-gray-200`}
-          style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
+        <div
+          ref={buttonRef}
+          className="fixed z-50"
+          style={{
+            bottom: isNearFooter ? "120px" : "5px",
+            right: "10px",
+            transition: "bottom 0.3s ease",
+          }}
         >
-          <Image
-            src={
-              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
-            }
-            alt="Toggle Anuncios"
-            width={24}
-            height={24}
-            priority
-          />
-        </button>
+          <button
+            onClick={() => setIsVisible(!isVisible)}
+            className="p-3 rounded-full shadow-lg flex items-center justify-center w-12 h-12 backdrop-blur-md bg-white/80 border border-gray-200"
+            style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
+          >
+            <Image
+              src={
+                "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
+              }
+              alt="Toggle Anuncios"
+              width={24}
+              height={24}
+              priority
+            />
+          </button>
+        </div>
       )}
 
       {/* Contenido de anuncios */}
@@ -75,8 +84,13 @@ export default function AdvertisementToggle({ ads = [] }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className={`${styles.motion} fixed bottom-3 right-4 z-40 bg-white shadow-md rounded-lg overflow-hidden max-w-sm w-52`}
-              style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
+              className={`${styles.motion} fixed z-40 bg-white shadow-md rounded-lg overflow-hidden max-w-sm w-52`}
+              style={{
+                bottom: isNearFooter ? "180px" : "84px",
+                right: "16px",
+                transition: "bottom 0.3s ease",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+              }}
             >
               <div className="max-h-[60vh] overflow-y-auto">
                 {Array.isArray(ads) &&

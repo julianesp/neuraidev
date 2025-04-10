@@ -836,10 +836,11 @@ export default function Inicio() {
 
       <main
         className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}
+        style={{ margin: 0, padding: 0 }}
       >
         {/* Sección Hero - contenedor con altura controlada */}
         <div className={`${styles.presentacion}`}>
-          <NightSkyHero style={{ maxHeight: "100vh" }} />
+          <NightSkyHero />
         </div>
 
         {/* Sección del carrusel/publicidad principal - altura controlada */}
