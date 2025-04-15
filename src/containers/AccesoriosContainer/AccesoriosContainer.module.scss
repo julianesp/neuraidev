@@ -1,7 +1,6 @@
 @import "@/styles/variables.scss";
 
 /* Estilos específicos para el componente AccesoriosContainer */
-
 .container {
   width: 100%;
 
@@ -14,6 +13,7 @@
     width: 100%;
     min-width: 320px;
     max-width: 375px;
+    overflow-x: hidden; // Evitar scroll horizontal
   }
 
   // Dispositivos móviles medianos (iPhone 6/7/8, etc)
@@ -21,28 +21,39 @@
     width: 100%;
     min-width: 375px;
     max-width: 425px;
+    overflow-x: hidden; // Evitar scroll horizontal
   }
 }
 
 // Contenedor de imagen principal
 .mainImageContainer {
   width: 100%;
+  position: relative;
 
   @media screen and (max-width: 767px) {
     height: 250px !important;
     margin-bottom: 1rem;
-
     // Asegurar que la imagen se muestre correctamente
     :global(img) {
       object-fit: contain !important;
       width: 100% !important;
       height: 100% !important;
+      max-height: 250px; // Evita que la imagen sea demasiado grande
     }
   }
 }
 
 // Tarjetas de productos relacionados
 .relatedItemCard {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
   @media screen and (max-width: 767px) {
     // Ajustar altura para mantener proporciones en móvil
     height: auto;
@@ -55,10 +66,13 @@
     // Ajustar tamaño de texto
     h3 {
       font-size: 0.8rem !important;
+      line-height: 1.2;
+      margin-bottom: 0.25rem;
     }
 
     p {
       font-size: 0.9rem !important;
+      margin-bottom: 0.5rem;
     }
 
     // Ajustar botón
@@ -79,6 +93,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10; // Asegurar que estén por encima de otros elementos
+  cursor: pointer;
 
   @media screen and (max-width: 767px) {
     width: 2rem !important;
@@ -95,4 +111,15 @@
   background-color: $whatsapp;
   color: #fff;
   font-size: 1.3rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  @media screen and (max-width: 767px) {
+    font-size: 1rem;
+    padding: 0.5rem 1rem !important;
+  }
 }
