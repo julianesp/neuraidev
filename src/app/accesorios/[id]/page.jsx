@@ -1,6 +1,6 @@
 import React from "react";
 // import AccesoriosContainer from "@/components/AccesoriosContainer";
-import AccesoriosContainer from "@/containers/AccesoriosContainer";
+import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 import { notFound } from "next/navigation";
 
 // Datos estáticos para fallback (en caso de que no puedas cargar el JSON)

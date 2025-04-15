@@ -56,6 +56,34 @@
             "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F1.jpg?alt=media&token=621f828d-8f87-4cc8-b4c5-dd2792f796b2",
             "precio": 39900,
             "categoria": "celulares"
+        },
+        {
+            "id": 3,
+            "nombre": "Dron G6",
+            "descripcion": "✨Dron G6✨ \n🚁Dron compacto y elegante con diseño negro y detalles turquesa. \n📸 Equipado con doble cámara (frontal y inferior) para versatilidad en la captura. \n🔋 Incluye 3 baterías para extender tu tiempo de vuelo. \n🔄 Viene con 2 juegos de aspas de repuesto para mantenimiento. \n📱 Perfecto para fotografía aérea y videografía. \n🎮 Diseño aerodinámico para un vuelo estable y controlado",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F1.jpg?alt=media&token=1728eecb-2318-48cf-87cf-4c12b9aee866"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F2.jpg?alt=media&token=7edbde50-a6f5-4997-92ca-dba415a92e5a"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F2.jpg?alt=media&token=7edbde50-a6f5-4997-92ca-dba415a92e5a"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F3.jpg?alt=media&token=20566450-b142-4b6d-903a-ec756f2acf61"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F4.jpg?alt=media&token=02197930-d2ed-4b53-be3b-2adbb206ae24"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F5.jpg?alt=media&token=8860f095-7eb3-4853-bfa9-e1e482765821"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F1.jpg?alt=media&token=1728eecb-2318-48cf-87cf-4c12b9aee866",
+            "precio": 199900,
+            "categoria": "personal"
         }
     ],
     "configuracion": {

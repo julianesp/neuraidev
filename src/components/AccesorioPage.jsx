@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import AccesoriosContainer from "@/containers/AccesoriosContainer";
+import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 // Importamos los datos directamente - asumiendo que el JSON está en /public
 // En producción, normalmente obtendrías estos datos de una API
 
