@@ -43,8 +43,18 @@
   }
 }
 
+// .carousel {
+//   @media ((width > 320px) and (width < 768px)) {
+//     display: grid;
+//     grid-template-columns: repeat(min(3, 1fr));
+//     overflow-x: scroll;
+//   }
+// }
+
 // Tarjetas de productos relacionados
 .relatedItemCard {
+  border: 1px solid #000;
+
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
@@ -121,5 +131,51 @@
   @media screen and (max-width: 767px) {
     font-size: 1rem;
     padding: 0.5rem 1rem !important;
+  }
+}
+
+// Estilo para facilitar la transición de scroll
+.container {
+  scroll-margin-top: 200px; // Esto establece un margen de scroll para el container
+
+  @media screen and (max-width: 767px) {
+    scroll-margin-top: 550px; // Un poco menos en móviles
+  }
+}
+
+// Clase para el contenedor del carrusel de productos relacionados
+.otrosAccesoriosGrid {
+  display: grid;
+  gap: 1rem;
+
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+
+    // Mejora la apariencia del scroll
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 2px;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// Para cada elemento dentro del grid de otros accesorios
+.otrosAccesoriosItem {
+  scroll-snap-align: start;
+  min-width: 0;
+
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    min-width: calc((100% / 3) - 0.67rem);
   }
 }

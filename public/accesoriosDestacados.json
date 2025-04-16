@@ -28,7 +28,7 @@
             "descripcion": "¡Optimiza el rendimiento de tu equipo! 🚀 Este SSD tipo mSATA ofrece velocidad y confiabilidad. Ideal para quienes buscan mayor rapidez en la transferencia de datos. 📂 Perfecto para laptops (portátiles) 💻",
             "imagenes": [
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F1.jpg?alt=media&token=7d43c880-f88b-4793-a288-05795856f4300.ufbta37bGQSK8rErZt0EBVpcRFwhOm8JnUH9cXoX5Aw"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F1.jpg?alt=media&token=7d43c880-f88b-4793-a288-05795856f430"
                 },
                 {
                     "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F2.jpg?alt=media&token=aac519a4-e48b-4039-851a-8cef55b6e440"
@@ -58,15 +58,12 @@
             "categoria": "celulares"
         },
         {
-            "id": 3,
+            "id": 4,
             "nombre": "Dron G6",
             "descripcion": "✨Dron G6✨ \n🚁Dron compacto y elegante con diseño negro y detalles turquesa. \n📸 Equipado con doble cámara (frontal y inferior) para versatilidad en la captura. \n🔋 Incluye 3 baterías para extender tu tiempo de vuelo. \n🔄 Viene con 2 juegos de aspas de repuesto para mantenimiento. \n📱 Perfecto para fotografía aérea y videografía. \n🎮 Diseño aerodinámico para un vuelo estable y controlado",
             "imagenes": [
                 {
                     "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F1.jpg?alt=media&token=1728eecb-2318-48cf-87cf-4c12b9aee866"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F2.jpg?alt=media&token=7edbde50-a6f5-4997-92ca-dba415a92e5a"
                 },
                 {
                     "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F2.jpg?alt=media&token=7edbde50-a6f5-4997-92ca-dba415a92e5a"
@@ -84,10 +81,35 @@
             "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F1.jpg?alt=media&token=1728eecb-2318-48cf-87cf-4c12b9aee866",
             "precio": 199900,
             "categoria": "personal"
+        },
+        {
+            "id": 5,
+            "nombre": "Gimbal",
+            "descripcion": "GIMBAL INTELIGENTE DE SEGUIMIENTO AUTOMÁTICO 🔄 🎬 Ideal para creadores de contenido y videoconferencias. Características destacadas: 🔍 Seguimiento inteligente de 360° con base giratoria estable. 💼 Diseño compacto en negro elegante con detalle en rojo. 🎮 Controles intuitivos para manejo fácil. 📲 Compatible con múltiples dispositivos. 🛡️ Base antideslizante para máxima estabilidad. 🌟 Perfecto para TikTok, YouTube, videollamadas y streaming",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F1.jpg?alt=media&token=e9fe42ee-6b62-495d-b3d3-9b16c249d06e"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F2.jpg?alt=media&token=e083b6f7-0a72-4e95-bfa6-733f1c17e515"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F3.jpg?alt=media&token=0eaf0309-c22f-4c3c-be6a-aab3df6fc48d"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F4.jpg?alt=media&token=15e253a2-8fdb-4074-b534-a3b79ec2d569"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F5.jpg?alt=media&token=631706c9-289b-4424-81d5-da1e190d0156"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F1.jpg?alt=media&token=e9fe42ee-6b62-495d-b3d3-9b16c249d06e",
+            "precio": 179900,
+            "categoria": "personal"
         }
     ],
     "configuracion": {
         "telefono": "+573174503604",
-        "whatsappMensaje": "Hola, estoy interesado en el accesorio destacado: "
+        "whatsappMensaje": "Hola, estoy interesad@ en este accesorio:   "
     }
 }
