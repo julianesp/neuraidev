@@ -38,84 +38,6 @@ const AccesoriosContainer = ({
     }
   }, []);
 
-  // Función para cambiar el accesorio activo (corregida)
-  // const cambiarAccesorio = useCallback(
-  //   (nuevoAccesorio) => {
-  //     console.log("Cambiando a accesorio:", nuevoAccesorio);
-
-  //     if (!nuevoAccesorio) {
-  //       console.error(
-  //         "Error: Intento de cambiar a un accesorio nulo o indefinido",
-  //       );
-  //       return;
-  //     }
-
-  //     // Resetear el índice del slide principal
-  //     setMainSlideIndex(0);
-
-  //     // Resetear los errores de imagen
-  //     setImageError({});
-
-  //     // 1. Guardar el accesorio actual (para restaurarlo en los otros accesorios)
-  //     const accesorioActual = accesorio;
-
-  //     // 2. Establecer el nuevo accesorio principal
-  //     setAccesorio(nuevoAccesorio);
-
-  //     // 3. Preparar los nuevos "otros accesorios" - MANTENIENDO TODOS excepto el nuevo seleccionado
-  //     let nuevosOtros = [...todosAccesorios];
-
-  //     // 4. Filtrar SOLO el accesorio que ahora es el principal
-  //     nuevosOtros = nuevosOtros.filter((a) => {
-  //       // Si no hay accesorios, no incluir
-  //       if (!a || !nuevoAccesorio) return false;
-
-  //       // Filtrar por ID si está disponible (forma más segura)
-  //       if (a.id !== undefined && nuevoAccesorio.id !== undefined) {
-  //         return a.id !== nuevoAccesorio.id;
-  //       }
-
-  //       // Filtrar por nombre como respaldo
-  //       if (a.nombre && nuevoAccesorio.nombre) {
-  //         return a.nombre !== nuevoAccesorio.nombre;
-  //       }
-
-  //       // Último recurso - comparar referencias
-  //       return a !== nuevoAccesorio;
-  //     });
-
-  //     // 5. Incluir el accesorio anterior en los otros accesorios (si existe)
-  //     if (accesorioActual && accesorioActual !== nuevoAccesorio) {
-  //       // Verificar si el accesorio anterior ya está incluido para evitar duplicados
-  //       const yaIncluido = nuevosOtros.some((a) => {
-  //         if (a.id !== undefined && accesorioActual.id !== undefined) {
-  //           return a.id === accesorioActual.id;
-  //         }
-  //         if (a.nombre && accesorioActual.nombre) {
-  //           return a.nombre === accesorioActual.nombre;
-  //         }
-  //         return a === accesorioActual;
-  //       });
-
-  //       if (!yaIncluido) {
-  //         nuevosOtros.push(accesorioActual);
-  //       }
-  //     }
-
-  //     console.log("Nuevos otros accesorios:", nuevosOtros);
-  //     setOtrosAccesorios(nuevosOtros);
-
-  //     // Hacer scroll al inicio del contenedor
-  //     if (containerRef.current) {
-  //       containerRef.current.scrollIntoView({
-  //         behavior: "smooth",
-  //         block: "start",
-  //       });
-  //     }
-  //   },
-  //   [todosAccesorios, accesorio], // Incluir accesorio como dependencia para mantenerlo actualizado
-  // );
-
   // En AccesoriosContainer, modifica la función cambiarAccesorio para ajustar el scroll
   const cambiarAccesorio = useCallback(
     (nuevoAccesorio) => {
@@ -275,10 +197,10 @@ const AccesoriosContainer = ({
   const nextRelatedSlide = (e) => {
     e.preventDefault(); // Prevenir comportamiento predeterminado
 
-    if (!otrosAccesorios || otrosAccesorios.length <= (isMobile ? 3 : 4))
+    if (!otrosAccesorios || otrosAccesorios.length <= (isMobile ? 2 : 3))
       return;
 
-    const totalSlides = Math.ceil(otrosAccesorios.length / (isMobile ? 3 : 4));
+    const totalSlides = Math.ceil(otrosAccesorios.length / (isMobile ? 2 : 3));
     setRelatedSlideIndex((prevIndex) =>
       prevIndex === totalSlides - 1 ? 0 : prevIndex + 1,
     );
@@ -288,10 +210,10 @@ const AccesoriosContainer = ({
   const prevRelatedSlide = (e) => {
     e.preventDefault(); // Prevenir comportamiento predeterminado
 
-    if (!otrosAccesorios || otrosAccesorios.length <= (isMobile ? 3 : 4))
+    if (!otrosAccesorios || otrosAccesorios.length <= (isMobile ? 2 : 3))
       return;
 
-    const totalSlides = Math.ceil(otrosAccesorios.length / (isMobile ? 3 : 4));
+    const totalSlides = Math.ceil(otrosAccesorios.length / (isMobile ? 2 : 3));
     setRelatedSlideIndex((prevIndex) =>
       prevIndex === 0 ? totalSlides - 1 : prevIndex + 1,
     );
@@ -307,7 +229,7 @@ const AccesoriosContainer = ({
 
   // Determinar si mostrar botones de navegación para productos relacionados
   const mostrarBotonesRelacionados =
-    otrosAccesorios && otrosAccesorios.length > (isMobile ? 3 : 4);
+    otrosAccesorios && otrosAccesorios.length > (isMobile ? 2 : 3);
 
   // Si está cargando, mostrar un spinner
   if (loading) {
@@ -527,251 +449,6 @@ const AccesoriosContainer = ({
           </Link>
         </div>
       </div>
-
-      {/* Carrusel de productos relacionados - solo si hay más de 0 */}
-      {/* {otrosAccesorios && otrosAccesorios.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            Otros accesorios
-          </h2>
-
-          <div className="relative">
-            <div className="overflow-hidden">
-              <div
-                className="flex transition-transform duration-300 ease-in-out"
-                style={{
-                  transform: `translateX(-${relatedSlideIndex * 100}%)`,
-                }}
-              >
-              
-                {Array.from({
-                  length: Math.ceil(
-                    otrosAccesorios.length / (isMobile ? 2 : 4),
-                  ),
-                }).map((_, slideIndex) => (
-                  <div
-                    key={slideIndex}
-                    className="min-w-full grid grid-cols-2 md:grid-cols-4 gap-4"
-                  >
-                    {otrosAccesorios
-                      .slice(
-                        slideIndex * (isMobile ? 2 : 4),
-                        slideIndex * (isMobile ? 2 : 4) + (isMobile ? 2 : 4),
-                      )
-                      .map((item, itemIndex) => {
-                        const actualIndex =
-                          slideIndex * (isMobile ? 2 : 4) + itemIndex;
-
-                       
-                        const itemImageUrl =
-                          item.imagenPrincipal ||
-                          (item.imagenes && item.imagenes.length > 0
-                            ? typeof item.imagenes[0] === "object" &&
-                              item.imagenes[0].url
-                              ? item.imagenes[0].url
-                              : item.imagenes[0]
-                            : null);
-
-                        return (
-                          <div
-                            key={actualIndex}
-                            className={`${styles.relatedItemCard} bg-gray-50 rounded-lg p-3 hover:shadow-md transition-shadow`}
-                          >
-                            <div className="relative h-40 mb-2 overflow-hidden rounded">
-                              {!imageError[`related-${actualIndex}`] &&
-                              itemImageUrl ? (
-                                <Image
-                                  src={itemImageUrl}
-                                  alt={item.nombre || ""}
-                                  fill={true}
-                                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                                  className="object-contain"
-                                  onError={() =>
-                                    handleImageError(`related-${actualIndex}`)
-                                  }
-                                />
-                              ) : (
-                                <div className="flex items-center justify-center h-full bg-gray-100">
-                                  <p className="text-gray-500">Sin imagen</p>
-                                </div>
-                              )}
-                            </div>
-                            <h3 className="font-medium text-sm truncate">
-                              {item.nombre || ""}
-                            </h3>
-                            <p className="text-primary font-bold mt-1">
-                              $
-                              {typeof item.precio === "number"
-                                ? item.precio.toLocaleString("es-CO")
-                                : item.precio}
-                            </p>
-
-                            
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                console.log("Clic en Ver para:", item);
-                                cambiarAccesorio(item);
-                              }}
-                              className="mt-3 bg-blue-600 text-white py-2 px-4 rounded flex items-center justify-center w-full hover:bg-blue-700 transition-colors text-sm"
-                              aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
-                            >
-                              <Eye size={16} className="mr-1" />
-                              Ver
-                            </button>
-                          </div>
-                        );
-                      })}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            
-            {mostrarBotonesRelacionados && (
-              <>
-                <button
-                  onClick={prevRelatedSlide}
-                  className={`${styles.navButton} absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition-all`}
-                  aria-label="Ver productos anteriores"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <button
-                  onClick={nextRelatedSlide}
-                  className={`${styles.navButton} absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition-all`}
-                  aria-label="Ver productos siguientes"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      )} */}
-
-      {/* {otrosAccesorios && otrosAccesorios.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            Otros accesorios
-          </h2>
-
-          <div className="relative">
-            <div className="overflow-hidden">
-              <div
-                className="flex transition-transform duration-300 ease-in-out"
-                style={{
-                  transform: `translateX(-${relatedSlideIndex * 100}%)`,
-                }}
-              >
-                
-                {Array.from({
-                  length: Math.ceil(
-                    otrosAccesorios.length / (isMobile ? 2 : 4),
-                  ),
-                }).map((_, slideIndex) => (
-                  <div
-                    key={slideIndex}
-                    className={`${styles.carousel} min-w-full grid grid-cols-2 md:grid-cols-4 gap-4`}
-                  >
-                    {otrosAccesorios
-                      .slice(
-                        slideIndex * (isMobile ? 2 : 4),
-                        slideIndex * (isMobile ? 2 : 4) + (isMobile ? 2 : 4),
-                      )
-                      .map((item, itemIndex) => {
-                        const actualIndex =
-                          slideIndex * (isMobile ? 2 : 4) + itemIndex;
-
-                        
-                        let itemImageUrl = "";
-                        if (item.imagenPrincipal) {
-                          itemImageUrl = item.imagenPrincipal;
-                        } else if (item.imagenes && item.imagenes.length > 0) {
-                          itemImageUrl =
-                            typeof item.imagenes[0] === "object" &&
-                            item.imagenes[0].url
-                              ? item.imagenes[0].url
-                              : item.imagenes[0];
-                        }
-
-                        return (
-                          <div
-                            key={actualIndex}
-                            className={`${styles.relatedItemCard} bg-gray-50 rounded-lg p-3 hover:shadow-md transition-shadow`}
-                          >
-                            <div className="relative h-32 md:h-40 mb-2 overflow-hidden rounded">
-                              {!imageError[`related-${actualIndex}`] &&
-                              itemImageUrl ? (
-                                <Image
-                                  src={itemImageUrl}
-                                  alt={item.nombre || ""}
-                                  fill={true}
-                                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                                  className="object-contain"
-                                  onError={() =>
-                                    handleImageError(`related-${actualIndex}`)
-                                  }
-                                />
-                              ) : (
-                                <div className="flex items-center justify-center h-full bg-gray-100">
-                                  <p className="text-gray-500">Sin imagen</p>
-                                </div>
-                              )}
-                            </div>
-                            <h3 className="font-medium text-sm truncate">
-                              {item.nombre || ""}
-                            </h3>
-                            <p className="text-primary font-bold mt-1">
-                              $
-                              {typeof item.precio === "number"
-                                ? item.precio.toLocaleString("es-CO")
-                                : item.precio}
-                            </p>
-
-                            
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                console.log("Clic en Ver para:", item);
-                                cambiarAccesorio(item);
-                              }}
-                              className="mt-3 bg-blue-600 text-white w-full py-2 px-4 rounded flex items-center justify-center hover:bg-blue-700 transition-colors text-sm"
-                              aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
-                            >
-                              <Eye size={16} className="mr-1" />
-                              Ver
-                            </button>
-                          </div>
-                        );
-                      })}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            
-            {mostrarBotonesRelacionados && (
-              <>
-                <button
-                  onClick={prevRelatedSlide}
-                  className={`${styles.navButton} absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition-all z-10`}
-                  aria-label="Ver productos anteriores"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <button
-                  onClick={nextRelatedSlide}
-                  className={`${styles.navButton} absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition-all z-10`}
-                  aria-label="Ver productos siguientes"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      )} */}
 
       {otrosAccesorios && otrosAccesorios.length > 0 && (
         <div className="mt-12">

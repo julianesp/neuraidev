@@ -1,4 +1,5 @@
 @import "@/styles/variables.scss";
+@import "@/styles/mixins.scss";
 
 /* Estilos específicos para el componente AccesoriosContainer */
 .container {
@@ -43,17 +44,10 @@
   }
 }
 
-// .carousel {
-//   @media ((width > 320px) and (width < 768px)) {
-//     display: grid;
-//     grid-template-columns: repeat(min(3, 1fr));
-//     overflow-x: scroll;
-//   }
-// }
-
 // Tarjetas de productos relacionados
 .relatedItemCard {
-  border: 1px solid #000;
+  // border: 1px solid #000;
+  @include shadowRight;
 
   transition:
     transform 0.3s ease,
@@ -149,7 +143,7 @@
   gap: 1rem;
 
   @media screen and (min-width: 320px) and (max-width: 767px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     overflow-x: auto;
     padding-bottom: 1rem;
     scroll-snap-type: x mandatory;

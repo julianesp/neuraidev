@@ -20,9 +20,9 @@ import AccesoriosContainer from "@/app/accesorios/destacados/page";
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
+const API_BOOKS_NEW = "/accesoriesBooksNew.json";
+const API_BOOKS_OLD = "/accesoriesBooksOld.json";
 const API_PRESENTATION = "/presentation.json";
-const API_DESTACADOS = "/destacados.json";
-const API_ACCESORIOS_CONTAINER = "/accesoriesContainer.json";
 
 // IDs especificos para cada categpria de accesorios
 const CATEGORIA_IDS = {
@@ -160,82 +160,82 @@ export default function Inicio() {
 
     // Simulando carga de datos
     // En una aplicación real, aquí harías una llamada a tu API
-    const cargarDatos = () => {
-      try {
-        // Datos de ejemplo - En una app real, estos vendrían de una API/servidor
-        const datos = [
-          {
-            id: 1,
-            images: [
-              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado_genius.jpg?alt=media&token=5a9ecc50-db16-4d9a-b00c-a01de3c506b3",
-              "",
-            ],
-            title: "Teclado Genius básico",
-            description: "Teclado Genius básico con conexión USB",
-            price: "39.500",
-          },
-          {
-            id: 2,
-            images: [
-              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e",
-              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F2.jpg?alt=media&token=dd5ebf3c-578d-4010-a256-650df448dc2b",
-              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F3.jpg?alt=media&token=82806339-47f0-44f6-8be5-cef6f138c8f6",
-            ],
-            title: "Cámara Genius",
-            description:
-              "Ideal para videollamadas o tareas simples. Es compatible con computadoras a través de USB.",
-            price: "84.900",
-          },
-          {
-            id: 3,
-            images: [
-              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F1.jpg?alt=media&token=6a358cee-9ebf-4255-8acf-e93fbff3ad25",
-              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F2.jpg?alt=media&token=af3ae254-2d27-478b-9b1e-8f0bde678ab1",
-            ],
-            title: "Memoria RAM DDR3L",
-            description:
-              "Una memoria RAM DDR3L es un módulo de memoria de bajo consumo (1.35V) diseñado para mejorar la eficiencia.",
-            price: "44.900",
-          },
-          {
-            id: 4,
-            images:
-              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
-            title: "Bombillo USB",
-            description: "Bombillo USB para iluminar tu teclado",
-            price: "9.900",
-          },
-          {
-            id: 5,
-            images:
-              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
-            title: "Bombillo USB",
-            description: "Bombillo USB para iluminar tu teclado",
-            price: "9.900",
-          },
-          {
-            id: 6,
-            images:
-              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fluces_bici.jpg?alt=media&token=6dca1abb-ec2d-41ed-88a1-5fb7dc4474aa",
-            title: "Luces bicicleta",
-            description:
-              "Luces delatera y trasera para bicicleta con batería recargable",
-            price: "34.900",
-          },
-        ];
+    // const cargarDatos = () => {
+    //   try {
+    //     // Datos de ejemplo - En una app real, estos vendrían de una API/servidor
+    //     const datos = [
+    //       {
+    //         id: 1,
+    //         images: [
+    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado_genius.jpg?alt=media&token=5a9ecc50-db16-4d9a-b00c-a01de3c506b3",
+    //           "",
+    //         ],
+    //         title: "Teclado Genius básico",
+    //         description: "Teclado Genius básico con conexión USB",
+    //         price: "39.500",
+    //       },
+    //       {
+    //         id: 2,
+    //         images: [
+    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e",
+    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F2.jpg?alt=media&token=dd5ebf3c-578d-4010-a256-650df448dc2b",
+    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F3.jpg?alt=media&token=82806339-47f0-44f6-8be5-cef6f138c8f6",
+    //         ],
+    //         title: "Cámara Genius",
+    //         description:
+    //           "Ideal para videollamadas o tareas simples. Es compatible con computadoras a través de USB.",
+    //         price: "84.900",
+    //       },
+    //       {
+    //         id: 3,
+    //         images: [
+    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F1.jpg?alt=media&token=6a358cee-9ebf-4255-8acf-e93fbff3ad25",
+    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F2.jpg?alt=media&token=af3ae254-2d27-478b-9b1e-8f0bde678ab1",
+    //         ],
+    //         title: "Memoria RAM DDR3L",
+    //         description:
+    //           "Una memoria RAM DDR3L es un módulo de memoria de bajo consumo (1.35V) diseñado para mejorar la eficiencia.",
+    //         price: "44.900",
+    //       },
+    //       {
+    //         id: 4,
+    //         images:
+    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
+    //         title: "Bombillo USB",
+    //         description: "Bombillo USB para iluminar tu teclado",
+    //         price: "9.900",
+    //       },
+    //       {
+    //         id: 5,
+    //         images:
+    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
+    //         title: "Bombillo USB",
+    //         description: "Bombillo USB para iluminar tu teclado",
+    //         price: "9.900",
+    //       },
+    //       {
+    //         id: 6,
+    //         images:
+    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fluces_bici.jpg?alt=media&token=6dca1abb-ec2d-41ed-88a1-5fb7dc4474aa",
+    //         title: "Luces bicicleta",
+    //         description:
+    //           "Luces delatera y trasera para bicicleta con batería recargable",
+    //         price: "34.900",
+    //       },
+    //     ];
 
-        // Simulamos un pequeño retraso
-        setTimeout(() => {
-          setAccesoriosData(datos);
-          setLoading(false);
-        }, 300);
-      } catch (error) {
-        console.error("Error al cargar los datos:", error);
-        setLoading(false);
-      }
-    };
+    //     // Simulamos un pequeño retraso
+    //     setTimeout(() => {
+    //       setAccesoriosData(datos);
+    //       setLoading(false);
+    //     }, 300);
+    //   } catch (error) {
+    //     console.error("Error al cargar los datos:", error);
+    //     setLoading(false);
+    //   }
+    // };
 
-    cargarDatos();
+    // cargarDatos();
   }, []);
 
   if (!isLoaded) return null;
@@ -309,7 +309,9 @@ export default function Inicio() {
         </div>
 
         {/* Botones de Servicios y Accesorios fijos en móvil, normales en desktop */}
-        <div className=" left-0 w-full z-50 bg-white shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2">
+        <div
+          className={`${styles.directos} left-0 w-full z-50 bg-white shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2`}
+        >
           <a
             href="#services"
             onClick={(e) => {
@@ -427,7 +429,7 @@ export default function Inicio() {
                 showIndicators={false}
               />
 
-              <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.CELULARES}`}>
+              <Link href={`/productos/${CATEGORIA_IDS.CELULARES}`}>
                 Ver más
               </Link>
             </article>
@@ -441,7 +443,7 @@ export default function Inicio() {
 
               <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
 
-              <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.COMPUTADORES}`}>
+              <Link href={`/productos/${CATEGORIA_IDS.COMPUTADORES}`}>
                 Ver más
               </Link>
             </article>
@@ -454,9 +456,7 @@ export default function Inicio() {
               <h2>Damas</h2>
 
               <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
-              <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.DAMAS}`}>
-                Ver más
-              </Link>
+              <Link href={`/productos/${CATEGORIA_IDS.DAMAS}`}>Ver más</Link>
             </article>
 
             {/* Artículo con animación desde la derecha */}
@@ -466,8 +466,8 @@ export default function Inicio() {
             >
               <h2>Libros nuevos</h2>
 
-              <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
-              <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.LIBROS_NUEVOS}`}>
+              <CarouselDemo apiUrl={API_BOOKS_NEW} showIndicators={false} />
+              <Link href={`/productos/${CATEGORIA_IDS.LIBROS_NUEVOS}`}>
                 Ver más
               </Link>
             </article>
@@ -479,8 +479,8 @@ export default function Inicio() {
             >
               <h2>Libros usados</h2>
 
-              <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
-              <Link href={`/ProductoDetalle?id=${CATEGORIA_IDS.LIBROS_USADOS}`}>
+              <CarouselDemo apiUrl={API_BOOKS_OLD} showIndicators={false} />
+              <Link href={`/productos/${CATEGORIA_IDS.LIBROS_USADOS}`}>
                 Ver más
               </Link>
             </article>

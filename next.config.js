@@ -1,3 +1,43 @@
+// const path = require("path");
+
+// const nextConfig = {
+//   reactStrictMode: true,
+//   swcMinify: true,
+//   trailingSlash: true,
+
+//   images: {
+//     // domains: ["www.pexels.com"],
+//     remotePatterns: [
+//       {
+//         protocol: "https",
+//         hostname: "firebasestorage.googleapis.com",
+//       },
+//       {
+//         protocol: "https",
+//         hostname: "pixabay.com",
+//       },
+//       // {
+//       //   protocol: "https",
+//       //   hostname: "pexels.com",
+//       // },
+//       {
+//         protocol: "https",
+//         hostname: "unsplash.com",
+//       },
+//       {
+//         protocol: "https",
+//         hostname: "supabase.com",
+//       },
+//       {
+//         protocol: "https",
+//         hostname: "nwxetoffoghsimkqfsbv.supabase.co",
+//       },
+//     ],
+//   },
+// };
+
+// module.exports = nextConfig;
+
 const path = require("path");
 
 const nextConfig = {
@@ -5,17 +45,8 @@ const nextConfig = {
   swcMinify: true,
   trailingSlash: true,
 
-  // exportPathMap: async function () {
-  //   const paths = {
-  //     "/": { page: "/" },
-  //     // Agrega aquí otras páginas estáticas
-  //   };
-
-  //   return paths;
-  // },
-
+  // Configuración de imágenes remotas
   images: {
-    // domains: ["www.pexels.com"],
     remotePatterns: [
       {
         protocol: "https",
@@ -25,10 +56,6 @@ const nextConfig = {
         protocol: "https",
         hostname: "pixabay.com",
       },
-      // {
-      //   protocol: "https",
-      //   hostname: "pexels.com",
-      // },
       {
         protocol: "https",
         hostname: "unsplash.com",
@@ -42,6 +69,27 @@ const nextConfig = {
         hostname: "nwxetoffoghsimkqfsbv.supabase.co",
       },
     ],
+  },
+
+  // Configuración para API dinámica
+  experimental: {
+    serverComponentsExternalPackages: [],
+  },
+
+  // Redirecciones para URLs antiguas
+  async redirects() {
+    return [
+      {
+        source: "/ProductoDetalle",
+        destination: "/productos/celulares",
+        permanent: false,
+      },
+      {
+        source: "/ProductoDetalle/:path*",
+        destination: "/productos/:path*",
+        permanent: false,
+      },
+    ];
   },
 };
 

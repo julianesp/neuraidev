@@ -1,0 +1,13 @@
+[
+    {
+        "id": 1,
+        "images": [
+            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F1.jpg?alt=media&token=c1f2342c-a40c-4e2e-abaa-d5cf13847d14",
+            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F2.jpg?alt=media&token=5364140d-bf2c-4b26-bcd9-760a96ab8d26",
+            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F3.jpg?alt=media&token=15cba429-a31a-4b8d-b26f-aa7d4b813655"
+        ],
+        "title": "Multi puerto USB 3 - 8 puerto",
+        "description": "Aumenta la capacidad de tu computador con estos 8 puertos",
+        "price": "64.900"
+    }
+]

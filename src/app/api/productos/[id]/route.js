@@ -1,38 +1,3 @@
-// // src/app/api/productos/[id]/route.js
-// import { readFileSync } from "fs";
-// import { NextResponse } from "next/server";
-// import path from "path";
-
-// export async function GET(request, { params }) {
-//   try {
-//     const { id } = params;
-//     const filePath = path.join(
-//       process.cwd(),
-//       "/public",
-//       "accesoriosDestacados.json",
-//     );
-//     const fileContents = readFileSync(filePath, "utf8");
-//     const productos = JSON.parse(fileContents);
-
-//     const producto = productos.find((p) => p.id === id);
-
-//     if (!producto) {
-//       return NextResponse.json(
-//         { error: "Producto no encontrado" },
-//         { status: 404 },
-//       );
-//     }
-
-//     return NextResponse.json(producto);
-//   } catch (error) {
-//     console.error(`Error al cargar producto ${params.id}:`, error);
-//     return NextResponse.json(
-//       { error: "Error cargando producto" },
-//       { status: 500 },
-//     );
-//   }
-// }
-
 import { NextResponse } from "next/server";
 
 // Los mismos datos estáticos para consistencia
@@ -47,7 +12,7 @@ const datosAccesorios = [
         url: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fluces_bici.jpg?alt=media&token=6dca1abb-ec2d-41ed-88a1-5fb7dc4474aa",
       },
     ],
-    imagenPrincipal:
+        imagenPrincipal:
       "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fluces_bici.jpg?alt=media&token=6dca1abb-ec2d-41ed-88a1-5fb7dc4474aa",
     precio: 34900,
     categoria: "damas",

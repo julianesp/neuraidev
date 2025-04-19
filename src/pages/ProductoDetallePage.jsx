@@ -1,6 +1,6 @@
 // archivo: pages/ProductoDetalle.js
 import React, { useEffect, useState } from "react";
-import ProductoDetalle from "@/components/ProductoDetalle";
+import ProductoDetalle from "@/components/ProductoDetalleDeleteAfter";
 import { useRouter } from "next/router";
 import RootLayout from "@/app/layout";
 
@@ -63,7 +63,7 @@ export default function ProductoDetallePage() {
 
         // Agregar casos para las demás categorías
         case "damas":
-        case "libros-nuevos":
+        case "accesoriesBooksNew":
         case "libros-usados":
           productoData = {
             id: id,
