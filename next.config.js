@@ -69,7 +69,7 @@ const nextConfig = {
         hostname: "nwxetoffoghsimkqfsbv.supabase.co",
       },
     ],
-    unoptimized: true, // Necesario con output: export
+    //unoptimized: true, // Necesario con output: export
   },
 
   // Configuración para API dinámica
@@ -77,8 +77,8 @@ const nextConfig = {
   //   serverComponentsExternalPackages: [],
   // },
 
-  // Redirecciones para URLs antiguas
   async redirects() {
+    // Redirecciones para URLs antiguas
     return [
       {
         source: "/ProductoDetalle",

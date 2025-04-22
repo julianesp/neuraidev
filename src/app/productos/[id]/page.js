@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Play, ShoppingCart } from "lucide-react";
+import ProductoDetalleCliente from "./ProductDetail";
 
 export default function ProductoDetalle({ params }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -341,4 +342,81 @@ export default function ProductoDetalle({ params }) {
       </div>
     </div>
   );
+}
+
+export async function generateStaticParams() {
+  try {
+    // Definir categorías principales que sabemos que existen
+    const mainCategories = [
+      { id: "celulares" },
+      { id: "computadores" },
+      { id: "damas" },
+      { id: "libros-nuevos" },
+      { id: "libros-usados" },
+    ];
+
+    // Opcional: Lee los archivos JSON para obtener más IDs de productos
+    const publicDir = path.join(process.cwd(), "public");
+    const files = [
+      "celulares.json",
+      "computers.json",
+      "accesoriosDestacados.json",
+      "accesoriesDamas.json",
+      "accesoriesBooksNew.json",
+      "accesoriesBooksOld.json",
+    ];
+
+    let additionalIds = [];
+
+    // Intentar leer productos específicos de los archivos
+    for (const file of files) {
+      try {
+        const filePath = path.join(publicDir, file);
+        const fileContent = await fs.readFile(filePath, "utf-8");
+        const data = JSON.parse(fileContent);
+
+        // Si es un array, extraer los IDs
+        if (Array.isArray(data)) {
+          const ids = data
+            .map((item) => ({ id: item.id }))
+            .filter((item) => item.id);
+          additionalIds = [...additionalIds, ...ids];
+        }
+        // Si es un objeto con ID
+        else if (data && data.id) {
+          additionalIds.push({ id: data.id });
+        }
+      } catch (error) {
+        // Ignorar errores de archivo no encontrado
+        console.log(`No se pudo cargar: ${file}`);
+      }
+    }
+
+    // Combinar todas las rutas y eliminar duplicados
+    const allParams = [...mainCategories, ...additionalIds];
+
+    // Eliminar duplicados basados en id
+    const uniqueParams = allParams.filter(
+      (param, index, self) =>
+        index === self.findIndex((p) => p.id === param.id),
+    );
+
+    console.log("Rutas estáticas generadas:", uniqueParams.length);
+    return uniqueParams;
+  } catch (error) {
+    console.error("Error al generar parámetros estáticos:", error);
+    // Devolver al menos las categorías principales en caso de error
+    return [
+      { id: "celulares" },
+      { id: "computadores" },
+      { id: "damas" },
+      { id: "libros-nuevos" },
+      { id: "libros-usados" },
+    ];
+  }
+}
+
+// Componente principal que renderiza el componente cliente
+export default function Page({ params }) {
+  return <ProductoDetalleCliente params={params} />;
 }
