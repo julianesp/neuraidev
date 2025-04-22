@@ -127,9 +127,7 @@ module.exports = {
   		}
   	}
   },
-  plugins: [require("daisyui"), require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")],
 
-  daisyui: {
-    themes: ["light", "dark", "cupcake"],
-  },
+  
 };

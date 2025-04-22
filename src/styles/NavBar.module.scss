@@ -5,12 +5,12 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   height: 60px;
   top: 0;
   left: 0;
   padding: 0 15px;
-  border-bottom: 1px solid #84bbf3;
+  // border-bottom: 1px solid #84bbf3;
   backdrop-filter: blur(5px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   border-bottom-left-radius: 20px;
@@ -27,6 +27,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  
 }
 
 .circle {
@@ -188,8 +190,14 @@
 @media screen and (min-width: 1024px) {
   .container {
     padding: 0 40px;
-    height: 70px;
+    height: 40px;
     justify-content: space-between;
+
+    & .container__principal {
+      & img {
+        width: 30px;
+      }
+    }
   }
 
   .circle {

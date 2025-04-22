@@ -41,6 +41,7 @@ export default function Inicio() {
   const [presentationImages, setPresentationImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [accesoriosData, setAccesoriosData] = useState([]);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   // Referencias para elementos con animación de scroll
   const servicesRef = useRef(null);
@@ -157,100 +158,9 @@ export default function Inicio() {
       })
       .catch((error) => console.error("Error cargando presentación:", error))
       .finally(() => setLoading(false));
-
-    // Simulando carga de datos
-    // En una aplicación real, aquí harías una llamada a tu API
-    // const cargarDatos = () => {
-    //   try {
-    //     // Datos de ejemplo - En una app real, estos vendrían de una API/servidor
-    //     const datos = [
-    //       {
-    //         id: 1,
-    //         images: [
-    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado_genius.jpg?alt=media&token=5a9ecc50-db16-4d9a-b00c-a01de3c506b3",
-    //           "",
-    //         ],
-    //         title: "Teclado Genius básico",
-    //         description: "Teclado Genius básico con conexión USB",
-    //         price: "39.500",
-    //       },
-    //       {
-    //         id: 2,
-    //         images: [
-    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e",
-    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F2.jpg?alt=media&token=dd5ebf3c-578d-4010-a256-650df448dc2b",
-    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F3.jpg?alt=media&token=82806339-47f0-44f6-8be5-cef6f138c8f6",
-    //         ],
-    //         title: "Cámara Genius",
-    //         description:
-    //           "Ideal para videollamadas o tareas simples. Es compatible con computadoras a través de USB.",
-    //         price: "84.900",
-    //       },
-    //       {
-    //         id: 3,
-    //         images: [
-    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F1.jpg?alt=media&token=6a358cee-9ebf-4255-8acf-e93fbff3ad25",
-    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F2.jpg?alt=media&token=af3ae254-2d27-478b-9b1e-8f0bde678ab1",
-    //         ],
-    //         title: "Memoria RAM DDR3L",
-    //         description:
-    //           "Una memoria RAM DDR3L es un módulo de memoria de bajo consumo (1.35V) diseñado para mejorar la eficiencia.",
-    //         price: "44.900",
-    //       },
-    //       {
-    //         id: 4,
-    //         images:
-    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
-    //         title: "Bombillo USB",
-    //         description: "Bombillo USB para iluminar tu teclado",
-    //         price: "9.900",
-    //       },
-    //       {
-    //         id: 5,
-    //         images:
-    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
-    //         title: "Bombillo USB",
-    //         description: "Bombillo USB para iluminar tu teclado",
-    //         price: "9.900",
-    //       },
-    //       {
-    //         id: 6,
-    //         images:
-    //           "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fluces_bici.jpg?alt=media&token=6dca1abb-ec2d-41ed-88a1-5fb7dc4474aa",
-    //         title: "Luces bicicleta",
-    //         description:
-    //           "Luces delatera y trasera para bicicleta con batería recargable",
-    //         price: "34.900",
-    //       },
-    //     ];
-
-    //     // Simulamos un pequeño retraso
-    //     setTimeout(() => {
-    //       setAccesoriosData(datos);
-    //       setLoading(false);
-    //     }, 300);
-    //   } catch (error) {
-    //     console.error("Error al cargar los datos:", error);
-    //     setLoading(false);
-    //   }
-    // };
-
-    // cargarDatos();
   }, []);
 
   if (!isLoaded) return null;
-
-  // Indicador de carga
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"></div>
-          <p className="mt-4 text-gray-700">Cargando accesorios...</p>
-        </div>
-      </div>
-    );
-  }
 
   const accesorios = [
     {
@@ -276,7 +186,7 @@ export default function Inicio() {
       linkUrl: "/business/Peluqueria",
     },
     {
-      businessName: "Tercena  ",
+      businessName: "Tercena",
       description: "La mejor calidad en carnes",
       imageUrl: "",
       linkUrl: "#",
@@ -300,17 +210,30 @@ export default function Inicio() {
           <NightSkyHero />
         </div>
 
-        {/* Sección del carrusel/publicidad principal - altura controlada */}
-        <div
-          className={`${styles.publicidad} w-full max-w-full overflow-hidden`}
-          style={{ maxHeight: "350px" }}
-        >
+        {/* Sección de carrusel */}
+        <div className={`${styles.carrusel}`}>
           <CarouselDemo apiUrl={API_CELULARES} />
         </div>
 
-        {/* Botones de Servicios y Accesorios fijos en móvil, normales en desktop */}
+        {/* Sección lateral de anuncios */}
+        <section
+          className={`${styles.aside}`}
+          style={{
+            display: "block",
+            gridArea: "aside",
+            width: "100%",
+            maxWidth: "300px",
+            justifySelf: "end",
+            position: "relative",
+            marginLeft: "0",
+          }}
+        >
+          <Advertisement ads={ads} />
+        </section>
+
+        {/* Botones de Servicios y Accesorios */}
         <div
-          className={`${styles.directos} left-0 w-full z-50 bg-white shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2`}
+          className={`${styles.directos} w-full z-50 bg-white shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2`}
         >
           <a
             href="#services"
@@ -383,7 +306,7 @@ export default function Inicio() {
           <AccesoriosNuevos />
         </section>
 
-        {/* Sección de servicios */}
+        {/* Sección de tratamientos */}
         <section
           ref={servicesRef}
           className={`${styles.tratamientos} ${styles.fadeInUp}`}
@@ -485,11 +408,6 @@ export default function Inicio() {
               </Link>
             </article>
           </section>
-        </section>
-
-        {/* Sección de publicidad lateral con z-index mejorado */}
-        <section className="relative z-50">
-          <Advertisement ads={ads} />
         </section>
 
         <div className="mb-16 md:mb-0">

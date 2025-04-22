@@ -171,7 +171,7 @@ const NightSkyHero = () => {
       style={{
         position: "relative",
         width: "100%",
-        height: "100svh",
+        height: "100vh",
         minHeight: "100vh",
         overflow: "hidden",
         margin: 0,
@@ -186,8 +186,8 @@ const NightSkyHero = () => {
           position: "absolute",
           top: 0,
           left: 0,
-          width: "100%",
-          height: "100%",
+          width: "100vw",
+          height: "100vh",
           backgroundImage:
             "url('https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Ffondo.jpg?alt=media&token=9b05c92d-f52f-44f3-810e-a312826fabd4')",
           backgroundSize: "cover",
@@ -249,6 +249,7 @@ const NightSkyHero = () => {
           style={{
             fontSize: "2rem",
             marginBottom: "1rem",
+            marginTop: "4rem",
             opacity: 0,
             transform: "translateY(30px)",
             backgroundColor: "rgba(157, 147, 164, 0.4)",
@@ -281,15 +282,15 @@ const NightSkyHero = () => {
         <p
           className="nightSky-desc"
           style={{
-            ontSize: "1.5rem",
+            fontSize: "1.2rem",
             maxWidth: "600px",
             marginBottom: "2rem",
             opacity: 0,
             transform: "translateY(30px)",
-            backgroundColor: "rgba(35, 35, 50, 0.4)",
+            backgroundColor: "rgba(35, 35, 50, 0.8)",
             backdropFilter: "blur(3px)",
             borderRadius: "8px",
-            padding: "14px 20px",
+            padding: "20px 20px",
             color: "white",
             textShadow: "0 1px 3px rgba(0,0,0,0.4)",
             lineHeight: "1.4",
