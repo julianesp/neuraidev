@@ -69,12 +69,13 @@ const nextConfig = {
         hostname: "nwxetoffoghsimkqfsbv.supabase.co",
       },
     ],
+    unoptimized: true, // Necesario con output: export
   },
 
   // Configuración para API dinámica
-  experimental: {
-    serverComponentsExternalPackages: [],
-  },
+  // experimental: {
+  //   serverComponentsExternalPackages: [],
+  // },
 
   // Redirecciones para URLs antiguas
   async redirects() {
