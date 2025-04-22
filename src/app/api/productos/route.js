@@ -160,7 +160,7 @@ import path from "path";
 const isProd = process.env.NODE_ENV === "production";
 
 // Configuramos la función como estática para producción
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export async function GET(request) {
   try {
@@ -244,7 +244,9 @@ export async function GET(request) {
         price: 0,
         categoria: "celulares",
         destacado: true,
-        images: ["/https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"],
+        images: [
+          "/https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+        ],
       },
       {
         id: "computadores",
@@ -254,7 +256,9 @@ export async function GET(request) {
         price: 0,
         categoria: "computadores",
         destacado: true,
-        images: ["/https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"],
+        images: [
+          "/https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+        ],
       },
       {
         id: "damas",
@@ -263,7 +267,9 @@ export async function GET(request) {
         price: 0,
         categoria: "damas",
         destacado: true,
-        images: ["/https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"],
+        images: [
+          "/https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+        ],
       },
       {
         id: "libros-nuevos",
@@ -272,7 +278,9 @@ export async function GET(request) {
         price: 0,
         categoria: "libros",
         destacado: true,
-        images: ["/https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"],
+        images: [
+          "/https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+        ],
       },
       {
         id: "libros-usados",
@@ -282,7 +290,9 @@ export async function GET(request) {
         price: 0,
         categoria: "libros",
         destacado: true,
-        images: ["/https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"],
+        images: [
+          "/https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+        ],
       },
     ];
 
