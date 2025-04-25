@@ -3,10 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
-
-import dev from "/public/images/dev.jpg";
-import linkedin from "/public/images/linkedin.png";
-import github from "/public/images/github.png";
 import styles from "@/styles/Perfil.module.scss";
 import RootLayout from "@/app/layout";
 import Link from "next/link";
@@ -59,7 +55,7 @@ const Profile = () => {
             <Image
               className={styles.me}
               alt="Desarrollador web"
-              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
+              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fdev.jpg?alt=media&token=9e22983b-7efe-43c4-9b4e-4bbb41ff3cb0"
               width={100}
               height={100}
               priority="true"
@@ -106,17 +102,27 @@ const Profile = () => {
               href="https://www.linkedin.com/in/julianesprio/"
               target="_blank"
             >
-              <Image alt="LinkedIn" src={linkedin} />
+              <Image
+                alt="LinkedIn"
+                src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flinkedin.png?alt=media&token=f709970c-0660-409b-b141-f47cde75b110"
+                width={80}
+                height={80}
+              />
             </Link>
 
             <Link href="https://github.com/julianesp" target="_blank">
-              <Image alt="GitHub" src={github} />
+              <Image
+                alt="GitHub"
+                src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fgithub.png?alt=media&token=236a6e79-361e-470a-8743-5fa0a1e501ac"
+                width={80}
+                height={80}
+              />
             </Link>
           </div>
         </div>
       </div>
 
-      <BackToTop/>
+      <BackToTop />
     </RootLayout>
   );
 };

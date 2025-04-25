@@ -247,7 +247,7 @@ const NightSkyHero = () => {
         <h1
           className="nightSky-title"
           style={{
-            fontSize: "2rem",
+            fontSize: "1rem",
             marginBottom: "1rem",
             marginTop: "4rem",
             opacity: 0,
@@ -267,16 +267,16 @@ const NightSkyHero = () => {
           <span
             className="gender-char"
             style={{
-              transition: "all 0.3s ease",
+              transition: "all 0.5s ease",
               display: "inline-block",
-              fontWeight: "bold",
+              // fontWeight: "bold",
               color: "#fff8c0",
-              textShadow: "0 0 8px rgba(255,248,192,0.6)",
+              textShadow: "0 0 4px rgba(255,248,192,0.6)",
             }}
           >
             {genderChar}
           </span>
-          s a mi sitio web
+          <span> </span> a mi sitio web
         </h1>
 
         <p
