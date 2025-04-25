@@ -153,7 +153,7 @@ import ins from "../../public/assets/redes/instagram.png";
 import tik from "../../public/assets/redes/tiktok.png";
 import wha from "../../public/assets/redes/whatsapp.png";
 import arrow from "../../public/next.png";
-import styles from "../styles/Footer.module.scss";
+import styles from "../styles/components/Footer.module.scss";
 
 const Footer = () => {
   const [menuOption, setMenuOptions] = useState(false);

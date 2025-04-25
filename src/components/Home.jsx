@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import Link from "next/link.js";
 import Head from "next/head";
-import styles from "../styles/Home.module.scss";
+import styles from "../styles/pages/Home.module.scss";
 import ImageSlider from "../containers/ImageSlider.js";
 import ProductList from "@/containers/ProductList.jsx";
 import CarouselDemo from "@/components/CarouselDemo";

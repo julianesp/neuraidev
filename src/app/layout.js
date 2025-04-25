@@ -2,8 +2,10 @@ import React from "react";
 import NavBar from "@/containers/NavBar";
 import Footer from "@/containers/Footer";
 import "./globals.css";
-import "@/styles/AccesoriosDestacados.module.css";
-import styles from "@/styles/Layout.module.scss";
+import "@/styles/components/AccesoriosDestacados.module.css";
+import "@/styles/darkMode.scss";
+import styles from "@/styles/components/Layout.module.scss";
+import { ThemeProvider } from "next-themes";
 
 export default function RootLayout({ children }) {
   manifest: "/manifest.json";
@@ -40,11 +42,13 @@ export default function RootLayout({ children }) {
         </head>
 
         <body>
-          <div className={styles.layoutContainer}>
-            <NavBar />
-            <main className={styles.mainContent}>{children}</main>
-            <Footer />
-          </div>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <div className={styles.layoutContainer}>
+              <NavBar />
+              <main className={styles.mainContent}>{children}</main>
+              <Footer />
+            </div>
+          </ThemeProvider>
         </body>
       </html>
     </React.Fragment>

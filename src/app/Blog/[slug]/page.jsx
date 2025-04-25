@@ -101,7 +101,7 @@
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import styles from "@/styles/BlogPost.module.scss";
+import styles from "@/styles/pages/BlogPost.module.scss";
 
 // Array de posts (considera moverlo a un servicio o API)
 const posts = [

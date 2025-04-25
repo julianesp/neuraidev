@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useSlider from "@/hooks/useSlider";
 import Image from "next/image";
-import styles from "@/styles/FullViewSlider.module.scss";
+import styles from "@/styles/components/FullViewSlider.module.scss";
 
 export default function FullViewportSlider({ slides }) {
   const { currentSlide, goToNextSlide, goToPrevSlide, resetTimer } = useSlider(

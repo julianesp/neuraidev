@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "../styles/ProductItem.module.scss";
+import styles from "../styles/components/ProductItem.module.scss";
 
 const ProductItem = ({ product, maxImages }) => {
   const images = useMemo(() => {

@@ -1,4 +1,5 @@
-@import "./mixins";
+@import "../mixins.scss";
+
 .container {
   z-index: 1000; // Aumentamos el z-index para que siempre esté encima
   position: fixed;
@@ -21,6 +22,15 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+
+.themeSwitcher {
+  position: absolute;
+  left: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
 }
 
 .container__principal {
@@ -212,6 +222,11 @@
 
   .circle {
     display: none;
+  }
+  
+  .themeSwitcher {
+    position: static;
+    margin: 0 20px;
   }
 
   .nav_container {

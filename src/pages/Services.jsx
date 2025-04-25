@@ -4,7 +4,7 @@ import { React, useState, useEffect } from "react";
 import RootLayout from "@/app/layout";
 import Link from "next/link";
 import ImageSlider from "@/containers/ImageSlider";
-import styles from "@/styles/Services.module.scss";
+import styles from "@/styles/components/Services.module.scss";
 import Image from "next/image";
 import CarouselDemo from "@/components/CarouselDemo";
 

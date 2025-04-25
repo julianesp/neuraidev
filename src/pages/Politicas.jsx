@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import RootLayout from "@/app/layout";
-import styles from "@/styles/Politicas.module.scss";
+import styles from "@/styles/pages/Politicas.module.scss";
 
 const Politicas = () => {
   // Solution for hydratation errors

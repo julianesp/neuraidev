@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { obtenerAccesoriosDestacados } from "../accesoriosService";
 import Image from "next/image";
-import style from "@/styles/AccesoriosDestacados.module.scss";
+import style from "@/styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
 
 /**

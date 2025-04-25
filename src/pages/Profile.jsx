@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
-import styles from "@/styles/Perfil.module.scss";
+import styles from "@/styles/components/Perfil.module.scss";
 import RootLayout from "@/app/layout";
 import Link from "next/link";
 import BackToTop from "@/components/backTop/BackToTop";

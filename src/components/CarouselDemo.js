@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import styles from "@/styles/Carousel.module.scss";
+import styles from "@/styles/components/Carousel.module.scss";
 
 export function CarouselDemo({
   images = [],

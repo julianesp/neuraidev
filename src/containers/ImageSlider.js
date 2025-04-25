@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import styles from "../styles/ImageSlider.module.scss";
+import styles from "../styles/components/ImageSlider.module.scss";
 
 const Procedimientos = ({ imagePaths, enableTransition = true }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

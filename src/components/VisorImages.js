@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // import left from './public/aback.svg';
 import left from '../../public/aback.svg'
 import leftRight from '../../public/aback.svg';
-import styles from '../styles/VisorImages.module.css'
+import styles from '../styles/components/VisorImages.module.css'
 
 const VisorImages = ({ images, automaticTransition }) => {
     const [currentIndex, setCurrentIndex] = useState(0);

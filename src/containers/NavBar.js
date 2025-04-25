@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import styles from "../styles/NavBar.module.scss";
+import styles from "../styles/components/NavBar.module.scss";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 // IDs especificos para cada categpria de accesorios
@@ -68,6 +68,9 @@ const NavBar = () => {
             />
           </div>
         </Link>
+      </div>
+      <div className={styles.themeSwitcher}>
+        <ThemeSwitcher />
       </div>
       <nav className={styles.nav_container}>
         <ul
