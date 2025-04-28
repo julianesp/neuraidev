@@ -134,6 +134,19 @@
 
 .enlaces__menu.closed {
   right: -250px;
+
+  & li {
+    & a {
+      border: none;
+      background-color: transparent;
+      transform: none;
+      &:hover {
+        background-color: transparent;
+        text-decoration: none;
+        transform: none;
+      }
+    }
+  }
 }
 
 /* Estilos para el dropdown */
