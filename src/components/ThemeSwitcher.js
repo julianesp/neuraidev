@@ -5,13 +5,20 @@ import { Sun, Moon } from "lucide-react";
 import styles from "@/styles/components/ThemeSwitcher.module.scss";
 
 const ThemeSwitcher = () => {
+// Solution for hydratation errors
+const [isLoaded, setIsLoaded] = useState(false);
+
+
+
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
 
   // Evitar problemas de hidratación con SSR
   useEffect(() => {
     setMounted(true);
+    setIsLoaded(true);
   }, []);
+  if (!isLoaded) return null;
 
   // Añadimos un efecto para forzar los estilos del tema oscuro directamente
   useEffect(() => {
