@@ -60,7 +60,7 @@ const NavBar = () => {
           <div className={styles.container__principal}>
             <Image
               alt="Logo"
-              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=a3de913f-bf54-4804-812c-710efeeb25d6"
+              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=b33b5fda-fcbb-4185-9ecb-a63c35c275d1"
               width={40}
               height={40}
               priority={true}

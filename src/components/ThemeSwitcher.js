@@ -5,36 +5,32 @@ import { Sun, Moon } from "lucide-react";
 import styles from "@/styles/components/ThemeSwitcher.module.scss";
 
 const ThemeSwitcher = () => {
-// Solution for hydratation errors
-const [isLoaded, setIsLoaded] = useState(false);
-
-
+  // Solution for hydratation errors
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
 
   // Evitar problemas de hidratación con SSR
-  useEffect(() => {
-    setMounted(true);
-    setIsLoaded(true);
-  }, []);
-  if (!isLoaded) return null;
 
   // Añadimos un efecto para forzar los estilos del tema oscuro directamente
   useEffect(() => {
+    setMounted(true);
+    setIsLoaded(true);
+
     if (mounted) {
-      if (resolvedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.body.style.backgroundColor = '#121212';
-        document.body.style.color = '#e0e0e0';
+      if (resolvedTheme === "dark") {
+        document.documentElement.classList.add("dark");
+        document.body.style.backgroundColor = "#121212";
+        document.body.style.color = "#e0e0e0";
       } else {
-        document.documentElement.classList.remove('dark');
-        document.body.style.backgroundColor = '';
-        document.body.style.color = '';
+        document.documentElement.classList.remove("dark");
+        document.body.style.backgroundColor = "";
+        document.body.style.color = "";
       }
     }
   }, [resolvedTheme, mounted]);
-
+  if (!isLoaded) return null;
   if (!mounted) {
     return null;
   }
@@ -43,16 +39,16 @@ const [isLoaded, setIsLoaded] = useState(false);
     const newTheme = resolvedTheme === "dark" ? "light" : "dark";
     setTheme(newTheme);
     console.log("Cambiando tema a:", newTheme);
-    
+
     // Forzar el cambio de clase inmediatamente para el elemento HTML
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-      document.body.style.backgroundColor = '#121212';
-      document.body.style.color = '#e0e0e0';
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      document.body.style.backgroundColor = "#121212";
+      document.body.style.color = "#e0e0e0";
     } else {
-      document.documentElement.classList.remove('dark');
-      document.body.style.backgroundColor = '';
-      document.body.style.color = '';
+      document.documentElement.classList.remove("dark");
+      document.body.style.backgroundColor = "";
+      document.body.style.color = "";
     }
   };
 
