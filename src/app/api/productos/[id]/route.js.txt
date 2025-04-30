@@ -12,7 +12,7 @@ const datosAccesorios = [
         url: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fluces_bici.jpg?alt=media&token=6dca1abb-ec2d-41ed-88a1-5fb7dc4474aa",
       },
     ],
-        imagenPrincipal:
+    imagenPrincipal:
       "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fluces_bici.jpg?alt=media&token=6dca1abb-ec2d-41ed-88a1-5fb7dc4474aa",
     precio: 34900,
     categoria: "damas",
