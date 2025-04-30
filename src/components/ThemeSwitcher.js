@@ -11,8 +11,6 @@ const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
 
-  // Evitar problemas de hidratación con SSR
-
   // Añadimos un efecto para forzar los estilos del tema oscuro directamente
   useEffect(() => {
     setMounted(true);
