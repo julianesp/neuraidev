@@ -1,4 +1,4 @@
-// _variables.scss - Variables globales para tu proyecto Next.js
+@use "sass:color";
 
 // color whatsapp
 $whatsapp: #25d366;
@@ -26,10 +26,10 @@ $gray-800: #343a40;
 $gray-900: #212529;
 
 // Variantes de colores principales
-$primary-light: lighten($primary-color, 15%);
-$primary-dark: darken($primary-color, 15%);
-$secondary-light: lighten($secondary-color, 15%);
-$secondary-dark: darken($secondary-color, 15%);
+$primary-light: ($primary-color, 15%);
+$primary-dark: ($primary-color, 15%);
+$secondary-light: ($secondary-color, 15%);
+$secondary-dark: ($secondary-color, 15%);
 
 // Colores de texto
 $text-primary: $gray-900;
@@ -48,7 +48,6 @@ $border-color-dark: $gray-600;
 
 // Colores de enlaces
 $link-color: $primary-color;
-$link-hover-color: darken($primary-color, 15%);
 
 // Variables de branding (sustituye con tus propios colores)
 $brand-primary: #1e88e5; // Cambia a tu color principal de marca
@@ -69,8 +68,4 @@ $box-shadow-lg: 0 1rem 3rem rgba($black, 0.175);
 // Gradientes
 $gradient-primary: linear-gradient(135deg, $primary-color, $primary-dark);
 $gradient-secondary: linear-gradient(135deg, $secondary-color, $secondary-dark);
-$gradient-accent: linear-gradient(
-  135deg,
-  $accent-color,
-  darken($accent-color, 15%)
-);
+$gradient-accent: linear-gradient(135deg, $accent-color);

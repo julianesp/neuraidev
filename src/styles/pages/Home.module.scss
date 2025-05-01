@@ -1,5 +1,5 @@
-@import "../mixins.scss";
-@import "../variables";
+@use "../mixins.scss" as *;
+@use "../variables" as *;
 
 /* styles to presentation of start page */
 .container {

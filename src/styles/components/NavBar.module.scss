@@ -1,4 +1,4 @@
-@import "../mixins.scss";
+@use "../mixins.scss" as *;
 
 .container {
   z-index: 1000; // Aumentamos el z-index para que siempre esté encima

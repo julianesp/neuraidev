@@ -6,8 +6,6 @@ import "@/styles/components/AccesoriosDestacados.module.css";
 import "@/styles/darkMode.scss";
 import styles from "@/styles/components/Layout.module.scss";
 import { ThemeProvider } from "next-themes";
-// import "../firebaseConfig";
-// import "firebaseConfig";
 
 export default function RootLayout({ children }) {
   manifest: "/manifest.json";
