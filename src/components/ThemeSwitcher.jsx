@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react"; // Íconos bonitos
-import { Button } from "@/components/ui/button"; // Botón estilizado de shadcn
+import { Button } from "../components/ui/button"; // Botón estilizado de shadcn
 import { useEffect, useState } from "react";
 
 export default function ThemeSwitcher() {

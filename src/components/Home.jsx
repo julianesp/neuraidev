@@ -1,16 +1,15 @@
 "use client";
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link.js";
 import Head from "next/head";
 import styles from "../styles/pages/Home.module.scss";
-import CarouselDemo from "@/components/CarouselDemo";
-import Advertisement from "@/components/Advertisement";
-import AccesoriosDestacados from "@/components/Accesorio/AccesoriosDestacados";
-import NightSkyHero from "@/components/NightSkyHero";
-import AccesoriosNuevos from "@/components/Accesorio/AccesoriosNuevos";
-import BackToTop from "@/components/backTop/BackToTop";
+import Advertisement from "../components/Advertisement";
+import AccesoriosDestacados from "../components/Accesorio/AccesoriosDestacados";
+import NightSkyHero from "../components/NightSkyHero";
+import AccesoriosNuevos from "../components/Accesorio/AccesoriosNuevos";
+import BackToTop from "../components/backTop/BackToTop";
+import { CarouselDemo } from "./CarouselDemo";
 
-const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_BOOKS_NEW = "/accesoriesBooksNew.json";
@@ -29,6 +28,7 @@ const CATEGORIA_IDS = {
 export default function Inicio() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
+
   const [presentationImages, setPresentationImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -147,20 +147,11 @@ export default function Inicio() {
       })
       .catch((error) => console.error("Error cargando presentación:", error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [data, setData, setLoading, setPresentationImages]);
 
   if (!isLoaded) return null;
 
-  const accesorios = [
-    {
-      d1: "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/presentation/books.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9wcmVzZW50YXRpb24vYm9va3MuanBnIiwiaWF0IjoxNzM4NDUwMjE5LCJleHAiOjE3Njk5ODYyMTl9.vZ5Vgxn90xQQmFP0-bF7mHL_avaTgCtH3WPl3QEBeDc",
-    },
-    {
-      d2: "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/presentation/studio.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9wcmVzZW50YXRpb24vc3R1ZGlvLnBuZyIsImlhdCI6MTczODQ1MDI0OSwiZXhwIjoxNzY5OTg2MjQ5fQ.Z9bCl5d21bFBn8zih4u7zX3qkFyuCT3_iQlgCBk-DR4",
-    },
-  ];
-
-  const imagePath = [accesorios[0].d1, accesorios[1].d2];
+  // const imagePath = [accesorios[0].d1, accesorios[1].d2];
   const ads = [
     {
       businessName: "Negocio",

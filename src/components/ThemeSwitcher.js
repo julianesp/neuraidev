@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
-import styles from "@/styles/components/ThemeSwitcher.module.scss";
+import styles from "../styles/components/ThemeSwitcher.module.scss";
 
 const ThemeSwitcher = () => {
   // Solution for hydratation errors
@@ -36,7 +36,6 @@ const ThemeSwitcher = () => {
   const toggleTheme = () => {
     const newTheme = resolvedTheme === "dark" ? "light" : "dark";
     setTheme(newTheme);
-    console.log("Cambiando tema a:", newTheme);
 
     // Forzar el cambio de clase inmediatamente para el elemento HTML
     if (newTheme === "dark") {

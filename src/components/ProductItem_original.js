@@ -13,11 +13,11 @@ const ProductItem = ({ product }) => {
     Array.isArray(product.images) ? product.images[0] : product.images,
   );
 
-  const handleImageChange = (index) => {
-    if (Array.isArray(product.images)) {
-      setCurrentImage(product.images[index]);
-    }
-  };
+  // const handleImageChange = (index) => {
+  //   if (Array.isArray(product.images)) {
+  //     setCurrentImage(product.images[index]);
+  //   }
+  // };
 
   return (
     <div className={styles.productItem}>

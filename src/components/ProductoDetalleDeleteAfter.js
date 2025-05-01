@@ -141,7 +141,7 @@ export default function ProductoDetalle({ params }) {
               {/* Indicadores */}
               <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
                 {images.map((_, idx) => (
-                  <div
+                  <button
                     key={idx}
                     className={`h-2 rounded-full transition-all ${
                       idx === currentImageIndex
@@ -205,6 +205,7 @@ export default function ProductoDetalle({ params }) {
 
               <div className="bg-gray-50 rounded-xl overflow-hidden relative aspect-video">
                 {productoActual.videoUrl ? (
+                  /* eslint-disable jsx-a11y/media-has-caption */
                   <video
                     controls
                     className="w-full h-full object-cover"
@@ -214,6 +215,7 @@ export default function ProductoDetalle({ params }) {
                     Tu navegador no soporta la reproducción de video.
                   </video>
                 ) : (
+                  /* eslint-disable jsx-a11y/media-has-caption */
                   <div className="w-full h-full flex flex-col items-center justify-center">
                     <Play size={48} className="text-gray-300 mb-3" />
                     <p className="text-gray-500">Video no disponible</p>

@@ -1,15 +1,15 @@
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Button } from "../components/ui/button";
+import { Card } from "../components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "../components/ui/carousel";
 
 export default function AccesoriosPage() {
   // Datos de ejemplo para los accesorios

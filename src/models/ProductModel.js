@@ -1,4 +1,3 @@
-//models\ProductModel.js
 import mongoose, { Schema } from "mongoose";
 
 const topicSchema = new Schema(
@@ -10,7 +9,7 @@ const topicSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const ProductModel =

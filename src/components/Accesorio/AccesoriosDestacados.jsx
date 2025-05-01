@@ -3,13 +3,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { obtenerAccesoriosDestacados } from "../accesoriosService";
 import Image from "next/image";
-import style from "@/styles/components/AccesoriosDestacados.module.scss";
+// import styles from "@/styles/components/AccesoriosDestacados.module.scss";
+import styles from "../../styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
 
-/**
- * Componente para mostrar accesorios destacados
- * Versión con scroll horizontal para móviles
- */
 const AccesoriosDestacados = () => {
   // Estado para almacenar los accesorios destacados
   const [destacados, setDestacados] = useState([]);
@@ -111,12 +108,12 @@ const AccesoriosDestacados = () => {
 
   // Renderizar el componente con los accesorios cargados
   return (
-    <div className={`${style.container} bg-yellow-50 p-6 rounded-lg`}>
+    <div className={`${styles.container} bg-yellow-50 p-6 rounded-lg`}>
       <h2 className="text-2xl font-bold mb-6">Accesorios destacados</h2>
 
       {/* Navegación para móviles */}
       <div
-        className={`flex justify-between items-center mb-1 ${style.accesories}`}
+        className={`flex justify-between items-center mb-1 ${styles.accesories}`}
       >
         <button
           onClick={scrollLeft}
