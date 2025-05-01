@@ -74,16 +74,16 @@ const AccesoriosDestacados = () => {
   };
 
   // Renderizar mensaje de carga
-  if (cargando) {
-    return (
-      <div className="bg-yellow-50 p-1 rounded-lg text-center">
-        <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
-        <div className="animate-pulse flex justify-center items-center h-48">
-          <p className="text-gray-500">Cargando accesorios...</p>
-        </div>
-      </div>
-    );
-  }
+  // if (cargando) {
+  //   return (
+  //     <div className="bg-yellow-50 p-1 rounded-lg text-center">
+  //       <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
+  //       <div className="animate-pulse flex justify-center items-center h-48">
+  //         <p className="text-gray-500">Cargando accesorios...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // Renderizar mensaje de error
   if (error) {
@@ -207,7 +207,7 @@ const AccesoriosDestacados = () => {
                   accesorio.imagenPrincipal ||
                   (accesorio.imagenes && accesorio.imagenes.length > 0
                     ? accesorio.imagenes[0].url
-                    : "/placeholder-accesorio.jpg")
+                    : "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b")
                 }
                 alt={accesorio.nombre}
                 fill={true}

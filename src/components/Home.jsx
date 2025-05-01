@@ -3,19 +3,12 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import Link from "next/link.js";
 import Head from "next/head";
 import styles from "../styles/pages/Home.module.scss";
-import ImageSlider from "../containers/ImageSlider.js";
-import ProductList from "@/containers/ProductList.jsx";
 import CarouselDemo from "@/components/CarouselDemo";
-import ImageCarousel from "@/components/ImageCarousel";
 import Advertisement from "@/components/Advertisement";
 import AccesoriosDestacados from "@/components/Accesorio/AccesoriosDestacados";
-import ParallaxSection from "@/components/ParallaxSection";
 import NightSkyHero from "@/components/NightSkyHero";
-
-import { Button } from "@/components/ui/button";
 import AccesoriosNuevos from "@/components/Accesorio/AccesoriosNuevos";
 import BackToTop from "@/components/backTop/BackToTop";
-import AccesoriosContainer from "@/app/accesorios/destacados/page";
 
 const API = "/accesories.json";
 const API_CELULARES = "/celulares.json";
@@ -34,14 +27,10 @@ const CATEGORIA_IDS = {
 };
 
 export default function Inicio() {
-  const [presentationSlides, setPresentationSlides] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
-  const [images, setImages] = useState([]);
   const [presentationImages, setPresentationImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [accesoriosData, setAccesoriosData] = useState([]);
-  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   // Referencias para elementos con animación de scroll
   const servicesRef = useRef(null);
@@ -324,9 +313,9 @@ export default function Inicio() {
             <Link href="/Services">Ver más</Link>
           </section>
 
-          <section className={styles.area}>
+          {/* <section className={styles.area}>
             <p>Espacio para mostrar imagenes</p>
-          </section>
+          </section> */}
         </section>
 
         {/* Sección de accesorios */}
