@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import RootLayout from "@/app/layout";
+import RootLayout from "../../app/layout";
 import styles from "./BusinessPage.module.scss";
 
 const BusinessPage = ({ businessData }) => {
@@ -14,9 +14,12 @@ const BusinessPage = ({ businessData }) => {
           Error: No se encontraron datos del negocio
         </h1>
         <Link href="/">
-          <a className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
+          {/* <a className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
             Volver al inicio
-          </a>
+          </a> */}
+          <p className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
+            Volver al inicio
+          </p>
         </Link>
       </div>
     );

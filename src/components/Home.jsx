@@ -1,23 +1,18 @@
 "use client";
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link.js";
 import Head from "next/head";
 import styles from "../styles/pages/Home.module.scss";
-import ImageSlider from "../containers/ImageSlider.js";
-import ProductList from "@/containers/ProductList.jsx";
-import CarouselDemo from "@/components/CarouselDemo";
-import ImageCarousel from "@/components/ImageCarousel";
-import Advertisement from "@/components/Advertisement";
-import AccesoriosDestacados from "@/components/Accesorio/AccesoriosDestacados";
-import ParallaxSection from "@/components/ParallaxSection";
-import NightSkyHero from "@/components/NightSkyHero";
 
-import { Button } from "@/components/ui/button";
-import AccesoriosNuevos from "@/components/Accesorio/AccesoriosNuevos";
-import BackToTop from "@/components/backTop/BackToTop";
-import AccesoriosContainer from "@/app/accesorios/destacados/page";
+import Advertisement from "@/src/components/Advertisement";
+import AccesoriosDestacados from "@/src/components/Accesorio/AccesoriosDestacados";
 
-const API = "/accesories.json";
+import NightSkyHero from "../components/NightSkyHero";
+
+import AccesoriosNuevos from "@/src/components/Accesorio/AccesoriosNuevos";
+import BackToTop from "@/src/components/backTop/BackToTop";
+import { CarouselDemo } from "./CarouselDemo";
+
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_BOOKS_NEW = "/accesoriesBooksNew.json";
@@ -34,14 +29,11 @@ const CATEGORIA_IDS = {
 };
 
 export default function Inicio() {
-  const [presentationSlides, setPresentationSlides] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
-  const [images, setImages] = useState([]);
+
   const [presentationImages, setPresentationImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [accesoriosData, setAccesoriosData] = useState([]);
-  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   // Referencias para elementos con animación de scroll
   const servicesRef = useRef(null);
@@ -158,20 +150,11 @@ export default function Inicio() {
       })
       .catch((error) => console.error("Error cargando presentación:", error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [data, setData, setLoading, setPresentationImages]);
 
   if (!isLoaded) return null;
 
-  const accesorios = [
-    {
-      d1: "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/presentation/books.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9wcmVzZW50YXRpb24vYm9va3MuanBnIiwiaWF0IjoxNzM4NDUwMjE5LCJleHAiOjE3Njk5ODYyMTl9.vZ5Vgxn90xQQmFP0-bF7mHL_avaTgCtH3WPl3QEBeDc",
-    },
-    {
-      d2: "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/presentation/studio.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9wcmVzZW50YXRpb24vc3R1ZGlvLnBuZyIsImlhdCI6MTczODQ1MDI0OSwiZXhwIjoxNzY5OTg2MjQ5fQ.Z9bCl5d21bFBn8zih4u7zX3qkFyuCT3_iQlgCBk-DR4",
-    },
-  ];
-
-  const imagePath = [accesorios[0].d1, accesorios[1].d2];
+  // const imagePath = [accesorios[0].d1, accesorios[1].d2];
   const ads = [
     {
       businessName: "Negocio",

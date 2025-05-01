@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RootLayout from "@/app/layout";
-import styles from "@/styles/pages/Politicas.module.scss";
+import RootLayout from "../app/layout";
 
 const Politicas = () => {
   // Solution for hydratation errors
@@ -12,7 +11,7 @@ const Politicas = () => {
 
   return (
     <RootLayout>
-      <div className={styles.container}>
+      <div>
         <h1>Políticas y privacidad</h1>
         <section>
           <h2>Introducción</h2>

@@ -1,6 +1,6 @@
 import React from "react";
-// import AccesoriosContainer from "@/components/AccesoriosContainer";
-import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
+import AccesoriosContainer from "../../../containers/AccesoriosContainer/page";
+
 import { notFound } from "next/navigation";
 
 // Datos estáticos para fallback (en caso de que no puedas cargar el JSON)
@@ -52,8 +52,6 @@ const datosAccesorios = [
 
 // Generar rutas estáticas
 export function generateStaticParams() {
-  console.log("Generando 3 rutas estáticas para accesorios");
-
   // Usar los datos estáticos para generar rutas
   return datosAccesorios.map((accesorio) => ({
     id: accesorio.id.toString(),

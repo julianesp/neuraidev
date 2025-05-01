@@ -1,12 +1,11 @@
 "use client";
 
 import { React, useState, useEffect } from "react";
-import RootLayout from "@/app/layout";
+import RootLayout from "../app/layout";
 import Link from "next/link";
-import ImageSlider from "@/containers/ImageSlider";
-import styles from "@/styles/components/Services.module.scss";
+import styles from "../styles/components/Services.module.scss";
 import Image from "next/image";
-import CarouselDemo from "@/components/CarouselDemo";
+import { CarouselDemo } from "../components/CarouselDemo";
 
 const WORKING = "/tecnico_sistemas.json";
 
@@ -18,20 +17,6 @@ const Services = () => {
   }, []);
   if (!isLoaded) return null;
 
-  // images to show
-  const services = [
-    {
-      d1: "/images/formateo.png",
-    },
-    {
-      d2: "/images/ssd.png",
-    },
-    {
-      d3: "/images/ssd.png",
-    },
-  ];
-  const imagePaths = [services[0].d1, services[1].d2, services[2].d3];
-
   const imagesSites = [
     {
       contab: "/images/budget.png",
@@ -42,38 +27,6 @@ const Services = () => {
   ];
 
   const sitesWeb = [imagesSites[0].contab, imagesSites[1].ase];
-
-  const imageFormat = [
-    {
-      formateo_1: "/images/formateo/mainboard_1.jpg",
-    },
-    {
-      formateo_2: "/images/formateo/mainboard_2.jpg",
-    },
-    {
-      formateo_3: "/images/formateo/teclado_1.jpg",
-    },
-  ];
-
-  const format = [
-    imageFormat[0].formateo_1,
-    imageFormat[1].formateo_2,
-    imageFormat[2].formateo_3,
-  ];
-
-  const imageSoft = [
-    {
-      soft_1: "/images/software/software.jpg",
-    },
-    {
-      soft_2: "/images/software/hdd.jpg",
-    },
-    {
-      soft_3: "/images/software/code.jpg",
-    },
-  ];
-
-  const soft = [imageSoft[0].soft_1, imageSoft[1].soft_2, imageSoft[2].soft_3];
 
   return (
     <RootLayout>

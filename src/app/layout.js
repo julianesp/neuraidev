@@ -1,25 +1,13 @@
 import React from "react";
-import NavBar from "@/containers/NavBar";
-import Footer from "@/containers/Footer";
+import NavBar from "../containers/NavBar";
+import Footer from "../containers/Footer";
 import "./globals.css";
-import "@/styles/components/AccesoriosDestacados.module.css";
-import "@/styles/darkMode.scss";
-import styles from "@/styles/components/Layout.module.scss";
+// import "@/styles/darkMode.scss";
+// import "../styles/components/pages/darkMode.scss";
+import styles from "../styles/components/Layout.module.scss";
 import { ThemeProvider } from "next-themes";
 
 export default function RootLayout({ children }) {
-  manifest: "/manifest.json";
-  themeColor: "#ffffff";
-  icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
-    ];
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ];
-  }
   return (
     <React.Fragment>
       <html lang="es" suppressHydrationWarning>

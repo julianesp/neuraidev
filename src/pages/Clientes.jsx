@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RootLayout from "@/app/layout";
-import styles from "@/styles/pages/Politicas.module.scss";
+import RootLayout from "@/src/app/layout";
 import Link from "next/link";
 
 const Clientes = () => {
@@ -13,7 +12,7 @@ const Clientes = () => {
 
   return (
     <RootLayout>
-      <div className={styles.container}>
+      <div>
         <h1>Atención al cliente</h1>
 
         <p>

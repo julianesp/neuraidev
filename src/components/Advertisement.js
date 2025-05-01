@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "@/styles/components/Advertisement.module.scss";
+import styles from "../styles/components/Advertisement.module.scss";
 
 export default function AdvertisementToggle({ ads = [] }) {
   const [isVisible, setIsVisible] = useState(false);

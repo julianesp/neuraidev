@@ -42,9 +42,7 @@ export default function AccesorioPage() {
         const accesoriosRelacionados = data.accesorios
           .filter((acc) => acc.id !== accesorioId)
           // Opcional: Puedes filtrar para mostrar primero los de la misma categoría
-          .sort((a, b) =>
-            a.categoria === accesorioEncontrado.categoria ? -1 : 1,
-          )
+          .sort((a) => (a.categoria === accesorioEncontrado.categoria ? -1 : 1))
           .slice(0, 8); // Limitamos a 8 accesorios relacionados
 
         // Asignar datos

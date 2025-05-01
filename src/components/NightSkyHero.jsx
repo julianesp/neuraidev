@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
 const NightSkyHero = () => {
@@ -301,7 +302,7 @@ const NightSkyHero = () => {
           productos, servicios y contenido exclusivo.
         </p>
 
-        <a
+        <Link
           href="#"
           className="nightSky-btn"
           style={{
@@ -322,7 +323,7 @@ const NightSkyHero = () => {
           }}
         >
           Explorar
-        </a>
+        </Link>
       </div>
 
       <style jsx>{`

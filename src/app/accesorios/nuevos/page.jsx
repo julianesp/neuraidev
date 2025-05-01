@@ -1,5 +1,6 @@
 import React from "react";
-import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
+// import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
+import AccesoriosContainer from "../../../containers/AccesoriosContainer/page";
 
 // Este componente será la página que muestra todos los accesorios destacados
 export default function AccesoriosDestacadosPage() {

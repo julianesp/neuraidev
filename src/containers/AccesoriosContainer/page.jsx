@@ -41,8 +41,6 @@ const AccesoriosContainer = ({
   // En AccesoriosContainer, modifica la función cambiarAccesorio para ajustar el scroll
   const cambiarAccesorio = useCallback(
     (nuevoAccesorio) => {
-      console.log("Cambiando a accesorio:", nuevoAccesorio);
-
       if (!nuevoAccesorio) {
         console.error(
           "Error: Intento de cambiar a un accesorio nulo o indefinido",
@@ -86,7 +84,6 @@ const AccesoriosContainer = ({
 
     // Caso 1: Tenemos datos como props
     if (accesorioProps) {
-      console.log("Usando datos de props");
       const todos = [accesorioProps, ...otrosAccesoriosProps];
       setTodosAccesorios(todos);
       setAccesorio(accesorioProps);
@@ -98,14 +95,12 @@ const AccesoriosContainer = ({
 
     // Caso 2: Necesitamos cargar desde API
     if (!apiUrl) {
-      console.log("No hay URL de API, terminando carga");
       setLoading(false);
       setDataLoaded(true);
       return;
     }
 
     const cargarDatos = async () => {
-      console.log("Iniciando carga desde API:", apiUrl);
       try {
         const response = await fetch(apiUrl);
         if (!response.ok) {
@@ -113,7 +108,6 @@ const AccesoriosContainer = ({
         }
 
         const data = await response.json();
-        console.log("Datos cargados:", data);
 
         let accesoriosData = [];
         let accesorioInicial = null;
@@ -147,9 +141,6 @@ const AccesoriosContainer = ({
         setAccesorio(accesorioInicial);
         setOtrosAccesorios(otrosAccesoriosData);
         setTelefono(telefonoConfig);
-
-        console.log("Accesorio principal establecido:", accesorioInicial);
-        console.log("Otros accesorios establecidos:", otrosAccesoriosData);
       } catch (error) {
         console.error("Error cargando datos:", error);
       } finally {
@@ -506,7 +497,7 @@ const AccesoriosContainer = ({
                     <button
                       onClick={(e) => {
                         e.preventDefault();
-                        console.log("Clic en Ver para:", item);
+
                         cambiarAccesorio(item);
                       }}
                       className="mt-3 bg-blue-600 text-white py-2 px-4 rounded flex items-center justify-center w-full hover:bg-blue-700 transition-colors text-sm"

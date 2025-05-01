@@ -1,100 +1,99 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState, useRef } from 'react';
-import Image from 'next/image';
-import PropTypes from 'prop-types';
-// import left from './public/aback.svg';
-import left from '../../public/aback.svg'
-import leftRight from '../../public/aback.svg';
-import styles from '../styles/components/VisorImages.module.css'
+import React, { useEffect, useState, useRef } from "react";
+import Image from "next/image";
+import PropTypes from "prop-types";
+import styles from "../styles/components/VisorImages.module.css";
 
 const VisorImages = ({ images, automaticTransition }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const carouselRef = useRef(null);
-    const timerRef = useRef(null); // Utilizar useRef para almacenar el timer
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const carouselRef = useRef(null);
+  const timerRef = useRef(null); // Utilizar useRef para almacenar el timer
 
-    useEffect(() => {
-        const changeImageAutomatically = () => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-        };
-
-        if (automaticTransition) {
-            timerRef.current = setInterval(changeImageAutomatically, 4000);
-        }
-
-        return () => clearInterval(timerRef.current);
-    }, [currentIndex, images, automaticTransition]);
-    // [currentIndex, images, automaticTransition])
-    const showImage = (index) => {
-        clearInterval(timerRef.current);
-        setCurrentIndex(index);
+  useEffect(() => {
+    const changeImageAutomatically = () => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     };
 
-    const changeImage = (nextIndex) => {
-        clearInterval(timerRef.current);
-        setCurrentIndex(nextIndex);
-    };
+    if (automaticTransition) {
+      timerRef.current = setInterval(changeImageAutomatically, 4000);
+    }
 
-    const nextImage = () => {
-        const nextIndex = (currentIndex + 1) % images.length;
-        changeImage(nextIndex);
-    };
+    return () => clearInterval(timerRef.current);
+  }, [currentIndex, images, automaticTransition]);
+  // [currentIndex, images, automaticTransition])
+  const showImage = (index) => {
+    clearInterval(timerRef.current);
+    setCurrentIndex(index);
+  };
 
-    const prevImage = () => {
-        const prevIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
-        changeImage(prevIndex);
-    };
+  const changeImage = (nextIndex) => {
+    clearInterval(timerRef.current);
+    setCurrentIndex(nextIndex);
+  };
 
-    return (
-        <div className={`${styles.slider} ${automaticTransition ? styles.withTransition : ''}`}>
-            <div id="carousel" ref={carouselRef}>
-                {images.map((image, index) => (
-                    <div
-                        key={index}
-                        className={`image ${index === currentIndex ? 'active' : ''}`}
-                        onClick={() => showImage(index)}
-                    >
-                        <Image
-                            className={styles.sizeImg}
-                            src={image.src}
-                            priority={index === currentIndex}
-                            alt={image.alt}
-                            width={400}
-                            height={300}
-                        />
-                    </div>
-                ))}
-            </div>
+  const nextImage = () => {
+    const nextIndex = (currentIndex + 1) % images.length;
+    changeImage(nextIndex);
+  };
 
-            <div id="arrows">
-                <button id="prevBtn" onClick={prevImage}>
-                    <Image
-                        src={left}
-                        priority
-                        alt="Flecha izquierda"
-                    />
-                </button>
+  const prevImage = () => {
+    const prevIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+    changeImage(prevIndex);
+  };
 
-                <button id="nextBtn" onClick={nextImage}>
-                    <Image
-                        src={leftRight}
-                        priority
-                        alt="Flecha derecha"
-                    />
-                </button>
-            </div>
-        </div>
-    );
+  return (
+    <div
+      className={`${styles.slider} ${automaticTransition ? styles.withTransition : ""}`}
+    >
+      <div id="carousel" ref={carouselRef}>
+        {images.map((image, index) => (
+          <button
+            key={index}
+            className={`image ${index === currentIndex ? "active" : ""}`}
+            onClick={() => showImage(index)}
+          >
+            <Image
+              className={styles.sizeImg}
+              src={image.src}
+              priority={index === currentIndex}
+              alt={image.alt}
+              width={400}
+              height={300}
+            />
+          </button>
+        ))}
+      </div>
+
+      <div id="arrows">
+        <button id="prevBtn" onClick={prevImage}>
+          <Image
+            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Faback.svg?alt=media&token=87379bdd-1edf-4b20-93c6-880825bef072"
+            priority
+            alt="Flecha izquierda"
+          />
+        </button>
+
+        <button id="nextBtn" onClick={nextImage}>
+          <Image
+            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Faright.svg?alt=media&token=aad271ce-b885-4aa3-956d-58630cd34f46"
+            priority
+            alt="Flecha derecha"
+          />
+        </button>
+      </div>
+    </div>
+  );
 };
 
 VisorImages.propTypes = {
-    images: PropTypes.arrayOf(
-        PropTypes.shape({
-            src: PropTypes.string.isRequired,
-            alt: PropTypes.string.isRequired,
-        })
-    ).isRequired,
-    automaticTransition: PropTypes.bool,
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      src: PropTypes.string.isRequired,
+      alt: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  automaticTransition: PropTypes.bool,
 };
 
 export default VisorImages;

@@ -1,9 +1,6 @@
 // "use client";
 
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ChevronLeft, ChevronRight, Play, ShoppingCart } from "lucide-react";
 import ProductoDetalleCliente from "./ProductDetail";
 
 // export default function ProductoDetalle({ params }) {
@@ -390,7 +387,6 @@ export async function generateStaticParams() {
         index === self.findIndex((p) => p.id === param.id),
     );
 
-    console.log("Rutas estáticas generadas:", uniqueParams.length);
     return uniqueParams;
   } catch (error) {
     console.error("Error al generar parámetros estáticos:", error);

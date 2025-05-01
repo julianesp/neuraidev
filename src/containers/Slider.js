@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import arrowLeft from "../../public/aback.svg";
+import arrowLeft from "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Faback.svg?alt=media&token=87379bdd-1edf-4b20-93c6-880825bef072";
 import arrowLeftTwo from "../../public/aback.svg";
 // import colecis from "../../public/images/colecistectomia.jpg";
 // import lapa from "../../public/images/cirugia_laparoscopia.jpg";
@@ -62,7 +62,7 @@ const Slider = () => {
         onMouseLeave={() => setIsHovered(false)}
       >
         {images.map((image, index) => (
-          <div
+          <button
             key={index}
             className={`image ${index === currentIndex ? "active" : ""}`}
             onClick={() => showImage(index)}
@@ -74,7 +74,7 @@ const Slider = () => {
               alt={image.alt}
               as="image"
             />
-          </div>
+          </button>
         ))}
 
         <div id="flechas">

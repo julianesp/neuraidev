@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import styles from "@/styles/components/Carousel.module.scss";
+import styles from "../styles/components/Carousel.module.scss";
 
 export function CarouselDemo({
   images = [],
@@ -76,7 +76,6 @@ export function CarouselDemo({
   useEffect(() => {
     // Definimos la función dentro del efecto para tener acceso a los valores más recientes
     startAutoplayRef.current = () => {
-      console.log("Iniciando autoplay");
       if (autoplayTimerRef.current) {
         clearTimeout(autoplayTimerRef.current);
       }
@@ -85,7 +84,6 @@ export function CarouselDemo({
 
       autoplayTimerRef.current = setTimeout(() => {
         if (!isPaused) {
-          console.log("Avanzando al siguiente slide");
           setCurrentIndex(
             (prevIndex) => (prevIndex + 1) % displayImages.length,
           );
@@ -97,12 +95,10 @@ export function CarouselDemo({
 
   // Iniciar autoplay al montar el componente
   useEffect(() => {
-    console.log("Configurando autoplay inicial");
     // Llamamos a la función de inicio inmediatamente después de montar
     startAutoplayRef.current();
 
     return () => {
-      console.log("Limpiando temporizador al desmontar");
       if (autoplayTimerRef.current) {
         clearTimeout(autoplayTimerRef.current);
       }
@@ -111,8 +107,6 @@ export function CarouselDemo({
 
   // Función para pausar temporalmente el autoplay
   const pauseAutoplay = () => {
-    console.log("Pausando autoplay");
-
     // Detener cualquier temporizador existente
     if (autoplayTimerRef.current) {
       clearTimeout(autoplayTimerRef.current);
@@ -122,7 +116,6 @@ export function CarouselDemo({
 
     // Reanudar después de 1 segundo
     setTimeout(() => {
-      console.log("Reanudando autoplay después de pausa");
       setIsPaused(false);
       // Reiniciar el autoplay explícitamente
       startAutoplayRef.current();
@@ -133,20 +126,19 @@ export function CarouselDemo({
   const goToPrevious = () => {
     const newIndex =
       currentIndex === 0 ? displayImages.length - 1 : currentIndex - 1;
-    console.log("Cambiando a slide anterior:", newIndex);
+
     setCurrentIndex(newIndex);
     pauseAutoplay();
   };
 
   const goToNext = () => {
     const newIndex = (currentIndex + 1) % displayImages.length;
-    console.log("Cambiando a slide siguiente:", newIndex);
+
     setCurrentIndex(newIndex);
     pauseAutoplay();
   };
 
   const goToSlide = (index) => {
-    console.log("Cambiando a slide específico:", index);
     setCurrentIndex(index);
     pauseAutoplay();
   };

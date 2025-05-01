@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
+import ThemeSwitcher from "../components/ThemeSwitcher";
 
 // IDs especificos para cada categpria de accesorios
 const CATEGORIA_IDS = {
@@ -89,14 +89,14 @@ const NavBar = () => {
             </Link>
           </li>
           <li className={styles.dropdown} ref={dropdownRef}>
-            <a
+            <button
               href="#"
               onClick={toggleDropdown}
               className={styles.dropdown_toggle}
             >
               Tienda
               <span className={styles.dropdown_arrow}>▼</span>
-            </a>
+            </button>
             <ul
               className={`${styles.dropdown_menu} ${dropdownOpen ? styles.show : ""}`}
             >
@@ -145,8 +145,8 @@ const NavBar = () => {
           </li>
         </ul>
       </nav>
-      <div className={styles.circle} onClick={menuBurger}>
-        <button>
+      <div className={styles.circle} >
+        <button onClick={menuBurger}>
           <span></span>
           <span></span>
           <span></span>

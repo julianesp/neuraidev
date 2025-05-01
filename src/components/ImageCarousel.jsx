@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import CarouselDemo from "./CarouselDemo"; // Asegúrate de que el path sea correcto
+import { CarouselDemo } from "./CarouselDemo";
 
 const ImageCarousel = ({ jsonFile }) => {
   const [presentationSlides, setPresentationSlides] = useState([]);

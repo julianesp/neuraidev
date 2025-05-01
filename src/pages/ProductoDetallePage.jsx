@@ -1,8 +1,8 @@
 // archivo: pages/ProductoDetalle.js
 import React, { useEffect, useState } from "react";
-import ProductoDetalle from "@/components/ProductoDetalleDeleteAfter";
+import ProductoDetalle from "../components/ProductoDetalleDeleteAfter";
 import { useRouter } from "next/router";
-import RootLayout from "@/app/layout";
+import RootLayout from "../app/layout";
 
 // useEffect(() => {
 //   setIsLoaded(true);

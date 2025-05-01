@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight, Play, ShoppingCart } from "lucide-react";
 const AccesoriosGridContainer = (props) => {
   // Garantizar que accesorios sea siempre un array, incluso si es undefined o null
   const [accesorios, setAccesorios] = useState([]);
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [setCurrentSlideIndex] = useState(0);
 
   // Inicializar los datos cuando el componente se monta
   useEffect(() => {

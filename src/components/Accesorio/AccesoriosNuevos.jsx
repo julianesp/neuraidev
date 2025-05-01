@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { obtenerAccesoriosDestacados } from "../accesoriosService";
 import Image from "next/image";
-import style from "@/styles/components/AccesoriosDestacados.module.scss";
+import style from "../../styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
 
 /**
@@ -112,9 +112,7 @@ const AccesoriosNuevos = () => {
   // Renderizar el componente con los accesorios cargados
   return (
     <div className={`${style.container} bg-yellow-50 p-6 rounded-lg`}>
-      <h2 className="text-2xl font-bold mb-6">
-        Accesorios nuevos
-      </h2>
+      <h2 className="text-2xl font-bold mb-6">Accesorios nuevos</h2>
 
       {/* Navegación para móviles */}
       <div
