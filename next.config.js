@@ -1,6 +1,7 @@
 const path = require("path");
 
 const nextConfig = {
+  // output: "export",
   reactStrictMode: true,
   devIndicators: false,
   trailingSlash: true,
