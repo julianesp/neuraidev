@@ -3,35 +3,70 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Play, ShoppingCart } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  ShoppingCart,
+  Eye,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ProductoDetalleCliente({ params }) {
+  const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [productoActual, setProductoActual] = useState(null);
   const [accesoriosDestacados, setAccesoriosDestacados] = useState([]);
   const [productosRelacionados, setProductosRelacionados] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(null);
 
   // Cargar el producto actual y los accesorios destacados
   useEffect(() => {
     // Función para cargar datos
     const cargarProductos = async () => {
+      setCargando(true);
       try {
-        // Llamada a la API
-        const response = await fetch("/api/productos");
+        // Verificar que params.id existe
+        if (!params.id) {
+          throw new Error("ID de producto no especificado");
+        }
+
+        // Llamada a la API - asegúrate de que la ruta es correcta
+        const response = await fetch(`/api/productos`);
+
         if (!response.ok) {
-          throw new Error("Error al cargar los productos");
+          throw new Error(`Error al cargar los productos: ${response.status}`);
         }
 
         const productos = await response.json();
 
-        // Encontrar el producto actual por ID (params.id viene del segmento dinámico [id] en la URL)
-        const producto = productos.find((p) => p.id === params.id);
-        if (!producto) {
-          console.error(`Producto con ID ${params.id} no encontrado`);
-          return;
+        // Log para depuración
+        console.log("Productos cargados:", productos);
+        console.log("Buscando producto con ID:", params.id);
+
+        // Asegúrate de que productos es un array
+        if (!Array.isArray(productos)) {
+          throw new Error("La respuesta de la API no es un array");
         }
 
-        setProductoActual(producto);
+        // Encontrar el producto actual por ID
+        const producto = productos.find((p) => p.id === params.id);
+
+        if (!producto) {
+          // Probar con conversión de string a number si es necesario
+          const productoAlt = productos.find(
+            (p) => String(p.id) === String(params.id),
+          );
+
+          if (!productoAlt) {
+            throw new Error(`Producto con ID ${params.id} no encontrado`);
+          }
+
+          setProductoActual(productoAlt);
+        } else {
+          setProductoActual(producto);
+        }
 
         // Filtrar productos destacados
         const destacados = productos.filter(
@@ -40,7 +75,7 @@ export default function ProductoDetalleCliente({ params }) {
         setAccesoriosDestacados(destacados);
 
         // Filtrar productos relacionados (misma categoría)
-        if (producto.categoria) {
+        if (producto && producto.categoria) {
           const relacionados = productos
             .filter(
               (p) => p.categoria === producto.categoria && p.id !== producto.id,
@@ -48,18 +83,41 @@ export default function ProductoDetalleCliente({ params }) {
             .slice(0, 4); // Mostrar máximo 4 relacionados
           setProductosRelacionados(relacionados);
         }
+
+        setError(null);
       } catch (error) {
         console.error("Error al cargar los productos:", error);
+        setError(error.message);
+
+        // En desarrollo, cargar producto de ejemplo para debugging
+        if (process.env.NODE_ENV === "development") {
+          const productoEjemplo = {
+            id: params.id,
+            title: "Producto de ejemplo",
+            description: "Este es un producto de ejemplo para depuración.",
+            price: 299999,
+            images: [
+              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+            ],
+            categoria: "general",
+          };
+          setProductoActual(productoEjemplo);
+        }
+      } finally {
+        setCargando(false);
       }
     };
 
-    if (params.id) {
-      cargarProductos();
-    }
+    cargarProductos();
   }, [params.id]);
 
-  // Si no hay producto, mostrar mensaje de carga
-  if (!productoActual) {
+  // Función para navegar a la página de detalles del producto
+  const verDetallesProducto = (id) => {
+    router.push(`/productos/${id}`);
+  };
+
+  // Si está cargando, mostrar mensaje de carga
+  if (cargando) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -71,14 +129,53 @@ export default function ProductoDetalleCliente({ params }) {
     );
   }
 
-  // El resto del componente...
-  // [Todo el código restante aquí: normalización de imágenes, prevImage, nextImage, formatPrice, y el return]
+  // Si hay un error, mostrar mensaje de error
+  if (error && !productoActual) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-xl shadow-md p-8 text-center">
+            <p className="text-red-500">Error: {error}</p>
+            <p className="mt-4">
+              <Link href="/productos" className="text-blue-600 hover:underline">
+                Volver a la lista de productos
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Si no hay producto incluso después de cargar, mostrar mensaje
+  if (!productoActual) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-xl shadow-md p-8 text-center">
+            <p>No se encontró el producto.</p>
+            <p className="mt-4">
+              <Link href="/productos" className="text-blue-600 hover:underline">
+                Volver a la lista de productos
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Normalizar imágenes para prevenir errores
   const images = !productoActual.images
-    ? ["/placeholder.jpg"]
+    ? [
+        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      ]
     : Array.isArray(productoActual.images)
-      ? productoActual.images
+      ? productoActual.images.length > 0
+        ? productoActual.images
+        : [
+            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          ]
       : [productoActual.images];
 
   // Funciones para cambiar manualmente las imágenes
@@ -94,7 +191,7 @@ export default function ProductoDetalleCliente({ params }) {
 
   // Formatear precio
   const formatPrice = (price) => {
-    if (!price) return "$0";
+    if (!price && price !== 0) return "$0";
 
     // Si el precio es un string, convertirlo a número
     const numericPrice =
@@ -120,7 +217,10 @@ export default function ProductoDetalleCliente({ params }) {
               style={{ transitionDuration: "1000ms" }}
             >
               <Image
-                src={img || "/placeholder.jpg"}
+                src={
+                  img ||
+                  "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
+                }
                 alt={`Imagen ${idx + 1} de ${productoActual.title || "Producto"}`}
                 fill
                 sizes="(max-width: 768px) 100vw, 768px"
@@ -242,17 +342,17 @@ export default function ProductoDetalleCliente({ params }) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {productosRelacionados.length > 0
               ? productosRelacionados.map((item) => (
-                  <Link
-                    href={`/productos/${item.id}`}
+                  <div
                     key={item.id}
-                    className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-1"
+                    className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md"
                   >
                     <div className="aspect-square relative bg-gray-50">
                       <Image
                         src={
-                          Array.isArray(item.images)
+                          Array.isArray(item.images) && item.images.length > 0
                             ? item.images[0]
-                            : item.images || "/placeholder.jpg"
+                            : item.images ||
+                              "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
                         }
                         alt={item.title || `Accesorio relacionado`}
                         fill
@@ -268,18 +368,25 @@ export default function ProductoDetalleCliente({ params }) {
                       <p className="text-green-600 font-semibold mt-1">
                         {formatPrice(item.price)}
                       </p>
+                      <button
+                        onClick={() => verDetallesProducto(item.id)}
+                        className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors flex items-center justify-center"
+                      >
+                        <Eye size={16} className="mr-2" />
+                        Ver detalles
+                      </button>
                     </div>
-                  </Link>
+                  </div>
                 ))
               : // Productos de ejemplo si no hay relacionados
                 [1, 2, 3, 4].map((item) => (
                   <div
                     key={item}
-                    className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-1"
+                    className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md"
                   >
                     <div className="aspect-square relative bg-gray-50">
                       <Image
-                        src="/placeholder.jpg"
+                        src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
                         alt={`Accesorio relacionado ${item}`}
                         fill
                         sizes="(max-width: 768px) 50vw, 25vw"
@@ -294,6 +401,15 @@ export default function ProductoDetalleCliente({ params }) {
                       <p className="text-green-600 font-semibold mt-1">
                         {formatPrice(149999 + item * 10000)}
                       </p>
+                      <button
+                        onClick={() =>
+                          router.push(`/productos/ejemplo-${item}`)
+                        }
+                        className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors flex items-center justify-center"
+                      >
+                        <Eye size={16} className="mr-2" />
+                        Ver detalles
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -309,17 +425,17 @@ export default function ProductoDetalleCliente({ params }) {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {accesoriosDestacados.map((item) => (
-                <Link
-                  href={`/productos/${item.id}`}
+                <div
                   key={item.id}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md transform hover:-translate-y-1"
+                  className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md"
                 >
                   <div className="aspect-square relative bg-gray-50">
                     <Image
                       src={
-                        Array.isArray(item.images)
+                        Array.isArray(item.images) && item.images.length > 0
                           ? item.images[0]
-                          : item.images || "/placeholder.jpg"
+                          : item.images ||
+                            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
                       }
                       alt={item.title || `Accesorio destacado`}
                       fill
@@ -335,8 +451,15 @@ export default function ProductoDetalleCliente({ params }) {
                     <p className="text-green-600 font-semibold mt-1">
                       {formatPrice(item.price)}
                     </p>
+                    <button
+                      onClick={() => verDetallesProducto(item.id)}
+                      className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors flex items-center justify-center"
+                    >
+                      <Eye size={16} className="mr-2" />
+                      Ver detalles
+                    </button>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>

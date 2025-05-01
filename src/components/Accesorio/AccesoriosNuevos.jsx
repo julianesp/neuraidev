@@ -112,9 +112,7 @@ const AccesoriosNuevos = () => {
   // Renderizar el componente con los accesorios cargados
   return (
     <div className={`${style.container} bg-yellow-50 p-6 rounded-lg`}>
-      <h2 className="text-2xl font-bold mb-6">
-        Accesorios nuevos
-      </h2>
+      <h2 className="text-2xl font-bold mb-6">Accesorios nuevos</h2>
 
       {/* Navegación para móviles */}
       <div
