@@ -1,5 +1,7 @@
-@use "@/styles/variables.scss" as *;
-@use "@/styles/mixins.scss" as *;
+// @use "@/styles/variables.scss" as *;
+@use "../../styles/variables.scss" as *;
+// @use "@/styles/mixins.scss" as *;
+@use "../../styles/mixins.scss" as *;
 
 /* Estilos específicos para el componente AccesoriosContainer */
 .container {

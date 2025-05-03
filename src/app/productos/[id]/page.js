@@ -1,13 +1,11 @@
 // "use client";
 
 import React from "react";
-<<<<<<< HEAD
-import Image from "next/image";
-import Link from "next/link";
-import { ChevronLeft, ChevronRight, Play, ShoppingCart } from "lucide-react";
+
+// import ProductDetail from "./ProductDetail";
 import ProductDetail from "./ProductDetail";
-=======
-import ProductoDetalleCliente from "./ProductDetail";
+
+// import ProductoDetalleCliente from "./ProductDetail";
 
 // export default function ProductoDetalle({ params }) {
 //   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -346,7 +344,6 @@ import ProductoDetalleCliente from "./ProductDetail";
 //     </div>
 //   );
 // }
->>>>>>> tests
 
 export async function generateStaticParams() {
   try {
