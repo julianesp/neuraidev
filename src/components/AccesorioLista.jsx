@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import AccesoriosContainer from "./AccesoriosContainer";
+import Link from "next/link";
 // Importamos los datos directamente - asumiendo que el JSON está en /public
 // En producción, normalmente obtendrías estos datos de una API
 
@@ -79,9 +80,9 @@ export default function AccesorioPage() {
           No se encontró el accesorio
         </h1>
         <p className="text-center mt-4">
-          <a href="/accesorios" className="text-primary hover:underline">
+          <Link href="/accesorios" className="text-primary hover:underline">
             Ver todos los accesorios
-          </a>
+          </Link>
         </p>
       </div>
     );

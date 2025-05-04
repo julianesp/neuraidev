@@ -49,7 +49,7 @@ module.exports = {
       {
         argsIgnorePattern: "^_",
         varsIgnorePattern:
-          "^presentationImages$|^setPresentationImages$|^loading$|^setLoading$|^error$|^setError$|^currentIndex$|^setCurrentIndex$|^isPaused$|^setIsPaused$|^autoplayTimerRef$|^clearTimeout$|^setCurrentImage$|^accesoriosDestacados$|^todosAccesorios$|^relatedSlideIndex$|^accesorioActual$|^isAtBottom$",
+          "^presentationImages$|^setPresentationImages$|^loading$|^setLoading$|^error$|^setError$|^currentIndex$|^setCurrentIndex$|^isPaused$|^setIsPaused$|^autoplayTimerRef$|^clearTimeout$|^setCurrentImage$|^accesoriosDestacados$|^todosAccesorios$|^relatedSlideIndex$|^accesorioActual$|^isAtBottom$|^cargando$",
       },
     ],
     "no-console": ["warn", { allow: ["warn", "error"] }],

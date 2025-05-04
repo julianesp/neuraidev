@@ -41,10 +41,6 @@ export default function ProductoDetalleCliente({ params }) {
 
         const productos = await response.json();
 
-        // Log para depuración
-        console.log("Productos cargados:", productos);
-        console.log("Buscando producto con ID:", params.id);
-
         // Asegúrate de que productos es un array
         if (!Array.isArray(productos)) {
           throw new Error("La respuesta de la API no es un array");
