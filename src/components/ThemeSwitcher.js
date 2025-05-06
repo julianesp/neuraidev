@@ -62,9 +62,9 @@ const ThemeSwitcher = () => {
           <Moon className={styles.icon} size={20} />
         )}
       </button>
-      <span className={styles.themeDebug}>
+      {/* <span className={styles.themeDebug}>
         Tema: {theme} / Resuelto: {resolvedTheme}
-      </span>
+      </span> */}
     </div>
   );
 };
