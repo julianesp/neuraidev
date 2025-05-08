@@ -19,12 +19,12 @@
   height: 36px;
   background-color: #f0f0f0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
-  
+
   &:active {
     transform: translateY(0);
   }
@@ -33,7 +33,7 @@
 .darkMode {
   background-color: #333;
   border-color: #555;
-  
+
   .icon {
     color: #fff;
   }
@@ -42,7 +42,7 @@
 .lightMode {
   background-color: #f0f0f0;
   border-color: #ccc;
-  
+
   .icon {
     color: #333;
   }
@@ -59,12 +59,12 @@
   background-color: rgba(255, 255, 255, 0.8);
   padding: 2px 5px;
   border-radius: 3px;
-  
+
   :global(.dark) & {
     color: #eee;
     background-color: rgba(0, 0, 0, 0.7);
   }
-  
+
   @media screen and (min-width: 1024px) {
     display: none;
   }

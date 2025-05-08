@@ -6,51 +6,52 @@
 /* Estilos para el modo oscuro */
 .dark {
   color-scheme: dark;
-  
+
   /* Colores de fondo y texto para elementos principales */
-  body, 
-  .layoutContainer, 
+  body,
+  .layoutContainer,
   .mainContent,
   main {
     background-color: #121212 !important;
     color: #e0e0e0 !important;
   }
-  
+
   /* Estilos para la barra de navegación en modo oscuro */
   .container {
     background-color: rgba(18, 18, 18, 0.7) !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
     color: #e0e0e0 !important;
   }
-  
+
   /* Estilos para enlaces y botones en modo oscuro */
-  a, button {
+  a,
+  button {
     color: #e0e0e0 !important;
   }
-  
+
   /* Estilos para tarjetas y contenedores en modo oscuro */
-  .card, 
-  .product-card, 
-  .section, 
+  .card,
+  .product-card,
+  .section,
   .container {
     background-color: #1e1e1e !important;
     border-color: #333 !important;
   }
-  
+
   /* Otros elementos que necesitan estilos en modo oscuro */
-  input, 
-  textarea, 
+  input,
+  textarea,
   select {
     background-color: #2a2a2a !important;
     color: #e0e0e0 !important;
     border-color: #444 !important;
   }
-  
+
   /* Anular cualquier estilo inline que pueda interferir */
   [style*="background-color"] {
     background-color: #121212 !important;
   }
-  
+
   [style*="color"] {
     color: #e0e0e0 !important;
   }

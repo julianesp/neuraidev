@@ -145,7 +145,7 @@ const NavBar = () => {
           </li>
         </ul>
       </nav>
-      <div className={styles.circle} >
+      <div className={styles.circle}>
         <button onClick={menuBurger}>
           <span></span>
           <span></span>
