@@ -2,6 +2,8 @@
 
 .container {
   position: relative;
+  width: 100%;
+  max-width: 300px;
 }
 
 .motion {
@@ -25,6 +27,35 @@
 .nearFooter {
   bottom: 120px !important;
 }
+
+/* Estilos para desktop */
+@media (min-width: 1024px) {
+  .container {
+    position: sticky;
+    top: 20px;
+    left: 0;
+    // height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding-right: 1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .motion {
+    position: relative;
+    max-height: none;
+    height: auto;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow-y: visible;
+  }
+
+  .storeToggleButton {
+    display: none; /* Ocultamos el botón flotante en desktop */
+  }
+}
+
 /* Para dispositivos móviles */
 @media (max-width: 767px) {
   .container {

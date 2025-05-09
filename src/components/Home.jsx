@@ -206,6 +206,7 @@ export default function Inicio() {
             justifySelf: "end",
             position: "relative",
             marginLeft: "0",
+            height: "100%",
           }}
         >
           <Advertisement ads={ads} />
