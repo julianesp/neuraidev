@@ -304,10 +304,6 @@ export default function Inicio() {
 
             <Link href="/Services">Ver más</Link>
           </section>
-
-          {/* <section className={styles.area}>
-            <p>Espacio para mostrar imagenes</p>
-          </section> */}
         </section>
 
         {/* Sección de accesorios */}
