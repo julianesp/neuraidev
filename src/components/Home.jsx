@@ -341,12 +341,19 @@ export default function Inicio() {
                 showIndicators={false}
               />
 
-              <button
+              {/* <button
                 onClick={() => setShowCelulares(!showCelulares)}
                 className={`px-4 py-2 bg-slate-200 rounded-md border border-slate-300 hover:bg-slate-300 transition-all`}
               >
                 {showCelulares ? "Ver menos" : "Ver más"}
-              </button>
+              </button> */}
+
+              <Link
+                href="/accesorios/celulares"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+              >
+                Ver más
+              </Link>
 
               {showCelulares && (
                 <div className="mt-8 w-full">
