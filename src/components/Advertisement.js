@@ -135,7 +135,7 @@ export default function AdvertisementToggle({ ads = [] }) {
             ads.map((ad, index) => (
               <div
                 key={index}
-                className="bg-white shadow-md rounded-lg overflow-hidden max-w-sm w-full mx-auto"
+                className={`${styles.locales} bg-white  rounded-lg overflow-hidden max-w-sm w-full mx-auto `}
               >
                 <AdContent {...ad} />
               </div>
@@ -156,7 +156,7 @@ function AdContent({
 }) {
   return (
     <>
-      <div className="relative h-48 w-full">
+      <div className="relative h-full w-full">
         <Image
           src={
             imageUrl ||

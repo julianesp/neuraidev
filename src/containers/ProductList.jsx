@@ -1,26 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ProductItem from "@/components/ProductItem";
 import useGetProducts from "@/hooks/useGetProducts";
-import styles from "@/styles/components/ProductList.module.scss";
+import styles from "../styles/components/ProductList.module.scss";
+import axios from "axios";
 
-const ProductList = ({ API, maxImages = Number.POSITIVE_INFINITY }) => {
-  const { products, loading, error } = useGetProducts(API);
+const API = "/accesories.json";
 
-  if (loading) return <div>Cargando productos...</div>;
-  if (error) return <div>{error}</div>;
+const ProductList = () => {
+  const [products, setProducts] = useState([]);
+  const { getProducts } = useGetProducts();
+
+  useEffect(async () => {
+    const response = await axios.get(API);
+    setProducts(response.data);
+  }, []);
 
   return (
-    <section className={styles.productList}>
-      <div className={styles.container}>
-        {products.map((product) => (
-          <ProductItem
-            product={product}
-            key={product.id}
-            maxImages={maxImages}
-          />
-        ))}
-      </div>
-    </section>
+    <div className={styles.productList}>
+      {products.map((product) => (
+        <ProductItem key={product.id} product={product} maxImages={3} />
+      ))}
+    </div>
   );
 };
 

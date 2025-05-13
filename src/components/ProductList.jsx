@@ -1,7 +1,7 @@
 import React from "react";
-import ProductItem from "@/components/ProductItem";
-import useGetProducts from "@/hooks/useGetProducts";
-import styles from "@/styles/components/ProductList.module.scss";
+import ProductItem from "../components/ProductItem";
+import useGetProducts from "../hooks/useGetProducts";
+import styles from "../styles/components/ProductList.module.scss";
 
 const ProductList = ({ API }) => {
   const { products, loading, error } = useGetProducts(API);
