@@ -9,21 +9,24 @@ import NightSkyHero from "../components/NightSkyHero";
 import AccesoriosNuevos from "../components/Accesorio/AccesoriosNuevos";
 import BackToTop from "../components/backTop/BackToTop";
 import { CarouselDemo } from "./CarouselDemo";
+import ProductList from "./ProductList";
 
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
 const API_BOOKS_NEW = "/accesoriesBooksNew.json";
 const API_BOOKS_OLD = "/accesoriesBooksOld.json";
 const API_PRESENTATION = "/presentation.json";
+const API_ACCESORIOS = "/accesories.json";
 
 // IDs especificos para cada categpria de accesorios
-const CATEGORIA_IDS = {
-  CELULARES: "celulares",
-  COMPUTADORES: "computadores",
-  DAMAS: "damas",
-  LIBROS_NUEVOS: "libros-nuevos",
-  LIBROS_USADOS: "libros-usados",
-};
+// const CATEGORIA_IDS = {
+//   CELULARES: "celulares",
+//   COMPUTADORES: "computadores",
+//   DAMAS: "damas",
+//   LIBROS_NUEVOS: "libros-nuevos",
+//   LIBROS_USADOS: "libros-usados",
+//   ACCESORIOS: "accesorios",
+// };
 
 export default function Inicio() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -31,6 +34,14 @@ export default function Inicio() {
 
   const [presentationImages, setPresentationImages] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // States for toggling product lists visibility
+  const [showCelulares, setShowCelulares] = useState(false);
+  const [showComputadores, setShowComputadores] = useState(false);
+  const [showDamas, setShowDamas] = useState(false);
+  const [showLibrosNuevos, setShowLibrosNuevos] = useState(false);
+  const [showLibrosUsados, setShowLibrosUsados] = useState(false);
+  const [showAccesorios, setShowAccesorios] = useState(false);
 
   // Referencias para elementos con animación de scroll
   const servicesRef = useRef(null);
@@ -45,6 +56,7 @@ export default function Inicio() {
   const damasRef = useRef(null);
   const librosNuevosRef = useRef(null);
   const librosUsadosRef = useRef(null);
+  const accesoriosRef = useRef(null);
 
   // Efecto para manejar las animaciones al hacer scroll
   useEffect(() => {
@@ -62,6 +74,7 @@ export default function Inicio() {
         celularesRef.current,
         damasRef.current,
         librosUsadosRef.current,
+        accesoriosRef.current,
       ];
 
       // Elementos que entrarán desde la derecha
@@ -147,7 +160,7 @@ export default function Inicio() {
       })
       .catch((error) => console.error("Error cargando presentación:", error))
       .finally(() => setLoading(false));
-  }, [data, setData, setLoading, setPresentationImages]);
+  }, []);
 
   if (!isLoaded) return null;
 
@@ -192,7 +205,8 @@ export default function Inicio() {
 
         {/* Sección de carrusel */}
         <div className={`${styles.carrusel}`}>
-          <CarouselDemo apiUrl={API_CELULARES} />
+          {/* <CarouselDemo apiUrl={API_CELULARES} /> */}
+          <CarouselDemo apiUrl={API_ACCESORIOS} />
         </div>
 
         {/* Sección lateral de anuncios */}
@@ -323,15 +337,20 @@ export default function Inicio() {
             >
               <h2>Celulares</h2>
 
-              <CarouselDemo
-                className="h-80"
-                apiUrl={API_CELULARES}
-                showIndicators={false}
-              />
+              <CarouselDemo apiUrl={API_CELULARES} showIndicators={false} />
 
-              <Link href={`/productos/${CATEGORIA_IDS.CELULARES}`}>
+              <Link
+                href="/accesorios/celulares"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+              >
                 Ver más
               </Link>
+
+              {showCelulares && (
+                <div className="mt-8 w-full">
+                  <ProductList API={API_COMPUTADORES} />
+                </div>
+              )}
             </article>
 
             {/* Artículo con animación desde la derecha */}
@@ -343,9 +362,18 @@ export default function Inicio() {
 
               <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
 
-              <Link href={`/productos/${CATEGORIA_IDS.COMPUTADORES}`}>
+              <Link
+                href="/accesorios/computadoras"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+              >
                 Ver más
               </Link>
+
+              {showComputadores && (
+                <div className="mt-8 w-full">
+                  <ProductList API={API_COMPUTADORES} />
+                </div>
+              )}
             </article>
 
             {/* Artículo con animación desde la izquierda */}
@@ -356,7 +384,19 @@ export default function Inicio() {
               <h2>Damas</h2>
 
               <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
-              <Link href={`/productos/${CATEGORIA_IDS.DAMAS}`}>Ver más</Link>
+
+              <Link
+                href="/accesorios/computadoras"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+              >
+                Ver más
+              </Link>
+
+              {showDamas && (
+                <div className="mt-8 w-full">
+                  <ProductList API={API_COMPUTADORES} />
+                </div>
+              )}
             </article>
 
             {/* Artículo con animación desde la derecha */}
@@ -367,9 +407,26 @@ export default function Inicio() {
               <h2>Libros nuevos</h2>
 
               <CarouselDemo apiUrl={API_BOOKS_NEW} showIndicators={false} />
-              <Link href={`/productos/${CATEGORIA_IDS.LIBROS_NUEVOS}`}>
+
+              {/* <button
+                onClick={() => setShowLibrosNuevos(!showLibrosNuevos)}
+                className={`px-4 py-2 bg-slate-200 rounded-md border border-slate-300 hover:bg-slate-300 transition-all`}
+              >
+                {showLibrosNuevos ? "Ver menos" : "Ver más"}
+              </button> */}
+
+              <Link
+                href="/accesorios/computadoras"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+              >
                 Ver más
               </Link>
+
+              {showLibrosNuevos && (
+                <div className="mt-8 w-full">
+                  <ProductList API={API_BOOKS_NEW} />
+                </div>
+              )}
             </article>
 
             {/* Artículo con animación desde la izquierda */}
@@ -380,9 +437,42 @@ export default function Inicio() {
               <h2>Libros usados</h2>
 
               <CarouselDemo apiUrl={API_BOOKS_OLD} showIndicators={false} />
-              <Link href={`/productos/${CATEGORIA_IDS.LIBROS_USADOS}`}>
+
+              <Link
+                href="/accesorios/computadoras"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+              >
                 Ver más
               </Link>
+
+              {showLibrosUsados && (
+                <div className="mt-8 w-full">
+                  <ProductList API={API_BOOKS_OLD} />
+                </div>
+              )}
+            </article>
+
+            {/* Artículo de accesorios con animación desde la izquierda */}
+            <article
+              ref={accesoriosRef}
+              className={`${styles.tipo} ${styles.fadeInLeft}`}
+            >
+              <h2>Varios</h2>
+
+              <CarouselDemo apiUrl={API_ACCESORIOS} showIndicators={false} />
+
+              <Link
+                href="/accesorios/computadoras"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+              >
+                Ver más
+              </Link>
+
+              {showAccesorios && (
+                <div className="mt-8 w-full">
+                  <ProductList API={API_ACCESORIOS} />
+                </div>
+              )}
             </article>
           </section>
         </section>

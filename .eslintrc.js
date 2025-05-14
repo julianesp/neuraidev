@@ -126,10 +126,19 @@ module.exports = {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off",
+<<<<<<< HEAD
 
     // Desactivar completamente las advertencias de variables no utilizadas
     "@typescript-eslint/no-unused-vars": "off", // Esto desactiva todas las advertencias de variables no utilizadas
 
+=======
+    "@typescript-eslint/no-unused-vars": [
+      "off",
+      {
+        argsIgnorePattern: "^_",
+      },
+    ],
+>>>>>>> tests
     "no-console": ["warn", { allow: ["warn", "error"] }],
     "import/no-unresolved": "off", // Si tienes problemas con las importaciones en Next.js
 

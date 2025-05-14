@@ -1,23 +1,100 @@
-[
-    {
-        "id": 1,
-        "images": [
-            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F1.jpg?alt=media&token=e441abfc-438c-4133-8de2-911b410e92be",
-            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F2.jpg?alt=media&token=57640bbe-3a77-4a6e-8938-28b4685feb3c",
-            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F3.jpg?alt=media&token=41634705-4c8d-4b0e-b649-1e46a7f6b2e4"
-        ],
-        "title": "iPhone 15 Pro Max",
-        "description": "Protege tu celular con esta funda de pasta dura",
-        "price": "14.900"
-    },
-    {
-        "id": 2,
-        "images": [
-            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F1.jpg?alt=media&token=621f828d-8f87-4cc8-b4c5-dd2792f796b2",
-            "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F2.jpg?alt=media&token=be13e458-9295-4d8a-a9d4-4bb577d4a4e2"
-        ],
-        "title": "USB Tipo C - 2 metros",
-        "description": "Disponible para carga rápida",
-        "price": "39.900"
+{
+    "accesorios": [
+        {
+            "id": 1,
+            "nombre": "USB tipo c - c",
+            "descripcion": "🔌 Cable USB-C a USB-C 100W 📏 Longitud: 1 metro ⚡ Potencia: hasta 100W para carga rápida 💾 Transferencia de datos de alta velocidad 🛡️ Revestimiento trenzado para mayor durabilidad 🔗 Conectores reforzados para uso intensivo. Ideal para dispositivos con carga rápida y sincronización eficiente. 🖥️⚙️📱",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-29-39-219_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=6ae2701d-58f1-452c-b3d7-a1b6b85a5e46"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%2FFB_IMG_1747161170527.jpg?alt=media&token=003b5f90-80da-4f22-9cf9-27de5a9b2b03"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-30-16-839_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=afb251dd-45e4-49a6-81f8-fc584893ae10"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-30-40-759_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=5c4ef83e-b9eb-4999-9f54-5067da281c4c"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-30-54-296_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=9070f86b-5ad8-48b1-86f1-654eafa983f2"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-31-09-502_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=8b061aeb-c8e1-49eb-b775-ce3d9a67924e"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-31-33-554_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=fa0d2a66-8a7e-4551-98f3-a7dd8105a0d5"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-29-39-219_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=6ae2701d-58f1-452c-b3d7-a1b6b85a5e46",
+            "precio": 39500,
+            "categoria": "celulares"
+        },
+        {
+            "id": 2,
+            "nombre": "Brazalete deportivo para celular",
+            "descripcion": "💪 Brazalete deportivo para celular 📱 Compatible con múltiples modelos de smartphone 🏃 Ideal para correr, entrenar o andar en bici 🎧 Orificio para cable de auriculares 🔐 Bolsillo seguro para llave 🧵 Material ligero, resistente al sudor y ajustable para máxima comodidad.",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fbrazalete%2F1.png?alt=media&token=3aaef89b-99cb-470f-8892-6c1450b08ecb"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fbrazalete%2FScreenshot_1.png?alt=media&token=1470e47f-8d62-4d59-a561-3011849e0e67"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fbrazalete%2F1.png?alt=media&token=3aaef89b-99cb-470f-8892-6c1450b08ecb",
+            "precio": 27000,
+            "categoria": "celulares"
+        },
+        {
+            "id": 3,
+            "nombre": "Funda iPhone XS MagSafe",
+            "descripcion": "📱 Funda protectora para iPhone XS 🧲 Compatible con MagSafe para carga inalámbrica sin interrupciones 🔴 Borde color rojo o negro 🧼 Tacto suave y antideslizante 🔒 Protección contra caídas y arañazos, con bordes elevados para proteger cámara y pantalla.",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F1.jpg?alt=media&token=e441abfc-438c-4133-8de2-911b410e92be"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F2.jpg?alt=media&token=57640bbe-3a77-4a6e-8938-28b4685feb3c"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F3.jpg?alt=media&token=41634705-4c8d-4b0e-b649-1e46a7f6b2e4"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F1.jpg?alt=media&token=e441abfc-438c-4133-8de2-911b410e92be",
+            "precio": 34000,
+            "categoria": "celulares"
+        },
+        {
+            "id": 4,
+            "nombre": "Cable USB tipo C a C - 2 metros",
+            "descripcion": "🔌 Cable USB-C a USB-C de 2 metros 📏 Longitud extendida para mayor comodidad ⚡ Potencia de carga rápida hasta 100W 💽 Transferencia de datos eficiente 🧵 Forro trenzado resistente y flexible 🔗 Ideal para laptops, tablets y smartphones compatibles con carga rápida.",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%2Fusb_c_c_2m.png?alt=media"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%2Fusb_c_c_2m.png?alt=media",
+            "precio": 45000,
+            "categoria": "celulares"
+        },
+        {
+            "id": 5,
+            "nombre": "Cable USB a Lightning para iPhone",
+            "descripcion": "🔴 Cable USB a Lightning para iPhone ⚡ Carga rápida y transferencia de datos eficiente 🧵 Revestimiento trenzado ultra resistente 💡 Conector en ángulo para mayor comodidad 🎒 Incluye cinta de velcro para mejor almacenamiento y portabilidad.",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20iphone%2Fusb_para_iphone.png?alt=media"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20iphone%2Fusb_para_iphone.png?alt=media",
+            "precio": 39000,
+            "categoria": "celulares"
+        }
+    ],
+    "configuracion": {
+        "telefono": "+573174503604",
+        "whatsappMensaje": "Hola, estoy interesado en el accesorio de computadora: "
     }
-]
+}

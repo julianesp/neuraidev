@@ -1,0 +1,34 @@
+{
+  "accesorios": [
+    {
+      "id": 1,
+      "nombre": "Teclado Genius básico",
+      "descripcion": "Teclado Genius básico con conexión USB, ideal para uso diario en computadoras de escritorio o portátiles",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado_genius.jpg?alt=media&token=5a9ecc50-db16-4d9a-b00c-a01de3c506b3"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado_genius.jpg?alt=media&token=5a9ecc50-db16-4d9a-b00c-a01de3c506b3",
+      "precio": 39500,
+      "categoria": "computadoras"
+    },
+    {
+      "id": 2,
+      "nombre": "Cámara Genius",
+      "descripcion": "Ideal para videollamadas o tareas simples. Es compatible con computadoras a través de USB. Es una opción económica para quienes buscan funcionalidad básica sin invertir mucho.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e",
+      "precio": 84900,
+      "categoria": "computadoras"
+    }
+  ],
+  "configuracion": {
+    "telefono": "+573174503604",
+    "whatsappMensaje": "Hola, estoy interesado en el accesorio de computadora: "
+  }
+}

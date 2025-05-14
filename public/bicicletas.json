@@ -1,0 +1,24 @@
+{
+  "accesorios": [
+    {
+      "id": 1,
+      "nombre": "Luces para bicicleta",
+      "descripcion": "Con batería recargable mediante USB tipo v. Cuentan con 3 modos de iluminación. Luz delantera cuenta con luz alta, baja y parpadeo. En paquete incluye lámpara, USB y resortes para sujetar.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F1.jpg?alt=media&token=438191c2-2046-4ed2-bc83-bebe7040b762"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F2.jpg?alt=media&token=065d6403-1db8-4098-a31c-0d3049d16ec5"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F1.jpg?alt=media&token=438191c2-2046-4ed2-bc83-bebe7040b762",
+      "precio": 34900,
+      "categoria": "bicicletas"
+    }
+  ],
+  "configuracion": {
+    "telefono": "+573174503604",
+    "whatsappMensaje": "Hola, estoy interesado en el accesorio para bicicleta: "
+  }
+}

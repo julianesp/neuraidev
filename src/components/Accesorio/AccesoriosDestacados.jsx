@@ -70,18 +70,6 @@ const AccesoriosDestacados = () => {
     }
   };
 
-  // Renderizar mensaje de carga
-  // if (cargando) {
-  //   return (
-  //     <div className="bg-yellow-50 p-1 rounded-lg text-center">
-  //       <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
-  //       <div className="animate-pulse flex justify-center items-center h-48">
-  //         <p className="text-gray-500">Cargando accesorios...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   // Renderizar mensaje de error
   if (error) {
     return (
