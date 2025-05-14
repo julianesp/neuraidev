@@ -336,7 +336,11 @@ export default function Inicio() {
             >
               <h2>Celulares</h2>
 
-              <CarouselDemo apiUrl={API_CELULARES} showIndicators={false} />
+              <CarouselDemo
+                apiUrl={API_CELULARES}
+                showIndicators={false}
+                showArrows={false}
+              />
 
               <Link
                 href="/accesorios/celulares"
@@ -345,11 +349,11 @@ export default function Inicio() {
                 Ver más
               </Link>
 
-              {showCelulares && (
+              {/* {showCelulares && (
                 <div className="mt-8 w-full">
                   <ProductList API={API_COMPUTADORES} />
                 </div>
-              )}
+              )} */}
             </article>
 
             {/* Artículo con animación desde la derecha */}
@@ -359,7 +363,11 @@ export default function Inicio() {
             >
               <h2>Computadores</h2>
 
-              <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
+              <CarouselDemo
+                apiUrl={API_COMPUTADORES}
+                showIndicators={false}
+                showArrows={false}
+              />
 
               <Link
                 href="/accesorios/computadoras"
@@ -368,11 +376,11 @@ export default function Inicio() {
                 Ver más
               </Link>
 
-              {showComputadores && (
+              {/* {showComputadores && (
                 <div className="mt-8 w-full">
                   <ProductList API={API_COMPUTADORES} />
                 </div>
-              )}
+              )} */}
             </article>
 
             {/* Artículo con animación desde la izquierda */}
@@ -382,7 +390,11 @@ export default function Inicio() {
             >
               <h2>Damas</h2>
 
-              <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
+              <CarouselDemo
+                apiUrl={API_CELULARES}
+                showIndicators={false}
+                showArrows={false}
+              />
 
               <Link
                 href="/accesorios/computadoras"
@@ -405,7 +417,11 @@ export default function Inicio() {
             >
               <h2>Libros nuevos</h2>
 
-              <CarouselDemo apiUrl={API_BOOKS_NEW} showIndicators={false} />
+              <CarouselDemo
+                apiUrl={API_BOOKS_NEW}
+                showIndicators={false}
+                showArrows={false}
+              />
 
               {/* <button
                 onClick={() => setShowLibrosNuevos(!showLibrosNuevos)}
@@ -435,7 +451,11 @@ export default function Inicio() {
             >
               <h2>Libros usados</h2>
 
-              <CarouselDemo apiUrl={API_BOOKS_OLD} showIndicators={false} />
+              <CarouselDemo
+                apiUrl={API_BOOKS_OLD}
+                showIndicators={false}
+                showArrows={false}
+              />
 
               <Link
                 href="/accesorios/computadoras"
@@ -458,7 +478,11 @@ export default function Inicio() {
             >
               <h2>Varios</h2>
 
-              <CarouselDemo apiUrl={API_ACCESORIOS} showIndicators={false} />
+              <CarouselDemo
+                apiUrl={API_ACCESORIOS}
+                showIndicators={false}
+                showArrows={false}
+              />
 
               <Link
                 href="/accesorios/computadoras"

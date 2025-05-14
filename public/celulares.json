@@ -72,29 +72,107 @@
             "descripcion": "🔌 Cable USB-C a USB-C de 2 metros 📏 Longitud extendida para mayor comodidad ⚡ Potencia de carga rápida hasta 100W 💽 Transferencia de datos eficiente 🧵 Forro trenzado resistente y flexible 🔗 Ideal para laptops, tablets y smartphones compatibles con carga rápida.",
             "imagenes": [
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%2Fusb_c_c_2m.png?alt=media"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F1.jpg?alt=media&token=621f828d-8f87-4cc8-b4c5-dd2792f796b2"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F2.jpg?alt=media&token=be13e458-9295-4d8a-a9d4-4bb577d4a4e2"
                 }
             ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%2Fusb_c_c_2m.png?alt=media",
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F1.jpg?alt=media&token=621f828d-8f87-4cc8-b4c5-dd2792f796b2",
             "precio": 45000,
             "categoria": "celulares"
         },
         {
             "id": 5,
-            "nombre": "Cable USB a Lightning para iPhone",
+            "nombre": "📱 Cable USB a Lightning para iPhone",
             "descripcion": "🔴 Cable USB a Lightning para iPhone ⚡ Carga rápida y transferencia de datos eficiente 🧵 Revestimiento trenzado ultra resistente 💡 Conector en ángulo para mayor comodidad 🎒 Incluye cinta de velcro para mejor almacenamiento y portabilidad.",
             "imagenes": [
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20iphone%2Fusb_para_iphone.png?alt=media"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb_iphone%2F2.jpg?alt=media&token=3a9f7662-3654-4a23-b9b6-da353de50a04"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb_iphone%2F3.jpg?alt=media&token=214e4d99-9f05-4f69-8067-9f39f6327bd9"
                 }
             ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20iphone%2Fusb_para_iphone.png?alt=media",
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb_iphone%2F2.jpg?alt=media&token=3a9f7662-3654-4a23-b9b6-da353de50a04",
             "precio": 39000,
+            "categoria": "celulares"
+        },
+        {
+            "id": 6,
+            "nombre": "📱 Gimbal Inteligente de Seguimiento Automático 360°",
+            "descripcion": "🔄 Seguimiento inteligente de 360° con base giratoria estable 💼 Diseño compacto en negro elegante con detalle en rojo 🎮 Controles intuitivos para manejo fácil 📲 Compatible con múltiples dispositivos 🛡️ Base antideslizante para máxima estabilidad 🌟 Perfecto para TikTok, YouTube, videollamadas y streaming.",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F1.jpg?alt=media&token=e9fe42ee-6b62-495d-b3d3-9b16c249d06e"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F2.jpg?alt=media&token=e083b6f7-0a72-4e95-bfa6-733f1c17e515"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F3.jpg?alt=media&token=0eaf0309-c22f-4c3c-be6a-aab3df6fc48d"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F4.jpg?alt=media&token=15e253a2-8fdb-4074-b534-a3b79ec2d569"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F5.jpg?alt=media&token=631706c9-289b-4424-81d5-da1e190d0156"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F1.jpg?alt=media&token=e9fe42ee-6b62-495d-b3d3-9b16c249d06e",
+            "precio": 179900,
+            "categoria": "celulares"
+        },
+        {
+            "id": 7,
+            "nombre": "🎧 Auricular KS19 con Banda Deportiva para Cuello",
+            "descripcion": "🔄 Diseño flexible de 360° ergonómico y adaptable 🔋 Batería de 130mAh con 18h de autonomía en standby 📶 Alcance inalámbrico de 10m para mayor libertad 🎮 Controles intuitivos multifunción para música y llamadas ⚡ Cable de carga de datos integrado 💪 Estructura resistente en color negro elegante 🏃‍♂️ Ideal para deportes, llamadas y actividades diarias.",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F1.jpg?alt=media&token=79f5880c-5f87-4677-a5d9-4dd31c6b40f9"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F2.jpg?alt=media&token=f33cad07-887a-4b4a-a7c6-b4fe09a5b069"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F3.jpg?alt=media&token=22235b17-28e2-4532-8eea-f261e2f7c905"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F4.jpg?alt=media&token=88f9dc31-aa4d-4f85-a478-e099650b1e2f"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F1.jpg?alt=media&token=79f5880c-5f87-4677-a5d9-4dd31c6b40f9",
+            "precio": 36900,
+            "categoria": "celulares"
+        },
+        {
+            "id": 6,
+            "nombre": "🛡️ Funda Protectora Xiaomi Redmi A12",
+            "descripcion": "🎯 Diseño bicolor rojo y negro premium 🔄 Soporte giratorio metálico integrado 🧩 Estructura de panal absorbe impactos 🛡️ Esquinas reforzadas anti-shock 🔌 Cortes precisos para cámaras y puertos 📱 Específica para Xiaomi Redmi A12 💪 Sistema de protección híbrido 🏆 Soporte deslizable integrado 🎮 Estilo gaming con textura táctil.",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242360460.jpg?alt=media&token=b5d1d10a-dcbb-490b-9c33-35f45d5aa2b9"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242368088.jpg?alt=media&token=5b6f953c-ed72-464a-a82f-3228fe8187ed"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242371266.jpg?alt=media&token=65b37ec9-2101-4078-98d6-f1d00cf7d5dd"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242382736.jpg?alt=media&token=3baa5456-6b5d-432f-bff6-d74086a60e40"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242390269.jpg?alt=media&token=9389ef40-8bf8-4aa8-9d17-42a840229cd5"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242360460.jpg?alt=media&token=b5d1d10a-dcbb-490b-9c33-35f45d5aa2b9",
+            "precio": 33900,
             "categoria": "celulares"
         }
     ],
     "configuracion": {
         "telefono": "+573174503604",
-        "whatsappMensaje": "Hola, estoy interesado en el accesorio de computadora: "
+        "whatsappMensaje": "Hola, estoy interesado en el accesorio para celulares: "
     }
 }

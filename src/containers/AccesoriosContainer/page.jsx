@@ -225,7 +225,7 @@ const AccesoriosContainer = ({
   // Si está cargando, mostrar un spinner
   if (loading) {
     return (
-      <div className="max-w-6xl mx-auto p-4 mt-8 bg-white rounded-lg shadow-lg flex justify-center items-center h-64">
+      <div className="max-w-6xl mx-auto p-4 mt-8 bg-white/30 backdrop-blur-md rounded-lg shadow-lg flex justify-center items-center h-64">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
@@ -234,7 +234,7 @@ const AccesoriosContainer = ({
   // Si no hay accesorio, mostrar un mensaje
   if (!accesorio) {
     return (
-      <div className="max-w-6xl mx-auto p-4 bg-white rounded-lg shadow-lg">
+      <div className="max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg">
         <h1 className="text-xl font-bold text-center">
           No se encontraron accesorios
         </h1>
@@ -276,7 +276,7 @@ const AccesoriosContainer = ({
     <div
       ref={containerRef}
       id="accesorios-container"
-      className={`${styles.container} max-w-6xl mx-auto p-4 bg-white rounded-lg shadow-lg`}
+      className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg`}
     >
       {/* Título del accesorio */}
       <h1 className="text-3xl font-bold text-center mb-6">
@@ -313,7 +313,7 @@ const AccesoriosContainer = ({
                           onError={() => handleImageError(`main-${index}`)}
                         />
                       ) : (
-                        <div className="flex items-center justify-center h-full bg-gray-100 rounded-lg">
+                        <div className="flex items-center justify-center h-full bg-whcite/20 backdrop-blur-sm rounded-lg">
                           <p className="text-gray-500">Imagen no disponible</p>
                         </div>
                       )}
@@ -335,15 +335,19 @@ const AccesoriosContainer = ({
                       onError={() => handleImageError("principal")}
                     />
                   ) : (
-                    <div className="flex items-center justify-center h-full bg-gray-100 rounded-lg">
-                      <p className="text-gray-500">Imagen no disponible</p>
+                    <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
+                      <p className="text-gray-500 dark:text-gray-300">
+                        Imagen no disponible
+                      </p>
                     </div>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="flex items-center justify-center h-full bg-gray-100 rounded-lg">
-                <p className="text-gray-500">No hay imágenes disponibles</p>
+              <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
+                <p className="text-gray-500 dark:text-gray-300">
+                  No hay imágenes disponibles
+                </p>
               </div>
             )}
 
@@ -386,11 +390,12 @@ const AccesoriosContainer = ({
           </div>
         </div>
 
-        {/* Descripción y detalles */}
         <div className="flex flex-col justify-between">
           <div>
-            <h2 className="text-xl font-semibold mb-3">Descripción</h2>
-            <p className="text-gray-600 mb-4">
+            <h2 className="text-xl font-semibold mb-3 text-black dark:text-white">
+              Descripción
+            </h2>
+            <p className="text-black dark:text-white mb-4">
               {accesorio.descripcion || "Sin descripción disponible"}
             </p>
 
@@ -398,10 +403,15 @@ const AccesoriosContainer = ({
             {accesorio.caracteristicas &&
               accesorio.caracteristicas.length > 0 && (
                 <div className="mb-4">
-                  <h3 className="text-lg font-medium mb-2">Características</h3>
+                  <h3 className="text-lg font-medium mb-2 text-black dark:text-black">
+                    Características
+                  </h3>
                   <ul className="list-disc pl-5 space-y-1">
                     {accesorio.caracteristicas.map((caracteristica, index) => (
-                      <li key={index} className="text-gray-600">
+                      <li
+                        key={index}
+                        className="text-gray-800 dark:text-gray-200"
+                      >
                         {caracteristica}
                       </li>
                     ))}
@@ -411,14 +421,14 @@ const AccesoriosContainer = ({
 
             {/* Precio */}
             <div className="mt-4">
-              <span className="text-2xl font-bold text-primary">
+              <span className="text-2xl font-bold text-primary dark:text-black">
                 $
                 {typeof accesorio.precio === "number"
                   ? accesorio.precio.toLocaleString("es-CO")
                   : accesorio.precio}
               </span>
               {accesorio.precioAnterior && (
-                <span className="ml-2 text-gray-400 line-through">
+                <span className="ml-2 text-gray-400 dark:text-gray-500 line-through">
                   $
                   {typeof accesorio.precioAnterior === "number"
                     ? accesorio.precioAnterior.toLocaleString("es-CO")
@@ -433,9 +443,9 @@ const AccesoriosContainer = ({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${styles.boton} mt-6 bg-green-500 text-black py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
+            className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
           >
-            <MessageCircle className="mr-2 text-black " />
+            <MessageCircle className="mr-2 text-black dark:text-white" />
             Consultar por WhatsApp
           </Link>
         </div>
@@ -463,7 +473,7 @@ const AccesoriosContainer = ({
                 return (
                   <div
                     key={itemIndex}
-                    className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-gray-50 rounded-lg p-3 hover:shadow-md transition-shadow`}
+                    className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow`}
                   >
                     <div className="relative h-40 mb-2 overflow-hidden rounded">
                       {!imageError[`related-${itemIndex}`] && itemImageUrl ? (
@@ -478,15 +488,15 @@ const AccesoriosContainer = ({
                           }
                         />
                       ) : (
-                        <div className="flex items-center justify-center h-full bg-gray-100">
+                        <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm">
                           <p className="text-gray-500">Sin imagen</p>
                         </div>
                       )}
                     </div>
-                    <h3 className="font-medium text-sm truncate">
+                    <h3 className="font-medium text-sm truncate text-black dark:text-white">
                       {item.nombre || ""}
                     </h3>
-                    <p className="text-primary font-bold mt-1">
+                    <p className="text-black dark:text-white font-bold mt-1">
                       $
                       {typeof item.precio === "number"
                         ? item.precio.toLocaleString("es-CO")
@@ -514,7 +524,7 @@ const AccesoriosContainer = ({
             {/* Controles del carrusel */}
             {mostrarBotonesRelacionados && (
               <>
-                <button
+                {/* <button
                   onClick={prevRelatedSlide}
                   className={`${styles.navButton} absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition-all z-10`}
                   aria-label="Ver productos anteriores"
@@ -527,7 +537,7 @@ const AccesoriosContainer = ({
                   aria-label="Ver productos siguientes"
                 >
                   <ChevronRight size={20} />
-                </button>
+                </button> */}
               </>
             )}
           </div>
