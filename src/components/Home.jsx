@@ -19,14 +19,14 @@ const API_PRESENTATION = "/presentation.json";
 const API_ACCESORIOS = "/accesories.json";
 
 // IDs especificos para cada categpria de accesorios
-const CATEGORIA_IDS = {
-  CELULARES: "celulares",
-  COMPUTADORES: "computadores",
-  DAMAS: "damas",
-  LIBROS_NUEVOS: "libros-nuevos",
-  LIBROS_USADOS: "libros-usados",
-  ACCESORIOS: "accesorios",
-};
+// const CATEGORIA_IDS = {
+//   CELULARES: "celulares",
+//   COMPUTADORES: "computadores",
+//   DAMAS: "damas",
+//   LIBROS_NUEVOS: "libros-nuevos",
+//   LIBROS_USADOS: "libros-usados",
+//   ACCESORIOS: "accesorios",
+// };
 
 export default function Inicio() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -160,7 +160,7 @@ export default function Inicio() {
       })
       .catch((error) => console.error("Error cargando presentación:", error))
       .finally(() => setLoading(false));
-  }, [data, setData, setLoading, setPresentationImages]);
+  }, []);
 
   if (!isLoaded) return null;
 
@@ -205,7 +205,8 @@ export default function Inicio() {
 
         {/* Sección de carrusel */}
         <div className={`${styles.carrusel}`}>
-          <CarouselDemo apiUrl={API_CELULARES} />
+          {/* <CarouselDemo apiUrl={API_CELULARES} /> */}
+          <CarouselDemo apiUrl={API_ACCESORIOS} />
         </div>
 
         {/* Sección lateral de anuncios */}
@@ -335,18 +336,7 @@ export default function Inicio() {
             >
               <h2>Celulares</h2>
 
-              <CarouselDemo
-                className="h-80"
-                apiUrl={API_CELULARES}
-                showIndicators={false}
-              />
-
-              {/* <button
-                onClick={() => setShowCelulares(!showCelulares)}
-                className={`px-4 py-2 bg-slate-200 rounded-md border border-slate-300 hover:bg-slate-300 transition-all`}
-              >
-                {showCelulares ? "Ver menos" : "Ver más"}
-              </button> */}
+              <CarouselDemo apiUrl={API_CELULARES} showIndicators={false} />
 
               <Link
                 href="/accesorios/celulares"
@@ -357,7 +347,7 @@ export default function Inicio() {
 
               {showCelulares && (
                 <div className="mt-8 w-full">
-                  <ProductList API={API_CELULARES} />
+                  <ProductList API={API_COMPUTADORES} />
                 </div>
               )}
             </article>
@@ -371,12 +361,12 @@ export default function Inicio() {
 
               <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
 
-              <button
-                onClick={() => setShowComputadores(!showComputadores)}
-                className={`px-4 py-2 bg-slate-200 rounded-md border border-slate-300 hover:bg-slate-300 transition-all`}
+              <Link
+                href="/accesorios/computadoras"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
               >
-                {showComputadores ? "Ver menos" : "Ver más"}
-              </button>
+                Ver más
+              </Link>
 
               {showComputadores && (
                 <div className="mt-8 w-full">
@@ -394,12 +384,12 @@ export default function Inicio() {
 
               <CarouselDemo apiUrl={API_COMPUTADORES} showIndicators={false} />
 
-              <button
-                onClick={() => setShowDamas(!showDamas)}
-                className={`px-4 py-2 bg-slate-200 rounded-md border border-slate-300 hover:bg-slate-300 transition-all`}
+              <Link
+                href="/accesorios/computadoras"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
               >
-                {showDamas ? "Ver menos" : "Ver más"}
-              </button>
+                Ver más
+              </Link>
 
               {showDamas && (
                 <div className="mt-8 w-full">
@@ -417,12 +407,19 @@ export default function Inicio() {
 
               <CarouselDemo apiUrl={API_BOOKS_NEW} showIndicators={false} />
 
-              <button
+              {/* <button
                 onClick={() => setShowLibrosNuevos(!showLibrosNuevos)}
                 className={`px-4 py-2 bg-slate-200 rounded-md border border-slate-300 hover:bg-slate-300 transition-all`}
               >
                 {showLibrosNuevos ? "Ver menos" : "Ver más"}
-              </button>
+              </button> */}
+
+              <Link
+                href="/accesorios/computadoras"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+              >
+                Ver más
+              </Link>
 
               {showLibrosNuevos && (
                 <div className="mt-8 w-full">
@@ -440,12 +437,12 @@ export default function Inicio() {
 
               <CarouselDemo apiUrl={API_BOOKS_OLD} showIndicators={false} />
 
-              <button
-                onClick={() => setShowLibrosUsados(!showLibrosUsados)}
-                className={`px-4 py-2 bg-slate-200 rounded-md border border-slate-300 hover:bg-slate-300 transition-all`}
+              <Link
+                href="/accesorios/computadoras"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
               >
-                {showLibrosUsados ? "Ver menos" : "Ver más"}
-              </button>
+                Ver más
+              </Link>
 
               {showLibrosUsados && (
                 <div className="mt-8 w-full">
@@ -459,16 +456,16 @@ export default function Inicio() {
               ref={accesoriosRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
             >
-              <h2>Accesorios</h2>
+              <h2>Varios</h2>
 
               <CarouselDemo apiUrl={API_ACCESORIOS} showIndicators={false} />
 
-              <button
-                onClick={() => setShowAccesorios(!showAccesorios)}
-                className={`px-4 py-2 bg-slate-200 rounded-md border border-slate-300 hover:bg-slate-300 transition-all`}
+              <Link
+                href="/accesorios/computadoras"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
               >
-                {showAccesorios ? "Ver menos" : "Ver más"}
-              </button>
+                Ver más
+              </Link>
 
               {showAccesorios && (
                 <div className="mt-8 w-full">
