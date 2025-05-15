@@ -12,7 +12,7 @@ const AccesoriosContainer = ({
   apiUrl,
   accesorio: accesorioProps,
   otrosAccesorios: otrosAccesoriosProps = [],
-  telefono: telefonoProps = "+573174503604", // Teléfono por defecto para WhatsApp
+  telefono: telefonoProps = "+573174503604",
 }) => {
   // Referencia para el scrolling
   const containerRef = useRef(null);
@@ -395,7 +395,7 @@ const AccesoriosContainer = ({
             <h2 className="text-xl font-semibold mb-3 text-black dark:text-white">
               Descripción
             </h2>
-            <p className="text-black dark:text-white mb-4">
+            <p className="whitespace-pre-line text-black dark:text-white mb-4">
               {accesorio.descripcion || "Sin descripción disponible"}
             </p>
 
@@ -422,7 +422,7 @@ const AccesoriosContainer = ({
             {/* Precio */}
             <div className="mt-4">
               <span className="text-2xl font-bold text-primary dark:text-black">
-                $
+                Valor $
                 {typeof accesorio.precio === "number"
                   ? accesorio.precio.toLocaleString("es-CO")
                   : accesorio.precio}
