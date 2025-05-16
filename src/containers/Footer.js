@@ -72,10 +72,10 @@ const Footer = () => {
       <article className={styles.information}>
         <h2>Información</h2>
         <h3>
-          <Link href="/politicas">Políticas de privacidad</Link>
+          <Link href="/Politicas">Políticas de privacidad</Link>
         </h3>
         <h3>
-          <Link href="/clientes">Atención al cliente</Link>
+          <Link href="/Clientes">Atención al cliente</Link>
         </h3>
       </article>
 
