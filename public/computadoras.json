@@ -6,14 +6,17 @@
       "descripcion": "Teclado Genius básico con conexión USB, ideal para uso diario en computadoras de escritorio o portátiles",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado_genius.jpg?alt=media&token=5a9ecc50-db16-4d9a-b00c-a01de3c506b3"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado%20genius%20basic%2F1.jpg?alt=media&token=804142ff-42b8-4c73-ae21-3ea400f7089d"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado_genius.jpg?alt=media&token=5a9ecc50-db16-4d9a-b00c-a01de3c506b3"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado%20genius%20basic%2F2.jpg?alt=media&token=71c9c1f4-c6b3-4f32-9d72-c7f1afac0930"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado%20genius%20basic%2F3.jpg?alt=media&token=ab8f1849-a7cb-41e1-bfee-aff0d064c056"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado_genius.jpg?alt=media&token=5a9ecc50-db16-4d9a-b00c-a01de3c506b3",
-      "precio": 39500,
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado%20genius%20basic%2F1.jpg?alt=media&token=804142ff-42b8-4c73-ae21-3ea400f7089d",
+      "precio": 39900,
       "categoria": "computadoras"
     },
     {
@@ -23,11 +26,198 @@
       "imagenes": [
         {
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F2.jpg?alt=media&token=dd5ebf3c-578d-4010-a256-650df448dc2b"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F3.jpg?alt=media&token=82806339-47f0-44f6-8be5-cef6f138c8f6"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F4.jpg?alt=media&token=16bc414e-5a2e-401e-a3e0-5809bcdbf29e"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F5.jpg?alt=media&token=3cf1d9d7-7085-4d3e-99b1-b87254e03ac4"
         }
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e",
       "precio": 84900,
       "categoria": "computadoras"
+    },
+    {
+      "id": 3,
+      "nombre": "Mouse inalámbrico USB - Bluethooth",
+      "descripcion": "💻 Lleva tu productividad al siguiente nivel con nuestro elegante mouse inalámbrico: 🔌 Tecnología dual-mode con receptor USB integrado y conexión Bluetooth 🔋 Diseño ultraligero y ergonómico para uso prolongado 🎯 Precisión óptica para movimientos exactos 🔄 Disponible en elegante blanco o sofisticado negro ⚡ Interruptor de encendido/apagado para ahorro de batería 📱 Compatible con Windows, Mac, Linux y dispositivos Android",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155849921.jpg?alt=media&token=353a0079-9b90-4f2c-b83c-26077fa66397"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155879384.jpg?alt=media&token=0e2986ba-edb1-4000-b116-46338df6de9f"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155904639.jpg?alt=media&token=2818b801-2982-4e37-a55c-6a493011634c"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155910862.jpg?alt=media&token=e84df7ab-b34a-4e29-9c6a-537f56247568"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155918663.jpg?alt=media&token=98a0dffe-3b73-4975-b066-b467fade39ab"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155925063.jpg?alt=media&token=2fdd60ec-fecf-451d-aabc-a510e74d1859"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155849921.jpg?alt=media&token=353a0079-9b90-4f2c-b83c-26077fa66397",
+      "precio": 39900,
+      "categoria": "computadoras"
+    },
+    {
+      "id": 4,
+      "nombre": "💾 Disco SSD mSATA EXRAM 256GB",
+      "descripcion": "📊 Capacidad de 256GB para sistemas y aplicaciones ⚡ Interfaz mSATA de alta velocidad 🔄 Diseño compacto para portátiles y mini-PCs 🔌 Instalación plug & play sin complicaciones 📈 Rendimiento superior a discos tradicionales 🔋 Bajo consumo energético 🧰 Compatible con puertos mSATA estándar 📦 Embalaje protector incluido.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F1.jpg?alt=media&token=7d43c880-f88b-4793-a288-05795856f430"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F2.jpg?alt=media&token=aac519a4-e48b-4039-851a-8cef55b6e440"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F3.jpg?alt=media&token=76f939e0-0ab1-4a0d-848a-df2f82869ae9"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F1.jpg?alt=media&token=7d43c880-f88b-4793-a288-05795856f430",
+      "precio": 119900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 5,
+      "nombre": "Hub Multifunción USB-C 8 en 1 Ultra HD",
+      "descripcion": "🔌 Adaptador Multi Puerto USB 3 con 8 Entradas, incluida Conexión RJ45 para internet por cable. 🎮 Este adaptador es la solución ideal para expandir la conectividad de tus dispositivos. 2 puertos USB 3.0 de alta velocidad para transferencias rápidas de datos. 📱 2 puertos USB-C. 1 lector de tarjetas SD y MicroSD, perfecto para fotógrafos y creativos. 1 puerto RJ45 Gigabit Ethernet, que asegura una conexión de red estable y rápida para videollamadas, descargas o juegos en línea. 🌐 Compatible con Windows, macOS y Linux, este adaptador es perfecto para laptops, PCs que necesitan mayor funcionalidad sin comprometer la portabilidad.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F1.jpg?alt=media&token=c1f2342c-a40c-4e2e-abaa-d5cf13847d14"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F2.jpg?alt=media&token=5364140d-bf2c-4b26-bcd9-760a96ab8d26"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F3.jpg?alt=media&token=15cba429-a31a-4b8d-b26f-aa7d4b813655"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F1.jpg?alt=media&token=c1f2342c-a40c-4e2e-abaa-d5cf13847d14",
+      "precio": 64900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 6,
+      "nombre": "Memoria RAM DDR4 8GB",
+      "descripcion": "⚡ 8GB de capacidad para multitarea exigente 🔄 Tecnología DDR4 de última generación ⏱️ Frecuencia de 2666MHz para rendimiento óptimo 💪 Formato SO-DIMM para laptops y equipos compactos 🔋 Bajo consumo energético de 1.2V 🧰 Instalación plug & play sencilla 🔥 Disipación térmica mejorada 📈 Alta compatibilidad con sistemas actuales.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2Fram%20ddr4%208gb.jpg?alt=media&token=7dab486e-a67f-45cc-9f87-260b4bbd0011"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2Fram%20ddr4%208gb.jpg?alt=media&token=7dab486e-a67f-45cc-9f87-260b4bbd0011",
+      "precio": 114900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 7,
+      "nombre": "💾 Disco SSD WALRAM 2.5\" 256GB",
+      "descripcion": "📊 Capacidad de 256GB para sistema y aplicaciones ⚡ Interfaz SATA III 6Gb/s para máxima velocidad 🔄 Factor de forma estándar 2.5\" compatible ⏱️ Arranque y carga ultrarrápidos 🔋 Bajo consumo energético 📈 10 veces más rápido que discos tradicionales 🔇 Funcionamiento silencioso sin partes móviles 🛡️ Resistente a golpes y vibraciones ♨️ Disipación térmica optimizada.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F1.jpg?alt=media&token=e704a884-a867-4b15-879b-fdbc325fd1bb"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F2.jpg?alt=media&token=024a552b-42ea-47be-ba04-0b22f89c58f1"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F3.png?alt=media&token=03c84414-128a-4b59-8784-c5e6eda0d85f"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F1.jpg?alt=media&token=e704a884-a867-4b15-879b-fdbc325fd1bb",
+      "precio": 149900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 8,
+      "nombre": "🔌 Carcasa Transparente para Disco Duro 2.5\"",
+      "descripcion": "📱 Carcasa transparente con visibilidad del interior ⚡ Conexión USB 3.0 ultrarrápida 🧩 Compatible con SSD y HDD SATA de 2.5\" 🔌 Plug & Play sin controladores adicionales 📦 Diseño ultradelgado y ligero 🛠️ Instalación sin herramientas 🔋 Alimentación directa vía USB 💼 Ideal para respaldos y almacenamiento externo 🔒 Protección contra sobrecarga y cortocircuitos.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F7.jpg?alt=media&token=6ca5ca1d-621b-47f6-8b61-a3bb9d06096c"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F6.jpg?alt=media&token=a1decbcb-77c4-4df4-a310-4c252f2bd9a4"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F5.jpg?alt=media&token=5ea24b06-2905-4ba8-9195-5d644d4f39b0"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F7.jpg?alt=media&token=6ca5ca1d-621b-47f6-8b61-a3bb9d06096c",
+      "precio": 59900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 9,
+      "nombre": "🔌 Carcasa Transparente USB-C para Disco 2.5\"",
+      "descripcion": "📱 Carcasa semitransparente en elegante tono ahumado ⚡ Conexión USB Type-C de última generación 🧩 Compatible con todos los SSD y HDD SATA 2.5\" 🔌 Plug & Play sin drivers adicionales 📦 Perfil ultradelgado y ligero para máxima portabilidad 🛠️ Instalación sin herramientas 🔋 Alimentación directa por USB 💻 Compatible con todos los sistemas operativos 🔒 Protección contra impactos y vibraciones.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F4.jpg?alt=media&token=20ad5115-2da3-435b-be5f-4d5e7a7e9e18"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F3.jpg?alt=media&token=02a7cc52-8997-461d-b8f2-4b7fefd19e62"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F2.jpg?alt=media&token=bea2bcd1-d601-45f6-bedf-629df690bae0"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F4.jpg?alt=media&token=20ad5115-2da3-435b-be5f-4d5e7a7e9e18",
+      "precio": 59900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 10,
+      "nombre": "🔌 Carcasa Externa USB 3.0 para Disco 2.5\"",
+      "descripcion": "📱 Carcasa sólida en elegante color negro mate ⚡ Conexión USB 3.0 de alta velocidad 🧩 Compatible con SSD y HDD SATA 2.5\" 🔌 Cable USB integrado en compartimiento 💪 Construcción reforzada extra resistente 🛠️ Instalación sin herramientas 🔋 Alimentación directa vía USB 💻 Compatible con todos los sistemas operativos 🔒 Protección avanzada contra golpes y polvo.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990",
+      "precio": 69900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 11,
+      "nombre": "🖥️ Memoria RAM PreyDa DDR3 4GB SO-DIMM",
+      "descripcion": "⚡ 4GB de capacidad para uso diario 🔄 Tecnología DDR3 de amplia compatibilidad ⏱️ Rendimiento estable para laptops y mini-PCs 💪 Formato SO-DIMM estándar para portátiles 🛡️ Garantía oficial del fabricante 🧰 Instalación plug & play sencilla 📦 Empaque protector incluido 💻 Compatible con Windows, Linux y macOS 🔧 Perfecta para actualizar equipos con poca memoria.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F475503972_122201415362083804_5929328437556828553_n.jpg?alt=media&token=59a9b64e-0990-4522-afea-d057391c1e6d"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F475503972_122201415362083804_5929328437556828553_n.jpg?alt=media&token=59a9b64e-0990-4522-afea-d057391c1e6d",
+      "precio": 44900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 12,
+      "nombre": "💾 Disco SSD M.2 WALRAM 512GB NGFF",
+      "descripcion": "📊 Capacidad de 512GB para aplicaciones exigentes 🔧 Factor de forma M.2 NGFF ultracompacto ⚡ Interfaz SATA 6Gb/s de alto rendimiento ⏱️ Velocidades de lectura/escritura superiores 🛡️ 3 años de garantía oficial 🔥 Disipación térmica optimizada 📈 Ideal para equipos modernos y ultradelgados 🔋 Bajo consumo energético 🧰 Fácil instalación en ranuras M.2.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fm2%20512%20gb%20walram%2F470221219_122195149868083804_1429512956730235771_n.jpg?alt=media&token=2eb1286a-caca-4214-9296-e048ff8358d8"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fm2%20512%20gb%20walram%2F470221219_122195149868083804_1429512956730235771_n.jpg?alt=media&token=2eb1286a-caca-4214-9296-e048ff8358d8",
+      "precio": 162900,
+      "categoria": "computacion"
     }
   ],
   "configuracion": {

@@ -12,7 +12,7 @@ const AccesoriosContainer = ({
   apiUrl,
   accesorio: accesorioProps,
   otrosAccesorios: otrosAccesoriosProps = [],
-  telefono: telefonoProps = "+573174503604", // Teléfono por defecto para WhatsApp
+  telefono: telefonoProps = "+573174503604",
 }) => {
   // Referencia para el scrolling
   const containerRef = useRef(null);
@@ -27,6 +27,7 @@ const AccesoriosContainer = ({
   const [dataLoaded, setDataLoaded] = useState(false); // Bandera para evitar cargas múltiples
   const [isMobile, setIsMobile] = useState(false);
   const [imageError, setImageError] = useState({}); // Controlar errores de carga de imágenes
+  const [imageRetries, setImageRetries] = useState({}); // Controlar reintentos de carga
 
   // Efecto para detectar si estamos en móvil
   useEffect(() => {
@@ -210,12 +211,38 @@ const AccesoriosContainer = ({
     );
   };
 
-  // Manejar errores de carga de imágenes
-  const handleImageError = (index) => {
-    setImageError((prev) => ({
-      ...prev,
-      [index]: true,
-    }));
+  // Manejar errores de carga de imágenes con sistema de reintento
+  const handleImageError = (index, imageSrc) => {
+    console.warn(`Error cargando imagen: ${imageSrc}`);
+    
+    // Comprobar si ya hemos reintentado esta imagen
+    const currentRetries = imageRetries[index] || 0;
+    
+    if (currentRetries < 2) {
+      // Reintentar cargando la imagen
+      setImageRetries((prev) => ({
+        ...prev,
+        [index]: currentRetries + 1,
+      }));
+      
+      // Forzar reintento agregando timestamp para evitar caché
+      const timeStamp = new Date().getTime();
+      const retrySrc = imageSrc.includes('?') 
+        ? `${imageSrc}&retry=${timeStamp}` 
+        : `${imageSrc}?retry=${timeStamp}`;
+      
+      // Actualizar la URL temporal para forzar recarga (solo para lógica interna)
+      setTimeout(() => {
+        const img = new Image();
+        img.src = retrySrc;
+      }, 1000);
+    } else {
+      // Después de reintentos fallidos, marcar como error
+      setImageError((prev) => ({
+        ...prev,
+        [index]: true,
+      }));
+    }
   };
 
   // Determinar si mostrar botones de navegación para productos relacionados
@@ -310,10 +337,18 @@ const AccesoriosContainer = ({
                           sizes="(max-width: 768px) 100vw, 50vw"
                           className="rounded-lg object-contain"
                           priority={index === mainSlideIndex}
-                          onError={() => handleImageError(`main-${index}`)}
+                          onError={() => handleImageError(`main-${index}`, imagenUrl)}
+                          unoptimized={imagenUrl.includes('firebasestorage.googleapis.com')}
                         />
                       ) : (
-                        <div className="flex items-center justify-center h-full bg-whcite/20 backdrop-blur-sm rounded-lg">
+                        <div className="flex flex-col items-center justify-center h-full bg-slate-100/40 backdrop-blur-sm rounded-lg">
+                          <Image 
+                            src="/images/placeholder-product.png" 
+                            alt="Imagen no disponible"
+                            width={200}
+                            height={200}
+                            className="mb-2 opacity-60"
+                          />
                           <p className="text-gray-500">Imagen no disponible</p>
                         </div>
                       )}
@@ -395,7 +430,7 @@ const AccesoriosContainer = ({
             <h2 className="text-xl font-semibold mb-3 text-black dark:text-white">
               Descripción
             </h2>
-            <p className="text-black dark:text-white mb-4">
+            <p className="whitespace-pre-line text-black dark:text-white mb-4">
               {accesorio.descripcion || "Sin descripción disponible"}
             </p>
 
@@ -422,7 +457,7 @@ const AccesoriosContainer = ({
             {/* Precio */}
             <div className="mt-4">
               <span className="text-2xl font-bold text-primary dark:text-black">
-                $
+                Valor $
                 {typeof accesorio.precio === "number"
                   ? accesorio.precio.toLocaleString("es-CO")
                   : accesorio.precio}
