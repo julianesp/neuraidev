@@ -122,6 +122,102 @@
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2Fram%20ddr4%208gb.jpg?alt=media&token=7dab486e-a67f-45cc-9f87-260b4bbd0011",
       "precio": 114900,
       "categoria": "computacion"
+    },
+    {
+      "id": 7,
+      "nombre": "💾 Disco SSD WALRAM 2.5\" 256GB",
+      "descripcion": "📊 Capacidad de 256GB para sistema y aplicaciones ⚡ Interfaz SATA III 6Gb/s para máxima velocidad 🔄 Factor de forma estándar 2.5\" compatible ⏱️ Arranque y carga ultrarrápidos 🔋 Bajo consumo energético 📈 10 veces más rápido que discos tradicionales 🔇 Funcionamiento silencioso sin partes móviles 🛡️ Resistente a golpes y vibraciones ♨️ Disipación térmica optimizada.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F1.jpg?alt=media&token=e704a884-a867-4b15-879b-fdbc325fd1bb"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F2.jpg?alt=media&token=024a552b-42ea-47be-ba04-0b22f89c58f1"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F3.png?alt=media&token=03c84414-128a-4b59-8784-c5e6eda0d85f"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F1.jpg?alt=media&token=e704a884-a867-4b15-879b-fdbc325fd1bb",
+      "precio": 149900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 8,
+      "nombre": "🔌 Carcasa Transparente para Disco Duro 2.5\"",
+      "descripcion": "📱 Carcasa transparente con visibilidad del interior ⚡ Conexión USB 3.0 ultrarrápida 🧩 Compatible con SSD y HDD SATA de 2.5\" 🔌 Plug & Play sin controladores adicionales 📦 Diseño ultradelgado y ligero 🛠️ Instalación sin herramientas 🔋 Alimentación directa vía USB 💼 Ideal para respaldos y almacenamiento externo 🔒 Protección contra sobrecarga y cortocircuitos.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F7.jpg?alt=media&token=6ca5ca1d-621b-47f6-8b61-a3bb9d06096c"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F6.jpg?alt=media&token=a1decbcb-77c4-4df4-a310-4c252f2bd9a4"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F5.jpg?alt=media&token=5ea24b06-2905-4ba8-9195-5d644d4f39b0"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F7.jpg?alt=media&token=6ca5ca1d-621b-47f6-8b61-a3bb9d06096c",
+      "precio": 59900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 9,
+      "nombre": "🔌 Carcasa Transparente USB-C para Disco 2.5\"",
+      "descripcion": "📱 Carcasa semitransparente en elegante tono ahumado ⚡ Conexión USB Type-C de última generación 🧩 Compatible con todos los SSD y HDD SATA 2.5\" 🔌 Plug & Play sin drivers adicionales 📦 Perfil ultradelgado y ligero para máxima portabilidad 🛠️ Instalación sin herramientas 🔋 Alimentación directa por USB 💻 Compatible con todos los sistemas operativos 🔒 Protección contra impactos y vibraciones.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F4.jpg?alt=media&token=20ad5115-2da3-435b-be5f-4d5e7a7e9e18"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F3.jpg?alt=media&token=02a7cc52-8997-461d-b8f2-4b7fefd19e62"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F2.jpg?alt=media&token=bea2bcd1-d601-45f6-bedf-629df690bae0"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F4.jpg?alt=media&token=20ad5115-2da3-435b-be5f-4d5e7a7e9e18",
+      "precio": 59900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 10,
+      "nombre": "🔌 Carcasa Externa USB 3.0 para Disco 2.5\"",
+      "descripcion": "📱 Carcasa sólida en elegante color negro mate ⚡ Conexión USB 3.0 de alta velocidad 🧩 Compatible con SSD y HDD SATA 2.5\" 🔌 Cable USB integrado en compartimiento 💪 Construcción reforzada extra resistente 🛠️ Instalación sin herramientas 🔋 Alimentación directa vía USB 💻 Compatible con todos los sistemas operativos 🔒 Protección avanzada contra golpes y polvo.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990",
+      "precio": 69900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 11,
+      "nombre": "🖥️ Memoria RAM PreyDa DDR3 4GB SO-DIMM",
+      "descripcion": "⚡ 4GB de capacidad para uso diario 🔄 Tecnología DDR3 de amplia compatibilidad ⏱️ Rendimiento estable para laptops y mini-PCs 💪 Formato SO-DIMM estándar para portátiles 🛡️ Garantía oficial del fabricante 🧰 Instalación plug & play sencilla 📦 Empaque protector incluido 💻 Compatible con Windows, Linux y macOS 🔧 Perfecta para actualizar equipos con poca memoria.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F475503972_122201415362083804_5929328437556828553_n.jpg?alt=media&token=59a9b64e-0990-4522-afea-d057391c1e6d"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F475503972_122201415362083804_5929328437556828553_n.jpg?alt=media&token=59a9b64e-0990-4522-afea-d057391c1e6d",
+      "precio": 44900,
+      "categoria": "computacion"
+    },
+    {
+      "id": 12,
+      "nombre": "💾 Disco SSD M.2 WALRAM 512GB NGFF",
+      "descripcion": "📊 Capacidad de 512GB para aplicaciones exigentes 🔧 Factor de forma M.2 NGFF ultracompacto ⚡ Interfaz SATA 6Gb/s de alto rendimiento ⏱️ Velocidades de lectura/escritura superiores 🛡️ 3 años de garantía oficial 🔥 Disipación térmica optimizada 📈 Ideal para equipos modernos y ultradelgados 🔋 Bajo consumo energético 🧰 Fácil instalación en ranuras M.2.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fm2%20512%20gb%20walram%2F470221219_122195149868083804_1429512956730235771_n.jpg?alt=media&token=2eb1286a-caca-4214-9296-e048ff8358d8"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fm2%20512%20gb%20walram%2F470221219_122195149868083804_1429512956730235771_n.jpg?alt=media&token=2eb1286a-caca-4214-9296-e048ff8358d8",
+      "precio": 162900,
+      "categoria": "computacion"
     }
   ],
   "configuracion": {
