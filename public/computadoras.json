@@ -218,6 +218,44 @@
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fm2%20512%20gb%20walram%2F470221219_122195149868083804_1429512956730235771_n.jpg?alt=media&token=2eb1286a-caca-4214-9296-e048ff8358d8",
       "precio": 162900,
       "categoria": "computacion"
+    },
+    {
+      "id": 13,
+      "nombre": "🔌 Adaptador SATA a USB 3.0 para Discos 2.5\"",
+      "descripcion": "⚡ Conexión USB 3.0 de alta velocidad hasta 5Gbps 🔄 Compatible con HDD y SSD SATA de 2.5\" 📱 Funciona con laptops, tablets, Smart TVs y consolas 💡 Indicador LED de actividad 🔌 Cable integrado sin adaptadores adicionales 🧰 Diseño con disipador térmico 🔋 No requiere alimentación externa 🌐 Compatible con SATA 2.0 y 3.0 📊 Ideal para respaldos y recuperación.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20sata%20-%20usb%203.0%2F469594099_122194355558083804_905819561261807686_n.jpg?alt=media&token=082a3eaa-45dd-4b88-9193-531e9e51f35b"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20sata%20-%20usb%203.0%2F469885150_122194355288083804_1249558463736827300_n.jpg?alt=media&token=6670affa-0edc-49d9-bd0e-79b3fb6a446f"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20sata%20-%20usb%203.0%2F474746648_122200657454083804_8359796227728823633_n.jpg?alt=media&token=ac7e1972-94dd-4e6a-ab78-2c264e861bb9"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20sata%20-%20usb%203.0%2F469594099_122194355558083804_905819561261807686_n.jpg?alt=media&token=082a3eaa-45dd-4b88-9193-531e9e51f35b",
+      "precio": 35500,
+      "categoria": "computacion"
+    },
+    {
+      "id": 14,
+      "nombre": "🔌 Adaptador mSATA a SATA para Discos SSD",
+      "descripcion": "🔄 Compatible con múltiples tamaños (2230, 2242, 2260, 2280) ⚡ Conversión directa sin pérdida de rendimiento 📊 Soporta formato Half Size y Full Size 🧰 Puntos de anclaje ajustables para fijación segura 💻 Ideal para reutilizar SSDs mSATA en equipos SATA 📈 Mantiene la velocidad nativa del disco 🔌 Conexión SATA de 6Gbps 🛡️ PCB de alta calidad y componentes duraderos 🔧 Instalación sencilla sin controladores adicionales.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20msata%20ssd%20m.2%2F470181905_122195140736083804_2674016196907285515_n.jpg?alt=media&token=b2c8139d-151a-4280-9187-b0d71c540084"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20msata%20ssd%20m.2%2F470229499_122195140670083804_3138480645217462023_n.jpg?alt=media&token=be9a7d19-bb40-4e91-8bc1-7c910a4b4909"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20msata%20ssd%20m.2%2F470229593_122195140646083804_8227543923150062651_n.jpg?alt=media&token=b6ec1610-c5b8-43ee-9b71-d835d87ffd6e"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20msata%20ssd%20m.2%2F470181905_122195140736083804_2674016196907285515_n.jpg?alt=media&token=b2c8139d-151a-4280-9187-b0d71c540084",
+      "precio": 34900,
+      "categoria": "computacion"
     }
   ],
   "configuracion": {

@@ -17,6 +17,7 @@ const API_BOOKS_NEW = "/accesoriesBooksNew.json";
 const API_BOOKS_OLD = "/accesoriesBooksOld.json";
 const API_PRESENTATION = "/presentation.json";
 const API_ACCESORIOS = "/accesories.json";
+const API_GENERALES = "/accesories_generales.json";
 
 // IDs especificos para cada categpria de accesorios
 // const CATEGORIA_IDS = {
@@ -477,7 +478,7 @@ export default function Inicio() {
               ref={accesoriosRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
             >
-              <h2>Varios</h2>
+              <h2>Generales</h2>
 
               <CarouselDemo
                 apiUrl={API_ACCESORIOS}
@@ -486,7 +487,7 @@ export default function Inicio() {
               />
 
               <Link
-                href="/accesorios/computadoras"
+                href="/accesorios/generales"
                 className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
               >
                 Ver más
