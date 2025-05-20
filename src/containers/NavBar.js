@@ -69,6 +69,7 @@ const NavBar = () => {
           </div>
         </Link>
       </div>
+      
       <div className={styles.themeSwitcher}>
         <ThemeSwitcher />
       </div>
@@ -101,16 +102,13 @@ const NavBar = () => {
               className={`${styles.dropdown_menu} ${dropdownOpen ? styles.show : ""}`}
             >
               <li>
-                <Link
-                  href={`/ProductoDetalle?id=${CATEGORIA_IDS.CELULARES}`}
-                  onClick={handleLinkClick}
-                >
+                <Link href={`/accesorios/celulares`} onClick={handleLinkClick}>
                   Accesorios celulares
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/Store/accesorios-computadores"
+                  href={`/accesorios/computadoras`}
                   onClick={handleLinkClick}
                 >
                   Accesorios computadores
@@ -119,7 +117,7 @@ const NavBar = () => {
 
               <li>
                 <Link
-                  href="/Store/accesorios-computadores"
+                  href={`/accesorios/accesoriesDamas`}
                   onClick={handleLinkClick}
                 >
                   Damas
@@ -127,12 +125,18 @@ const NavBar = () => {
               </li>
 
               <li>
-                <Link href="/Store/libros-nuevos" onClick={handleLinkClick}>
+                <Link
+                  href={`/accessories/${CATEGORIA_IDS.LIBROS_NUEVOS}/`}
+                  onClick={handleLinkClick}
+                >
                   Libros nuevos
                 </Link>
               </li>
               <li>
-                <Link href="/Store/libros-usados" onClick={handleLinkClick}>
+                <Link
+                  href={`/accessories/${CATEGORIA_IDS.LIBROS_USADOS}/`}
+                  onClick={handleLinkClick}
+                >
                   Libros usados
                 </Link>
               </li>

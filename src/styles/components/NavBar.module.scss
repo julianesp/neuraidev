@@ -34,6 +34,17 @@
   z-index: 1001;
 }
 
+.searchContainer {
+  margin-left: auto;
+  margin-right: 10px;
+  display: none;
+  
+  @media screen and (min-width: 1024px) {
+    display: flex;
+    align-items: center;
+  }
+}
+
 .container__principal {
   display: flex;
   align-items: center;
@@ -110,21 +121,25 @@
   a {
     display: block;
     padding: 10px 15px;
-    color: #000;
+    color: #ffffff;
     font-size: 1.2rem;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
+    transform-origin: center;
     border-radius: 5px;
     margin: 0 15px;
-    border: 1px solid #000;
-    background-color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(30, 30, 30, 0.3);
+    text-shadow: 0 0 3px rgba(0, 0, 0, 1);
 
     // filter: blur(4px);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
+      background-color: rgba(60, 60, 60, 0.4);
+      transform: translateY(-2px) scale(1.05);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.5);
     }
   }
 }
@@ -162,7 +177,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #000;
+  color: #ffffff;
   font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;
@@ -170,10 +185,12 @@
   border-radius: 5px;
   margin: 0 15px;
   transition: all 0.2s ease;
+  transform-origin: center;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 1);
 
   &:hover {
     // background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.05);
   }
 }
 
@@ -197,6 +214,9 @@
   width: 100%;
   border-radius: 5px;
   margin-top: 5px;
+  backdrop-filter: blur(20px);
+  background-color: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   &.show {
     display: block;
@@ -216,6 +236,11 @@
       font-size: 1rem;
       padding: 8px 15px;
       margin: 0 10px;
+      color: #ffffff;
+      transform-origin: center;
+      text-shadow: 0 0 3px rgba(0, 0, 0, 1);
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
   }
 }
@@ -266,14 +291,19 @@
     a {
       font-size: 1.1rem;
       padding: 8px 5px;
-      color: #000;
+      color: #ffffff;
       font-weight: 500;
       margin: 0;
+      text-shadow: 0 0 3px rgba(0, 0, 0, 1);
       &:hover {
         background-color: transparent;
         text-decoration: underline;
-        transform: none;
+        transform: scale(1.05);
       }
+    }
+
+    &:hover .enlaces__menu.closed {
+      transform: scale(1.5);
     }
   }
 
@@ -287,6 +317,43 @@
     width: auto;
     margin: 0 0 0 30px;
     position: relative;
+
+    /* Add padding to create a larger hover area */
+    padding: 8px 15px; /* Increased horizontal padding for better hover area */
+    margin-left: 15px; /* Adjust margin to compensate for padding */
+
+    /* Create a wider hover tunnel between toggle and dropdown */
+    &::after {
+      content: "";
+      position: absolute;
+      left: -15px; /* Extend left */
+      right: -15px; /* Extend right */
+      bottom: -20px;
+      height: 20px;
+      background: transparent;
+      z-index: 999;
+    }
+
+    /* Add additional hover area around the dropdown */
+    &::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: -15px;
+      right: -15px;
+      bottom: -5px;
+      background: transparent;
+      z-index: 998;
+    }
+
+    /* Add a longer delay for mouseout */
+    &:hover {
+      .dropdown_menu {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+    }
   }
 
   .dropdown_toggle {
@@ -295,11 +362,15 @@
     font-weight: 500;
     margin: 0;
     justify-content: flex-start;
+    position: relative; /* Added for positioning context */
+    color: #ffffff;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 1);
 
     &:hover {
       background-color: transparent;
       text-decoration: underline;
-      transform: none;
+      transform: scale(1.05);
+      color: #ffffff;
     }
   }
 
@@ -309,32 +380,67 @@
     left: 50%;
     transform: translateX(-50%);
     width: 220px;
-    background-color: rgba(#bcccdc, 0.95);
+    background-color: rgba(30, 30, 30, 0.5);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     margin-top: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     padding: 5px 0;
     opacity: 0;
     visibility: hidden;
-    /* Agregar retraso al ocultar el menú */
+    pointer-events: none; /* Prevent interaction while hidden */
+
+    /* Expanded area above the dropdown to create better connection with toggle */
+    &::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: -30px; /* Wider area */
+      right: -30px; /* Wider area */
+      height: 20px;
+      background: transparent;
+    }
+
+    /* Add side hover areas to prevent accidental mouseout */
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -20px;
+      right: -20px;
+      background: transparent;
+      z-index: -1;
+    }
+
+    /* Improved transitions with longer delay before hiding */
     transition:
       opacity 0.3s ease,
-      visibility 0.3s ease 0.3s;
+      visibility 0s linear 1.2s,
+      /* Longer delay before hiding */ pointer-events 0s linear 1.2s; /* Match visibility delay */
+
+    display: block; /* Always keep in the DOM */
 
     &.show {
-      display: block;
       opacity: 1;
       visibility: visible;
+      pointer-events: auto;
+      transition:
+        opacity 0.2s ease,
+        visibility 0s,
+        pointer-events 0s;
     }
 
     /* Mostrar en hover para desktop con transición inmediata al aparecer */
     .dropdown:hover & {
-      display: block;
       opacity: 1;
       visibility: visible;
+      pointer-events: auto;
       transition:
         opacity 0.2s ease,
-        visibility 0s;
+        visibility 0s,
+        pointer-events 0s;
     }
 
     li {
@@ -348,12 +454,51 @@
         border-radius: 0;
         font-size: 1rem;
         margin: 0;
+        color: #ffffff;
+        background-color: transparent;
+        white-space: nowrap; /* Prevent text wrapping */
+        transition: all 0.2s ease; /* Changed to 'all' for smoother transitions */
+        transform-origin: center;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 1);
+        font-weight: 500;
+        letter-spacing: 0.5px;
 
         &:hover {
-          background-color: rgba(255, 255, 255, 0.3);
+          background-color: rgba(255, 255, 255, 0.2);
           text-decoration: none;
+          padding-left: 20px; /* Subtle indent on hover for better feedback */
+          transform: scale(1.05);
+          color: #ffffff;
+          box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+
+          transform: scale(1.5);
         }
       }
+
+      /* Add slight delay when hovering between items */
+      &:hover ~ li a {
+        transition-delay: 0.05s;
+      }
     }
+  }
+
+  /* Enhanced hover stability */
+  .dropdown:hover .dropdown_menu,
+  .dropdown_menu:hover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      opacity 0.2s ease,
+      visibility 0s,
+      pointer-events 0s;
+  }
+
+  /* Prevent the menu from closing when moving between dropdown and menu */
+  .dropdown:hover ~ .dropdown_menu:not(:hover),
+  .dropdown_menu:hover ~ .dropdown:not(:hover) {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
   }
 }
