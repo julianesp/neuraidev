@@ -20,6 +20,9 @@ const NavBar = () => {
   const menuRef = useRef(null);
   const dropdownRef = useRef(null);
 
+  // Solution for hydratation errors
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const menuBurger = () => {
     setBurgerOpen(!burgerOpen);
   };
@@ -47,11 +50,13 @@ const NavBar = () => {
 
   // to hidden menu nav
   useEffect(() => {
+    setIsLoaded(true);
     document.addEventListener("click", handleOutsideClick);
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
+  if (!isLoaded) return null;
 
   return (
     <div className={styles.container} ref={menuRef}>
@@ -69,7 +74,7 @@ const NavBar = () => {
           </div>
         </Link>
       </div>
-      
+
       <div className={styles.themeSwitcher}>
         <ThemeSwitcher />
       </div>
@@ -116,10 +121,7 @@ const NavBar = () => {
               </li>
 
               <li>
-                <Link
-                  href={`/accesorios/accesoriesDamas`}
-                  onClick={handleLinkClick}
-                >
+                <Link href={`/accesorios/celulares`} onClick={handleLinkClick}>
                   Damas
                 </Link>
               </li>
