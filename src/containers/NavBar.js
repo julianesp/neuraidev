@@ -121,14 +121,20 @@ const NavBar = () => {
               </li>
 
               <li>
-                <Link href={`/accesorios/celulares`} onClick={handleLinkClick}>
+                <Link href={`/accesorios/generales`} onClick={handleLinkClick}>
+                  Accesorios generales
+                </Link>
+              </li>
+
+              <li>
+                <Link href={`/accesorios/damas`} onClick={handleLinkClick}>
                   Damas
                 </Link>
               </li>
 
               <li>
                 <Link
-                  href={`/accessories/${CATEGORIA_IDS.LIBROS_NUEVOS}/`}
+                  href={`/accessorios/libros-nuevos`}
                   onClick={handleLinkClick}
                 >
                   Libros nuevos
@@ -136,7 +142,7 @@ const NavBar = () => {
               </li>
               <li>
                 <Link
-                  href={`/accessories/${CATEGORIA_IDS.LIBROS_USADOS}/`}
+                  href={`/accessorios/libros-usados`}
                   onClick={handleLinkClick}
                 >
                   Libros usados
