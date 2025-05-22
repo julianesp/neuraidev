@@ -5,7 +5,7 @@ export default function BooksNew() {
   return (
     <main className="py-14">
       <div className="max-w-6xl mx-auto px-4">
-        <AccesoriosContainer apiUrl="/librosnuevos.json" />
+        <AccesoriosContainer apiUrl="/librosusados.json" />
       </div>
     </main>
   );

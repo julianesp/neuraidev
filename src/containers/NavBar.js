@@ -134,7 +134,7 @@ const NavBar = () => {
 
               <li>
                 <Link
-                  href={`/accessorios/libros-nuevos`}
+                  href={`/accesorios/libros-nuevos`}
                   onClick={handleLinkClick}
                 >
                   Libros nuevos
@@ -142,7 +142,7 @@ const NavBar = () => {
               </li>
               <li>
                 <Link
-                  href={`/accessorios/libros-usados`}
+                  href={`/accesorios/libros-usados`}
                   onClick={handleLinkClick}
                 >
                   Libros usados
