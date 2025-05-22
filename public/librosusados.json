@@ -6,30 +6,95 @@
             "descripcion": "☕ Libro ideal para iniciar en la programación con Java, uno de los lenguajes más demandados y mejor remunerados en aplicaciones empresariales. 📱 Base fundamental para el desarrollo Android y aplicaciones de escritorio. ✨ Creado en los 90's, sigue siendo esencial en el mundo tecnológico actual. 🎯 Cubre desde conceptos básicos hasta temas avanzados como GUI (Interfaz Gráfica de Usuario), bases de datos y comunicaciones en red. 💡",
             "imagenes": [
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F470210459_122195129924083804_6570132746683682031_n.jpg?alt=media&token=d663548b-3e80-40fc-922a-b331005747cf"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F1.jpg?alt=media&token=877241f1-f085-4703-944f-efefaa055606"
                 },
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F470191891_122195137748083804_788987481025935296_n.jpg?alt=media&token=ef9bf0e5-212a-4100-87d2-640b8b3f0374"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F2.jpg?alt=media&token=2fc6ed24-f1b0-4143-9b23-1ea26f0a8c6c"
                 },
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F470207825_122195130014083804_1790900554120276797_n.jpg?alt=media&token=ccbd1fd2-3c0f-47cc-85b3-4e442d638809"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F3.jpg?alt=media&token=4988ff23-32a2-4f6b-bbcb-9af9909b6f4f"
                 },
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F470213076_122195137784083804_2335888401457246240_n.jpg?alt=media&token=163ebcf5-ae9e-48f4-b902-b2290b69372a"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F4.jpg?alt=media&token=ea05d4dc-fb07-488f-8d02-156bc2d43420"
                 },
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F470217650_122195138366083804_1452600958238758757_n.jpg?alt=media&token=dabc79d2-ca12-4c6e-bf00-e8c419c10d8f"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F5.jpg?alt=media&token=0698b94f-0380-424d-9e8a-2efacafc9277"
                 },
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F470218026_122195138174083804_1507297108269276210_n.jpg?alt=media&token=8c469b2b-25a9-47f9-bc03-852938537ce9"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F6.jpg?alt=media&token=149abc20-78fa-4d6e-a212-468498c781a0"
                 },
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F470219445_122195138342083804_8955446914173915292_n.jpg?alt=media&token=9685528f-5c48-42d4-bec2-1b17cba94f35"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F7.jpg?alt=media&token=1120152c-9155-417c-a2ee-558487152fad"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F8.jpg?alt=media&token=ec71ac7f-7181-491f-9cd6-01f93b924c4b"
                 }
             ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F470210459_122195129924083804_6570132746683682031_n.jpg?alt=media&token=d663548b-3e80-40fc-922a-b331005747cf",
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F1.jpg?alt=media&token=877241f1-f085-4703-944f-efefaa055606",
             "precio": 54900,
             "categoria": "librosusados"
+        },
+        {
+            "id": 2,
+            "nombre": "💻 Programación - Juan Carlos Moreno Pérez 🚀",
+            "descripcion": "☕ Libro de programación con enfoque en Java y programación orientada a objetos. 🎯 Cubre desde elementos básicos de programación hasta conceptos avanzados como constructores, métodos estáticos y librerías. 📚 Incluye complemento web para práctica adicional. ✨ Ideal para estudiantes de informática que buscan dominar los fundamentos de la programación moderna. 🔧 Abarca JDK, entornos de desarrollo, tipos de datos, operadores y mucho más. 💡",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F1.jpg?alt=media&token=c12d622c-371b-40fd-bc9c-d08b7a0d8643"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F2.jpg?alt=media&token=d0a9b463-371b-4e0f-aa4c-cb4bf94070a8"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F3.jpg?alt=media&token=4c63a975-b2e4-4f99-8ce0-7223ff6c4569"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F4.jpg?alt=media&token=693ffd14-1143-4c07-ac6c-72c88baafa72"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F5.jpg?alt=media&token=f07bd8fa-14d3-460f-bd4a-0d1adf42a3a3"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F6.jpg?alt=media&token=17c239ec-d4e1-4969-bdf9-8a2d27daeeec"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F7.jpg?alt=media&token=d6b39a62-4a1a-4724-b605-2318bd9aad7e"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F1.jpg?alt=media&token=c12d622c-371b-40fd-bc9c-d08b7a0d8643",
+            "precio": 29900,
+            "categoria": "librosnuevos"
+        },
+        {
+            "id": 3,
+            "nombre": "📐 Precálculo - J. Douglas Faires & James DeFranza 📊",
+            "descripcion": "🧮 Libro completo de precálculo que prepara solidamente para el cálculo universitario. ✨ Enfoque pedagógico que promueve aprendizaje activo en el estudiante. 📈 Cubre funciones lineales, cuadráticas, trigonométricas, exponenciales y logarítmicas. 🎯 Incluye secciones cónicas, coordenadas polares y ecuaciones paramétricas. 📚 Con ejemplos prácticos y aplicaciones reales que facilitan la comprensión de álgebra y trigonometría. 🔢 Segunda edición mejorada. 💡",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F1.jpg?alt=media&token=4ccd51da-0814-4aad-9f4f-ea05cf6c56af"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F2.jpg?alt=media&token=e6531961-2be5-4c90-8db9-c2102c6b12d3"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F3.jpg?alt=media&token=08ef0225-c632-4b1e-a389-dd2169750934"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F4.jpg?alt=media&token=8691abe5-450f-4052-824d-3ab2ae623fab"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F5.jpg?alt=media&token=a7dbe37d-32ec-4791-a9b0-94faaee59361"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F6.jpg?alt=media&token=03f0023f-886e-4c03-af0d-f306bbbc81a9"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F7.jpg?alt=media&token=d0ac8276-03b3-42ee-9f52-9a0c933846f0"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F1.jpg?alt=media&token=4ccd51da-0814-4aad-9f4f-ea05cf6c56af",
+            "precio": 35900,
+            "categoria": "librosnuevos"
         }
     ],
     "configuracion": {
