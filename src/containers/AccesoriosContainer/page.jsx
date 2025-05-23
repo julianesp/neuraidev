@@ -214,23 +214,23 @@ const AccesoriosContainer = ({
   // Manejar errores de carga de imágenes con sistema de reintento
   const handleImageError = (index, imageSrc) => {
     console.warn(`Error cargando imagen: ${imageSrc}`);
-    
+
     // Comprobar si ya hemos reintentado esta imagen
     const currentRetries = imageRetries[index] || 0;
-    
+
     if (currentRetries < 2) {
       // Reintentar cargando la imagen
       setImageRetries((prev) => ({
         ...prev,
         [index]: currentRetries + 1,
       }));
-      
+
       // Forzar reintento agregando timestamp para evitar caché
       const timeStamp = new Date().getTime();
-      const retrySrc = imageSrc.includes('?') 
-        ? `${imageSrc}&retry=${timeStamp}` 
+      const retrySrc = imageSrc.includes("?")
+        ? `${imageSrc}&retry=${timeStamp}`
         : `${imageSrc}?retry=${timeStamp}`;
-      
+
       // Actualizar la URL temporal para forzar recarga (solo para lógica interna)
       setTimeout(() => {
         const img = new Image();
@@ -337,13 +337,17 @@ const AccesoriosContainer = ({
                           sizes="(max-width: 768px) 100vw, 50vw"
                           className="rounded-lg object-contain"
                           priority={index === mainSlideIndex}
-                          onError={() => handleImageError(`main-${index}`, imagenUrl)}
-                          unoptimized={imagenUrl.includes('firebasestorage.googleapis.com')}
+                          onError={() =>
+                            handleImageError(`main-${index}`, imagenUrl)
+                          }
+                          unoptimized={imagenUrl.includes(
+                            "firebasestorage.googleapis.com",
+                          )}
                         />
                       ) : (
                         <div className="flex flex-col items-center justify-center h-full bg-slate-100/40 backdrop-blur-sm rounded-lg">
-                          <Image 
-                            src="/images/placeholder-product.png" 
+                          <Image
+                            src="/images/placeholder-product.png"
                             alt="Imagen no disponible"
                             width={200}
                             height={200}
@@ -391,14 +395,14 @@ const AccesoriosContainer = ({
               <>
                 <button
                   onClick={prevMainSlide}
-                  className={`${styles.navButton} absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
+                  className={`${styles.navButton} absolute left-2 top-1/2 transform -translate-y-1/2  bg-black bg-opacity-10  border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
                   aria-label="Imagen anterior"
                 >
                   <ChevronLeft size={24} />
                 </button>
                 <button
                   onClick={nextMainSlide}
-                  className={`${styles.navButton} absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
+                  className={`${styles.navButton} absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-10 p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
                   aria-label="Imagen siguiente"
                 >
                   <ChevronRight size={24} />

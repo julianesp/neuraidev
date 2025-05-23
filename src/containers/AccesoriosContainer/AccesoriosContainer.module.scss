@@ -101,6 +101,8 @@
   z-index: 10; // Asegurar que estén por encima de otros elementos
   cursor: pointer;
 
+  border: 1px solido #fff;
+
   @media screen and (max-width: 767px) {
     width: 2rem !important;
     height: 2rem !important;
