@@ -38,7 +38,7 @@
   margin-left: auto;
   margin-right: 10px;
   display: none;
-  
+
   @media screen and (min-width: 1024px) {
     display: flex;
     align-items: center;
@@ -97,7 +97,7 @@
   width: 230px;
   height: 90%;
 
-  // background-color: rgba(#627d98, 0.95);
+  
   border-radius: 10px;
   padding: 20px 0;
   list-style: none;
@@ -130,16 +130,16 @@
     border-radius: 5px;
     margin: 0 15px;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    background-color: rgba(30, 30, 30, 0.3);
+    background-color: rgba(30, 30, 30, 0.6);
     text-shadow: 0 0 3px rgba(0, 0, 0, 1);
 
     // filter: blur(4px);
 
     &:hover {
-      background-color: rgba(60, 60, 60, 0.4);
-      transform: translateY(-2px) scale(1.05);
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.5);
+      // background-color: rgba(60, 60, 60, 0.4);
+      // transform: translateY(-2px) scale(1.05);
+      // color: #ffffff;
+      // border-color: rgba(255, 255, 255, 0.5);
     }
   }
 }
@@ -176,7 +176,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
+
+  width: 200px;
+
   color: #ffffff;
   font-size: 1.2rem;
   font-weight: 600;
@@ -188,8 +192,13 @@
   transform-origin: center;
   text-shadow: 0 0 3px rgba(0, 0, 0, 1);
 
+  // background-color: rgba(60, 60, 60, 0.4);
+  background-color: #3c3c3c66;
+  background-color: rgba(30, 30, 30, 0.6);
+  border-color: rgba(255, 255, 255, 0.5);
+
   &:hover {
-    // background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px) scale(1.05);
   }
 }
@@ -215,8 +224,9 @@
   border-radius: 5px;
   margin-top: 5px;
   backdrop-filter: blur(20px);
-  background-color: rgba(30, 30, 30, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  // background-color: rgba(30, 30, 30, 0.5);
+  background-color: none;
+  // border: 1px solid rgba(255, 255, 255, 0.1);
 
   &.show {
     display: block;
@@ -236,11 +246,13 @@
       font-size: 1rem;
       padding: 8px 15px;
       margin: 0 10px;
-      color: #ffffff;
+      color: #000;
       transform-origin: center;
-      text-shadow: 0 0 3px rgba(0, 0, 0, 1);
+      // text-shadow: 0 0 3px rgba(0, 0, 0, 1);
       font-weight: 500;
+      font-size: 1.1rem;
       letter-spacing: 0.5px;
+      background-color: #FFFFFF;
     }
   }
 }

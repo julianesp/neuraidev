@@ -116,7 +116,7 @@ const NavBar = () => {
                   href={`/accesorios/computadoras`}
                   onClick={handleLinkClick}
                 >
-                  Accesorios computadores
+                  A. computadores
                 </Link>
               </li>
 
