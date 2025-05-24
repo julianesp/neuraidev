@@ -5,6 +5,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, MessageCircle, Eye } from "lucide-react";
+import Head from "next/head"; // Importar Head para SEO
 import styles from "./AccesoriosContainer.module.scss"; // Importamos estilos SCSS
 
 // Componente principal mejorado
@@ -300,270 +301,303 @@ const AccesoriosContainer = ({
   }
 
   return (
-    <div
-      ref={containerRef}
-      id="accesorios-container"
-      className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg`}
-    >
-      {/* Título del accesorio */}
-      <h1 className="text-3xl font-bold text-center mb-6">
-        {accesorio.nombre}
-      </h1>
+    <>
+      accesorio && (
+      <Head>
+        <title>{accesorio.nombre} - NeuraI Dev</title>
+        <meta
+          property="og:title"
+          content={`${accesorio.nombre} - NeuraI Dev`}
+        />
+        <meta
+          property="og:description"
+          content={`${accesorio.descripcion || "Accesorio de calidad"} Valor $${typeof accesorio.precio === "number" ? accesorio.precio.toLocaleString("es-CO") : accesorio.precio}`}
+        />
+        <meta
+          property="og:image"
+          content={
+            imagenPrincipal || (accesorio.imagenes && accesorio.imagenes[0])
+          }
+        />
+        <meta
+          property="og:url"
+          content={typeof window !== "undefined" ? window.location.href : ""}
+        />
+        <meta property="og:type" content="product" />
+        <meta property="og:site_name" content="NeuraI Dev" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
+      )
+      <div
+        ref={containerRef}
+        id="accesorios-container"
+        className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg`}
+      >
+        {/* Título del accesorio */}
+        <h1 className="text-3xl font-bold text-center mb-6">
+          {accesorio.nombre}
+        </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        {/* Carrusel principal - SECCIÓN MEJORADA */}
-        <div className={`${styles.mainImageContainer} relative h-60 md:h-80`}>
-          <div className="h-full w-full relative overflow-hidden rounded-lg">
-            {tieneImagenes ? (
-              accesorio.imagenes.map((imagen, index) => {
-                const imagenUrl =
-                  typeof imagen === "object" && imagen.url
-                    ? imagen.url
-                    : imagen;
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          {/* Carrusel principal - SECCIÓN MEJORADA */}
+          <div className={`${styles.mainImageContainer} relative h-60 md:h-80`}>
+            <div className="h-full w-full relative overflow-hidden rounded-lg">
+              {tieneImagenes ? (
+                accesorio.imagenes.map((imagen, index) => {
+                  const imagenUrl =
+                    typeof imagen === "object" && imagen.url
+                      ? imagen.url
+                      : imagen;
 
-                return (
-                  <div
-                    key={index}
-                    className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
-                      index === mainSlideIndex ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    <div className="relative w-full h-full">
-                      {!imageError[`main-${index}`] ? (
-                        <Image
-                          src={imagenUrl}
-                          alt={`${accesorio.nombre} - Imagen ${index + 1}`}
-                          fill={true}
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                          className="rounded-lg object-contain"
-                          priority={index === mainSlideIndex}
-                          onError={() =>
-                            handleImageError(`main-${index}`, imagenUrl)
-                          }
-                          unoptimized={imagenUrl.includes(
-                            "firebasestorage.googleapis.com",
-                          )}
-                        />
-                      ) : (
-                        <div className="flex flex-col items-center justify-center h-full bg-slate-100/40 backdrop-blur-sm rounded-lg">
-                          <Image
-                            src="/images/placeholder-product.png"
-                            alt="Imagen no disponible"
-                            width={200}
-                            height={200}
-                            className="mb-2 opacity-60"
-                          />
-                          <p className="text-gray-500">Imagen no disponible</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })
-            ) : imagenPrincipal ? (
-              <div className="absolute inset-0">
-                <div className="relative w-full h-full">
-                  {!imageError["principal"] ? (
-                    <Image
-                      src={imagenPrincipal}
-                      alt={accesorio.nombre}
-                      fill={true}
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="rounded-lg object-contain"
-                      priority
-                      onError={() => handleImageError("principal")}
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
-                      <p className="text-gray-500 dark:text-gray-300">
-                        Imagen no disponible
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
-                <p className="text-gray-500 dark:text-gray-300">
-                  No hay imágenes disponibles
-                </p>
-              </div>
-            )}
-
-            {/* Controles del carrusel principal - solo si hay múltiples imágenes */}
-            {tieneImagenes && accesorio.imagenes.length > 1 && (
-              <>
-                <button
-                  onClick={prevMainSlide}
-                  className={`${styles.navButton} absolute left-2 top-1/2 transform -translate-y-1/2  bg-black bg-opacity-10  border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
-                  aria-label="Imagen anterior"
-                >
-                  <ChevronLeft size={24} />
-                </button>
-                <button
-                  onClick={nextMainSlide}
-                  className={`${styles.navButton} absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-10 p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
-                  aria-label="Imagen siguiente"
-                >
-                  <ChevronRight size={24} />
-                </button>
-
-                {/* Indicadores de posición */}
-                <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950">
-                  {accesorio.imagenes.map((_, index) => (
-                    <button
+                  return (
+                    <div
                       key={index}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setMainSlideIndex(index);
-                      }}
-                      className={`w-3 h-3 rounded-full ${
-                        index === mainSlideIndex ? "bg-primary" : "bg-gray-300"
+                      className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+                        index === mainSlideIndex ? "opacity-100" : "opacity-0"
                       }`}
-                      aria-label={`Ir a imagen ${index + 1}`}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-
-        <div className="flex flex-col justify-between">
-          <div>
-            <h2 className="text-xl font-semibold mb-3 text-black dark:text-white">
-              Descripción
-            </h2>
-            <p className="whitespace-pre-line text-black dark:text-white mb-4">
-              {accesorio.descripcion || "Sin descripción disponible"}
-            </p>
-
-            {/* Características */}
-            {accesorio.caracteristicas &&
-              accesorio.caracteristicas.length > 0 && (
-                <div className="mb-4">
-                  <h3 className="text-lg font-medium mb-2 text-black dark:text-black">
-                    Características
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    {accesorio.caracteristicas.map((caracteristica, index) => (
-                      <li
-                        key={index}
-                        className="text-gray-800 dark:text-gray-200"
-                      >
-                        {caracteristica}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-            {/* Precio */}
-            <div className="mt-4">
-              <span className="text-2xl font-bold text-primary dark:text-black">
-                Valor $
-                {typeof accesorio.precio === "number"
-                  ? accesorio.precio.toLocaleString("es-CO")
-                  : accesorio.precio}
-              </span>
-              {accesorio.precioAnterior && (
-                <span className="ml-2 text-gray-400 dark:text-gray-500 line-through">
-                  $
-                  {typeof accesorio.precioAnterior === "number"
-                    ? accesorio.precioAnterior.toLocaleString("es-CO")
-                    : accesorio.precioAnterior}
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Botón de WhatsApp */}
-          <Link
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
-          >
-            <MessageCircle className="mr-2 text-black dark:text-white" />
-            Consultar por WhatsApp
-          </Link>
-        </div>
-      </div>
-
-      {otrosAccesorios && otrosAccesorios.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            Otros accesorios
-          </h2>
-
-          <div className="relative">
-            <div className={styles.otrosAccesoriosGrid}>
-              {otrosAccesorios.map((item, itemIndex) => {
-                // Obtener URL de imagen de manera segura
-                const itemImageUrl =
-                  item.imagenPrincipal ||
-                  (item.imagenes && item.imagenes.length > 0
-                    ? typeof item.imagenes[0] === "object" &&
-                      item.imagenes[0].url
-                      ? item.imagenes[0].url
-                      : item.imagenes[0]
-                    : null);
-
-                return (
-                  <div
-                    key={itemIndex}
-                    className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow`}
-                  >
-                    <div className="relative h-40 mb-2 overflow-hidden rounded">
-                      {!imageError[`related-${itemIndex}`] && itemImageUrl ? (
-                        <Image
-                          src={itemImageUrl}
-                          alt={item.nombre || ""}
-                          fill={true}
-                          sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, 20vw"
-                          className="object-contain"
-                          onError={() =>
-                            handleImageError(`related-${itemIndex}`)
-                          }
-                        />
-                      ) : (
-                        <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm">
-                          <p className="text-gray-500">Sin imagen</p>
-                        </div>
-                      )}
-                    </div>
-                    <h3 className="font-medium text-sm truncate text-black dark:text-white">
-                      {item.nombre || ""}
-                    </h3>
-                    <p className="text-black dark:text-white font-bold mt-1">
-                      $
-                      {typeof item.precio === "number"
-                        ? item.precio.toLocaleString("es-CO")
-                        : item.precio}
-                    </p>
-
-                    {/* Botón Ver */}
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-
-                        cambiarAccesorio(item);
-                      }}
-                      className="mt-3 bg-blue-600 text-white py-2 px-4 rounded flex items-center justify-center w-full hover:bg-blue-700 transition-colors text-sm"
-                      aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
                     >
-                      <Eye size={16} className="mr-1" />
-                      Ver
-                    </button>
+                      <div className="relative w-full h-full">
+                        {!imageError[`main-${index}`] ? (
+                          <Image
+                            src={imagenUrl}
+                            alt={`${accesorio.nombre} - Imagen ${index + 1}`}
+                            fill={true}
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            className="rounded-lg object-contain"
+                            priority={index === mainSlideIndex}
+                            onError={() =>
+                              handleImageError(`main-${index}`, imagenUrl)
+                            }
+                            unoptimized={imagenUrl.includes(
+                              "firebasestorage.googleapis.com",
+                            )}
+                          />
+                        ) : (
+                          <div className="flex flex-col items-center justify-center h-full bg-slate-100/40 backdrop-blur-sm rounded-lg">
+                            <Image
+                              src="/images/placeholder-product.png"
+                              alt="Imagen no disponible"
+                              width={200}
+                              height={200}
+                              className="mb-2 opacity-60"
+                            />
+                            <p className="text-gray-500">
+                              Imagen no disponible
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : imagenPrincipal ? (
+                <div className="absolute inset-0">
+                  <div className="relative w-full h-full">
+                    {!imageError["principal"] ? (
+                      <Image
+                        src={imagenPrincipal}
+                        alt={accesorio.nombre}
+                        fill={true}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="rounded-lg object-contain"
+                        priority
+                        onError={() => handleImageError("principal")}
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
+                        <p className="text-gray-500 dark:text-gray-300">
+                          Imagen no disponible
+                        </p>
+                      </div>
+                    )}
                   </div>
-                );
-              })}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
+                  <p className="text-gray-500 dark:text-gray-300">
+                    No hay imágenes disponibles
+                  </p>
+                </div>
+              )}
+
+              {/* Controles del carrusel principal - solo si hay múltiples imágenes */}
+              {tieneImagenes && accesorio.imagenes.length > 1 && (
+                <>
+                  <button
+                    onClick={prevMainSlide}
+                    className={`${styles.navButton} absolute left-2 top-1/2 transform -translate-y-1/2  bg-black bg-opacity-10  border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
+                    aria-label="Imagen anterior"
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  <button
+                    onClick={nextMainSlide}
+                    className={`${styles.navButton} absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-10 p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
+                    aria-label="Imagen siguiente"
+                  >
+                    <ChevronRight size={24} />
+                  </button>
+
+                  {/* Indicadores de posición */}
+                  <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950">
+                    {accesorio.imagenes.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setMainSlideIndex(index);
+                        }}
+                        className={`w-3 h-3 rounded-full ${
+                          index === mainSlideIndex
+                            ? "bg-primary"
+                            : "bg-gray-300"
+                        }`}
+                        aria-label={`Ir a imagen ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-between">
+            <div>
+              <h2 className="text-xl font-semibold mb-3 text-black dark:text-white">
+                Descripción
+              </h2>
+              <p className="whitespace-pre-line text-black dark:text-white mb-4">
+                {accesorio.descripcion || "Sin descripción disponible"}
+              </p>
+
+              {/* Características */}
+              {accesorio.caracteristicas &&
+                accesorio.caracteristicas.length > 0 && (
+                  <div className="mb-4">
+                    <h3 className="text-lg font-medium mb-2 text-black dark:text-black">
+                      Características
+                    </h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      {accesorio.caracteristicas.map(
+                        (caracteristica, index) => (
+                          <li
+                            key={index}
+                            className="text-gray-800 dark:text-gray-200"
+                          >
+                            {caracteristica}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
+
+              {/* Precio */}
+              <div className="mt-4">
+                <span className="text-2xl font-bold text-primary dark:text-black">
+                  Valor $
+                  {typeof accesorio.precio === "number"
+                    ? accesorio.precio.toLocaleString("es-CO")
+                    : accesorio.precio}
+                </span>
+                {accesorio.precioAnterior && (
+                  <span className="ml-2 text-gray-400 dark:text-gray-500 line-through">
+                    $
+                    {typeof accesorio.precioAnterior === "number"
+                      ? accesorio.precioAnterior.toLocaleString("es-CO")
+                      : accesorio.precioAnterior}
+                  </span>
+                )}
+              </div>
             </div>
 
-            {/* Controles del carrusel */}
-            {mostrarBotonesRelacionados && (
-              <>
-                {/* <button
+            {/* Botón de WhatsApp */}
+            <Link
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
+            >
+              <MessageCircle className="mr-2 text-black dark:text-white" />
+              Consultar por WhatsApp
+            </Link>
+          </div>
+        </div>
+
+        {otrosAccesorios && otrosAccesorios.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold mb-6 text-center">
+              Otros accesorios
+            </h2>
+
+            <div className="relative">
+              <div className={styles.otrosAccesoriosGrid}>
+                {otrosAccesorios.map((item, itemIndex) => {
+                  // Obtener URL de imagen de manera segura
+                  const itemImageUrl =
+                    item.imagenPrincipal ||
+                    (item.imagenes && item.imagenes.length > 0
+                      ? typeof item.imagenes[0] === "object" &&
+                        item.imagenes[0].url
+                        ? item.imagenes[0].url
+                        : item.imagenes[0]
+                      : null);
+
+                  return (
+                    <div
+                      key={itemIndex}
+                      className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow`}
+                    >
+                      <div className="relative h-40 mb-2 overflow-hidden rounded">
+                        {!imageError[`related-${itemIndex}`] && itemImageUrl ? (
+                          <Image
+                            src={itemImageUrl}
+                            alt={item.nombre || ""}
+                            fill={true}
+                            sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, 20vw"
+                            className="object-contain"
+                            onError={() =>
+                              handleImageError(`related-${itemIndex}`)
+                            }
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm">
+                            <p className="text-gray-500">Sin imagen</p>
+                          </div>
+                        )}
+                      </div>
+                      <h3 className="font-medium text-sm truncate text-black dark:text-white">
+                        {item.nombre || ""}
+                      </h3>
+                      <p className="text-black dark:text-white font-bold mt-1">
+                        $
+                        {typeof item.precio === "number"
+                          ? item.precio.toLocaleString("es-CO")
+                          : item.precio}
+                      </p>
+
+                      {/* Botón Ver */}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+
+                          cambiarAccesorio(item);
+                        }}
+                        className="mt-3 bg-blue-600 text-white py-2 px-4 rounded flex items-center justify-center w-full hover:bg-blue-700 transition-colors text-sm"
+                        aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
+                      >
+                        <Eye size={16} className="mr-1" />
+                        Ver
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Controles del carrusel */}
+              {mostrarBotonesRelacionados && (
+                <>
+                  {/* <button
                   onClick={prevRelatedSlide}
                   className={`${styles.navButton} absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition-all z-10`}
                   aria-label="Ver productos anteriores"
@@ -577,12 +611,13 @@ const AccesoriosContainer = ({
                 >
                   <ChevronRight size={20} />
                 </button> */}
-              </>
-            )}
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
