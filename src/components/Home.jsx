@@ -19,16 +19,6 @@ const API_PRESENTATION = "/presentation.json";
 const API_ACCESORIOS = "/accesories.json";
 const API_GENERALES = "/accesories_generales.json";
 
-// IDs especificos para cada categpria de accesorios
-// const CATEGORIA_IDS = {
-//   CELULARES: "celulares",
-//   COMPUTADORES: "computadores",
-//   DAMAS: "damas",
-//   LIBROS_NUEVOS: "libros-nuevos",
-//   LIBROS_USADOS: "libros-usados",
-//   ACCESORIOS: "accesorios",
-// };
-
 export default function Inicio() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
@@ -207,7 +197,12 @@ export default function Inicio() {
         {/* Sección de carrusel */}
         <div className={`${styles.carrusel}`}>
           {/* <CarouselDemo apiUrl={API_CELULARES} /> */}
-          <CarouselDemo apiUrl={API_ACCESORIOS} />
+          <CarouselDemo
+            apiUrl={API_ACCESORIOS}
+            showArrows={true}
+            enableTransitions={true}
+            showIndicators={true}
+          />
         </div>
 
         {/* Sección lateral de anuncios */}

@@ -111,7 +111,9 @@ const AccesoriosNuevos = () => {
 
   // Renderizar el componente con los accesorios cargados
   return (
-    <div className={`${style.container} bg-yellow-50 p-6 rounded-lg`}>
+    <div
+      className={`${style.container} bg-yellow-50 p-6 rounded-lg border dark:border-white`}
+    >
       <h2 className="text-2xl font-bold mb-6">Accesorios nuevos</h2>
 
       {/* Navegación para móviles */}
@@ -239,7 +241,7 @@ const AccesoriosNuevos = () => {
             </div> */}
             <div className="p-2 w-56">
               <h3 className="font-semibold text-lg">{accesorio.nombre}</h3>
-              <p className="text-black mt-1 text-sm line-clamp-2">
+              <p className="text-black mt-1 text-sm line-clamp-2 dark:text-white">
                 {accesorio.descripcion}
               </p>
               <div className="mt-2 flex items-center">

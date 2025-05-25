@@ -96,7 +96,9 @@ const AccesoriosDestacados = () => {
 
   // Renderizar el componente con los accesorios cargados
   return (
-    <div className={`${styles.container} bg-yellow-50 p-6 rounded-lg`}>
+    <div
+      className={`${styles.container} bg-yellow-50 p-6 rounded-lg border  dark:border-white`}
+    >
       <h2 className="text-2xl font-bold mb-6">Accesorios destacados</h2>
 
       {/* Navegación para móviles */}
@@ -204,7 +206,7 @@ const AccesoriosDestacados = () => {
 
             <div className="p-4 w-full">
               <h3 className="font-semibold text-lg">{accesorio.nombre}</h3>
-              <p className="text-black mt-1 text-sm line-clamp-2">
+              <p className="text-black mt-1 text-sm line-clamp-2 dark:text-white">
                 {accesorio.descripcion}
               </p>
               <div className="mt-2 flex items-center">

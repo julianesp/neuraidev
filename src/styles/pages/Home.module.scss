@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-x: hidden;
+  // overflow-x: hidden;
   position: relative;
   width: 100%;
   margin: 0;
@@ -148,7 +148,8 @@
     width: 100%;
     z-index: 5;
     background-color: #fff;
-    padding: 20px 0;
+    background-color: transparent;
+    padding: 20px 10px;
     margin-top: 20px;
     // clear: both;
 

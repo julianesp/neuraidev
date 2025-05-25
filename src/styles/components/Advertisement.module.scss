@@ -26,16 +26,16 @@
 
 /* Estilos para el botón de tienda */
 .storeToggleButton {
-  position: fixed !important;
-  z-index: 9999 !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+  position: fixed;
+  z-index: 9999;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   transition: bottom 0.3s ease;
   bottom: 5px;
 }
 
 /* Clase auxiliar para aplicar cuando estamos cerca del footer */
 .nearFooter {
-  bottom: 120px !important;
+  bottom: 120px;
 }
 
 /* Estilos para desktop */

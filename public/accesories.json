@@ -2,54 +2,37 @@
   {
     "id": 1,
     "images": [
-      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado_genius.jpg?alt=media&token=5a9ecc50-db16-4d9a-b00c-a01de3c506b3"
+      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-29-39-219_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=6ae2701d-58f1-452c-b3d7-a1b6b85a5e46"
     ],
     "title": "Teclado Genius básico",
     "description": "Teclado Genius básico con conexión USB",
     "price": "39.500"
   },
   {
-    "id": 2,
+    "id": 1,
     "images": [
-      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e",
-      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F2.jpg?alt=media&token=dd5ebf3c-578d-4010-a256-650df448dc2b",
-      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F3.jpg?alt=media&token=82806339-47f0-44f6-8be5-cef6f138c8f6",
-      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F4.jpg?alt=media&token=16bc414e-5a2e-401e-a3e0-5809bcdbf29e",
-      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F5.jpg?alt=media&token=3cf1d9d7-7085-4d3e-99b1-b87254e03ac4"
+      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F2.jpg?alt=media&token=5364140d-bf2c-4b26-bcd9-760a96ab8d26"
     ],
-    "title": "Cámara Genius",
-    "description": "Ideal para videollamadas o tareas simples. Es compatible con computadoras a través de USB. Es una opción económica para quienes buscan funcionalidad básica sin invertir mucho.",
-    "price": "84.900"
+    "title": "Teclado Genius básico",
+    "description": "Teclado Genius básico con conexión USB",
+    "price": "39.500"
   },
   {
-    "id": 3,
+    "id": 1,
     "images": [
-      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F1.jpg?alt=media&token=6a358cee-9ebf-4255-8acf-e93fbff3ad25",
-      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F2.jpg?alt=media&token=af3ae254-2d27-478b-9b1e-8f0bde678ab1"
+      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-29-39-219_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=6ae2701d-58f1-452c-b3d7-a1b6b85a5e46"
     ],
-    "title": "Memoria RAM DDR3L",
-    "description": "Una memoria RAM DDR3L es un módulo de memoria de bajo consumo (1.35V) diseñado para mejorar la eficiencia energética y el rendimiento del sistema. Es compatible con dispositivos que admiten DDR3 y DDR3L, ideal para laptops o sistemas compactos que requieren velocidad y eficiencia. Disponible en capacidad de 4GB",
-    "price": "44.900"
+    "title": "Teclado Genius básico",
+    "description": "Teclado Genius básico con conexión USB",
+    "price": "39.500"
   },
   {
-    "id": 4,
-    "images": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
-    "title": "Bombillo USB",
-    "description": "Bombillo USB para iluminar tu teclado",
-    "price": "9.900"
-  },
-  {
-    "id": 5,
-    "images": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
-    "title": "Bombillo USB",
-    "description": "Bombillo USB para iluminar tu teclado",
-    "price": "9.900"
-  },
-  {
-    "id": 6,
-    "images": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fluces_bici.jpg?alt=media&token=6dca1abb-ec2d-41ed-88a1-5fb7dc4474aa",
-    "title": "Luces bicicleta",
-    "description": "Luces delatera y trasera para bicicleta con batería recargable",
-    "price": "34.900"
+    "id": 1,
+    "images": [
+      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr4%2Fram%20ddr4%208gb.jpg?alt=media&token=8c1fd852-a254-4671-9bf8-739b8715954b"
+    ],
+    "title": "Teclado Genius básico",
+    "description": "Teclado Genius básico con conexión USB",
+    "price": "39.500"
   }
 ]
