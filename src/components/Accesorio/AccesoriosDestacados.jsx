@@ -247,7 +247,7 @@ const AccesoriosDestacados = () => {
       </div>
 
       <div className="mt-6 text-center">
-        <p className="text-gray-600 mb-4">
+        <p className="text-black mb-4 dark:text-white">
           Estos son los productos más populares
         </p>
         <Link

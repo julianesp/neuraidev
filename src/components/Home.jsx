@@ -225,7 +225,7 @@ export default function Inicio() {
 
         {/* Botones de Servicios y Accesorios */}
         <div
-          className={`${styles.directos} w-full z-50 bg-white shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2`}
+          className={`${styles.directos} w-full z-50 bg-black  shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2 dark:`}
         >
           <a
             href="#services"
@@ -253,7 +253,7 @@ export default function Inicio() {
                 }, 1000);
               }, 500);
             }}
-            className="px-4 py-2 bg-slate-200 rounded-md border border-slate-300 hover:bg-slate-300 transition-all"
+            className="px-4 py-2  rounded-md border border-slate-300 hover:bg-slate-300 transition-all text-white dark:text-white"
           >
             Servicios
           </a>
@@ -283,7 +283,7 @@ export default function Inicio() {
                 }, 1000);
               }, 500);
             }}
-            className="px-4 py-2 bg-slate-200 rounded-md border border-slate-300 hover:bg-slate-300 transition-all"
+            className="px-4 py-2  rounded-md border border-slate-300 hover:bg-slate-300 transition-all text-white dark:text-white"
           >
             Accesorios
           </a>
@@ -324,15 +324,17 @@ export default function Inicio() {
         >
           <section className={styles.varios}>
             <h1 id="accesories" className={`${styles.accesoriesTitle} `}>
-              Accesorios
+              <span className="text-black dark:text-white dark:bg-dark ">
+                Accesorios
+              </span>
             </h1>
 
             {/* Artículo con animación desde la izquierda */}
             <article
               ref={celularesRef}
-              className={`${styles.tipo} ${styles.fadeInLeft}`}
+              className={`${styles.tipo} ${styles.fadeInLeft} `}
             >
-              <h2>Celulares</h2>
+              <h2 className="text-black dark:text-black">Celulares</h2>
 
               <Image
                 src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-31-33-554_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=fa0d2a66-8a7e-4551-98f3-a7dd8105a0d5"

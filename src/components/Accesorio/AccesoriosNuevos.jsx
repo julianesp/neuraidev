@@ -282,7 +282,7 @@ const AccesoriosNuevos = () => {
       </div>
 
       <div className="mt-6 text-center">
-        <p className="text-gray-600 mb-4">
+        <p className="text-black dark:text-white mb-4">
           Estos son los productos más populares
         </p>
         <Link
