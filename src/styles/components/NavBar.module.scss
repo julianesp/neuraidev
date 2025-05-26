@@ -1,7 +1,7 @@
 @use "../mixins.scss" as *;
 
 .container {
-  z-index: 1000; // Aumentamos el z-index para que siempre esté encima
+  z-index: 2000; // Aumentamos el z-index para que siempre esté encima
   position: fixed;
   display: flex;
   justify-content: flex-start;
@@ -98,7 +98,7 @@
   height: 90%;
 
   cursor: pointer;
-  
+
   border-radius: 10px;
   padding: 20px 0;
   list-style: none;
@@ -253,7 +253,7 @@
       font-weight: 500;
       font-size: 1.1rem;
       letter-spacing: 0.5px;
-      background-color: #FFFFFF;
+      background-color: #ffffff;
     }
   }
 }

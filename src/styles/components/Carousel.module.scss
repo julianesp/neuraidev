@@ -374,7 +374,7 @@
   // border: m.shadowRight;
   // @forward m.shadowRight;
   border: 1px solid #baba;
-  box-shadow: 5px 5px 10px #baba;
+  // box-shadow: 5px 5px 10px #baba;
   border-radius: 10px;
 }
 
@@ -399,7 +399,7 @@
     top: 50%;
     // transform: translateY(-50%);
     z-index: 10;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;

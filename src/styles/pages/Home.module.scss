@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // overflow-x: hidden;
+  overflow-x: hidden;
   position: relative;
   width: 100%;
   margin: 0;
@@ -372,11 +372,13 @@
   }
 
   @media (min-width: 1024px) {
-    margin-top: 0;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 100px;
+    // margin-top: 0;
+    // max-width: 1400px;
+    width: 100%;
+    max-width: 100%;
+    // margin-left: auto;
+    // margin-right: auto;
+    // padding: 0 100px;
     display: grid;
     grid-template-columns: 1fr 300px;
     grid-template-areas:
@@ -386,13 +388,17 @@
       "destacados aside"
       "tratamientos aside"
       "accesories aside";
-    align-items: start;
-    column-gap: 40px;
+    // align-items: start;
+    // column-gap: 40px;
 
-    .container {
-      height: 100vh;
-    }
+    gap: 10px;
+    overflow: hidden;
+
+    // .container {
+    //   height: 100vh;
+    // }
     & .presentacion {
+      position: relative;
       grid-area: presentacion;
       width: 100%;
     }
@@ -400,6 +406,7 @@
     & .carrusel {
       grid-area: carrusel;
       width: 100%;
+      max-width: 100%;
     }
 
     & .aside {
