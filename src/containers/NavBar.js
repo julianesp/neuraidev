@@ -65,10 +65,10 @@ const NavBar = () => {
           <div className={styles.container__principal}>
             <Image
               alt="Logo"
-              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=b33b5fda-fcbb-4185-9ecb-a63c35c275d1"
-              width={40}
-              height={40}
-              priority={true}
+              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb"
+              width={30}
+              height={30}
+              priority
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>

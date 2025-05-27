@@ -388,7 +388,8 @@
 
   :global(.carousel-prev),
   :global(.carousel-next) {
-    background-color: rgb(255, 255, 255);
+    // background-color: rgb(255, 255, 255);
+    background-color: #000;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -403,11 +404,12 @@
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
+    color: #fff;
 
     &:hover:not(:disabled) {
       background-color: #000;
       color: #fff;
-      transform: scale(0.9);
+      // transform: scale(0.9);
     }
 
     &:disabled {
@@ -436,7 +438,7 @@
 
       // Estilos para transiciones habilitadas
       &.transitionEnabled {
-        transition: opacity 0.3s ease-in-out;
+        // transition: opacity 0.3s ease-in-out;
       }
 
       & .card {
@@ -448,13 +450,13 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          overflow: hidden;
+          // overflow: hidden;
 
           & img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
+            // transition: transform 0.3s ease;
 
             // Efecto sutil en hover para mejorar la experiencia
             &:hover {
@@ -500,7 +502,7 @@
   transition: all 0.3s ease;
 
   &:disabled {
-    cursor: not-allowed;
+    // cursor: not-allowed;
   }
 
   &.active {
@@ -611,5 +613,19 @@
   .indicator {
     width: 12px;
     height: 12px;
+  }
+}
+
+.boton {
+  background-color: #fff;
+  color: white;
+
+  & .icon {
+    color: white;
+    font-size: 20px;
+    transition: color 0.3s ease;
+    &:hover {
+      color: #000;
+    }
   }
 }

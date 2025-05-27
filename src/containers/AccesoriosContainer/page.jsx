@@ -396,14 +396,14 @@ const AccesoriosContainer = ({
               <>
                 <button
                   onClick={prevMainSlide}
-                  className={`${styles.navButton} absolute left-2 top-1/2 transform -translate-y-1/2  bg-black bg-opacity-10  border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
+                  className={`${styles.navButton} absolute left-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md  transition-all  text-black dark:text-white dark:border-white dark:border-solid `}
                   aria-label="Imagen anterior"
                 >
                   <ChevronLeft size={24} />
                 </button>
                 <button
                   onClick={nextMainSlide}
-                  className={`${styles.navButton} absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-10 p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
+                  className={`${styles.navButton} absolute right-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
                   aria-label="Imagen siguiente"
                 >
                   <ChevronRight size={24} />
@@ -461,7 +461,7 @@ const AccesoriosContainer = ({
 
             {/* Precio */}
             <div className="mt-4">
-              <span className="text-2xl font-bold text-primary dark:text-black">
+              <span className="text-2xl font-bold text-primary dark:text-white">
                 Valor $
                 {typeof accesorio.precio === "number"
                   ? accesorio.precio.toLocaleString("es-CO")

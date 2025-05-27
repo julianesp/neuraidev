@@ -1205,7 +1205,7 @@ export function CarouselDemo({
           <>
             <button
               onClick={goToPrevious}
-              className="carousel-prev"
+              className={`carousel-prev ${styles.boton}`}
               aria-label="Anterior"
               disabled={isTransitioning}
               style={{
@@ -1221,7 +1221,7 @@ export function CarouselDemo({
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="h-4 w-4"
+                className={`h-4 w-4 ${styles.icon}`}
               >
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>

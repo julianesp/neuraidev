@@ -186,19 +186,20 @@
 // }
 
 .footer {
+  @include flex-center;
   position: relative;
-  display: flex;
-  justify-content: space-evenly;
+
   flex-direction: column;
-  align-items: center;
   margin-top: auto; /* Push footer to bottom */
   padding-top: 10px;
   padding-bottom: 20px;
+
   width: 100%;
+  height: auto;
+
   background-color: rgba(48, 100, 204, 0.95);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  border: 1px solid #fff;
 
   /* Ensure footer stays at the bottom of the page */
   &:not(:root) {
@@ -222,24 +223,34 @@
   }
 
   .description {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 50px;
-    width: calc(100% - 30px);
-    height: 30px;
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 10px 15px 15px #222121;
+    width: 100%;
+    height: 100px;
 
     h3 {
+      text-align: center;
+      width: 100%;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 5px 10px 10px #222121;
       color: #000;
+      height: 50px;
       font-size: 1.4rem;
+    }
+
+    & img {
+      position: absolute;
+      margin-top: 140px;
     }
   }
 
   .information {
     h2 {
+      padding-top: 20px;
       font-weight: bolder;
       font-size: 1.2rem;
       color: #fff;
