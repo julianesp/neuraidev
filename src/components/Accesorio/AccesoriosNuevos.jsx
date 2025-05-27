@@ -282,9 +282,9 @@ const AccesoriosNuevos = () => {
       </div>
 
       <div className="mt-6 text-center">
-        <p className="text-black dark:text-white mb-4">
+        {/* <p className="text-black dark:text-white mb-4">
           Estos son los productos más populares
-        </p>
+        </p> */}
         <Link
           href="/accesorios/nuevos"
           className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"

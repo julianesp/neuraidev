@@ -476,13 +476,13 @@
     }
   }
 
-  @media (min-width: 1024px) {
-    .accesories {
-      .varios {
-        max-width: 1200px;
-      }
-    }
-  }
+  // @media (min-width: 1024px) {
+  //   .accesories {
+  //     .varios {
+  //       max-width: 1200px;
+  //     }
+  //   }
+  // }
 
   @media (min-width: 1200px) {
     .accesories {
@@ -562,6 +562,7 @@
     & .presentacion {
       grid-area: presentacion;
       width: 100%;
+      height: 110vh;
     }
 
     & .carrusel {

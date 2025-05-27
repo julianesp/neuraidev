@@ -1,0 +1,52 @@
+@media screen and (min-width: 1024px) {
+  .headerTitle {
+    font-size: 5rem;
+    text-align: center;
+  }
+}
+
+// styles/components/NightSkyHero.module.scss
+
+.headerTitle {
+  font-size: 1rem; // Tamaño base
+  margin-bottom: 1rem;
+  margin-top: 4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  background-color: rgba(157, 147, 164, 0.4);
+  backdrop-filter: blur(1px);
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+
+  // Para pantallas MAYORES a 1024px
+  @media screen and (min-width: 1024px) {
+    font-size: 3rem; // Tamaño grande para desktop
+    margin-bottom: 2rem;
+    margin-top: 6rem;
+    padding: 15px 30px;
+    letter-spacing: 1px;
+  }
+}
+
+.secundario {
+  font-size: 1.5rem;
+  max-width: "600px";
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(30px);
+  background-color: rgba(35, 35, 50, 0.8);
+  background-color: rgba(157, 147, 164, 0.4);
+  backdrop-filter: blur(5px);
+  border-radius: 8px;
+  padding: 20px 20px;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  line-height: 1.4;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}

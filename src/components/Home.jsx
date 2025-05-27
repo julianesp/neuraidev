@@ -298,7 +298,7 @@ export default function Inicio() {
           <AccesoriosNuevos />
         </section>
 
-        {/* Sección de tratamientos */}
+        {/*         
         <section
           ref={servicesRef}
           className={`${styles.tratamientos} ${styles.fadeInUp}`}
@@ -315,7 +315,7 @@ export default function Inicio() {
 
             <Link href="/Services">Ver más</Link>
           </section>
-        </section>
+        </section> */}
 
         {/* Sección de accesorios */}
         <section
@@ -358,7 +358,7 @@ export default function Inicio() {
               ref={computadoresRef}
               className={`${styles.tipo} ${styles.fadeInRight}`}
             >
-              <h2>Computadores</h2>
+              <h2 className="text-black dark:text-black">Computadores</h2>
 
               <Image
                 src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr4%2Fram%20ddr4%208gb.jpg?alt=media&token=8c1fd852-a254-4671-9bf8-739b8715954b"
@@ -382,7 +382,7 @@ export default function Inicio() {
               ref={damasRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
             >
-              <h2>Damas</h2>
+              <h2 className="text-black dark:text-black">Damas</h2>
 
               <Image
                 src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470206118_122195128148083804_8173820928240704070_n.jpg?alt=media&token=dfb4c27d-7dc7-4ad6-9f94-a60f2c2afc72"
@@ -406,7 +406,7 @@ export default function Inicio() {
               ref={librosNuevosRef}
               className={`${styles.tipo} ${styles.fadeInRight}`}
             >
-              <h2>Libros nuevos</h2>
+              <h2 className="text-black dark:text-black">Libros nuevos</h2>
 
               <Image
                 src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480534106_122204421584083804_6430148799072894958_n.jpg?alt=media&token=ba8c5d5b-6bf3-478c-aaf6-0f50bfe22be1"
@@ -430,7 +430,7 @@ export default function Inicio() {
               ref={librosUsadosRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
             >
-              <h2>Libros usados</h2>
+              <h2 className="text-black dark:text-black">Libros usados</h2>
 
               <Image
                 src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F1.jpg?alt=media&token=5ca250e3-8461-4415-9f0d-1da8e6ae8f6a"
@@ -454,7 +454,7 @@ export default function Inicio() {
               ref={accesoriosRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
             >
-              <h2>Generales</h2>
+              <h2 className="text-black dark:text-black">Generales</h2>
 
               <Image
                 src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3"

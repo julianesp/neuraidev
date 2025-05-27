@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import styles from "../styles/components/NightSkyHero.module.scss";
 
 const NightSkyHero = () => {
   const starsContainerRef = useRef(null);
@@ -245,25 +246,7 @@ const NightSkyHero = () => {
           margin: 0,
         }}
       >
-        <h1
-          className="nightSky-title"
-          style={{
-            fontSize: "1rem",
-            marginBottom: "1rem",
-            marginTop: "4rem",
-            opacity: 0,
-            transform: "translateY(30px)",
-            backgroundColor: "rgba(157, 147, 164, 0.4)",
-            backdropFilter: "blur(1px)",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            color: "white",
-            textShadow: "0 2px 4px rgba(0,0,0,0.5)",
-            fontWeight: "bold",
-            letterSpacing: "0.5px",
-            boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-          }}
-        >
+        <h1 className={`nightSky-title ${styles.headerTitle} `}>
           Bienvenid
           <span
             className="gender-char"
@@ -280,25 +263,8 @@ const NightSkyHero = () => {
           <span> </span> a mi sitio web
         </h1>
 
-        <p
-          className="nightSky-desc"
-          style={{
-            fontSize: "1.2rem",
-            maxWidth: "600px",
-            marginBottom: "2rem",
-            opacity: 0,
-            transform: "translateY(30px)",
-            backgroundColor: "rgba(35, 35, 50, 0.8)",
-            backdropFilter: "blur(3px)",
-            borderRadius: "8px",
-            padding: "20px 20px",
-            color: "white",
-            textShadow: "0 1px 3px rgba(0,0,0,0.4)",
-            lineHeight: "1.4",
-            boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
-          }}
-        >
-          Navega y descubre las diferentes secciones de nuestro sitio. Encuentra
+        <p className={`nightSky-desc ${styles.secundario}`}>
+          Navega y descubre las diferentes secciones del sitio. Encuentra
           productos, servicios y contenido exclusivo.
         </p>
 
