@@ -431,16 +431,16 @@ const Footer = () => {
         />
       </button>
 
-      {/* Logo y Nombre */}
-      <article className={styles.description}>
-        <h3>neurai.dev</h3>
-        <Image
-          src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb"
-          alt="neurai.dev"
-          width={100}
-          height={100}
-          className="rounded-full object-cover"
-        />
+      <article className={`${styles.description}`}>
+        <Link href="/">
+          <Image
+            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb"
+            alt="neurai.dev"
+            width={100}
+            height={100}
+            className="rounded-full object-cover"
+          />
+        </Link>
       </article>
 
       {/* Columna 1: Información */}
@@ -467,7 +467,6 @@ const Footer = () => {
         <h2>Contacto</h2>
         <p>Email: contacto@neurai.dev</p>
         <p>Teléfono: +57 317 450 3604</p>
-        <p>Horario: Lunes a Viernes, 8:00 a 18:00</p>
       </article>
 
       {/* Columna 4: Legal */}
@@ -476,6 +475,9 @@ const Footer = () => {
         <h3>
           <Link href="/TerminosCondiciones">Términos y condiciones</Link>
         </h3>
+
+        <p>Horario:</p>
+        <p> Lunes a Viernes, 8:00 a 18:00</p>
       </article>
 
       {/* Redes Sociales Flotantes - Solo se renderiza después de hidratación */}
