@@ -1,210 +1,19 @@
-// @use "./mixins" as *;
 @use "../mixins.scss" as *;
-
-// .footer {
-//   // position: relative;
-//   // position: sticky;
-
-//   display: flex;
-//   justify-content: space-evenly;
-//   flex-direction: column;
-//   align-items: center;
-//   margin-top: 20px;
-//   padding-top: 10px;
-//   bottom: 0;
-//   background-color: rgba(48, 100, 204, 0.95);
-
-//   border-top-left-radius: 15px;
-//   border-top-right-radius: 15px;
-//   border: 1px solid #fff;
-
-//   .flecha {
-//     position: fixed;
-//     padding: 10px;
-//     bottom: 5px;
-//     left: 5px;
-//     background-color: #fff;
-//     border-radius: 50%;
-
-//     img {
-//       width: 30px;
-//       height: 30px;
-//       right: 30px;
-//     }
-//   }
-
-//   .description {
-//     // position: relative;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-
-//     margin-bottom: 50px;
-//     vertical-align: middle;
-
-//     width: calc(100% - 30px);
-//     height: 30px;
-//     background-color: #fff;
-//     border-radius: 20px;
-
-//     box-shadow: 10px 15px 15px #222121;
-
-//     h3 {
-//       color: #000;
-//       font-size: 1.4rem;
-//     }
-//   }
-
-//   .information {
-//     h2 {
-//       font-weight: bolder;
-//       font-size: 1.2rem;
-//       color: #fff;
-//       text-decoration: underline;
-//     }
-
-//     a {
-//       /* Placeholder for potential mixin or styles */
-//     }
-
-//     h3 {
-//       @include contraer;
-//       color: #fff;
-//       line-height: 35px;
-//     }
-//   }
-
-//   .ubicacion {
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     justify-content: center;
-//     width: 100%;
-
-//     img {
-//       margin: 10px 0;
-//       width: 50px;
-//       height: 50px;
-//     }
-
-//     p {
-//       margin: 10px 0 0;
-//       padding: 5px;
-//       color: #fff;
-//       font-size: 1.1rem;
-//       font-weight: bold;
-//     }
-
-//     .call {
-//       display: flex;
-//       flex-direction: column;
-//       justify-content: center;
-//       align-items: center;
-//       padding: 10px;
-//       margin-top: 10px;
-//       background-color: #fff;
-//       border-radius: 10px;
-//     }
-
-//     .consultorio {
-//       padding: 10px;
-//       margin: 10px 0;
-//       border: 1px solid #fff;
-//       border-radius: 20px;
-//     }
-//   }
-
-//   .redes {
-//     display: none;
-//     justify-content: center;
-//     align-items: center;
-//     transition: 0.3s ease-in;
-//     border-radius: 30px;
-
-//     ul li {
-//       padding: 5px;
-//       margin-top: 10px;
-//       background-color: #fff;
-//       border: 1px solid #000;
-//       border-radius: 50%;
-
-//       img {
-//         width: 40px;
-//         height: 40px;
-//       }
-//     }
-
-//     &.open {
-//       display: flex;
-//       position: fixed;
-//       bottom: 60px;
-//       left: 10px;
-//       transition: 0.3s ease-in;
-//       animation-name: showMenuBurger;
-//       animation-duration: 0.3s;
-//     }
-//   }
-
-//   @keyframes showMenuBurger {
-//     from {
-//       transform: translateX(-250px);
-//     }
-//     to {
-//       transform: translateX(0);
-//     }
-//   }
-
-//   @media screen and (min-width: 768px) {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr 1fr;
-//     grid-template-rows: 80px 1fr 50px;
-//     grid-template-areas:
-//       "logo logo logo"
-//       "direccion . mapa"
-//       ". externo .";
-//     justify-items: center;
-//     width: 100%;
-
-//     .description {
-//       grid-column-start: 1;
-//       grid-column-end: 4;
-//       width: 60%;
-//     }
-
-//     .ubicacion {
-//       grid-area: mapa;
-
-//       .consultorio {
-//         grid-area: mapa;
-//       }
-//     }
-
-//     .externo {
-//       grid-area: externo;
-//     }
-//   }
-// }
 
 .footer {
   @include flex-center;
   position: relative;
-
   flex-direction: column;
-  margin-top: auto; /* Push footer to bottom */
   padding-top: 10px;
   padding-bottom: 20px;
-
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
   width: 100%;
   height: auto;
-
   background-color: rgba(48, 100, 204, 0.95);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-
-  /* Ensure footer stays at the bottom of the page */
-  &:not(:root) {
-    margin-top: auto;
-  }
 
   .flecha {
     position: fixed;
@@ -240,6 +49,9 @@
       color: #000;
       height: 50px;
       font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     & img {
@@ -249,12 +61,27 @@
   }
 
   .information {
+    width: 100%;
+    margin-bottom: 20px;
+
     h2 {
       padding-top: 20px;
       font-weight: bolder;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       color: #fff;
       text-decoration: underline;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      margin: 8px 0;
+      font-size: 1rem;
+    }
+
+    p {
+      color: #fff;
+      margin: 5px 0;
+      font-size: 0.95rem;
     }
 
     a {
@@ -264,52 +91,6 @@
       &:hover {
         text-decoration: underline;
       }
-    }
-
-    h3 {
-      @include contraer;
-      color: #fff;
-      line-height: 35px;
-    }
-  }
-
-  .ubicacion {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-
-    img {
-      margin: 10px 0;
-      width: 50px;
-      height: 50px;
-    }
-
-    p {
-      margin: 10px 0 0;
-      padding: 5px;
-      color: #fff;
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
-
-    .call {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      margin-top: 10px;
-      background-color: #fff;
-      border-radius: 10px;
-    }
-
-    .consultorio {
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #fff;
-      border-radius: 20px;
     }
   }
 
@@ -366,36 +147,103 @@
     }
   }
 
+  // RESPONSIVE: TABLET Y DESKTOP (768px+)
   @media screen and (min-width: 768px) {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 80px 1fr 50px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto;
     grid-template-areas:
-      "logo logo logo"
-      "direccion . mapa"
-      ". externo .";
-    justify-items: center;
-    width: 100%;
+      "logo logo logo logo logo"
+      "info ubicacion imagen contacto legal";
+    gap: 20px;
+
+    text-align: left;
 
     .description {
       grid-area: logo;
-      width: 60%;
-    }
+      width: 100%;
+      height: 50px;
+      margin-bottom: 30px;
+      justify-content: center;
 
-    .information {
-      grid-area: direccion;
-    }
+      h3 {
+        font-size: 1.8rem;
+        height: 60px;
+      }
 
-    .ubicacion {
-      grid-area: mapa;
-
-      .consultorio {
-        grid-area: mapa;
+      img {
+        margin-top: 300px;
+        grid-area: imagen;
       }
     }
 
-    .externo {
-      grid-area: externo;
+    // Columna 1: Información
+    .informationLinks {
+      grid-area: info;
+    }
+
+    // Columna 2: Ubicación
+    .ubicacionInfo {
+      grid-area: ubicacion;
+    }
+
+    // Columna 3: Contacto
+    .contactoInfo {
+      grid-area: contacto;
+    }
+
+    // Columna 4: Legal
+    .legalInfo {
+      grid-area: legal;
+    }
+
+    .information {
+      width: 100%;
+      margin-bottom: 0;
+
+      h2 {
+        font-size: 1.3rem;
+        padding-top: 0;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      h3 {
+        font-size: 0.95rem;
+        margin: 8px 0;
+        text-align: center;
+      }
+
+      p {
+        font-size: 0.9rem;
+        margin: 6px 0;
+        text-align: center;
+      }
+    }
+  }
+
+  // RESPONSIVE: DESKTOP GRANDE (1200px+)
+  @media screen and (min-width: 1200px) {
+    // padding: 40px 60px;
+    gap: 30px;
+
+    .description {
+      h3 {
+        font-size: 2rem;
+        max-width: 500px;
+      }
+    }
+
+    .information {
+      h2 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+      }
+
+      h3,
+      p {
+        font-size: 1rem;
+      }
     }
   }
 }
