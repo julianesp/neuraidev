@@ -188,7 +188,7 @@
 
   cursor: pointer;
 
-  width: 100%;
+  width: 200px;
 
   color: #ffffff;
   font-size: 1.2rem;
@@ -201,10 +201,7 @@
   transform-origin: center;
   text-shadow: 0 0 3px rgba(0, 0, 0, 1);
 
-  // background-color: rgba(60, 60, 60, 0.4);
-  // background-color: #3c3c3c66;
-  // background-color: rgba(30, 30, 30, 0.6);
-  // border-color: rgba(255, 255, 255, 0.5);
+  background-color: #1e1e1e99;
 
   &:hover {
     // background-color: rgba(255, 255, 255, 0.2);

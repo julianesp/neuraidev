@@ -8,26 +8,23 @@ import BackToTop from "@/src/components/backTop/BackToTop";
 const posts = [
   {
     id: 1,
-    title: "Mi primera publicación",
-    date: "7 de marzo, 2025",
+    title: "No seas cavernícola 😁",
+    date: "28 de mayo, 2025",
     excerpt:
-      "Esta es mi primera publicación en el blog donde comparto mis opiniones sobre desarrollo web.",
-    content: `
-      <p>Bienvenidos a mi blog. En este espacio compartiré mis opiniones sobre diversos temas de desarrollo web y tecnología.</p>
-      <p>He decidido comenzar este blog porque considero importante compartir conocimiento y experiencias con la comunidad.</p>
-      <p>En próximas publicaciones hablaré sobre Next.js y sus ventajas para el desarrollo web moderno.</p>
-    `,
-    slug: "mi-primera-publicacion",
+      "No te quedes con lo que miras en la televisión 📺. Usa internet para investigar y aprender 🧠",
+    content: `[Aquí va el contenido HTML convertido]`,
+    slug: "no-seas-cavernicola",
   },
-  // Puedes añadir más publicaciones siguiendo esta estructura
-  // {
-  //   id: 2,
-  //   title: "Título de tu segunda publicación",
-  //   date: "Fecha",
-  //   excerpt: "Breve descripción",
-  //   content: "Contenido completo en HTML",
-  //   slug: "url-amigable"
-  // }
+  {
+    id: 2,
+    title: "Aprende a programar",
+    date: "28 de mayo, 2025",
+    excerpt: "¿Cuánto es 2 + 0? 🤔",
+    content: `
+      <p>El resultado se podría interpretar de diferentes maneras dependiendo el conocimiento en programación.</p>
+    `,
+    slug: "aprender-a-programar",
+  },
 ];
 
 export default function BlogPage() {
@@ -41,23 +38,32 @@ export default function BlogPage() {
         />
       </Head>
       <main className="container mx-auto px-4 py-8 max-w-4xl">
-        <h1 className="mt-10 text-3xl font-bold mb-6">Mi Blog</h1>
+        <h1 className="mt-10 text-3xl font-bold mb-6 text-center">Mi Blog</h1>
+
+        <p className="text-xl text-black dark:text-white">
+          Bienvenidos a mi blog. Aquí comparto mis pensamientos y experiencias
+          sobre desarrollo web y tecnología en general.
+        </p>
+        <p className="mb-8 text-xl text-black dark:text-white">
+          ¡Disfruta la lectura! 😉
+        </p>
 
         <section className="grid gap-8">
           {posts.length > 0 ? (
             posts.map((post) => (
               <article
                 key={post.id}
-                className="border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow dark:border-gray-700 dark:bg-gray-800"
+                className="border border-gray-950 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow  dark:bg-gray-800 dark:border-white flex flex-col justify-center "
               >
                 <h2 className="text-xl font-bold mb-2">{post.title}</h2>
                 <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">
                   {post.date}
                 </p>
                 <p className="mb-4">{post.excerpt}</p>
+
                 <Link
                   href={`/Blog/${post.slug}`}
-                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  className="text-white dark:text-black hover:underline bg-black  dark:bg-white w-64 py-2 px-4 rounded-lg text-center block mx-auto transition-colors"
                 >
                   Leer más
                 </Link>

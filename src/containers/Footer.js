@@ -452,12 +452,12 @@ const Footer = () => {
         <h3>
           <Link href="/Clientes">Atención al cliente</Link>
         </h3>
+        <p>NIT: 1124315657-2</p>
       </article>
 
       {/* Columna 2: Ubicación */}
       <article className={`${styles.information} ${styles.ubicacionInfo}`}>
         <h2>Ubicación</h2>
-        <p>NIT: 1124315657-2</p>
         <p>Colón - Putumayo</p>
         <p>Calle 1A # 6 - 7</p>
       </article>
