@@ -399,7 +399,7 @@ export default function Inicio() {
               <h2 className="text-black dark:text-black">Computadores</h2>
 
               <Image
-                src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr4%2Fram%20ddr4%208gb.jpg?alt=media&token=8c1fd852-a254-4671-9bf8-739b8715954b"
+                src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990"
                 alt="Computadores"
                 width={300}
                 height={200}

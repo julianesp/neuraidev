@@ -913,11 +913,11 @@ const AccesoriosContainer = ({
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           {accesorio.nombre}
         </h1>
-        {accesorio.categoria && (
+        {/* {accesorio.categoria && (
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
             {accesorio.categoria}
           </p>
-        )}
+        )} */}
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">

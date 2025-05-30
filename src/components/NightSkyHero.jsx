@@ -199,34 +199,6 @@ const NightSkyHero = () => {
         }}
       ></div>
 
-      {/* <div
-        className="nightSky-moon"
-        style={{
-          position: "absolute",
-          top: "15%",
-          right: "15%",
-          width: "100px",
-          height: "100px",
-          backgroundColor: "#FFFDE7",
-          borderRadius: "50%",
-          boxShadow: "0 0 40px 20px rgba(255, 253, 231, 0.8)",
-          opacity: 0,
-        }}
-      ></div> */}
-
-      {/* <div
-        ref={starsContainerRef}
-        className="nightSky-stars"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          pointerEvents: "none",
-        }}
-      ></div> */}
-
       <div
         className="nightSky-content"
         style={{
@@ -253,7 +225,6 @@ const NightSkyHero = () => {
             style={{
               transition: "all 0.5s ease",
               display: "inline-block",
-              // fontWeight: "bold",
               color: "#fff8c0",
               textShadow: "0 0 4px rgba(255,248,192,0.6)",
             }}
@@ -264,15 +235,15 @@ const NightSkyHero = () => {
         </h1>
 
         <p className={`nightSky-desc ${styles.secundario}`}>
-          Navega y descubre las diferentes secciones del sitio. Encuentra
+          Navega y descubre las diferentes secciones del sitio. <br /> Encuentra
           productos, servicios y contenido exclusivo.
         </p>
 
-        <Link
-          href="#"
+        <button
+          type="button"
           className="nightSky-btn"
           style={{
-            ontSize: "1.5rem",
+            fontSize: "1.5rem",
             maxWidth: "600px",
             marginBottom: "2rem",
             opacity: 0,
@@ -287,9 +258,20 @@ const NightSkyHero = () => {
             lineHeight: "1.4",
             boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
           }}
+          onClick={() => {
+            // Cambia el fondo de la página (oscuro/claro)
+            const body = document.body;
+            if (body.classList.contains("night-sky-dark")) {
+              body.classList.remove("night-sky-dark");
+              body.classList.add("night-sky-light");
+            } else {
+              body.classList.remove("night-sky-light");
+              body.classList.add("night-sky-dark");
+            }
+          }}
         >
           Explorar
-        </Link>
+        </button>
       </div>
 
       <style jsx>{`

@@ -5,15 +5,6 @@ import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 
-// IDs especificos para cada categpria de accesorios
-const CATEGORIA_IDS = {
-  CELULARES: "celulares",
-  COMPUTADORES: "computadores",
-  DAMAS: "damas",
-  LIBROS_NUEVOS: "libros-nuevos",
-  LIBROS_USADOS: "libros-usados",
-};
-
 const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -64,7 +55,7 @@ const NavBar = () => {
 
   return (
     <div
-      className={styles.container}
+      className={`${styles.container} dark:text-white`}
       ref={menuRef}
       role="navigation"
       aria-label="Navegación principal"
@@ -98,16 +89,27 @@ const NavBar = () => {
         <ul
           className={`${styles.enlaces__menu}  ${
             burgerOpen ? styles.open : styles.closed
-          }`}
+          } `}
           role="menubar"
         >
           <li role="none">
-            <Link href="/" role="menuitem" onClick={handleLinkClick}>
+            <Link
+              className="text-black"
+              href="/"
+              role="menuitem"
+              onClick={handleLinkClick}
+              title="Ir a la página principal"
+            >
               Inicio
             </Link>
           </li>
           <li role="none">
-            <Link href="/Blog" role="menuitem" onClick={handleLinkClick}>
+            <Link
+              href="/Blog"
+              title="Ir al blog"
+              role="menuitem"
+              onClick={handleLinkClick}
+            >
               Blog
             </Link>
           </li>
@@ -119,6 +121,7 @@ const NavBar = () => {
               aria-haspopup="true"
               aria-expanded={dropdownOpen}
               aria-controls="dropdown-menu"
+              title="Ir a la tienda"
             >
               Tienda
               <span className={styles.dropdown_arrow} aria-hidden="true">
@@ -180,7 +183,11 @@ const NavBar = () => {
             </ul>
           </li>
           <li>
-            <Link href="/Profile" onClick={handleLinkClick}>
+            <Link
+              href="/Profile"
+              title="Ir al perfil"
+              onClick={handleLinkClick}
+            >
               Sobre mí
             </Link>
           </li>

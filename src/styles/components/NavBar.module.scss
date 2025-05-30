@@ -1,7 +1,7 @@
 @use "../mixins.scss" as *;
 
 .container {
-  z-index: 2000; // Aumentamos el z-index para que siempre esté encima
+  z-index: 2000;
   position: fixed;
   display: flex;
   justify-content: flex-start;
@@ -11,7 +11,6 @@
   top: 0;
   left: 0;
   padding: 0 15px;
-  // border-bottom: 1px solid #84bbf3;
   backdrop-filter: blur(5px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   border-bottom-left-radius: 20px;
@@ -26,8 +25,8 @@
   & a {
     & img {
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
     }
   }
 }
@@ -275,6 +274,15 @@
         width: 30px;
       }
     }
+
+    & .logo {
+      & a {
+        & img {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
   }
 
   .circle {
@@ -310,13 +318,15 @@
       font-size: 1.1rem;
       padding: 8px 5px;
       color: #ffffff;
-      font-weight: 500;
+      // color: #000;
+      font-weight: 700;
       margin: 0;
       text-shadow: 0 0 3px rgba(0, 0, 0, 1);
+
       &:hover {
         background-color: transparent;
         text-decoration: underline;
-        transform: scale(1.05);
+        transform: scale(1.5);
       }
     }
 
@@ -348,7 +358,7 @@
       right: -15px; /* Extend right */
       bottom: -20px;
       height: 20px;
-      background: transparent;
+      // background: transparent;
       z-index: 999;
     }
 
@@ -367,7 +377,7 @@
     /* Add a longer delay for mouseout */
     &:hover {
       .dropdown_menu {
-        opacity: 1;
+        // opacity: 1;
         visibility: visible;
         pointer-events: auto;
       }
@@ -375,6 +385,7 @@
   }
 
   .dropdown_toggle {
+    width: 70px;
     font-size: 1.1rem;
     // padding: 8px 5px;
     // font-weight: 500;
@@ -382,10 +393,12 @@
     // justify-content: flex-start;
     position: relative; /* Added for positioning context */
     color: #ffffff;
-    // text-shadow: 0 0 3px rgba(0, 0, 0, 1);
+    text-shadow: 0 0 3px rgba(0, 0, 0, 1);
+    background-color: transparent;
 
     &:hover {
-      background-color: transparent;
+      // background-color: transparent;
+
       text-decoration: underline;
       transform: scale(1.05);
       color: #ffffff;
@@ -397,13 +410,13 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    width: 220px;
-    background-color: rgba(30, 30, 30, 0.5);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 250px;
+    background-color: rgba(30, 30, 30, 0.8);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
 
-    margin-top: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    // margin-top: 10px;
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     padding: 5px 0;
     opacity: 0;
@@ -414,12 +427,13 @@
     &::before {
       content: "";
       position: absolute;
-      top: -20px;
+      top: -10px;
       left: -30px; /* Wider area */
       right: -30px; /* Wider area */
       height: 20px;
+      width: 50px;
       // background: transparent;
-      background: #000;
+      // background: #000;
     }
 
     /* Add side hover areas to prevent accidental mouseout */
@@ -466,13 +480,13 @@
     li {
       width: 100%;
       margin: 0;
-      text-align: left;
+      text-align: center;
 
       a {
         display: block;
         padding: 8px 15px;
         border-radius: 0;
-        font-size: 1rem;
+        font-size: 1.2rem;
         margin: 0;
         color: #ffffff;
         // background-color: transparent;
