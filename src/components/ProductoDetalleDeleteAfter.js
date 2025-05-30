@@ -13,6 +13,12 @@ export default function ProductoDetalle({ params }) {
   const [productoActual, setProductoActual] = useState(null);
   const [accesoriosDestacados, setAccesoriosDestacados] = useState([]);
   const [productosRelacionados, setProductosRelacionados] = useState([]);
+  const [imageError, setImageError] = useState({});
+
+  // Generate unique image IDs for different contexts
+  const getMainImageId = (index) => `main-product-image-${params.id}-${index}`;
+  const getRelatedImageId = (productId) => `related-product-image-${productId}`;
+  const getPlaceholderImageId = (index) => `placeholder-image-${index}`;
 
   // Cargar el producto actual y los accesorios destacados
   useEffect(() => {
@@ -113,9 +119,17 @@ export default function ProductoDetalle({ params }) {
                 src={img || "/placeholder.jpg"}
                 alt={`Imagen ${idx + 1} de ${productoActual.title || "Producto"}`}
                 fill
-                sizes="(max-width: 768px) 100vw, 768px"
                 style={{ objectFit: "contain" }}
                 className="p-6"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={false} // Solo true para imágenes above-the-fold
+                loading="lazy"
+                quality={85} // Reduce de 100 a 85
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                onError={() =>
+                  setImageError((prev) => ({ ...prev, [getMainImageId(idx)]: true }))
+                }
               />
             </div>
           ))}
@@ -249,9 +263,20 @@ export default function ProductoDetalle({ params }) {
                         }
                         alt={item.title || `Accesorio relacionado`}
                         fill
-                        sizes="(max-width: 768px) 50vw, 25vw"
                         style={{ objectFit: "contain" }}
                         className="p-3"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority={false} // Solo true para imágenes above-the-fold
+                        loading="lazy"
+                        quality={85} // Reduce de 100 a 85
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                        onError={() =>
+                          setImageError((prev) => ({
+                            ...prev,
+                            [getRelatedImageId(item.id)]: true,
+                          }))
+                        }
                       />
                     </div>
                     <div className="p-3">
@@ -275,9 +300,20 @@ export default function ProductoDetalle({ params }) {
                         src="/placeholder.jpg"
                         alt={`Accesorio relacionado ${item}`}
                         fill
-                        sizes="(max-width: 768px) 50vw, 25vw"
                         style={{ objectFit: "contain" }}
                         className="p-3"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority={false} // Solo true para imágenes above-the-fold
+                        loading="lazy"
+                        quality={85} // Reduce de 100 a 85
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                        onError={() =>
+                          setImageError((prev) => ({
+                            ...prev,
+                            [getPlaceholderImageId(item)]: true,
+                          }))
+                        }
                       />
                     </div>
                     <div className="p-3">

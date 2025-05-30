@@ -12,6 +12,7 @@ import styles from "../styles/Sli.module.css";
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [imageError, setImageError] = useState({});
   const carouselRef = useRef(null);
   const timerRef = useRef(null); // Referencia para el temporizador
 
@@ -73,6 +74,14 @@ const Slider = () => {
               priority={index === currentIndex}
               alt={image.alt}
               as="image"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              loading="lazy"
+              quality={85} // Reduce de 100 a 85
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+              onError={() =>
+                setImageError((prev) => ({ ...prev, [`slide-${index}`]: true }))
+              }
             />
           </button>
         ))}
@@ -85,6 +94,9 @@ const Slider = () => {
               alt="Flecha izquierda"
               width={40}
               height={40}
+              onError={() =>
+                setImageError((prev) => ({ ...prev, "left-arrow": true }))
+              }
             />
           </button>
 
@@ -95,6 +107,9 @@ const Slider = () => {
               alt="Flecha derecha"
               width={40}
               height={40}
+              onError={() =>
+                setImageError((prev) => ({ ...prev, "right-arrow": true }))
+              }
             />
           </button>
         </div>

@@ -54,7 +54,7 @@ const NightSkyHero = () => {
 
         // Animación de fondo
         mainTimeline.to(".nightSky-bg", {
-          duration: 2,
+          duration: 0.5,
           opacity: 1,
           ease: "power2.inOut",
         });
@@ -63,7 +63,7 @@ const NightSkyHero = () => {
         mainTimeline.to(
           ".nightSky-moon",
           {
-            duration: 2.5,
+            duration: 0.5,
             opacity: 1,
             ease: "power2.inOut",
             y: 20,
@@ -100,7 +100,7 @@ const NightSkyHero = () => {
         mainTimeline.to(
           ".nightSky-title",
           {
-            duration: 3,
+            duration: 1,
             opacity: 1,
             y: 0,
             ease: "power3.out",
@@ -111,7 +111,7 @@ const NightSkyHero = () => {
         mainTimeline.to(
           ".nightSky-desc",
           {
-            duration: 2,
+            duration: 1,
             opacity: 1,
             y: 0,
             ease: "power3.out",
@@ -199,7 +199,7 @@ const NightSkyHero = () => {
         }}
       ></div>
 
-      <div
+      {/* <div
         className="nightSky-moon"
         style={{
           position: "absolute",
@@ -212,9 +212,9 @@ const NightSkyHero = () => {
           boxShadow: "0 0 40px 20px rgba(255, 253, 231, 0.8)",
           opacity: 0,
         }}
-      ></div>
+      ></div> */}
 
-      <div
+      {/* <div
         ref={starsContainerRef}
         className="nightSky-stars"
         style={{
@@ -225,7 +225,7 @@ const NightSkyHero = () => {
           height: "100%",
           pointerEvents: "none",
         }}
-      ></div>
+      ></div> */}
 
       <div
         className="nightSky-content"

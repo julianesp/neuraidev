@@ -17,6 +17,9 @@ const AccesoriosDestacados = () => {
   // Estado para manejar posibles errores
   const [error, setError] = useState(null);
 
+  // Estado para controlar errores de imágenes
+  const [imageError, setImageError] = useState({});
+
   // Estado para controlar el índice del accesorio actual en vista móvil
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -199,8 +202,15 @@ const AccesoriosDestacados = () => {
                 alt={accesorio.nombre}
                 fill={true}
                 className="object-contain"
-                sizes="(max-width: 768px) 100vw, 300px"
-                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={false} // Solo true para imágenes above-the-fold
+                loading="lazy"
+                quality={85} // Reduce de 100 a 85
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                onError={() =>
+                  setImageError((prev) => ({ ...prev, [`destacado-${accesorio.id}`]: true }))
+                }
               />
             </div>
 

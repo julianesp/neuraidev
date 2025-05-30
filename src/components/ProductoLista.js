@@ -1,7 +1,9 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 
 export default function ProductoLista({ productos }) {
+  const [imageError, setImageError] = useState({});
   if (!productos || !Array.isArray(productos)) {
     return <div>Cargando productos...</div>;
   }
@@ -17,11 +19,16 @@ export default function ProductoLista({ productos }) {
                 "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
               }
               alt={producto.title}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover rounded"
               priority={producto.id <= 4} // Priorizar la carga de las primeras 4 imágenes
-              // width={100}
-              // height={100}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              loading="lazy"
+              quality={85} // Reduce de 100 a 85
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+              onError={() =>
+                setImageError((prev) => ({ ...prev, [`product-list-${producto.id}`]: true }))
+              }
             />
           </div>
           <h2 className="text-xl font-semibold mb-2">{producto.title}</h2>

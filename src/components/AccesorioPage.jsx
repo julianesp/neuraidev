@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 import Link from "next/link";
-// Importamos los datos directamente - asumiendo que el JSON está en /public
-// En producción, normalmente obtendrías estos datos de una API
 
-// Este componente se usa para mostrar una página individual de un accesorio
 export default function AccesorioPage() {
+  // const [imageError, setImageError] = useState({});
+  // const [imageId, setImageId] = useState({});
   const params = useParams();
   const [accesorio, setAccesorio] = useState(null);
   const [otrosAccesorios, setOtrosAccesorios] = useState([]);

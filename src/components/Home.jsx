@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Suspense, lazy } from "react";
 import Link from "next/link.js";
 import Head from "next/head";
 import styles from "../styles/pages/Home.module.scss";
@@ -11,6 +11,7 @@ import BackToTop from "../components/backTop/BackToTop";
 import { CarouselDemo } from "./CarouselDemo";
 import ProductList from "./ProductList";
 import Image from "next/image";
+import FAQ from "./FAQ";
 
 const API_CELULARES = "/celulares.json";
 const API_COMPUTADORES = "/computers.json";
@@ -20,7 +21,27 @@ const API_PRESENTATION = "/presentation.json";
 const API_ACCESORIOS = "/accesories.json";
 const API_GENERALES = "/accesories_generales.json";
 
+function CarouselSkeleton() {
+  return (
+    <div className="w-full h-64 bg-gray-200 animate-pulse rounded-lg flex items-center justify-center">
+      <div className="text-gray-400">Cargando...</div>
+    </div>
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <div className="bg-yellow-50 p-6 rounded-lg border animate-pulse">
+      <div className="h-6 bg-gray-300 rounded mb-4 w-48"></div>
+      <div className="h-48 bg-gray-300 rounded mb-4"></div>
+      <div className="h-4 bg-gray-300 rounded w-32"></div>
+    </div>
+  );
+}
+
 export default function Inicio() {
+  const [imageError, setImageError] = useState({});
+  const [imageId, setImageId] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
 
@@ -197,13 +218,14 @@ export default function Inicio() {
 
         {/* Sección de carrusel */}
         <div className={`${styles.carrusel}`}>
-          {/* <CarouselDemo apiUrl={API_CELULARES} /> */}
-          <CarouselDemo
-            apiUrl={API_ACCESORIOS}
-            showArrows={true}
-            enableTransitions={true}
-            showIndicators={true}
-          />
+          <Suspense fallback={<CarouselSkeleton />}>
+            <CarouselDemo
+              apiUrl={API_ACCESORIOS}
+              showArrows={true}
+              enableTransitions={true}
+              showIndicators={true}
+            />
+          </Suspense>
         </div>
 
         {/* Sección lateral de anuncios */}
@@ -220,7 +242,13 @@ export default function Inicio() {
             height: "100%",
           }}
         >
-          <Advertisement ads={ads} />
+          <Suspense
+            fallback={
+              <div className="w-72 h-96 bg-gray-100 animate-pulse rounded"></div>
+            }
+          >
+            <Advertisement ads={ads} />
+          </Suspense>
         </section>
 
         {/* Botones de Servicios y Accesorios */}
@@ -294,8 +322,10 @@ export default function Inicio() {
           ref={destacadosRef}
           className={`${styles.destacados} ${styles.fadeInUp}`}
         >
-          <AccesoriosDestacados />
-          <AccesoriosNuevos />
+          <Suspense fallback={<LoadingSkeleton />}>
+            <AccesoriosDestacados />
+            <AccesoriosNuevos />
+          </Suspense>
         </section>
 
         {/*         
@@ -341,8 +371,16 @@ export default function Inicio() {
                 alt="Celulares"
                 width={300}
                 height={200}
-                sizes="(max-width: 768px) 100vw, 300px"
                 className="mt-4 rounded-md"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={false} // Solo true para imágenes above-the-fold
+                loading="lazy"
+                quality={85} // Reduce de 100 a 85
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                onError={() =>
+                  setImageError((prev) => ({ ...prev, [imageId]: true }))
+                }
               />
 
               <Link
@@ -365,8 +403,16 @@ export default function Inicio() {
                 alt="Computadores"
                 width={300}
                 height={200}
-                sizes="(max-width: 768px) 100vw, 300px"
                 className="mt-4 rounded-md"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={false} // Solo true para imágenes above-the-fold
+                loading="lazy"
+                quality={85} // Reduce de 100 a 85
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                onError={() =>
+                  setImageError((prev) => ({ ...prev, [imageId]: true }))
+                }
               />
 
               <Link
@@ -389,8 +435,16 @@ export default function Inicio() {
                 alt="Damas"
                 width={300}
                 height={200}
-                sizes="(max-width: 768px) 100vw, 300px"
                 className="mt-4 rounded-md"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={false} // Solo true para imágenes above-the-fold
+                loading="lazy"
+                quality={85} // Reduce de 100 a 85
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                onError={() =>
+                  setImageError((prev) => ({ ...prev, [imageId]: true }))
+                }
               />
 
               <Link
@@ -413,8 +467,16 @@ export default function Inicio() {
                 alt="Libros Nuevos"
                 width={300}
                 height={200}
-                sizes="(max-width: 768px) 100vw, 300px"
                 className="mt-4 rounded-md"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={false} // Solo true para imágenes above-the-fold
+                loading="lazy"
+                quality={85} // Reduce de 100 a 85
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                onError={() =>
+                  setImageError((prev) => ({ ...prev, [imageId]: true }))
+                }
               />
 
               <Link
@@ -437,8 +499,16 @@ export default function Inicio() {
                 alt="Libros Usados"
                 width={300}
                 height={200}
-                sizes="(max-width: 768px) 100vw, 300px"
                 className="mt-4 rounded-md"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={false} // Solo true para imágenes above-the-fold
+                loading="lazy"
+                quality={85} // Reduce de 100 a 85
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                onError={() =>
+                  setImageError((prev) => ({ ...prev, [imageId]: true }))
+                }
               />
 
               <Link
@@ -461,8 +531,16 @@ export default function Inicio() {
                 alt="Accesorios"
                 width={300}
                 height={200}
-                sizes="(max-width: 768px) 100vw, 300px"
                 className="mt-4 rounded-md"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={false} // Solo true para imágenes above-the-fold
+                loading="lazy"
+                quality={85} // Reduce de 100 a 85
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                onError={() =>
+                  setImageError((prev) => ({ ...prev, [imageId]: true }))
+                }
               />
 
               <Link
@@ -475,8 +553,12 @@ export default function Inicio() {
           </section>
         </section>
 
+        <FAQ />
+
         <div className="mb-16 md:mb-0">
-          <BackToTop />
+          <Suspense fallback={null}>
+            <BackToTop />
+          </Suspense>
         </div>
       </main>
     </>

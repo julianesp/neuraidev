@@ -7,6 +7,9 @@ import Link from "next/link";
 import styles from "../styles/components/Advertisement.module.scss";
 
 export default function AdvertisementToggle({ ads = [] }) {
+  const [imageError, setImageError] = useState({});
+  const [imageId, setImageId] = useState({});
+
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isNearFooter, setIsNearFooter] = useState(false);
@@ -98,7 +101,15 @@ export default function AdvertisementToggle({ ads = [] }) {
               alt="Toggle Anuncios"
               width={24}
               height={24}
-              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority={false} // Solo true para imágenes above-the-fold
+              loading="lazy"
+              quality={85} // Reduce de 100 a 85
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+              onError={() =>
+                setImageError((prev) => ({ ...prev, [imageId]: true }))
+              }
             />
           </button>
         </div>
@@ -154,6 +165,9 @@ function AdContent({
   linkUrl,
   businessId,
 }) {
+  const [imageError, setImageError] = useState({});
+  const [imageId, setImageId] = useState({});
+
   return (
     <>
       <div className="relative h-full w-full">
@@ -164,9 +178,17 @@ function AdContent({
           }
           alt={businessName}
           className="p-2"
-          priority
           width={200}
           height={200}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority={false} // Solo true para imágenes above-the-fold
+          loading="lazy"
+          quality={85} // Reduce de 100 a 85
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+          onError={() =>
+            setImageError((prev) => ({ ...prev, [imageId]: true }))
+          }
         />
       </div>
       <div className="p-4">
