@@ -552,13 +552,19 @@
       "directos aside"
       "destacados aside"
       "tratamientos aside"
-      "accesories aside";
+      "accesories aside"
+      "question aside";
     align-items: start;
     column-gap: 40px;
 
     .container {
       height: 100vh;
     }
+
+    & .faq {
+      grid-area: question;
+    }
+
     & .presentacion {
       grid-area: presentacion;
       width: 100%;
@@ -584,6 +590,9 @@
     & .directos {
       grid-area: directos;
       width: 100%;
+      border: 1px solid $black;
+      border-radius: 20px;
+      background-color: #000;
     }
 
     & .destacados {

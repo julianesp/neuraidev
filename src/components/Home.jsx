@@ -253,7 +253,7 @@ export default function Inicio() {
 
         {/* Botones de Servicios y Accesorios */}
         <div
-          className={`${styles.directos} w-full z-50 bg-black  shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2 dark:`}
+          className={`${styles.directos} w-full z-50 bg-black  shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2 `}
         >
           <a
             href="#services"
@@ -281,7 +281,7 @@ export default function Inicio() {
                 }, 1000);
               }, 500);
             }}
-            className="px-4 py-2  rounded-md border border-slate-300 hover:bg-slate-300 transition-all text-white dark:text-white"
+            className="px-4 py-2  rounded-md border border-slate-300 hover:bg-slate-300 transition-all text-white  dark:bg-white dark:text-black"
           >
             Servicios
           </a>
@@ -311,7 +311,7 @@ export default function Inicio() {
                 }, 1000);
               }, 500);
             }}
-            className="px-4 py-2  rounded-md border border-slate-300 hover:bg-slate-300 transition-all text-white dark:text-white"
+            className="px-4 py-2  rounded-md border border-slate-300 hover:bg-slate-300 transition-all text-white dark:bg-white dark:text-black"
           >
             Accesorios
           </a>
@@ -553,7 +553,9 @@ export default function Inicio() {
           </section>
         </section>
 
-        <FAQ />
+        <section className={styles.faq}>
+          <FAQ />
+        </section>
 
         <div className="mb-16 md:mb-0">
           <Suspense fallback={null}>
