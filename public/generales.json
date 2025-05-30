@@ -49,7 +49,30 @@
             "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F1.jpg?alt=media&token=0b4b25e6-5bb3-4919-822d-888b0fcfce2c",
             "precio": 39900,
             "categoria": "belleza"
+        },
+        {
+            "id": 3,
+            "nombre": "🎤 Set de Karaoke Portátil K12 con 2 Micrófonos Inalámbricos 🔊✨",
+            "descripcion": "🔥 Llévate la fiesta a donde quieras con este set de karaoke K12. Incluye 🎤 2 micrófonos inalámbricos y 📦 una potente bocina con luces LED multicolor 🌈. Ideal para reuniones, fiestas o tardes de canto 🎶. Conexión Bluetooth, batería recargable 🔋 y correa para llevarlo a todas partes. ¡Haz que todos canten contigo! 🎉",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-09.jpg?alt=media&token=f58f1b6f-77cc-4454-a739-b67e30e8dc29"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-10.jpg?alt=media&token=9c482b42-6f16-4bca-ba5e-a39e1ab06e80"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-11.jpg?alt=media&token=a4a16bd3-2448-4559-963d-bb136aff65b5"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-08.jpg?alt=media&token=69621651-4013-42ea-b23a-743af0a59440"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-09.jpg?alt=media&token=f58f1b6f-77cc-4454-a739-b67e30e8dc29",
+            "precio": 55900,
+            "categoria": "tecnologia"
         }
+        
     ],
     "configuracion": {
         "telefono": "+573174503604",

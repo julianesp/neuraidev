@@ -389,7 +389,8 @@
     grid-template-rows: auto auto;
     grid-template-areas:
       "description description"
-      "study redes";
+      "study redes"
+      "favoritos favoritos";
     gap: 20px 0;
     // padding: 0 25px;
     // max-width: 1200px;
@@ -444,8 +445,10 @@
 
     .study {
       grid-area: study;
-      // width: 100%;
-      // margin: 0;
+      width: 100%;
+
+      margin-left: 80px;
+      margin-right: 80px;
 
       .study__container {
         // margin-top: 20px;
@@ -463,6 +466,16 @@
       height: 100%;
       display: flex;
       justify-content: center;
+    }
+
+    .favoritos {
+      grid-area: favoritos;
+      width: 100%;
+      height: 100%;
+
+      margin-bottom: 50px;
+      // display: flex;
+      // justify-content: center;
     }
   }
 }

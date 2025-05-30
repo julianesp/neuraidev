@@ -169,6 +169,96 @@
             "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242360460.jpg?alt=media&token=b5d1d10a-dcbb-490b-9c33-35f45d5aa2b9",
             "precio": 33900,
             "categoria": "celulares"
+        },
+        {
+            "id": 9,
+            "nombre": "🎧 Auriculares Inalámbricos con Pantalla LED Digital Air 31",
+            "descripcion": "¡Sumérgete en un mundo de sonido con estos modernos auriculares inalámbricos! 🎶 Cuentan con una brillante pantalla LED digital que te muestra con precisión la batería de tu estuche y de cada auricular. 🔋 Disfruta de hasta 4 horas de música continua 🎧 y una increíble autonomía total de hasta 25 horas gracias a su estuche de carga. ⚡ La tecnología de carga rápida te permite tenerlos listos en solo 1.5 horas. 🚀 Con una capacidad de carga de 500mAh en el estuche, ¡la música nunca se detiene! 🎵",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F1.jpg?alt=media&token=02cfb773-e50b-436b-acd7-d7d331cfb373"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F2.jpg?alt=media&token=e1155446-e430-4269-95f7-f5cb3f55f5a8"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F3.jpg?alt=media&token=29f6b1bb-5500-418f-bf0e-219f6b7a6025"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F4.jpg?alt=media&token=22ddeb51-0af6-459e-a3f1-1c1f35d79976"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F5.jpg?alt=media&token=455ed330-aa17-4522-86ed-9ab0532c78ee"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F6.jpg?alt=media&token=dfd6169a-70a5-41ab-a2d8-cb39a482441c"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F7.jpg?alt=media&token=64a7b1c2-747f-4b32-9487-ee9955be59a7"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F8.jpg?alt=media&token=ac3fbdf4-0fc9-49b2-8d1c-291aa01c7619"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F9.jpg?alt=media&token=dd681d89-abe6-4fa0-b196-65b620672420"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F1.jpg?alt=media&token=02cfb773-e50b-436b-acd7-d7d331cfb373",
+            "precio": 44900,
+            "categoria": "tecnologia"
+        },
+        {
+            "id": 10,
+            "nombre": "🎧 Audífonos Inalámbricos P47 - Plegables",
+            "descripcion": "¡Disfruta de tu música en cualquier lugar con los audífonos inalámbricos P47! 🎶 Con tecnología Bluetooth 5.0+EDR (Tasa de Datos Mejorada para una reproducción fluida, menor consumo de energía), ofrecen una conexión estable y un sonido de calidad. 🎧 Son ligeros y 'plegables', ¡perfectos para llevarlos contigo! 🎒 Además, son cómodos de usar durante horas. 😊 Cuentan con botones multifunción para controlar la reproducción, el volumen y las llamadas. 📞 También incluyen puertos AUX, USB y para tarjeta TF, ofreciendo múltiples opciones de conexión. 🔌 ¡Disponibles en varios colores vibrantes! 🎨",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F1.jpg?alt=media&token=90461933-eb9e-4062-af94-a137f96e9ae9"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F2.jpg?alt=media&token=4b562475-cce4-41d1-9d78-14ed969020a7"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F3.jpg?alt=media&token=21806f95-f7a1-43cc-902c-4d8e20ecc9cc"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F4.jpg?alt=media&token=96de0db8-109b-4c44-8f38-2558e96d6af1"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F5.jpg?alt=media&token=73453744-737a-4e75-a5c7-573499d5fff1"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F6.jpg?alt=media&token=5f38d8da-9821-4531-8549-845cf618e1cd"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F7.jpg?alt=media&token=b89b1db9-98bb-4895-8fa6-eb523585b5ef"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F8.jpg?alt=media&token=2ea118eb-0c11-4c17-9cd7-a1c07768c4fb"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F1.jpg?alt=media&token=90461933-eb9e-4062-af94-a137f96e9ae9",
+            "precio": 39900,
+            "categoria": "tecnologia"
+        },
+        {
+            "id": 11,
+            "nombre": "⚡ Cargador Rápido PD 20W con Cable USB-C a Lightning (1 Metro) 🚀",
+            "descripcion": "¡Carga tus dispositivos a la velocidad de la luz con este cargador rápido PD (Power Delivery) de 20W! 🔌 Incluye un cable USB-C a Lightning de 1 metro, perfecto para cargar tu iPhone o iPad de forma eficiente. 💨 Experimenta una carga súper rápida: ¡hasta un 60% en solo 30 minutos! ⏱️ Su diseño compacto y color blanco lo hacen ideal para llevarlo a donde vayas. ⚪ ¡No te quedes sin batería en los momentos importantes! 🔋",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F2.jpg?alt=media&token=b56fbb04-ed7c-4682-b02e-f50583c9c48a"
+                },
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F3.jpg?alt=media&token=4b81cb1e-54a7-426e-bd73-43590d830761"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364",
+            "precio": 39900,
+            "categoria": "tecnologia"
         }
     ],
     "configuracion": {
