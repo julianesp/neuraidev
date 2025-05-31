@@ -6,6 +6,7 @@ import "./globals.css";
 // import "../styles/components/pages/darkMode.scss";
 import styles from "../styles/components/Layout.module.scss";
 import { ThemeProvider } from "next-themes";
+import Script from "next/script";
 
 export default function RootLayout({ children }) {
   return (
@@ -27,6 +28,20 @@ export default function RootLayout({ children }) {
           />
           <meta name="apple-mobile-web-app-title" content="neurai.dev" />
           <link rel="manifest" href="/manifest.json" />
+
+          {/* Google Analytics con variable de entorno */}
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+          `}
+          </Script>
         </head>
 
         <body>

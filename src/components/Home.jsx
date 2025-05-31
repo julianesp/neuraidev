@@ -205,21 +205,6 @@ export default function Inicio() {
         <title>Inicio</title>
         <link rel="icon" href="/favicon.ico" />
         <meta content="Página de inicio" />
-        {/* Google tag (gtag.js) */}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-Z16BTJ0YZT"
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-Z16BTJ0YZT');
-            `,
-          }}
-        />
       </Head>
 
       <main
