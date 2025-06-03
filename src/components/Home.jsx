@@ -9,17 +9,11 @@ import NightSkyHero from "../components/NightSkyHero";
 import AccesoriosNuevos from "../components/Accesorio/AccesoriosNuevos";
 import BackToTop from "../components/backTop/BackToTop";
 import { CarouselDemo } from "./CarouselDemo";
-import ProductList from "./ProductList";
 import Image from "next/image";
 import FAQ from "./FAQ";
 
-const API_CELULARES = "/celulares.json";
-const API_COMPUTADORES = "/computers.json";
-const API_BOOKS_NEW = "/accesoriesBooksNew.json";
-const API_BOOKS_OLD = "/accesoriesBooksOld.json";
 const API_PRESENTATION = "/presentation.json";
 const API_ACCESORIOS = "/accesories.json";
-const API_GENERALES = "/accesories_generales.json";
 
 function CarouselSkeleton() {
   return (
@@ -180,22 +174,16 @@ export default function Inicio() {
   // const imagePath = [accesorios[0].d1, accesorios[1].d2];
   const ads = [
     {
-      businessName: "Negocio",
+      businessName: "Supermercado",
       description: "Descripción de negocio",
       imageUrl: "",
-      linkUrl: "/business/Tienda",
+      linkUrl: "/businesses/supermercado-local/",
     },
     {
       businessName: "Peluquería",
       description: "Mejore su presentación",
       imageUrl: "",
-      linkUrl: "/business/Peluqueria",
-    },
-    {
-      businessName: "Tercena",
-      description: "La mejor calidad en carnes",
-      imageUrl: "",
-      linkUrl: "#",
+      linkUrl: "/businesses/peluqueria-bella/",
     },
   ];
 

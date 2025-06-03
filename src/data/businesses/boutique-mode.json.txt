@@ -1,0 +1,112 @@
+{
+    "id": "boutique-moda",
+    "name": "Boutique Elegance",
+    "type": "Ropa y Moda",
+    "description": "Moda exclusiva para la mujer moderna. Encuentra las últimas tendencias y piezas únicas que resalten tu estilo personal.",
+    "logo": "/images/logos/boutique-logo.png",
+    "headerImage": "/images/headers/boutique-header.jpg",
+    "contact": {
+        "phone": "+57 320 555 7890",
+        "email": "hola@boutiqueelegance.com",
+        "address": "Avenida Principal #22-18, Sibundoy",
+        "hours": {
+            "lunes_viernes": "10:00 AM - 7:00 PM",
+            "sabado": "10:00 AM - 8:00 PM",
+            "domingo": "12:00 PM - 6:00 PM"
+        }
+    },
+    "categories": [
+        {
+            "id": 1,
+            "name": "Vestidos"
+        },
+        {
+            "id": 2,
+            "name": "Blusas"
+        },
+        {
+            "id": 3,
+            "name": "Pantalones"
+        },
+        {
+            "id": 4,
+            "name": "Accesorios"
+        },
+        {
+            "id": 5,
+            "name": "Zapatos"
+        }
+    ],
+    "featuredProducts": [
+        {
+            "id": 1,
+            "name": "Vestido de Gala",
+            "price": "$280.000",
+            "image": "/images/products/vestido-gala.jpg",
+            "description": "Elegante vestido para ocasiones especiales"
+        },
+        {
+            "id": 2,
+            "name": "Blusa Ejecutiva",
+            "price": "$120.000",
+            "image": "/images/products/blusa-ejecutiva.jpg",
+            "description": "Perfecta para el ambiente laboral"
+        },
+        {
+            "id": 3,
+            "name": "Jean Premium",
+            "price": "$180.000",
+            "image": "/images/products/jean-premium.jpg",
+            "description": "Comodidad y estilo en cada paso"
+        },
+        {
+            "id": 4,
+            "name": "Bolso de Cuero",
+            "price": "$220.000",
+            "image": "/images/products/bolso-cuero.jpg",
+            "description": "Accesorio indispensable de cuero genuino"
+        }
+    ],
+    "promotionProducts": [
+        {
+            "id": 1,
+            "name": "Conjunto Casual",
+            "price": "$150.000",
+            "originalPrice": "$200.000",
+            "image": "/images/promos/conjunto-casual.jpg",
+            "description": "Blusa + Pantalón - Oferta especial"
+        }
+    ],
+    "dailyOffers": [
+        {
+            "id": 1,
+            "name": "Aretes de Moda",
+            "price": "$25.000",
+            "image": "/images/offers/aretes-moda.jpg",
+            "description": "Complementa tu look de hoy"
+        }
+    ],
+    "newProducts": [
+        {
+            "id": 1,
+            "name": "Colección Primavera",
+            "price": "$195.000",
+            "image": "/images/new/coleccion-primavera.jpg",
+            "description": "Recién llegada de París"
+        }
+    ],
+    "socialMedia": [
+        {
+            "name": "Instagram",
+            "url": "https://instagram.com/boutiqueelegance"
+        },
+        {
+            "name": "Facebook",
+            "url": "https://facebook.com/boutiqueelegance"
+        },
+        {
+            "name": "Pinterest",
+            "url": "https://pinterest.com/boutiqueelegance"
+        }
+    ]
+}

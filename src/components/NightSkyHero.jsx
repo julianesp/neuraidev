@@ -60,19 +60,19 @@ const NightSkyHero = () => {
         });
 
         // Animación de la luna
-        mainTimeline.to(
-          ".nightSky-moon",
-          {
-            duration: 0.5,
-            opacity: 1,
-            ease: "power2.inOut",
-            y: 20,
-            repeat: -1,
-            yoyo: true,
-            repeatDelay: 1,
-          },
-          "-=1.5",
-        );
+        // mainTimeline.to(
+        //   ".nightSky-moon",
+        //   {
+        //     duration: 0.5,
+        //     opacity: 1,
+        //     ease: "power2.inOut",
+        //     y: 20,
+        //     repeat: -1,
+        //     yoyo: true,
+        //     repeatDelay: 1,
+        //   },
+        //   "-=1.5",
+        // );
 
         // Animación de estrellas
         const stars = document.querySelectorAll(".nightSky-star");

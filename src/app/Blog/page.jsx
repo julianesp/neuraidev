@@ -15,16 +15,6 @@ const posts = [
     content: `[Aquí va el contenido HTML convertido]`,
     slug: "no-seas-cavernicola",
   },
-  {
-    id: 2,
-    title: "Aprende a programar",
-    date: "28 de mayo, 2025",
-    excerpt: "¿Cuánto es 2 + 0? 🤔",
-    content: `
-      <p>El resultado se podría interpretar de diferentes maneras dependiendo el conocimiento en programación.</p>
-    `,
-    slug: "aprender-a-programar",
-  },
 ];
 
 export default function BlogPage() {

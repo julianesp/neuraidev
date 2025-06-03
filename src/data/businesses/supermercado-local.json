@@ -1,0 +1,111 @@
+{
+    "id": "supermercado-local",
+    "name": "Super Familiar",
+    "type": "Supermercado",
+    "description": "Tu supermercado de confianza con productos frescos, abarrotes y todo lo que necesitas para tu hogar. Atención familiar desde 1995.",
+    "logo": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+    "headerImage": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+    "contact": {
+        "phone": "+57 315 444 5555",
+        "email": "info@superfamiliar.com",
+        "address": "Calle 8 #15-30, Barrio Centro, Sibundoy",
+        "hours": {
+            "lunes_sabado": "6:00 AM - 9:00 PM",
+            "domingo": "7:00 AM - 7:00 PM"
+        }
+    },
+    "categories": [
+        {
+            "id": 1,
+            "name": "Frutas y Verduras"
+        },
+        {
+            "id": 2,
+            "name": "Carnes y Pollo"
+        },
+        {
+            "id": 3,
+            "name": "Lácteos"
+        },
+        {
+            "id": 4,
+            "name": "Abarrotes"
+        },
+        {
+            "id": 5,
+            "name": "Aseo y Hogar"
+        },
+        {
+            "id": 6,
+            "name": "Bebidas"
+        }
+    ],
+    "featuredProducts": [
+        {
+            "id": 1,
+            "name": "Combo Frutas Frescas",
+            "price": "$15.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Selección diaria de frutas de temporada"
+        },
+        {
+            "id": 2,
+            "name": "Carne Premium Kg",
+            "price": "$28.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Cortes selectos de res"
+        },
+        {
+            "id": 3,
+            "name": "Canasta Básica",
+            "price": "$85.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Todo lo esencial para tu hogar"
+        },
+        {
+            "id": 4,
+            "name": "Productos Lácteos",
+            "price": "$12.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Leche, queso y yogurt frescos"
+        }
+    ],
+    "promotionProducts": [
+        {
+            "id": 1,
+            "name": "Combo Limpieza Hogar",
+            "price": "$35.000",
+            "originalPrice": "$45.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Detergente + Desinfectante + Esponja"
+        }
+    ],
+    "dailyOffers": [
+        {
+            "id": 1,
+            "name": "Pan Fresco",
+            "price": "$2.500",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Recién horneado - Oferta del día"
+        }
+    ],
+    "newProducts": [
+        {
+            "id": 1,
+            "name": "Productos Orgánicos",
+            "price": "$18.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Nueva línea de productos saludables"
+        }
+    ],
+    "socialMedia": [
+        {
+            "name": "Facebook",
+            "url": "https://facebook.com/superfamiliar"
+        },
+        {
+            "name": "WhatsApp",
+            "url": "https://wa.me/573154445555"
+        }
+    ]
+}

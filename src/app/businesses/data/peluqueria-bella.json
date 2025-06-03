@@ -1,0 +1,464 @@
+[
+    {
+        "id": "peluqueria-bella",
+        "name": "Peluquería Bella",
+        "type": "Peluquería",
+        "description": "Especialistas en cortes modernos, coloración y tratamientos de belleza. Más de 10 años embelleciendo tu imagen.",
+        "logo": "/images/logos/peluqueria-bella-logo.png",
+        "headerImage": "/images/headers/peluqueria-bella-header.jpg",
+        "contact": {
+            "phone": "+57 300 123 4567",
+            "email": "info@peluqueriabella.com",
+            "address": "Calle 15 #8-25, Centro, Sibundoy",
+            "hours": {
+                "lunes_viernes": "8:00 AM - 6:00 PM",
+                "sabado": "8:00 AM - 4:00 PM",
+                "domingo": "Cerrado"
+            }
+        },
+        "categories": [
+            {
+                "id": 1,
+                "name": "Cortes de Cabello"
+            },
+            {
+                "id": 2,
+                "name": "Coloración"
+            },
+            {
+                "id": 3,
+                "name": "Tratamientos"
+            },
+            {
+                "id": 4,
+                "name": "Peinados"
+            },
+            {
+                "id": 5,
+                "name": "Manicure & Pedicure"
+            }
+        ],
+        "featuredProducts": [
+            {
+                "id": 1,
+                "name": "Corte y Peinado",
+                "price": "$25.000",
+                "image": "/images/services/corte-peinado.jpg",
+                "description": "Corte personalizado + peinado profesional"
+            },
+            {
+                "id": 2,
+                "name": "Coloración Completa",
+                "price": "$80.000",
+                "image": "/images/services/coloracion.jpg",
+                "description": "Cambio de color completo con productos premium"
+            },
+            {
+                "id": 3,
+                "name": "Tratamiento Keratina",
+                "price": "$120.000",
+                "image": "/images/services/keratina.jpg",
+                "description": "Tratamiento alisador y nutritivo"
+            },
+            {
+                "id": 4,
+                "name": "Peinado de Fiesta",
+                "price": "$35.000",
+                "image": "/images/services/peinado-fiesta.jpg",
+                "description": "Peinado elegante para ocasiones especiales"
+            }
+        ],
+        "promotionProducts": [
+            {
+                "id": 1,
+                "name": "Combo Corte + Color",
+                "price": "$85.000",
+                "originalPrice": "$105.000",
+                "image": "/images/promos/combo-corte-color.jpg",
+                "description": "Ahorra $20.000 en este combo especial"
+            },
+            {
+                "id": 2,
+                "name": "Manicure + Pedicure",
+                "price": "$35.000",
+                "originalPrice": "$45.000",
+                "image": "/images/promos/mani-pedi.jpg",
+                "description": "Oferta especial de fin de mes"
+            }
+        ],
+        "dailyOffers": [
+            {
+                "id": 1,
+                "name": "Corte Express",
+                "price": "$15.000",
+                "image": "/images/offers/corte-express.jpg",
+                "description": "Solo por hoy - Corte rápido"
+            }
+        ],
+        "newProducts": [
+            {
+                "id": 1,
+                "name": "Extensiones de Pestañas",
+                "price": "$65.000",
+                "image": "/images/new/extensiones.jpg",
+                "description": "Nuevo servicio disponible"
+            },
+            {
+                "id": 2,
+                "name": "Masaje Capilar Relajante",
+                "price": "$30.000",
+                "image": "/images/new/masaje-capilar.jpg",
+                "description": "Nuevo tratamiento de relajación"
+            }
+        ],
+        "socialMedia": [
+            {
+                "name": "Instagram",
+                "url": "https://instagram.com/peluqueriabella"
+            },
+            {
+                "name": "Facebook",
+                "url": "https://facebook.com/peluqueriabella"
+            },
+            {
+                "name": "WhatsApp",
+                "url": "https://wa.me/573001234567"
+            }
+        ]
+    },
+    {
+        "id": "tienda-tech",
+        "name": "TechStore Pro",
+        "type": "Tecnología",
+        "description": "Tu tienda de confianza para gadgets, accesorios y reparaciones. Los mejores precios en tecnología de última generación.",
+        "logo": "/images/logos/techstore-logo.png",
+        "headerImage": "/images/headers/techstore-header.jpg",
+        "contact": {
+            "phone": "+57 311 987 6543",
+            "email": "ventas@techstorepro.com",
+            "address": "Carrera 12 #10-45, Sibundoy",
+            "hours": {
+                "lunes_viernes": "9:00 AM - 7:00 PM",
+                "sabado": "9:00 AM - 6:00 PM",
+                "domingo": "10:00 AM - 2:00 PM"
+            }
+        },
+        "categories": [
+            {
+                "id": 1,
+                "name": "Smartphones"
+            },
+            {
+                "id": 2,
+                "name": "Accesorios"
+            },
+            {
+                "id": 3,
+                "name": "Computadores"
+            },
+            {
+                "id": 4,
+                "name": "Gaming"
+            },
+            {
+                "id": 5,
+                "name": "Reparaciones"
+            }
+        ],
+        "featuredProducts": [
+            {
+                "id": 1,
+                "name": "iPhone 15 Pro",
+                "price": "$3.200.000",
+                "image": "/images/products/iphone15pro.jpg",
+                "description": "El iPhone más avanzado hasta ahora"
+            },
+            {
+                "id": 2,
+                "name": "Samsung Galaxy S24",
+                "price": "$2.800.000",
+                "image": "/images/products/galaxys24.jpg",
+                "description": "Tecnología Galaxy AI integrada"
+            },
+            {
+                "id": 3,
+                "name": "MacBook Air M3",
+                "price": "$4.200.000",
+                "image": "/images/products/macbookair.jpg",
+                "description": "Potencia y eficiencia en un diseño ultrafino"
+            },
+            {
+                "id": 4,
+                "name": "AirPods Pro 2",
+                "price": "$850.000",
+                "image": "/images/products/airpodspro.jpg",
+                "description": "Audio espacial y cancelación de ruido"
+            }
+        ],
+        "promotionProducts": [
+            {
+                "id": 1,
+                "name": "Combo Gaming Setup",
+                "price": "$1.200.000",
+                "originalPrice": "$1.500.000",
+                "image": "/images/promos/gaming-setup.jpg",
+                "description": "Teclado + Mouse + Audífonos Gaming"
+            }
+        ],
+        "dailyOffers": [
+            {
+                "id": 1,
+                "name": "Cargador Inalámbrico",
+                "price": "$45.000",
+                "image": "/images/offers/cargador-inalambrico.jpg",
+                "description": "Oferta del día - 50% de descuento"
+            }
+        ],
+        "newProducts": [
+            {
+                "id": 1,
+                "name": "Apple Vision Pro",
+                "price": "$12.000.000",
+                "image": "/images/new/applevision.jpg",
+                "description": "Realidad mixta de próxima generación"
+            }
+        ],
+        "socialMedia": [
+            {
+                "name": "Instagram",
+                "url": "https://instagram.com/techstorepro"
+            },
+            {
+                "name": "TikTok",
+                "url": "https://tiktok.com/@techstorepro"
+            },
+            {
+                "name": "WhatsApp",
+                "url": "https://wa.me/573119876543"
+            }
+        ]
+    },
+    {
+        "id": "boutique-moda",
+        "name": "Boutique Elegance",
+        "type": "Ropa y Moda",
+        "description": "Moda exclusiva para la mujer moderna. Encuentra las últimas tendencias y piezas únicas que resalten tu estilo personal.",
+        "logo": "/images/logos/boutique-logo.png",
+        "headerImage": "/images/headers/boutique-header.jpg",
+        "contact": {
+            "phone": "+57 320 555 7890",
+            "email": "hola@boutiqueelegance.com",
+            "address": "Avenida Principal #22-18, Sibundoy",
+            "hours": {
+                "lunes_viernes": "10:00 AM - 7:00 PM",
+                "sabado": "10:00 AM - 8:00 PM",
+                "domingo": "12:00 PM - 6:00 PM"
+            }
+        },
+        "categories": [
+            {
+                "id": 1,
+                "name": "Vestidos"
+            },
+            {
+                "id": 2,
+                "name": "Blusas"
+            },
+            {
+                "id": 3,
+                "name": "Pantalones"
+            },
+            {
+                "id": 4,
+                "name": "Accesorios"
+            },
+            {
+                "id": 5,
+                "name": "Zapatos"
+            }
+        ],
+        "featuredProducts": [
+            {
+                "id": 1,
+                "name": "Vestido de Gala",
+                "price": "$280.000",
+                "image": "/images/products/vestido-gala.jpg",
+                "description": "Elegante vestido para ocasiones especiales"
+            },
+            {
+                "id": 2,
+                "name": "Blusa Ejecutiva",
+                "price": "$120.000",
+                "image": "/images/products/blusa-ejecutiva.jpg",
+                "description": "Perfecta para el ambiente laboral"
+            },
+            {
+                "id": 3,
+                "name": "Jean Premium",
+                "price": "$180.000",
+                "image": "/images/products/jean-premium.jpg",
+                "description": "Comodidad y estilo en cada paso"
+            },
+            {
+                "id": 4,
+                "name": "Bolso de Cuero",
+                "price": "$220.000",
+                "image": "/images/products/bolso-cuero.jpg",
+                "description": "Accesorio indispensable de cuero genuino"
+            }
+        ],
+        "promotionProducts": [
+            {
+                "id": 1,
+                "name": "Conjunto Casual",
+                "price": "$150.000",
+                "originalPrice": "$200.000",
+                "image": "/images/promos/conjunto-casual.jpg",
+                "description": "Blusa + Pantalón - Oferta especial"
+            }
+        ],
+        "dailyOffers": [
+            {
+                "id": 1,
+                "name": "Aretes de Moda",
+                "price": "$25.000",
+                "image": "/images/offers/aretes-moda.jpg",
+                "description": "Complementa tu look de hoy"
+            }
+        ],
+        "newProducts": [
+            {
+                "id": 1,
+                "name": "Colección Primavera",
+                "price": "$195.000",
+                "image": "/images/new/coleccion-primavera.jpg",
+                "description": "Recién llegada de París"
+            }
+        ],
+        "socialMedia": [
+            {
+                "name": "Instagram",
+                "url": "https://instagram.com/boutiqueelegance"
+            },
+            {
+                "name": "Facebook",
+                "url": "https://facebook.com/boutiqueelegance"
+            },
+            {
+                "name": "Pinterest",
+                "url": "https://pinterest.com/boutiqueelegance"
+            }
+        ]
+    },
+    {
+        "id": "supermercado-local",
+        "name": "Super Familiar",
+        "type": "Supermercado",
+        "description": "Tu supermercado de confianza con productos frescos, abarrotes y todo lo que necesitas para tu hogar. Atención familiar desde 1995.",
+        "logo": "/images/logos/super-familiar-logo.png",
+        "headerImage": "/images/headers/supermercado-header.jpg",
+        "contact": {
+            "phone": "+57 315 444 5555",
+            "email": "info@superfamiliar.com",
+            "address": "Calle 8 #15-30, Barrio Centro, Sibundoy",
+            "hours": {
+                "lunes_sabado": "6:00 AM - 9:00 PM",
+                "domingo": "7:00 AM - 7:00 PM"
+            }
+        },
+        "categories": [
+            {
+                "id": 1,
+                "name": "Frutas y Verduras"
+            },
+            {
+                "id": 2,
+                "name": "Carnes y Pollo"
+            },
+            {
+                "id": 3,
+                "name": "Lácteos"
+            },
+            {
+                "id": 4,
+                "name": "Abarrotes"
+            },
+            {
+                "id": 5,
+                "name": "Aseo y Hogar"
+            },
+            {
+                "id": 6,
+                "name": "Bebidas"
+            }
+        ],
+        "featuredProducts": [
+            {
+                "id": 1,
+                "name": "Combo Frutas Frescas",
+                "price": "$15.000",
+                "image": "/images/products/frutas-frescas.jpg",
+                "description": "Selección diaria de frutas de temporada"
+            },
+            {
+                "id": 2,
+                "name": "Carne Premium Kg",
+                "price": "$28.000",
+                "image": "/images/products/carne-premium.jpg",
+                "description": "Cortes selectos de res"
+            },
+            {
+                "id": 3,
+                "name": "Canasta Básica",
+                "price": "$85.000",
+                "image": "/images/products/canasta-basica.jpg",
+                "description": "Todo lo esencial para tu hogar"
+            },
+            {
+                "id": 4,
+                "name": "Productos Lácteos",
+                "price": "$12.000",
+                "image": "/images/products/lacteos.jpg",
+                "description": "Leche, queso y yogurt frescos"
+            }
+        ],
+        "promotionProducts": [
+            {
+                "id": 1,
+                "name": "Combo Limpieza Hogar",
+                "price": "$35.000",
+                "originalPrice": "$45.000",
+                "image": "/images/promos/limpieza-hogar.jpg",
+                "description": "Detergente + Desinfectante + Esponja"
+            }
+        ],
+        "dailyOffers": [
+            {
+                "id": 1,
+                "name": "Pan Fresco",
+                "price": "$2.500",
+                "image": "/images/offers/pan-fresco.jpg",
+                "description": "Recién horneado - Oferta del día"
+            }
+        ],
+        "newProducts": [
+            {
+                "id": 1,
+                "name": "Productos Orgánicos",
+                "price": "$18.000",
+                "image": "/images/new/organicos.jpg",
+                "description": "Nueva línea de productos saludables"
+            }
+        ],
+        "socialMedia": [
+            {
+                "name": "Facebook",
+                "url": "https://facebook.com/superfamiliar"
+            },
+            {
+                "name": "WhatsApp",
+                "url": "https://wa.me/573154445555"
+            }
+        ]
+    }
+]

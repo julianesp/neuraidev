@@ -43,6 +43,19 @@
             "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F1.png?alt=media&token=d6af8342-cd84-4986-a806-ab6733e6cf81",
             "precio": 14900,
             "categoria": "deportes"
+        },
+        {
+            "id": 3,
+            "nombre": "✨ Set de 10 Brochas de Maquillaje con Glitter Morado Glamuroso 💜",
+            "descripcion": "¡Añade un toque de brillo a tu rutina de belleza con este deslumbrante set de 10 brochas de maquillaje! ✨ Cada brocha cuenta con un mango transparente relleno de glitter morado, aportando un estilo único y glamuroso a tu tocador. 💜 Este set incluye una variedad de brochas esenciales para aplicar todo tipo de maquillaje: desde bases y polvos hasta sombras de ojos y delineadores. 🖌️ Las cerdas suaves y de alta calidad permiten una aplicación uniforme y precisa de tus productos favoritos. 👌 ¡Perfecto para uso personal o como un regalo especial para las amantes del maquillaje! 🎁",
+            "imagenes": [
+                {
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=d45714a8-4e95-4e6f-94d9-17e9b9eaa405"
+                }
+            ],
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=d45714a8-4e95-4e6f-94d9-17e9b9eaa405",
+            "precio": 24900,
+            "categoria": "belleza"
         }
     ],
     "configuracion": {

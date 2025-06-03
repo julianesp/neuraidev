@@ -113,6 +113,13 @@ const NavBar = () => {
               Blog
             </Link>
           </li>
+
+          {/* <li role="none">
+            <Link href="/businesses" className="nav-link">
+              Negocios
+            </Link>
+          </li> */}
+
           <li className={styles.dropdown} ref={dropdownRef} role="none">
             <button
               role="menuitem"

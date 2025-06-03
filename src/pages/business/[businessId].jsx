@@ -9,9 +9,9 @@ const businessesData = {
     name: "Tienda Don Pedro",
     description:
       "La mejor tienda del barrio con productos frescos y precios económicos",
-    logo: "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/store.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9zdG9yZS5wbmciLCJpYXQiOjE3NDAxMDk4NzksImV4cCI6MTc3MTY0NTg3OX0.TJG-NcrDlATRTk5uhH_NcvmnauUoNJrGOQPmpVleDj4",
+    logo: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fstore.png?alt=media&token=85a094bb-a288-4f8d-b08f-5fd226dc8bd0",
     headerImage:
-      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/local.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9sb2NhbC5wbmciLCJpYXQiOjE3NDAxMDYzMDUsImV4cCI6MTc3MTY0MjMwNX0.Um9CF_Uju100xYcVbMfcgSjrZjCgxbLXFb7Gb-Bmwrc",
+      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fstore.png?alt=media&token=85a094bb-a288-4f8d-b08f-5fd226dc8bd0",
     categories: [
       { id: "aseo", name: "Aseo" },
       { id: "grano", name: "Grano" },
@@ -29,9 +29,9 @@ const businessesData = {
     name: "Peluquería Estilos",
     description:
       "Mejoramos tu presentación personal con los mejores cortes y tratamientos capilares",
-    logo: "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMS5qcGciLCJpYXQiOjE3NDE0ODg4OTMsImV4cCI6MTc3MzAyNDg5M30.TQHU4Oh2nBUHN1FDeA2zK6s_Mm_HWd2vgIIFJbQW76Q",
+    logo: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fstore.png?alt=media&token=85a094bb-a288-4f8d-b08f-5fd226dc8bd0",
     headerImage:
-      "https://nwxetoffoghsimkqfsbv.supabase.co/storage/v1/object/sign/media/accesories%20several/lamparaByke/1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJtZWRpYS9hY2Nlc29yaWVzIHNldmVyYWwvbGFtcGFyYUJ5a2UvMS5qcGciLCJpYXQiOjE3NDE0ODg4OTMsImV4cCI6MTc3MzAyNDg5M30.TQHU4Oh2nBUHN1FDeA2zK6s_Mm_HWd2vgIIFJbQW76Q",
+      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fstore.png?alt=media&token=85a094bb-a288-4f8d-b08f-5fd226dc8bd0",
     categories: [
       { id: "cortes", name: "Cortes" },
       { id: "tintes", name: "Tintes" },

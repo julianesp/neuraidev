@@ -1,0 +1,127 @@
+{
+    "id": "peluqueria-bella",
+    "name": "Peluquería Bella",
+    "type": "Peluquería",
+    "description": "Especialistas en cortes modernos, coloración y tratamientos de belleza. Más de 10 años embelleciendo tu imagen.",
+    "logo": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+    "headerImage": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+    "contact": {
+        "phone": "+57 300 123 4567",
+        "email": "info@peluqueriabella.com",
+        "address": "Calle 15 #8-25, Centro, Sibundoy",
+        "hours": {
+            "lunes_viernes": "8:00 AM - 6:00 PM",
+            "sabado": "8:00 AM - 4:00 PM",
+            "domingo": "Cerrado"
+        }
+    },
+    "categories": [
+        {
+            "id": 1,
+            "name": "Cortes de Cabello"
+        },
+        {
+            "id": 2,
+            "name": "Coloración"
+        },
+        {
+            "id": 3,
+            "name": "Tratamientos"
+        },
+        {
+            "id": 4,
+            "name": "Peinados"
+        },
+        {
+            "id": 5,
+            "name": "Manicure & Pedicure"
+        }
+    ],
+    "featuredProducts": [
+        {
+            "id": 1,
+            "name": "Corte y Peinado",
+            "price": "$25.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Corte personalizado + peinado profesional"
+        },
+        {
+            "id": 2,
+            "name": "Coloración Completa",
+            "price": "$80.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Cambio de color completo con productos premium"
+        },
+        {
+            "id": 3,
+            "name": "Tratamiento Keratina",
+            "price": "$120.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Tratamiento alisador y nutritivo"
+        },
+        {
+            "id": 4,
+            "name": "Peinado de Fiesta",
+            "price": "$35.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Peinado elegante para ocasiones especiales"
+        }
+    ],
+    "promotionProducts": [
+        {
+            "id": 1,
+            "name": "Combo Corte + Color",
+            "price": "$85.000",
+            "originalPrice": "$105.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Ahorra $20.000 en este combo especial"
+        },
+        {
+            "id": 2,
+            "name": "Manicure + Pedicure",
+            "price": "$35.000",
+            "originalPrice": "$45.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Oferta especial de fin de mes"
+        }
+    ],
+    "dailyOffers": [
+        {
+            "id": 1,
+            "name": "Corte Express",
+            "price": "$15.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Solo por hoy - Corte rápido"
+        }
+    ],
+    "newProducts": [
+        {
+            "id": 1,
+            "name": "Extensiones de Pestañas",
+            "price": "$65.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Nuevo servicio disponible"
+        },
+        {
+            "id": 2,
+            "name": "Masaje Capilar Relajante",
+            "price": "$30.000",
+            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "description": "Nuevo tratamiento de relajación"
+        }
+    ],
+    "socialMedia": [
+        {
+            "name": "Instagram",
+            "url": "https://instagram.com/peluqueriabella"
+        },
+        {
+            "name": "Facebook",
+            "url": "https://facebook.com/peluqueriabella"
+        },
+        {
+            "name": "WhatsApp",
+            "url": "https://wa.me/573001234567"
+        }
+    ]
+}
