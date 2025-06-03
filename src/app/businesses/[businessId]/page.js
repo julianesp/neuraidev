@@ -94,11 +94,12 @@ import peluqueria from "../../../data/businesses/peluqueria.json";
 // import tiendaTechData from "../../../data/businesses/tienda-tech.json";
 // import boutiqueModa from "../../../data/businesses/boutique-mode.json";
 import supermercadoLocal from "../../../data/businesses/supermercado-local.json";
+import Link from "next/link";
 
 // Mapeo de datos simplificado
 const businessDataMap = {
   "peluqueria-bella": peluqueria,
-//   "tienda-tech": tiendaTechData,
+  //   "tienda-tech": tiendaTechData,
   //   "boutique-moda": boutiqueModa,
   //   "accesorios-cell": accesoriosCell,
   "supermercado-local": supermercadoLocal,
@@ -148,16 +149,16 @@ export default function BusinessDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
         <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 shadow-2xl text-center">
-          <h1 className="text-3xl font-bold text-white mb-4">{error}</h1>
-          <p className="text-white/80 mb-6">
+          <h1 className="text-3xl font-bold text-slate-950 mb-4">{error}</h1>
+          <p className="text-slate-950 mb-6">
             Lo sentimos, no pudimos encontrar este negocio.
           </p>
-          <a
+          <Link
             href="/businesses"
             className="inline-block px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
           >
             Ver todos los negocios
-          </a>
+          </Link>
         </div>
       </div>
     );

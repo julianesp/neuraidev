@@ -160,7 +160,7 @@ export default function BusinessesHomePage() {
       {/* Call to Action */}
       <div className="bg-gradient-to-r from-purple-500 to-blue-600 py-16">
         <div className="max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-3xl font-bold text-white mb-4">
+          <h2 className="text-3xl font-bold text-slate-950">
             ¿Quieres agregar tu negocio?
           </h2>
           <p className="text-lg text-white/90 mb-8">

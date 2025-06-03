@@ -404,7 +404,7 @@ const BusinessPage = ({ businessData }) => {
   };
 
   return (
-    <RootLayout>
+    // <RootLayout>
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
         {/* Header Hero Section */}
         <div
@@ -603,7 +603,7 @@ const BusinessPage = ({ businessData }) => {
           )}
         </div>
       </div>
-    </RootLayout>
+    // {/* </RootLayout> */}
   );
 };
 
