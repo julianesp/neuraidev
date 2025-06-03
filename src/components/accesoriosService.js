@@ -23,7 +23,7 @@ export const obtenerAccesorios = async () => {
     // Extraer el array de accesorios de la estructura
     return data.accesorios || [];
   } catch (error) {
-    console.error("Error en el servicio de accesorios:", error);
+    // console.error("Error en el servicio de accesorios:", error);
     // Devolver array vacío para evitar errores en los componentes
     return [];
   }

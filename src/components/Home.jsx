@@ -175,13 +175,13 @@ export default function Inicio() {
   const ads = [
     {
       businessName: "Supermercado",
-      description: "Descripción de negocio",
+      description: "Solicite este espacio para su negocio",
       imageUrl: "",
       linkUrl: "/businesses/supermercado-local/",
     },
     {
       businessName: "Peluquería",
-      description: "Mejore su presentación",
+      description: "Solicite este espacio para su negocio",
       imageUrl: "",
       linkUrl: "/businesses/peluqueria-bella/",
     },
@@ -218,7 +218,7 @@ export default function Inicio() {
 
         {/* Sección lateral de anuncios */}
         <section
-          className={`${styles.aside}`}
+          className={`${styles.aside} `}
           style={{
             display: "block",
             gridArea: "aside",
@@ -312,7 +312,7 @@ export default function Inicio() {
         >
           <Suspense fallback={<LoadingSkeleton />}>
             <AccesoriosDestacados />
-            <AccesoriosNuevos />
+            {/* <AccesoriosNuevos /> */}
           </Suspense>
         </section>
 

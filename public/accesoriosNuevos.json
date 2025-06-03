@@ -1,26 +1,23 @@
 {
     "accesorios": [
         {
-            "id": 1,
-            "nombre": "Luces para bicicleta",
-            "descripcion": "Con batería recargable mediante USB tipo v. Cuentan con 3 modos de iluminación. Luz delantera cuenta con luz alta, baja y parpadeo. En paquete incluye lámpara, USB y resortes para sujetar.",
+            "id": "cargador-rapido-pd-20w",
+            "nombre": "⚡ Cargador Rápido PD 20W con Cable USB-C a Lightning (1 Metro) 🚀",
+            "descripcion": "¡Carga tus dispositivos a la velocidad de la luz con este cargador rápido PD (Power Delivery) de 20W! 🔌 Incluye un cable USB-C a Lightning de 1 metro, perfecto para cargar tu iPhone o iPad de forma eficiente. 💨 Experimenta una carga súper rápida: ¡hasta un 60% en solo 30 minutos! ⏱️ Su diseño compacto y color blanco lo hacen ideal para llevarlo a donde vayas. ⚪ ¡No te quedes sin batería en los momentos importantes! 🔋",
             "imagenes": [
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F1.jpg?alt=media&token=438191c2-2046-4ed2-bc83-bebe7040b7620.q0brOUei6-NJWIDKP7007TAstOMQXDI1w7708mfh3RM"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364"
                 },
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F2.jpg?alt=media&token=065d6403-1db8-4098-a31c-0d3049d16ec5"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F2.jpg?alt=media&token=b56fbb04-ed7c-4682-b02e-f50583c9c48a"
                 },
                 {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F3.jpg?alt=media&token=4e8c1f64-8267-43bd-ab88-339ba1c22f8e"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F4.jpg?alt=media&token=b966d88d-5b40-426e-9448-9873eb8da94d"
+                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F3.jpg?alt=media&token=4b81cb1e-54a7-426e-bd73-43590d830761"
                 }
             ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F1.jpg?alt=media&token=438191c2-2046-4ed2-bc83-bebe7040b762",
-            "precio": 34900,
-            "categoria": "damas"
+            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364",
+            "precio": 39900,
+            "categoria": "tecnologia"
         }
     ],
     "configuracion": {

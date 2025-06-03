@@ -192,8 +192,10 @@ function AdContent({
         />
       </div>
       <div className="p-4">
-        <h2 className="text-xl font-semibold mb-2">{businessName}</h2>
-        <p className="text-gray-600 mb-4">{description}</p>
+        <h2 className="text-gray-900 text-xl font-semibold mb-2 dark:text-slate-950">
+          {businessName}
+        </h2>
+        <p className="text-gray-900 mb-4 dark:text-slate-950">{description}</p>
 
         <Link
           href={businessId ? `/business/${businessId}` : linkUrl}

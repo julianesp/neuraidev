@@ -138,6 +138,10 @@
     }
   }
 
+  & .aside {
+    z-index: 60;
+  }
+
   & .linksDirect {
     position: relative;
     margin-top: 20px;

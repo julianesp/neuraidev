@@ -1,4 +1,5 @@
 @use "../mixins.scss" as *;
+@use "../_variables.scss" as *;
 
 .footer {
   @include flex-center;
@@ -11,7 +12,9 @@
   text-align: center;
   width: 100%;
   height: auto;
-  background-color: rgba(48, 100, 204, 0.95);
+  // background-color: rgba(48, 100, 204, 0.95);
+  // background-color: $color-primario-oscuro;
+  background-color: white;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 
