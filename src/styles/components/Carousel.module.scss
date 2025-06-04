@@ -3,7 +3,7 @@
 .carouselContainer {
   position: relative;
   // width: 100vw;
-  // height: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   margin-top: 20px;
@@ -17,7 +17,7 @@
 
 .carousel {
   position: relative;
-  // height: 100%;
+  height: 100%;
   display: flex;
   touch-action: pan-y; // Permite scroll vertical pero maneja swipe horizontal
   user-select: none; // Previene selección de texto durante swipe

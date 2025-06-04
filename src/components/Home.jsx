@@ -204,7 +204,6 @@ export default function Inicio() {
           <NightSkyHero />
         </div>
 
-        {/* Sección de carrusel */}
         <div className={`${styles.carrusel}`}>
           <Suspense fallback={<CarouselSkeleton />}>
             <CarouselDemo
