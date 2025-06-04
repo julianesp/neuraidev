@@ -20,10 +20,54 @@
   .flecha {
     position: fixed;
     padding: 10px;
-    bottom: 5px;
+    bottom: 8px;
     left: 5px;
-    background-color: v.$color-fondo-claro;
-    // box-shadow: 5px 5px 5px v.$color-sombra;
+    background-color: v.$color-fondo;
+    background: linear-gradient(to bottom, v.$color-fondo, v.$color-fondo);
+    box-shadow:
+      0 6px 0 v.$color-primario,
+      /* Sombra base (profundidad) */ 0 8px 10px rgba(0, 0, 0, 0.3); /* Sombra exterior */
+
+    /* Transiciones */
+    transition:
+      transform 0.1s ease,
+      box-shadow 0.1s ease;
+
+    /* Efecto 3D con pseudo-elementos */
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 45%;
+      // background: linear-gradient(rgba(255, 255, 255, 0.3), transparent);
+      border-radius: 12px 12px 0 0;
+      pointer-events: none;
+    }
+
+    /* Efecto hover */
+    &:hover {
+      background: linear-gradient(
+        to bottom,
+        v.$color-secundario,
+        v.$color-primario
+      );
+      box-shadow:
+        0 6px 0 v.$color-sombra,
+        0 10px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Efecto activo (presionado) */
+    &:active {
+      transform: translateY(6px); /* Mueve el botón hacia abajo */
+      box-shadow:
+        0 0px 0 #1a5276,
+        /* Elimina la sombra de profundidad */ 0 2px 5px rgba(0, 0, 0, 0.3); /* Reduce la sombra exterior */
+    }
+
+    //codigo anterior
+    cursor: pointer;
     border-radius: 50%;
     cursor: pointer;
     z-index: 100;
