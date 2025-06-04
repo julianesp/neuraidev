@@ -1,20 +1,19 @@
-@use "../mixins.scss" as *;
-@use "../_variables.scss" as *;
+@use "../mixins.scss" as m;
+@use "../_variables.scss" as v;
 
 .footer {
-  @include flex-center;
+  @include m.flex-center;
   position: relative;
   flex-direction: column;
   padding-top: 10px;
   padding-bottom: 20px;
   padding-left: 10px;
   padding-right: 10px;
+
   text-align: center;
   width: 100%;
   height: auto;
-  // background-color: rgba(48, 100, 204, 0.95);
-  // background-color: $color-primario-oscuro;
-  background-color: white;
+  background-color: v.$color-primario-oscuro;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 
@@ -23,15 +22,20 @@
     padding: 10px;
     bottom: 5px;
     left: 5px;
-    background-color: #fff;
+    background-color: v.$color-fondo-claro;
+    // box-shadow: 5px 5px 5px v.$color-sombra;
     border-radius: 50%;
     cursor: pointer;
-    z-index: 10;
+    z-index: 100;
 
     img {
+      border-color: 5px solid #000;
+
       width: 30px;
       height: 30px;
     }
+
+    animation-name: pulsar;
   }
 
   .description {
@@ -222,6 +226,16 @@
         font-size: 0.9rem;
         margin: 6px 0;
         text-align: center;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .footer {
+      & .flecha {
+        &:hover {
+          transform: scale(0.8);
+        }
       }
     }
   }

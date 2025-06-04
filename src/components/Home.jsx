@@ -389,7 +389,8 @@ export default function Inicio() {
                 <Image
                   src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990"
                   alt="Computadores"
-                  fill={true} // Ocupa todo el contenedor padre
+                  width={300}
+                  height={200}
                   className="rounded-md object-contain"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   priority={false} // Solo true para imágenes above-the-fold
