@@ -385,22 +385,23 @@ export default function Inicio() {
               className={`${styles.tipo} ${styles.fadeInRight}`}
             >
               <h2 className="text-black dark:text-black">Computadores</h2>
-
-              <Image
-                src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990"
-                alt="Computadores"
-                width={300}
-                height={200}
-                className="mt-4 rounded-md"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                priority={false} // Solo true para imágenes above-the-fold
-                quality={85} // Reduce de 100 a 85
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                onError={() =>
-                  setImageError((prev) => ({ ...prev, [imageId]: true }))
-                }
-              />
+              <div className="mt-4 relative aspect-[3/2]">
+                <Image
+                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990"
+                  alt="Computadores"
+                  fill={true} // Ocupa todo el contenedor padre
+                  className="rounded-md object-contain"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  priority={false} // Solo true para imágenes above-the-fold
+                  loading="lazy"
+                  quality={85} // Reduce de 100 a 85
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                  onError={() =>
+                    setImageError((prev) => ({ ...prev, [imageId]: true }))
+                  }
+                />
+              </div>
 
               <Link
                 href="/accesorios/computadoras"
