@@ -1,27 +1,27 @@
 {
-    "accesorios": [
+  "accesorios": [
+    {
+      "id": "cargador-rapido-pd-20w",
+      "nombre": "⚡ Cargador Rápido PD 20W con Cable USB-C a Lightning (1 Metro) 🚀",
+      "descripcion": "¡Carga tus dispositivos a la velocidad de la luz con este cargador rápido PD (Power Delivery) de 20W! 🔌 Incluye un cable USB-C a Lightning de 1 metro, perfecto para cargar tu iPhone o iPad de forma eficiente. 💨 Experimenta una carga súper rápida: ¡hasta un 60% en solo 30 minutos! ⏱️ Su diseño compacto y color blanco lo hacen ideal para llevarlo a donde vayas. ⚪ ¡No te quedes sin batería en los momentos importantes! 🔋",
+      "imagenes": [
         {
-            "id": "cargador-rapido-pd-20w",
-            "nombre": "⚡ Cargador Rápido PD 20W con Cable USB-C a Lightning (1 Metro) 🚀",
-            "descripcion": "¡Carga tus dispositivos a la velocidad de la luz con este cargador rápido PD (Power Delivery) de 20W! 🔌 Incluye un cable USB-C a Lightning de 1 metro, perfecto para cargar tu iPhone o iPad de forma eficiente. 💨 Experimenta una carga súper rápida: ¡hasta un 60% en solo 30 minutos! ⏱️ Su diseño compacto y color blanco lo hacen ideal para llevarlo a donde vayas. ⚪ ¡No te quedes sin batería en los momentos importantes! 🔋",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F2.jpg?alt=media&token=b56fbb04-ed7c-4682-b02e-f50583c9c48a"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F3.jpg?alt=media&token=4b81cb1e-54a7-426e-bd73-43590d830761"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364",
-            "precio": 39900,
-            "categoria": "tecnologia"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F2.jpg?alt=media&token=b56fbb04-ed7c-4682-b02e-f50583c9c48a"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F3.jpg?alt=media&token=4b81cb1e-54a7-426e-bd73-43590d830761"
         }
-    ],
-    "configuracion": {
-        "telefono": "+573174503604",
-        "whatsappMensaje": "Hola, estoy interesado en el accesorio destacado: "
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364",
+      "precio": 44900,
+      "categoria": "tecnologia"
     }
+  ],
+  "configuracion": {
+    "telefono": "+573174503604",
+    "whatsappMensaje": "Hola, estoy interesado en el accesorio destacado: "
+  }
 }

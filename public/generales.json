@@ -1,162 +1,162 @@
 {
-    "accesorios": [
+  "accesorios": [
+    {
+      "id": 1,
+      "nombre": "🐾 Cepillo Masajeador para Mascotas",
+      "descripcion": "🔄 Diseño ergonómico con púas flexibles y suaves 🎯 Estimula la circulación y promueve pelaje saludable 🧠 Recargable vía USB con función de vibración 💦 Tecnología de dispersión para productos de pelaje 🐶 Compatible con perros, gatos y conejos 👋 Agarre cómodo para cepillado prolongado 🔋 Botón de fácil acceso para control sencillo 🌱 Materiales hipoalergénicos y resistentes 🧵 Elimina pelo muerto y previene nudos.",
+      "imagenes": [
         {
-            "id": 1,
-            "nombre": "🐾 Cepillo Masajeador para Mascotas",
-            "descripcion": "🔄 Diseño ergonómico con púas flexibles y suaves 🎯 Estimula la circulación y promueve pelaje saludable 🧠 Recargable vía USB con función de vibración 💦 Tecnología de dispersión para productos de pelaje 🐶 Compatible con perros, gatos y conejos 👋 Agarre cómodo para cepillado prolongado 🔋 Botón de fácil acceso para control sencillo 🌱 Materiales hipoalergénicos y resistentes 🧵 Elimina pelo muerto y previene nudos.",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488276344_122211784760083804_4045851527308646448_n%20(1).jpg?alt=media&token=6ab49cbf-f234-4148-8b92-57eacd07ccf3"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488259887_122211784904083804_9197169216070061263_n.jpg?alt=media&token=3b957ef5-e13f-4c94-8d1a-cca71b9ff58a"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488255088_122211784886083804_5752938043137725685_n.jpg?alt=media&token=80c2bf85-21b8-4ce4-9172-8bc4201dc325"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488224424_122211784964083804_4527848692727095197_n.jpg?alt=media&token=4a36cf88-985d-4c07-b947-af3399514b94"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3",
-            "precio": 33900,
-            "categoria": "mascotas"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3"
         },
         {
-            "id": 2,
-            "nombre": "💆‍♀️ Aceite de Romero 🌿 para Cuidado Capilar ✨",
-            "descripcion": "🌱 Aceite de Romero formulado especialmente para fortalecer tu cabello desde la raíz. 📈 Estimula el crecimiento capilar, 🚫 reduce la caída del cabello, ❄️ combate la caspa, 💪 fortalece el cabello quebradizo, ✨ aporta brillo natural. 👍 Ideal para todo tipo de cabello. 🧴 Presentación premium con gotero para aplicación precisa y sin desperdicios. 💧 ¡Solo basta con tres gotas! 💆‍♀️ Aplica directamente en el cuero cabelludo con suaves masajes en las noches. 🌙. Sigue las instrucciones de la imágen 😉.",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F1.jpg?alt=media&token=0b4b25e6-5bb3-4919-822d-888b0fcfce2c"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F2.png?alt=media&token=f7cc26a9-25b2-4e3e-8c3a-92da364d53ad"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F3.jpg?alt=media&token=c4c1011f-c618-4f3b-9c48-72c8f69437f2"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F4.jpg?alt=media&token=8b0d550b-9ee3-4edf-9a1b-c359b8930f22"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F5.png?alt=media&token=de4a97e3-1bd1-441f-8a07-bd2a796eb6eb"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F1.jpg?alt=media&token=0b4b25e6-5bb3-4919-822d-888b0fcfce2c",
-            "precio": 39900,
-            "categoria": "belleza"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488276344_122211784760083804_4045851527308646448_n%20(1).jpg?alt=media&token=6ab49cbf-f234-4148-8b92-57eacd07ccf3"
         },
         {
-            "id": 3,
-            "nombre": "🎤 Set de Karaoke Portátil K12 con 2 Micrófonos Inalámbricos 🔊✨",
-            "descripcion": "🔥 Llévate la fiesta a donde quieras con este set de karaoke K12. Incluye 🎤 2 micrófonos inalámbricos y 📦 una potente bocina con luces LED multicolor 🌈. Ideal para reuniones, fiestas o tardes de canto 🎶. Conexión Bluetooth, batería recargable 🔋 y correa para llevarlo a todas partes. ¡Haz que todos canten contigo! 🎉",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-09.jpg?alt=media&token=f58f1b6f-77cc-4454-a739-b67e30e8dc29"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-10.jpg?alt=media&token=9c482b42-6f16-4bca-ba5e-a39e1ab06e80"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-11.jpg?alt=media&token=a4a16bd3-2448-4559-963d-bb136aff65b5"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-08.jpg?alt=media&token=69621651-4013-42ea-b23a-743af0a59440"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-09.jpg?alt=media&token=f58f1b6f-77cc-4454-a739-b67e30e8dc29",
-            "precio": 55900,
-            "categoria": "tecnologia"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488259887_122211784904083804_9197169216070061263_n.jpg?alt=media&token=3b957ef5-e13f-4c94-8d1a-cca71b9ff58a"
         },
         {
-            "id": 4,
-            "nombre": "🚗 Cargador Rápido USB para Carro GWR (4 Puertos, 7A Total) ⚡",
-            "descripcion": "¡Mantén todos tus dispositivos cargados mientras viajas con este cargador USB para carro! 🔌 Cuenta con 4 puertos USB, permitiendo cargar múltiples dispositivos simultáneamente. ⚡ Uno de los puertos es compatible con Qualcomm Quick Charge 3.0 para una carga ultrarrápida de dispositivos compatibles. 🚀 Ofrece una salida máxima de 7A (35W) distribuidos inteligentemente entre los puertos. 💡 Diseño con chip inteligente que optimiza la carga y ofrece protección contra sobrevoltaje. ✅ Ideal para cargar smartphones (iOS y Android), tablets, GPS y otros dispositivos digitales. 📱 Su diseño compacto y elegante se adapta perfectamente al interior de tu vehículo. ✨ ¡Nunca más te quedes sin batería en tus viajes! 🔋",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F1.jpg?alt=media&token=865149a2-8803-47c6-b656-956049ef531b"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F2.jpg?alt=media&token=4c5236c0-8665-4450-97ff-6e83394e3289"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F3.jpg?alt=media&token=5b0f763e-f4ff-4963-921f-f0320c7e511c"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F4.jpg?alt=media&token=1e98e511-556e-4491-8911-f3a284bb684d"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F5.jpg?alt=media&token=a05ebdda-ea35-4720-89f7-404df53c5973"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F1.jpg?alt=media&token=865149a2-8803-47c6-b656-956049ef531b",
-            "precio": 31900,
-            "categoria": "carros"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488255088_122211784886083804_5752938043137725685_n.jpg?alt=media&token=80c2bf85-21b8-4ce4-9172-8bc4201dc325"
         },
         {
-            "id": 5,
-            "nombre": "🧤 Guantes Cortos de Ciclismo Transpirables y Antideslizantes 🚴‍♀️",
-            "descripcion": "¡Disfruta de tus paseos en bicicleta con estos cómodos y funcionales guantes cortos! 🚴‍♂️ Diseñados para ofrecer un agarre seguro y reducir la fatiga en tus manos. 🖐️ Su diseño antideslizante asegura un excelente control del manillar. 🔒 Ideales para ciclismo de carretera, montaña o cualquier tipo de paseo. Talla M",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fguantes%20bike%2F1.jpg?alt=media&token=a4f67101-603f-4e0c-a17c-0bd2da25dd54"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fguantes%20bike%2F2.jpg?alt=media&token=4a16912b-fe7e-4888-8026-43af091be657"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fguantes%20bike%2F1.jpg?alt=media&token=a4f67101-603f-4e0c-a17c-0bd2da25dd54",
-            "precio": 14900,
-            "categoria": "deporte"
-        },
-        {
-            "id": 6,
-            "nombre": "🎮 Control Inalámbrico Multifunción para Juegos 🕹️",
-            "descripcion": "¡Lleva tu experiencia de juego al siguiente nivel con este versátil control inalámbrico! 🚀 Compatible con múltiples plataformas, incluyendo PC, consolas 💻🕹️ Diseño ergonómico para largas sesiones de juego con comodidad. 🙌 Cuenta con joysticks analógicos precisos, botones sensibles y una cruceta direccional. 👍 Incluye adaptadores USB y USB-C para una fácil conexión inalámbrica. 📶 También se puede utilizar con cable de carga USB incluido. 🔌 ¡Sumérgete en tus juegos favoritos con un control diseñado para la victoria! 🏆",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F1.jpg?alt=media&token=6f7ef15d-0a15-4f6a-bb5b-08ace0dc4384"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F2.jpg?alt=media&token=2d77ed56-bcab-4cb5-b5e5-9269f990219f"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F3.jpg?alt=media&token=f3f72e9c-737e-4096-adeb-50e9c2b2d8cb"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F4.jpg?alt=media&token=9e29cafd-4b06-49d0-a7bc-104723d422eb"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F5.jpg?alt=media&token=58c6fab4-7e79-4c4d-8257-a0325ad55020"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F1.jpg?alt=media&token=6f7ef15d-0a15-4f6a-bb5b-08ace0dc4384",
-            "precio": 89900,
-            "categoria": "videojuegos"
-        },
-        {
-            "id": 7,
-            "nombre": "🛠️ Alicate para Eslabones de Cadena de Bicicleta con Gancho Asistente 🔗",
-            "descripcion": "¡Facilita el mantenimiento de tu bicicleta con este práctico alicate para eslabones de cadena! 🛠️ Diseñado específicamente para abrir y cerrar los eslabones maestros de forma rápida y sencilla. 🔗 Incluye un gancho asistente que ayuda a mantener la tensión en la cadena durante la operación. 👌 Fabricado con materiales resistentes para garantizar durabilidad. 💪 Herramienta esencial para cualquier ciclista, desde principiantes hasta profesionales. 🚴‍♀️ ¡Realiza el mantenimiento de tu cadena de forma eficiente y sin complicaciones! ⚙️",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcadena%20bicicleta%2F1.jpg?alt=media&token=f8a933c8-3b58-4178-b397-d5c06d1bcc91"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcadena%20bicicleta%2F2.jpg?alt=media&token=f429fb1c-9a2b-42bc-8d09-625072fdeff8"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcadena%20bicicleta%2F1.jpg?alt=media&token=f8a933c8-3b58-4178-b397-d5c06d1bcc91",
-            "precio": 24900,
-            "categoria": "bicicleta"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488224424_122211784964083804_4527848692727095197_n.jpg?alt=media&token=4a36cf88-985d-4c07-b947-af3399514b94"
         }
-    ],
-    "configuracion": {
-        "telefono": "+573174503604",
-        "whatsappMensaje": "Hola, estoy interesado en este accesorio de damas: "
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3",
+      "precio": 38900,
+      "categoria": "mascotas"
+    },
+    {
+      "id": 2,
+      "nombre": "💆‍♀️ Aceite de Romero 🌿 para Cuidado Capilar ✨",
+      "descripcion": "🌱 Aceite de Romero formulado especialmente para fortalecer tu cabello desde la raíz. 📈 Estimula el crecimiento capilar, 🚫 reduce la caída del cabello, ❄️ combate la caspa, 💪 fortalece el cabello quebradizo, ✨ aporta brillo natural. 👍 Ideal para todo tipo de cabello. 🧴 Presentación premium con gotero para aplicación precisa y sin desperdicios. 💧 ¡Solo basta con tres gotas! 💆‍♀️ Aplica directamente en el cuero cabelludo con suaves masajes en las noches. 🌙. Sigue las instrucciones de la imágen 😉.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F1.jpg?alt=media&token=0b4b25e6-5bb3-4919-822d-888b0fcfce2c"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F2.png?alt=media&token=f7cc26a9-25b2-4e3e-8c3a-92da364d53ad"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F3.jpg?alt=media&token=c4c1011f-c618-4f3b-9c48-72c8f69437f2"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F4.jpg?alt=media&token=8b0d550b-9ee3-4edf-9a1b-c359b8930f22"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F5.png?alt=media&token=de4a97e3-1bd1-441f-8a07-bd2a796eb6eb"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F1.jpg?alt=media&token=0b4b25e6-5bb3-4919-822d-888b0fcfce2c",
+      "precio": 44900,
+      "categoria": "belleza"
+    },
+    {
+      "id": 3,
+      "nombre": "🎤 Set de Karaoke Portátil K12 con 2 Micrófonos Inalámbricos 🔊✨",
+      "descripcion": "🔥 Llévate la fiesta a donde quieras con este set de karaoke K12. Incluye 🎤 2 micrófonos inalámbricos y 📦 una potente bocina con luces LED multicolor 🌈. Ideal para reuniones, fiestas o tardes de canto 🎶. Conexión Bluetooth, batería recargable 🔋 y correa para llevarlo a todas partes. ¡Haz que todos canten contigo! 🎉",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-09.jpg?alt=media&token=f58f1b6f-77cc-4454-a739-b67e30e8dc29"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-10.jpg?alt=media&token=9c482b42-6f16-4bca-ba5e-a39e1ab06e80"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-11.jpg?alt=media&token=a4a16bd3-2448-4559-963d-bb136aff65b5"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-08.jpg?alt=media&token=69621651-4013-42ea-b23a-743af0a59440"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-09.jpg?alt=media&token=f58f1b6f-77cc-4454-a739-b67e30e8dc29",
+      "precio": 60900,
+      "categoria": "tecnologia"
+    },
+    {
+      "id": 4,
+      "nombre": "🚗 Cargador Rápido USB para Carro GWR (4 Puertos, 7A Total) ⚡",
+      "descripcion": "¡Mantén todos tus dispositivos cargados mientras viajas con este cargador USB para carro! 🔌 Cuenta con 4 puertos USB, permitiendo cargar múltiples dispositivos simultáneamente. ⚡ Uno de los puertos es compatible con Qualcomm Quick Charge 3.0 para una carga ultrarrápida de dispositivos compatibles. 🚀 Ofrece una salida máxima de 7A (35W) distribuidos inteligentemente entre los puertos. 💡 Diseño con chip inteligente que optimiza la carga y ofrece protección contra sobrevoltaje. ✅ Ideal para cargar smartphones (iOS y Android), tablets, GPS y otros dispositivos digitales. 📱 Su diseño compacto y elegante se adapta perfectamente al interior de tu vehículo. ✨ ¡Nunca más te quedes sin batería en tus viajes! 🔋",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F1.jpg?alt=media&token=865149a2-8803-47c6-b656-956049ef531b"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F2.jpg?alt=media&token=4c5236c0-8665-4450-97ff-6e83394e3289"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F3.jpg?alt=media&token=5b0f763e-f4ff-4963-921f-f0320c7e511c"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F4.jpg?alt=media&token=1e98e511-556e-4491-8911-f3a284bb684d"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F5.jpg?alt=media&token=a05ebdda-ea35-4720-89f7-404df53c5973"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F1.jpg?alt=media&token=865149a2-8803-47c6-b656-956049ef531b",
+      "precio": 36900,
+      "categoria": "carros"
+    },
+    {
+      "id": 5,
+      "nombre": "🧤 Guantes Cortos de Ciclismo Transpirables y Antideslizantes 🚴‍♀️",
+      "descripcion": "¡Disfruta de tus paseos en bicicleta con estos cómodos y funcionales guantes cortos! 🚴‍♂️ Diseñados para ofrecer un agarre seguro y reducir la fatiga en tus manos. 🖐️ Su diseño antideslizante asegura un excelente control del manillar. 🔒 Ideales para ciclismo de carretera, montaña o cualquier tipo de paseo. Talla M",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fguantes%20bike%2F1.jpg?alt=media&token=a4f67101-603f-4e0c-a17c-0bd2da25dd54"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fguantes%20bike%2F2.jpg?alt=media&token=4a16912b-fe7e-4888-8026-43af091be657"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fguantes%20bike%2F1.jpg?alt=media&token=a4f67101-603f-4e0c-a17c-0bd2da25dd54",
+      "precio": 19900,
+      "categoria": "deporte"
+    },
+    {
+      "id": 6,
+      "nombre": "🎮 Control Inalámbrico Multifunción para Juegos 🕹️",
+      "descripcion": "¡Lleva tu experiencia de juego al siguiente nivel con este versátil control inalámbrico! 🚀 Compatible con múltiples plataformas, incluyendo PC, consolas 💻🕹️ Diseño ergonómico para largas sesiones de juego con comodidad. 🙌 Cuenta con joysticks analógicos precisos, botones sensibles y una cruceta direccional. 👍 Incluye adaptadores USB y USB-C para una fácil conexión inalámbrica. 📶 También se puede utilizar con cable de carga USB incluido. 🔌 ¡Sumérgete en tus juegos favoritos con un control diseñado para la victoria! 🏆",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F1.jpg?alt=media&token=6f7ef15d-0a15-4f6a-bb5b-08ace0dc4384"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F2.jpg?alt=media&token=2d77ed56-bcab-4cb5-b5e5-9269f990219f"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F3.jpg?alt=media&token=f3f72e9c-737e-4096-adeb-50e9c2b2d8cb"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F4.jpg?alt=media&token=9e29cafd-4b06-49d0-a7bc-104723d422eb"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F5.jpg?alt=media&token=58c6fab4-7e79-4c4d-8257-a0325ad55020"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F1.jpg?alt=media&token=6f7ef15d-0a15-4f6a-bb5b-08ace0dc4384",
+      "precio": 94900,
+      "categoria": "videojuegos"
+    },
+    {
+      "id": 7,
+      "nombre": "🛠️ Alicate para Eslabones de Cadena de Bicicleta con Gancho Asistente 🔗",
+      "descripcion": "¡Facilita el mantenimiento de tu bicicleta con este práctico alicate para eslabones de cadena! 🛠️ Diseñado específicamente para abrir y cerrar los eslabones maestros de forma rápida y sencilla. 🔗 Incluye un gancho asistente que ayuda a mantener la tensión en la cadena durante la operación. 👌 Fabricado con materiales resistentes para garantizar durabilidad. 💪 Herramienta esencial para cualquier ciclista, desde principiantes hasta profesionales. 🚴‍♀️ ¡Realiza el mantenimiento de tu cadena de forma eficiente y sin complicaciones! ⚙️",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcadena%20bicicleta%2F1.jpg?alt=media&token=f8a933c8-3b58-4178-b397-d5c06d1bcc91"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcadena%20bicicleta%2F2.jpg?alt=media&token=f429fb1c-9a2b-42bc-8d09-625072fdeff8"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcadena%20bicicleta%2F1.jpg?alt=media&token=f8a933c8-3b58-4178-b397-d5c06d1bcc91",
+      "precio": 29900,
+      "categoria": "bicicleta"
     }
+  ],
+  "configuracion": {
+    "telefono": "+573174503604",
+    "whatsappMensaje": "Hola, estoy interesado en este accesorio de damas: "
+  }
 }

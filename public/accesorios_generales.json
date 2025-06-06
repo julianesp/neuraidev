@@ -1,58 +1,58 @@
 {
-    "accesorios": [
+  "accesorios": [
+    {
+      "id": 1,
+      "nombre": "🐾 Cepillo Masajeador Ergonómico para Mascotas",
+      "descripcion": "🔄 Diseño ergonómico con púas flexibles y suaves 🎯 Estimula la circulación y promueve pelaje saludable 🧠 Recargable vía USB con función de vibración 💦 Tecnología de dispersión para productos de pelaje 🐶 Compatible con perros, gatos y conejos 👋 Agarre cómodo para cepillado prolongado 🔋 Botón de fácil acceso para control sencillo 🌱 Materiales hipoalergénicos y resistentes 🧵 Elimina pelo muerto y previene nudos.",
+      "imagenes": [
         {
-            "id": 1,
-            "nombre": "🐾 Cepillo Masajeador Ergonómico para Mascotas",
-            "descripcion": "🔄 Diseño ergonómico con púas flexibles y suaves 🎯 Estimula la circulación y promueve pelaje saludable 🧠 Recargable vía USB con función de vibración 💦 Tecnología de dispersión para productos de pelaje 🐶 Compatible con perros, gatos y conejos 👋 Agarre cómodo para cepillado prolongado 🔋 Botón de fácil acceso para control sencillo 🌱 Materiales hipoalergénicos y resistentes 🧵 Elimina pelo muerto y previene nudos.",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488276344_122211784760083804_4045851527308646448_n%20(1).jpg?alt=media&token=6ab49cbf-f234-4148-8b92-57eacd07ccf3"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488259887_122211784904083804_9197169216070061263_n.jpg?alt=media&token=3b957ef5-e13f-4c94-8d1a-cca71b9ff58a"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488255088_122211784886083804_5752938043137725685_n.jpg?alt=media&token=80c2bf85-21b8-4ce4-9172-8bc4201dc325"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488224424_122211784964083804_4527848692727095197_n.jpg?alt=media&token=4a36cf88-985d-4c07-b947-af3399514b94"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3",
-            "precio": 33900,
-            "categoria": "mascotas"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3"
         },
         {
-            "id": 2,
-            "nombre": "🐾 Cepillo Masajeador Ergonómico para Mascotas",
-            "descripcion": "🔄 Diseño ergonómico con púas flexibles y suaves 🎯 Estimula la circulación y promueve pelaje saludable 🧠 Recargable vía USB con función de vibración 💦 Tecnología de dispersión para productos de pelaje 🐶 Compatible con perros, gatos y conejos 👋 Agarre cómodo para cepillado prolongado 🔋 Botón de fácil acceso para control sencillo 🌱 Materiales hipoalergénicos y resistentes 🧵 Elimina pelo muerto y previene nudos.",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488276344_122211784760083804_4045851527308646448_n%20(1).jpg?alt=media&token=6ab49cbf-f234-4148-8b92-57eacd07ccf3"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488259887_122211784904083804_9197169216070061263_n.jpg?alt=media&token=3b957ef5-e13f-4c94-8d1a-cca71b9ff58a"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488255088_122211784886083804_5752938043137725685_n.jpg?alt=media&token=80c2bf85-21b8-4ce4-9172-8bc4201dc325"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488224424_122211784964083804_4527848692727095197_n.jpg?alt=media&token=4a36cf88-985d-4c07-b947-af3399514b94"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3",
-            "precio": 33900,
-            "categoria": "mascotas"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488276344_122211784760083804_4045851527308646448_n%20(1).jpg?alt=media&token=6ab49cbf-f234-4148-8b92-57eacd07ccf3"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488259887_122211784904083804_9197169216070061263_n.jpg?alt=media&token=3b957ef5-e13f-4c94-8d1a-cca71b9ff58a"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488255088_122211784886083804_5752938043137725685_n.jpg?alt=media&token=80c2bf85-21b8-4ce4-9172-8bc4201dc325"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488224424_122211784964083804_4527848692727095197_n.jpg?alt=media&token=4a36cf88-985d-4c07-b947-af3399514b94"
         }
-    ],
-    "configuracion": {
-        "telefono": "+573174503604",
-        "whatsappMensaje": "Hola, estoy interesado en el accesorio de computadora: "
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3",
+      "precio": 38900,
+      "categoria": "mascotas"
+    },
+    {
+      "id": 2,
+      "nombre": "🐾 Cepillo Masajeador Ergonómico para Mascotas",
+      "descripcion": "🔄 Diseño ergonómico con púas flexibles y suaves 🎯 Estimula la circulación y promueve pelaje saludable 🧠 Recargable vía USB con función de vibración 💦 Tecnología de dispersión para productos de pelaje 🐶 Compatible con perros, gatos y conejos 👋 Agarre cómodo para cepillado prolongado 🔋 Botón de fácil acceso para control sencillo 🌱 Materiales hipoalergénicos y resistentes 🧵 Elimina pelo muerto y previene nudos.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488276344_122211784760083804_4045851527308646448_n%20(1).jpg?alt=media&token=6ab49cbf-f234-4148-8b92-57eacd07ccf3"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488259887_122211784904083804_9197169216070061263_n.jpg?alt=media&token=3b957ef5-e13f-4c94-8d1a-cca71b9ff58a"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488255088_122211784886083804_5752938043137725685_n.jpg?alt=media&token=80c2bf85-21b8-4ce4-9172-8bc4201dc325"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488224424_122211784964083804_4527848692727095197_n.jpg?alt=media&token=4a36cf88-985d-4c07-b947-af3399514b94"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3",
+      "precio": 38900,
+      "categoria": "mascotas"
     }
+  ],
+  "configuracion": {
+    "telefono": "+573174503604",
+    "whatsappMensaje": "Hola, estoy interesado en el accesorio de computadora: "
+  }
 }

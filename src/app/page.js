@@ -5,7 +5,7 @@ export const metadata = {
     images: [
       {
         // ← Aquí va tu URL de Firebase
-        url: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fshow%20(1).jpg?alt=media&token=04a541a7-9d44-4b9b-bedf-5e10727c616a",
+        url: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Ftab.png?alt=media&token=5cefe9cd-82cc-4b31-b896-f9db4ec43a33",
         width: 1200,
         height: 630,
       },

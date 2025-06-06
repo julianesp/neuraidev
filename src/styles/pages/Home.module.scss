@@ -393,6 +393,12 @@
         }
       }
     }
+
+    & .consulta {
+      border: 1px solid #000;
+      width: 250px;
+      background-color: black;
+    }
   }
 
   @media (min-width: 992px) {
@@ -427,9 +433,8 @@
       "directos aside"
       "destacados aside"
       "tratamientos aside"
-      "accesories aside";
-    // align-items: start;
-    // column-gap: 40px;
+      "accesories aside"
+      "consulta aside";
 
     gap: 10px;
     overflow: hidden;
@@ -482,15 +487,12 @@
       grid-area: accesories;
       width: 100%;
     }
-  }
 
-  // @media (min-width: 1024px) {
-  //   .accesories {
-  //     .varios {
-  //       max-width: 1200px;
-  //     }
-  //   }
-  // }
+    & .consulta {
+      grid-area: consulta;
+      width: 100%;
+    }
+  }
 
   @media (min-width: 1200px) {
     .accesories {

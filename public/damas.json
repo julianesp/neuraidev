@@ -1,65 +1,65 @@
 {
-    "accesorios": [
+  "accesorios": [
+    {
+      "id": 1,
+      "nombre": "💖 Rizador de Pestañas",
+      "descripcion": "🔄 Diseño ergonómico con mangos antideslizantes para máximo control 🛡️ Almohadilla de silicona rosa para prevenir pellizcos y tirones 📏 Tamaño amplio de 36mm para todo tipo de ojos ⚙️ Sistema de resorte flexible y duradero para presión uniforme 🧿 Tecnología de curvado rápido para resultados profesionales 👌 Mango con agarres ergonómicos en rosa 🎀 Diseño elegante en negro y rosa 📏 Tamaño compacto ideal para llevar en el bolso.",
+      "imagenes": [
         {
-            "id": 1,
-            "nombre": "💖 Rizador de Pestañas",
-            "descripcion": "🔄 Diseño ergonómico con mangos antideslizantes para máximo control 🛡️ Almohadilla de silicona rosa para prevenir pellizcos y tirones 📏 Tamaño amplio de 36mm para todo tipo de ojos ⚙️ Sistema de resorte flexible y duradero para presión uniforme 🧿 Tecnología de curvado rápido para resultados profesionales 👌 Mango con agarres ergonómicos en rosa 🎀 Diseño elegante en negro y rosa 📏 Tamaño compacto ideal para llevar en el bolso.",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470219245_122195127794083804_5611188803805702175_n.jpg?alt=media&token=ce39c3a1-357e-442d-85fa-a386b1ff5d41"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470220166_122195128172083804_6787121225934347397_n.jpg?alt=media&token=80d97b94-5d81-4fab-a232-af9e5e6ac671"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470211769_122195128130083804_8891073260100775802_n.jpg?alt=media&token=35a7815e-2eab-44c1-8249-cd1354271d5b"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470206118_122195128148083804_8173820928240704070_n.jpg?alt=media&token=dfb4c27d-7dc7-4ad6-9f94-a60f2c2afc72"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470197302_122195128004083804_4429166099620516533_n.jpg?alt=media&token=493ea6b1-02e1-44f8-9bf7-a208658d3abe"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470219245_122195127794083804_5611188803805702175_n.jpg?alt=media&token=ce39c3a1-357e-442d-85fa-a386b1ff5d41",
-            "precio": 15900,
-            "categoria": "belleza"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470219245_122195127794083804_5611188803805702175_n.jpg?alt=media&token=ce39c3a1-357e-442d-85fa-a386b1ff5d41"
         },
         {
-            "id": 2,
-            "nombre": "🏃‍♀️ Shorts Deportivos con Bolsillo Lateral",
-            "descripcion": "🎯 Cintura alta para máxima sujeción y estilización 💪 Tejido compresivo que modela y brinda soporte 📱 Bolsillo lateral oculto para tu smartphone 🌬️ Material transpirable y de secado rápido 🎨 Disponible en  gris ✨ Tecnología anti-transparencia para seguridad 🏋️‍♀️ Ideal para yoga, running, gimnasio y uso diario 🧵 Costuras planas para evitar rozaduras.",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F1.png?alt=media&token=d6af8342-cd84-4986-a806-ab6733e6cf81"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F2.png?alt=media&token=f2de8319-683c-4c92-9d91-e72f416dec04"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F3.png?alt=media&token=8762faca-b82c-4d30-9f44-176d415ba570"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F1.png?alt=media&token=d6af8342-cd84-4986-a806-ab6733e6cf81",
-            "precio": 14900,
-            "categoria": "deportes"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470220166_122195128172083804_6787121225934347397_n.jpg?alt=media&token=80d97b94-5d81-4fab-a232-af9e5e6ac671"
         },
         {
-            "id": 3,
-            "nombre": "✨ Set de 10 Brochas de Maquillaje con Glitter Morado Glamuroso 💜",
-            "descripcion": "¡Añade un toque de brillo a tu rutina de belleza con este deslumbrante set de 10 brochas de maquillaje! ✨ Cada brocha cuenta con un mango transparente relleno de glitter morado, aportando un estilo único y glamuroso a tu tocador. 💜 Este set incluye una variedad de brochas esenciales para aplicar todo tipo de maquillaje: desde bases y polvos hasta sombras de ojos y delineadores. 🖌️ Las cerdas suaves y de alta calidad permiten una aplicación uniforme y precisa de tus productos favoritos. 👌 ¡Perfecto para uso personal o como un regalo especial para las amantes del maquillaje! 🎁",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=d45714a8-4e95-4e6f-94d9-17e9b9eaa405"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=d45714a8-4e95-4e6f-94d9-17e9b9eaa405",
-            "precio": 24900,
-            "categoria": "belleza"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470211769_122195128130083804_8891073260100775802_n.jpg?alt=media&token=35a7815e-2eab-44c1-8249-cd1354271d5b"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470206118_122195128148083804_8173820928240704070_n.jpg?alt=media&token=dfb4c27d-7dc7-4ad6-9f94-a60f2c2afc72"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470197302_122195128004083804_4429166099620516533_n.jpg?alt=media&token=493ea6b1-02e1-44f8-9bf7-a208658d3abe"
         }
-    ],
-    "configuracion": {
-        "telefono": "+573174503604",
-        "whatsappMensaje": "Hola, estoy interesado en este accesorio de damas: "
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470219245_122195127794083804_5611188803805702175_n.jpg?alt=media&token=ce39c3a1-357e-442d-85fa-a386b1ff5d41",
+      "precio": 20900,
+      "categoria": "belleza"
+    },
+    {
+      "id": 2,
+      "nombre": "🏃‍♀️ Shorts Deportivos con Bolsillo Lateral",
+      "descripcion": "🎯 Cintura alta para máxima sujeción y estilización 💪 Tejido compresivo que modela y brinda soporte 📱 Bolsillo lateral oculto para tu smartphone 🌬️ Material transpirable y de secado rápido 🎨 Disponible en  gris ✨ Tecnología anti-transparencia para seguridad 🏋️‍♀️ Ideal para yoga, running, gimnasio y uso diario 🧵 Costuras planas para evitar rozaduras.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F1.png?alt=media&token=d6af8342-cd84-4986-a806-ab6733e6cf81"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F2.png?alt=media&token=f2de8319-683c-4c92-9d91-e72f416dec04"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F3.png?alt=media&token=8762faca-b82c-4d30-9f44-176d415ba570"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F1.png?alt=media&token=d6af8342-cd84-4986-a806-ab6733e6cf81",
+      "precio": 19900,
+      "categoria": "deportes"
+    },
+    {
+      "id": 3,
+      "nombre": "✨ Set de 10 Brochas de Maquillaje con Glitter Morado Glamuroso 💜",
+      "descripcion": "¡Añade un toque de brillo a tu rutina de belleza con este deslumbrante set de 10 brochas de maquillaje! ✨ Cada brocha cuenta con un mango transparente relleno de glitter morado, aportando un estilo único y glamuroso a tu tocador. 💜 Este set incluye una variedad de brochas esenciales para aplicar todo tipo de maquillaje: desde bases y polvos hasta sombras de ojos y delineadores. 🖌️ Las cerdas suaves y de alta calidad permiten una aplicación uniforme y precisa de tus productos favoritos. 👌 ¡Perfecto para uso personal o como un regalo especial para las amantes del maquillaje! 🎁",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=d45714a8-4e95-4e6f-94d9-17e9b9eaa405"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=d45714a8-4e95-4e6f-94d9-17e9b9eaa405",
+      "precio": 29900,
+      "categoria": "belleza"
     }
+  ],
+  "configuracion": {
+    "telefono": "+573174503604",
+    "whatsappMensaje": "Hola, estoy interesado en este accesorio de damas: "
+  }
 }

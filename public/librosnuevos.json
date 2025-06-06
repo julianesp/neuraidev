@@ -1,69 +1,69 @@
 {
-    "accesorios": [
+  "accesorios": [
+    {
+      "id": 1,
+      "nombre": "📖 Enamórate de Ti - Walter Riso 💫",
+      "descripcion": "💞 Un poderoso libro que transforma la relación contigo mismo. ✨ Walter Riso, reconocido psicólogo, te guía en el camino hacia el verdadero autoamor y la construcción de una autoestima inquebrantable. 🧠 Aprenderás sobre la importancia de la higiene mental, tan vital como el cuidado físico. 🛡️ Supera la dependencia emocional, libérate de la autocrítica destructiva y desarrolla un 'yo sostenido' que te hará más resistente ante los desafíos. 💪 Mejora tus relaciones, aumenta tu eficacia personal y gana independencia. 🌱 5ª edición de este bestseller de Editorial Planeta. 🔑 La clave para una vida plena está en enamorarte profundamente de ti.",
+      "imagenes": [
         {
-            "id": 1,
-            "nombre": "📖 Enamórate de Ti - Walter Riso 💫",
-            "descripcion": "💞 Un poderoso libro que transforma la relación contigo mismo. ✨ Walter Riso, reconocido psicólogo, te guía en el camino hacia el verdadero autoamor y la construcción de una autoestima inquebrantable. 🧠 Aprenderás sobre la importancia de la higiene mental, tan vital como el cuidado físico. 🛡️ Supera la dependencia emocional, libérate de la autocrítica destructiva y desarrolla un 'yo sostenido' que te hará más resistente ante los desafíos. 💪 Mejora tus relaciones, aumenta tu eficacia personal y gana independencia. 🌱 5ª edición de este bestseller de Editorial Planeta. 🔑 La clave para una vida plena está en enamorarte profundamente de ti.",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480534106_122204421584083804_6430148799072894958_n.jpg?alt=media&token=ba8c5d5b-6bf3-478c-aaf6-0f50bfe22be1"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480691662_122204421596083804_2270036942292132534_n.jpg?alt=media&token=2444efcd-9bdb-4a39-b449-78849d567be4"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480534106_122204421584083804_6430148799072894958_n.jpg?alt=media&token=ba8c5d5b-6bf3-478c-aaf6-0f50bfe22be1",
-            "precio": 30900,
-            "categoria": "librosnuevos"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480534106_122204421584083804_6430148799072894958_n.jpg?alt=media&token=ba8c5d5b-6bf3-478c-aaf6-0f50bfe22be1"
         },
         {
-            "id": 2,
-            "nombre": "📚 Ama y no sufras - Walter Riso 💝",
-            "descripcion": "💡 Una guía para vivir el amor de manera saludable y sin caer en dependencias emocionales. ✨ Walter Riso nos invita a construir relaciones equilibradas, donde el amor propio y la dignidad sean pilares fundamentales. 🌟 Reflexiones y consejos prácticos para transformar tu manera de amar.",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480546888_122204420954083804_2403064943007724846_n.jpg?alt=media&token=51abde4d-7f95-44da-9134-c9d242664a6c"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480660895_122204420978083804_8796409549271799784_n.jpg?alt=media&token=545c384d-dfa8-49e5-8ff0-2c2abbd109de"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480546888_122204420954083804_2403064943007724846_n.jpg?alt=media&token=51abde4d-7f95-44da-9134-c9d242664a6c",
-            "precio": 26500,
-            "categoria": "librosnuevos"
-        },
-        {
-            "id": 3,
-            "nombre": "📚 Elon Musk - Ashlee Vance 🚀",
-            "descripcion": "🚗 Una fascinante biografía del empresario detrás de Tesla, SpaceX, PayPal y actual dueño de la red social X. ✨ El periodista Ashlee Vance explora la vida y visión de uno de los innovadores más influyentes del siglo XXI. 🌟 A través de entrevistas exclusivas y análisis profundo, descubre la personalidad, ambiciones y desafíos que han moldeado su camino hacia el futuro. 🛸",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Felon%2F480668319_122204420066083804_3713515218081717544_n.jpg?alt=media&token=243054dc-85f9-4269-88b4-10aaaec9d78c"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Felon%2F480668319_122204420066083804_3713515218081717544_n.jpg?alt=media&token=243054dc-85f9-4269-88b4-10aaaec9d78c",
-            "precio": 46900,
-            "categoria": "librosnuevos"
-        },
-        {
-            "id": 1,
-            "nombre": "📜 La Ilíada - Homero 🏛️",
-            "descripcion": "⚔️ Una de las epopeyas más importantes de la literatura clásica que narra los últimos días de la Guerra de Troya. 👑 Centrada en la ira de Aquiles y los épicos enfrentamientos entre héroes como Héctor. ⚡ Con intervenciones divinas y un estilo poético magistral. 🌟 Una obra que ha influido en la literatura y cultura occidental durante siglos. 🛡️",
-            "imagenes": [
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F1.jpg?alt=media&token=6e11ce4e-f5f7-4c1b-9b34-d18d53f1091d"
-                },
-                {
-                    "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F2.jpg?alt=media&token=26eef0ed-d7ce-486c-adb6-b9348bd7b0fc"
-                }
-            ],
-            "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F1.jpg?alt=media&token=6e11ce4e-f5f7-4c1b-9b34-d18d53f1091d",
-            "precio": 32900,
-            "categoria": "librosnuevos"
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480691662_122204421596083804_2270036942292132534_n.jpg?alt=media&token=2444efcd-9bdb-4a39-b449-78849d567be4"
         }
-    ],
-    "configuracion": {
-        "telefono": "+573174503604",
-        "whatsappMensaje": "Hola, estoy interesado en este libro: "
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480534106_122204421584083804_6430148799072894958_n.jpg?alt=media&token=ba8c5d5b-6bf3-478c-aaf6-0f50bfe22be1",
+      "precio": 35900,
+      "categoria": "librosnuevos"
+    },
+    {
+      "id": 2,
+      "nombre": "📚 Ama y no sufras - Walter Riso 💝",
+      "descripcion": "💡 Una guía para vivir el amor de manera saludable y sin caer en dependencias emocionales. ✨ Walter Riso nos invita a construir relaciones equilibradas, donde el amor propio y la dignidad sean pilares fundamentales. 🌟 Reflexiones y consejos prácticos para transformar tu manera de amar.",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480546888_122204420954083804_2403064943007724846_n.jpg?alt=media&token=51abde4d-7f95-44da-9134-c9d242664a6c"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480660895_122204420978083804_8796409549271799784_n.jpg?alt=media&token=545c384d-dfa8-49e5-8ff0-2c2abbd109de"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480546888_122204420954083804_2403064943007724846_n.jpg?alt=media&token=51abde4d-7f95-44da-9134-c9d242664a6c",
+      "precio": 31500,
+      "categoria": "librosnuevos"
+    },
+    {
+      "id": 3,
+      "nombre": "📚 Elon Musk - Ashlee Vance 🚀",
+      "descripcion": "🚗 Una fascinante biografía del empresario detrás de Tesla, SpaceX, PayPal y actual dueño de la red social X. ✨ El periodista Ashlee Vance explora la vida y visión de uno de los innovadores más influyentes del siglo XXI. 🌟 A través de entrevistas exclusivas y análisis profundo, descubre la personalidad, ambiciones y desafíos que han moldeado su camino hacia el futuro. 🛸",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Felon%2F480668319_122204420066083804_3713515218081717544_n.jpg?alt=media&token=243054dc-85f9-4269-88b4-10aaaec9d78c"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Felon%2F480668319_122204420066083804_3713515218081717544_n.jpg?alt=media&token=243054dc-85f9-4269-88b4-10aaaec9d78c",
+      "precio": 51900,
+      "categoria": "librosnuevos"
+    },
+    {
+      "id": 1,
+      "nombre": "📜 La Ilíada - Homero 🏛️",
+      "descripcion": "⚔️ Una de las epopeyas más importantes de la literatura clásica que narra los últimos días de la Guerra de Troya. 👑 Centrada en la ira de Aquiles y los épicos enfrentamientos entre héroes como Héctor. ⚡ Con intervenciones divinas y un estilo poético magistral. 🌟 Una obra que ha influido en la literatura y cultura occidental durante siglos. 🛡️",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F1.jpg?alt=media&token=6e11ce4e-f5f7-4c1b-9b34-d18d53f1091d"
+        },
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F2.jpg?alt=media&token=26eef0ed-d7ce-486c-adb6-b9348bd7b0fc"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F1.jpg?alt=media&token=6e11ce4e-f5f7-4c1b-9b34-d18d53f1091d",
+      "precio": 37900,
+      "categoria": "librosnuevos"
     }
+  ],
+  "configuracion": {
+    "telefono": "+573174503604",
+    "whatsappMensaje": "Hola, estoy interesado en este libro: "
+  }
 }

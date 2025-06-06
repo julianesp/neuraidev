@@ -6,11 +6,14 @@ import styles from "../styles/pages/Home.module.scss";
 import Advertisement from "../components/Advertisement";
 import AccesoriosDestacados from "../components/Accesorio/AccesoriosDestacados";
 import NightSkyHero from "../components/NightSkyHero";
-import AccesoriosNuevos from "../components/Accesorio/AccesoriosNuevos";
 import BackToTop from "../components/backTop/BackToTop";
 import { CarouselDemo } from "./CarouselDemo";
 import Image from "next/image";
 import FAQ from "./FAQ";
+import ContactForm from "./ContactForm";
+import SideModal from "./SideModal";
+import "./ContactForm.css";
+import "./SideModal.css";
 
 const API_PRESENTATION = "/presentation.json";
 const API_ACCESORIOS = "/accesories.json";
@@ -194,16 +197,16 @@ export default function Inicio() {
         <link rel="icon" href="/favicon.ico" />
         <meta content="Página de inicio" />
       </Head>
-
       <main
         className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}
         style={{ margin: 0, padding: 0 }}
       >
+        <SideModal />
+
         {/* Sección Hero - contenedor con altura controlada */}
         <div className={`${styles.presentacion}`}>
           <NightSkyHero />
         </div>
-
         <div className={`${styles.carrusel}`}>
           <Suspense fallback={<CarouselSkeleton />}>
             <CarouselDemo
@@ -214,7 +217,6 @@ export default function Inicio() {
             />
           </Suspense>
         </div>
-
         {/* Sección lateral de anuncios */}
         <section
           className={`${styles.aside} `}
@@ -237,7 +239,6 @@ export default function Inicio() {
             <Advertisement ads={ads} />
           </Suspense>
         </section>
-
         {/* Botones de Servicios y Accesorios */}
         <div
           className={`${styles.directos} w-full z-50 bg-black  shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2 `}
@@ -303,7 +304,6 @@ export default function Inicio() {
             Accesorios
           </a>
         </div>
-
         {/* Sección de productos destacados con animación */}
         <section
           ref={destacadosRef}
@@ -314,7 +314,6 @@ export default function Inicio() {
             {/* <AccesoriosNuevos /> */}
           </Suspense>
         </section>
-
         {/*         
         <section
           ref={servicesRef}
@@ -333,7 +332,6 @@ export default function Inicio() {
             <Link href="/Services">Ver más</Link>
           </section>
         </section> */}
-
         {/* Sección de accesorios */}
         <section
           ref={accesoriesRef}
@@ -553,6 +551,13 @@ export default function Inicio() {
 
         <section className={styles.faq}>
           <FAQ />
+        </section>
+
+        <section className={`py-5 ${styles.consulta}`}>
+          <div className="container">
+            <h2 className="text-center mb-4">¡Contáctanos!</h2>
+            <ContactForm />
+          </div>
         </section>
 
         <div className="mb-16 md:mb-0">
