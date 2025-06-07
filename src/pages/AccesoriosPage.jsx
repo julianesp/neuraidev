@@ -11,8 +11,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../components/ui/carousel";
-import SideModal from "../components/SideModal";
-import "../components/SideModal.css";
+// import SideModal from "../components/SideModal";
+// import "../components/SideModal.css";
+
 
 export default function AccesoriosPage() {
   const [imageError, setImageError] = useState({});
@@ -53,7 +54,7 @@ export default function AccesoriosPage() {
   return (
     // This div now wraps ALL the content
     <div>
-      <SideModal />
+      {/* <SideModal /> */}
       <div className="container mx-auto py-8 px-4 max-w-4xl">
         {/* Carrusel de imágenes con flechas de navegación */}
         <Carousel className="w-full mb-6 rounded-xl overflow-hidden border">

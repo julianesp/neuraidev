@@ -10,8 +10,8 @@ import BackToTop from "../components/backTop/BackToTop";
 import { CarouselDemo } from "./CarouselDemo";
 import Image from "next/image";
 import FAQ from "./FAQ";
-import ContactForm from "./ContactForm";
-import SideModal from "./SideModal";
+// import ContactForm from "./ContactForm";
+// import SideModal from "./SideModal";
 import "./ContactForm.css";
 import "./SideModal.css";
 
@@ -201,7 +201,8 @@ export default function Inicio() {
         className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}
         style={{ margin: 0, padding: 0 }}
       >
-        <SideModal />
+        {/* Modal para envio gratis */}
+        {/* <SideModal /> */}
 
         {/* Sección Hero - contenedor con altura controlada */}
         <div className={`${styles.presentacion}`}>
@@ -553,12 +554,13 @@ export default function Inicio() {
           <FAQ />
         </section>
 
-        <section className={`py-5 ${styles.consulta}`}>
+        {/* Formulario para clientes */}
+        {/* <section className={`py-5 ${styles.consulta}`}>
           <div className="container">
             <h2 className="text-center mb-4">¡Contáctanos!</h2>
             <ContactForm />
           </div>
-        </section>
+        </section> */}
 
         <div className="mb-16 md:mb-0">
           <Suspense fallback={null}>
