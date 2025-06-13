@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // Para guardar las suscripciones (puedes usar una base de datos más adelante)
 const subscriptions = [];
 
