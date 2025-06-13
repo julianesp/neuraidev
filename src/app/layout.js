@@ -7,6 +7,7 @@ import "./globals.css";
 import styles from "../styles/components/Layout.module.scss";
 import { ThemeProvider } from "next-themes";
 import Script from "next/script";
+import NotificationManager from "../components/NotificationManager";
 
 export default function RootLayout({ children }) {
   return (
@@ -48,7 +49,10 @@ export default function RootLayout({ children }) {
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className={styles.layoutContainer}>
               <NavBar />
-              <main className={styles.mainContent}>{children}</main>
+              <main className={styles.mainContent}>
+                {children}
+                {/* <NotificationManager /> */}
+              </main>
               <Footer />
             </div>
           </ThemeProvider>

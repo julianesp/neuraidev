@@ -266,3 +266,35 @@
     }
   }
 }
+
+@media (width > 1024px) {
+  .carousel {
+    min-height: 320px; // Ajusta según el alto deseado
+    height: 100%;
+
+    & .carouselContent {
+      height: 100%;
+
+      & .carouselItem {
+        height: 100%;
+
+        & .card {
+          height: 100%;
+
+          & .cardContent {
+            height: 100%;
+
+            & img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: center;
+              display: block;
+              // border-radius: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
