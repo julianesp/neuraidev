@@ -8,6 +8,7 @@ import styles from "../styles/components/Layout.module.scss";
 import { ThemeProvider } from "next-themes";
 import Script from "next/script";
 import NotificationManager from "../components/NotificationManager";
+import { Analytics } from "@vercel/analytics/next";
 
 export default function RootLayout({ children }) {
   return (
@@ -52,6 +53,7 @@ export default function RootLayout({ children }) {
               <main className={styles.mainContent}>
                 {children}
                 {/* <NotificationManager /> */}
+                <Analytics />
               </main>
               <Footer />
             </div>
