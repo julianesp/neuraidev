@@ -2,6 +2,7 @@
   "accesorios": [
     {
       "id": 1,
+      "slug": "rizador-de-pestañas",
       "nombre": "💖 Rizador de Pestañas",
       "descripcion": "🔄 Diseño ergonómico con mangos antideslizantes para máximo control 🛡️ Almohadilla de silicona rosa para prevenir pellizcos y tirones 📏 Tamaño amplio de 36mm para todo tipo de ojos ⚙️ Sistema de resorte flexible y duradero para presión uniforme 🧿 Tecnología de curvado rápido para resultados profesionales 👌 Mango con agarres ergonómicos en rosa 🎀 Diseño elegante en negro y rosa 📏 Tamaño compacto ideal para llevar en el bolso.",
       "imagenes": [
@@ -27,6 +28,7 @@
     },
     {
       "id": 2,
+      "slug": "shorts-deportivos",
       "nombre": "🏃‍♀️ Shorts Deportivos con Bolsillo Lateral",
       "descripcion": "🎯 Cintura alta para máxima sujeción y estilización 💪 Tejido compresivo que modela y brinda soporte 📱 Bolsillo lateral oculto para tu smartphone 🌬️ Material transpirable y de secado rápido 🎨 Disponible en  gris ✨ Tecnología anti-transparencia para seguridad 🏋️‍♀️ Ideal para yoga, running, gimnasio y uso diario 🧵 Costuras planas para evitar rozaduras.",
       "imagenes": [
@@ -46,6 +48,7 @@
     },
     {
       "id": 3,
+      "slug": "brochas-maquillaje",
       "nombre": "✨ Set de 10 Brochas de Maquillaje con Glitter Morado Glamuroso 💜",
       "descripcion": "¡Añade un toque de brillo a tu rutina de belleza con este deslumbrante set de 10 brochas de maquillaje! ✨ Cada brocha cuenta con un mango transparente relleno de glitter morado, aportando un estilo único y glamuroso a tu tocador. 💜 Este set incluye una variedad de brochas esenciales para aplicar todo tipo de maquillaje: desde bases y polvos hasta sombras de ojos y delineadores. 🖌️ Las cerdas suaves y de alta calidad permiten una aplicación uniforme y precisa de tus productos favoritos. 👌 ¡Perfecto para uso personal o como un regalo especial para las amantes del maquillaje! 🎁",
       "imagenes": [

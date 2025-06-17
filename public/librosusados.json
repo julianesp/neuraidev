@@ -2,6 +2,7 @@
   "accesorios": [
     {
       "id": 1,
+      "slug": "poo-usando-java",
       "nombre": "💻 Programación Orientada a Objetos usando Java - Héctor Arturo Flórez 🚀",
       "descripcion": "☕ Libro ideal para iniciar en la programación con Java, uno de los lenguajes más demandados y mejor remunerados en aplicaciones empresariales. 📱 Base fundamental para el desarrollo Android y aplicaciones de escritorio. ✨ Creado en los 90's, sigue siendo esencial en el mundo tecnológico actual. 🎯 Cubre desde conceptos básicos hasta temas avanzados como GUI (Interfaz Gráfica de Usuario), bases de datos y comunicaciones en red. 💡",
       "imagenes": [
@@ -36,6 +37,7 @@
     },
     {
       "id": 2,
+      "slug": "programacion-juan-carlos-moreno-perez",
       "nombre": "💻 Programación - Juan Carlos Moreno Pérez 🚀",
       "descripcion": "☕ Libro de programación con enfoque en Java y programación orientada a objetos. 🎯 Cubre desde elementos básicos de programación hasta conceptos avanzados como constructores, métodos estáticos y librerías. 📚 Incluye complemento web para práctica adicional. ✨ Ideal para estudiantes de informática que buscan dominar los fundamentos de la programación moderna. 🔧 Abarca JDK, entornos de desarrollo, tipos de datos, operadores y mucho más. 💡",
       "imagenes": [
@@ -67,6 +69,7 @@
     },
     {
       "id": 3,
+      "slug": "precalculo-j-douglas-james-defranza",
       "nombre": "📐 Precálculo - J. Douglas Faires & James DeFranza 📊",
       "descripcion": "🧮 Libro completo de precálculo que prepara solidamente para el cálculo universitario. ✨ Enfoque pedagógico que promueve aprendizaje activo en el estudiante. 📈 Cubre funciones lineales, cuadráticas, trigonométricas, exponenciales y logarítmicas. 🎯 Incluye secciones cónicas, coordenadas polares y ecuaciones paramétricas. 📚 Con ejemplos prácticos y aplicaciones reales que facilitan la comprensión de álgebra y trigonometría. 🔢 Segunda edición mejorada. 💡",
       "imagenes": [
@@ -98,6 +101,7 @@
     },
     {
       "id": 4,
+      "slug": "algebra-intermedia",
       "nombre": "📐 Álgebra Intermedia - Allen R. Angel 🧮",
       "descripcion": "📚 Sexta edición de este reconocido libro de álgebra intermedia de la editorial Pearson. ✨ Enfoque pedagógico que hace que los estudiantes disfruten al leer y aprender. 🎯 Incluye aplicaciones del mundo real en cada capítulo y sección 'Matemáticas en acción'. 🔢 Cubre desde conceptos básicos hasta funciones exponenciales, logarítmicas y secciones cónicas. 💡 Con procedimiento de 5 pasos de George Polya para resolución de problemas y estrategias de estudio para el éxito. 📊",
       "imagenes": [
@@ -126,6 +130,7 @@
     },
     {
       "id": 5,
+      "slug": "fundamentos-circuitos-electricos",
       "nombre": "⚡ Fundamentos de Circuitos Eléctricos - Alexander & Sadiku 🔌",
       "descripcion": "🔧 Sexta edición del libro más completo para ingeniería eléctrica de McGraw Hill. ⚡ Cubre desde conceptos básicos hasta análisis avanzado de circuitos con transformadas de Laplace y Fourier. 📊 Incluye amplificadores operacionales, filtros, circuitos trifásicos y análisis de potencia. 🎯 Con aplicaciones prácticas usando PSpice y MATLAB. 💡 Ideal para estudiantes de ingeniería eléctrica, electrónica y afines. 🏗️ Revisión técnica de universidades mexicanas reconocidas. ⚙️",
       "imagenes": [
@@ -154,6 +159,7 @@
     },
     {
       "id": 6,
+      "slug": "java-como-programar-paul-harvey-deitel",
       "nombre": "☕ Java Cómo Programar - Paul & Harvey Deitel 💻",
       "descripcion": "🚀 Novena edición del libro más completo para aprender Java de los reconocidos autores Deitel. ✨ Basado en el método de 'código activo' con programas funcionales completos. 🎯 Cubre desde fundamentos hasta temas avanzados como GUI, bases de datos, aplicaciones web y Android. 📱 Incluye manejo de excepciones, polimorfismo, herencia y programación orientada a objetos. 🌐 Con ejemplos reales, mashups, Unicode y desarrollo de aplicaciones modernas. 🔧 Editorial Pearson con revisión técnica de instituciones mexicanas. 💡",
       "imagenes": [
@@ -194,6 +200,7 @@
     },
     {
       "id": 7,
+      "slug": "calculo-farrand-y-poxon",
       "nombre": "📐 Cálculo - Farrand & Poxon 📊",
       "descripcion": "🧮 Compendio universitario completo de Harcourt Brace Jovanovich para cursos de cálculo. ✨ Cubre desde preliminares hasta temas avanzados como series, integrales impropias y aplicaciones. 📈 Incluye límites, derivadas, integrales, coordenadas polares, series de Taylor y Maclaurin. 🎯 Con revisión técnica de profesores de UNAM y universidades reconocidas. 💡 Ideal para estudiantes de ingeniería, matemáticas y ciencias. 🔢 Estructura didáctica con problemas resueltos y ejercicios de práctica. 🌟",
       "imagenes": [
@@ -222,6 +229,7 @@
     },
     {
       "id": 8,
+      "slug": "circuitos-electricos-dorf-svoboda",
       "nombre": "⚡ Circuitos Eléctricos - Dorf & Svoboda 🔌",
       "descripcion": "🎓 Libro universitario completo de análisis y diseño de circuitos eléctricos. ✨ Sexta edición corregida, revisada y actualizada por Alfaomega. 📐 Cubre desde variables del circuito hasta transformadas de Fourier y Laplace. 🔧 Incluye amplificadores operacionales, respuesta en frecuencia, filtros y redes de puertos múltiples. 🚫 No incluye CD. 📊 Enfoque práctico para ingeniería, comunicaciones, electrónica y sistemas de control. 🌟 Ideal para estudiantes de ingeniería eléctrica y electrónica. 🔍 Metodología paso a paso con soluciones detalladas y uso de MATLAB y PSpice. 🚀",
       "imagenes": [
@@ -259,6 +267,7 @@
     },
     {
       "id": 9,
+      "slug": "como-programar-en-java-deitel-septima-edicion",
       "nombre": "☕ Java Cómo Programar - Deitel 7ª Edición 💻",
       "descripcion": "📚 Libro clásico de programación Java de Harvey & Paul Deitel, séptima edición. 🎯 Método reconocido de 'código activo' con ejemplos funcionales completos. ⚡ Cubre desde fundamentos hasta temas avanzados: POO, GUI, redes, bases de datos JDBC, servicios web y aplicaciones Ajax. 🖥️ Más de 20 capítulos con programación orientada a objetos, herencia, polimorfismo, excepciones, multithreading y multimedia. 🌐 Incluye desarrollo de aplicaciones web, componentes Swing, Java 2D y tecnologías Web 2.0. 📊 Con ejercicios de autoevaluación, ejemplos de código vivo y proyecto integrado. 🔧 Perfecto para estudiantes de ingeniería de sistemas, ciencias de la computación e informática. 📖 Versión impresa en blanco y negro, aproximadamente 1380 páginas. 🚀 Referencia indispensable para aprender Java desde cero hasta nivel avanzado. 💡",
       "imagenes": [
