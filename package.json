@@ -2,6 +2,7 @@
   "name": "neuraidev",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -9,7 +10,10 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "lint:strict": "eslint --max-warnings=0 .",
-    "lint:critical": "node lint-critical.js"
+    "lint:critical": "node lint-critical.js",
+    "db:setup": "node scripts/setup-db.js",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed": "node scripts/seed.js"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.8",
@@ -35,6 +39,7 @@
     "mongoose": "^8.14.1",
     "next": "^15.3.1",
     "next-themes": "^0.4.6",
+    "pg": "^8.16.3",
     "react": "^19",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19",

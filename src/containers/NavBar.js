@@ -114,8 +114,30 @@ const NavBar = () => {
           </li>
 
           {/* <li role="none">
-            <Link href="/businesses" className="nav-link">
-              Negocios
+            <Link href="/admin/anuncios" className="nav-link">
+              Ads
+            </Link>
+          </li>
+
+          <li role="none">
+            <Link 
+              href="/admin/anuncios/crear" 
+              className="nav-link"
+              title="Crear nuevo anuncio"
+              onClick={handleLinkClick}
+            >
+              Crear Anuncio
+            </Link>
+          </li>
+
+          <li role="none">
+            <Link 
+              href="/anuncios" 
+              className="nav-link"
+              title="Ver anuncios públicos"
+              onClick={handleLinkClick}
+            >
+              Ver Anuncios
             </Link>
           </li> */}
 
