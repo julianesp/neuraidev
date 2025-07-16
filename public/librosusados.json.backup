@@ -31,7 +31,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F8.jpg?alt=media&token=ec71ac7f-7181-491f-9cd6-01f93b924c4b"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/old/java1/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F1.jpg?alt=media&token=877241f1-f085-4703-944f-efefaa055606",
       "precio": 59900,
       "categoria": "librosusados"
     },
@@ -63,7 +63,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F7.jpg?alt=media&token=d6b39a62-4a1a-4724-b605-2318bd9aad7e"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/old/java%20rama/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F1.jpg?alt=media&token=c12d622c-371b-40fd-bc9c-d08b7a0d8643",
       "precio": 34900,
       "categoria": "librosusados"
     },
@@ -95,7 +95,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F7.jpg?alt=media&token=d0ac8276-03b3-42ee-9f52-9a0c933846f0"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/old/precalculo/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F1.jpg?alt=media&token=4ccd51da-0814-4aad-9f4f-ea05cf6c56af",
       "precio": 40900,
       "categoria": "librosusados"
     },
@@ -124,7 +124,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Falgebra%2F6.jpg?alt=media&token=1dd16e30-f87d-4879-9d5b-6bf08856259e"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/old/algebra/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Falgebra%2F1.jpg?alt=media&token=a4e44ab1-098b-4ccc-8575-f757bfb17c45",
       "precio": 43500,
       "categoria": "librosusados"
     },
@@ -153,7 +153,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F6.jpg?alt=media&token=bd9a7e05-3630-4d1d-b483-da535d782df3"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/old/circuitos%20electricos/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F1.jpg?alt=media&token=5ca250e3-8461-4415-9f0d-1da8e6ae8f6a",
       "precio": 83500,
       "categoria": "librosusados"
     },
@@ -194,7 +194,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F10.jpg?alt=media&token=42eb1bf9-1e1c-4cbd-b4dd-8c2740bf01ae"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/old/java%209na%20edicion/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F1.jpg?alt=media&token=d1467f36-f7a6-49d8-840b-b44ea25108ae",
       "precio": 93500,
       "categoria": "librosusados"
     },
@@ -223,7 +223,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcalculo%2F6.jpg?alt=media&token=f4c5c99f-9bc8-4fe5-89a2-b13306da0136"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/old/calculo/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcalculo%2F1.jpg?alt=media&token=eedcdd96-8f35-4fb4-a3f6-10809f2ff303",
       "precio": 37500,
       "categoria": "librosusados"
     },
@@ -261,7 +261,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F9.jpg?alt=media&token=12fbff1c-e6f0-41c1-b553-112dbde306f1"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/old/circuitos%20dorf%20-%20svoboda/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F1.jpg?alt=media&token=776b679e-a616-4867-b37c-2aaf5afd7126",
       "precio": 104900,
       "categoria": "librosusados"
     },
@@ -311,7 +311,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F13.jpg?alt=media&token=494cae12-ff42-4fba-b407-1f18a4412709"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/old/java%207ma/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F1.jpg?alt=media&token=73c5d8c9-5eb6-4dda-a3e7-b7bba82d0ef9",
       "precio": 44900,
       "categoria": "librosusados"
     }

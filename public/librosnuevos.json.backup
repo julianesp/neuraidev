@@ -13,7 +13,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480691662_122204421596083804_2270036942292132534_n.jpg?alt=media&token=2444efcd-9bdb-4a39-b449-78849d567be4"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/enamorate%20de%20ti/480534106_122204421584083804_6430148799072894958_n.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480534106_122204421584083804_6430148799072894958_n.jpg?alt=media&token=ba8c5d5b-6bf3-478c-aaf6-0f50bfe22be1",
       "precio": 35900,
       "categoria": "librosnuevos"
     },
@@ -30,7 +30,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480660895_122204420978083804_8796409549271799784_n.jpg?alt=media&token=545c384d-dfa8-49e5-8ff0-2c2abbd109de"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/ama%20y%20no%20sufras/480546888_122204420954083804_2403064943007724846_n.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480546888_122204420954083804_2403064943007724846_n.jpg?alt=media&token=51abde4d-7f95-44da-9134-c9d242664a6c",
       "precio": 31500,
       "categoria": "librosnuevos"
     },
@@ -44,7 +44,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Felon%2F480668319_122204420066083804_3713515218081717544_n.jpg?alt=media&token=243054dc-85f9-4269-88b4-10aaaec9d78c"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/elon/480668319_122204420066083804_3713515218081717544_n.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Felon%2F480668319_122204420066083804_3713515218081717544_n.jpg?alt=media&token=243054dc-85f9-4269-88b4-10aaaec9d78c",
       "precio": 51900,
       "categoria": "librosnuevos"
     },
@@ -61,7 +61,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F2.jpg?alt=media&token=26eef0ed-d7ce-486c-adb6-b9348bd7b0fc"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/iliada/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F1.jpg?alt=media&token=6e11ce4e-f5f7-4c1b-9b34-d18d53f1091d",
       "precio": 37900,
       "categoria": "librosnuevos"
     }

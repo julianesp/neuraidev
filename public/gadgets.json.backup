@@ -1,0 +1,21 @@
+{
+  "accesorios": [
+    {
+      "id": 1,
+      "nombre": "Bombillo USB",
+      "descripcion": "Bombillo USB para iluminar tu teclado o espacio de trabajo, compatible con cualquier puerto USB",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c"
+        }
+      ],
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
+      "precio": 14900,
+      "categoria": "gadgets"
+    }
+  ],
+  "configuracion": {
+    "telefono": "+573174503604",
+    "whatsappMensaje": "Hola, estoy interesado en el gadget: "
+  }
+}

@@ -46,7 +46,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F5.png?alt=media&token=de4a97e3-1bd1-441f-8a07-bd2a796eb6eb"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/general/aceite%20romero/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Faceite%20romero%2F1.jpg?alt=media&token=0b4b25e6-5bb3-4919-822d-888b0fcfce2c",
       "precio": 44900,
       "categoria": "belleza"
     },
@@ -68,7 +68,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-08.jpg?alt=media&token=69621651-4013-42ea-b23a-743af0a59440"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/several/parlantes/photo_2025-05-30_16-04-09.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fparlantes%2Fphoto_2025-05-30_16-04-09.jpg?alt=media&token=f58f1b6f-77cc-4454-a739-b67e30e8dc29",
       "precio": 60900,
       "categoria": "tecnologia"
     },
@@ -93,7 +93,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F5.jpg?alt=media&token=a05ebdda-ea35-4720-89f7-404df53c5973"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/several/adaptador%20carga%20carro/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fadaptador%20carga%20carro%2F1.jpg?alt=media&token=865149a2-8803-47c6-b656-956049ef531b",
       "precio": 36900,
       "categoria": "carros"
     },
@@ -109,7 +109,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fguantes%20bike%2F2.jpg?alt=media&token=4a16912b-fe7e-4888-8026-43af091be657"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/several/guantes%20bike/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fguantes%20bike%2F1.jpg?alt=media&token=a4f67101-603f-4e0c-a17c-0bd2da25dd54",
       "precio": 19900,
       "categoria": "deporte"
     },
@@ -134,7 +134,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F5.jpg?alt=media&token=58c6fab4-7e79-4c4d-8257-a0325ad55020"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/several/control%20ps4/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fcontrol%20ps4%2F1.jpg?alt=media&token=6f7ef15d-0a15-4f6a-bb5b-08ace0dc4384",
       "precio": 94900,
       "categoria": "videojuegos"
     },
@@ -150,7 +150,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcadena%20bicicleta%2F2.jpg?alt=media&token=f429fb1c-9a2b-42bc-8d09-625072fdeff8"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/general/cadena%20bicicleta/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcadena%20bicicleta%2F1.jpg?alt=media&token=f8a933c8-3b58-4178-b397-d5c06d1bcc91",
       "precio": 29900,
       "categoria": "bicicleta"
     }

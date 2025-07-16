@@ -15,7 +15,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado%20genius%20basic%2F3.jpg?alt=media&token=ab8f1849-a7cb-41e1-bfee-aff0d064c056"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/teclado%20genius%20basic/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado%20genius%20basic%2F1.jpg?alt=media&token=804142ff-42b8-4c73-ae21-3ea400f7089d",
       "precio": 44900,
       "categoria": "computadoras"
     },
@@ -40,7 +40,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F5.jpg?alt=media&token=3cf1d9d7-7085-4d3e-99b1-b87254e03ac4"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/camera/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e",
       "precio": 89900,
       "categoria": "computadoras"
     },
@@ -68,7 +68,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155925063.jpg?alt=media&token=2fdd60ec-fecf-451d-aabc-a510e74d1859"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/Mouse%20usb%20Bluetooth/FB_IMG_1747155849921.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155849921.jpg?alt=media&token=353a0079-9b90-4f2c-b83c-26077fa66397",
       "precio": 44900,
       "categoria": "computadoras"
     },
@@ -106,7 +106,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F3.jpg?alt=media&token=15cba429-a31a-4b8d-b26f-aa7d4b813655"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/usb%203%208%20puertos/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F1.jpg?alt=media&token=c1f2342c-a40c-4e2e-abaa-d5cf13847d14",
       "precio": 69900,
       "categoria": "computacion"
     },
@@ -138,7 +138,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F3.png?alt=media&token=03c84414-128a-4b59-8784-c5e6eda0d85f"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20walram/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F1.jpg?alt=media&token=e704a884-a867-4b15-879b-fdbc325fd1bb",
       "precio": 154900,
       "categoria": "computacion"
     },
@@ -157,7 +157,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F5.jpg?alt=media&token=5ea24b06-2905-4ba8-9195-5d644d4f39b0"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%202.5%20light/7.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F7.jpg?alt=media&token=6ca5ca1d-621b-47f6-8b61-a3bb9d06096c",
       "precio": 64900,
       "categoria": "computacion"
     },
@@ -176,7 +176,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F2.jpg?alt=media&token=bea2bcd1-d601-45f6-bedf-629df690bae0"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%202.5%20dark/4.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F4.jpg?alt=media&token=20ad5115-2da3-435b-be5f-4d5e7a7e9e18",
       "precio": 64900,
       "categoria": "computacion"
     },
@@ -189,7 +189,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%202.5%20black/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990",
       "precio": 74900,
       "categoria": "computacion"
     },
@@ -202,7 +202,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F475503972_122201415362083804_5929328437556828553_n.jpg?alt=media&token=59a9b64e-0990-4522-afea-d057391c1e6d"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ram%20ddr3l/475503972_122201415362083804_5929328437556828553_n.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F475503972_122201415362083804_5929328437556828553_n.jpg?alt=media&token=59a9b64e-0990-4522-afea-d057391c1e6d",
       "precio": 49900,
       "categoria": "computacion"
     },
@@ -215,7 +215,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fm2%20512%20gb%20walram%2F470221219_122195149868083804_1429512956730235771_n.jpg?alt=media&token=2eb1286a-caca-4214-9296-e048ff8358d8"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/m2%20512%20gb%20walram/470221219_122195149868083804_1429512956730235771_n.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fm2%20512%20gb%20walram%2F470221219_122195149868083804_1429512956730235771_n.jpg?alt=media&token=2eb1286a-caca-4214-9296-e048ff8358d8",
       "precio": 167900,
       "categoria": "computacion"
     },
@@ -234,7 +234,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20sata%20-%20usb%203.0%2F474746648_122200657454083804_8359796227728823633_n.jpg?alt=media&token=ac7e1972-94dd-4e6a-ab78-2c264e861bb9"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/adaptador%20sata%20-%20usb%203.0/469594099_122194355558083804_905819561261807686_n.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20sata%20-%20usb%203.0%2F469594099_122194355558083804_905819561261807686_n.jpg?alt=media&token=082a3eaa-45dd-4b88-9193-531e9e51f35b",
       "precio": 40500,
       "categoria": "computacion"
     },
@@ -253,7 +253,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20msata%20ssd%20m.2%2F470229593_122195140646083804_8227543923150062651_n.jpg?alt=media&token=b6ec1610-c5b8-43ee-9b71-d835d87ffd6e"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/adaptador%20msata%20ssd%20m.2/470181905_122195140736083804_2674016196907285515_n.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20msata%20ssd%20m.2%2F470181905_122195140736083804_2674016196907285515_n.jpg?alt=media&token=b2c8139d-151a-4280-9187-b0d71c540084",
       "precio": 39900,
       "categoria": "computacion"
     }

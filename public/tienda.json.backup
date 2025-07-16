@@ -1,0 +1,231 @@
+{
+  "id": "Store",
+  "name": "Store",
+  "description": "Tienda",
+  "logo": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241",
+  "headerImage": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241",
+  "categories": [
+    {
+      "id": "cortes",
+      "name": "Cortes"
+    },
+    {
+      "id": "barberia",
+      "name": "Barbería"
+    },
+    {
+      "id": "tratamientos",
+      "name": "Tratamientos"
+    },
+    {
+      "id": "productos",
+      "name": "Productos"
+    }
+  ],
+  "featuredProducts": [
+    {
+      "id": "corte1",
+      "name": "Corte Clásico",
+      "regularPrice": "25000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "corte2",
+      "name": "Fade + Diseño",
+      "regularPrice": "35000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "barba1",
+      "name": "Afeitado Tradicional",
+      "regularPrice": "20000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "combo1",
+      "name": "Corte + Barba Completo",
+      "regularPrice": "45000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    }
+  ],
+  "promotionProducts": [
+    {
+      "id": "promo1",
+      "name": "Paquete Novio (Corte, Barba, Facial)",
+      "regularPrice": "65000",
+      "salePrice": "50000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "promo2",
+      "name": "Padre e Hijo (2 cortes)",
+      "regularPrice": "50000",
+      "salePrice": "40000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "promo3",
+      "name": "Tinte para Cabello + Corte",
+      "regularPrice": "80000",
+      "salePrice": "65000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "promo4",
+      "name": "Membresía Mensual (4 cortes)",
+      "regularPrice": "100000",
+      "salePrice": "80000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    }
+  ],
+  "dailyOffers": [
+    {
+      "id": "offer1",
+      "name": "Martes de Corte",
+      "regularPrice": "25000",
+      "salePrice": "20000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "offer2",
+      "name": "Jueves de Barba",
+      "regularPrice": "20000",
+      "salePrice": "15000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "offer3",
+      "name": "Primera Visita",
+      "regularPrice": "25000",
+      "salePrice": "18000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "offer4",
+      "name": "Referido",
+      "regularPrice": "25000",
+      "salePrice": "22000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    }
+  ],
+  "newProducts": [
+    {
+      "id": "new1",
+      "name": "Cera Fijadora Premium",
+      "regularPrice": "35000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "new2",
+      "name": "Aceite para Barba",
+      "regularPrice": "28000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "new3",
+      "name": "Afeitadora Profesional",
+      "regularPrice": "150000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "new4",
+      "name": "Shampoo Anticaída",
+      "regularPrice": "45000",
+      "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    }
+  ],
+  "socialMedia": [
+    {
+      "type": "whatsapp",
+      "url": "https://wa.me/573123456789"
+    },
+    {
+      "type": "facebook",
+      "url": "https://facebook.com/barberjam"
+    },
+    {
+      "type": "instagram",
+      "url": "https://instagram.com/barberjam"
+    },
+    {
+      "type": "tiktok",
+      "url": "https://tiktok.com/@barberjam"
+    }
+  ],
+  "services": [
+    {
+      "id": "serv1",
+      "name": "Corte Degradado",
+      "description": "Corte con degradado perfecto, incluye lavado y peinado",
+      "duration": "45 min",
+      "price": "30000"
+    },
+    {
+      "id": "serv2",
+      "name": "Arreglo de Barba",
+      "description": "Recorte y perfilado de barba con navaja caliente",
+      "duration": "30 min",
+      "price": "20000"
+    },
+    {
+      "id": "serv3",
+      "name": "Coloración",
+      "description": "Tinte profesional para cabello, incluye lavado",
+      "duration": "60 min",
+      "price": "60000"
+    },
+    {
+      "id": "serv4",
+      "name": "Tratamiento Capilar",
+      "description": "Hidratación profunda para cabello maltratado",
+      "duration": "40 min",
+      "price": "45000"
+    },
+    {
+      "id": "serv5",
+      "name": "Facial Masculino",
+      "description": "Limpieza facial completa con mascarilla",
+      "duration": "30 min",
+      "price": "35000"
+    },
+    {
+      "id": "serv6",
+      "name": "Depilación de Cejas",
+      "description": "Perfilado profesional de cejas con cera o hilo",
+      "duration": "15 min",
+      "price": "15000"
+    }
+  ],
+  "barberos": [
+    {
+      "id": "barb1",
+      "name": "Carlos Rodríguez",
+      "especialidad": "Cortes urbanos y diseños",
+      "experiencia": "8 años",
+      "imagen": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "barb2",
+      "name": "Miguel Ángel",
+      "especialidad": "Barba y afeitado tradicional",
+      "experiencia": "12 años",
+      "imagen": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    },
+    {
+      "id": "barb3",
+      "name": "Fernando Torres",
+      "especialidad": "Coloración y tratamientos",
+      "experiencia": "7 años",
+      "imagen": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fbarber.png?alt=media&token=080ede2b-853b-474c-8e83-a42b1b5c3241"
+    }
+  ],
+  "horario": {
+    "lunes": "10:00 - 20:00",
+    "martes": "10:00 - 20:00",
+    "miercoles": "10:00 - 20:00",
+    "jueves": "10:00 - 20:00",
+    "viernes": "10:00 - 21:00",
+    "sabado": "09:00 - 21:00",
+    "domingo": "10:00 - 16:00"
+  }
+}

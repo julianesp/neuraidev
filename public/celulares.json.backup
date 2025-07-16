@@ -43,7 +43,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fbrazalete%2FScreenshot_1.png?alt=media&token=1470e47f-8d62-4d59-a561-3011849e0e67"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/Celulares/brazalete/1.png",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fbrazalete%2F1.png?alt=media&token=3aaef89b-99cb-470f-8892-6c1450b08ecb",
       "precio": 32000,
       "categoria": "celulares"
     },
@@ -62,7 +62,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F3.jpg?alt=media&token=41634705-4c8d-4b0e-b649-1e46a7f6b2e4"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/Celulares/funda%20iphone%20xs/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F1.jpg?alt=media&token=e441abfc-438c-4133-8de2-911b410e92be",
       "precio": 39000,
       "categoria": "celulares"
     },
@@ -94,7 +94,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb_iphone%2F3.jpg?alt=media&token=214e4d99-9f05-4f69-8067-9f39f6327bd9"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/Celulares/usb_iphone/2.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb_iphone%2F2.jpg?alt=media&token=3a9f7662-3654-4a23-b9b6-da353de50a04",
       "precio": 44000,
       "categoria": "celulares"
     },
@@ -141,7 +141,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F4.jpg?alt=media&token=88f9dc31-aa4d-4f85-a478-e099650b1e2f"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/Celulares/audifonos%20inalambricos/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F1.jpg?alt=media&token=79f5880c-5f87-4677-a5d9-4dd31c6b40f9",
       "precio": 41900,
       "categoria": "celulares"
     },
@@ -166,7 +166,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242390269.jpg?alt=media&token=9389ef40-8bf8-4aa8-9d17-42a840229cd5"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/Celulares/funda%20xiaomi%20a12/FB_IMG_1747242360460.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242360460.jpg?alt=media&token=b5d1d10a-dcbb-490b-9c33-35f45d5aa2b9",
       "precio": 38900,
       "categoria": "celulares"
     },
@@ -203,7 +203,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F9.jpg?alt=media&token=dd681d89-abe6-4fa0-b196-65b620672420"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/Celulares/auriculares%20air%2031/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F1.jpg?alt=media&token=02cfb773-e50b-436b-acd7-d7d331cfb373",
       "precio": 49900,
       "categoria": "tecnologia"
     },
@@ -237,7 +237,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F8.jpg?alt=media&token=2ea118eb-0c11-4c17-9cd7-a1c07768c4fb"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/Celulares/audifonos%20p47/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F1.jpg?alt=media&token=90461933-eb9e-4062-af94-a137f96e9ae9",
       "precio": 44900,
       "categoria": "tecnologia"
     },

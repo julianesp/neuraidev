@@ -18,7 +18,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F4.jpg?alt=media&token=b966d88d-5b40-426e-9448-9873eb8da94d"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/several/luces%20para%20bike/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F1.jpg?alt=media&token=438191c2-2046-4ed2-bc83-bebe7040b762",
       "precio": 39900,
       "categoria": "damas"
     },
@@ -37,7 +37,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F3.jpg?alt=media&token=76f939e0-0ab1-4a0d-848a-df2f82869ae9"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/msata/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F1.jpg?alt=media&token=7d43c880-f88b-4793-a288-05795856f430",
       "precio": 124900,
       "categoria": "computador"
     },
@@ -53,7 +53,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F2.jpg?alt=media&token=be13e458-9295-4d8a-a9d4-4bb577d4a4e2"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/Celulares/usb%20tipo%20c%202%20meters/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F1.jpg?alt=media&token=621f828d-8f87-4cc8-b4c5-dd2792f796b2",
       "precio": 44900,
       "categoria": "celulares"
     },
@@ -78,7 +78,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F5.jpg?alt=media&token=8860f095-7eb3-4853-bfa9-e1e482765821"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/several/drone/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fdrone%2F1.jpg?alt=media&token=1728eecb-2318-48cf-87cf-4c12b9aee866",
       "precio": 204900,
       "categoria": "personal"
     },
@@ -103,7 +103,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F5.jpg?alt=media&token=631706c9-289b-4424-81d5-da1e190d0156"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/several/gimbal/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F1.jpg?alt=media&token=e9fe42ee-6b62-495d-b3d3-9b16c249d06e",
       "precio": 184900,
       "categoria": "personal"
     },

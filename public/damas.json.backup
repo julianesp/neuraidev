@@ -22,7 +22,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470197302_122195128004083804_4429166099620516533_n.jpg?alt=media&token=493ea6b1-02e1-44f8-9bf7-a208658d3abe"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/damas/rizador/470219245_122195127794083804_5611188803805702175_n.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470219245_122195127794083804_5611188803805702175_n.jpg?alt=media&token=ce39c3a1-357e-442d-85fa-a386b1ff5d41",
       "precio": 20900,
       "categoria": "belleza"
     },
@@ -42,7 +42,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F3.png?alt=media&token=8762faca-b82c-4d30-9f44-176d415ba570"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/damas/short/1.png",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F1.png?alt=media&token=d6af8342-cd84-4986-a806-ab6733e6cf81",
       "precio": 19900,
       "categoria": "deportes"
     },
@@ -56,7 +56,7 @@
           "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=d45714a8-4e95-4e6f-94d9-17e9b9eaa405"
         }
       ],
-      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/damas/brochas/1.jpg",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=d45714a8-4e95-4e6f-94d9-17e9b9eaa405",
       "precio": 29900,
       "categoria": "belleza"
     }
