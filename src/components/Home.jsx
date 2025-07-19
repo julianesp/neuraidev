@@ -174,7 +174,6 @@ export default function Inicio() {
 
   if (!isLoaded) return null;
 
-  // const imagePath = [accesorios[0].d1, accesorios[1].d2];
   const ads = [
     {
       businessName: "Supermercado",
