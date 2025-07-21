@@ -217,7 +217,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fm2%20512%20gb%20walram%2F470221219_122195149868083804_1429512956730235771_n.jpg?alt=media&token=2eb1286a-caca-4214-9296-e048ff8358d8",
       "precio": 167900,
-      "categoria": "computacion"
+      "categoria": "computacion",
+      "vendido": true,
+      "estilos": {
+        "opacidad": 0.6,
+        "filtro": "grayscale(100%)",
+        "textoVendido": "VENDIDO",
+        "colorTextoVendido": "#ff4444",
+        "fondoTextoVendido": "#000000",
+        "posicionTexto": "overlay"
+      }
     },
     {
       "id": 13,
