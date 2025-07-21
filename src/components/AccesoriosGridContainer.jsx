@@ -118,14 +118,33 @@ const AccesoriosGridContainer = (props) => {
           // Verificar que el accesorio exista
           if (!accesorio) return null;
 
-          const images = normalizeImages(accesorio.images);
+          const images = normalizeImages(accesorio.images || accesorio.imagenes);
           const currentImageIndex = slideIndexes[accesorio.id] || 0;
 
           return (
             <div
               key={accesorio.id || index}
-              className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1"
+              className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 ${
+                accesorio.vendido ? 'relative' : ''
+              }`}
+              style={{
+                opacity: accesorio.vendido ? (accesorio.estilos?.opacidad || 0.6) : 1,
+                filter: accesorio.vendido ? (accesorio.estilos?.filtro || 'grayscale(100%)') : 'none'
+              }}
             >
+              {/* Etiqueta de VENDIDO */}
+              {accesorio.vendido && (
+                <div
+                  className="absolute top-4 right-4 z-10 px-3 py-1 rounded-full text-sm font-bold transform rotate-12"
+                  style={{
+                    backgroundColor: accesorio.estilos?.fondoTextoVendido || '#000000',
+                    color: accesorio.estilos?.colorTextoVendido || '#ff4444'
+                  }}
+                >
+                  {accesorio.estilos?.textoVendido || 'VENDIDO'}
+                </div>
+              )}
+              
               {/* Carrusel de imágenes */}
               <div className="relative h-64 bg-gray-100">
                 <div className="w-full h-full relative overflow-hidden">
@@ -154,7 +173,7 @@ const AccesoriosGridContainer = (props) => {
                               img ||
                               "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
                             }
-                            alt={accesorio.title || "Accesorio"}
+                            alt={accesorio.title || accesorio.nombre || "Accesorio"}
                             fill
                             className="object-cover p-4"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -211,10 +230,10 @@ const AccesoriosGridContainer = (props) => {
               {/* Descripción del accesorio */}
               <div className="p-5 border-b border-gray-100">
                 <h3 className="text-lg font-semibold mb-2 text-gray-800 truncate">
-                  {accesorio.title || "Sin título"}
+                  {accesorio.title || accesorio.nombre || "Sin título"}
                 </h3>
                 <p className="text-gray-600 text-sm h-14 overflow-hidden leading-relaxed">
-                  {accesorio.description || "Sin descripción"}
+                  {accesorio.description || accesorio.descripcion || "Sin descripción"}
                 </p>
               </div>
 
@@ -222,14 +241,19 @@ const AccesoriosGridContainer = (props) => {
               <div className="p-5">
                 <div className="flex justify-between items-center mb-5">
                   <span className="text-xl font-bold text-green-600">
-                    {formatPrice(accesorio.price)}
+                    {formatPrice(accesorio.price || accesorio.precio)}
                   </span>
                   <button
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center shadow-sm"
-                    aria-label="Comprar este producto"
+                    className={`px-4 py-2 rounded-lg transition-colors flex items-center shadow-sm ${
+                      accesorio.vendido 
+                        ? 'bg-gray-400 text-white cursor-not-allowed' 
+                        : 'bg-blue-600 text-white hover:bg-blue-700'
+                    }`}
+                    aria-label={accesorio.vendido ? "Producto vendido" : "Comprar este producto"}
+                    disabled={accesorio.vendido}
                   >
                     <ShoppingCart size={18} className="mr-1" />
-                    <span>Comprar</span>
+                    <span>{accesorio.vendido ? 'No disponible' : 'Comprar'}</span>
                   </button>
                 </div>
 
