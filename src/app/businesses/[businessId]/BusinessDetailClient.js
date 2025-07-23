@@ -4,6 +4,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import BusinessPage from "../../../components/BusinessPage/page";
+import ProductsClient from "./ProductsClient";
 import Link from "next/link";
 
 // Importar datos estáticamente
@@ -72,5 +73,12 @@ export default function BusinessDetailClient({ businessId }) {
     );
   }
 
-  return <BusinessPage businessData={businessData} />;
+  return (
+    <div>
+      <BusinessPage businessData={businessData} />
+      <div className="max-w-7xl mx-auto px-6">
+        <ProductsClient businessId={businessId} />
+      </div>
+    </div>
+  );
 }
