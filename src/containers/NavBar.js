@@ -4,17 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
 import ThemeSwitcher from "../components/ThemeSwitcher";
-import { useUserAuth } from "../hooks/useUserAuth";
 
 const NavBar = () => {
-  const { isAuthenticated, loading, user, logout } = useUserAuth();
   const [burgerOpen, setBurgerOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [imageError, setImageError] = useState({});
   const menuRef = useRef(null);
   const dropdownRef = useRef(null);
-  const userMenuRef = useRef(null);
 
   // Define unique ID for the logo image
   const logoImageId = "navbar-logo";
@@ -34,7 +30,6 @@ const NavBar = () => {
   const handleLinkClick = () => {
     setBurgerOpen(false); // Close the menu when a link is clicked
     setDropdownOpen(false); // Close the dropdown when a link is clicked
-    setUserMenuOpen(false); // Close the user menu when a link is clicked
   };
 
   const handleOutsideClick = (event) => {
@@ -45,11 +40,6 @@ const NavBar = () => {
     // Close dropdown when clicking outside of it
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setDropdownOpen(false);
-    }
-
-    // Close user menu when clicking outside of it
-    if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-      setUserMenuOpen(false);
     }
   };
 
@@ -201,131 +191,16 @@ const NavBar = () => {
 
           <li>
             <Link
-              href="/businesses"
-              title="Ver negocios"
-              onClick={handleLinkClick}
-            >
-              Negocios
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              href="/Profile"
+              href="/profile"
               title="Ir al perfil"
               onClick={handleLinkClick}
             >
               Sobre mí
             </Link>
           </li>
-
-          {/* Auth buttons for mobile */}
-          {!loading && (
-            <li className={styles.mobileAuth}>
-              {isAuthenticated ? (
-                <>
-                  <div className={styles.userInfo}>
-                    <span>👋 {user?.username}</span>
-                  </div>
-                  <Link
-                    href="/favorites"
-                    title="Mis favoritos"
-                    onClick={handleLinkClick}
-                    className={styles.authButton}
-                  >
-                    ❤️ Favoritos
-                  </Link>
-                  <button
-                    onClick={() => {
-                      logout();
-                      handleLinkClick();
-                    }}
-                    className={styles.logoutButton}
-                  >
-                    Cerrar Sesión
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/login"
-                    title="Iniciar sesión"
-                    onClick={handleLinkClick}
-                    className={styles.authButton}
-                  >
-                    Iniciar Sesión
-                  </Link>
-                  <Link
-                    href="/register"
-                    title="Registrarse"
-                    onClick={handleLinkClick}
-                    className={styles.registerButton}
-                  >
-                    Registrarse
-                  </Link>
-                </>
-              )}
-            </li>
-          )}
         </ul>
       </nav>
 
-      {/* Desktop Auth Section */}
-      <div className={styles.authSection}>
-        {loading ? (
-          <div className={styles.loader}>⏳</div>
-        ) : isAuthenticated ? (
-          <div className={styles.userMenu} ref={userMenuRef}>
-            <button
-              onClick={() => setUserMenuOpen(!userMenuOpen)}
-              className={styles.userButton}
-              title={`Usuario: ${user?.username}`}
-            >
-              <div className={styles.avatar}>
-                {user?.username?.charAt(0)?.toUpperCase() || 'U'}
-              </div>
-              <span className={styles.username}>{user?.username}</span>
-              <span className={styles.arrow}>▼</span>
-            </button>
-            
-            <div className={`${styles.dropdown_menu} ${userMenuOpen ? styles.show : ""}`}>
-              <Link
-                href="/favorites"
-                onClick={handleLinkClick}
-                className={styles.menuItem}
-              >
-                ❤️ Mis Favoritos
-              </Link>
-              <Link
-                href="/business-signup"
-                onClick={handleLinkClick}
-                className={styles.menuItem}
-              >
-                🏪 Mi Negocio
-              </Link>
-              <hr className={styles.separator} />
-              <button
-                onClick={() => {
-                  logout();
-                  handleLinkClick();
-                }}
-                className={styles.logoutMenuItem}
-              >
-                🚪 Cerrar Sesión
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className={styles.authButtons}>
-            <Link href="/login" className={styles.loginBtn}>
-              Iniciar Sesión
-            </Link>
-            <Link href="/register" className={styles.registerBtn}>
-              Registrarse
-            </Link>
-          </div>
-        )}
-      </div>
       <div className={styles.circle}>
         <button
           onClick={menuBurger}
