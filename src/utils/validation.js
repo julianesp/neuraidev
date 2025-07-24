@@ -23,7 +23,7 @@ export const schemas = {
         }),
       password: Joi.string()
         .min(8)
-        .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])'))
+        .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])'))
         .required()
         .messages({
           'string.min': 'La contraseña debe tener al menos 8 caracteres',

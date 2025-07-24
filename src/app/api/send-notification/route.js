@@ -32,14 +32,22 @@
 
 import webpush from "web-push";
 
-webpush.setVapidDetails(
-  "mailto:julii1295@gmail.com", // Cambia por tu email
-  process.env.VAPID_PUBLIC_KEY,
-  process.env.VAPID_PRIVATE_KEY,
-);
-
 export async function POST(request) {
   try {
+    // Configurar VAPID solo cuando se necesite
+    if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
+      webpush.setVapidDetails(
+        "mailto:julii1295@gmail.com", // Cambia por tu email
+        process.env.VAPID_PUBLIC_KEY,
+        process.env.VAPID_PRIVATE_KEY,
+      );
+    } else {
+      return Response.json(
+        { error: "VAPID keys not configured" },
+        { status: 500 }
+      );
+    }
+
     const { subscription, message, title } = await request.json();
 
     const payload = JSON.stringify({

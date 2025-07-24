@@ -133,9 +133,7 @@ const nextConfig = {
   generateEtags: false,
   
   // Optimizaciones de seguridad para el bundle
-  experimental: {
-    serverComponentsExternalPackages: ['bcryptjs'],
-  }
+  serverExternalPackages: ['bcryptjs'],
 };
 
 module.exports = nextConfig;
