@@ -166,9 +166,12 @@ export default function BusinessesHomePage() {
           <p className="text-lg text-white/90 mb-8">
             Únete a nuestra plataforma y llega a más clientes
           </p>
-          <button className="px-8 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg hover:bg-gray-100 transition-colors transform hover:scale-105 shadow-lg">
+          <Link 
+            href="/business-signup"
+            className="px-8 py-4 bg-white text-purple-600 rounded-xl font-bold text-lg hover:bg-gray-100 transition-colors transform hover:scale-105 shadow-lg inline-block"
+          >
             Registrar mi Negocio
-          </button>
+          </Link>
         </div>
       </div>
     </div>

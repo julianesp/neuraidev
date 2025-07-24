@@ -1,4 +1,4 @@
-const path = require("path");
+import path from "path";
 
 // Headers de seguridad
 const securityHeaders = [
@@ -136,4 +136,4 @@ const nextConfig = {
   serverExternalPackages: ['bcryptjs'],
 };
 
-module.exports = nextConfig;
+export default nextConfig;
