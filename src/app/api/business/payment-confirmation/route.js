@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { query } from "../../../../lib/db.js";
+import crypto from 'crypto';
 
 export async function POST(request) {
   try {
@@ -24,7 +25,7 @@ export async function POST(request) {
     const x_signature = formData.get('x_signature');
 
     // Log para debugging
-    console.log('Confirmación de pago recibida:', {
+    console.warn('Confirmación de pago recibida:', {
       x_id_invoice,
       x_ref_payco,
       x_response,
@@ -99,10 +100,10 @@ export async function POST(request) {
         );
 
         // Actualizar el estado del negocio (se mantendrá en trial hasta que termine)
-        console.log(`Suscripción activada para negocio ${payment.business_id}`);
+        console.warn(`Suscripción activada para negocio ${payment.business_id}`);
       }
 
-      console.log(`Pago completado exitosamente: ${x_id_invoice}`);
+      console.warn(`Pago completado exitosamente: ${x_id_invoice}`);
     }
 
     return NextResponse.json({ 
@@ -124,7 +125,6 @@ function generateSignature({ x_cust_id_cliente, x_ref_payco, x_amount, x_currenc
   // Necesitarás tu clave privada de ePayco aquí
   const privateKey = process.env.EPAYCO_PRIVATE_KEY || "tu_clave_privada_epayco";
   
-  const crypto = require('crypto');
   const data = `${x_cust_id_cliente}^${privateKey}^${x_ref_payco}^${x_amount}^${x_currency_code}`;
   
   return crypto.createHash('sha256').update(data).digest('hex');

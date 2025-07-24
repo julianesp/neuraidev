@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function PaymentResponsePage() {
+function PaymentResponseContent() {
   const searchParams = useSearchParams();
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ export default function PaymentResponsePage() {
     const amount = searchParams.get('x_amount');
     const invoice = searchParams.get('x_id_invoice');
 
-    console.log('Respuesta de pago:', {
+    console.warn('Respuesta de pago:', {
       ref_payco,
       response,
       transaction_id,
@@ -171,5 +171,20 @@ export default function PaymentResponsePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PaymentResponsePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg text-gray-600">Cargando respuesta del pago...</p>
+        </div>
+      </div>
+    }>
+      <PaymentResponseContent />
+    </Suspense>
   );
 }

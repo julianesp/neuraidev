@@ -245,7 +245,7 @@ export function cleanupExpiredData() {
 // Limpiar datos expirados cada 15 minutos
 setInterval(cleanupExpiredData, 15 * 60 * 1000);
 
-export default {
+const authModule = {
   hashPassword,
   verifyPassword,
   generateToken,
@@ -258,3 +258,5 @@ export default {
   verifySecureHash,
   checkRateLimit
 };
+
+export default authModule;

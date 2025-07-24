@@ -128,14 +128,7 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
 
     // Desactivar completamente las advertencias de variables no utilizadas
-    "@typescript-eslint/no-unused-vars": "off", // Esto desactiva todas las advertencias de variables no utilizadas
-
-    "@typescript-eslint/no-unused-vars": [
-      "off",
-      {
-        argsIgnorePattern: "^_",
-      },
-    ],
+    "@typescript-eslint/no-unused-vars": "off",
     "no-console": ["warn", { allow: ["warn", "error"] }],
     "import/no-unresolved": "off", // Si tienes problemas con las importaciones en Next.js
 

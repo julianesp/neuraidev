@@ -37,7 +37,7 @@ export async function GET(request) {
       FROM productos
     `;
     
-    let queryParams = [];
+    const queryParams = [];
     
     if (categoria) {
       // Validar categoría
@@ -115,7 +115,7 @@ async function createProductHandler(request) {
     const newProduct = result.rows[0];
 
     // Registrar creación del producto
-    console.log(`Producto creado: ${newProduct.id} - ${newProduct.nombre}`);
+    console.warn(`Producto creado: ${newProduct.id} - ${newProduct.nombre}`);
 
     return Response.json({
       success: true,

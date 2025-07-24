@@ -174,10 +174,11 @@ export default function BusinessSignupPage() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 mb-2">
                     Nombre del Negocio *
                   </label>
                   <input
+                    id="businessName"
                     type="text"
                     required
                     value={formData.businessName}
@@ -188,10 +189,11 @@ export default function BusinessSignupPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="businessType" className="block text-sm font-medium text-gray-700 mb-2">
                     Tipo de Negocio *
                   </label>
                   <input
+                    id="businessType"
                     type="text"
                     required
                     value={formData.businessType}
@@ -202,10 +204,11 @@ export default function BusinessSignupPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                     Email del Negocio *
                   </label>
                   <input
+                    id="email"
                     type="email"
                     required
                     value={formData.email}
@@ -216,10 +219,11 @@ export default function BusinessSignupPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                     Teléfono
                   </label>
                   <input
+                    id="phone"
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData(prev => ({...prev, phone: e.target.value}))}
@@ -229,10 +233,11 @@ export default function BusinessSignupPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700 mb-2">
                     Categoría *
                   </label>
                   <select
+                    id="categoryId"
                     required
                     value={formData.categoryId}
                     onChange={(e) => setFormData(prev => ({...prev, categoryId: e.target.value}))}
@@ -248,10 +253,11 @@ export default function BusinessSignupPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-2">
                     Sitio Web
                   </label>
                   <input
+                    id="website"
                     type="url"
                     value={formData.website}
                     onChange={(e) => setFormData(prev => ({...prev, website: e.target.value}))}
@@ -261,10 +267,11 @@ export default function BusinessSignupPage() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
                     Dirección
                   </label>
                   <input
+                    id="address"
                     type="text"
                     value={formData.address}
                     onChange={(e) => setFormData(prev => ({...prev, address: e.target.value}))}
@@ -274,10 +281,11 @@ export default function BusinessSignupPage() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
                     Descripción
                   </label>
                   <textarea
+                    id="description"
                     value={formData.description}
                     onChange={(e) => setFormData(prev => ({...prev, description: e.target.value}))}
                     rows={3}

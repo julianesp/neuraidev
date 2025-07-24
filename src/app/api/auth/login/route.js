@@ -93,7 +93,7 @@ export async function POST(request) {
     });
 
     // Registrar login exitoso en logs (opcional)
-    console.log(`Login exitoso - Usuario: ${user.username}, IP: ${clientIp}, Time: ${new Date().toISOString()}`);
+    console.warn(`Login exitoso - Usuario: ${user.username}, IP: ${clientIp}, Time: ${new Date().toISOString()}`);
 
     // Respuesta exitosa
     return Response.json({

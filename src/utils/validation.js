@@ -210,10 +210,12 @@ export function isValidObjectId(id) {
   return /^[0-9]+$/.test(id);
 }
 
-export default {
+const validationModule = {
   schemas,
   validateData,
   sanitizeString,
   sanitizeObject,
   isValidObjectId
 };
+
+export default validationModule;

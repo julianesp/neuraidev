@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useUserAuth } from "../../hooks/useUserAuth";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function FavoritesPage() {
   const { isAuthenticated, loading: authLoading, user } = useUserAuth();
@@ -192,7 +193,7 @@ export default function FavoritesPage() {
                 {/* Imagen del producto */}
                 <div className="aspect-w-1 aspect-h-1 h-48 overflow-hidden">
                   {producto.imagen_principal ? (
-                    <img
+                    <Image
                       src={producto.imagen_principal}
                       alt={producto.nombre}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"

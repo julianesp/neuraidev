@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useUserAuth } from "../../../hooks/useUserAuth";
 
-export default function BusinessPaymentPage() {
+function BusinessPaymentContent() {
   const { isAuthenticated, user } = useUserAuth();
   const searchParams = useSearchParams();
   const [business, setBusiness] = useState(null);
@@ -19,9 +19,9 @@ export default function BusinessPaymentPage() {
     if (businessId && planId) {
       fetchBusinessAndPlan();
     }
-  }, [businessId, planId]);
+  }, [businessId, planId, fetchBusinessAndPlan]);
 
-  const fetchBusinessAndPlan = async () => {
+  const fetchBusinessAndPlan = useCallback(async () => {
     try {
       const token = localStorage.getItem("userToken");
       
@@ -45,7 +45,7 @@ export default function BusinessPaymentPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [businessId, planId]);
 
   const handlePayment = async () => {
     setPaymentLoading(true);
@@ -278,5 +278,20 @@ export default function BusinessPaymentPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BusinessPaymentPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg text-gray-600">Cargando...</p>
+        </div>
+      </div>
+    }>
+      <BusinessPaymentContent />
+    </Suspense>
   );
 }

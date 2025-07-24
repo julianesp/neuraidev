@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import ProtectedRoute from "../../../components/ProtectedRoute";
 import { useAuth } from "../../../hooks/useAuth";
+import Image from "next/image";
 
 function AdminProductosContent() {
   const { user, logout } = useAuth();
@@ -17,7 +18,7 @@ function AdminProductosContent() {
     precio: "",
     categoria: "",
     imagen_principal: "",
-    imagenes: []
+    imagenes: [],
   });
 
   useEffect(() => {
@@ -53,24 +54,24 @@ function AdminProductosContent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const payload = {
       ...formData,
       precio: parseFloat(formData.precio),
-      imagenes: formData.imagenes.filter(img => img.trim() !== "")
+      imagenes: formData.imagenes.filter((img) => img.trim() !== ""),
     };
 
     try {
-      const url = editingProduct 
+      const url = editingProduct
         ? `/api/productos/${editingProduct.id}`
         : "/api/productos";
-      
+
       const method = editingProduct ? "PUT" : "POST";
-      
+
       const response = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
@@ -92,7 +93,7 @@ function AdminProductosContent() {
 
     try {
       const response = await fetch(`/api/productos/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
       });
 
       if (response.ok) {
@@ -113,7 +114,7 @@ function AdminProductosContent() {
       precio: producto.precio.toString(),
       categoria: producto.categoria,
       imagen_principal: producto.imagen_principal || "",
-      imagenes: Array.isArray(producto.imagenes) ? producto.imagenes : []
+      imagenes: Array.isArray(producto.imagenes) ? producto.imagenes : [],
     });
     setShowForm(true);
   };
@@ -125,30 +126,30 @@ function AdminProductosContent() {
       precio: "",
       categoria: "",
       imagen_principal: "",
-      imagenes: []
+      imagenes: [],
     });
     setEditingProduct(null);
     setShowForm(false);
   };
 
   const addImagenField = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      imagenes: [...prev.imagenes, ""]
+      imagenes: [...prev.imagenes, ""],
     }));
   };
 
   const updateImagen = (index, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      imagenes: prev.imagenes.map((img, i) => i === index ? value : img)
+      imagenes: prev.imagenes.map((img, i) => (i === index ? value : img)),
     }));
   };
 
   const removeImagen = (index) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      imagenes: prev.imagenes.filter((_, i) => i !== index)
+      imagenes: prev.imagenes.filter((_, i) => i !== index),
     }));
   };
 
@@ -168,23 +169,45 @@ function AdminProductosContent() {
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                <svg
+                  className="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
                 </svg>
               </div>
               <div>
                 <h2 className="font-semibold text-gray-900">
                   Bienvenido, {user?.username}
                 </h2>
-                <p className="text-sm text-gray-600">Administrador del sistema</p>
+                <p className="text-sm text-gray-600">
+                  Administrador del sistema
+                </p>
               </div>
             </div>
             <button
               onClick={logout}
               className="flex items-center space-x-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
               </svg>
               <span>Cerrar Sesión</span>
             </button>
@@ -208,44 +231,71 @@ function AdminProductosContent() {
             <h2 className="text-xl font-semibold mb-4">
               {editingProduct ? "Editar Producto" : "Crear Nuevo Producto"}
             </h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="nombre"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Nombre *
                   </label>
                   <input
+                    id="nombre"
                     type="text"
                     required
                     value={formData.nombre}
-                    onChange={(e) => setFormData(prev => ({...prev, nombre: e.target.value}))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        nombre: e.target.value,
+                      }))
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="precio"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Precio *
                   </label>
                   <input
+                    id="precio"
                     type="number"
                     step="0.01"
                     required
                     value={formData.precio}
-                    onChange={(e) => setFormData(prev => ({...prev, precio: e.target.value}))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        precio: e.target.value,
+                      }))
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="categoria"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Categoría *
                   </label>
                   <select
+                    id="categoria"
                     required
                     value={formData.categoria}
-                    onChange={(e) => setFormData(prev => ({...prev, categoria: e.target.value}))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        categoria: e.target.value,
+                      }))
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">Seleccionar categoría</option>
@@ -258,13 +308,22 @@ function AdminProductosContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="imagen_principal"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Imagen Principal (URL)
                   </label>
                   <input
+                    id="imagen_principal"
                     type="url"
                     value={formData.imagen_principal}
-                    onChange={(e) => setFormData(prev => ({...prev, imagen_principal: e.target.value}))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        imagen_principal: e.target.value,
+                      }))
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="https://ejemplo.com/imagen.jpg"
                   />
@@ -272,19 +331,31 @@ function AdminProductosContent() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="descripcion"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Descripción
                 </label>
                 <textarea
+                  id="descripcion"
                   value={formData.descripcion}
-                  onChange={(e) => setFormData(prev => ({...prev, descripcion: e.target.value}))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      descripcion: e.target.value,
+                    }))
+                  }
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="imagenes_adicionales"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Imágenes Adicionales
                 </label>
                 {formData.imagenes.map((imagen, index) => (
@@ -372,12 +443,12 @@ function AdminProductosContent() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           {producto.imagen_principal && (
-                            <img
+                            <Image
                               src={producto.imagen_principal}
                               alt={producto.nombre}
                               className="h-10 w-10 rounded-full object-cover mr-3"
                               onError={(e) => {
-                                e.target.style.display = 'none';
+                                e.target.style.display = "none";
                               }}
                             />
                           )}

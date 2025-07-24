@@ -10,7 +10,7 @@ async function logoutHandler(request) {
                     request.headers.get('x-real-ip') || 
                     'unknown';
     
-    console.log(`Logout - Usuario: ${user.username}, IP: ${clientIp}, Time: ${new Date().toISOString()}`);
+    console.warn(`Logout - Usuario: ${user.username}, IP: ${clientIp}, Time: ${new Date().toISOString()}`);
 
     // En una implementación más robusta, aquí invalidarías el token en una blacklist
     // o en Redis, pero para esta implementación simplemente limpiamos la cookie

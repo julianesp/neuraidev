@@ -19,7 +19,7 @@ export async function query(text, params) {
     
     // Log en desarrollo
     if (process.env.NODE_ENV === 'development') {
-      console.log('Executed query', { text, duration, rows: res.rowCount });
+      console.warn('Executed query', { text, duration, rows: res.rowCount });
     }
     
     return res;
@@ -51,4 +51,5 @@ export async function closePool() {
   await pool.end();
 }
 
-export default { query, transaction, closePool };
+const dbModule = { query, transaction, closePool };
+export default dbModule;
