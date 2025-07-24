@@ -1,345 +1,236 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
-import ThemeSwitcher from "../components/ThemeSwitcher";
-import { useUserAuth } from "../hooks/useUserAuth";
 
-const NavBar = () => {
-  const { isAuthenticated, loading, user, logout } = useUserAuth();
-  const [burgerOpen, setBurgerOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [imageError, setImageError] = useState({});
-  const menuRef = useRef(null);
-  const dropdownRef = useRef(null);
-  const userMenuRef = useRef(null);
+export default function NavBar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAccesoriosOpen, setIsAccesoriosOpen] = useState(false);
 
-  // Define unique ID for the logo image
-  const logoImageId = "navbar-logo";
-
-  // Solution for hydratation errors
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const menuBurger = () => {
-    setBurgerOpen(!burgerOpen);
-  };
-
-  const toggleDropdown = (e) => {
-    e.preventDefault();
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const handleLinkClick = () => {
-    setBurgerOpen(false); // Close the menu when a link is clicked
-    setDropdownOpen(false); // Close the dropdown when a link is clicked
-    setUserMenuOpen(false); // Close the user menu when a link is clicked
-  };
-
-  const handleOutsideClick = (event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      setBurgerOpen(false); // Close the menu when clicking outside
-    }
-
-    // Close dropdown when clicking outside of it
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdownOpen(false);
-    }
-
-    // Close user menu when clicking outside of it
-    if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-      setUserMenuOpen(false);
-    }
-  };
-
-  // to hidden menu nav
+  // Cerrar menús al hacer clic fuera
   useEffect(() => {
-    setIsLoaded(true);
-    document.addEventListener("click", handleOutsideClick);
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
+    const handleClickOutside = () => {
+      setIsMenuOpen(false);
+      setIsAccesoriosOpen(false);
     };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
   }, []);
-  if (!isLoaded) return null;
+
+  const toggleAccesorios = (e) => {
+    e.stopPropagation();
+    setIsAccesoriosOpen(!isAccesoriosOpen);
+  };
 
   return (
-    <div
-      className={`${styles.container} dark:text-white`}
-      ref={menuRef}
-      role="navigation"
-      aria-label="Navegación principal"
-    >
-      <div className={styles.logo}>
-        <Link href="/" aria-label="Ir a la página principal">
-          <div className={styles.container__principal}>
-            <Image
-              alt="Neurai.dev - Logo de la empresa"
-              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb"
-              width={30}
-              height={30}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority={false} // Solo true para imágenes above-the-fold
-              loading="lazy"
-              quality={85}
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-              onError={() =>
-                setImageError((prev) => ({ ...prev, [logoImageId]: true }))
-              }
-            />
-          </div>
-        </Link>
-      </div>
+    <nav className={`${styles.navbar} bg-white shadow-lg sticky top-0 z-50`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="w-10 h-10 relative">
+              <Image
+                src="/logo.png"
+                alt="NeuraIDev Logo"
+                width={40}
+                height={40}
+                className="rounded-lg"
+                onError={(e) => {
+                  // Fallback si no existe logo.png
+                  e.target.src = "data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='40' fill='%23007acc'/%3E%3Ctext x='20' y='25' font-family='Arial' font-size='18' fill='white' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E";
+                }}
+              />
+            </div>
+            <span className="text-xl font-bold text-gray-900">NeuraIDev</span>
+          </Link>
 
-      <div className={styles.themeSwitcher}>
-        <ThemeSwitcher />
-      </div>
-      <nav className={styles.nav_container}>
-        <ul
-          className={`${styles.enlaces__menu}  ${
-            burgerOpen ? styles.open : styles.closed
-          } `}
-          role="menubar"
-        >
-          <li role="none">
-            <Link
-              className="text-black"
-              href="/"
-              role="menuitem"
-              onClick={handleLinkClick}
-              title="Ir a la página principal"
+          {/* Navigation Links - Desktop */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link 
+              href="/" 
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
             >
               Inicio
             </Link>
-          </li>
-          <li role="none">
-            <Link
-              href="/Blog"
-              title="Ir al blog"
-              role="menuitem"
-              onClick={handleLinkClick}
+            
+            <Link 
+              href="/Blog" 
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
             >
               Blog
             </Link>
-          </li>
 
-          {/* <li role="none">
-            <Link href="/businesses" className="nav-link">
-              Negocios
-            </Link>
-          </li> */}
+            {/* Dropdown Accesorios */}
+            <div className="relative">
+              <button
+                onClick={toggleAccesorios}
+                className="flex items-center text-gray-700 hover:text-blue-600 font-medium transition-colors"
+              >
+                Accesorios
+                <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
 
-          <li className={styles.dropdown} ref={dropdownRef} role="none">
-            <button
-              role="menuitem"
-              onClick={toggleDropdown}
-              className={styles.dropdown_toggle}
-              aria-haspopup="true"
-              aria-expanded={dropdownOpen}
-              aria-controls="dropdown-menu"
-              title="Ir a la tienda"
-            >
-              Tienda
-              <span className={styles.dropdown_arrow} aria-hidden="true">
-                ▼
-              </span>
-            </button>
-            <ul
-              className={`${styles.dropdown_menu} ${dropdownOpen ? styles.show : ""}`}
-              role="menu"
-              aria-labelledby="dropdown-toggle"
-            >
-              <li role="none">
-                <Link
-                  href={`/accesorios/celulares`}
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  Accesorios celulares
-                </Link>
-              </li>
-              <li role="none">
-                <Link
-                  href={`/accesorios/computadoras`}
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  A. computadores
-                </Link>
-              </li>
+              {/* Dropdown Menu */}
+              {isAccesoriosOpen && (
+                <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                  <Link 
+                    href="/accesorios/celulares"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsAccesoriosOpen(false)}
+                  >
+                    Celulares
+                  </Link>
+                  <Link 
+                    href="/accesorios/computadoras"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsAccesoriosOpen(false)}
+                  >
+                    Computadoras
+                  </Link>
+                  <Link 
+                    href="/accesorios/damas"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsAccesoriosOpen(false)}
+                  >
+                    Damas
+                  </Link>
+                  <Link 
+                    href="/accesorios/libros-nuevos"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsAccesoriosOpen(false)}
+                  >
+                    Libros Nuevos
+                  </Link>
+                  <Link 
+                    href="/accesorios/libros-usados"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsAccesoriosOpen(false)}
+                  >
+                    Libros Usados
+                  </Link>
+                  <Link 
+                    href="/accesorios/generales"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsAccesoriosOpen(false)}
+                  >
+                    Generales
+                  </Link>
+                </div>
+              )}
+            </div>
 
-              <li>
-                <Link href={`/accesorios/generales`} onClick={handleLinkClick}>
-                  Accesorios generales
-                </Link>
-              </li>
-
-              <li>
-                <Link href={`/accesorios/damas`} onClick={handleLinkClick}>
-                  Damas
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href={`/accesorios/libros-nuevos`}
-                  onClick={handleLinkClick}
-                >
-                  Libros nuevos
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/accesorios/libros-usados`}
-                  onClick={handleLinkClick}
-                >
-                  Libros usados
-                </Link>
-              </li>
-            </ul>
-          </li>
-
-          <li>
-            <Link
-              href="/businesses"
-              title="Ver negocios"
-              onClick={handleLinkClick}
-            >
-              Negocios
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              href="/Profile"
-              title="Ir al perfil"
-              onClick={handleLinkClick}
+            <Link 
+              href="/Profile" 
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
             >
               Sobre mí
             </Link>
-          </li>
-
-          {/* Auth buttons for mobile */}
-          {!loading && (
-            <li className={styles.mobileAuth}>
-              {isAuthenticated ? (
-                <>
-                  <div className={styles.userInfo}>
-                    <span>👋 {user?.username}</span>
-                  </div>
-                  <Link
-                    href="/favorites"
-                    title="Mis favoritos"
-                    onClick={handleLinkClick}
-                    className={styles.authButton}
-                  >
-                    ❤️ Favoritos
-                  </Link>
-                  <button
-                    onClick={() => {
-                      logout();
-                      handleLinkClick();
-                    }}
-                    className={styles.logoutButton}
-                  >
-                    Cerrar Sesión
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/login"
-                    title="Iniciar sesión"
-                    onClick={handleLinkClick}
-                    className={styles.authButton}
-                  >
-                    Iniciar Sesión
-                  </Link>
-                  <Link
-                    href="/register"
-                    title="Registrarse"
-                    onClick={handleLinkClick}
-                    className={styles.registerButton}
-                  >
-                    Registrarse
-                  </Link>
-                </>
-              )}
-            </li>
-          )}
-        </ul>
-      </nav>
-
-      {/* Desktop Auth Section */}
-      <div className={styles.authSection}>
-        {loading ? (
-          <div className={styles.loader}>⏳</div>
-        ) : isAuthenticated ? (
-          <div className={styles.userMenu} ref={userMenuRef}>
-            <button
-              onClick={() => setUserMenuOpen(!userMenuOpen)}
-              className={styles.userButton}
-              title={`Usuario: ${user?.username}`}
-            >
-              <div className={styles.avatar}>
-                {user?.username?.charAt(0)?.toUpperCase() || 'U'}
-              </div>
-              <span className={styles.username}>{user?.username}</span>
-              <span className={styles.arrow}>▼</span>
-            </button>
-            
-            <div className={`${styles.dropdown_menu} ${userMenuOpen ? styles.show : ""}`}>
-              <Link
-                href="/favorites"
-                onClick={handleLinkClick}
-                className={styles.menuItem}
-              >
-                ❤️ Mis Favoritos
-              </Link>
-              <Link
-                href="/business-signup"
-                onClick={handleLinkClick}
-                className={styles.menuItem}
-              >
-                🏪 Mi Negocio
-              </Link>
-              <hr className={styles.separator} />
-              <button
-                onClick={() => {
-                  logout();
-                  handleLinkClick();
-                }}
-                className={styles.logoutMenuItem}
-              >
-                🚪 Cerrar Sesión
-              </button>
-            </div>
           </div>
-        ) : (
-          <div className={styles.authButtons}>
-            <Link href="/login" className={styles.loginBtn}>
-              Iniciar Sesión
-            </Link>
-            <Link href="/register" className={styles.registerBtn}>
-              Registrarse
-            </Link>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsMenuOpen(!isMenuOpen);
+              }}
+              className="text-gray-700 hover:text-blue-600 focus:outline-none"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 bg-white">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              <Link 
+                href="/"
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Inicio
+              </Link>
+              <Link 
+                href="/Blog"
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Blog
+              </Link>
+              
+              {/* Mobile Accesorios Submenu */}
+              <div className="px-3 py-2">
+                <div className="text-gray-700 font-medium mb-2">Accesorios</div>
+                <div className="pl-4 space-y-1">
+                  <Link 
+                    href="/accesorios/celulares"
+                    className="block py-1 text-gray-600 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Celulares
+                  </Link>
+                  <Link 
+                    href="/accesorios/computadoras"
+                    className="block py-1 text-gray-600 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Computadoras
+                  </Link>
+                  <Link 
+                    href="/accesorios/damas"
+                    className="block py-1 text-gray-600 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Damas
+                  </Link>
+                  <Link 
+                    href="/accesorios/libros-nuevos"
+                    className="block py-1 text-gray-600 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Libros Nuevos
+                  </Link>
+                  <Link 
+                    href="/accesorios/libros-usados"
+                    className="block py-1 text-gray-600 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Libros Usados
+                  </Link>
+                  <Link 
+                    href="/accesorios/generales"
+                    className="block py-1 text-gray-600 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Generales
+                  </Link>
+                </div>
+              </div>
+
+              <Link 
+                href="/Profile"
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sobre mí
+              </Link>
+            </div>
           </div>
         )}
       </div>
-      <div className={styles.circle}>
-        <button
-          onClick={menuBurger}
-          aria-label={burgerOpen ? "Cerrar menu" : "Abrir menu"}
-          aria-controls="mobile-menu"
-          aria-expanded={burgerOpen}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </div>
+    </nav>
   );
-};
-
-export default NavBar;
+}
