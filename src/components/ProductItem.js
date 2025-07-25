@@ -7,17 +7,45 @@ const ProductItem = ({ product }) => {
   const [imageError, setImageError] = useState({});
   const [imageId, setImageId] = useState({});
 
+  // Get image source, prioritizing imagenPrincipal and then images/imagenes arrays
+  const getImageSrc = () => {
+    if (product.imagenPrincipal) return product.imagenPrincipal;
+    if (product.images && Array.isArray(product.images)) {
+      const firstImage = product.images[0];
+      return typeof firstImage === 'object' && firstImage.url ? firstImage.url : firstImage;
+    }
+    if (product.imagenes && Array.isArray(product.imagenes)) {
+      const firstImage = product.imagenes[0];
+      return typeof firstImage === 'object' && firstImage.url ? firstImage.url : firstImage;
+    }
+    if (product.images && !Array.isArray(product.images)) return product.images;
+    return "/placeholder.svg";
+  };
+
   return (
-    <div className={styles.productItem}>
+    <div 
+      className={`${styles.productItem} ${product.vendido ? styles.soldProduct : ''}`}
+      style={{
+        opacity: product.vendido ? (product.estilos?.opacidad || 0.6) : 1,
+        filter: product.vendido ? (product.estilos?.filtro || 'grayscale(100%)') : 'none'
+      }}
+    >
+      {/* Sold label */}
+      {product.vendido && (
+        <div
+          className={styles.soldLabel}
+          style={{
+            backgroundColor: product.estilos?.fondoTextoVendido || '#000000',
+            color: product.estilos?.colorTextoVendido || '#ff4444'
+          }}
+        >
+          {product.estilos?.textoVendido || 'VENDIDO'}
+        </div>
+      )}
+
       <Image
-        src={
-          (product.images &&
-            (Array.isArray(product.images)
-              ? product.images[0]
-              : product.images)) ||
-          "/placeholder.svg"
-        }
-        alt={product.title || "Accesorio"}
+        src={getImageSrc()}
+        alt={product.title || product.nombre || "Accesorio"}
         width={300}
         height={300}
         className={styles.productImage}
@@ -30,14 +58,18 @@ const ProductItem = ({ product }) => {
         onError={() => setImageError((prev) => ({ ...prev, [imageId]: true }))}
       />
 
-      <p className={styles.productTitle}>{product.title}</p>
-      <p className={styles.productPrice}>${product.price}</p>
+      <p className={styles.productTitle}>{product.title || product.nombre}</p>
+      <p className={styles.productPrice}>${product.price || product.precio}</p>
 
       <Link
         href={`/products/${product.id}`}
-        className={`btn glass ${styles.productAction}`}
+        className={`btn glass ${styles.productAction} ${product.vendido ? styles.soldButton : ''}`}
+        style={{
+          pointerEvents: product.vendido ? 'none' : 'auto',
+          opacity: product.vendido ? 0.6 : 1
+        }}
       >
-        Ver
+        {product.vendido ? 'No disponible' : 'Ver'}
       </Link>
     </div>
   );

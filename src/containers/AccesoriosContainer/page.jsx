@@ -1303,7 +1303,7 @@ const AccesoriosContainer = ({
                     }}
                   >
                     {/* Etiqueta de VENDIDO para productos relacionados */}
-                    {item.vendido && (
+                    {/* {item.vendido && (
                       <div
                         className="absolute top-2 right-2 z-10 px-2 py-1 rounded-full text-xs font-bold transform rotate-12"
                         style={{
@@ -1314,7 +1314,7 @@ const AccesoriosContainer = ({
                       >
                         {item.estilos?.textoVendido || "VENDIDO"}
                       </div>
-                    )}
+                    )} */}
 
                     <div className="relative h-40 mb-2 overflow-hidden rounded">
                       {!imageError[`related-${itemIndex}`] && itemImageUrl ? (
@@ -1339,6 +1339,7 @@ const AccesoriosContainer = ({
                         </div>
                       )}
                     </div>
+                    
                     <h3 className="font-medium text-sm truncate text-black dark:text-white">
                       {item.nombre || ""}
                     </h3>

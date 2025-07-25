@@ -107,4 +107,30 @@
       transition: 0.3s ease-out all;
     }
   }
+
+  // Sold product styles
+  &.soldProduct {
+    position: relative;
+  }
+
+  .soldLabel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    transform: rotate(12deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .soldButton {
+    cursor: not-allowed !important;
+    
+    &:hover {
+      transform: none !important;
+    }
+  }
 }
