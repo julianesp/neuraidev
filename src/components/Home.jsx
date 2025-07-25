@@ -176,16 +176,16 @@ export default function Inicio() {
 
   const ads = [
     {
-      businessName: "Supermercado",
+      businessName: "Productos",
       description: "Solicite este espacio para su negocio",
       imageUrl: "",
-      linkUrl: "/businesses/supermercado-local/",
+      linkUrl: "/productos/",
     },
     {
-      businessName: "Peluquería",
+      businessName: "Accesorios",
       description: "Solicite este espacio para su negocio",
       imageUrl: "",
-      linkUrl: "/businesses/peluqueria-bella/",
+      linkUrl: "/accesorios/",
     },
   ];
 

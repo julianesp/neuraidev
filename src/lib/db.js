@@ -1,47 +1,55 @@
 import { Pool } from 'pg';
 
-let pool;
+// Configuración de conexión a PostgreSQL
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
 
-export function getPool() {
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-    });
+// Función para ejecutar queries
+export async function query(text, params) {
+  const start = Date.now();
+  
+  try {
+    const res = await pool.query(text, params);
+    const duration = Date.now() - start;
+    
+    // Log en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Executed query', { text, duration, rows: res.rowCount });
+    }
+    
+    return res;
+  } catch (error) {
+    console.error('Database query error:', error);
+    throw error;
   }
-  return pool;
 }
 
-export async function query(text, params) {
-  const pool = getPool();
+// Función para transacciones
+export async function transaction(callback) {
   const client = await pool.connect();
+  
   try {
-    const result = await client.query(text, params);
+    await client.query('BEGIN');
+    const result = await callback(client);
+    await client.query('COMMIT');
     return result;
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
   } finally {
     client.release();
   }
 }
 
-export async function initializeDatabase() {
-  try {
-    await query(`
-      CREATE TABLE IF NOT EXISTS productos (
-        id SERIAL PRIMARY KEY,
-        nombre VARCHAR(255) NOT NULL,
-        descripcion TEXT,
-        precio DECIMAL(10,2) NOT NULL,
-        categoria VARCHAR(100) NOT NULL,
-        imagen_principal TEXT,
-        imagenes JSONB DEFAULT '[]',
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
-
-    console.log('Database initialized successfully');
-  } catch (error) {
-    console.error('Error initializing database:', error);
-    throw error;
-  }
+// Cerrar el pool de conexiones al terminar la aplicación
+export async function closePool() {
+  await pool.end();
 }
+
+const dbModule = { query, transaction, closePool };
+export default dbModule;
