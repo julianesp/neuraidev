@@ -87,19 +87,44 @@ export default function NavBar() {
           <ThemeSwitcher />
         </div>
 
-        <div className={styles.nav_container}>
-          <ul className={`${styles.enlaces__menu} ${burgerOpen ? styles.open : styles.closed}`} ref={menuRef}>
-            <li>
-              <Link href="/" onClick={handleLinkClick}>
-                Inicio
-              </Link>
-            </li>
-
-            <li>
-              <Link href="/Blog" onClick={handleLinkClick}>
-                Blog
-              </Link>
-            </li>
+          <li className={styles.dropdown} ref={dropdownRef} role="none">
+            <button
+              role="menuitem"
+              onClick={toggleDropdown}
+              className={styles.dropdown_toggle}
+              aria-haspopup="true"
+              aria-expanded={dropdownOpen}
+              aria-controls="dropdown-menu"
+              title="Ir a la tienda"
+            >
+              Tienda
+              <span className={styles.dropdown_arrow} aria-hidden="true">
+                ▼
+              </span>
+            </button>
+            <ul
+              className={`${styles.dropdown_menu} ${dropdownOpen ? styles.show : ""}`}
+              role="menu"
+              aria-labelledby="dropdown-toggle"
+            >
+              <li role="none">
+                <Link
+                  href={`/accesorios/celulares`}
+                  role="menuitem"
+                  onClick={handleLinkClick}
+                >
+                  Accesorios celulares
+                </Link>
+              </li>
+              <li role="none">
+                <Link
+                  href={`/accesorios/computadoras`}
+                  role="menuitem"
+                  onClick={handleLinkClick}
+                >
+                  A. computadores
+                </Link>
+              </li>
 
             <li className={styles.dropdown}>
               <div 
