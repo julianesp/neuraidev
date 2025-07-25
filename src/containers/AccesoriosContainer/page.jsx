@@ -306,8 +306,10 @@ const AccesoriosContainer = ({
       id="accesorios-container"
       className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg`}
       style={{
-        opacity: accesorio.vendido ? (accesorio.estilos?.opacidad || 0.8) : 1,
-        filter: accesorio.vendido ? (accesorio.estilos?.filtro || 'grayscale(50%)') : 'none'
+        opacity: accesorio.vendido ? accesorio.estilos?.opacidad || 0.8 : 1,
+        filter: accesorio.vendido
+          ? accesorio.estilos?.filtro || "grayscale(50%)"
+          : "none",
       }}
     >
       {/* Etiqueta de VENDIDO */}
@@ -316,15 +318,16 @@ const AccesoriosContainer = ({
           <span
             className="inline-block px-4 py-2 rounded-full text-lg font-bold transform -rotate-3 shadow-lg"
             style={{
-              backgroundColor: accesorio.estilos?.fondoTextoVendido || '#000000',
-              color: accesorio.estilos?.colorTextoVendido || '#ff4444'
+              backgroundColor:
+                accesorio.estilos?.fondoTextoVendido || "#000000",
+              color: accesorio.estilos?.colorTextoVendido || "#ff4444",
             }}
           >
-            {accesorio.estilos?.textoVendido || 'VENDIDO'}
+            {accesorio.estilos?.textoVendido || "VENDIDO"}
           </span>
         </div>
       )}
-      
+
       {/* Título del accesorio */}
       <h1 className="text-3xl font-bold text-center mb-6">
         {accesorio.nombre}
@@ -540,11 +543,13 @@ const AccesoriosContainer = ({
                   <div
                     key={itemIndex}
                     className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow ${
-                      item.vendido ? 'relative' : ''
+                      item.vendido ? "relative" : ""
                     }`}
                     style={{
-                      opacity: item.vendido ? (item.estilos?.opacidad || 0.6) : 1,
-                      filter: item.vendido ? (item.estilos?.filtro || 'grayscale(100%)') : 'none'
+                      opacity: item.vendido ? item.estilos?.opacidad || 0.6 : 1,
+                      filter: item.vendido
+                        ? item.estilos?.filtro || "grayscale(100%)"
+                        : "none",
                     }}
                   >
                     {/* Etiqueta de VENDIDO para productos relacionados */}
@@ -552,14 +557,15 @@ const AccesoriosContainer = ({
                       <div
                         className="absolute top-2 right-2 z-10 px-2 py-1 rounded-full text-xs font-bold transform rotate-12"
                         style={{
-                          backgroundColor: item.estilos?.fondoTextoVendido || '#000000',
-                          color: item.estilos?.colorTextoVendido || '#ff4444'
+                          backgroundColor:
+                            item.estilos?.fondoTextoVendido || "#000000",
+                          color: item.estilos?.colorTextoVendido || "#ff4444",
                         }}
                       >
-                        {item.estilos?.textoVendido || 'VENDIDO'}
+                        {item.estilos?.textoVendido || "VENDIDO"}
                       </div>
                     )}
-                    
+
                     <div className="relative h-40 mb-2 overflow-hidden rounded">
                       {!imageError[`related-${itemIndex}`] && itemImageUrl ? (
                         <Image
@@ -601,9 +607,9 @@ const AccesoriosContainer = ({
                         cambiarAccesorio(item);
                       }}
                       className={`mt-3 py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm ${
-                        item.vendido 
-                          ? 'bg-gray-400 text-white cursor-not-allowed' 
-                          : 'bg-blue-600 text-white hover:bg-blue-700'
+                        item.vendido
+                          ? "bg-gray-400 text-white cursor-not-allowed"
+                          : "bg-blue-600 text-white hover:bg-blue-700"
                       }`}
                       aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
                       disabled={item.vendido}
