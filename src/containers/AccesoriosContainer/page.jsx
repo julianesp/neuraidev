@@ -973,12 +973,10 @@ const AccesoriosContainer = ({
           </span>
         </div>
       )}
-
       {/* Título del accesorio */}
       <h1 className="text-3xl font-bold text-center mb-6">
         {accesorio.nombre}
       </h1>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         {/* Carrusel principal - SECCIÓN MEJORADA */}
         <div className={`${styles.mainImageContainer} relative h-60 md:h-80`}>
@@ -1165,6 +1163,110 @@ const AccesoriosContainer = ({
           )}
         </div>
       </div>
+      {/* {otrosAccesorios && otrosAccesorios.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold mb-6 text-center">
+            Otros accesorios
+          </h2>
+
+          <div className="relative">
+            <div className={styles.otrosAccesoriosGrid}>
+              {otrosAccesorios.map((item, itemIndex) => {
+                // Obtener URL de imagen de manera segura
+                const itemImageUrl =
+                  item.imagenPrincipal ||
+                  (item.imagenes && item.imagenes.length > 0
+                    ? typeof item.imagenes[0] === "object" &&
+                      item.imagenes[0].url
+                      ? item.imagenes[0].url
+                      : item.imagenes[0]
+                    : null);
+
+                return (
+                  <div
+                    key={itemIndex}
+                    className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow ${
+                      item.vendido ? "relative" : ""
+                    }`}
+                    style={{
+                      opacity: item.vendido ? item.estilos?.opacidad || 0.6 : 1,
+                      filter: item.vendido
+                        ? item.estilos?.filtro || "grayscale(100%)"
+                        : "none",
+                    }}
+                  >
+                    
+                    {item.vendido && (
+                      <div
+                        className="absolute top-2 right-2 z-10 px-2 py-1 rounded-full text-xs font-bold transform rotate-12"
+                        style={{
+                          backgroundColor:
+                            item.estilos?.fondoTextoVendido || "#000000",
+                          color: item.estilos?.colorTextoVendido || "#ff4444",
+                        }}
+                      >
+                        {item.estilos?.textoVendido || "VENDIDO"}
+                      </div>
+                    )}
+
+                    <div className="relative h-40 mb-2 overflow-hidden rounded">
+                      {!imageError[`related-${itemIndex}`] && itemImageUrl ? (
+                        <Image
+                          src={itemImageUrl}
+                          alt={item.nombre || ""}
+                          fill={true}
+                          className="object-contain"
+                          onError={() =>
+                            handleImageError(`related-${itemIndex}`)
+                          }
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          priority={false} // Solo true para imágenes above-the-fold
+                          loading="lazy"
+                          quality={85} // Reduce de 100 a 85
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm">
+                          <p className="text-gray-500">Sin imagen</p>
+                        </div>
+                      )}
+                    </div>
+                    <h3 className="font-medium text-sm truncate text-black dark:text-white">
+                      {item.nombre || ""}
+                    </h3>
+                    <p className="text-black dark:text-white font-bold mt-1">
+                      $
+                      {typeof item.precio === "number"
+                        ? item.precio.toLocaleString("es-CO")
+                        : item.precio}
+                    </p>
+
+                    
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+
+                        cambiarAccesorio(item);
+                      }}
+                      className={`mt-3 py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm ${
+                        item.vendido
+                          ? "bg-gray-400 text-white cursor-not-allowed"
+                          : "bg-blue-600 text-white hover:bg-blue-700"
+                      }`}
+                      aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
+                      disabled={item.vendido}
+                    >
+                      <Eye size={16} className="mr-1" />
+                      Ver
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )} */}
 
       {otrosAccesorios && otrosAccesorios.length > 0 && (
         <div className="mt-12">
@@ -1173,6 +1275,7 @@ const AccesoriosContainer = ({
           </h2>
 
           <div className="relative">
+            {/* IMPORTANTE: Solo usar la clase SCSS, NO mezclar con Tailwind grid */}
             <div className={styles.otrosAccesoriosGrid}>
               {otrosAccesorios.map((item, itemIndex) => {
                 // Obtener URL de imagen de manera segura
@@ -1222,10 +1325,10 @@ const AccesoriosContainer = ({
                           onError={() =>
                             handleImageError(`related-${itemIndex}`)
                           }
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          priority={false} // Solo true para imágenes above-the-fold
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          priority={false}
                           loading="lazy"
-                          quality={85} // Reduce de 100 a 85
+                          quality={85}
                           placeholder="blur"
                           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
                         />
@@ -1249,7 +1352,6 @@ const AccesoriosContainer = ({
                     <button
                       onClick={(e) => {
                         e.preventDefault();
-
                         cambiarAccesorio(item);
                       }}
                       className={`mt-3 py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm ${
@@ -1267,26 +1369,6 @@ const AccesoriosContainer = ({
                 );
               })}
             </div>
-
-            {/* Controles del carrusel */}
-            {mostrarBotonesRelacionados && (
-              <>
-                {/* <button
-                  onClick={prevRelatedSlide}
-                  className={`${styles.navButton} absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition-all z-10`}
-                  aria-label="Ver productos anteriores"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <button
-                  onClick={nextRelatedSlide}
-                  className={`${styles.navButton} absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition-all z-10`}
-                  aria-label="Ver productos siguientes"
-                >
-                  <ChevronRight size={20} />
-                </button> */}
-              </>
-            )}
           </div>
         </div>
       )}
@@ -1295,3 +1377,24 @@ const AccesoriosContainer = ({
 };
 
 export default AccesoriosContainer;
+
+// {
+//   mostrarBotonesRelacionados && (
+//     <>
+//       <button
+//         onClick={prevRelatedSlide}
+//         className={`${styles.navButton} absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition-all z-10`}
+//         aria-label="Ver productos anteriores"
+//       >
+//         <ChevronLeft size={20} />
+//       </button>
+//       <button
+//         onClick={nextRelatedSlide}
+//         className={`${styles.navButton} absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-50 transition-all z-10`}
+//         aria-label="Ver productos siguientes"
+//       >
+//         <ChevronRight size={20} />
+//       </button>
+//     </>
+//   );
+// }

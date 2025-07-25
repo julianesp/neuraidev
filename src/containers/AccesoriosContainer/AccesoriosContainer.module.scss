@@ -203,6 +203,13 @@
     max-width: 425px;
     overflow-x: hidden; // Evitar scroll horizontal
   }
+
+  // Margen de scroll para navegación suave
+  // scroll-margin-top: 200px;
+
+  @media screen and (max-width: 767px) {
+    scroll-margin-top: 100px; // Menos margen en móviles
+  }
 }
 
 // Contenedor de imagen principal
@@ -213,6 +220,7 @@
   @media screen and (max-width: 767px) {
     height: 250px;
     margin-bottom: 1rem;
+
     // Asegurar que la imagen se muestre correctamente
     :global(img) {
       object-fit: contain;
@@ -223,20 +231,52 @@
   }
 }
 
+// GRID PRINCIPAL PARA OTROS ACCESORIOS - CONFIGURACIÓN CORREGIDA
+.otrosAccesoriosGrid {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+
+  // Móviles pequeños (320px - 640px): 2 columnas
+  @media screen and (min-width: 320px) and (max-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  // Tablets (641px - 1023px): 3 columnas
+  @media screen and (min-width: 641px) and (max-width: 1023px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  // Desktop (1024px en adelante): 4 columnas
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+// Items individuales del grid
+.otrosAccesoriosItem {
+  min-width: 0; // Evita overflow en el grid
+  width: 100%;
+}
+
 // Tarjetas de productos relacionados
 .relatedItemCard {
   @include shadowRight;
-
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
+  width: 100%;
+  height: auto;
 
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
 
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 640px) {
     // Ajustar altura para mantener proporciones en móvil
     height: auto;
 
@@ -268,6 +308,13 @@
       }
     }
   }
+
+  @media screen and (min-width: 641px) {
+    // Contenedor de imagen para tablet y desktop
+    & > div:first-child {
+      height: 160px;
+    }
+  }
 }
 
 // Clase para botones de navegación
@@ -277,8 +324,7 @@
   justify-content: center;
   z-index: 10; // Asegurar que estén por encima de otros elementos
   cursor: pointer;
-
-  border: 1px solido #fff;
+  border: 1px solid #fff;
 
   @media screen and (max-width: 767px) {
     width: 2rem;
@@ -305,51 +351,5 @@
   @media screen and (max-width: 767px) {
     font-size: 1rem;
     padding: 0.5rem 1rem;
-  }
-}
-
-// Estilo para facilitar la transición de scroll
-.container {
-  scroll-margin-top: 200px; // Esto establece un margen de scroll para el container
-
-  @media screen and (max-width: 767px) {
-    scroll-margin-top: 550px; // Un poco menos en móviles
-  }
-}
-
-// Clase para el contenedor del carrusel de productos relacionados
-.otrosAccesoriosGrid {
-  display: grid;
-  gap: 1rem;
-
-  @media screen and (min-width: 320px) and (max-width: 767px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    overflow-x: auto;
-    padding-bottom: 1rem;
-    scroll-snap-type: x mandatory;
-
-    // Mejora la apariencia del scroll
-    &::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.2);
-      border-radius: 2px;
-    }
-  }
-
-  @media screen and (min-width: 768px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-// Para cada elemento dentro del grid de otros accesorios
-.otrosAccesoriosItem {
-  scroll-snap-align: start;
-  min-width: 0;
-
-  @media screen and (min-width: 320px) and (max-width: 767px) {
-    min-width: calc((100% / 3) - 0.67rem);
   }
 }
