@@ -236,17 +236,30 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Play, ShoppingCart } from "lucide-react";
+import { useSoldProducts } from "../hooks/useSoldProducts";
+import SoldMarker from "./SoldMarker";
+import { generateProductSlug, buildProductUrl, getCategorySlug } from "../utils/slugify";
 
 const AccesoriosGridContainer = (props) => {
   // Estados para manejar los datos y el carrusel
   const [accesorios, setAccesorios] = useState([]);
   const [slideIndexes, setSlideIndexes] = useState({}); // Para manejar el índice de cada carrusel
   const [imageErrors, setImageErrors] = useState({}); // Para manejar errores de carga de imágenes
+  const [selectedProduct, setSelectedProduct] = useState(null); // Para el panel de administrador
+
+  // Hook para manejar productos vendidos
+  const { applySoldStatus, toggleSoldStatus } = useSoldProducts();
+
+  // Obtener el slug de categoría desde las props o inferirlo
+  const categorySlug = props.categorySlug || 'generales';
 
   // Inicializar los datos cuando el componente se monta
   useEffect(() => {
     if (props.accesorios && Array.isArray(props.accesorios)) {
-      setAccesorios(props.accesorios);
+      // Aplicar estado de vendido a los productos
+      const accesoriosConEstado = applySoldStatus(props.accesorios);
+      setAccesorios(accesoriosConEstado);
+      
       // Inicializar los índices de slide para cada accesorio
       const initialIndexes = {};
       props.accesorios.forEach((accesorio) => {
@@ -255,11 +268,16 @@ const AccesoriosGridContainer = (props) => {
         }
       });
       setSlideIndexes(initialIndexes);
+      
+      // Seleccionar el primer producto por defecto para el panel de admin
+      if (accesoriosConEstado.length > 0) {
+        setSelectedProduct(accesoriosConEstado[0]);
+      }
     } else {
       console.warn("AccesoriosGridContainer: accesorios debe ser un array");
       setAccesorios([]);
     }
-  }, [props.accesorios]);
+  }, [props.accesorios, applySoldStatus]);
 
   // Si no hay accesorios, mostrar un mensaje
   if (!accesorios || accesorios.length === 0) {
@@ -338,6 +356,32 @@ const AccesoriosGridContainer = (props) => {
     }));
   };
 
+  // Función para manejar el cambio de estado de vendido
+  const handleToggleSold = (productId, isVendido, customStyles) => {
+    toggleSoldStatus(productId, isVendido, customStyles);
+    
+    // Actualizar la lista de accesorios
+    setAccesorios(prev => prev.map(accesorio => {
+      if (accesorio.id === productId) {
+        return {
+          ...accesorio,
+          vendido: isVendido,
+          estilos: isVendido ? customStyles : null
+        };
+      }
+      return accesorio;
+    }));
+
+    // Actualizar el producto seleccionado si es el mismo
+    if (selectedProduct && selectedProduct.id === productId) {
+      setSelectedProduct(prev => ({
+        ...prev,
+        vendido: isVendido,
+        estilos: isVendido ? customStyles : null
+      }));
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
@@ -356,13 +400,16 @@ const AccesoriosGridContainer = (props) => {
           return (
             <div
               key={accesorio.id || index}
-              className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 ${
+              className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 cursor-pointer ${
                 accesorio.vendido ? 'relative' : ''
+              } ${
+                selectedProduct && selectedProduct.id === accesorio.id ? 'ring-2 ring-blue-500' : ''
               }`}
               style={{
                 opacity: accesorio.vendido ? (accesorio.estilos?.opacidad || 0.6) : 1,
                 filter: accesorio.vendido ? (accesorio.estilos?.filtro || 'grayscale(100%)') : 'none'
               }}
+              onClick={() => setSelectedProduct(accesorio)}
             >
               {/* Etiqueta de VENDIDO */}
               {accesorio.vendido && (
@@ -489,19 +536,28 @@ const AccesoriosGridContainer = (props) => {
                   </button>
                 </div>
 
-                {/* Video de presentación */}
+                {/* Enlace al producto individual */}
                 <Link
-                  href={`/accesorios/${accesorio.id || index}/video`}
+                  href={buildProductUrl(categorySlug, generateProductSlug(accesorio))}
                   className="flex items-center justify-center w-full bg-gray-50 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors border border-gray-200"
                 >
                   <Play size={18} className="mr-2 text-red-600" />
-                  <span>Ver video de presentación</span>
+                  <span>Ver detalles</span>
                 </Link>
               </div>
             </div>
           );
         })}
       </div>
+
+      {/* Componente de administrador para marcar productos como vendidos */}
+      {selectedProduct && (
+        <SoldMarker
+          producto={selectedProduct}
+          onToggleSold={handleToggleSold}
+          showAdmin={true}
+        />
+      )}
     </div>
   );
 };

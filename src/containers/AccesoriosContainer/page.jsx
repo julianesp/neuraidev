@@ -653,6 +653,9 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, MessageCircle, Eye } from "lucide-react";
 import Head from "next/head"; // Importar Head para SEO
 import styles from "./AccesoriosContainer.module.scss"; // Importamos estilos SCSS
+import { useSoldProducts } from "../../hooks/useSoldProducts";
+import SoldMarker from "../../components/SoldMarker";
+import { generateProductSlug, buildProductUrl, getCategorySlug } from "../../utils/slugify";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -675,6 +678,13 @@ const AccesoriosContainer = ({
   const [isMobile, setIsMobile] = useState(false);
   const [imageError, setImageError] = useState({}); // Controlar errores de carga de imágenes
   const [imageRetries, setImageRetries] = useState({}); // Controlar reintentos de carga
+  const [selectedProduct, setSelectedProduct] = useState(null); // Para el panel de administrador
+
+  // Hook para manejar productos vendidos
+  const { applySoldStatus, toggleSoldStatus } = useSoldProducts();
+
+  // Obtener el slug de categoría desde apiUrl
+  const categorySlug = apiUrl ? getCategorySlug(apiUrl) : 'generales';
 
   // Efecto para detectar si estamos en móvil
   useEffect(() => {
@@ -784,11 +794,21 @@ const AccesoriosContainer = ({
           }
         }
 
+        // Aplicar estado de vendido a los datos
+        const accesoriosConEstado = applySoldStatus(accesoriosData);
+        const accesorioInicialConEstado = accesoriosConEstado.length > 0 ? accesoriosConEstado[0] : null;
+        const otrosAccesoriosConEstado = accesoriosConEstado.slice(1);
+
         // Actualizar estados
-        setTodosAccesorios(accesoriosData);
-        setAccesorio(accesorioInicial);
-        setOtrosAccesorios(otrosAccesoriosData);
+        setTodosAccesorios(accesoriosConEstado);
+        setAccesorio(accesorioInicialConEstado);
+        setOtrosAccesorios(otrosAccesoriosConEstado);
         setTelefono(telefonoConfig);
+        
+        // Seleccionar el primer producto para el panel de admin
+        if (accesorioInicialConEstado) {
+          setSelectedProduct(accesorioInicialConEstado);
+        }
       } catch (error) {
         console.error("Error cargando datos:", error);
       } finally {
@@ -892,6 +912,53 @@ const AccesoriosContainer = ({
     }
   };
 
+  // Función para manejar el cambio de estado de vendido
+  const handleToggleSold = (productId, isVendido, customStyles) => {
+    toggleSoldStatus(productId, isVendido, customStyles);
+    
+    // Actualizar todos los accesorios
+    setTodosAccesorios(prev => prev.map(accesorio => {
+      if (accesorio.id === productId) {
+        return {
+          ...accesorio,
+          vendido: isVendido,
+          estilos: isVendido ? customStyles : null
+        };
+      }
+      return accesorio;
+    }));
+
+    // Actualizar el accesorio principal si es el mismo
+    if (accesorio && accesorio.id === productId) {
+      setAccesorio(prev => ({
+        ...prev,
+        vendido: isVendido,
+        estilos: isVendido ? customStyles : null
+      }));
+    }
+
+    // Actualizar otros accesorios
+    setOtrosAccesorios(prev => prev.map(item => {
+      if (item.id === productId) {
+        return {
+          ...item,
+          vendido: isVendido,
+          estilos: isVendido ? customStyles : null
+        };
+      }
+      return item;
+    }));
+
+    // Actualizar el producto seleccionado si es el mismo
+    if (selectedProduct && selectedProduct.id === productId) {
+      setSelectedProduct(prev => ({
+        ...prev,
+        vendido: isVendido,
+        estilos: isVendido ? customStyles : null
+      }));
+    }
+  };
+
   // Determinar si mostrar botones de navegación para productos relacionados
   const mostrarBotonesRelacionados =
     otrosAccesorios && otrosAccesorios.length > (isMobile ? 2 : 3);
@@ -950,13 +1017,16 @@ const AccesoriosContainer = ({
     <div
       ref={containerRef}
       id="accesorios-container"
-      className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg`}
+      className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg cursor-pointer ${
+        selectedProduct && selectedProduct.id === accesorio?.id ? 'ring-2 ring-blue-500' : ''
+      }`}
       style={{
         opacity: accesorio.vendido ? accesorio.estilos?.opacidad || 0.8 : 1,
         filter: accesorio.vendido
           ? accesorio.estilos?.filtro || "grayscale(50%)"
           : "none",
       }}
+      onClick={() => accesorio && setSelectedProduct(accesorio)}
     >
       {/* Etiqueta de VENDIDO */}
       {accesorio.vendido && (
@@ -1292,8 +1362,10 @@ const AccesoriosContainer = ({
                 return (
                   <div
                     key={itemIndex}
-                    className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow ${
+                    className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer ${
                       item.vendido ? "relative" : ""
+                    } ${
+                      selectedProduct && selectedProduct.id === item.id ? 'ring-2 ring-blue-500' : ''
                     }`}
                     style={{
                       opacity: item.vendido ? item.estilos?.opacidad || 0.6 : 1,
@@ -1301,6 +1373,7 @@ const AccesoriosContainer = ({
                         ? item.estilos?.filtro || "grayscale(100%)"
                         : "none",
                     }}
+                    onClick={() => setSelectedProduct(item)}
                   >
                     {/* Etiqueta de VENDIDO para productos relacionados */}
                     {/* {item.vendido && (
@@ -1351,28 +1424,33 @@ const AccesoriosContainer = ({
                     </p>
 
                     {/* Botón Ver */}
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        cambiarAccesorio(item);
-                      }}
+                    <Link
+                      href={buildProductUrl(categorySlug, generateProductSlug(item))}
                       className={`mt-3 py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm ${
                         item.vendido
-                          ? "bg-gray-400 text-white cursor-not-allowed"
+                          ? "bg-gray-400 text-white cursor-not-allowed pointer-events-none"
                           : "bg-blue-600 text-white hover:bg-blue-700"
                       }`}
                       aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
-                      disabled={item.vendido}
                     >
                       <Eye size={16} className="mr-1" />
                       Ver
-                    </button>
+                    </Link>
                   </div>
                 );
               })}
             </div>
           </div>
         </div>
+      )}
+
+      {/* Componente de administrador para marcar productos como vendidos */}
+      {selectedProduct && (
+        <SoldMarker
+          producto={selectedProduct}
+          onToggleSold={handleToggleSold}
+          showAdmin={true}
+        />
       )}
     </div>
   );
