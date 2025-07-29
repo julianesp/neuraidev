@@ -35,6 +35,7 @@ const securityHeaders = [
       "img-src 'self' https: data: blob:",
       "font-src 'self' https://fonts.gstatic.com",
       "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com",
+      "frame-src 'self' https://www.youtube.com https://youtube.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

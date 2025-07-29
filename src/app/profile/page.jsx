@@ -6,10 +6,6 @@ import styles from "../../styles/components/Profile.module.scss";
 import Link from "next/link";
 import BackToTop from "../../components/backTop/BackToTop";
 
-// export const metadata = {
-//   title: "Sobre mí",
-// };
-
 export default function Profile() {
   const [imageError, setImageError] = useState({});
   const [imageId, setImageId] = useState({});
@@ -136,19 +132,10 @@ export default function Profile() {
             title="Mujer amante - Rata Blanca"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
+            referrerPolicy="no-referrer-when-downgrade"
             allowFullScreen
           ></iframe>
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/Y14M89v26iw?si=ZhBpWmWSgTYb5_8O"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
+
           <iframe
             width="560"
             height="315"
@@ -156,7 +143,7 @@ export default function Profile() {
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
+            referrerPolicy="no-referrer-when-downgrade"
             allowFullScreen
           ></iframe>
           <iframe
@@ -166,7 +153,7 @@ export default function Profile() {
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
+            referrerPolicy="no-referrer-when-downgrade"
             allowFullScreen
           ></iframe>
           <iframe
@@ -176,7 +163,7 @@ export default function Profile() {
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
+            referrerPolicy="no-referrer-when-downgrade"
             allowFullScreen
           ></iframe>
         </div>
