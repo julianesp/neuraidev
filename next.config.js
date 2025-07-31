@@ -51,8 +51,10 @@ const securityHeaders = [
 
 const nextConfig = {
   reactStrictMode: true,
-  devIndicators: false,
-  trailingSlash: true,
+  trailingSlash: false,
+  
+  // Mejorar sourcemaps para debugging
+  productionBrowserSourceMaps: false,
 
   // Headers de seguridad
   async headers() {

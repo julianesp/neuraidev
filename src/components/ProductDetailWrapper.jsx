@@ -37,15 +37,15 @@ export default function ProductDetailWrapper({ apiUrl, categoryName }) {
         let producto = findProductBySlug(productos, params.slug);
         
         // Debug logging
-        console.log('ProductDetailWrapper Debug:');
-        console.log('- API URL:', apiUrl);
-        console.log('- Slug buscado:', params.slug);
-        console.log('- Total productos:', productos.length);
-        console.log('- Producto encontrado en archivo principal:', producto ? producto.nombre : 'NO ENCONTRADO');
+        // console.log('ProductDetailWrapper Debug:');
+        // console.log('- API URL:', apiUrl);
+        // console.log('- Slug buscado:', params.slug);
+        // console.log('- Total productos:', productos.length);
+        // console.log('- Producto encontrado en archivo principal:', producto ? producto.nombre : 'NO ENCONTRADO');
         
         // Si no se encontró en el archivo principal, buscar en otros archivos
         if (!producto) {
-          console.log('- Buscando en otros archivos JSON...');
+          // console.log('- Buscando en otros archivos JSON...');
           
           const otherFilesToSearch = [
             '/computadoras.json',
@@ -77,7 +77,7 @@ export default function ProductDetailWrapper({ apiUrl, categoryName }) {
               
               const productoEncontrado = findProductBySlug(productosArchivo, params.slug);
               if (productoEncontrado) {
-                console.log(`- ¡Producto encontrado en ${file}!`);
+                // console.log(`- ¡Producto encontrado en ${file}!`);
                 producto = productoEncontrado;
                 productos = productosArchivo; // Actualizar lista de productos para "otros productos"
                 break;
@@ -89,7 +89,7 @@ export default function ProductDetailWrapper({ apiUrl, categoryName }) {
         }
         
         if (!producto) {
-          console.log('- Producto no encontrado en ningún archivo');
+          // console.log('- Producto no encontrado en ningún archivo');
           setError('Producto no encontrado');
           return;
         }

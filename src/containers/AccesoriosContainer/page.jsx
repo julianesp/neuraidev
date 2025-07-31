@@ -655,7 +655,11 @@ import Head from "next/head"; // Importar Head para SEO
 import styles from "./AccesoriosContainer.module.scss"; // Importamos estilos SCSS
 import { useSoldProducts } from "../../hooks/useSoldProducts";
 import SoldMarker from "../../components/SoldMarker";
-import { generateProductSlug, buildProductUrl, getCategorySlug } from "../../utils/slugify";
+import {
+  generateProductSlug,
+  buildProductUrl,
+  getCategorySlug,
+} from "../../utils/slugify";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -684,7 +688,7 @@ const AccesoriosContainer = ({
   const { applySoldStatus, toggleSoldStatus } = useSoldProducts();
 
   // Obtener el slug de categoría desde apiUrl
-  const categorySlug = apiUrl ? getCategorySlug(apiUrl) : 'generales';
+  const categorySlug = apiUrl ? getCategorySlug(apiUrl) : "generales";
 
   // Efecto para detectar si estamos en móvil
   useEffect(() => {
@@ -796,7 +800,8 @@ const AccesoriosContainer = ({
 
         // Aplicar estado de vendido a los datos
         const accesoriosConEstado = applySoldStatus(accesoriosData);
-        const accesorioInicialConEstado = accesoriosConEstado.length > 0 ? accesoriosConEstado[0] : null;
+        const accesorioInicialConEstado =
+          accesoriosConEstado.length > 0 ? accesoriosConEstado[0] : null;
         const otrosAccesoriosConEstado = accesoriosConEstado.slice(1);
 
         // Actualizar estados
@@ -804,7 +809,7 @@ const AccesoriosContainer = ({
         setAccesorio(accesorioInicialConEstado);
         setOtrosAccesorios(otrosAccesoriosConEstado);
         setTelefono(telefonoConfig);
-        
+
         // Seleccionar el primer producto para el panel de admin
         if (accesorioInicialConEstado) {
           setSelectedProduct(accesorioInicialConEstado);
@@ -915,46 +920,50 @@ const AccesoriosContainer = ({
   // Función para manejar el cambio de estado de vendido
   const handleToggleSold = (productId, isVendido, customStyles) => {
     toggleSoldStatus(productId, isVendido, customStyles);
-    
+
     // Actualizar todos los accesorios
-    setTodosAccesorios(prev => prev.map(accesorio => {
-      if (accesorio.id === productId) {
-        return {
-          ...accesorio,
-          vendido: isVendido,
-          estilos: isVendido ? customStyles : null
-        };
-      }
-      return accesorio;
-    }));
+    setTodosAccesorios((prev) =>
+      prev.map((accesorio) => {
+        if (accesorio.id === productId) {
+          return {
+            ...accesorio,
+            vendido: isVendido,
+            estilos: isVendido ? customStyles : null,
+          };
+        }
+        return accesorio;
+      }),
+    );
 
     // Actualizar el accesorio principal si es el mismo
     if (accesorio && accesorio.id === productId) {
-      setAccesorio(prev => ({
+      setAccesorio((prev) => ({
         ...prev,
         vendido: isVendido,
-        estilos: isVendido ? customStyles : null
+        estilos: isVendido ? customStyles : null,
       }));
     }
 
     // Actualizar otros accesorios
-    setOtrosAccesorios(prev => prev.map(item => {
-      if (item.id === productId) {
-        return {
-          ...item,
-          vendido: isVendido,
-          estilos: isVendido ? customStyles : null
-        };
-      }
-      return item;
-    }));
+    setOtrosAccesorios((prev) =>
+      prev.map((item) => {
+        if (item.id === productId) {
+          return {
+            ...item,
+            vendido: isVendido,
+            estilos: isVendido ? customStyles : null,
+          };
+        }
+        return item;
+      }),
+    );
 
     // Actualizar el producto seleccionado si es el mismo
     if (selectedProduct && selectedProduct.id === productId) {
-      setSelectedProduct(prev => ({
+      setSelectedProduct((prev) => ({
         ...prev,
         vendido: isVendido,
-        estilos: isVendido ? customStyles : null
+        estilos: isVendido ? customStyles : null,
       }));
     }
   };
@@ -1018,7 +1027,9 @@ const AccesoriosContainer = ({
       ref={containerRef}
       id="accesorios-container"
       className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg cursor-pointer ${
-        selectedProduct && selectedProduct.id === accesorio?.id ? 'ring-2 ring-blue-500' : ''
+        selectedProduct && selectedProduct.id === accesorio?.id
+          ? "ring-2 ring-blue-500"
+          : ""
       }`}
       style={{
         opacity: accesorio.vendido ? accesorio.estilos?.opacidad || 0.8 : 1,
@@ -1043,7 +1054,7 @@ const AccesoriosContainer = ({
           </span>
         </div>
       )}
-      
+
       {/* Título del accesorio */}
       <h1 className="text-3xl font-bold text-center mb-6">
         {accesorio.nombre}
@@ -1195,6 +1206,68 @@ const AccesoriosContainer = ({
                   </ul>
                 </div>
               )}
+
+            {/* Información adicional del producto */}
+            <div className="mt-4 space-y-3">
+              {/* Disponibilidad y cantidad */}
+              {(accesorio.disponible !== undefined ||
+                accesorio.cantidad !== undefined) && (
+                <div className="flex flex-wrap gap-4">
+                  {accesorio.disponible !== undefined && (
+                    <div className="flex items-center">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
+                        Estado:
+                      </span>
+                      <span
+                        className={`text-sm px-2 py-1 rounded-full ${
+                          accesorio.disponible
+                            ? "bg-green-100 text-green-800 dark:bg-transparent dark:text-white dark:border dark:border-white"
+                            : "bg-red-100 text-red-800 dark:bg-transparent dark:text-white dark:border dark:border-white"
+                        }`}
+                      >
+                        {accesorio.disponible ? "Disponible" : "No disponible"}
+                      </span>
+                    </div>
+                  )}
+                  {accesorio.cantidad !== undefined && (
+                    <div className="flex items-center">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
+                        Cantidad:
+                      </span>
+                      <span className="text-sm px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
+                        {accesorio.cantidad}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Peso y dimensiones */}
+              {(accesorio.peso || accesorio.dimensiones) && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {accesorio.peso && (
+                    <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Peso
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {accesorio.peso}
+                      </p>
+                    </div>
+                  )}
+                  {accesorio.dimensiones && (
+                    <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+                      <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Dimensiones
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {accesorio.dimensiones}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
             {/* Precio */}
             <div className="mt-4">
@@ -1365,7 +1438,9 @@ const AccesoriosContainer = ({
                     className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer ${
                       item.vendido ? "relative" : ""
                     } ${
-                      selectedProduct && selectedProduct.id === item.id ? 'ring-2 ring-blue-500' : ''
+                      selectedProduct && selectedProduct.id === item.id
+                        ? "ring-2 ring-blue-500"
+                        : ""
                     }`}
                     style={{
                       opacity: item.vendido ? item.estilos?.opacidad || 0.6 : 1,
@@ -1412,7 +1487,7 @@ const AccesoriosContainer = ({
                         </div>
                       )}
                     </div>
-                    
+
                     <h3 className="font-medium text-sm truncate text-black dark:text-white">
                       {item.nombre || ""}
                     </h3>
@@ -1425,7 +1500,10 @@ const AccesoriosContainer = ({
 
                     {/* Botón Ver */}
                     <Link
-                      href={buildProductUrl(categorySlug, generateProductSlug(item))}
+                      href={buildProductUrl(
+                        categorySlug,
+                        generateProductSlug(item),
+                      )}
                       className={`mt-3 py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm ${
                         item.vendido
                           ? "bg-gray-400 text-white cursor-not-allowed pointer-events-none"
