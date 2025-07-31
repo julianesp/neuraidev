@@ -23,7 +23,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470219245_122195127794083804_5611188803805702175_n.jpg?alt=media&token=ce39c3a1-357e-442d-85fa-a386b1ff5d41",
       "precio": 20900,
-      "categoria": "belleza"
+      "categoria": "belleza",
+      "cantidad": 7,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-05",
+      "destacado": false,
+      "marca": "Generic",
+      "garantia": 6,
+      "peso": "0.15kg",
+      "dimensiones": "10x4x2 cm"
     },
     {
       "id": 2,
@@ -42,7 +51,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fshort%2F1.png?alt=media&token=d6af8342-cd84-4986-a806-ab6733e6cf81",
       "precio": 19900,
-      "categoria": "deportes"
+      "categoria": "deportes",
+      "cantidad": 4,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-07",
+      "destacado": true,
+      "marca": "Active Wear",
+      "garantia": 3,
+      "peso": "0.2kg",
+      "dimensiones": "35x25x1 cm"
     },
     {
       "id": 3,
@@ -55,7 +73,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=d45714a8-4e95-4e6f-94d9-17e9b9eaa405",
       "precio": 29900,
-      "categoria": "belleza"
+      "categoria": "belleza",
+      "cantidad": 2,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-23",
+      "destacado": true,
+      "marca": "Beauty Pro",
+      "garantia": 12,
+      "peso": "0.4kg",
+      "dimensiones": "25x15x3 cm"
     }
   ],
   "configuracion": {

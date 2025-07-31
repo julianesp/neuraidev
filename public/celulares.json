@@ -29,7 +29,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-29-39-219_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=6ae2701d-58f1-452c-b3d7-a1b6b85a5e46",
       "precio": 44500,
-      "categoria": "celulares"
+      "categoria": "celulares",
+      "cantidad": 3,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-15",
+      "destacado": false,
+      "marca": "PZOZ",
+      "garantia": 12,
+      "peso": "0.1kg",
+      "dimensiones": "100x5x2 cm"
     },
     {
       "id": 2,
@@ -45,7 +54,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fbrazalete%2F1.png?alt=media&token=3aaef89b-99cb-470f-8892-6c1450b08ecb",
       "precio": 32000,
-      "categoria": "celulares"
+      "categoria": "celulares",
+      "cantidad": 5,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-10",
+      "destacado": false,
+      "marca": "Universal",
+      "garantia": 6,
+      "peso": "0.3kg",
+      "dimensiones": "35x10x3 cm"
     },
     {
       "id": 3,
@@ -64,7 +82,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F1.jpg?alt=media&token=e441abfc-438c-4133-8de2-911b410e92be",
       "precio": 39000,
-      "categoria": "celulares"
+      "categoria": "celulares",
+      "cantidad": 2,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-12",
+      "destacado": true,
+      "marca": "Apple",
+      "garantia": 12,
+      "peso": "0.05kg",
+      "dimensiones": "14.7x7.1x0.8 cm"
     },
     {
       "id": 4,
@@ -80,7 +107,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F1.jpg?alt=media&token=621f828d-8f87-4cc8-b4c5-dd2792f796b2",
       "precio": 50000,
-      "categoria": "celulares"
+      "categoria": "celulares",
+      "cantidad": 4,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-08",
+      "destacado": false,
+      "marca": "PZOZ",
+      "garantia": 12,
+      "peso": "0.15kg",
+      "dimensiones": "200x5x2 cm"
     },
     {
       "id": 5,
@@ -96,7 +132,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb_iphone%2F2.jpg?alt=media&token=3a9f7662-3654-4a23-b9b6-da353de50a04",
       "precio": 44000,
-      "categoria": "celulares"
+      "categoria": "celulares",
+      "cantidad": 6,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-20",
+      "destacado": false,
+      "marca": "Generic",
+      "garantia": 12,
+      "peso": "0.08kg",
+      "dimensiones": "100x2x1 cm"
     },
     {
       "id": 6,
@@ -121,7 +166,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F1.jpg?alt=media&token=e9fe42ee-6b62-495d-b3d3-9b16c249d06e",
       "precio": 184900,
-      "categoria": "celulares"
+      "categoria": "celulares",
+      "cantidad": 1,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-18",
+      "destacado": true,
+      "marca": "Generic",
+      "garantia": 24,
+      "peso": "0.8kg",
+      "dimensiones": "20x15x10 cm"
     },
     {
       "id": 7,
@@ -143,7 +197,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F1.jpg?alt=media&token=79f5880c-5f87-4677-a5d9-4dd31c6b40f9",
       "precio": 41900,
-      "categoria": "celulares"
+      "categoria": "celulares",
+      "cantidad": 3,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-14",
+      "destacado": false,
+      "marca": "KS",
+      "garantia": 12,
+      "peso": "0.4kg",
+      "dimensiones": "40x30x5 cm"
     },
     {
       "id": 8,
@@ -168,7 +231,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242360460.jpg?alt=media&token=b5d1d10a-dcbb-490b-9c33-35f45d5aa2b9",
       "precio": 38900,
-      "categoria": "celulares"
+      "categoria": "celulares",
+      "cantidad": 2,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-16",
+      "destacado": false,
+      "marca": "Xiaomi",
+      "garantia": 12,
+      "peso": "0.08kg",
+      "dimensiones": "16x8x1 cm"
     },
     {
       "id": 9,
@@ -205,7 +277,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F1.jpg?alt=media&token=02cfb773-e50b-436b-acd7-d7d331cfb373",
       "precio": 49900,
-      "categoria": "tecnologia"
+      "categoria": "tecnologia",
+      "cantidad": 4,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-22",
+      "destacado": true,
+      "marca": "Air 31",
+      "garantia": 12,
+      "peso": "0.15kg",
+      "dimensiones": "10x10x5 cm"
     },
     {
       "id": 10,
@@ -239,7 +320,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F1.jpg?alt=media&token=90461933-eb9e-4062-af94-a137f96e9ae9",
       "precio": 44900,
-      "categoria": "tecnologia"
+      "categoria": "tecnologia",
+      "cantidad": 5,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-11",
+      "destacado": false,
+      "marca": "P47",
+      "garantia": 12,
+      "peso": "0.25kg",
+      "dimensiones": "18x16x8 cm"
     },
     {
       "id": 11,
@@ -258,7 +348,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364",
       "precio": 44900,
-      "categoria": "tecnologia"
+      "categoria": "tecnologia",
+      "cantidad": 3,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-19",
+      "destacado": false,
+      "marca": "Apple",
+      "garantia": 12,
+      "peso": "0.12kg",
+      "dimensiones": "12x8x3 cm"
     }
   ],
   "configuracion": {

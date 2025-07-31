@@ -23,7 +23,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3",
       "precio": 38900,
-      "categoria": "mascotas"
+      "categoria": "mascotas",
+      "cantidad": 3,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-15",
+      "destacado": true,
+      "marca": "Pet Care",
+      "garantia": 6,
+      "peso": "0.2kg",
+      "dimensiones": "15x8x5cm"
     },
     {
       "id": 2,
@@ -48,7 +57,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3",
       "precio": 38900,
-      "categoria": "mascotas"
+      "categoria": "mascotas",
+      "cantidad": 2,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-15",
+      "destacado": false,
+      "marca": "Pet Care",
+      "garantia": 6,
+      "peso": "0.2kg",
+      "dimensiones": "15x8x5cm"
     }
   ],
   "configuracion": {

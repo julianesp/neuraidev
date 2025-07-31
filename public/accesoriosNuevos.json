@@ -17,7 +17,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364",
       "precio": 44900,
-      "categoria": "tecnologia"
+      "categoria": "tecnologia",
+      "cantidad": 3,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-19",
+      "destacado": true,
+      "marca": "Apple",
+      "garantia": 12,
+      "peso": "0.12kg",
+      "dimensiones": "12x8x3 cm"
     }
   ],
   "configuracion": {

@@ -11,7 +11,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbombillo_usb.jpg?alt=media&token=f18daaa1-91e9-4d86-8273-e8b53f537f9c",
       "precio": 14900,
-      "categoria": "gadgets"
+      "categoria": "gadgets",
+      "cantidad": 10,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-01",
+      "destacado": false,
+      "marca": "Generic",
+      "garantia": 6,
+      "peso": "0.05kg",
+      "dimensiones": "8x2x2 cm"
     }
   ],
   "configuracion": {

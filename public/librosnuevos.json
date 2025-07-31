@@ -14,7 +14,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480534106_122204421584083804_6430148799072894958_n.jpg?alt=media&token=ba8c5d5b-6bf3-478c-aaf6-0f50bfe22be1",
       "precio": 35900,
-      "categoria": "librosnuevos"
+      "categoria": "librosnuevos",
+      "cantidad": 3,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-25",
+      "destacado": true,
+      "marca": "Planeta",
+      "garantia": 0,
+      "peso": "0.4kg",
+      "dimensiones": "23x15x2 cm"
     },
     {
       "id": 2,
@@ -30,7 +39,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480546888_122204420954083804_2403064943007724846_n.jpg?alt=media&token=51abde4d-7f95-44da-9134-c9d242664a6c",
       "precio": 31500,
-      "categoria": "librosnuevos"
+      "categoria": "librosnuevos",
+      "cantidad": 4,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-24",
+      "destacado": false,
+      "marca": "Planeta",
+      "garantia": 0,
+      "peso": "0.35kg",
+      "dimensiones": "23x15x1.8 cm"
     },
     {
       "id": 3,
@@ -43,7 +61,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Felon%2F480668319_122204420066083804_3713515218081717544_n.jpg?alt=media&token=243054dc-85f9-4269-88b4-10aaaec9d78c",
       "precio": 51900,
-      "categoria": "librosnuevos"
+      "categoria": "librosnuevos",
+      "cantidad": 2,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-26",
+      "destacado": true,
+      "marca": "Editorial",
+      "garantia": 0,
+      "peso": "0.6kg",
+      "dimensiones": "24x16x2.5 cm"
     },
     {
       "id": 1,
@@ -59,7 +86,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F1.jpg?alt=media&token=6e11ce4e-f5f7-4c1b-9b34-d18d53f1091d",
       "precio": 37900,
-      "categoria": "librosnuevos"
+      "categoria": "librosnuevos",
+      "cantidad": 3,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-21",
+      "destacado": false,
+      "marca": "Clásicos",
+      "garantia": 0,
+      "peso": "0.45kg",
+      "dimensiones": "23x15x2.2 cm"
     }
   ],
   "configuracion": {

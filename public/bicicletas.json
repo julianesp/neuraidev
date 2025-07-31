@@ -14,7 +14,16 @@
       ],
       "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fluces%20para%20bike%2F1.jpg?alt=media&token=438191c2-2046-4ed2-bc83-bebe7040b762",
       "precio": 39900,
-      "categoria": "bicicletas"
+      "categoria": "bicicletas",
+      "cantidad": 8,
+      "disponible": true,
+      "estado": "nuevo",
+      "fechaIngreso": "2024-12-05",
+      "destacado": false,
+      "marca": "Generic",
+      "garantia": 12,
+      "peso": "0.3kg",
+      "dimensiones": "15x10x8 cm"
     }
   ],
   "configuracion": {
