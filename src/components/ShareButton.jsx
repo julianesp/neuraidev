@@ -63,8 +63,8 @@ const ShareButton = ({
       : '';
 
     return {
-      title: `🛍️ ${productName}`,
-      text: `¡Mira este producto! ${productName}${productPrice ? ` - ${productPrice}` : ''}\n\n📱 Ver detalles:`,
+      title: productName,
+      text: '',
       url: productUrl
     };
   };
