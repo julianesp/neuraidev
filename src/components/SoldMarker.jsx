@@ -154,10 +154,11 @@ const SoldMarker = ({ producto, onToggleSold, showAdmin = true }) => {
             <div className="space-y-4">
               {/* Texto del vendido */}
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label htmlFor="texto-vendido" className="block text-sm font-medium mb-1">
                   Texto de vendido:
                 </label>
                 <input
+                  id="texto-vendido"
                   type="text"
                   value={customStyles.textoVendido}
                   onChange={(e) => handleStyleChange("textoVendido", e.target.value)}
@@ -168,11 +169,12 @@ const SoldMarker = ({ producto, onToggleSold, showAdmin = true }) => {
 
               {/* Color del texto */}
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label htmlFor="color-texto" className="block text-sm font-medium mb-1">
                   Color del texto:
                 </label>
                 <div className="flex gap-2">
                   <input
+                    id="color-texto"
                     type="color"
                     value={customStyles.colorTextoVendido}
                     onChange={(e) => handleStyleChange("colorTextoVendido", e.target.value)}
@@ -189,11 +191,12 @@ const SoldMarker = ({ producto, onToggleSold, showAdmin = true }) => {
 
               {/* Color de fondo */}
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label htmlFor="color-fondo" className="block text-sm font-medium mb-1">
                   Color de fondo:
                 </label>
                 <div className="flex gap-2">
                   <input
+                    id="color-fondo"
                     type="color"
                     value={customStyles.fondoTextoVendido}
                     onChange={(e) => handleStyleChange("fondoTextoVendido", e.target.value)}
@@ -226,10 +229,11 @@ const SoldMarker = ({ producto, onToggleSold, showAdmin = true }) => {
 
               {/* Filtro */}
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label htmlFor="filtro-efecto" className="block text-sm font-medium mb-1">
                   Efecto visual:
                 </label>
                 <select
+                  id="filtro-efecto"
                   value={customStyles.filtro}
                   onChange={(e) => handleStyleChange("filtro", e.target.value)}
                   className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"

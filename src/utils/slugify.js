@@ -19,8 +19,8 @@ export function slugify(text) {
     .replace(/ü/g, 'u')
     // Reemplazar espacios y caracteres especiales con guiones
     .replace(/\s+/g, '-')
-    .replace(/[^\w\-]+/g, '')
-    .replace(/\-\-+/g, '-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-')
     .replace(/^-+/, '')
     .replace(/-+$/, '');
 }

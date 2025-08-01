@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import Image from "next/image";
 
 export const runtime = "edge";
 
@@ -22,7 +23,7 @@ export async function GET(request: Request) {
           {/* Imagen del producto (si existe) */}
           {productImage && (
             <div tw="flex w-2/5 h-full">
-              <img 
+              <Image 
                 src={productImage} 
                 tw="w-full h-full object-cover"
                 alt={title}
@@ -34,7 +35,7 @@ export async function GET(request: Request) {
           <div tw={`flex flex-col justify-between p-12 ${productImage ? 'w-3/5' : 'w-full'} h-full`}>
             {/* Header con logo */}
             <div tw="flex items-center mb-8">
-              <img width={48} height={48} src={logoUrl} alt="NeuraIdev"/>
+              <Image width={48} height={48} src={logoUrl} alt="NeuraIdev"/>
               <div tw="ml-4 flex flex-col">
                 <span tw="text-xl font-bold text-gray-900">NeuraIdev</span>
                 <span tw="text-sm text-gray-600">{category}</span>
@@ -81,7 +82,7 @@ export async function GET(request: Request) {
         height: 630,
       }
     );
-  } catch (e: any) {
+  } catch (e: unknown) {
     return new Response("Falla al generar la imagen OG", { status: 500 });
   }
 }

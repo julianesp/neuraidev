@@ -179,7 +179,7 @@ const AccesoriosContainer = ({
     };
 
     cargarDatos();
-  }, [apiUrl, accesorioProps, otrosAccesoriosProps, telefono, dataLoaded]);
+  }, [apiUrl, accesorioProps, otrosAccesoriosProps, telefono, dataLoaded, applySoldStatus]);
 
   // Función para avanzar en el carrusel principal
   const nextMainSlide = (e) => {

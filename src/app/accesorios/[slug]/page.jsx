@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import AccesoriosContainer from "../../../containers/AccesoriosContainer/page";
 import { findProductBySlug } from "../../../utils/slugify";
 
@@ -60,7 +61,7 @@ export default function GenericProductPage() {
             const producto = findProductBySlug(productos, params.slug);
             
             if (producto) {
-              console.log(`GenericProductPage: Producto encontrado en ${file}: ${producto.nombre || producto.title}`);
+              console.warn(`GenericProductPage: Producto encontrado en ${file}: ${producto.nombre || producto.title}`);
               foundProduct = producto;
               allProducts = productos;
               break;
@@ -114,12 +115,12 @@ export default function GenericProductPage() {
           <p className="text-gray-600 mb-4">
             El producto que buscas no existe o ha sido eliminado.
           </p>
-          <a 
+          <Link 
             href="/accesorios/generales"
             className="bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark transition-colors"
           >
             Ver todos los accesorios
-          </a>
+          </Link>
         </div>
       </main>
     );
