@@ -15,6 +15,7 @@ import {
   getCategorySlug,
 } from "../../utils/slugify";
 import ShareButton from "../../components/ShareButton";
+import ProductMetaTags from "../../components/ProductMetaTags";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -378,9 +379,13 @@ const AccesoriosContainer = ({
   }
 
   return (
-    <div
-      ref={containerRef}
-      id="accesorios-container"
+    <>
+      {/* Meta tags para redes sociales */}
+      <ProductMetaTags product={accesorio} category={categorySlug} />
+      
+      <div
+        ref={containerRef}
+        id="accesorios-container"
       className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg cursor-pointer ${
         selectedProduct && selectedProduct.id === accesorio?.id
           ? "ring-2 ring-blue-500"
@@ -786,6 +791,7 @@ const AccesoriosContainer = ({
         />
       )}
     </div>
+    </>
   );
 };
 
