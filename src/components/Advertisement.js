@@ -196,12 +196,23 @@ function AdContent({
         </h2>
         <p className="text-gray-900 mb-4 dark:text-slate-950">{description}</p>
 
-        <Link
-          href={businessId ? `/business/${businessId}` : linkUrl}
-          className="inline-block bg-blue-500 text-white px-2 py-2 rounded hover:bg-blue-600 transition-colors"
-        >
-          Más información
-        </Link>
+        {businessId ? (
+          <Link
+            href={`/business/${businessId}`}
+            className="inline-block bg-blue-500 text-white px-2 py-2 rounded hover:bg-blue-600 transition-colors"
+          >
+            Más información
+          </Link>
+        ) : (
+          <a
+            href={linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-green-500 text-white px-2 py-2 rounded hover:bg-green-600 transition-colors"
+          >
+            Contactar
+          </a>
+        )}
       </div>
     </>
   );

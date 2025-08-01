@@ -3,31 +3,31 @@ import path from "path";
 // Headers de seguridad
 const securityHeaders = [
   {
-    key: 'X-DNS-Prefetch-Control',
-    value: 'on'
+    key: "X-DNS-Prefetch-Control",
+    value: "on",
   },
   {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=63072000; includeSubDomains; preload'
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
   },
   {
-    key: 'X-XSS-Protection',
-    value: '1; mode=block'
+    key: "X-XSS-Protection",
+    value: "1; mode=block",
   },
   {
-    key: 'X-Frame-Options',
-    value: 'SAMEORIGIN'
+    key: "X-Frame-Options",
+    value: "SAMEORIGIN",
   },
   {
-    key: 'X-Content-Type-Options',
-    value: 'nosniff'
+    key: "X-Content-Type-Options",
+    value: "nosniff",
   },
   {
-    key: 'Referrer-Policy',
-    value: 'origin-when-cross-origin'
+    key: "Referrer-Policy",
+    value: "origin-when-cross-origin",
   },
   {
-    key: 'Content-Security-Policy',
+    key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
       "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://vercel.live",
@@ -40,19 +40,19 @@ const securityHeaders = [
       "base-uri 'self'",
       "form-action 'self'",
       "frame-ancestors 'none'",
-      "upgrade-insecure-requests"
-    ].join('; ')
+      "upgrade-insecure-requests",
+    ].join("; "),
   },
   {
-    key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=()'
-  }
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=()",
+  },
 ];
 
 const nextConfig = {
   reactStrictMode: true,
   trailingSlash: false,
-  
+
   // Mejorar sourcemaps para debugging
   productionBrowserSourceMaps: false,
 
@@ -60,27 +60,27 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: securityHeaders,
       },
       {
-        source: '/api/(.*)',
+        source: "/api/(.*)",
         headers: [
           ...securityHeaders,
           {
-            key: 'Access-Control-Allow-Origin',
-            value: process.env.NEXTAUTH_URL || 'http://localhost:3000'
+            key: "Access-Control-Allow-Origin",
+            value: process.env.NEXTAUTH_URL || "http://localhost:3000",
           },
           {
-            key: 'Access-Control-Allow-Methods',
-            value: 'GET, POST, PUT, DELETE, OPTIONS'
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
           },
           {
-            key: 'Access-Control-Allow-Headers',
-            value: 'Content-Type, Authorization, X-Admin-Secret'
-          }
-        ]
-      }
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type, Authorization, X-Admin-Secret",
+          },
+        ],
+      },
     ];
   },
 
@@ -111,6 +111,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "www.canva.com",
       },
+      {
+        protocol: "https",
+        hostname: "0dwas2ied3dcs14f.public.blob.vercel-storage.com",
+      },
     ],
   },
 
@@ -135,9 +139,9 @@ const nextConfig = {
   // Configuraciones adicionales de seguridad
   poweredByHeader: false,
   generateEtags: false,
-  
+
   // Optimizaciones de seguridad para el bundle
-  serverExternalPackages: ['bcryptjs'],
+  serverExternalPackages: ["bcryptjs"],
 };
 
 export default nextConfig;

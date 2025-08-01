@@ -176,16 +176,28 @@ export default function Inicio() {
 
   const ads = [
     {
-      businessName: "Productos",
-      description: "Solicite este espacio para su negocio",
-      imageUrl: "",
-      linkUrl: "/productos/",
+      businessName: "Tienda Local",
+      description: "Abarrotes y productos básicos para tu hogar. Servicio a domicilio disponible.",
+      imageUrl: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      businessId: "tienda-local",
     },
     {
-      businessName: "Accesorios",
-      description: "Solicite este espacio para su negocio",
-      imageUrl: "",
-      linkUrl: "/accesorios/",
+      businessName: "Panadería El Trigal", 
+      description: "Pan fresco todos los días. Especialistas en productos artesanales.",
+      imageUrl: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      businessId: "panaderia-el-trigal",
+    },
+    {
+      businessName: "Ferretería Martínez",
+      description: "Todo para construcción y reparaciones. Más de 20 años de experiencia.",
+      imageUrl: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      businessId: "ferreteria-martinez",
+    },
+    {
+      businessName: "¿Tienes un negocio?",
+      description: "Solicita tu espacio publicitario aquí y llega a más clientes en tu zona.",
+      imageUrl: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      linkUrl: "https://wa.me/573174503604?text=Hola,%20me%20interesa%20solicitar%20un%20espacio%20publicitario%20para%20mi%20negocio%20en%20NeuraIdev",
     },
   ];
 
@@ -217,6 +229,7 @@ export default function Inicio() {
             />
           </Suspense>
         </div>
+
         {/* Sección lateral de anuncios */}
         <section
           className={`${styles.aside} `}
@@ -239,7 +252,7 @@ export default function Inicio() {
             <Advertisement ads={ads} />
           </Suspense>
         </section>
-        {/* Botones de Servicios y Accesorios */}
+
         <div
           className={`${styles.directos} w-full z-50 bg-black  shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2 `}
         >
@@ -304,7 +317,7 @@ export default function Inicio() {
             Accesorios
           </a>
         </div>
-        {/* Sección de productos destacados con animación */}
+
         <section
           ref={destacadosRef}
           className={`${styles.destacados} ${styles.fadeInUp}`}
@@ -314,6 +327,7 @@ export default function Inicio() {
             {/* <AccesoriosNuevos /> */}
           </Suspense>
         </section>
+
         {/*         
         <section
           ref={servicesRef}
@@ -332,7 +346,7 @@ export default function Inicio() {
             <Link href="/Services">Ver más</Link>
           </section>
         </section> */}
-        {/* Sección de accesorios */}
+
         <section
           ref={accesoriesRef}
           className={`${styles.accesories} ${styles.fadeInUp}`}
