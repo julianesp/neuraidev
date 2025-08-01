@@ -339,9 +339,14 @@ export default function Inicio() {
         >
           <section className={styles.varios}>
             <h1 id="accesories" className={`${styles.accesoriesTitle} `}>
-              <span className="text-black dark:text-white dark:bg-dark ">
+              <Link
+                href="/accesorios/"
+                className="text-black border-solid border-black border-2 rounded-xl p-2  dark:text-white dark:bg-dark dark:border-white"
+                title="Ver página de accesorios"
+                target="_blankw"
+              >
                 Accesorios
-              </span>
+              </Link>
             </h1>
 
             {/* Artículo con animación desde la izquierda */}
