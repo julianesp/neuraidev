@@ -17,10 +17,10 @@ export async function query(text, params) {
     const res = await pool.query(text, params);
     const duration = Date.now() - start;
     
-    // Log en desarrollo
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('Executed query', { text, duration, rows: res.rowCount });
-    }
+    // Log en desarrollo - comentado para reducir ruido en consola
+    // if (process.env.NODE_ENV === 'development') {
+    //   console.warn('Executed query', { text, duration, rows: res.rowCount });
+    // }
     
     return res;
   } catch (error) {
