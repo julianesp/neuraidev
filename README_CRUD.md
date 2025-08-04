@@ -7,14 +7,17 @@ Tu sitio ahora tiene un backend completo con operaciones CRUD usando PostgreSQL.
 ### 🔧 Cambios Realizados
 
 1. **Migración de MongoDB a PostgreSQL**
+
    - ❌ Removido: `mongoose`
    - ✅ Agregado: `pg` (PostgreSQL driver)
 
 2. **Nueva Configuración de Base de Datos**
+
    - `src/lib/db.js` - Conexión y configuración PostgreSQL
    - `.env.local` - Variables de entorno actualizadas
 
 3. **Modelo de Productos Actualizado**
+
    - `src/models/ProductModel.js` - Métodos para PostgreSQL
 
 4. **API Routes Completas**
@@ -40,6 +43,7 @@ CREATE TABLE productos (
 ### 🛠 Operaciones CRUD Disponibles
 
 #### 1. **CREATE (Crear Producto)**
+
 ```bash
 POST /api/productos
 Content-Type: application/json
@@ -55,6 +59,7 @@ Content-Type: application/json
 ```
 
 #### 2. **READ (Leer Productos)**
+
 ```bash
 # Todos los productos
 GET /api/productos
@@ -67,6 +72,7 @@ GET /api/productos/1
 ```
 
 #### 3. **UPDATE (Actualizar Producto)**
+
 ```bash
 PUT /api/productos/1
 Content-Type: application/json
@@ -78,6 +84,7 @@ Content-Type: application/json
 ```
 
 #### 4. **DELETE (Eliminar Producto)**
+
 ```bash
 DELETE /api/productos/1
 ```
@@ -85,15 +92,18 @@ DELETE /api/productos/1
 ### 🚀 Cómo Usar
 
 1. **Instalar dependencias:**
+
    ```bash
    npm install
    ```
 
 2. **Configurar PostgreSQL:**
+
    - Asegúrate de tener PostgreSQL corriendo
    - Actualiza `.env.local` con tus credenciales
 
 3. **Iniciar el servidor:**
+
    ```bash
    npm run dev
    ```
@@ -106,6 +116,7 @@ DELETE /api/productos/1
 ### 📋 Variables de Entorno
 
 Actualiza tu `.env.local`:
+
 ```env
 DATABASE_URL=postgresql://neuraidev:dataNeuraidev_25@localhost:5432/neuraidev_db
 ```
