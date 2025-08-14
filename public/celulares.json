@@ -2,33 +2,27 @@
   "accesorios": [
     {
       "id": "cable-usb-c-c-100w",
-      "nombre": "USB tipo c - c",
+      "nombre": "USB tipo c - c 1 metro",
       "descripcion": "🔌 Cable USB-C a USB-C 100W 📏 Longitud: 1 metro ⚡ Potencia: hasta 100W para carga rápida 💾 Transferencia de datos de alta velocidad 🛡️ Revestimiento trenzado para mayor durabilidad 🔗 Conectores reforzados para uso intensivo. Ideal para dispositivos con carga rápida y sincronización eficiente. 🖥️⚙️📱",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-29-39-219_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=6ae2701d-58f1-452c-b3d7-a1b6b85a5e46"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%2FFB_IMG_1747161170527.jpg?alt=media&token=003b5f90-80da-4f22-9cf9-27de5a9b2b03"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-30-16-839_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=afb251dd-45e4-49a6-81f8-fc584893ae10"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-30-40-759_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=5c4ef83e-b9eb-4999-9f54-5067da281c4c"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-30-54-296_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=9070f86b-5ad8-48b1-86f1-654eafa983f2"
-        },
-        {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-31-09-502_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=8b061aeb-c8e1-49eb-b775-ce3d9a67924e"
-        },
-        {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-31-33-554_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=fa0d2a66-8a7e-4551-98f3-a7dd8105a0d5"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/5.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-29-39-219_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=6ae2701d-58f1-452c-b3d7-a1b6b85a5e46",
-      "precio": 44500,
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/1.jpg",
+      "precio": 29900,
       "categoria": "celulares",
       "cantidad": 1,
       "disponible": true,
@@ -36,9 +30,7 @@
       "fechaIngreso": "2024-12-15",
       "destacado": false,
       "marca": "PZOZ",
-      "garantia": 12,
-      "peso": "0.1kg",
-      "dimensiones": "100x5x2 cm"
+      "garantia": 1
     },
     {
       "id": 2,
@@ -46,13 +38,22 @@
       "descripcion": "💪 Brazalete deportivo para celular 📱 Compatible con múltiples modelos de smartphone 🏃 Ideal para correr, entrenar o andar en bici 🎧 Orificio para cable de auriculares 🔐 Bolsillo seguro para llave 🧵 Material ligero, resistente al sudor y ajustable para máxima comodidad.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fbrazalete%2F1.png?alt=media&token=3aaef89b-99cb-470f-8892-6c1450b08ecb"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/brazalete/1.png"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fbrazalete%2FScreenshot_1.png?alt=media&token=1470e47f-8d62-4d59-a561-3011849e0e67"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/brazalete/2.png"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/brazalete/3.png"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/brazalete/4.png"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/brazalete/5.png"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fbrazalete%2F1.png?alt=media&token=3aaef89b-99cb-470f-8892-6c1450b08ecb",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/brazalete/1.png",
       "precio": 32000,
       "categoria": "celulares",
       "cantidad": 4,
@@ -61,27 +62,25 @@
       "fechaIngreso": "2024-12-10",
       "destacado": false,
       "marca": "Universal",
-      "garantia": 6,
-      "peso": "0.3kg",
-      "dimensiones": "35x10x3 cm"
+      "garantia": 1
     },
     {
       "id": 3,
-      "nombre": "Funda iPhone XS MagSafe",
+      "nombre": "Funda iPhone XS",
       "descripcion": "📱 Funda protectora para iPhone XS 🧲 Compatible con MagSafe para carga inalámbrica sin interrupciones 🔴 Borde color rojo o negro 🧼 Tacto suave y antideslizante 🔒 Protección contra caídas y arañazos, con bordes elevados para proteger cámara y pantalla.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F1.jpg?alt=media&token=e441abfc-438c-4133-8de2-911b410e92be"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20iphone%20xs/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F2.jpg?alt=media&token=57640bbe-3a77-4a6e-8938-28b4685feb3c"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20iphone%20xs/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F3.jpg?alt=media&token=41634705-4c8d-4b0e-b649-1e46a7f6b2e4"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20iphone%20xs/3.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20iphone%20xs%2F1.jpg?alt=media&token=e441abfc-438c-4133-8de2-911b410e92be",
-      "precio": 39000,
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20iphone%20xs/1.jpg",
+      "precio": 24900,
       "categoria": "celulares",
       "cantidad": 2,
       "disponible": true,
@@ -89,23 +88,30 @@
       "fechaIngreso": "2024-12-12",
       "destacado": true,
       "marca": "Apple",
-      "garantia": 12,
-      "peso": "0.05kg",
-      "dimensiones": "14.7x7.1x0.8 cm"
+      "garantia": 1
     },
     {
       "id": 4,
-      "nombre": "Cable USB tipo C a C - 2 metros",
+      "nombre": "USB tipo C a C - 2 metros",
       "descripcion": "🔌 Cable USB-C a USB-C de 2 metros 📏 Longitud extendida para mayor comodidad ⚡ Potencia de carga rápida hasta 100W 💽 Transferencia de datos eficiente 🧵 Forro trenzado resistente y flexible 🔗 Ideal para laptops, tablets y smartphones compatibles con carga rápida.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F1.jpg?alt=media&token=621f828d-8f87-4cc8-b4c5-dd2792f796b2"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F2.jpg?alt=media&token=be13e458-9295-4d8a-a9d4-4bb577d4a4e2"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/2.jpg"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/3.jpg"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/4.jpg"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/5.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb%20tipo%20c%202%20meters%2F1.jpg?alt=media&token=621f828d-8f87-4cc8-b4c5-dd2792f796b2",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20tipo%20c/1.jpg",
       "precio": 50000,
       "categoria": "celulares",
       "cantidad": 1,
@@ -114,9 +120,7 @@
       "fechaIngreso": "2024-12-08",
       "destacado": false,
       "marca": "PZOZ",
-      "garantia": 12,
-      "peso": "0.15kg",
-      "dimensiones": "200x5x2 cm"
+      "garantia": 1
     },
     {
       "id": 5,
@@ -124,13 +128,13 @@
       "descripcion": "🔴 Cable USB a Lightning para iPhone ⚡ Carga rápida y transferencia de datos eficiente 🧵 Revestimiento trenzado ultra resistente 💡 Conector en ángulo para mayor comodidad 🎒 Incluye cinta de velcro para mejor almacenamiento y portabilidad.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb_iphone%2F2.jpg?alt=media&token=3a9f7662-3654-4a23-b9b6-da353de50a04"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20iphone/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb_iphone%2F3.jpg?alt=media&token=214e4d99-9f05-4f69-8067-9f39f6327bd9"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20iphone/2.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fusb_iphone%2F2.jpg?alt=media&token=3a9f7662-3654-4a23-b9b6-da353de50a04",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20iphone/1.jpg",
       "precio": 44000,
       "categoria": "celulares",
       "cantidad": 1,
@@ -139,9 +143,7 @@
       "fechaIngreso": "2024-12-20",
       "destacado": false,
       "marca": "Generic",
-      "garantia": 12,
-      "peso": "0.08kg",
-      "dimensiones": "100x2x1 cm"
+      "garantia": 1
     },
     {
       "id": 6,
@@ -149,22 +151,19 @@
       "descripcion": "🔄 Seguimiento inteligente de 360° con base giratoria estable 💼 Diseño compacto en negro elegante con detalle en rojo 🎮 Controles intuitivos para manejo fácil 📲 Compatible con múltiples dispositivos 🛡️ Base antideslizante para máxima estabilidad 🌟 Perfecto para TikTok, YouTube, videollamadas y streaming.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F1.jpg?alt=media&token=e9fe42ee-6b62-495d-b3d3-9b16c249d06e"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/gimbal/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F2.jpg?alt=media&token=e083b6f7-0a72-4e95-bfa6-733f1c17e515"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/gimbal/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F3.jpg?alt=media&token=0eaf0309-c22f-4c3c-be6a-aab3df6fc48d"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/gimbal/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F4.jpg?alt=media&token=15e253a2-8fdb-4074-b534-a3b79ec2d569"
-        },
-        {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F5.jpg?alt=media&token=631706c9-289b-4424-81d5-da1e190d0156"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/gimbal/4.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fseveral%2Fgimbal%2F1.jpg?alt=media&token=e9fe42ee-6b62-495d-b3d3-9b16c249d06e",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/gimbal/1.jpg",
       "precio": 184900,
       "categoria": "celulares",
       "cantidad": 2,
@@ -173,9 +172,7 @@
       "fechaIngreso": "2024-12-18",
       "destacado": true,
       "marca": "Generic",
-      "garantia": 24,
-      "peso": "0.8kg",
-      "dimensiones": "20x15x10 cm"
+      "garantia": 1
     },
     {
       "id": 7,
@@ -183,20 +180,20 @@
       "descripcion": "🔄 Diseño flexible de 360° ergonómico y adaptable 🔋 Batería de 130mAh con 18h de autonomía en standby 📶 Alcance inalámbrico de 10m para mayor libertad 🎮 Controles intuitivos multifunción para música y llamadas ⚡ Cable de carga de datos integrado 💪 Estructura resistente en color negro elegante 🏃‍♂️ Ideal para deportes, llamadas y actividades diarias.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F1.jpg?alt=media&token=79f5880c-5f87-4677-a5d9-4dd31c6b40f9"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20inalalambricos%20KS19/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F2.jpg?alt=media&token=f33cad07-887a-4b4a-a7c6-b4fe09a5b069"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20inalalambricos%20KS19/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F3.jpg?alt=media&token=22235b17-28e2-4532-8eea-f261e2f7c905"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20inalalambricos%20KS19/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F4.jpg?alt=media&token=88f9dc31-aa4d-4f85-a478-e099650b1e2f"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20inalalambricos%20KS19/4.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20inalambricos%2F1.jpg?alt=media&token=79f5880c-5f87-4677-a5d9-4dd31c6b40f9",
-      "precio": 41900,
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20inalalambricos%20KS19/1.jpg",
+      "precio": 29900,
       "categoria": "celulares",
       "cantidad": 3,
       "disponible": true,
@@ -204,9 +201,7 @@
       "fechaIngreso": "2024-12-14",
       "destacado": false,
       "marca": "KS",
-      "garantia": 12,
-      "peso": "0.4kg",
-      "dimensiones": "40x30x5 cm"
+      "garantia": 1
     },
     {
       "id": 8,
@@ -214,23 +209,26 @@
       "descripcion": "🎯 Diseño bicolor rojo y negro premium 🔄 Soporte giratorio metálico integrado 🧩 Estructura de panal absorbe impactos 🛡️ Esquinas reforzadas anti-shock 🔌 Cortes precisos para cámaras y puertos 📱 Específica para Xiaomi Redmi A12 💪 Sistema de protección híbrido 🏆 Soporte deslizable integrado 🎮 Estilo gaming con textura táctil.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242360460.jpg?alt=media&token=b5d1d10a-dcbb-490b-9c33-35f45d5aa2b9"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20xiaomi%20redmi/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242368088.jpg?alt=media&token=5b6f953c-ed72-464a-a82f-3228fe8187ed"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20xiaomi%20redmi/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242371266.jpg?alt=media&token=65b37ec9-2101-4078-98d6-f1d00cf7d5dd"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20xiaomi%20redmi/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242382736.jpg?alt=media&token=3baa5456-6b5d-432f-bff6-d74086a60e40"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20xiaomi%20redmi/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242390269.jpg?alt=media&token=9389ef40-8bf8-4aa8-9d17-42a840229cd5"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20xiaomi%20redmi/5.jpg"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20xiaomi%20redmi/6.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%20xiaomi%20a12%2FFB_IMG_1747242360460.jpg?alt=media&token=b5d1d10a-dcbb-490b-9c33-35f45d5aa2b9",
-      "precio": 38900,
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/funda%20xiaomi%20redmi/1.jpg",
+      "precio": 39900,
       "categoria": "celulares",
       "cantidad": 1,
       "disponible": true,
@@ -238,9 +236,7 @@
       "fechaIngreso": "2024-12-16",
       "destacado": false,
       "marca": "Xiaomi",
-      "garantia": 12,
-      "peso": "0.08kg",
-      "dimensiones": "16x8x1 cm"
+      "garantia": 1
     },
     {
       "id": 9,
@@ -248,34 +244,34 @@
       "descripcion": "¡Sumérgete en un mundo de sonido con estos modernos auriculares inalámbricos! 🎶 Cuentan con una brillante pantalla LED digital que te muestra con precisión la batería de tu estuche y de cada auricular. 🔋 Disfruta de hasta 4 horas de música continua 🎧 y una increíble autonomía total de hasta 25 horas gracias a su estuche de carga. ⚡ La tecnología de carga rápida te permite tenerlos listos en solo 1.5 horas. 🚀 Con una capacidad de carga de 500mAh en el estuche, ¡la música nunca se detiene! 🎵",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F1.jpg?alt=media&token=02cfb773-e50b-436b-acd7-d7d331cfb373"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F2.jpg?alt=media&token=e1155446-e430-4269-95f7-f5cb3f55f5a8"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F3.jpg?alt=media&token=29f6b1bb-5500-418f-bf0e-219f6b7a6025"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F4.jpg?alt=media&token=22ddeb51-0af6-459e-a3f1-1c1f35d79976"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F5.jpg?alt=media&token=455ed330-aa17-4522-86ed-9ab0532c78ee"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F6.jpg?alt=media&token=dfd6169a-70a5-41ab-a2d8-cb39a482441c"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/6.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F7.jpg?alt=media&token=64a7b1c2-747f-4b32-9487-ee9955be59a7"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/7.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F8.jpg?alt=media&token=ac3fbdf4-0fc9-49b2-8d1c-291aa01c7619"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/8.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F9.jpg?alt=media&token=dd681d89-abe6-4fa0-b196-65b620672420"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/9.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fauriculares%20air%2031%2F1.jpg?alt=media&token=02cfb773-e50b-436b-acd7-d7d331cfb373",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/1.jpg",
       "precio": 49900,
       "categoria": "tecnologia",
       "cantidad": 3,
@@ -284,41 +280,39 @@
       "fechaIngreso": "2024-12-22",
       "destacado": true,
       "marca": "Air 31",
-      "garantia": 12,
-      "peso": "0.15kg",
-      "dimensiones": "10x10x5 cm"
+      "garantia": 1
     },
     {
       "id": 10,
       "nombre": "🎧 Audífonos Inalámbricos P47 - Plegables",
-      "descripcion": "¡Disfruta de tu música en cualquier lugar con los audífonos inalámbricos P47! 🎶 Con tecnología Bluetooth 5.0+EDR (Tasa de Datos Mejorada para una reproducción fluida, menor consumo de energía), ofrecen una conexión estable y un sonido de calidad. 🎧 Son ligeros y 'plegables', ¡perfectos para llevarlos contigo! 🎒 Además, son cómodos de usar durante horas. 😊 Cuentan con botones multifunción para controlar la reproducción, el volumen y las llamadas. 📞 También incluyen puertos AUX, USB y para tarjeta TF, ofreciendo múltiples opciones de conexión. 🔌 ¡Disponibles en varios colores vibrantes! 🎨",
+      "descripcion": "¡Disfruta de tu música en cualquier lugar con los audífonos inalámbricos P47! 🎶 Tecnología Bluetooth 5.0+EDR (Tasa de Datos Mejorada para una reproducción fluida, menor consumo de energía). 🎧 Son ligeros y 'plegables', ¡perfectos para llevarlos contigo! Cuentan con botones multifunción para controlar la reproducción, el volumen y las llamadas. 📞 También incluyen puertos AUX, USB y para tarjeta TF, ofreciendo múltiples opciones de conexión. 🔌 ¡Disponibles en varios colores🎨",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F1.jpg?alt=media&token=90461933-eb9e-4062-af94-a137f96e9ae9"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20p47/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F2.jpg?alt=media&token=4b562475-cce4-41d1-9d78-14ed969020a7"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20p47/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F3.jpg?alt=media&token=21806f95-f7a1-43cc-902c-4d8e20ecc9cc"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20p47/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F4.jpg?alt=media&token=96de0db8-109b-4c44-8f38-2558e96d6af1"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20p47/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F5.jpg?alt=media&token=73453744-737a-4e75-a5c7-573499d5fff1"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20p47/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F6.jpg?alt=media&token=5f38d8da-9821-4531-8549-845cf618e1cd"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20p47/6.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F7.jpg?alt=media&token=b89b1db9-98bb-4895-8fa6-eb523585b5ef"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20p47/7.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F8.jpg?alt=media&token=2ea118eb-0c11-4c17-9cd7-a1c07768c4fb"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20p47/8.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Faudifonos%20p47%2F1.jpg?alt=media&token=90461933-eb9e-4062-af94-a137f96e9ae9",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/audifonos%20p47/1.jpg",
       "precio": 44900,
       "categoria": "tecnologia",
       "cantidad": 2,
@@ -327,26 +321,24 @@
       "fechaIngreso": "2024-12-11",
       "destacado": false,
       "marca": "P47",
-      "garantia": 12,
-      "peso": "0.25kg",
-      "dimensiones": "18x16x8 cm"
+      "garantia": 1
     },
     {
       "id": 11,
-      "nombre": "⚡ Cargador Rápido PD 20W con Cable USB-C a Lightning (1 Metro) 🚀",
-      "descripcion": "¡Carga tus dispositivos a la velocidad de la luz con este cargador rápido PD (Power Delivery) de 20W! 🔌 Incluye un cable USB-C a Lightning de 1 metro, perfecto para cargar tu iPhone o iPad de forma eficiente. 💨 Experimenta una carga súper rápida: ¡hasta un 60% en solo 30 minutos! ⏱️ Su diseño compacto y color blanco lo hacen ideal para llevarlo a donde vayas. ⚪ ¡No te quedes sin batería en los momentos importantes! 🔋",
+      "nombre": "⚡ Cargador Rápido PD 20W con Cable USB-C a C (1 Metro) 🚀",
+      "descripcion": "¡Carga tus dispositivos a la velocidad de la luz con este cargador rápido PD (Power Delivery) de 20W! 🔌 Incluye un cable USB-C a Lightning de 1 metro, perfecto para cargar tu iPhone o iPad de forma eficiente. ⚡ Experimenta una carga súper rápida: ¡hasta un 60% en solo 30 minutos! ⏱️ Su diseño es en color blanco. ⚪ ¡No te quedes sin batería en los momentos importantes! 🔋",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/charger%20fast%2020w/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F2.jpg?alt=media&token=b56fbb04-ed7c-4682-b02e-f50583c9c48a"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/charger%20fast%2020w/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F3.jpg?alt=media&token=4b81cb1e-54a7-426e-bd73-43590d830761"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/charger%20fast%2020w/3.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcharger%2020w%2F1.jpg?alt=media&token=60d355f6-3fbc-4023-b03e-5c4064586364",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/charger%20fast%2020w/1.jpg",
       "precio": 44900,
       "categoria": "tecnologia",
       "cantidad": 6,
@@ -355,9 +347,81 @@
       "fechaIngreso": "2024-12-19",
       "destacado": false,
       "marca": "Apple",
-      "garantia": 12,
-      "peso": "0.12kg",
-      "dimensiones": "12x8x3 cm"
+      "garantia": 1
+    },
+    {
+      "id": 12,
+      "nombre": "⚡ Cable Baseus USB-C 2 Metros",
+      "descripcion": "🔌 Cable USB-C de 2 metros 🛡️ Protección avanzada contra sobrecargas y sobrecalentamiento 🚀 Transferencia de datos y carga rápida estable 🧵 Cubierta trenzada de alta resistencia para mayor durabilidad ⚡ Potencia máxima de 100W con corriente de 6A para carga súper rápida 💻 Compatible con laptops, MacBooks, tablets y smartphones ✨ Chip E-Marker inteligente que ajusta automáticamente la potencia según el dispositivo",
+      "imagenes": [
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20baseus%202%20m/1.png"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20baseus%202%20m/2.png"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20baseus%202%20m/3.png"
+        }
+      ],
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/usb%20baseus%202%20m/1.png",
+      "precio": 39900,
+      "categoria": "accesorios",
+      "especificaciones": {
+        "potencia_maxima": "100W",
+        "corriente_maxima": "6A",
+        "longitud": "2 metros",
+        "tipo_conector": "USB-C a USB-C",
+        "chip_proteccion": "E-Marker Smart Chip",
+        "material_cable": "Nylon trenzado de alta resistencia",
+        "velocidad_datos": "480 Mbps",
+        "compatibilidad": [
+          "💻 MacBook Pro/Air",
+          "🖥️ Laptops con USB-C",
+          "📱 Smartphones Android",
+          "📟 Tablets iPad Pro",
+          "🎮 Nintendo Switch",
+          "🔋 Power Banks"
+        ]
+      },
+      "caracteristicas_destacadas": [
+        "⚡ Carga súper rápida 100W - Carga tu laptop en tiempo récord",
+        "🧠 Chip E-Marker inteligente - Protección automática y ajuste de potencia",
+        "💪 Cable trenzado premium - Resistente a 10,000+ flexiones",
+        "🌈 3 colores elegantes - Azul océano, gris espacial y blanco puro",
+        "🔒 Certificado internacional - CE, FCC, RoHS para máxima seguridad",
+        "📏 Longitud perfecta 2m - Libertad de movimiento sin limitaciones",
+        "🔄 Conector reversible - Fácil conexión sin importar la orientación",
+        "🚀 Datos + Carga simultánea - Transfiere archivos mientras cargas"
+      ],
+      "beneficios": {
+        "para_trabajo": "💼 Perfecto para profesionales que necesitan mantener sus laptops cargados durante largas jornadas",
+        "para_gaming": "🎮 Ideal para gamers que usan Nintendo Switch o laptops gaming",
+        "para_estudiantes": "📚 Excelente para estudiantes con MacBooks y tablets para estudiar",
+        "para_viajeros": "✈️ Compacto y resistente, perfecto para llevar en tu mochila de viaje"
+      },
+      "garantia": "🛡️ 2 años de garantía Baseus",
+      "tags": [
+        "cable usb-c",
+        "carga rápida",
+        "100w",
+        "baseus",
+        "e-marker",
+        "laptop",
+        "macbook",
+        "premium"
+      ],
+      "seo": {
+        "titulo": "Cable Baseus USB-C 100W con Chip E-Marker - Carga Rápida 2m | Alkosto",
+        "descripcion": "Cable USB-C Baseus 100W con chip E-Marker inteligente. Carga rápida para laptops y MacBooks. 2 metros de longitud. ¡Compra con envío gratis!",
+        "palabras_clave": [
+          "cable usb-c 100w",
+          "baseus e-marker",
+          "carga rápida laptop",
+          "cable macbook",
+          "usb-c 6a"
+        ]
+      }
     }
   ],
   "configuracion": {

@@ -54,7 +54,7 @@ export default function ProductDetailWrapper({ apiUrl, categoryName }) {
             '/gadgets.json',
             '/generales.json',
             '/damas.json',
-            '/accesories.json',
+            '/accesoriosDestacados.json',
             '/accesoriosDestacados.json',
             '/accesoriosNuevos.json',
             '/librosnuevos.json',

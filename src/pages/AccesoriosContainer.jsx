@@ -20,7 +20,7 @@ export default function AccesorioPage() {
     const cargarDatos = async () => {
       try {
         // En un caso real, esto sería una llamada a una API
-        const response = await fetch("/accesorios.json");
+        const response = await fetch("/accesorios_generales.json");
         const data = await response.json();
 
         // Obtener el ID del accesorio de la URL

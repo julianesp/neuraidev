@@ -1,10 +1,12 @@
 "use client";
+
 import React, { useEffect, useState, useRef, Suspense, lazy } from "react";
 import Link from "next/link.js";
 import Head from "next/head";
 import styles from "../styles/pages/Home.module.scss";
 import Advertisement from "../components/Advertisement";
 import AccesoriosDestacados from "../components/Accesorio/AccesoriosDestacados";
+import ProductosRecientes from "../components/Producto/ProductosRecientes";
 import NightSkyHero from "../components/NightSkyHero";
 import BackToTop from "../components/backTop/BackToTop";
 import { CarouselDemo } from "./CarouselDemo";
@@ -15,8 +17,9 @@ import FAQ from "./FAQ";
 import "./ContactForm.css";
 import "./SideModal.css";
 
-const API_PRESENTATION = "/presentation.json";
-const API_ACCESORIOS = "/accesories.json";
+const API_PRESENTATION =
+  "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/2.jpg";
+const API_ACCESORIOS = "/accesoriosDestacados.json";
 
 function CarouselSkeleton() {
   return (
@@ -143,9 +146,10 @@ export default function Inicio() {
 
   useEffect(() => {
     setIsLoaded(true);
-    fetch("/accesories.json")
+    fetch("/accesoriosDestacados.json")
       .then((response) => response.json())
-      .then((products) => {
+      .then((data) => {
+        const products = data.accesorios || [];
         const normalizedData = products.map((product) => ({
           ...product,
           images: Array.isArray(product.images)
@@ -155,21 +159,9 @@ export default function Inicio() {
         setData(normalizedData);
       });
 
-    fetch(API_PRESENTATION)
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          // Normalizar las imágenes a un array
-          const normalized = data.map((item) => ({
-            ...item,
-            images: Array.isArray(item.images) ? item.images : [item.images],
-          }));
-          const allImages = normalized.flatMap((item) => item.images);
-          setPresentationImages(allImages);
-        }
-      })
-      .catch((error) => console.error("Error cargando presentación:", error))
-      .finally(() => setLoading(false));
+    // Usar la URL directamente como imagen
+    setPresentationImages([API_PRESENTATION]);
+    setLoading(false);
   }, []);
 
   if (!isLoaded) return null;
@@ -177,27 +169,36 @@ export default function Inicio() {
   const ads = [
     {
       businessName: "Tienda Local",
-      description: "Abarrotes y productos básicos para tu hogar. Servicio a domicilio disponible.",
-      imageUrl: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      description:
+        "Abarrotes y productos básicos para tu hogar. Servicio a domicilio disponible.",
+      imageUrl:
+        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
       businessId: "tienda-local",
     },
     {
-      businessName: "Panadería El Trigal", 
-      description: "Pan fresco todos los días. Especialistas en productos artesanales.",
-      imageUrl: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      businessName: "Panadería El Trigal",
+      description:
+        "Pan fresco todos los días. Especialistas en productos artesanales.",
+      imageUrl:
+        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
       businessId: "panaderia-el-trigal",
     },
     {
       businessName: "Ferretería Martínez",
-      description: "Todo para construcción y reparaciones. Más de 20 años de experiencia.",
-      imageUrl: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      description:
+        "Todo para construcción y reparaciones. Más de 20 años de experiencia.",
+      imageUrl:
+        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
       businessId: "ferreteria-martinez",
     },
     {
       businessName: "¿Tienes un negocio?",
-      description: "Solicita tu espacio publicitario aquí y llega a más clientes en tu zona.",
-      imageUrl: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
-      linkUrl: "https://wa.me/573174503604?text=Hola,%20me%20interesa%20solicitar%20un%20espacio%20publicitario%20para%20mi%20negocio%20en%20NeuraIdev",
+      description:
+        "Solicita tu espacio publicitario aquí y llega a más clientes en tu zona.",
+      imageUrl:
+        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      linkUrl:
+        "https://wa.me/573174503604?text=Hola,%20me%20interesa%20solicitar%20un%20espacio%20publicitario%20para%20mi%20negocio%20en%20NeuraIdev",
     },
   ];
 
@@ -324,7 +325,12 @@ export default function Inicio() {
         >
           <Suspense fallback={<LoadingSkeleton />}>
             <AccesoriosDestacados />
-            {/* <AccesoriosNuevos /> */}
+          </Suspense>
+        </section>
+
+        <section className={`${styles.destacados} ${styles.fadeInUp} mt-6`}>
+          <Suspense fallback={<LoadingSkeleton />}>
+            <ProductosRecientes />
           </Suspense>
         </section>
 

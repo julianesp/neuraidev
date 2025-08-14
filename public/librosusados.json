@@ -6,31 +6,31 @@
       "descripcion": "☕ Libro ideal para iniciar en la programación con Java, uno de los lenguajes más demandados y mejor remunerados en aplicaciones empresariales. 📱 Base fundamental para el desarrollo Android y aplicaciones de escritorio. ✨ Creado en los 90's, sigue siendo esencial en el mundo tecnológico actual. 🎯 Cubre desde conceptos básicos hasta temas avanzados como GUI (Interfaz Gráfica de Usuario), bases de datos y comunicaciones en red. 💡",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F1.jpg?alt=media&token=877241f1-f085-4703-944f-efefaa055606"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java1/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F2.jpg?alt=media&token=2fc6ed24-f1b0-4143-9b23-1ea26f0a8c6c"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java1/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F3.jpg?alt=media&token=4988ff23-32a2-4f6b-bbcb-9af9909b6f4f"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java1/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F4.jpg?alt=media&token=ea05d4dc-fb07-488f-8d02-156bc2d43420"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java1/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F5.jpg?alt=media&token=0698b94f-0380-424d-9e8a-2efacafc9277"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java1/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F6.jpg?alt=media&token=149abc20-78fa-4d6e-a212-468498c781a0"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java1/6.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F7.jpg?alt=media&token=1120152c-9155-417c-a2ee-558487152fad"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java1/7.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F8.jpg?alt=media&token=ec71ac7f-7181-491f-9cd6-01f93b924c4b"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java1/8.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava1%2F1.jpg?alt=media&token=877241f1-f085-4703-944f-efefaa055606",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java1/1.jpg",
       "precio": 59900,
       "categoria": "librosusados",
       "cantidad": 1,
@@ -39,9 +39,7 @@
       "fechaIngreso": "2024-12-03",
       "destacado": false,
       "marca": "Editorial",
-      "garantia": 0,
-      "peso": "0.8kg",
-      "dimensiones": "24x17x3 cm"
+      "garantia": 0
     },
     {
       "id": 2,
@@ -49,28 +47,28 @@
       "descripcion": "☕ Libro de programación con enfoque en Java y programación orientada a objetos. 🎯 Cubre desde elementos básicos de programación hasta conceptos avanzados como constructores, métodos estáticos y librerías. 📚 Incluye complemento web para práctica adicional. ✨ Ideal para estudiantes de informática que buscan dominar los fundamentos de la programación moderna. 🔧 Abarca JDK, entornos de desarrollo, tipos de datos, operadores y mucho más. 💡",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F1.jpg?alt=media&token=c12d622c-371b-40fd-bc9c-d08b7a0d8643"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20rama/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F2.jpg?alt=media&token=d0a9b463-371b-4e0f-aa4c-cb4bf94070a8"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20rama/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F3.jpg?alt=media&token=4c63a975-b2e4-4f99-8ce0-7223ff6c4569"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20rama/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F4.jpg?alt=media&token=693ffd14-1143-4c07-ac6c-72c88baafa72"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20rama/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F5.jpg?alt=media&token=f07bd8fa-14d3-460f-bd4a-0d1adf42a3a3"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20rama/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F6.jpg?alt=media&token=17c239ec-d4e1-4969-bdf9-8a2d27daeeec"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20rama/6.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F7.jpg?alt=media&token=d6b39a62-4a1a-4724-b605-2318bd9aad7e"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20rama/7.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%20rama%2F1.jpg?alt=media&token=c12d622c-371b-40fd-bc9c-d08b7a0d8643",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20rama/1.jpg",
       "precio": 34900,
       "categoria": "librosusados",
       "cantidad": 1,
@@ -79,9 +77,7 @@
       "fechaIngreso": "2024-12-04",
       "destacado": false,
       "marca": "Rama",
-      "garantia": 0,
-      "peso": "0.7kg",
-      "dimensiones": "24x17x2.5 cm"
+      "garantia": 0
     },
     {
       "id": 3,
@@ -89,28 +85,28 @@
       "descripcion": "🧮 Libro completo de precálculo que prepara solidamente para el cálculo universitario. ✨ Enfoque pedagógico que promueve aprendizaje activo en el estudiante. 📈 Cubre funciones lineales, cuadráticas, trigonométricas, exponenciales y logarítmicas. 🎯 Incluye secciones cónicas, coordenadas polares y ecuaciones paramétricas. 📚 Con ejemplos prácticos y aplicaciones reales que facilitan la comprensión de álgebra y trigonometría. 🔢 Segunda edición mejorada. 💡",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F1.jpg?alt=media&token=4ccd51da-0814-4aad-9f4f-ea05cf6c56af"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/precalculo/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F2.jpg?alt=media&token=e6531961-2be5-4c90-8db9-c2102c6b12d3"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/precalculo/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F3.jpg?alt=media&token=08ef0225-c632-4b1e-a389-dd2169750934"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/precalculo/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F4.jpg?alt=media&token=8691abe5-450f-4052-824d-3ab2ae623fab"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/precalculo/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F5.jpg?alt=media&token=a7dbe37d-32ec-4791-a9b0-94faaee59361"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/precalculo/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F6.jpg?alt=media&token=03f0023f-886e-4c03-af0d-f306bbbc81a9"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/precalculo/6.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F7.jpg?alt=media&token=d0ac8276-03b3-42ee-9f52-9a0c933846f0"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/precalculo/7.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fprecalculo%2F1.jpg?alt=media&token=4ccd51da-0814-4aad-9f4f-ea05cf6c56af",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/precalculo/1.jpg",
       "precio": 40900,
       "categoria": "librosusados",
       "cantidad": 1,
@@ -119,9 +115,7 @@
       "fechaIngreso": "2024-12-06",
       "destacado": true,
       "marca": "Pearson",
-      "garantia": 0,
-      "peso": "1.2kg",
-      "dimensiones": "26x20x4 cm"
+      "garantia": 0
     },
     {
       "id": 4,
@@ -129,25 +123,25 @@
       "descripcion": "📚 Sexta edición de este reconocido libro de álgebra intermedia de la editorial Pearson. ✨ Enfoque pedagógico que hace que los estudiantes disfruten al leer y aprender. 🎯 Incluye aplicaciones del mundo real en cada capítulo y sección 'Matemáticas en acción'. 🔢 Cubre desde conceptos básicos hasta funciones exponenciales, logarítmicas y secciones cónicas. 💡 Con procedimiento de 5 pasos de George Polya para resolución de problemas y estrategias de estudio para el éxito. 📊",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Falgebra%2F1.jpg?alt=media&token=a4e44ab1-098b-4ccc-8575-f757bfb17c45"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Falgebra%2F2.jpg?alt=media&token=a331aca6-8310-44ee-a817-75c9cadb2013"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Falgebra%2F3.jpg?alt=media&token=97f17061-2a1b-43fa-8bfa-1042a74cc1d2"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Falgebra%2F4.jpg?alt=media&token=0b0b6f78-f350-4053-95d7-c4caf7173db9"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Falgebra%2F5.jpg?alt=media&token=de279436-9fd1-48f0-a739-3f9b084323f9"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Falgebra%2F6.jpg?alt=media&token=1dd16e30-f87d-4879-9d5b-6bf08856259e"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/6.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Falgebra%2F1.jpg?alt=media&token=a4e44ab1-098b-4ccc-8575-f757bfb17c45",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/1.jpg",
       "precio": 43500,
       "categoria": "librosusados",
       "cantidad": 1,
@@ -156,9 +150,7 @@
       "fechaIngreso": "2024-12-09",
       "destacado": false,
       "marca": "Pearson",
-      "garantia": 0,
-      "peso": "1.1kg",
-      "dimensiones": "26x20x3.5 cm"
+      "garantia": 0
     },
     {
       "id": 5,
@@ -166,25 +158,25 @@
       "descripcion": "🔧 Sexta edición del libro más completo para ingeniería eléctrica de McGraw Hill. ⚡ Cubre desde conceptos básicos hasta análisis avanzado de circuitos con transformadas de Laplace y Fourier. 📊 Incluye amplificadores operacionales, filtros, circuitos trifásicos y análisis de potencia. 🎯 Con aplicaciones prácticas usando PSpice y MATLAB. 💡 Ideal para estudiantes de ingeniería eléctrica, electrónica y afines. 🏗️ Revisión técnica de universidades mexicanas reconocidas. ⚙️",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F1.jpg?alt=media&token=5ca250e3-8461-4415-9f0d-1da8e6ae8f6a"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20electricos/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F2.jpg?alt=media&token=349f2cb1-bf0e-4dab-8700-f1bea7db2983"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20electricos/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F3.jpg?alt=media&token=430937ba-d9fb-4886-9971-53edf0983a61"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20electricos/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F4.jpg?alt=media&token=802494c2-4cc1-4caf-bf6a-f4ea9a12a3bb"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20electricos/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F5.jpg?alt=media&token=959d755c-444e-4b54-879f-8e787f2936ac"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20electricos/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F6.jpg?alt=media&token=bd9a7e05-3630-4d1d-b483-da535d782df3"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20electricos/6.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F1.jpg?alt=media&token=5ca250e3-8461-4415-9f0d-1da8e6ae8f6a",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20electricos/1.jpg",
       "precio": 83500,
       "categoria": "librosusados",
       "cantidad": 1,
@@ -193,9 +185,7 @@
       "fechaIngreso": "2024-12-01",
       "destacado": true,
       "marca": "McGraw Hill",
-      "garantia": 0,
-      "peso": "1.5kg",
-      "dimensiones": "26x21x4.5 cm"
+      "garantia": 0
     },
     {
       "id": 6,
@@ -203,37 +193,34 @@
       "descripcion": "🚀 Novena edición del libro más completo para aprender Java de los reconocidos autores Deitel. ✨ Basado en el método de 'código activo' con programas funcionales completos. 🎯 Cubre desde fundamentos hasta temas avanzados como GUI, bases de datos, aplicaciones web y Android. 📱 Incluye manejo de excepciones, polimorfismo, herencia y programación orientada a objetos. 🌐 Con ejemplos reales, mashups, Unicode y desarrollo de aplicaciones modernas. 🔧 Editorial Pearson con revisión técnica de instituciones mexicanas. 💡",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F1.jpg?alt=media&token=d1467f36-f7a6-49d8-840b-b44ea25108ae"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F2.jpg?alt=media&token=2acd90dc-2885-4307-a58a-8da16c94a0e3"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F3.jpg?alt=media&token=4b928e2b-f2ca-40bf-8932-9453d32b33ff"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F4.jpg?alt=media&token=7298caf5-7978-402e-84dd-d415fd5e68bc"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F5.jpg?alt=media&token=a3c684f2-917f-4615-827f-766a18a039eb"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F6.jpg?alt=media&token=2ac94c4c-3747-4dcc-aaee-a3a03f659ff8"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/6.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F7.jpg?alt=media&token=611af743-c4c9-4b1d-803d-01ff19d2a18e"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/7.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F8.jpg?alt=media&token=29072123-1276-4cfe-8bbb-39469e4bb901"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/8.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F9.jpg?alt=media&token=e165e112-f01b-4704-9b01-95c5d94cabf8"
-        },
-        {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F10.jpg?alt=media&token=42eb1bf9-1e1c-4cbd-b4dd-8c2740bf01ae"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/9.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%209na%20edicion%2F1.jpg?alt=media&token=d1467f36-f7a6-49d8-840b-b44ea25108ae",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/1.jpg",
       "precio": 93500,
       "categoria": "librosusados",
       "cantidad": 1,
@@ -242,9 +229,7 @@
       "fechaIngreso": "2024-12-02",
       "destacado": true,
       "marca": "Pearson",
-      "garantia": 0,
-      "peso": "1.8kg",
-      "dimensiones": "26x21x5 cm"
+      "garantia": 0
     },
     {
       "id": 7,
@@ -252,25 +237,25 @@
       "descripcion": "🧮 Compendio universitario completo de Harcourt Brace Jovanovich para cursos de cálculo. ✨ Cubre desde preliminares hasta temas avanzados como series, integrales impropias y aplicaciones. 📈 Incluye límites, derivadas, integrales, coordenadas polares, series de Taylor y Maclaurin. 🎯 Con revisión técnica de profesores de UNAM y universidades reconocidas. 💡 Ideal para estudiantes de ingeniería, matemáticas y ciencias. 🔢 Estructura didáctica con problemas resueltos y ejercicios de práctica. 🌟",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcalculo%2F1.jpg?alt=media&token=eedcdd96-8f35-4fb4-a3f6-10809f2ff303"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/calculo/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcalculo%2F2.jpg?alt=media&token=e8cb6a13-99cd-4986-88c5-011af571f1a7"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/calculo/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcalculo%2F3.jpg?alt=media&token=75101738-f198-4422-9bc4-626c725ce967"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/calculo/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcalculo%2F4.jpg?alt=media&token=18ab52b2-ba13-4b16-91b6-b4e42b6cf263"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/calculo/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcalculo%2F5.jpg?alt=media&token=4877be8a-f9ad-4cbf-8267-b9d840c02b8f"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/calculo/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcalculo%2F6.jpg?alt=media&token=f4c5c99f-9bc8-4fe5-89a2-b13306da0136"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/calculo/6.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcalculo%2F1.jpg?alt=media&token=eedcdd96-8f35-4fb4-a3f6-10809f2ff303",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/calculo/1.jpg",
       "precio": 37500,
       "categoria": "librosusados",
       "cantidad": 1,
@@ -279,9 +264,7 @@
       "fechaIngreso": "2024-12-11",
       "destacado": false,
       "marca": "Harcourt",
-      "garantia": 0,
-      "peso": "1.0kg",
-      "dimensiones": "24x17x3 cm"
+      "garantia": 0
     },
     {
       "id": 8,
@@ -289,34 +272,34 @@
       "descripcion": "🎓 Libro universitario completo de análisis y diseño de circuitos eléctricos. ✨ Sexta edición corregida, revisada y actualizada por Alfaomega. 📐 Cubre desde variables del circuito hasta transformadas de Fourier y Laplace. 🔧 Incluye amplificadores operacionales, respuesta en frecuencia, filtros y redes de puertos múltiples. 🚫 No incluye CD. 📊 Enfoque práctico para ingeniería, comunicaciones, electrónica y sistemas de control. 🌟 Ideal para estudiantes de ingeniería eléctrica y electrónica. 🔍 Metodología paso a paso con soluciones detalladas y uso de MATLAB y PSpice. 🚀",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F1.jpg?alt=media&token=776b679e-a616-4867-b37c-2aaf5afd7126"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20dorf%20-%20svoboda/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F2.jpg?alt=media&token=b84bf7b1-c8f3-48e8-91c7-c2359bf6f03d"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20dorf%20-%20svoboda/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F3.jpg?alt=media&token=af88d6f6-6f08-4d9b-910b-29c23081653f"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20dorf%20-%20svoboda/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F4.jpg?alt=media&token=fa6b1efd-4aea-4db5-b703-60c56703a819"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20dorf%20-%20svoboda/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F5.jpg?alt=media&token=f269f012-9a94-4638-a481-b05a1d6d5fcc"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20dorf%20-%20svoboda/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F6.jpg?alt=media&token=fea33d29-5ec1-4e20-ae5e-6e35cbfe5232"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20dorf%20-%20svoboda/6.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F7.jpg?alt=media&token=af6c69a0-dca9-4a39-b115-78cfc2ea8b8b"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20dorf%20-%20svoboda/7.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F8.jpg?alt=media&token=3d874420-ab32-4e80-ad2c-49b268a2981e"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20dorf%20-%20svoboda/8.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F9.jpg?alt=media&token=12fbff1c-e6f0-41c1-b553-112dbde306f1"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20dorf%20-%20svoboda/9.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20dorf%20-%20svoboda%2F1.jpg?alt=media&token=776b679e-a616-4867-b37c-2aaf5afd7126",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/circuitos%20dorf%20-%20svoboda/1.jpg",
       "precio": 104900,
       "categoria": "librosusados",
       "cantidad": 1,
@@ -325,9 +308,7 @@
       "fechaIngreso": "2024-12-13",
       "destacado": true,
       "marca": "Alfaomega",
-      "garantia": 0,
-      "peso": "1.6kg",
-      "dimensiones": "26x21x4.8 cm"
+      "garantia": 0
     },
     {
       "id": 9,
@@ -335,46 +316,46 @@
       "descripcion": "📚 Libro clásico de programación Java de Harvey & Paul Deitel, séptima edición. 🎯 Método reconocido de 'código activo' con ejemplos funcionales completos. ⚡ Cubre desde fundamentos hasta temas avanzados: POO, GUI, redes, bases de datos JDBC, servicios web y aplicaciones Ajax. 🖥️ Más de 20 capítulos con programación orientada a objetos, herencia, polimorfismo, excepciones, multithreading y multimedia. 🌐 Incluye desarrollo de aplicaciones web, componentes Swing, Java 2D y tecnologías Web 2.0. 📊 Con ejercicios de autoevaluación, ejemplos de código vivo y proyecto integrado. 🔧 Perfecto para estudiantes de ingeniería de sistemas, ciencias de la computación e informática. 📖 Versión impresa en blanco y negro, aproximadamente 1380 páginas. 🚀 Referencia indispensable para aprender Java desde cero hasta nivel avanzado. 💡",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F1.jpg?alt=media&token=73c5d8c9-5eb6-4dda-a3e7-b7bba82d0ef9"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F2.jpg?alt=media&token=39e91232-93f3-4202-9879-4d81745332f3"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F3.jpg?alt=media&token=2377924f-e36d-4971-bc4c-749e0f6f9577"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F4.jpg?alt=media&token=ddc2f8a9-d314-4451-8daa-2117b45243af"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F5.jpg?alt=media&token=47173ff2-3a80-4195-8fc4-0daad04d9b21"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F6.jpg?alt=media&token=4607a7aa-a0ae-4a79-b38f-fccf048ddfbc"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/6.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F7.jpg?alt=media&token=bbd11df4-ba4f-4e81-9b57-ea019c8d8a46"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/7.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F8.jpg?alt=media&token=623a9448-5129-4bd3-be51-87e1814c276c"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/8.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F9.jpg?alt=media&token=74410a4a-4871-4a11-a25a-6511c51a6aac"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/9.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F10.jpg?alt=media&token=d924efbd-a0f7-46fe-9464-e0a07644944d"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/10.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F11.jpg?alt=media&token=42010299-7a7e-4a35-86e7-b82bf0dbc40f"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/11.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F12.jpg?alt=media&token=b0cc1447-76cf-41e9-95c4-96e192168250"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/12.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F13.jpg?alt=media&token=494cae12-ff42-4fba-b407-1f18a4412709"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/13.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fjava%207ma%2F1.jpg?alt=media&token=73c5d8c9-5eb6-4dda-a3e7-b7bba82d0ef9",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%20deitel%208va/1.jpg",
       "precio": 44900,
       "categoria": "librosusados",
       "cantidad": 1,
@@ -383,9 +364,7 @@
       "fechaIngreso": "2024-12-17",
       "destacado": false,
       "marca": "Pearson",
-      "garantia": 0,
-      "peso": "1.7kg",
-      "dimensiones": "26x21x5.2 cm"
+      "garantia": 0
     }
   ],
   "configuracion": {

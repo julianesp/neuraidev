@@ -35,7 +35,10 @@ export function CarouselDemo({
         setLoading(true);
         const response = await fetch(apiUrl);
 
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok)
+          throw new Error(
+            `Error HTTP ${response.status}: ${response.statusText}`,
+          );
 
         const data = await response.json();
 
@@ -43,11 +46,18 @@ export function CarouselDemo({
 
         // Procesar solo las primeras 5 imágenes para mejorar performance
         let extractedImages = [];
-        if (Array.isArray(data)) {
-          extractedImages = data
+        const productos = data.accesorios || data;
+        if (Array.isArray(productos)) {
+          extractedImages = productos
             .slice(0, 5)
             .flatMap((item) => {
-              if (Array.isArray(item.images)) return item.images[0];
+              if (item.imagenPrincipal) {
+                return item.imagenPrincipal;
+              } else if (Array.isArray(item.imagenes)) {
+                return item.imagenes[0]?.url || item.imagenes[0];
+              } else if (Array.isArray(item.images)) {
+                return item.images[0];
+              }
               return typeof item.images === "string" ? item.images : null;
             })
             .filter(Boolean);

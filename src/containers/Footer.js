@@ -168,7 +168,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href="https://www.instagram.com/alexriob/"
+                href="https://www.instagram.com/julianrio95/"
                 target="_blank"
                 rel="noreferrer"
               >

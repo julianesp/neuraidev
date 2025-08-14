@@ -6,24 +6,22 @@
       "descripcion": "💞 Un poderoso libro que transforma la relación contigo mismo. ✨ Walter Riso, reconocido psicólogo, te guía en el camino hacia el verdadero autoamor y la construcción de una autoestima inquebrantable. 🧠 Aprenderás sobre la importancia de la higiene mental, tan vital como el cuidado físico. 🛡️ Supera la dependencia emocional, libérate de la autocrítica destructiva y desarrolla un 'yo sostenido' que te hará más resistente ante los desafíos. 💪 Mejora tus relaciones, aumenta tu eficacia personal y gana independencia. 🌱 5ª edición de este bestseller de Editorial Planeta. 🔑 La clave para una vida plena está en enamorarte profundamente de ti.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480534106_122204421584083804_6430148799072894958_n.jpg?alt=media&token=ba8c5d5b-6bf3-478c-aaf6-0f50bfe22be1"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/enamorate%20de%20ti/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480691662_122204421596083804_2270036942292132534_n.jpg?alt=media&token=2444efcd-9bdb-4a39-b449-78849d567be4"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/enamorate%20de%20ti/2.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480534106_122204421584083804_6430148799072894958_n.jpg?alt=media&token=ba8c5d5b-6bf3-478c-aaf6-0f50bfe22be1",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/enamorate%20de%20ti/1.jpg",
       "precio": 35900,
       "categoria": "librosnuevos",
-      "cantidad": 3,
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-25",
       "destacado": true,
       "marca": "Planeta",
-      "garantia": 0,
-      "peso": "0.4kg",
-      "dimensiones": "23x15x2 cm"
+      "garantia": 0
     },
     {
       "id": 2,
@@ -31,24 +29,22 @@
       "descripcion": "💡 Una guía para vivir el amor de manera saludable y sin caer en dependencias emocionales. ✨ Walter Riso nos invita a construir relaciones equilibradas, donde el amor propio y la dignidad sean pilares fundamentales. 🌟 Reflexiones y consejos prácticos para transformar tu manera de amar.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480546888_122204420954083804_2403064943007724846_n.jpg?alt=media&token=51abde4d-7f95-44da-9134-c9d242664a6c"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/ama%20y%20no%20sufras/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480660895_122204420978083804_8796409549271799784_n.jpg?alt=media&token=545c384d-dfa8-49e5-8ff0-2c2abbd109de"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/ama%20y%20no%20sufras/2.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fama%20y%20no%20sufras%2F480546888_122204420954083804_2403064943007724846_n.jpg?alt=media&token=51abde4d-7f95-44da-9134-c9d242664a6c",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/ama%20y%20no%20sufras/1.jpg",
       "precio": 31500,
       "categoria": "librosnuevos",
-      "cantidad": 4,
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-24",
       "destacado": false,
       "marca": "Planeta",
-      "garantia": 0,
-      "peso": "0.35kg",
-      "dimensiones": "23x15x1.8 cm"
+      "garantia": 0
     },
     {
       "id": 3,
@@ -56,46 +52,42 @@
       "descripcion": "🚗 Una fascinante biografía del empresario detrás de Tesla, SpaceX, PayPal y actual dueño de la red social X. ✨ El periodista Ashlee Vance explora la vida y visión de uno de los innovadores más influyentes del siglo XXI. 🌟 A través de entrevistas exclusivas y análisis profundo, descubre la personalidad, ambiciones y desafíos que han moldeado su camino hacia el futuro. 🛸",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Felon%2F480668319_122204420066083804_3713515218081717544_n.jpg?alt=media&token=243054dc-85f9-4269-88b4-10aaaec9d78c"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/elon/480668319_122204420066083804_3713515218081717544_n.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Felon%2F480668319_122204420066083804_3713515218081717544_n.jpg?alt=media&token=243054dc-85f9-4269-88b4-10aaaec9d78c",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/elon/480668319_122204420066083804_3713515218081717544_n.jpg",
       "precio": 51900,
       "categoria": "librosnuevos",
-      "cantidad": 2,
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-26",
       "destacado": true,
       "marca": "Editorial",
-      "garantia": 0,
-      "peso": "0.6kg",
-      "dimensiones": "24x16x2.5 cm"
+      "garantia": 0
     },
     {
-      "id": 1,
+      "id": 4,
       "nombre": "📜 La Ilíada - Homero 🏛️",
       "descripcion": "⚔️ Una de las epopeyas más importantes de la literatura clásica que narra los últimos días de la Guerra de Troya. 👑 Centrada en la ira de Aquiles y los épicos enfrentamientos entre héroes como Héctor. ⚡ Con intervenciones divinas y un estilo poético magistral. 🌟 Una obra que ha influido en la literatura y cultura occidental durante siglos. 🛡️",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F1.jpg?alt=media&token=6e11ce4e-f5f7-4c1b-9b34-d18d53f1091d"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/iliada/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F2.jpg?alt=media&token=26eef0ed-d7ce-486c-adb6-b9348bd7b0fc"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/iliada/2.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Filiada%2F1.jpg?alt=media&token=6e11ce4e-f5f7-4c1b-9b34-d18d53f1091d",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/iliada/1.jpg",
       "precio": 37900,
       "categoria": "librosnuevos",
-      "cantidad": 3,
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-21",
       "destacado": false,
       "marca": "Clásicos",
-      "garantia": 0,
-      "peso": "0.45kg",
-      "dimensiones": "23x15x2.2 cm"
+      "garantia": 0
     }
   ],
   "configuracion": {

@@ -2,20 +2,20 @@
   "accesorios": [
     {
       "id": 1,
-      "nombre": "Teclado Genius básico",
-      "descripcion": "Teclado Genius básico con conexión USB, ideal para uso diario en computadoras de escritorio o portátiles",
+      "nombre": "⌨️ Teclado Genius Básico USB",
+      "descripcion": "⌨️ Teclado Genius básico con conexión USB 💻 Ideal para uso diario en computadoras de escritorio o portátiles 🔌 Plug and play - conecta y usa sin complicaciones 💰 Excelente relación precio-calidad para tareas básicas 📝 Perfecto para trabajo, estudio y navegación web",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado%20genius%20basic%2F1.jpg?alt=media&token=804142ff-42b8-4c73-ae21-3ea400f7089d"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/teclado%20genius%20basic/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado%20genius%20basic%2F2.jpg?alt=media&token=71c9c1f4-c6b3-4f32-9d72-c7f1afac0930"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/teclado%20genius%20basic/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado%20genius%20basic%2F3.jpg?alt=media&token=ab8f1849-a7cb-41e1-bfee-aff0d064c056"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/teclado%20genius%20basic/3.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fteclado%20genius%20basic%2F1.jpg?alt=media&token=804142ff-42b8-4c73-ae21-3ea400f7089d",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/teclado%20genius%20basic/1.jpg",
       "precio": 44900,
       "categoria": "computadoras",
       "cantidad": 6,
@@ -24,43 +24,39 @@
       "fechaIngreso": "2024-12-28",
       "destacado": false,
       "marca": "Genius",
-      "garantia": 12,
-      "peso": "0.5kg",
-      "dimensiones": "44x15x3 cm"
+      "garantia": 1
     },
     {
       "id": 2,
-      "nombre": "Cámara Genius",
-      "descripcion": "Ideal para videollamadas o tareas simples. Es compatible con computadoras a través de USB. Es una opción económica para quienes buscan funcionalidad básica sin invertir mucho.",
+      "nombre": "📹 Cámara Web Genius HD 720p con Micrófono",
+      "descripcion": "📹 Cámara web HD 720p para videollamadas nítidas 🎤 Micrófono integrado con audio cristalino 🔍 Zoom digital 3X para mayor versatilidad 🔌 Plug and play - conecta y usa sin drivers 💻 Compatible con Skype, Zoom, Teams y más 📎 Clip universal para monitores y laptops",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/camara%20genius/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F2.jpg?alt=media&token=dd5ebf3c-578d-4010-a256-650df448dc2b"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/camara%20genius/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F3.jpg?alt=media&token=82806339-47f0-44f6-8be5-cef6f138c8f6"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/camara%20genius/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F4.jpg?alt=media&token=16bc414e-5a2e-401e-a3e0-5809bcdbf29e"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/camara%20genius/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F5.jpg?alt=media&token=3cf1d9d7-7085-4d3e-99b1-b87254e03ac4"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/camara%20genius/5.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcamera%2F1.jpg?alt=media&token=191dc074-94cd-4ac1-89de-62070679a96e",
-      "precio": 89900,
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/camara%20genius/1.jpg",
+      "precio": 52900,
       "categoria": "computadoras",
-      "cantidad": 3,
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
-      "fechaIngreso": "2024-12-27",
+      "fechaIngreso": "2024-12-28",
       "destacado": false,
       "marca": "Genius",
-      "garantia": 24,
-      "peso": "0.2kg",
-      "dimensiones": "8x8x6 cm"
+      "garantia": 1
     },
     {
       "id": 3,
@@ -68,36 +64,34 @@
       "descripcion": "💻 Lleva tu productividad al siguiente nivel con nuestro elegante mouse inalámbrico: 🔌 Tecnología dual-mode con receptor USB integrado y conexión Bluetooth 🔋 Diseño ultraligero y ergonómico para uso prolongado 🎯 Precisión óptica para movimientos exactos 🔄 Disponible en elegante blanco o sofisticado negro ⚡ Interruptor de encendido/apagado para ahorro de batería 📱 Compatible con Windows, Mac, Linux y dispositivos Android",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155849921.jpg?alt=media&token=353a0079-9b90-4f2c-b83c-26077fa66397"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/mouse%20usb%20-%20blutu/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155879384.jpg?alt=media&token=0e2986ba-edb1-4000-b116-46338df6de9f"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/mouse%20usb%20-%20blutu/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155904639.jpg?alt=media&token=2818b801-2982-4e37-a55c-6a493011634c"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/mouse%20usb%20-%20blutu/3.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155910862.jpg?alt=media&token=e84df7ab-b34a-4e29-9c6a-537f56247568"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/mouse%20usb%20-%20blutu/4.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155918663.jpg?alt=media&token=98a0dffe-3b73-4975-b066-b467fade39ab"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/mouse%20usb%20-%20blutu/5.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155925063.jpg?alt=media&token=2fdd60ec-fecf-451d-aabc-a510e74d1859"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/mouse%20usb%20-%20blutu/6.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2FMouse%20usb%20Bluetooth%2FFB_IMG_1747155849921.jpg?alt=media&token=353a0079-9b90-4f2c-b83c-26077fa66397",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/mouse%20usb%20-%20blutu/1.jpg",
       "precio": 44900,
       "categoria": "computadoras",
-      "cantidad": 4,
+      "cantidad": 8,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-30",
       "destacado": false,
       "marca": "Generic",
-      "garantia": 12,
-      "peso": "0.08kg",
-      "dimensiones": "11x6x3 cm"
+      "garantia": 1
     },
     {
       "id": 4,
@@ -105,16 +99,16 @@
       "descripcion": "📊 Capacidad de 256GB para sistemas y aplicaciones ⚡ Interfaz mSATA de alta velocidad 🔄 Diseño compacto para portátiles y mini-PCs 🔌 Instalación plug & play sin complicaciones 📈 Rendimiento superior a discos tradicionales 🔋 Bajo consumo energético 🧰 Compatible con puertos mSATA estándar 📦 Embalaje protector incluido.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F1.jpg?alt=media&token=7d43c880-f88b-4793-a288-05795856f430"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20msata/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F2.jpg?alt=media&token=aac519a4-e48b-4039-851a-8cef55b6e440"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20msata/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F3.jpg?alt=media&token=76f939e0-0ab1-4a0d-848a-df2f82869ae9"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20msata/3.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fmsata%2F1.jpg?alt=media&token=7d43c880-f88b-4793-a288-05795856f430",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20msata/1.jpg",
       "precio": 124900,
       "categoria": "computacion",
       "cantidad": 2,
@@ -123,9 +117,7 @@
       "fechaIngreso": "2024-12-29",
       "destacado": true,
       "marca": "EXRAM",
-      "garantia": 36,
-      "peso": "0.01kg",
-      "dimensiones": "5x3x0.4 cm"
+      "garantia": 1
     },
     {
       "id": 5,
@@ -133,16 +125,16 @@
       "descripcion": "🔌 Adaptador Multi Puerto USB 3 con 8 Entradas, incluida Conexión RJ45 para internet por cable. 🎮 Este adaptador es la solución ideal para expandir la conectividad de tus dispositivos. 2 puertos USB 3.0 de alta velocidad para transferencias rápidas de datos. 📱 2 puertos USB-C. 1 lector de tarjetas SD y MicroSD, perfecto para fotógrafos y creativos. 1 puerto RJ45 Gigabit Ethernet, que asegura una conexión de red estable y rápida para videollamadas, descargas o juegos en línea. 🌐 Compatible con Windows, macOS y Linux, este adaptador es perfecto para laptops, PCs que necesitan mayor funcionalidad sin comprometer la portabilidad.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F1.jpg?alt=media&token=c1f2342c-a40c-4e2e-abaa-d5cf13847d14"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/hub%208%20puertos/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F2.jpg?alt=media&token=5364140d-bf2c-4b26-bcd9-760a96ab8d26"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/hub%208%20puertos/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F3.jpg?alt=media&token=15cba429-a31a-4b8d-b26f-aa7d4b813655"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/hub%208%20puertos/3.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fusb%203%208%20puertos%2F1.jpg?alt=media&token=c1f2342c-a40c-4e2e-abaa-d5cf13847d14",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/hub%208%20puertos/1.jpg",
       "precio": 69900,
       "categoria": "computacion",
       "cantidad": 3,
@@ -151,9 +143,7 @@
       "fechaIngreso": "2024-12-31",
       "destacado": true,
       "marca": "Generic",
-      "garantia": 24,
-      "peso": "0.15kg",
-      "dimensiones": "12x8x2 cm"
+      "garantia": 1
     },
     {
       "id": 6,
@@ -161,38 +151,39 @@
       "descripcion": "⚡ 8GB de capacidad para multitarea exigente 🔄 Tecnología DDR4 de última generación ⏱️ Frecuencia de 2666MHz para rendimiento óptimo 💪 Formato SO-DIMM para laptops y equipos compactos 🔋 Bajo consumo energético de 1.2V 🧰 Instalación plug & play sencilla 🔥 Disipación térmica mejorada 📈 Alta compatibilidad con sistemas actuales.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr4%2Fram%20ddr4%208gb.jpg?alt=media&token=8c1fd852-a254-4671-9bf8-739b8715954b"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ram%20ddr4%208%20gb/1.jpg"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ram%20ddr4%208%20gb/2.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr4%2Fram%20ddr4%208gb.jpg?alt=media&token=8c1fd852-a254-4671-9bf8-739b8715954b",
-      "precio": 119900,
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ram%20ddr4%208%20gb/1.jpg",
+      "precio": 109900,
       "categoria": "computacion",
-      "cantidad": 5,
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-26",
       "destacado": false,
       "marca": "Generic",
-      "garantia": 24,
-      "peso": "0.02kg",
-      "dimensiones": "6.8x3x0.3 cm"
+      "garantia": 1
     },
     {
       "id": 7,
-      "nombre": "💾 Disco SSD WALRAM 2.5\" 256GB",
-      "descripcion": "📊 Capacidad de 256GB para sistema y aplicaciones ⚡ Interfaz SATA III 6Gb/s para máxima velocidad 🔄 Factor de forma estándar 2.5\" compatible ⏱️ Arranque y carga ultrarrápidos 🔋 Bajo consumo energético 📈 10 veces más rápido que discos tradicionales 🔇 Funcionamiento silencioso sin partes móviles 🛡️ Resistente a golpes y vibraciones ♨️ Disipación térmica optimizada.",
+      "nombre": "💾 Disco SSD WALRAM 2.5 256GB",
+      "descripcion": "📊 Capacidad de 256GB para sistema y aplicaciones ⚡ Interfaz SATA III 6Gb/s para máxima velocidad 🔄 Factor de forma estándar 2.5 compatible ⏱️ Arranque y carga ultrarrápidos 🔋 Bajo consumo energético 📈 10 veces más rápido que discos tradicionales 🔇 Funcionamiento silencioso sin partes móviles 🛡️ Resistente a golpes y vibraciones ♨️ Disipación térmica optimizada.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F1.jpg?alt=media&token=e704a884-a867-4b15-879b-fdbc325fd1bb"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20walram%20256/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F2.jpg?alt=media&token=024a552b-42ea-47be-ba04-0b22f89c58f1"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20walram%20256/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F3.png?alt=media&token=03c84414-128a-4b59-8784-c5e6eda0d85f"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20walram%20256/3.png"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%20walram%2F1.jpg?alt=media&token=e704a884-a867-4b15-879b-fdbc325fd1bb",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20walram%20256/1.jpg",
       "precio": 154900,
       "categoria": "computacion",
       "cantidad": 4,
@@ -201,87 +192,79 @@
       "fechaIngreso": "2024-12-25",
       "destacado": true,
       "marca": "WALRAM",
-      "garantia": 36,
-      "peso": "0.05kg",
-      "dimensiones": "10x7x0.7 cm"
+      "garantia": 1
     },
     {
       "id": 8,
-      "nombre": "🔌 Carcasa Transparente para Disco Duro 2.5\"",
-      "descripcion": "📱 Carcasa transparente con visibilidad del interior ⚡ Conexión USB 3.0 ultrarrápida 🧩 Compatible con SSD y HDD SATA de 2.5\" 🔌 Plug & Play sin controladores adicionales 📦 Diseño ultradelgado y ligero 🛠️ Instalación sin herramientas 🔋 Alimentación directa vía USB 💼 Ideal para respaldos y almacenamiento externo 🔒 Protección contra sobrecarga y cortocircuitos.",
+      "nombre": "🔌 Carcasa Transparente para Disco Duro 2.5",
+      "descripcion": "📱 Carcasa transparente con visibilidad del interior ⚡ Conexión USB 3.0 ultrarrápida 🧩 Compatible con SSD y HDD SATA de 2.5 🔌 Plug & Play sin controladores adicionales 📦 Diseño ultradelgado y ligero 🛠️ Instalación sin herramientas 🔋 Alimentación directa vía USB 💼 Ideal para respaldos y almacenamiento externo 🔒 Protección contra sobrecarga y cortocircuitos.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F7.jpg?alt=media&token=6ca5ca1d-621b-47f6-8b61-a3bb9d06096c"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%20negra%20transparente%202.5%22/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F6.jpg?alt=media&token=a1decbcb-77c4-4df4-a310-4c252f2bd9a4"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%20negra%20transparente%202.5%22/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F5.jpg?alt=media&token=5ea24b06-2905-4ba8-9195-5d644d4f39b0"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%20negra%20transparente%202.5%22/3.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20light%2F7.jpg?alt=media&token=6ca5ca1d-621b-47f6-8b61-a3bb9d06096c",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%20negra%20transparente%202.5%22/1.jpg",
       "precio": 64900,
       "categoria": "computacion",
-      "cantidad": 6,
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-22",
       "destacado": false,
       "marca": "Generic",
-      "garantia": 12,
-      "peso": "0.12kg",
-      "dimensiones": "12x8x1.5 cm"
+      "garantia": 1
     },
     {
       "id": 9,
-      "nombre": "🔌 Carcasa Transparente USB-C para Disco 2.5\"",
-      "descripcion": "📱 Carcasa semitransparente en elegante tono ahumado ⚡ Conexión USB Type-C de última generación 🧩 Compatible con todos los SSD y HDD SATA 2.5\" 🔌 Plug & Play sin drivers adicionales 📦 Perfil ultradelgado y ligero para máxima portabilidad 🛠️ Instalación sin herramientas 🔋 Alimentación directa por USB 💻 Compatible con todos los sistemas operativos 🔒 Protección contra impactos y vibraciones.",
+      "nombre": "🔌 Carcasa Transparente USB-C para Disco 2.5",
+      "descripcion": "📱 Carcasa semitransparente en elegante tono ahumado ⚡ Conexión USB Type-C de última generación 🧩 Compatible con todos los SSD y HDD SATA 2.5 🔌 Plug & Play sin drivers adicionales 📦 Perfil ultradelgado y ligero para máxima portabilidad 🛠️ Instalación sin herramientas 🔋 Alimentación directa por USB 💻 Compatible con todos los sistemas operativos 🔒 Protección contra impactos y vibraciones.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F4.jpg?alt=media&token=20ad5115-2da3-435b-be5f-4d5e7a7e9e18"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%20transparente%202.5/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F3.jpg?alt=media&token=02a7cc52-8997-461d-b8f2-4b7fefd19e62"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%20transparente%202.5/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F2.jpg?alt=media&token=bea2bcd1-d601-45f6-bedf-629df690bae0"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%20transparente%202.5/3.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20dark%2F4.jpg?alt=media&token=20ad5115-2da3-435b-be5f-4d5e7a7e9e18",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%20transparente%202.5/1.jpg",
       "precio": 64900,
       "categoria": "computacion",
-      "cantidad": 5,
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-21",
       "destacado": false,
       "marca": "Generic",
-      "garantia": 12,
-      "peso": "0.12kg",
-      "dimensiones": "12x8x1.5 cm"
+      "garantia": 1
     },
     {
       "id": 10,
-      "nombre": "🔌 Carcasa Externa USB 3.0 para Disco 2.5\"",
-      "descripcion": "📱 Carcasa sólida en elegante color negro mate ⚡ Conexión USB 3.0 de alta velocidad 🧩 Compatible con SSD y HDD SATA 2.5\" 🔌 Cable USB integrado en compartimiento 💪 Construcción reforzada extra resistente 🛠️ Instalación sin herramientas 🔋 Alimentación directa vía USB 💻 Compatible con todos los sistemas operativos 🔒 Protección avanzada contra golpes y polvo.",
+      "nombre": "🔌 Carcasa Externa USB 3.0 para Disco 2.5",
+      "descripcion": "📱 Carcasa sólida en elegante color negro mate ⚡ Conexión USB 3.0 de alta velocidad 🧩 Compatible con SSD y HDD SATA 2.5 🔌 Cable USB integrado en compartimiento 💪 Construcción reforzada extra resistente 🛠️ Instalación sin herramientas 🔋 Alimentación directa vía USB 💻 Compatible con todos los sistemas operativos 🔒 Protección avanzada contra golpes y polvo.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%20negra%202.5%22/1.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/carcasa%20negra%202.5%22/1.jpg",
       "precio": 74900,
       "categoria": "computacion",
-      "cantidad": 4,
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-20",
       "destacado": false,
       "marca": "Generic",
-      "garantia": 12,
-      "peso": "0.18kg",
-      "dimensiones": "13x9x2 cm"
+      "garantia": 1
     },
     {
       "id": 11,
@@ -289,21 +272,19 @@
       "descripcion": "⚡ 4GB de capacidad para uso diario 🔄 Tecnología DDR3 de amplia compatibilidad ⏱️ Rendimiento estable para laptops y mini-PCs 💪 Formato SO-DIMM estándar para portátiles 🛡️ Garantía oficial del fabricante 🧰 Instalación plug & play sencilla 📦 Empaque protector incluido 💻 Compatible con Windows, Linux y macOS 🔧 Perfecta para actualizar equipos con poca memoria.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F475503972_122201415362083804_5929328437556828553_n.jpg?alt=media&token=59a9b64e-0990-4522-afea-d057391c1e6d"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ram%20DDR3%204%20GB/1.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%20ddr3l%2F475503972_122201415362083804_5929328437556828553_n.jpg?alt=media&token=59a9b64e-0990-4522-afea-d057391c1e6d",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ram%20DDR3%204%20GB/1.jpg",
       "precio": 49900,
-      "categoria": "computacion",
-      "cantidad": 8,
+      "categoria": "computacio",
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-18",
       "destacado": false,
       "marca": "PreyDa",
-      "garantia": 24,
-      "peso": "0.02kg",
-      "dimensiones": "6.8x3x0.3 cm"
+      "garantia": 1
     },
     {
       "id": 12,
@@ -311,49 +292,45 @@
       "descripcion": "📊 Capacidad de 512GB para aplicaciones exigentes 🔧 Factor de forma M.2 NGFF ultracompacto ⚡ Interfaz SATA 6Gb/s de alto rendimiento ⏱️ Velocidades de lectura/escritura superiores 🛡️ 3 años de garantía oficial 🔥 Disipación térmica optimizada 📈 Ideal para equipos modernos y ultradelgados 🔋 Bajo consumo energético 🧰 Fácil instalación en ranuras M.2.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fm2%20512%20gb%20walram%2F470221219_122195149868083804_1429512956730235771_n.jpg?alt=media&token=2eb1286a-caca-4214-9296-e048ff8358d8"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20m.2%20512/1.jpg"
+        },
+        {
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20m.2%20512/2.png"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fm2%20512%20gb%20walram%2F470221219_122195149868083804_1429512956730235771_n.jpg?alt=media&token=2eb1286a-caca-4214-9296-e048ff8358d8",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20m.2%20512/1.jpg",
       "precio": 167900,
       "categoria": "computacion",
-      "cantidad": 2,
+      "cantidad": 0,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-15",
       "destacado": true,
       "marca": "WALRAM",
-      "garantia": 36,
-      "peso": "0.01kg",
-      "dimensiones": "8x2.2x0.4 cm"
+      "garantia": 1
     },
     {
       "id": 13,
-      "nombre": "🔌 Adaptador SATA a USB 3.0 para Discos 2.5\"",
-      "descripcion": "⚡ Conexión USB 3.0 de alta velocidad hasta 5Gbps 🔄 Compatible con HDD y SSD SATA de 2.5\" 📱 Funciona con laptops, tablets, Smart TVs y consolas 💡 Indicador LED de actividad 🔌 Cable integrado sin adaptadores adicionales 🧰 Diseño con disipador térmico 🔋 No requiere alimentación externa 🌐 Compatible con SATA 2.0 y 3.0 📊 Ideal para respaldos y recuperación.",
+      "nombre": "🔌 Adaptador SATA a USB 3.0 para Discos 2.5",
+      "descripcion": "⚡ Conexión USB 3.0 de alta velocidad hasta 5Gbps 🔄 Compatible con HDD y SSD SATA de 2.5 📱 Funciona con laptops, tablets, Smart TVs y consolas 💡 Indicador LED de actividad 🔌 Cable integrado sin adaptadores adicionales 🧰 Diseño con disipador térmico 🔋 No requiere alimentación externa 🌐 Compatible con SATA 2.0 y 3.0 📊 Ideal para respaldos y recuperación.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20sata%20-%20usb%203.0%2F469594099_122194355558083804_905819561261807686_n.jpg?alt=media&token=082a3eaa-45dd-4b88-9193-531e9e51f35b"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/adaptador%20sata%20usb%203/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20sata%20-%20usb%203.0%2F469885150_122194355288083804_1249558463736827300_n.jpg?alt=media&token=6670affa-0edc-49d9-bd0e-79b3fb6a446f"
-        },
-        {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20sata%20-%20usb%203.0%2F474746648_122200657454083804_8359796227728823633_n.jpg?alt=media&token=ac7e1972-94dd-4e6a-ab78-2c264e861bb9"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/adaptador%20sata%20usb%203/2.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20sata%20-%20usb%203.0%2F469594099_122194355558083804_905819561261807686_n.jpg?alt=media&token=082a3eaa-45dd-4b88-9193-531e9e51f35b",
-      "precio": 40500,
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/adaptador%20sata%20usb%203/1.jpg",
+      "precio": 34900,
       "categoria": "computacion",
-      "cantidad": 7,
+      "cantidad": 1,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-12",
       "destacado": false,
       "marca": "Generic",
-      "garantia": 12,
-      "peso": "0.05kg",
-      "dimensiones": "15x5x2 cm"
+      "garantia": 1
     },
     {
       "id": 14,
@@ -361,27 +338,25 @@
       "descripcion": "🔄 Compatible con múltiples tamaños (2230, 2242, 2260, 2280) ⚡ Conversión directa sin pérdida de rendimiento 📊 Soporta formato Half Size y Full Size 🧰 Puntos de anclaje ajustables para fijación segura 💻 Ideal para reutilizar SSDs mSATA en equipos SATA 📈 Mantiene la velocidad nativa del disco 🔌 Conexión SATA de 6Gbps 🛡️ PCB de alta calidad y componentes duraderos 🔧 Instalación sencilla sin controladores adicionales.",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20msata%20ssd%20m.2%2F470181905_122195140736083804_2674016196907285515_n.jpg?alt=media&token=b2c8139d-151a-4280-9187-b0d71c540084"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/adaptador%20msata%20ssd%20m.2/1.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20msata%20ssd%20m.2%2F470229499_122195140670083804_3138480645217462023_n.jpg?alt=media&token=be9a7d19-bb40-4e91-8bc1-7c910a4b4909"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/adaptador%20msata%20ssd%20m.2/2.jpg"
         },
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20msata%20ssd%20m.2%2F470229593_122195140646083804_8227543923150062651_n.jpg?alt=media&token=b6ec1610-c5b8-43ee-9b71-d835d87ffd6e"
+          "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/adaptador%20msata%20ssd%20m.2/3.jpg"
         }
       ],
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fadaptador%20msata%20ssd%20m.2%2F470181905_122195140736083804_2674016196907285515_n.jpg?alt=media&token=b2c8139d-151a-4280-9187-b0d71c540084",
+      "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/adaptador%20msata%20ssd%20m.2/1.jpg",
       "precio": 39900,
       "categoria": "computacion",
-      "cantidad": 5,
+      "cantidad": 2,
       "disponible": true,
       "estado": "nuevo",
       "fechaIngreso": "2024-12-08",
       "destacado": false,
       "marca": "Generic",
-      "garantia": 12,
-      "peso": "0.03kg",
-      "dimensiones": "8x4x1 cm"
+      "garantia": 12
     }
   ],
   "configuracion": {

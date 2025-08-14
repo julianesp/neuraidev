@@ -1,0 +1,90 @@
+{
+  "productos": [
+    {
+      "id": "prod-nuevo-001",
+      "nombre": "Smartphone Galaxy S24",
+      "descripcion": "Último modelo con cámara de 200MP y pantalla AMOLED de 6.8 pulgadas",
+      "precio": 850000,
+      "precioAnterior": 950000,
+      "categoria": "celulares",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          "alt": "Samsung Galaxy S24 frontal"
+        }
+      ],
+      "fechaCreacion": "2024-01-15",
+      "destacado": true,
+      "disponible": true
+    },
+    {
+      "id": "prod-nuevo-002",
+      "nombre": "Laptop Gaming ROG Strix",
+      "descripcion": "Laptop para gaming con RTX 4070, 32GB RAM y procesador Intel i7",
+      "precio": 1450000,
+      "categoria": "computadoras",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          "alt": "ASUS ROG Strix Gaming"
+        }
+      ],
+      "fechaCreacion": "2024-01-12",
+      "destacado": true,
+      "disponible": true
+    },
+    {
+      "id": "prod-nuevo-003",
+      "nombre": "AirPods Pro 3ra Gen",
+      "descripcion": "Auriculares inalámbricos con cancelación de ruido mejorada",
+      "precio": 189000,
+      "categoria": "accesorios",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          "alt": "Apple AirPods Pro 3ra generación"
+        }
+      ],
+      "fechaCreacion": "2024-01-10",
+      "destacado": false,
+      "disponible": true
+    },
+    {
+      "id": "prod-nuevo-004",
+      "nombre": "Tablet iPad Air M2",
+      "descripcion": "Nueva iPad Air con chip M2, pantalla de 11 pulgadas y soporte para Apple Pencil",
+      "precio": 650000,
+      "categoria": "tablets",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          "alt": "iPad Air con chip M2"
+        }
+      ],
+      "fechaCreacion": "2024-01-08",
+      "destacado": true,
+      "disponible": true
+    },
+    {
+      "id": "prod-nuevo-005",
+      "nombre": "Monitor 4K Gaming 32\"",
+      "descripcion": "Monitor curvo 4K de 32 pulgadas, 144Hz, ideal para gaming y trabajo profesional",
+      "precio": 420000,
+      "categoria": "monitores",
+      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      "imagenes": [
+        {
+          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          "alt": "Monitor 4K Gaming 32 pulgadas"
+        }
+      ],
+      "fechaCreacion": "2024-01-05",
+      "destacado": false,
+      "disponible": true
+    }
+  ]
+}

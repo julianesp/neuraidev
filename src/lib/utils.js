@@ -19,7 +19,7 @@ export function cn(...inputs) {
 export async function loadAllAccessories() {
   // List of accessory-related JSON files to load
   const accessoryFiles = [
-    '/accesories.json',
+    '/accesoriosDestacados.json',
     '/accesoriosNuevos.json',
     '/accesoriosDestacados.json',
     '/accesoriesDamas.json',
@@ -49,7 +49,7 @@ export async function loadAllAccessories() {
         let accessories = [];
         
         if (Array.isArray(data)) {
-          // Direct array of accessories (like in accesories.json)
+          // Direct array of accessories (like in accesoriosDestacados.json)
           accessories = data;
         } else if (data.accesorios && Array.isArray(data.accesorios)) {
           // Object with accesorios array (like in accesoriosNuevos.json)

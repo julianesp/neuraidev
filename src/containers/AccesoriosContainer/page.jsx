@@ -255,7 +255,7 @@ const AccesoriosContainer = ({
 
       // Forzar reintento agregando timestamp para evitar caché
       const timeStamp = new Date().getTime();
-      const retrySrc = imageSrc.includes("?")
+      const retrySrc = imageSrc && typeof imageSrc === 'string' && imageSrc.includes("?")
         ? `${imageSrc}&retry=${timeStamp}`
         : `${imageSrc}?retry=${timeStamp}`;
 
@@ -449,7 +449,7 @@ const AccesoriosContainer = ({
                           onError={() =>
                             handleImageError(`main-${index}`, imagenUrl)
                           }
-                          unoptimized={imagenUrl.includes(
+                          unoptimized={imagenUrl && typeof imagenUrl === 'string' && imagenUrl.includes(
                             "firebasestorage.googleapis.com",
                           )}
                         />

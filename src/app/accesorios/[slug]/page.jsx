@@ -28,7 +28,7 @@ export default function GenericProductPage() {
           '/damas.json',
           '/librosnuevos.json',
           '/librosusados.json',
-          '/accesories.json',
+          '/accesoriosDestacados.json',
           '/accesoriosDestacados.json',
           '/accesoriosNuevos.json',
           '/accesorios_generales.json',
