@@ -46,7 +46,7 @@ export function CarouselDemo({
 
         // Procesar solo las primeras 5 imágenes para mejorar performance
         let extractedImages = [];
-        const productos = data.accesorios || data;
+        const productos = data.presentacion || data.accesorios || data;
         if (Array.isArray(productos)) {
           extractedImages = productos
             .slice(0, 5)

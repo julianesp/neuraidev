@@ -17,8 +17,7 @@ import FAQ from "./FAQ";
 import "./ContactForm.css";
 import "./SideModal.css";
 
-const API_PRESENTATION =
-  "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/2.jpg";
+const API_PRESENTATION = "/presentation.json";
 const API_ACCESORIOS = "/accesoriosDestacados.json";
 
 function CarouselSkeleton() {
@@ -223,7 +222,7 @@ export default function Inicio() {
         <div className={`${styles.carrusel}`}>
           <Suspense fallback={<CarouselSkeleton />}>
             <CarouselDemo
-              apiUrl={API_ACCESORIOS}
+              apiUrl={API_PRESENTATION}
               showArrows={true}
               enableTransitions={true}
               showIndicators={true}
@@ -328,11 +327,11 @@ export default function Inicio() {
           </Suspense>
         </section>
 
-        <section className={`${styles.destacados} ${styles.fadeInUp} mt-6`}>
+        {/* <section className={`${styles.destacados} ${styles.fadeInUp} mt-6`}>
           <Suspense fallback={<LoadingSkeleton />}>
             <ProductosRecientes />
           </Suspense>
-        </section>
+        </section> */}
 
         {/*         
         <section

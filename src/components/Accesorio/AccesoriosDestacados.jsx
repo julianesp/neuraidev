@@ -260,12 +260,10 @@ const AccesoriosDestacados = () => {
       </div>
 
       <div className="mt-6 text-center">
-        {/* <p className="text-black mb-4 dark:text-white">
-          Estos son los productos más 
-        </p> */}
         <Link
           href="/accesorios/destacados"
           className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+          onClick={(e) => e.stopPropagation()}
         >
           Ver todos los destacados
         </Link>

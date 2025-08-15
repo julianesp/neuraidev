@@ -210,6 +210,62 @@
   }
 }
 
+// Media query específica para tablets y pantallas medianas (767px-1024px)
+@media (width >= 767px) and (width <= 1024px) {
+  .carousel {
+    min-height: 280px; // Altura mínima para tablets
+    height: 100%;
+
+    & .carouselContent {
+      height: 100%;
+
+      & .carouselItem {
+        height: 100%;
+
+        & .card {
+          height: 100%;
+
+          & .cardContent {
+            height: 100%;
+
+            & img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: center;
+              display: block;
+            }
+          }
+        }
+      }
+    }
+
+    // Ajustes para botones en tablets
+    :global(.carousel-prev),
+    :global(.carousel-next) {
+      width: 45px;
+      height: 45px;
+    }
+
+    :global(.carousel-prev) {
+      left: 15px;
+    }
+
+    :global(.carousel-next) {
+      right: 15px;
+    }
+  }
+
+  .indicators {
+    bottom: 15px;
+  }
+
+  .indicator {
+    width: 11px;
+    height: 11px;
+  }
+}
+
 @media (width > 768px) {
   .carousel {
     & .carouselContent {

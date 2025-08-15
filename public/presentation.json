@@ -1,0 +1,46 @@
+{
+    "presentacion": [
+        {
+            "id": "cel-gimbal",
+            "nombre": "=� Gimbal Inteligente de Seguimiento Autom�tico 360�",
+            "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/gimbal/1.jpg",
+            "precio": 184900,
+            "categoria": "celulares"
+        },
+        {
+            "id": "comp-ssd-walram",
+            "nombre": "=� Disco SSD WALRAM 2.5 256GB",
+            "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ssd%20walram%20256/1.jpg",
+            "precio": 154900,
+            "categoria": "computadoras"
+        },
+        {
+            "id": "dama-brochas",
+            "nombre": "( Set de 10 Brochas de Maquillaje =�",
+            "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/damas/brochas/1.png",
+            "precio": 29900,
+            "categoria": "damas"
+        },
+        {
+            "id": "cel-auriculares-air31",
+            "nombre": "<� Auriculares Inal�mbricos con Pantalla LED Digital Air 31",
+            "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/auriculares%20air%2031/1.jpg",
+            "precio": 49900,
+            "categoria": "celulares"
+        },
+        {
+            "id": "comp-hub-8en1",
+            "nombre": "Hub Multifunci�n USB-C 8 en 1 Ultra HD",
+            "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/hub%208%20puertos/1.jpg",
+            "precio": 69900,
+            "categoria": "computadoras"
+        },
+        {
+            "id": "dama-rizador",
+            "nombre": "=� Rizador de Pesta�as",
+            "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/damas/rizador/1.jpg",
+            "precio": 20900,
+            "categoria": "damas"
+        }
+    ]
+}
