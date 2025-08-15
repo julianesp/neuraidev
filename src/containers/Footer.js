@@ -98,10 +98,10 @@ const Footer = () => {
       <article className={`${styles.information} ${styles.informationLinks}`}>
         <h2>Información</h2>
         <h3>
-          <Link href="/Politicas">Políticas de privacidad</Link>
+          <Link href="/politicas">Políticas de privacidad</Link>
         </h3>
         <h3>
-          <Link href="/Clientes">Atención al cliente</Link>
+          <Link href="/clientes">Atención al cliente</Link>
         </h3>
         <p>NIT: 1124315657-2</p>
       </article>
@@ -126,7 +126,7 @@ const Footer = () => {
       <article className={`${styles.information} ${styles.legalInfo}`}>
         <h2>Legal</h2>
         <h3>
-          <Link href="/TerminosCondiciones">Términos y condiciones</Link>
+          <Link href="/terminos-condiciones">Términos y condiciones</Link>
         </h3>
 
         <p>Horario:</p>
