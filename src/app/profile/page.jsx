@@ -5,6 +5,7 @@ import Image from "next/image";
 import styles from "../../styles/components/Profile.module.scss";
 import Link from "next/link";
 import BackToTop from "../../components/backTop/BackToTop";
+import JavaScriptPractice from "../../components/JavaScriptPractice";
 
 export default function Profile() {
   const [imageError, setImageError] = useState({});
@@ -70,9 +71,9 @@ export default function Profile() {
         </div>
       </article>
 
-      <article className={styles.redes}>
-        <div className={styles.title}>
-          <h1>Redes profesionales</h1>
+      <article className={`border-white ${styles.redes} `}>
+        <div className={`${styles.title} `}>
+          <h1 className="dark:text-white ">Redes profesionales</h1>
         </div>
         <div className={styles.links}>
           <Link
@@ -114,6 +115,9 @@ export default function Profile() {
           </Link>
         </div>
       </article>
+
+      {/* Componente de prácticas de JavaScript */}
+      <JavaScriptPractice />
 
       <article
         className={`${styles.favoritos} flex flex-col items-center mb-12`}
@@ -168,6 +172,7 @@ export default function Profile() {
           ></iframe>
         </div>
       </article>
+
       <BackToTop />
     </section>
   );

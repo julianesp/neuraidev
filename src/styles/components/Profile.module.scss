@@ -298,14 +298,25 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // background-color: #969090;
+
+    width: 80%;
+
     padding: 20px;
-    width: 100vw;
 
     margin-top: 25px;
+    margin-bottom: 50px;
+
+    border: 1px solid #000;
+    border-radius: 20px;
+    // background-color: rgba(24, 28, 36, 0.9);
 
     .title {
       margin-bottom: 20px;
+
+      & h1 {
+        // color: #fff;
+        font-size: 1.4rem;
+      }
     }
 
     .links {
