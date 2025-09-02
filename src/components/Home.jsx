@@ -14,7 +14,7 @@ import Image from "next/image";
 import FAQ from "./FAQ";
 // import ContactForm from "./ContactForm";
 import SideModal from "./SideModal/page";
-import PresentationCarousel from "./PresentationCarousel";
+import PresentationCarousel from "./PresentationCarousel/PresentationCarousel";
 import "./ContactForm.css";
 import "./SideModal/SideModal.module.scss";
 

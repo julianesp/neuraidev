@@ -7,8 +7,6 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, MessageCircle, Eye } from "lucide-react";
 import Head from "next/head"; // Importar Head para SEO
 import styles from "./AccesoriosContainer.module.scss"; // Importamos estilos SCSS
-import { useSoldProducts } from "../../hooks/useSoldProducts";
-import SoldMarker from "../../components/SoldMarker";
 import {
   generateProductSlug,
   buildProductUrl,
@@ -38,10 +36,7 @@ const AccesoriosContainer = ({
   const [isMobile, setIsMobile] = useState(false);
   const [imageError, setImageError] = useState({}); // Controlar errores de carga de imágenes
   const [imageRetries, setImageRetries] = useState({}); // Controlar reintentos de carga
-  const [selectedProduct, setSelectedProduct] = useState(null); // Para el panel de administrador
 
-  // Hook para manejar productos vendidos
-  const { applySoldStatus, toggleSoldStatus } = useSoldProducts();
 
   // Obtener el slug de categoría desde apiUrl
   const categorySlug = apiUrl ? getCategorySlug(apiUrl) : "generales";
@@ -154,22 +149,11 @@ const AccesoriosContainer = ({
           }
         }
 
-        // Aplicar estado de vendido a los datos
-        const accesoriosConEstado = applySoldStatus(accesoriosData);
-        const accesorioInicialConEstado =
-          accesoriosConEstado.length > 0 ? accesoriosConEstado[0] : null;
-        const otrosAccesoriosConEstado = accesoriosConEstado.slice(1);
-
         // Actualizar estados
-        setTodosAccesorios(accesoriosConEstado);
-        setAccesorio(accesorioInicialConEstado);
-        setOtrosAccesorios(otrosAccesoriosConEstado);
+        setTodosAccesorios(accesoriosData);
+        setAccesorio(accesoriosData.length > 0 ? accesoriosData[0] : null);
+        setOtrosAccesorios(accesoriosData.slice(1));
         setTelefono(telefonoConfig);
-
-        // Seleccionar el primer producto para el panel de admin
-        if (accesorioInicialConEstado) {
-          setSelectedProduct(accesorioInicialConEstado);
-        }
       } catch (error) {
         console.error("Error cargando datos:", error);
       } finally {
@@ -179,7 +163,7 @@ const AccesoriosContainer = ({
     };
 
     cargarDatos();
-  }, [apiUrl, accesorioProps, otrosAccesoriosProps, telefono, dataLoaded, applySoldStatus]);
+  }, [apiUrl, accesorioProps, otrosAccesoriosProps, telefono, dataLoaded]);
 
   // Función para avanzar en el carrusel principal
   const nextMainSlide = (e) => {
@@ -273,56 +257,6 @@ const AccesoriosContainer = ({
     }
   };
 
-  // Función para manejar el cambio de estado de vendido
-  const handleToggleSold = (productId, isVendido, customStyles) => {
-    toggleSoldStatus(productId, isVendido, customStyles);
-
-    // Actualizar todos los accesorios
-    setTodosAccesorios((prev) =>
-      prev.map((accesorio) => {
-        if (accesorio.id === productId) {
-          return {
-            ...accesorio,
-            vendido: isVendido,
-            estilos: isVendido ? customStyles : null,
-          };
-        }
-        return accesorio;
-      }),
-    );
-
-    // Actualizar el accesorio principal si es el mismo
-    if (accesorio && accesorio.id === productId) {
-      setAccesorio((prev) => ({
-        ...prev,
-        vendido: isVendido,
-        estilos: isVendido ? customStyles : null,
-      }));
-    }
-
-    // Actualizar otros accesorios
-    setOtrosAccesorios((prev) =>
-      prev.map((item) => {
-        if (item.id === productId) {
-          return {
-            ...item,
-            vendido: isVendido,
-            estilos: isVendido ? customStyles : null,
-          };
-        }
-        return item;
-      }),
-    );
-
-    // Actualizar el producto seleccionado si es el mismo
-    if (selectedProduct && selectedProduct.id === productId) {
-      setSelectedProduct((prev) => ({
-        ...prev,
-        vendido: isVendido,
-        estilos: isVendido ? customStyles : null,
-      }));
-    }
-  };
 
   // Determinar si mostrar botones de navegación para productos relacionados
   const mostrarBotonesRelacionados =
@@ -386,34 +320,8 @@ const AccesoriosContainer = ({
       <div
         ref={containerRef}
         id="accesorios-container"
-      className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg cursor-pointer ${
-        selectedProduct && selectedProduct.id === accesorio?.id
-          ? "ring-2 ring-blue-500"
-          : ""
-      }`}
-      style={{
-        opacity: accesorio.vendido ? accesorio.estilos?.opacidad || 0.8 : 1,
-        filter: accesorio.vendido
-          ? accesorio.estilos?.filtro || "grayscale(50%)"
-          : "none",
-      }}
-      onClick={() => accesorio && setSelectedProduct(accesorio)}
+      className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg`}
     >
-      {/* Etiqueta de VENDIDO */}
-      {accesorio.vendido && (
-        <div className="text-center mb-4">
-          <span
-            className="inline-block px-4 py-2 rounded-full text-lg font-bold transform -rotate-3 shadow-lg"
-            style={{
-              backgroundColor:
-                accesorio.estilos?.fondoTextoVendido || "#000000",
-              color: accesorio.estilos?.colorTextoVendido || "#ff4444",
-            }}
-          >
-            {accesorio.estilos?.textoVendido || "VENDIDO"}
-          </span>
-        </div>
-      )}
 
       {/* Título del accesorio */}
       <h1 className="text-3xl font-bold text-center mb-6">
@@ -653,22 +561,15 @@ const AccesoriosContainer = ({
           </div>
 
           {/* Botón de WhatsApp */}
-          {accesorio.vendido ? (
-            <div className="mt-6 bg-gray-400 text-white py-3 px-6 rounded-lg flex items-center justify-center opacity-60 cursor-not-allowed">
-              <MessageCircle className="mr-2" />
-              Producto no disponible
-            </div>
-          ) : (
-            <Link
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
-            >
-              <MessageCircle className="mr-2 text-black dark:text-white" />
-              Consultar por WhatsApp
-            </Link>
-          )}
+          <Link
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
+          >
+            <MessageCircle className="mr-2 text-black dark:text-white" />
+            Consultar por WhatsApp
+          </Link>
         </div>
       </div>
 
@@ -695,34 +596,8 @@ const AccesoriosContainer = ({
                 return (
                   <div
                     key={itemIndex}
-                    className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer ${
-                      item.vendido ? "relative" : ""
-                    } ${
-                      selectedProduct && selectedProduct.id === item.id
-                        ? "ring-2 ring-blue-500"
-                        : ""
-                    }`}
-                    style={{
-                      opacity: item.vendido ? item.estilos?.opacidad || 0.6 : 1,
-                      filter: item.vendido
-                        ? item.estilos?.filtro || "grayscale(100%)"
-                        : "none",
-                    }}
-                    onClick={() => setSelectedProduct(item)}
+                    className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow`}
                   >
-                    {/* Etiqueta de VENDIDO para productos relacionados */}
-                    {/* {item.vendido && (
-                      <div
-                        className="absolute top-2 right-2 z-10 px-2 py-1 rounded-full text-xs font-bold transform rotate-12"
-                        style={{
-                          backgroundColor:
-                            item.estilos?.fondoTextoVendido || "#000000",
-                          color: item.estilos?.colorTextoVendido || "#ff4444",
-                        }}
-                      >
-                        {item.estilos?.textoVendido || "VENDIDO"}
-                      </div>
-                    )} */}
 
                     <div className="relative h-40 mb-2 overflow-hidden rounded">
                       {!imageError[`related-${itemIndex}`] && itemImageUrl ? (
@@ -764,11 +639,7 @@ const AccesoriosContainer = ({
                         categorySlug,
                         generateProductSlug(item),
                       )}
-                      className={`mt-3 py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm ${
-                        item.vendido
-                          ? "bg-gray-400 text-white cursor-not-allowed pointer-events-none"
-                          : "bg-blue-600 text-white hover:bg-blue-700"
-                      }`}
+                      className="mt-3 py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm bg-blue-600 text-white hover:bg-blue-700"
                       aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
                     >
                       <Eye size={16} className="mr-1" />
@@ -782,14 +653,6 @@ const AccesoriosContainer = ({
         </div>
       )}
 
-      {/* Componente de administrador para marcar productos como vendidos */}
-      {selectedProduct && (
-        <SoldMarker
-          producto={selectedProduct}
-          onToggleSold={handleToggleSold}
-          showAdmin={true}
-        />
-      )}
     </div>
     </>
   );

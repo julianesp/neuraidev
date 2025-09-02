@@ -14,23 +14,23 @@ const PresentationCarousel = () => {
     {
       id: 1,
       image:
-        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/carousel%2Fslide1.jpg?alt=media&token=example1",
+        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/collage.jpg",
       title: "Productos Destacados",
       description: "Descubre nuestros mejores productos",
-      link: "/productos-destacados",
+      link: "/accesorios/destacados",
     },
-    {
-      id: 2,
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/carousel%2Fslide2.jpg?alt=media&token=example2",
-      title: "Servicios Premium",
-      description: "Conoce nuestros servicios especializados",
-      link: "/servicios",
-    },
+    // {
+    //   id: 2,
+    //   image:
+    //     "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/carousel%2Fslide2.jpg?alt=media&token=example2",
+    //   title: "Servicios Premium",
+    //   description: "Conoce nuestros servicios especializados",
+    //   link: "/servicios",
+    // },
     {
       id: 3,
       image:
-        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/carousel%2Fslide3.jpg?alt=media&token=example3",
+        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/loveFriend.jpg",
       title: "Ofertas Especiales",
       description: "No te pierdas nuestras promociones",
       link: "/ofertas",

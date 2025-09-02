@@ -30,8 +30,8 @@ const SideModal = () => {
           setIsOpen(true);
           setIsAnimating(false);
           // El taxi permanece desplazado cuando el modal está abierto
-        }, 300);
-      }, 500);
+        }, 100);
+      }, 400);
     } else {
       // Si está abierto, cerrar y devolver taxi a posición original
       // console.log("Closing modal and returning taxi"); // Debug
@@ -64,8 +64,9 @@ const SideModal = () => {
       <div className={styles.sideModalContainer}>
         <motion.div
           className={styles.sideModal}
-          initial={{ width: "80px" }}
-          animate={{ width: isOpen ? "200px" : "60px" }}
+          initial={{ width: "10px" }}
+          // anuncio abierto
+          animate={{ width: isOpen ? "200px" : "" }}
           // transition={{ duration: 0.1, ease: "easeOut" }}
         >
           <div className={styles.sideModalContent}>
@@ -87,7 +88,9 @@ const SideModal = () => {
               animate={{
                 opacity: isOpen ? 0 : 1,
                 scale: isOpen ? 0.2 : 1,
-                x: (isOpen ? 180 : 40) + taxiX, // Posición que sigue al modal + desplazamiento animado
+
+                // Posición que sigue al modal + desplazamiento animado
+                x: (isOpen ? 180 : 40) + taxiX,
                 rotate: taxiX !== 0 ? (taxiX < 0 ? -5 : 5) : 0,
               }}
               transition={{
@@ -99,8 +102,8 @@ const SideModal = () => {
               <Image
                 src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Ftaxi.png?alt=media&token=c6ea14f0-6355-4b4b-b85e-70fd6180d01e"
                 alt="Taxi - Envío gratis"
-                width={28}
-                height={28}
+                width={35}
+                height={35}
                 className={styles.taxiImage}
               />
             </motion.div>
