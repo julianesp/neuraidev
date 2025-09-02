@@ -1,0 +1,238 @@
+@use "../../styles/variables.scss" as v;
+
+.sideModalContainer {
+  position: fixed;
+  top: 50%;
+  // right: 0;
+  left: 0;
+  transform: translateY(-50%);
+  height: 120px;
+  width: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  display: flex;
+  // justify-content: flex-end;
+  justify-content: flex-start;
+}
+
+.sideModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  pointer-events: all;
+}
+
+.sideModal {
+  position: relative;
+  height: 80px;
+
+  // background: linear-gradient(35deg, #0070f3 90%, #0059c9 100%);
+  border-radius: 0 15px 15px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: all;
+  // box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s ease;
+
+  border: 0.5px solid rgba(255, 255, 255, 0.9);
+  // background-color: aqua;
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    // transition: transform 0.6s ease;
+  }
+
+  &:hover:before {
+    transform: translateX(100%);
+  }
+
+  &:hover {
+    transform: translateX(-5px);
+    box-shadow: -6px 0 25px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.sideModalContent {
+  position: relative;
+  // width: 100%;
+  // height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sideModalText {
+  color: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  opacity: 0;
+  transition: all 0.4s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  h3 {
+    font-size: 1.4rem;
+    margin: 0 0 5px 0;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    margin: 0 0 3px 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 500;
+  }
+
+  small {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    font-style: italic;
+  }
+}
+
+// contenedor de icono taxi
+.sideModalIndicator {
+  position: absolute;
+  /* left: -17px; REMOVIDO - ahora Framer Motion controlará la posición */
+  transform: translateX(-17px); /* Posición inicial usando transform */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  // border: 2px solid rgba(255, 255, 255, 0.3);
+  /* Removido transition para que Framer Motion maneje todas las animaciones */
+  transition: 0.1s ease-out all;
+
+  &:hover {
+    transition: 0.5s ease-out all;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transition: 0.5s ease-out all;
+    transform: scale(0.95);
+  }
+}
+
+.taxiImage {
+  // filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: all 0.1s ease;
+}
+
+/* Animaciones de pulso para el indicador */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.sideModalIndicator:not(:hover) {
+  animation: pulse 1s infinite;
+}
+
+@media (min-width: 1024px) {
+  .sideModal {
+    width: 80px;
+
+    .sideModalIndicator {
+      transform: translateX(-50px) translateY(-50%);
+      top: 30%;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .sideModal {
+    height: 90px;
+    padding: 0;
+    border-radius: 0 12px 12px 0;
+  }
+
+  .sideModalText {
+    h3 {
+      font-size: 1.1rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
+
+    small {
+      font-size: 0.7rem;
+    }
+  }
+
+  .sideModalIndicator {
+    width: 35px;
+    height: 35px;
+  }
+
+  .taxiImage {
+    width: 22px !important;
+    height: 22px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .sideModal {
+    height: 40px;
+    // width: 40px;
+    padding: 0;
+  }
+
+  .sideModalText {
+    h3 {
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.65rem;
+    }
+
+    small {
+      display: none;
+    }
+  }
+
+  .sideModalIndicator {
+    width: 30px;
+    height: 30px;
+  }
+
+  .taxiImage {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}

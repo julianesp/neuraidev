@@ -23,7 +23,7 @@
       ],
       "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/cepillo%20pets/1.jpg",
       "precio": 38900,
-      "categoria": "mascotas"
+      "categoria": "generales"
     },
     {
       "id": 2,
@@ -45,7 +45,7 @@
       ],
       "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/aceite%20romero/1.jpg",
       "precio": 44900,
-      "categoria": "belleza"
+      "categoria": "generales"
     },
     {
       "id": 3,
@@ -64,7 +64,7 @@
       ],
       "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/parlantes/1.jpg",
       "precio": 60900,
-      "categoria": "tecnologia"
+      "categoria": "generales"
     },
     {
       "id": 4,
@@ -89,7 +89,7 @@
       ],
       "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/adaptador%20de%20carga%20carro/1.jpg",
       "precio": 36900,
-      "categoria": "carros"
+      "categoria": "generales"
     },
     {
       "id": 5,
@@ -114,7 +114,7 @@
       ],
       "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/control%20ps4/1.jpg",
       "precio": 94900,
-      "categoria": "videojuegos"
+      "categoria": "generales"
     },
     {
       "id": 6,
@@ -136,7 +136,7 @@
       ],
       "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/luces%20bike/1.jpg",
       "precio": 34900,
-      "categoria": "bicicletas"
+      "categoria": "generales"
     },
     {
       "id": 7,
@@ -164,7 +164,7 @@
       ],
       "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/dedales/1.png",
       "precio": 14900,
-      "categoria": "gaming"
+      "categoria": "generales"
     },
     {
       "id": 8,
@@ -180,7 +180,7 @@
       ],
       "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/cadena%20bicicleta/1.jpg",
       "precio": 14900,
-      "categoria": "gaming"
+      "categoria": "generales"
     },
     {
       "id": 9,
@@ -202,7 +202,7 @@
       ],
       "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/dron/1.jpg",
       "precio": 204900,
-      "categoria": "drones"
+      "categoria": "generales"
     },
     {
       "id": 10,
@@ -218,7 +218,7 @@
       ],
       "imagenPrincipal": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/guantes%20bicicleta/1.jpg",
       "precio": 25900,
-      "categoria": "bicicletas"
+      "categoria": "generales"
     }
   ],
   "configuracion": {

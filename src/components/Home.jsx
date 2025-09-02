@@ -13,9 +13,10 @@ import { CarouselDemo } from "./CarouselDemo";
 import Image from "next/image";
 import FAQ from "./FAQ";
 // import ContactForm from "./ContactForm";
-// import SideModal from "./SideModal";
+import SideModal from "./SideModal/page";
+import PresentationCarousel from "./PresentationCarousel";
 import "./ContactForm.css";
-import "./SideModal.css";
+import "./SideModal/SideModal.module.scss";
 
 const API_PRESENTATION = "/presentation.json";
 const API_ACCESORIOS = "/accesoriosDestacados.json";
@@ -213,11 +214,11 @@ export default function Inicio() {
         style={{ margin: 0, padding: 0 }}
       >
         {/* Modal para envio gratis */}
-        {/* <SideModal /> */}
-
+        <SideModal />
+    
         {/* Sección Hero - contenedor con altura controlada */}
         <div className={`${styles.presentacion}`}>
-          <NightSkyHero />
+          <PresentationCarousel />
         </div>
         <div className={`${styles.carrusel}`}>
           <Suspense fallback={<CarouselSkeleton />}>
