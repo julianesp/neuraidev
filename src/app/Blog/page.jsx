@@ -26,6 +26,11 @@ export default function BlogPage() {
           content="Publicaciones y artículos de opinión"
           name="description"
         />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332683017412148"
+          crossorigin="anonymous"
+        ></script>
       </Head>
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <h1 className="mt-10 text-3xl font-bold mb-6 text-center">Mi Blog</h1>
