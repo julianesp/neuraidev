@@ -1,5 +1,8 @@
 import React from "react";
 import AccesoriosContainer from "../../../containers/AccesoriosContainer/page";
+import { generateCategoryMetadata } from "../../../utils/categoryMetadata";
+
+export const metadata = generateCategoryMetadata('damas');
 
 export default function DamasPage() {
   return (
