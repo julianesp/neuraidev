@@ -83,31 +83,24 @@
   }
 
   .description {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    h3 {
-      text-align: center;
-      width: 100%;
-      background-color: #fff;
-      border-radius: 20px;
-      box-shadow: 5px 10px 10px #222121;
-      color: #000;
-      height: 50px;
-      font-size: 1.4rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    margin-bottom: 30px;
+    width: 100%;
 
     & img {
-      // position: absolute;
-      width: 80px;
-      height: 80px;
-      // margin-top: 150px;
+      width: 120px;
+      height: 120px;
+      border: 3px solid #f39c12;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
+  }
+
+  .copyright {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    opacity: 0.8;
   }
 
   .information {
@@ -200,26 +193,28 @@
   // RESPONSIVE: TABLET Y DESKTOP (768px+)
   @media screen and (min-width: 768px) {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: auto auto;
-    grid-template-areas:
-      "logo logo logo logo logo"
-      "info ubicacion imagen contacto legal";
-    // gap: 20px;
-
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto auto;
+    grid-template-areas: 
+      "info logo categorias"
+      "servicios contacto ubicacion"
+      "legal legal legal";
+    gap: 30px;
+    padding: 40px 20px;
     text-align: left;
-    padding: 50px 0;
 
     & .flecha {
       left: 20px;
     }
 
+    // Grid areas para cada sección
+    .informationLinks {
+      grid-area: info;
+    }
+
     .description {
-      grid-area: imagen;
-      // width: 100%;
-      // height: 50px;
-      margin-bottom: 0px;
-      // justify-content: center;
+      grid-area: logo;
+      margin-bottom: 0;
 
       & a {
         img {
@@ -229,24 +224,25 @@
       }
     }
 
-    // Columna 1: Información
-    .informationLinks {
-      grid-area: info;
+    .categoriasInfo {
+      grid-area: categorias;
     }
 
-    // Columna 2: Ubicación
-    .ubicacionInfo {
-      grid-area: ubicacion;
+    .serviciosInfo {
+      grid-area: servicios;
     }
 
-    // Columna 3: Contacto
     .contactoInfo {
       grid-area: contacto;
     }
 
-    // Columna 4: Legal
+    .ubicacionInfo {
+      grid-area: ubicacion;
+    }
+
     .legalInfo {
       grid-area: legal;
+      text-align: center;
     }
 
     .information {
@@ -258,6 +254,8 @@
         padding-top: 0;
         margin-bottom: 15px;
         text-align: center;
+        border-bottom: 2px solid #f39c12;
+        padding-bottom: 8px;
       }
 
       h3 {
@@ -270,6 +268,7 @@
         font-size: 0.9rem;
         margin: 6px 0;
         text-align: center;
+        line-height: 1.4;
       }
     }
   }
@@ -286,13 +285,23 @@
 
   // RESPONSIVE: DESKTOP GRANDE (1200px+)
   @media screen and (min-width: 1200px) {
-    // padding: 40px 60px;
-    gap: 30px;
+    padding: 50px 40px;
+
+    .topRow {
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .bottomRow {
+      gap: 40px;
+    }
 
     .description {
-      h3 {
-        font-size: 2rem;
-        max-width: 500px;
+      & a {
+        img {
+          width: 180px;
+          height: 180px;
+        }
       }
     }
 

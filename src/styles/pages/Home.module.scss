@@ -8,6 +8,7 @@
   justify-content: center;
   align-items: center;
   overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
   width: 100%;
   margin: 0;
@@ -346,7 +347,7 @@
         & .imageContainer {
           @include flex-center;
           & img {
-            width: 100vw;
+            width: 100%;
             height: 190px;
             object-fit: cover;
           }
@@ -418,85 +419,76 @@
     }
   }
 
-  @media (min-width: 1024px) {
-    // margin-top: 0;
-    // max-width: 1400px;
-    width: 100%;
-    max-width: 100%;
-    // height: 300px;
-    // margin-left: auto;
-    // margin-right: auto;
-    // padding: 0 100px;
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    grid-template-areas:
-      "presentacion presentacion"
-      "carrusel aside"
-      "directos aside"
-      "destacados aside"
-      "tratamientos aside"
-      "accesories aside"
-      "consulta aside";
+  // @media (min-width: 1024px) {
+  //   display: grid;
+  //   grid-template-columns: 1fr 300px;
+  //   grid-template-areas:
+  //     "presentacion presentacion"
+  //     "carrusel aside"
+  //     "directos aside"
+  //     "destacados aside"
+  //     "accesories aside"
+  //     "consulta aside";
 
-    gap: 10px;
-    overflow: hidden;
+  //   gap: 10px;
+  //   overflow: hidden;
 
-    // .container {
-    //   height: 100vh;
-    // }
-    & .presentacion {
-      position: relative;
-      grid-area: presentacion;
-      width: 100%;
-      height: 300px;  
-    }
+  //   width: 100%;
+  //   max-width: 100%;
 
-    & .carrusel {
-      grid-area: carrusel;
-      width: 100%;
-      height: 400px;
-      max-width: 100%;
-      padding: 0;
-      margin: 0px 0;
-    }
+  //   & .presentacion {
+  //     position: relative;
+  //     grid-area: presentacion;
+  //     width: 100%;
+  //     height: 300px;
+  //   }
 
-    & .aside {
-      grid-area: aside;
-      width: 100%;
-      height: 100%;
-      max-width: 300px;
-      top: 20px;
-      align-self: flex-start;
-      padding: 1rem;
-      height: calc(100vh - 40px);
-    }
+  //   & .carrusel {
+  //     grid-area: carrusel;
+  //     width: 100%;
+  //     height: 300px;
+  //     max-width: 100%;
+  //     padding: 0;
+  //     margin: 0px 0;
+  //   }
 
-    & .directos {
-      grid-area: directos;
-      width: 100%;
-      margin-top: 25px;
-    }
+  //   & .aside {
+  //     grid-area: aside;
+  //     width: 100%;
+  //     height: 100%;
+  //     max-width: 300px;
+  //     top: 20px;
+  //     align-self: flex-start;
+  //     padding: 1rem;
+  //     height: calc(100vh - 40px);
+  //   }
 
-    & .destacados {
-      grid-area: destacados;
-      width: 100%;
-    }
+  //   & .directos {
+  //     grid-area: directos;
+  //     width: 100%;
+  //     margin-top: 25px;
+  //   }
 
-    & .tratamientos {
-      grid-area: tratamientos;
-      width: 100%;
-    }
+  //   & .destacados {
+  //     grid-area: destacados;
+  //     width: 100%;
+  //   }
 
-    & .accesories {
-      grid-area: accesories;
-      width: 100%;
-    }
+  //   & .tratamientos {
+  //     grid-area: tratamientos;
+  //     width: 100%;
+  //   }
 
-    & .consulta {
-      grid-area: consulta;
-      width: 100%;
-    }
-  }
+  //   & .accesories {
+  //     grid-area: accesories;
+  //     width: 100%;
+  //   }
+
+  //   & .consulta {
+  //     grid-area: consulta;
+  //     width: 100%;
+  //   }
+  // }
 
   @media (min-width: 1200px) {
     .accesories {
@@ -554,10 +546,6 @@
 
   @media (min-width: 1024px) {
     margin-top: 0;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 100px;
     display: grid;
     grid-template-columns: 1fr 300px;
     grid-template-areas:
@@ -568,11 +556,9 @@
       "tratamientos aside"
       "accesories aside"
       "question aside";
-    align-items: start;
-    column-gap: 40px;
 
     .container {
-      height: 100vh;
+      min-height: 100vh;
     }
 
     & .faq {
@@ -582,23 +568,26 @@
     & .presentacion {
       grid-area: presentacion;
       width: 100%;
-      height: 110vh;
+      height: 350px;
     }
 
     & .carrusel {
       grid-area: carrusel;
       width: 100%;
+      height: 300px;
     }
 
     & .aside {
       grid-area: aside;
       width: 100%;
-      height: 100%;
+
       max-width: 300px;
+
       top: 20px;
       align-self: flex-start;
       padding: 1rem;
-      height: calc(100vh - 40px);
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
     }
 
     & .directos {
@@ -646,6 +635,13 @@
           grid-column: span 4;
         }
       }
+    }
+  }
+
+  // Estilos específicos para aside desde 768px
+  @media (min-width: 768px) {
+    & .aside {
+      height: 800px;
     }
   }
 }

@@ -225,6 +225,7 @@ export default function Inicio() {
         <div className={`${styles.presentacion}`}>
           <PresentationCarousel />
         </div>
+
         <div className={`${styles.carrusel}`}>
           <Suspense fallback={<CarouselSkeleton />}>
             <CarouselDemo
@@ -236,7 +237,7 @@ export default function Inicio() {
           </Suspense>
         </div>
 
-        {/* Sección lateral de anuncios */}
+        {/* Sección lateral de anuncios o aside*/}
         <section
           className={`${styles.aside} `}
           style={{
@@ -259,6 +260,7 @@ export default function Inicio() {
           </Suspense>
         </section>
 
+        {/* Section directos  */}
         <div
           className={`${styles.directos} w-full z-50 bg-black  shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2 `}
         >
@@ -324,6 +326,7 @@ export default function Inicio() {
           </a>
         </div>
 
+        {/* Section destacados */}
         <section
           ref={destacadosRef}
           className={`${styles.destacados} ${styles.fadeInUp}`}
@@ -358,6 +361,7 @@ export default function Inicio() {
           </section>
         </section> */}
 
+        {/* Section accesories */}
         <section
           ref={accesoriesRef}
           className={`${styles.accesories} ${styles.fadeInUp}`}
@@ -579,6 +583,7 @@ export default function Inicio() {
           </section>
         </section>
 
+        {/* Section Faq */}
         <section className={styles.faq}>
           <FAQ />
         </section>

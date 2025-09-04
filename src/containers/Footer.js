@@ -79,21 +79,6 @@ const Footer = () => {
         />
       </button>
 
-      <article className={`${styles.description}`}>
-        <Link href="/">
-          <Image
-            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb"
-            alt="neurai.dev"
-            width={100}
-            height={100}
-            className="rounded-full object-cover"
-            onError={() =>
-              setImageError((prev) => ({ ...prev, [logoImageId]: true }))
-            }
-          />
-        </Link>
-      </article>
-
       {/* Columna 1: Información */}
       <article className={`${styles.information} ${styles.informationLinks}`}>
         <h2>Información</h2>
@@ -103,34 +88,105 @@ const Footer = () => {
         <h3>
           <Link href="/clientes">Atención al cliente</Link>
         </h3>
+        <h3>
+          <Link href="/sobre-nosotros">Sobre nosotros</Link>
+        </h3>
+        <h3>
+          <Link href="/preguntas-frecuentes">FAQ</Link>
+        </h3>
+      </article>
+
+      {/* Logo en el centro */}
+      <article className={`${styles.description}`}>
+        <Link href="/">
+          <Image
+            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb"
+            alt="neurai.dev"
+            width={120}
+            height={120}
+            className="rounded-full object-cover"
+            onError={() =>
+              setImageError((prev) => ({ ...prev, [logoImageId]: true }))
+            }
+          />
+        </Link>
+      </article>
+
+      {/* Columna 3: Categorías */}
+      <article className={`${styles.information} ${styles.categoriasInfo}`}>
+        <h2>Categorías</h2>
+        <h3>
+          <Link href="/accesorios/celulares">Celulares</Link>
+        </h3>
+        <h3>
+          <Link href="/accesorios/computadoras">Computadores</Link>
+        </h3>
+        <h3>
+          <Link href="/accesorios/damas">Damas</Link>
+        </h3>
+        <h3>
+          <Link href="/accesorios/libros-nuevos">Libros</Link>
+        </h3>
+        <h3>
+          <Link href="/accesorios/generales">Generales</Link>
+        </h3>
+      </article>
+
+      {/* Servicios */}
+      <article className={`${styles.information} ${styles.serviciosInfo}`}>
+        <h2>Servicios</h2>
+        <h3>
+          {/* <Link href="/servicios">Formateo PC</Link> */}
+          <p>Formateo PC</p>
+        </h3>
+        <h3>
+          {/* <Link href="/servicios">Mantenimiento PC</Link> */}
+          <p>Mantenimiento PC</p>
+        </h3>
+        <h3>
+          {/* <Link href="/servicios">Desarrollo Web</Link> */}
+          <p>Desarrollo web</p>
+        </h3>
+      </article>
+
+      {/* Contacto */}
+      <article className={`${styles.information} ${styles.contactoInfo}`}>
+        <h2>Contacto</h2>
+        <h3>
+          <Link href="mailto:julii1295@gmail.com">📧 Enviar correo</Link>
+        </h3>
+        <h3>
+          <Link href="tel:+573174503604">📞 +57 317 450 3604</Link>
+        </h3>
+        <h3>
+          <Link href="https://wa.me/573174503604" target="_blank">
+            💬 WhatsApp
+          </Link>
+        </h3>
+      </article>
+
+      {/* Ubicación y horario */}
+      <article className={`${styles.information} ${styles.ubicacionInfo}`}>
+        <h2>Ubicación</h2>
+        <p>📍 Colón - Putumayo</p>
+        <p>🏪 Calle 1A # 6 - 7</p>
+        <p>🕒 Lun-Vie: 8:00-18:00</p>
         <p>NIT: 1124315657-2</p>
       </article>
 
-      {/* Columna 2: Ubicación */}
-      <article className={`${styles.information} ${styles.ubicacionInfo}`}>
-        <h2>Ubicación</h2>
-        <p>Colón - Putumayo</p>
-        <p>Calle 1A # 6 - 7</p>
-      </article>
-
-      {/* Columna 3: Contacto */}
-      <article
-        className={`${styles.information} ${styles.contactoInfo} flex flex-col items-center`}
-      >
-        <h2>Contacto</h2>
-        <Link href="mailto:julii1295@gmail.com">Enviar correo</Link>
-        <Link href="tel:+573174503604">Llamar</Link>
-      </article>
-
-      {/* Columna 4: Legal */}
+      {/* Legal y pagos */}
       <article className={`${styles.information} ${styles.legalInfo}`}>
         <h2>Legal</h2>
         <h3>
-          <Link href="/terminos-condiciones">Términos y condiciones</Link>
+          <Link href="/terminos-condiciones">Términos</Link>
+        </h3>
+        <h3>
+          <Link href="/politica-devoluciones">Devoluciones</Link>
         </h3>
 
-        <p>Horario:</p>
-        <p> Lunes a Viernes, 8:00 a 18:00</p>
+        <p className={styles.copyright}>
+          © 2025 NeuraI.dev - Todos los derechos reservados
+        </p>
       </article>
 
       {/* Redes Sociales Flotantes - Solo se renderiza después de hidratación */}
