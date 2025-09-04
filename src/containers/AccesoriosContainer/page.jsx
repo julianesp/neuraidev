@@ -14,6 +14,7 @@ import {
 } from "../../utils/slugify";
 import ShareButton from "../../components/ShareButton";
 import ProductMetaTags from "../../components/ProductMetaTags";
+import PriceWithDiscount from "../../components/PriceWithDiscount";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -539,12 +540,11 @@ const AccesoriosContainer = ({
 
             {/* Precio */}
             <div className="mt-4">
-              <span className="text-2xl font-bold text-primary dark:text-white">
-                Valor $
-                {typeof accesorio.precio === "number"
-                  ? accesorio.precio.toLocaleString("es-CO")
-                  : accesorio.precio}
-              </span>
+              <PriceWithDiscount 
+                precio={accesorio.precio}
+                showBadge={true}
+                className="text-2xl font-bold text-primary dark:text-white"
+              />
               {accesorio.precioAnterior && (
                 <span className="ml-2 text-gray-400 dark:text-gray-500 line-through">
                   $
@@ -626,12 +626,11 @@ const AccesoriosContainer = ({
                     <h3 className="font-medium text-sm truncate text-black dark:text-white">
                       {item.nombre || ""}
                     </h3>
-                    <p className="text-black dark:text-white font-bold mt-1">
-                      $
-                      {typeof item.precio === "number"
-                        ? item.precio.toLocaleString("es-CO")
-                        : item.precio}
-                    </p>
+                    <PriceWithDiscount 
+                      precio={item.precio}
+                      showBadge={false}
+                      className="text-black dark:text-white font-bold mt-1"
+                    />
 
                     {/* Botón Ver */}
                     <Link

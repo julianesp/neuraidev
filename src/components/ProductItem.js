@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import PriceWithDiscount from "./PriceWithDiscount";
 import styles from "../styles/components/ProductItem.module.scss";
 
 const ProductItem = ({ product }) => {
@@ -59,7 +60,10 @@ const ProductItem = ({ product }) => {
       />
 
       <p className={styles.productTitle}>{product.title || product.nombre}</p>
-      <p className={styles.productPrice}>${product.price || product.precio}</p>
+      <PriceWithDiscount 
+        precio={product.price || product.precio}
+        className={styles.productPrice}
+      />
 
       <Link
         href={`/products/${product.id}`}

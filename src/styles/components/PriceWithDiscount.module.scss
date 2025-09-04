@@ -1,0 +1,38 @@
+.priceContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.discountBadge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: #FFCC00;
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 8px;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(255, 204, 0, 0.4);
+}
+
+.originalPrice {
+  margin: 0;
+  text-decoration: line-through;
+  color: #888;
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+.discountedPrice {
+  margin: 2px 0 0 0;
+  background: #FFCC00;
+  color: #000;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(255, 204, 0, 0.3);
+  font-size: 1em;
+}

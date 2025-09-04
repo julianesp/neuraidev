@@ -555,8 +555,12 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .authButtons {
@@ -596,7 +600,7 @@
 
 .userMenu {
   position: relative;
-  
+
   .dropdown_menu {
     position: absolute;
     top: 100%;
@@ -611,7 +615,7 @@
     visibility: hidden;
     transform: translateY(-10px);
     transition: all 0.2s ease;
-    
+
     &.show {
       opacity: 1;
       visibility: visible;
@@ -728,7 +732,7 @@
 
 .userInfo {
   margin-bottom: 10px;
-  
+
   span {
     color: #ffffff;
     font-weight: 500;

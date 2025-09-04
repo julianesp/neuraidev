@@ -32,7 +32,11 @@ export default function RootLayout({ children }) {
           <link rel="manifest" href="/manifest.json" />
 
           {/* Google AdSense */}
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332683017412148" crossOrigin="anonymous"></script>
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332683017412148"
+            crossOrigin="anonymous"
+          ></script>
 
           {/* Google Analytics con variable de entorno */}
           <Script
