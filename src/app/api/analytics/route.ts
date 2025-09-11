@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 
-const prisma = new PrismaClient();
+// Forzar runtime de Node.js (necesario para Prisma)
+export const runtime = 'nodejs';
 
 // GET - Obtener análisis de ventas
 export async function GET(request: NextRequest) {
+  // Protección durante la fase de build
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    return NextResponse.json({ error: "Analytics not available during build" }, { status: 503 });
+  }
   try {
     const { searchParams } = new URL(request.url);
     const fechaDesde = searchParams.get("fechaDesde");
@@ -13,7 +18,7 @@ export async function GET(request: NextRequest) {
 
     // Definir rango de fechas
     const whereClause: {
-      fechaVenta?: { gte?: Date; lte?: Date };
+      fechaVenta?: { gte?: Date; lte?: Date; };
       tiendaId?: string;
     } = {};
     if (fechaDesde) whereClause.fechaVenta = { gte: new Date(fechaDesde) };
@@ -239,6 +244,12 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error("Error obteniendo analytics:", error);
+    
+    // Durante el build, no romper con error 500
+    if (process.env.NEXT_PHASE === 'phase-production-build') {
+      return NextResponse.json({ error: "Analytics not available during build" }, { status: 503 });
+    }
+    
     return NextResponse.json(
       { error: "Error interno del servidor" },
       { status: 500 }
