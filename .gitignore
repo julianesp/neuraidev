@@ -38,3 +38,8 @@ next-env.d.ts
 /.kdev4/
 
 # files created
+
+/generated/prisma
+
+# admin config (sensitive)
+admin-config.json

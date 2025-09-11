@@ -9,7 +9,7 @@ export default function DamasPage() {
     
     <main className="py-14">
       <div className="max-w-6xl mx-auto px-4">
-        <AccesoriosContainer apiUrl="/damas.json" />
+        <AccesoriosContainer apiUrl="/api/productos?categoria=belleza" />
       </div>
     </main>
   );

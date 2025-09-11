@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
-import ThemeSwitcher from "../components/ThemeSwitcher";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);

@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Producto {
+  id                String           @id @default(cuid())
+  nombre            String
+  descripcion       String?
+  precio            Decimal          @db.Decimal(12,2)
+  precioAnterior    Decimal?         @db.Decimal(12,2)
+  categoria         String
+  imagenPrincipal   String?
+  imagenes          ProductoImagen[]
+  videoUrl          String?
+  destacado         Boolean          @default(false)
+  disponible        Boolean          @default(true)
+  stock             Int              @default(0)
+  sku               String?          @unique
+  marca             String?
+  condicion         String           @default("nuevo") // nuevo, usado, reacondicionado
+  tags              String[]         @default([])
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  // Relaciones para gestión de tienda
+  tienda            Tienda?          @relation(fields: [tiendaId], references: [id])
+  tiendaId          String?
+  
+  // Para tracking de ventas
+  ventasItems       VentaItem[]
+}
+
+model ProductoImagen {
+  id          String   @id @default(cuid())
+  url         String
+  alt         String?
+  orden       Int      @default(0)
+  producto    Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+  productoId  String
+  createdAt   DateTime @default(now())
+}
+
+model Tienda {
+  id          String     @id @default(cuid())
+  nombre      String
+  descripcion String?
+  direccion   String?
+  telefono    String?
+  email       String?
+  logo        String?
+  activa      Boolean    @default(true)
+  productos   Producto[]
+  ventas      Venta[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Cliente {
+  id        String   @id @default(cuid())
+  nombre    String
+  email     String?  @unique
+  telefono  String?
+  direccion String?
+  ventas    Venta[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Venta {
+  id            String      @id @default(cuid())
+  numero        String      @unique // Número de factura/orden
+  cliente       Cliente?    @relation(fields: [clienteId], references: [id])
+  clienteId     String?
+  tienda        Tienda      @relation(fields: [tiendaId], references: [id])
+  tiendaId      String
+  items         VentaItem[]
+  subtotal      Decimal     @db.Decimal(12,2)
+  impuestos     Decimal     @db.Decimal(12,2) @default(0)
+  descuentos    Decimal     @db.Decimal(12,2) @default(0)
+  total         Decimal     @db.Decimal(12,2)
+  estado        String      @default("pendiente") // pendiente, confirmada, enviada, completada, cancelada
+  metodoPago    String?     // efectivo, tarjeta, transferencia, etc
+  notas         String?
+  fechaVenta    DateTime    @default(now())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model VentaItem {
+  id          String   @id @default(cuid())
+  venta       Venta    @relation(fields: [ventaId], references: [id], onDelete: Cascade)
+  ventaId     String
+  producto    Producto @relation(fields: [productoId], references: [id])
+  productoId  String
+  cantidad    Int
+  precioUnit  Decimal  @db.Decimal(12,2)
+  subtotal    Decimal  @db.Decimal(12,2)
+  createdAt   DateTime @default(now())
+}
+
+model Categoria {
+  id          String   @id @default(cuid())
+  nombre      String   @unique
+  slug        String   @unique
+  descripcion String?
+  icono       String?
+  activa      Boolean  @default(true)
+  orden       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

@@ -17,7 +17,7 @@ export default function ProductDetailWrapper({ apiUrl, categoryName }) {
       try {
         setLoading(true);
         
-        // Cargar datos de la categoría
+        // Usar la API de productos en lugar de archivos JSON
         const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error('Error al cargar los datos');
@@ -26,60 +26,44 @@ export default function ProductDetailWrapper({ apiUrl, categoryName }) {
         const data = await response.json();
         let productos = [];
         
-        // Manejar diferentes estructuras de datos
-        if (Array.isArray(data)) {
+        // Manejar la estructura de la API
+        if (data.productos && Array.isArray(data.productos)) {
+          productos = data.productos;
+        } else if (Array.isArray(data)) {
           productos = data;
-        } else if (data.accesorios && Array.isArray(data.accesorios)) {
-          productos = data.accesorios;
         }
         
         // Buscar el producto por slug
         let producto = findProductBySlug(productos, params.slug);
         
-        // Debug logging
-        // console.log('ProductDetailWrapper Debug:');
-        // console.log('- API URL:', apiUrl);
-        // console.log('- Slug buscado:', params.slug);
-        // console.log('- Total productos:', productos.length);
-        // console.log('- Producto encontrado en archivo principal:', producto ? producto.nombre : 'NO ENCONTRADO');
-        
-        // Si no se encontró en el archivo principal, buscar en otros archivos
+        // Si no se encontró el producto en la categoría actual, buscar en todas las categorías
         if (!producto) {
-          // console.log('- Buscando en otros archivos JSON...');
+          const categoriasParaBuscar = [
+            'celulares',
+            'computadoras', 
+            'bicicletas',
+            'gadgets',
+            'generales',
+            'damas',
+            'libros-nuevos',
+            'libros-usados'
+          ];
           
-          const otherFilesToSearch = [
-            '/computadoras.json',
-            '/celulares.json',
-            '/bicicletas.json',
-            '/gadgets.json',
-            '/generales.json',
-            '/damas.json',
-            '/accesoriosDestacados.json',
-            '/accesoriosDestacados.json',
-            '/accesoriosNuevos.json',
-            '/librosnuevos.json',
-            '/librosusados.json'
-          ].filter(file => file !== apiUrl); // Excluir el archivo que ya revisamos
-          
-          for (const file of otherFilesToSearch) {
+          // Buscar en todas las categorías
+          for (const categoria of categoriasParaBuscar) {
+            if (categoria === categoryName) continue; // Ya buscamos en la categoría actual
+            
             try {
-              const response = await fetch(file);
+              const response = await fetch(`/api/productos?categoria=${categoria}`);
               if (!response.ok) continue;
               
               const data = await response.json();
-              let productosArchivo = [];
+              const productosCategoria = data.productos || data || [];
               
-              if (Array.isArray(data)) {
-                productosArchivo = data;
-              } else if (data.accesorios && Array.isArray(data.accesorios)) {
-                productosArchivo = data.accesorios;
-              }
-              
-              const productoEncontrado = findProductBySlug(productosArchivo, params.slug);
+              const productoEncontrado = findProductBySlug(productosCategoria, params.slug);
               if (productoEncontrado) {
-                // console.log(`- ¡Producto encontrado en ${file}!`);
                 producto = productoEncontrado;
-                productos = productosArchivo; // Actualizar lista de productos para "otros productos"
+                productos = productosCategoria;
                 break;
               }
             } catch (err) {
@@ -89,7 +73,6 @@ export default function ProductDetailWrapper({ apiUrl, categoryName }) {
         }
         
         if (!producto) {
-          // console.log('- Producto no encontrado en ningún archivo');
           setError('Producto no encontrado');
           return;
         }
@@ -112,7 +95,7 @@ export default function ProductDetailWrapper({ apiUrl, categoryName }) {
     if (params.slug) {
       loadProductData();
     }
-  }, [params.slug, apiUrl]);
+  }, [params.slug, apiUrl, categoryName]);
 
   if (loading) {
     return (

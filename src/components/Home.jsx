@@ -226,7 +226,7 @@ export default function Inicio() {
           <PresentationCarousel />
         </div>
 
-        <div className={`${styles.carrusel}`}>
+        {/* <div className={`${styles.carrusel}`}>
           <Suspense fallback={<CarouselSkeleton />}>
             <CarouselDemo
               apiUrl={API_PRESENTATION}
@@ -235,7 +235,7 @@ export default function Inicio() {
               showIndicators={true}
             />
           </Suspense>
-        </div>
+        </div> */}
 
         {/* Sección lateral de anuncios o aside*/}
         <section
@@ -261,7 +261,7 @@ export default function Inicio() {
         </section>
 
         {/* Section directos  */}
-        <div
+        {/* <div
           className={`${styles.directos} w-full z-50 bg-black  shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2 `}
         >
           <a
@@ -324,7 +324,7 @@ export default function Inicio() {
           >
             Accesorios
           </a>
-        </div>
+        </div> */}
 
         {/* Section destacados */}
         <section
@@ -333,14 +333,9 @@ export default function Inicio() {
         >
           <Suspense fallback={<LoadingSkeleton />}>
             <AccesoriosDestacados />
-          </Suspense>
-        </section>
-
-        {/* <section className={`${styles.destacados} ${styles.fadeInUp} mt-6`}>
-          <Suspense fallback={<LoadingSkeleton />}>
             <ProductosRecientes />
           </Suspense>
-        </section> */}
+        </section>
 
         {/*         
         <section

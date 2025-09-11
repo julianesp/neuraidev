@@ -3,7 +3,7 @@ import ProductDetailWrapper from "../../../../components/ProductDetailWrapper";
 export default function DamasProductPage() {
   return (
     <ProductDetailWrapper 
-      apiUrl="/damas.json" 
+      apiUrl="/api/productos?categoria=belleza" 
       categoryName="damas"
     />
   );

@@ -91,12 +91,9 @@ const AccesoriosContainer = ({
     [accesorio],
   );
 
-  // Cargar datos solo si no se han proporcionado directamente y hay una apiUrl
+  // Cargar datos desde API
   useEffect(() => {
-    // Evitar cargar múltiples veces
-    if (dataLoaded) return;
-
-    // Caso 1: Tenemos datos como props
+    // Caso 1: Tenemos datos como props, no necesitamos hacer fetch
     if (accesorioProps) {
       const todos = [accesorioProps, ...otrosAccesoriosProps];
       setTodosAccesorios(todos);
@@ -107,16 +104,22 @@ const AccesoriosContainer = ({
       return;
     }
 
-    // Caso 2: Necesitamos cargar desde API
+    // Caso 2: No hay apiUrl, no podemos cargar nada
     if (!apiUrl) {
       setLoading(false);
       setDataLoaded(true);
       return;
     }
 
+    // Caso 3: Tenemos apiUrl, vamos a cargar los datos
+    if (dataLoaded) {
+      return; // Ya cargamos los datos
+    }
+
     const cargarDatos = async () => {
       try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, { cache: "no-store" });
+        
         if (!response.ok) {
           throw new Error(`Error al cargar datos: ${response.status}`);
         }
@@ -149,6 +152,14 @@ const AccesoriosContainer = ({
             telefonoConfig = data.configuracion.telefono;
           }
         }
+        // Estructura 3: API response con propiedad 'productos'
+        else if (data.productos && Array.isArray(data.productos)) {
+          accesoriosData = [...data.productos];
+          if (data.productos.length > 0) {
+            accesorioInicial = data.productos[0];
+            otrosAccesoriosData = data.productos.slice(1);
+          }
+        }
 
         // Actualizar estados
         setTodosAccesorios(accesoriosData);
@@ -157,6 +168,9 @@ const AccesoriosContainer = ({
         setTelefono(telefonoConfig);
       } catch (error) {
         console.error("Error cargando datos:", error);
+        setAccesorio(null);
+        setTodosAccesorios([]);
+        setOtrosAccesorios([]);
       } finally {
         setLoading(false);
         setDataLoaded(true);
@@ -276,9 +290,17 @@ const AccesoriosContainer = ({
   if (!accesorio) {
     return (
       <div className="max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg">
-        <h1 className="text-xl font-bold text-center">
-          No se encontraron accesorios
-        </h1>
+        <div className="text-center py-8">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+            No se encontraron productos
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            No hay productos disponibles en esta categoría en este momento.
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-500">
+            API URL: {apiUrl}
+          </p>
+        </div>
       </div>
     );
   }
@@ -478,38 +500,40 @@ const AccesoriosContainer = ({
 
             {/* Información adicional del producto */}
             <div className="mt-4 space-y-3">
-              {/* Disponibilidad y cantidad */}
-              {(accesorio.disponible !== undefined ||
-                accesorio.cantidad !== undefined) && (
-                <div className="flex flex-wrap gap-4">
-                  {accesorio.disponible !== undefined && (
-                    <div className="flex items-center">
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
-                        Estado:
-                      </span>
-                      <span
-                        className={`text-sm px-2 py-1 rounded-full ${
-                          accesorio.disponible
-                            ? "bg-green-100 text-green-800 dark:bg-transparent dark:text-white dark:border dark:border-white"
-                            : "bg-red-100 text-red-800 dark:bg-transparent dark:text-white dark:border dark:border-white"
-                        }`}
-                      >
-                        {accesorio.disponible ? "Disponible" : "No disponible"}
-                      </span>
-                    </div>
-                  )}
-                  {accesorio.cantidad !== undefined && (
-                    <div className="flex items-center">
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
-                        Cantidad:
-                      </span>
-                      <span className="text-sm px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
-                        {accesorio.cantidad}
-                      </span>
-                    </div>
-                  )}
+              {/* Stock y disponibilidad */}
+              <div className="flex flex-wrap gap-4">
+
+                {/* Información de stock/cantidad */}
+                <div className="flex items-center">
+                  <span
+                    className={`text-sm px-3 py-1 rounded-full font-medium ${
+                      accesorio.stock > 0
+                        ? accesorio.stock > 10 
+                          ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+                          : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
+                        : ""
+                    }`}
+                    style={accesorio.stock === 0 ? { 
+                      backgroundColor: 'rgba(239, 68, 68, 0.1)', 
+                      color: 'rgba(185, 28, 28, 0.8)' 
+                    } : {}}
+                  >
+                    {accesorio.stock > 0 ? `Cantidad: ${accesorio.stock}` : "Agotado"}
+                  </span>
                 </div>
-              )}
+
+                {/* Cantidad legacy - mantener por compatibilidad */}
+                {accesorio.cantidad !== undefined && accesorio.stock === undefined && (
+                  <div className="flex items-center">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
+                      Cantidad:
+                    </span>
+                    <span className="text-sm px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
+                      {accesorio.cantidad}
+                    </span>
+                  </div>
+                )}
+              </div>
 
               {/* Peso y dimensiones */}
               {(accesorio.peso || accesorio.dimensiones) && (
@@ -561,15 +585,22 @@ const AccesoriosContainer = ({
           </div>
 
           {/* Botón de WhatsApp */}
-          <Link
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
-          >
-            <MessageCircle className="mr-2 text-black dark:text-white" />
-            Consultar por WhatsApp
-          </Link>
+          {accesorio.stock === 0 ? (
+            <div className="mt-6 bg-gray-400 text-gray-600 py-3 px-6 rounded-lg flex items-center justify-center cursor-not-allowed">
+              <MessageCircle className="mr-2" />
+              Producto Agotado
+            </div>
+          ) : (
+            <Link
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
+            >
+              <MessageCircle className="mr-2 text-black dark:text-white" />
+              Consultar por WhatsApp
+            </Link>
+          )}
         </div>
       </div>
 
@@ -637,6 +668,7 @@ const AccesoriosContainer = ({
                       href={buildProductUrl(
                         categorySlug,
                         generateProductSlug(item),
+                        item
                       )}
                       className="mt-3 py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm bg-blue-600 text-white hover:bg-blue-700"
                       aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}

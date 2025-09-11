@@ -1,11 +1,14 @@
 import React from "react";
 import AccesoriosContainer from "../../../containers/AccesoriosContainer/page";
+import { generateCategoryMetadata } from "../../../utils/categoryMetadata";
 
-export default function BooksNew() {
+export const metadata = generateCategoryMetadata("libros-nuevos");
+
+export default function LibrosNuevosPage() {
   return (
     <main className="py-14">
       <div className="max-w-6xl mx-auto px-4">
-        <AccesoriosContainer apiUrl="/librosnuevos.json" />
+        <AccesoriosContainer apiUrl="/api/productos?categoria=libros&condicion=nuevo" />
       </div>
     </main>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../containers/NavBar";
+import NavBar from "../components/NavBar";
 import Footer from "../containers/Footer";
 import "./globals.css";
 // import "@/styles/darkMode.scss";
@@ -8,6 +8,7 @@ import styles from "../styles/components/Layout.module.scss";
 import { ThemeProvider } from "next-themes";
 import Script from "next/script";
 import NotificationManager from "../components/NotificationManager";
+import StoreStatus from "../components/StoreStatus";
 import { Analytics } from "@vercel/analytics/next";
 
 export default function RootLayout({ children }) {
@@ -63,6 +64,7 @@ export default function RootLayout({ children }) {
                 <Analytics />
               </main>
               <Footer />
+              {/* <StoreStatus /> */}
             </div>
           </ThemeProvider>
         </body>

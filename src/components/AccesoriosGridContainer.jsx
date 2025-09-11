@@ -334,6 +334,7 @@ const AccesoriosGridContainer = (props) => {
                   href={buildProductUrl(
                     categorySlug,
                     generateProductSlug(accesorio),
+                    accesorio
                   )}
                   className="flex items-center justify-center w-full bg-gray-50 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors border border-gray-200"
                 >

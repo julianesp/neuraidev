@@ -3,7 +3,7 @@ import ProductDetailWrapper from "../../../../components/ProductDetailWrapper";
 export default function GadgetsProductPage() {
   return (
     <ProductDetailWrapper 
-      apiUrl="/gadgets.json" 
+      apiUrl="/api/productos?categoria=gadgets" 
       categoryName="gadgets"
     />
   );

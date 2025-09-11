@@ -8,7 +8,7 @@ export default function ComputadorasPage() {
   return (
     <main className="py-14">
       <div className="max-w-6xl mx-auto px-4">
-        <AccesoriosContainer apiUrl="/computadoras.json" />
+        <AccesoriosContainer apiUrl="/api/productos?categoria=computadoras" />
       </div>
     </main>
   );

@@ -3,7 +3,7 @@ import ProductDetailWrapper from "../../../../components/ProductDetailWrapper";
 export default function CelularesProductPage() {
   return (
     <ProductDetailWrapper 
-      apiUrl="/celulares.json" 
+      apiUrl="/api/productos?categoria=celulares" 
       categoryName="celulares"
     />
   );
