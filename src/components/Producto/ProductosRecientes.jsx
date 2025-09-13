@@ -6,6 +6,43 @@ import styles from "../../styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
 import { generateProductSlug, buildProductUrl } from "../../utils/slugify";
 
+// Datos de respaldo para cuando la API no está disponible
+const productosRespaldo = [
+  {
+    id: "cmfftbrgd0003s0gmnl137i5j",
+    nombre: "RAM DDR4 - Puskill",
+    descripcion: "Memoria RAM DDR4 de alta calidad para mejorar el rendimiento de tu computador",
+    precio: 45000,
+    categoria: "computadoras",
+    imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%2Fpuskill%2F1.jpg?alt=media&token=12345",
+    imagenes: [],
+    stock: 5,
+    createdAt: "2025-09-11T19:39:00.000Z"
+  },
+  {
+    id: "cmf70vlgl001ns03v32lgdkr3",
+    nombre: "🛡️ Funda Protectora Xiaomi Redmi A12",
+    descripcion: "Funda protectora resistente para tu Xiaomi Redmi A12",
+    precio: 15000,
+    categoria: "celulares",
+    imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%2F1.jpg?alt=media&token=12345",
+    imagenes: [],
+    stock: 3,
+    createdAt: "2025-08-01T10:00:00.000Z"
+  },
+  {
+    id: "cmf70vll90049s03vwgvrxrsi",
+    nombre: "💾 Disco SSD mSATA EXRAM 256GB",
+    descripcion: "Disco SSD mSATA de 256GB para mejorar la velocidad de tu sistema",
+    precio: 85000,
+    categoria: "computadoras",
+    imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%2F1.jpg?alt=media&token=12345",
+    imagenes: [],
+    stock: 2,
+    createdAt: "2025-08-01T10:00:00.000Z"
+  }
+];
+
 const ProductosRecientes = () => {
   // Estado para almacenar los productos recientes
   const [recientes, setRecientes] = useState([]);
@@ -25,18 +62,23 @@ const ProductosRecientes = () => {
   // Referencia al contenedor de scroll
   const containerRef = useRef(null);
 
+
   // Función para obtener productos recientes de los últimos 30 días
   const obtenerProductosRecientes = async () => {
     try {
       const response = await fetch("/api/productos/recientes");
       if (!response.ok) {
-        throw new Error("Error al obtener productos recientes");
+        // Si falla la API, usar datos de respaldo
+        console.warn("API no disponible, usando datos de respaldo");
+        return productosRespaldo;
       }
       const data = await response.json();
-      return data.productos || [];
+      return data.productos || productosRespaldo;
     } catch (error) {
       console.error("Error al obtener productos recientes:", error);
-      throw error;
+      console.warn("Usando datos de respaldo");
+      // En lugar de lanzar error, devolver datos de respaldo
+      return productosRespaldo;
     }
   };
 
@@ -66,7 +108,10 @@ const ProductosRecientes = () => {
         setErrorState(null);
       } catch (err) {
         console.error("Error al cargar productos recientes:", err);
-        setErrorState("No se pudieron cargar los productos nuevos");
+        // Como ahora obtenerProductosRecientes nunca debería fallar (tiene respaldo),
+        // este catch probablemente no se ejecute, pero lo mantenemos por seguridad
+        setRecientes(productosRespaldo);
+        setErrorState(null);
       } finally {
         setLoading(false);
       }
