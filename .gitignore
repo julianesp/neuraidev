@@ -43,3 +43,5 @@ next-env.d.ts
 
 # admin config (sensitive)
 admin-config.json
+.env.production
+backup-data.sql
