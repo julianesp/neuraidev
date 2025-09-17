@@ -87,5 +87,6 @@ export async function GET(request: Request) {
   }
 }
 
-export const dynamic = "force-dynamic";
-export const preferredRegion = "auto";
+// Optimizado para mejor rendimiento
+export const dynamic = "force-dynamic"; // Necesario para parámetros dinámicos
+export const revalidate = 3600; // Cache por 1 hora
