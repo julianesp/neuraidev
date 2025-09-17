@@ -59,7 +59,22 @@ export async function GET(request: NextRequest) {
     });
   } catch (error: unknown) {
     console.error("Error fetching productos:", error);
-    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
+
+    // Información adicional para debugging en producción
+    const errorInfo = {
+      message: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV,
+      databaseUrl: process.env.DATABASE_URL ? "SET" : "NOT_SET"
+    };
+
+    console.error("Detailed error info:", errorInfo);
+
+    return NextResponse.json({
+      error: "Error interno del servidor",
+      debug: process.env.NODE_ENV === "development" ? errorInfo : undefined
+    }, { status: 500 });
   }
 }
 
