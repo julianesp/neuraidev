@@ -45,3 +45,4 @@ next-env.d.ts
 admin-config.json
 .env.production
 backup-data.sql
+export-data.sql
