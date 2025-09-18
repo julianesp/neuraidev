@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ?.replace(/[^\w\s\-.,áéíóúñü]/gi, '')
     .slice(0, 160) || '';
 
-  const ogImageUrl = `/api/og?title=${encodeURIComponent(producto.nombre)}&price=${encodeURIComponent(producto.precio)}&description=${encodeURIComponent(descripcionLimpia)}&image=${encodeURIComponent(producto.imagenPrincipal || '')}&category=${encodeURIComponent(producto.categoria)}`;
+  const ogImageUrl = `/api/og?title=${encodeURIComponent(producto.nombre)}&price=${encodeURIComponent(producto.precio.toString())}&description=${encodeURIComponent(descripcionLimpia)}&image=${encodeURIComponent(producto.imagenPrincipal || '')}&category=${encodeURIComponent(producto.categoria)}`;
 
   return {
     title: `${producto.nombre} | Neurai.dev`,
@@ -80,7 +80,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [ogImageUrl],
     },
     other: {
-      'product:price:amount': producto.precio,
+      'product:price:amount': producto.precio.toString(),
       'product:price:currency': 'COP',
       'product:availability': producto.disponible ? 'in stock' : 'out of stock',
       'product:condition': producto.condicion,
