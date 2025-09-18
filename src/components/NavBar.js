@@ -4,10 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
 import ThemeSwitcher from "./ThemeSwitcher";
+import { CartButton } from "./CartButton";
+import { ShoppingCart } from "./ShoppingCart";
 
 const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const [imageError, setImageError] = useState({});
   const menuRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -30,6 +33,10 @@ const NavBar = () => {
   const handleLinkClick = () => {
     setBurgerOpen(false); // Close the menu when a link is clicked
     setDropdownOpen(false); // Close the dropdown when a link is clicked
+  };
+
+  const toggleCart = () => {
+    setCartOpen(!cartOpen);
   };
 
   const handleOutsideClick = (event) => {
@@ -83,6 +90,10 @@ const NavBar = () => {
 
       <div className={styles.themeSwitcher}>
         <ThemeSwitcher />
+      </div>
+
+      <div className={styles.cartButton}>
+        <CartButton onClick={toggleCart} />
       </div>
       <nav className={styles.nav_container}>
         <ul
@@ -212,6 +223,8 @@ const NavBar = () => {
           <span></span>
         </button>
       </div>
+
+      <ShoppingCart isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   );
 };

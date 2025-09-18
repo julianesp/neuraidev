@@ -15,6 +15,7 @@ import {
 import ShareButton from "../../components/ShareButton";
 import ProductMetaTags from "../../components/ProductMetaTags";
 import PriceWithDiscount from "../../components/PriceWithDiscount";
+import { QuickAddButton } from "../../components/AddToCartButton";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -663,19 +664,29 @@ const AccesoriosContainer = ({
                       className="text-black dark:text-white font-bold mt-1"
                     />
 
-                    {/* Botón Ver */}
-                    <Link
-                      href={buildProductUrl(
-                        categorySlug,
-                        generateProductSlug(item),
-                        item
+                    {/* Botones de acción */}
+                    <div className="mt-3 space-y-2">
+                      <Link
+                        href={buildProductUrl(
+                          categorySlug,
+                          generateProductSlug(item),
+                          item
+                        )}
+                        className="py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm bg-blue-600 text-white hover:bg-blue-700"
+                        aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
+                      >
+                        <Eye size={16} className="mr-1" />
+                        Ver detalles
+                      </Link>
+
+                      {/* Botón Agregar al Carrito */}
+                      {item.disponible && item.stock > 0 && (
+                        <QuickAddButton
+                          producto={item}
+                          className="bg-green-600 text-white hover:bg-green-700 transition-colors w-full rounded py-2 px-4 text-sm font-medium"
+                        />
                       )}
-                      className="mt-3 py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm bg-blue-600 text-white hover:bg-blue-700"
-                      aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
-                    >
-                      <Eye size={16} className="mr-1" />
-                      Ver
-                    </Link>
+                    </div>
                   </div>
                 );
               })}
