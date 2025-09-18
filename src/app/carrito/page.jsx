@@ -77,7 +77,7 @@ const CartPageItem = ({ item }) => {
             {/* Controles de cantidad */}
             <div className="flex flex-col lg:items-end gap-4">
               <div className="flex items-center gap-3">
-                <label className="text-sm font-medium text-gray-700">Cantidad:</label>
+                <label htmlFor={`cantidad-${item.id}`} className="text-sm font-medium text-gray-700">Cantidad:</label>
                 <div className="flex items-center border border-gray-300 rounded-lg">
                   <button
                     onClick={() => handleQuantityChange(item.cantidad - 1)}
@@ -87,6 +87,7 @@ const CartPageItem = ({ item }) => {
                     −
                   </button>
                   <input
+                    id={`cantidad-${item.id}`}
                     type="number"
                     min="1"
                     max={item.producto.stock}
@@ -254,7 +255,7 @@ export default function CarritoPage() {
 
   const handleCheckout = () => {
     // TODO: Implementar navegación al checkout
-    console.log('Proceder al checkout desde página');
+    console.warn('Proceder al checkout desde página - función pendiente de implementar');
     // router.push('/checkout');
   };
 
