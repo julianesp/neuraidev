@@ -27,9 +27,15 @@ interface Producto {
   tienda: {
     id: string;
     nombre: string;
+    descripcion: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+    direccion: string | null;
     telefono: string | null;
     email: string | null;
-  };
+    logo: string | null;
+    activa: boolean;
+  } | null;
 }
 
 interface Props {
@@ -45,7 +51,7 @@ export default function ProductoDetalle({ producto }: Props) {
 
   const handleWhatsApp = () => {
     const mensaje = `Hola! Me interesa este producto:\n\n*${producto.nombre}*\nPrecio: $${precio.toLocaleString()} COP\nLink: ${window.location.href}`;
-    const url = `https://wa.me/57${(producto.tienda.telefono || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(mensaje)}`;
+    const url = `https://wa.me/57${(producto.tienda?.telefono || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
   };
 
@@ -216,12 +222,14 @@ export default function ProductoDetalle({ producto }: Props) {
 
         {/* Botones de acción */}
         <div className="space-y-3">
-          <button
-            onClick={handleWhatsApp}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
-          >
-            💬 Contactar por WhatsApp
-          </button>
+          {producto.tienda?.telefono && (
+            <button
+              onClick={handleWhatsApp}
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+            >
+              💬 Contactar por WhatsApp
+            </button>
+          )}
 
           <div className="grid grid-cols-2 gap-3">
             <button
@@ -230,21 +238,25 @@ export default function ProductoDetalle({ producto }: Props) {
             >
               📤 Compartir
             </button>
-            <a
-              href={`mailto:${producto.tienda.email || ''}?subject=Consulta sobre ${producto.nombre}&body=Hola, me interesa obtener más información sobre: ${producto.nombre}%0A%0APrecio: $${precio.toLocaleString()} COP%0ALink: ${typeof window !== 'undefined' ? window.location.href : ''}`}
-              className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-center"
-            >
-              📧 Email
-            </a>
+            {producto.tienda?.email && (
+              <a
+                href={`mailto:${producto.tienda.email}?subject=Consulta sobre ${producto.nombre}&body=Hola, me interesa obtener más información sobre: ${producto.nombre}%0A%0APrecio: $${precio.toLocaleString()} COP%0ALink: ${typeof window !== 'undefined' ? window.location.href : ''}`}
+                className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-center"
+              >
+                📧 Email
+              </a>
+            )}
           </div>
         </div>
 
         {/* Información de la tienda */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="font-semibold text-gray-900 mb-2">Vendido por</h3>
-          <p className="text-gray-700">{producto.tienda.nombre}</p>
-          <p className="text-sm text-gray-600">{producto.tienda.telefono || 'No disponible'}</p>
-        </div>
+        {producto.tienda && (
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h3 className="font-semibold text-gray-900 mb-2">Vendido por</h3>
+            <p className="text-gray-700">{producto.tienda.nombre}</p>
+            <p className="text-sm text-gray-600">{producto.tienda.telefono || 'No disponible'}</p>
+          </div>
+        )}
       </div>
     </div>
   );
