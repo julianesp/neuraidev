@@ -4,6 +4,9 @@ import Link from "next/link";
 import Head from "next/head";
 import BackToTop from "@/src/components/backTop/BackToTop";
 
+// Forzar renderizado dinámico para evitar errores de prerenderizado
+export const dynamic = 'force-dynamic';
+
 // Array de publicaciones - aquí puedes ir añadiendo tus nuevas publicaciones
 const posts = [
   {

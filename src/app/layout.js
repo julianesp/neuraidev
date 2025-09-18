@@ -10,6 +10,9 @@ import Script from "next/script";
 import NotificationManager from "../components/NotificationManager";
 import StoreStatus from "../components/StoreStatus";
 import { Analytics } from "@vercel/analytics/next";
+import { ToastProvider } from "../contexts/ToastContext";
+import { CartProvider } from "../contexts/CartContext";
+import { ToastContainer } from "../components/Toast";
 
 export default function RootLayout({ children }) {
   return (
@@ -56,16 +59,21 @@ export default function RootLayout({ children }) {
 
         <body>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className={styles.layoutContainer}>
-              <NavBar />
-              <main className={styles.mainContent}>
-                {children}
-                {/* <NotificationManager /> */}
-                <Analytics />
-              </main>
-              <Footer />
-              {/* <StoreStatus /> */}
-            </div>
+            <ToastProvider>
+              <CartProvider>
+                <div className={styles.layoutContainer}>
+                  <NavBar />
+                  <main className={styles.mainContent}>
+                    {children}
+                    {/* <NotificationManager /> */}
+                    <Analytics />
+                  </main>
+                  <Footer />
+                  {/* <StoreStatus /> */}
+                </div>
+                <ToastContainer />
+              </CartProvider>
+            </ToastProvider>
           </ThemeProvider>
         </body>
       </html>
