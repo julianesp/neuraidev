@@ -1,22 +1,10 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../../contexts/CartContext';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-
-export const metadata = {
-  title: 'Carrito de compras | Neurai.dev',
-  description: 'Revisa los productos en tu carrito de compras. Modifica cantidades, calcula envío y procede al checkout de forma segura.',
-  keywords: 'carrito, compras, checkout, envío, productos, Neurai.dev',
-  openGraph: {
-    title: 'Carrito de compras | Neurai.dev',
-    description: 'Revisa los productos en tu carrito de compras. Modifica cantidades, calcula envío y procede al checkout de forma segura.',
-    type: 'website',
-    locale: 'es_ES',
-  },
-};
 
 const CartPageItem = ({ item }) => {
   const { updateQuantity, removeFromCart } = useCart();
@@ -240,6 +228,29 @@ const CartSummarySection = ({ subtotal, itemCount, onCheckout }) => {
 export default function CarritoPage() {
   const { items, itemCount, subtotal, loading, clearCart } = useCart();
   const router = useRouter();
+
+  // Configurar metadatos del lado del cliente
+  useEffect(() => {
+    document.title = 'Carrito de compras | Neurai.dev';
+
+    // Crear o actualizar meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.content = 'Revisa los productos en tu carrito de compras. Modifica cantidades, calcula envío y procede al checkout de forma segura.';
+
+    // Crear o actualizar meta keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (!metaKeywords) {
+      metaKeywords = document.createElement('meta');
+      metaKeywords.name = 'keywords';
+      document.head.appendChild(metaKeywords);
+    }
+    metaKeywords.content = 'carrito, compras, checkout, envío, productos, Neurai.dev';
+  }, []);
 
   const handleCheckout = () => {
     // TODO: Implementar navegación al checkout
