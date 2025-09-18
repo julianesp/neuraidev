@@ -7,28 +7,28 @@ import Link from 'next/link';
 interface Producto {
   id: string;
   nombre: string;
-  descripcion: string;
-  precio: string;
-  precioAnterior?: string;
+  descripcion: string | null;
+  precio: { toString(): string };
+  precioAnterior?: { toString(): string } | null;
   categoria: string;
-  imagenPrincipal: string;
+  imagenPrincipal: string | null;
   disponible: boolean;
   stock: number;
-  marca?: string;
+  marca?: string | null;
   condicion: string;
-  sku?: string;
+  sku?: string | null;
   tags: string[];
   imagenes: Array<{
     id: string;
     url: string;
-    alt: string;
+    alt: string | null;
     orden: number;
   }>;
   tienda: {
     id: string;
     nombre: string;
-    telefono: string;
-    email: string;
+    telefono: string | null;
+    email: string | null;
   };
 }
 
@@ -37,15 +37,15 @@ interface Props {
 }
 
 export default function ProductoDetalle({ producto }: Props) {
-  const [imagenSeleccionada, setImagenSeleccionada] = useState(producto.imagenPrincipal);
+  const [imagenSeleccionada, setImagenSeleccionada] = useState(producto.imagenPrincipal || '');
 
-  const precio = parseFloat(producto.precio);
-  const precioAnterior = producto.precioAnterior ? parseFloat(producto.precioAnterior) : null;
+  const precio = parseFloat(producto.precio.toString());
+  const precioAnterior = producto.precioAnterior ? parseFloat(producto.precioAnterior.toString()) : null;
   const descuento = precioAnterior ? Math.round(((precioAnterior - precio) / precioAnterior) * 100) : 0;
 
   const handleWhatsApp = () => {
     const mensaje = `Hola! Me interesa este producto:\n\n*${producto.nombre}*\nPrecio: $${precio.toLocaleString()} COP\nLink: ${window.location.href}`;
-    const url = `https://wa.me/57${producto.tienda.telefono.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(mensaje)}`;
+    const url = `https://wa.me/57${(producto.tienda.telefono || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
   };
 
@@ -72,28 +72,36 @@ export default function ProductoDetalle({ producto }: Props) {
       {/* Galería de imágenes */}
       <div className="space-y-4">
         <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-          <img
-            src={imagenSeleccionada}
-            alt={producto.nombre}
-            className="w-full h-full object-cover"
-          />
+          {imagenSeleccionada ? (
+            <img
+              src={imagenSeleccionada}
+              alt={producto.nombre}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-gray-500">
+              Sin imagen
+            </div>
+          )}
         </div>
 
         {/* Miniaturas */}
         {producto.imagenes && producto.imagenes.length > 0 && (
           <div className="flex gap-2 overflow-x-auto">
-            <button
-              onClick={() => setImagenSeleccionada(producto.imagenPrincipal)}
-              className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${
-                imagenSeleccionada === producto.imagenPrincipal ? 'border-blue-500' : 'border-gray-200'
-              }`}
-            >
-              <img
-                src={producto.imagenPrincipal}
-                alt={producto.nombre}
-                className="w-full h-full object-cover"
-              />
-            </button>
+            {producto.imagenPrincipal && (
+              <button
+                onClick={() => setImagenSeleccionada(producto.imagenPrincipal!)}
+                className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${
+                  imagenSeleccionada === producto.imagenPrincipal ? 'border-blue-500' : 'border-gray-200'
+                }`}
+              >
+                <img
+                  src={producto.imagenPrincipal}
+                  alt={producto.nombre}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            )}
             {producto.imagenes.map((imagen) => (
               <button
                 key={imagen.id}
@@ -186,7 +194,7 @@ export default function ProductoDetalle({ producto }: Props) {
         {/* Descripción */}
         <div>
           <h3 className="text-lg font-semibold mb-2">Descripción</h3>
-          <p className="text-gray-700 leading-relaxed">{producto.descripcion}</p>
+          <p className="text-gray-700 leading-relaxed">{producto.descripcion || 'Sin descripción disponible'}</p>
         </div>
 
         {/* Tags */}
@@ -223,7 +231,7 @@ export default function ProductoDetalle({ producto }: Props) {
               📤 Compartir
             </button>
             <a
-              href={`mailto:${producto.tienda.email}?subject=Consulta sobre ${producto.nombre}&body=Hola, me interesa obtener más información sobre: ${producto.nombre}%0A%0APrecio: $${precio.toLocaleString()} COP%0ALink: ${typeof window !== 'undefined' ? window.location.href : ''}`}
+              href={`mailto:${producto.tienda.email || ''}?subject=Consulta sobre ${producto.nombre}&body=Hola, me interesa obtener más información sobre: ${producto.nombre}%0A%0APrecio: $${precio.toLocaleString()} COP%0ALink: ${typeof window !== 'undefined' ? window.location.href : ''}`}
               className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-center"
             >
               📧 Email
@@ -235,7 +243,7 @@ export default function ProductoDetalle({ producto }: Props) {
         <div className="bg-gray-50 p-4 rounded-lg">
           <h3 className="font-semibold text-gray-900 mb-2">Vendido por</h3>
           <p className="text-gray-700">{producto.tienda.nombre}</p>
-          <p className="text-sm text-gray-600">{producto.tienda.telefono}</p>
+          <p className="text-sm text-gray-600">{producto.tienda.telefono || 'No disponible'}</p>
         </div>
       </div>
     </div>
