@@ -64,7 +64,7 @@ export default function ProductoDetalle({ producto }: Props) {
           url: window.location.href,
         });
       } catch (error) {
-        console.log('Error compartiendo:', error);
+        console.error('Error compartiendo:', error);
       }
     } else {
       // Fallback: copiar al portapapeles
