@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '../../../lib/prisma';
-import { getOrCreateUserSession } from '../../../lib/auth';
+import { getOrCreateUserSession } from '../../../lib/auth-guest';
 
 // POST - Crear pedido
 export async function POST(request) {
@@ -154,7 +154,7 @@ export async function POST(request) {
     });
 
     // Log del evento para analytics
-    console.log(`[ANALYTICS] Pedido creado: ${numeroPedido}, Total: $${total}, Items: ${carritoItems.length}`);
+    console.warn(`[ANALYTICS] Pedido creado: ${numeroPedido}, Total: $${total}, Items: ${carritoItems.length}`);
 
     return NextResponse.json({
       success: true,

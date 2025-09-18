@@ -12,6 +12,7 @@ export const AddToCartButton = ({
   variant = "primary", // primary, secondary, icon
   size = "md", // sm, md, lg
   disabled = false,
+  onSuccess,
 }) => {
   const { addToCart } = useCart();
   const [isAdding, setIsAdding] = useState(false);
@@ -27,8 +28,8 @@ export const AddToCartButton = ({
     setIsAdding(false);
 
     // Opcional: callback de éxito
-    if (result.success && props.onSuccess) {
-      props.onSuccess(result.item);
+    if (result.success && onSuccess) {
+      onSuccess(result.item);
     }
   };
 

@@ -23,7 +23,7 @@ export function trackEvent(eventName, parameters = {}) {
 
     // Console log para desarrollo
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[Analytics] ${eventName}:`, parameters);
+      console.warn(`[Analytics] ${eventName}:`, parameters);
     }
 
     // Aquí puedes agregar otros servicios de analytics

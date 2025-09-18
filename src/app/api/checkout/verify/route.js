@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '../../../../lib/prisma';
-import { getOrCreateUserSession } from '../../../../lib/auth';
+import { getOrCreateUserSession } from '../../../../lib/auth-guest';
 
 // POST - Verificar disponibilidad y calcular totales
 export async function POST(request) {

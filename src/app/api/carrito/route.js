@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '../../../lib/prisma';
-import { getOrCreateUserSession } from '../../../lib/auth';
+import { getOrCreateUserSession } from '../../../lib/auth-guest';
 
 // GET - Obtener carrito del usuario/sesión
 export async function GET(request) {

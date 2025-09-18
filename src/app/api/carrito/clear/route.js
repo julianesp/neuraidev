@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '../../../../lib/prisma';
-import { getOrCreateUserSession } from '../../../../lib/auth';
+import { getOrCreateUserSession } from '../../../../lib/auth-guest';
 
 // DELETE - Limpiar todo el carrito
 export async function DELETE(request) {

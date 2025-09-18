@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const CartItem = ({ item }) => {
   const { updateQuantity, removeFromCart } = useCart();
@@ -117,7 +118,7 @@ const EmptyCart = () => (
       ¡Empieza agregando algunos productos increíbles!
     </p>
     <div className="mt-6">
-      <a
+      <Link
         href="/accesorios"
         className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
@@ -125,7 +126,7 @@ const EmptyCart = () => (
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M8 15h8a2 2 0 002-2V9a2 2 0 00-2-2H8a2 2 0 00-2 2v4a2 2 0 002 2z" />
         </svg>
         Explorar productos
-      </a>
+      </Link>
     </div>
   </div>
 );
@@ -186,7 +187,7 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
 
   const handleCheckout = () => {
     // TODO: Implementar navegación al checkout
-    console.log('Proceder al checkout');
+    console.warn('Proceder al checkout');
     onClose();
   };
 

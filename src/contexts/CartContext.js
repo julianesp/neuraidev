@@ -32,7 +32,7 @@ const cartReducer = (state, action) => {
         loading: action.payload,
       };
 
-    case 'ADD_ITEM':
+    case 'ADD_ITEM': {
       const existingItemIndex = state.items.findIndex(
         item => item.productoId === action.payload.productoId
       );
@@ -50,6 +50,7 @@ const cartReducer = (state, action) => {
           items: [...state.items, action.payload],
         };
       }
+    }
 
     case 'UPDATE_ITEM':
       return {
@@ -116,7 +117,7 @@ export const CartProvider = ({ children }) => {
         payload: { items: state.items, itemCount, subtotal },
       });
     }
-  }, [state.items]);
+  }, [state.items, state.itemCount, state.subtotal]);
 
   const loadCart = async () => {
     try {

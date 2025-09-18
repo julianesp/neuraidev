@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '../../../../lib/prisma';
-import { getOrCreateUserSession } from '../../../../lib/auth';
+import { getOrCreateUserSession } from '../../../../lib/auth-guest';
 
 // PUT - Actualizar cantidad de un item del carrito
 export async function PUT(request, { params }) {
