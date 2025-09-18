@@ -1,8 +1,11 @@
 import React from "react";
 import AccesoriosContainer from "../../../containers/AccesoriosContainer/page";
-import { generateCategoryMetadata } from "../../../utils/categoryMetadata";
+// import { generateCategoryMetadata } from "../../../utils/categoryMetadata";
 
-export const metadata = generateCategoryMetadata("libros-nuevos");
+// export const metadata = generateCategoryMetadata("libros-nuevos");
+
+// Forzar renderizado dinámico para evitar errores de prerenderizado
+export const dynamic = 'force-dynamic';
 
 export default function LibrosNuevosPage() {
   return (

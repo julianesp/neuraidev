@@ -2,6 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
+// Forzar renderizado dinámico para evitar errores de prerenderizado
+export const dynamic = 'force-dynamic';
+
 // Array de posts (considera moverlo a un servicio o API)
 const posts = [
   {
