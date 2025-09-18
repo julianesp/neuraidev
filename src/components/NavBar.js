@@ -201,6 +201,15 @@ const NavBar = () => {
           </li>
           <li>
             <Link
+              href="/carrito"
+              title="Ir al carrito de compras"
+              onClick={handleLinkClick}
+            >
+              Carrito
+            </Link>
+          </li>
+          <li>
+            <Link
               href="/profile"
               title="Ir al perfil"
               onClick={handleLinkClick}

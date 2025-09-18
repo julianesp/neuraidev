@@ -212,14 +212,25 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b">
-            <h2 className="text-lg font-medium text-gray-900">
-              Carrito de compras
+            <div className="flex flex-col">
+              <h2 className="text-lg font-medium text-gray-900">
+                Carrito de compras
+                {itemCount > 0 && (
+                  <span className="ml-2 text-sm text-gray-500">
+                    ({itemCount} productos)
+                  </span>
+                )}
+              </h2>
               {itemCount > 0 && (
-                <span className="ml-2 text-sm text-gray-500">
-                  ({itemCount} productos)
-                </span>
+                <Link
+                  href="/carrito"
+                  className="text-sm text-indigo-600 hover:text-indigo-800 font-medium mt-1"
+                  onClick={onClose}
+                >
+                  Ver página completa →
+                </Link>
               )}
-            </h2>
+            </div>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600"
