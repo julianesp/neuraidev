@@ -116,6 +116,7 @@ const nextConfig = {
         hostname: "0dwas2ied3dcs14f.public.blob.vercel-storage.com",
       },
     ],
+    qualities: [75, 85, 90, 95, 100],
   },
 
   // Configuración de compilación optimizada para seguridad

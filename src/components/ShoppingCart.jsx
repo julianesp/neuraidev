@@ -132,7 +132,7 @@ const EmptyCart = () => (
 );
 
 const CartSummary = ({ subtotal, itemCount, onCheckout }) => {
-  const envio = subtotal > 100000 ? 0 : 15000; // Envío gratis por compras mayores a $100,000
+  const envio = 15000; // Costo fijo de envío
   const total = subtotal + envio;
 
   return (
@@ -147,20 +147,8 @@ const CartSummary = ({ subtotal, itemCount, onCheckout }) => {
 
         <div className="flex justify-between">
           <span>Envío</span>
-          <span>
-            {envio === 0 ? (
-              <span className="text-green-600 font-medium">Gratis</span>
-            ) : (
-              `$${envio.toLocaleString()} COP`
-            )}
-          </span>
+          <span>${envio.toLocaleString()} COP</span>
         </div>
-
-        {subtotal > 80000 && subtotal < 100000 && (
-          <div className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
-            ¡Agrega ${(100000 - subtotal).toLocaleString()} COP más para envío gratis!
-          </div>
-        )}
 
         <div className="border-t pt-2 flex justify-between font-medium text-base">
           <span>Total</span>
@@ -186,9 +174,8 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
   const { items, itemCount, subtotal, loading, clearCart } = useCart();
 
   const handleCheckout = () => {
-    // TODO: Implementar navegación al checkout
-    console.warn('Proceder al checkout');
     onClose();
+    window.location.href = '/checkout';
   };
 
   const handleClearCart = async () => {
@@ -203,20 +190,20 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black bg-opacity-50"
+        className="absolute inset-0 bg-black bg-opacity-50 md:bg-transparent"
         onClick={onClose}
       />
 
-      {/* Panel del carrito */}
-      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl">
+      {/* Panel del carrito - Responsive positioning */}
+      <div className="absolute bg-white dark:bg-gray-800 shadow-xl bottom-0 left-0 right-0 top-1/3 rounded-t-2xl md:top-16 md:right-4 md:left-auto md:bottom-auto md:w-96 md:max-h-[80vh] md:rounded-lg border border-gray-200 dark:border-gray-700">
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b">
+          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
             <div className="flex flex-col">
-              <h2 className="text-lg font-medium text-gray-900">
+              <h2 className="text-lg font-medium text-gray-900 dark:text-white">
                 Carrito de compras
                 {itemCount > 0 && (
-                  <span className="ml-2 text-sm text-gray-500">
+                  <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
                     ({itemCount} productos)
                   </span>
                 )}
@@ -233,7 +220,7 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

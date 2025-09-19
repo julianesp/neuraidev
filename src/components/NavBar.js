@@ -5,12 +5,10 @@ import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { CartButton } from "./CartButton";
-import { ShoppingCart } from "./ShoppingCart";
 
 const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
   const [imageError, setImageError] = useState({});
   const menuRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -35,9 +33,6 @@ const NavBar = () => {
     setDropdownOpen(false); // Close the dropdown when a link is clicked
   };
 
-  const toggleCart = () => {
-    setCartOpen(!cartOpen);
-  };
 
   const handleOutsideClick = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -92,9 +87,6 @@ const NavBar = () => {
         <ThemeSwitcher />
       </div>
 
-      <div className={styles.cartButton}>
-        <CartButton onClick={toggleCart} />
-      </div>
       <nav className={styles.nav_container}>
         <ul
           className={`${styles.enlaces__menu}  ${
@@ -201,15 +193,6 @@ const NavBar = () => {
           </li>
           <li>
             <Link
-              href="/carrito"
-              title="Ir al carrito de compras"
-              onClick={handleLinkClick}
-            >
-              Carrito
-            </Link>
-          </li>
-          <li>
-            <Link
               href="/profile"
               title="Ir al perfil"
               onClick={handleLinkClick}
@@ -217,8 +200,17 @@ const NavBar = () => {
               Sobre mí
             </Link>
           </li>
+          {/* Mobile cart button within menu */}
+          <li className={styles.mobileCartButton}>
+            <CartButton className="text-white hover:text-gray-300" />
+          </li>
         </ul>
       </nav>
+
+      {/* Desktop cart button positioned after nav */}
+      <div className={styles.cartButtonDesktop}>
+        <CartButton />
+      </div>
 
       <div className={styles.circle}>
         <button
@@ -233,7 +225,6 @@ const NavBar = () => {
         </button>
       </div>
 
-      <ShoppingCart isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   );
 };

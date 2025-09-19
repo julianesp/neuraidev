@@ -33,7 +33,7 @@ INSERT INTO public."Categoria" VALUES ('cmf6z5qp70003s0ljj93lu2f7', 'Libros', 'l
 -- Data for Name: Cliente; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public."Cliente" VALUES ('cmf6z5qqk000cs0ljvmx8oaog', 'Cliente Ejemplo', 'cliente@ejemplo.com', '+57 300 111 2222', 'Cali, Valle del Cauca', '2025-09-05 15:13:16.7', '2025-09-05 15:13:16.7');
+INSERT INTO public."Cliente" VALUES ('cmf6z5qqk000cs0ljvmx8oaog', 'Cliente Ejemplo', 'cliente@ejemplo.com', '+57 300 111 2222', 'Ciudad, Departamento', '2025-09-05 15:13:16.7', '2025-09-05 15:13:16.7');
 INSERT INTO public."Cliente" VALUES ('cmf710pwh0000s08havchhp8x', 'Cliente Prueba', 'test@example.com', '3001234567', NULL, '2025-09-05 16:05:21.569', '2025-09-05 16:05:21.569');
 
 
@@ -41,7 +41,7 @@ INSERT INTO public."Cliente" VALUES ('cmf710pwh0000s08havchhp8x', 'Cliente Prueb
 -- Data for Name: Tienda; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public."Tienda" VALUES ('neuraidev-principal', 'neurai.dev', 'Sitio web personal', 'Colón, Putumayo', '+57 3174503604', 'julii1295@gmail.com', 'https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png', true, '2025-09-05 15:13:16.658', '2025-09-05 22:24:36.882');
+INSERT INTO public."Tienda" VALUES ('neuraidev-principal', 'neurai.dev', 'Sitio web personal', 'Ciudad, Departamento', '+57 300 000 0000', 'contacto@neurai.dev', 'https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png', true, '2025-09-05 15:13:16.658', '2025-09-05 22:24:36.882');
 
 
 --

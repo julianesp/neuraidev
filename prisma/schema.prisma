@@ -167,6 +167,11 @@ model Pedido {
   fechaConfirmado  DateTime?
   fechaEnviado     DateTime?
   fechaEntregado   DateTime?
+  // Campos para ePayco
+  transactionId    String?       // ID de transacción de ePayco
+  approvalCode     String?       // Código de aprobación de ePayco
+  transactionDate  DateTime?     // Fecha de transacción de ePayco
+  paymentResponse  String?       // Respuesta completa de ePayco (JSON)
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 }
@@ -186,6 +191,8 @@ model PedidoItem {
 
 enum EstadoPedido {
   PENDIENTE
+  PENDIENTE_PAGO    // Esperando pago en línea
+  PAGADO           // Pago confirmado
   CONFIRMADO
   PREPARANDO
   ENVIADO
