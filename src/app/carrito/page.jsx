@@ -222,10 +222,7 @@ const EmptyCartPage = () => (
   </div>
 );
 
-const CartSummarySection = ({ subtotal, itemCount, onCheckout }) => {
-  const envio = 15000;
-  const total = subtotal + envio;
-
+const CartSummarySection = ({ subtotal, itemCount }) => {
   return (
     <div className="bg-gray-50 rounded-lg p-6 sticky top-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-6">
@@ -240,24 +237,12 @@ const CartSummarySection = ({ subtotal, itemCount, onCheckout }) => {
           <span className="text-black">${subtotal.toLocaleString()} COP</span>
         </div>
 
-        <div className="flex justify-between text-base">
-          <span className="text-black">Envío</span>
-          <span>${envio.toLocaleString()} COP</span>
-        </div>
-
         <div className="border-t pt-4">
           <div className="flex justify-between text-xl font-bold">
             <span>Total</span>
-            <span>${total.toLocaleString()} COP</span>
+            <span>${subtotal.toLocaleString()} COP</span>
           </div>
         </div>
-
-        <button
-          onClick={onCheckout}
-          className="w-full bg-indigo-600 text-white py-4 px-6 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-lg transition-colors"
-        >
-          Proceder al checkout
-        </button>
 
         <div className="text-center space-y-2">
           <p className="text-sm text-gray-500">
@@ -301,9 +286,6 @@ export default function CarritoPage() {
       "carrito, compras, checkout, envío, productos, Neurai.dev";
   }, []);
 
-  const handleCheckout = () => {
-    router.push("/checkout");
-  };
 
   const handleClearCart = async () => {
     if (
@@ -388,7 +370,6 @@ export default function CarritoPage() {
               <CartSummarySection
                 subtotal={subtotal}
                 itemCount={itemCount}
-                onCheckout={handleCheckout}
               />
             </div>
           </div>

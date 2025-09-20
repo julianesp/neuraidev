@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
 export default function LibrosUsadosProductPage() {
   return (
     <ProductDetailWrapper
-      apiUrl="/api/productos?categoria=libros&condicion=usado"
+      apiUrl="/api/productos?categoria=libros-usados"
       categoryName="libros usados"
     />
   );

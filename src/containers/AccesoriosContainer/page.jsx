@@ -15,7 +15,7 @@ import {
 import ShareButton from "../../components/ShareButton";
 import ProductMetaTags from "../../components/ProductMetaTags";
 import PriceWithDiscount from "../../components/PriceWithDiscount";
-import { QuickAddButton } from "../../components/AddToCartButton";
+import { QuickAddButton, AddToCartButton } from "../../components/AddToCartButton";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -38,7 +38,127 @@ const AccesoriosContainer = ({
   const [isMobile, setIsMobile] = useState(false);
   const [imageError, setImageError] = useState({}); // Controlar errores de carga de imágenes
   const [imageRetries, setImageRetries] = useState({}); // Controlar reintentos de carga
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Modal de imagen expandida
 
+  // Funciones para el modal de imagen
+  const openImageModal = () => setIsImageModalOpen(true);
+  const closeImageModal = () => setIsImageModalOpen(false);
+
+  // Función para asignar emoji según el contenido
+  const asignarEmoji = (texto) => {
+    const textoLower = texto.toLowerCase();
+
+    // Capacidad y almacenamiento
+    if (textoLower.includes('gb') || textoLower.includes('capacidad') || textoLower.includes('almacenamiento')) return '💾';
+    if (textoLower.includes('tb') || textoLower.includes('terabyte')) return '🗄️';
+
+    // Velocidad y rendimiento
+    if (textoLower.includes('velocidad') || textoLower.includes('rápid') || textoLower.includes('speed')) return '⚡';
+    if (textoLower.includes('frecuencia') || textoLower.includes('mhz') || textoLower.includes('ghz')) return '⏱️';
+    if (textoLower.includes('rendimiento') || textoLower.includes('performance')) return '🚀';
+
+    // Tecnología
+    if (textoLower.includes('ddr4') || textoLower.includes('ddr3') || textoLower.includes('tecnología')) return '🔬';
+    if (textoLower.includes('sata') || textoLower.includes('usb') || textoLower.includes('conexión')) return '🔌';
+    if (textoLower.includes('bluetooth') || textoLower.includes('inalámbrico') || textoLower.includes('wifi')) return '📶';
+
+    // Compatibilidad
+    if (textoLower.includes('compatible') || textoLower.includes('compatibilidad')) return '✅';
+    if (textoLower.includes('plug') || textoLower.includes('play') || textoLower.includes('instalación')) return '🔧';
+
+    // Formato y diseño
+    if (textoLower.includes('formato') || textoLower.includes('dimm') || textoLower.includes('factor')) return '📐';
+    if (textoLower.includes('diseño') || textoLower.includes('compacto') || textoLower.includes('ligero')) return '💎';
+    if (textoLower.includes('portátil') || textoLower.includes('laptop') || textoLower.includes('notebook')) return '💻';
+
+    // Energía
+    if (textoLower.includes('consumo') || textoLower.includes('energético') || textoLower.includes('batería')) return '🔋';
+    if (textoLower.includes('alimentación') || textoLower.includes('power')) return '⚡';
+
+    // Protección y seguridad
+    if (textoLower.includes('protección') || textoLower.includes('segur') || textoLower.includes('resistente')) return '🛡️';
+    if (textoLower.includes('disipación') || textoLower.includes('térmic') || textoLower.includes('temperatura')) return '🌡️';
+
+    // Audio y video
+    if (textoLower.includes('audio') || textoLower.includes('sonido') || textoLower.includes('micrófono')) return '🎵';
+    if (textoLower.includes('video') || textoLower.includes('cámara') || textoLower.includes('imagen')) return '📹';
+    if (textoLower.includes('hd') || textoLower.includes('resolución') || textoLower.includes('calidad')) return '📺';
+
+    // Conectividad
+    if (textoLower.includes('puerto') || textoLower.includes('entrada') || textoLower.includes('salida')) return '🔌';
+    if (textoLower.includes('cable') || textoLower.includes('cord')) return '🔗';
+
+    // Sistema
+    if (textoLower.includes('sistema') || textoLower.includes('windows') || textoLower.includes('mac') || textoLower.includes('linux')) return '💻';
+
+    // Por defecto
+    return '🔹';
+  };
+
+  // Función para formatear la descripción
+  const formatearDescripcion = (descripcion) => {
+    if (!descripcion) return "Sin descripción disponible";
+
+    // Limpiar caracteres problemáticos
+    const textoLimpio = descripcion
+      .replace(/[♦◊♢◇▪▫■□●○▲△▼▽◆◇]/g, '')
+      .replace(/�/g, '')  // Eliminar símbolo de reemplazo Unicode
+      .replace(/\uFFFD/g, '')  // Eliminar carácter de reemplazo Unicode (alternativo)
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // Dividir el texto en frases (por puntos o frases largas)
+    let frases = textoLimpio
+      .split(/[.!]\s+|(?<=[a-zA-Z])\s+(?=[\u{1F527}\u{26A1}\u{1F4CA}\u{1F9EE}\u{2728}\u{1F4C8}\u{1F3AF}\u{1F4DA}\u{1F4A1}\u{1F522}\u{1F31F}\u{1F5A5}\u{1F4BE}\u{1F4F1}\u{1F50C}\u{1F9F0}\u{1F6E1}\u{1F50B}\u{1F4E6}\u{1F4B0}\u{1F4BB}\u{1F4DD}\u{1F3A7}\u{1F3AE}\u{1F310}\u{1F4AA}\u{1F3C3}\u{1F510}\u{1F9F5}\u{1F4F9}\u{1F3A4}\u{1F50D}\u{1F4CE}\u{1F4A1}\u{1F507}\u{2668}\u{1F4C8}\u{1F9E9}\u{1F4F1}\u{1F504}\u{23F1}\u{1F4BB}\u{1F525}\u{1F310}])/u)
+      .filter(frase => frase.trim().length > 10);
+
+    // Si no hay muchas frases, dividir por longitud
+    if (frases.length < 3) {
+      const palabras = textoLimpio.split(' ');
+      frases = [];
+      let fraseActual = '';
+
+      palabras.forEach(palabra => {
+        if (fraseActual.length + palabra.length < 80) {
+          fraseActual += (fraseActual ? ' ' : '') + palabra;
+        } else {
+          if (fraseActual.trim()) frases.push(fraseActual.trim());
+          fraseActual = palabra;
+        }
+      });
+      if (fraseActual.trim()) frases.push(fraseActual.trim());
+    }
+
+    // Asignar emoji a cada frase y formatear
+    return frases
+      .map(frase => {
+        const fraseLimpia = frase.replace(/^[\u{1F527}\u{26A1}\u{1F4CA}\u{1F9EE}\u{2728}\u{1F4C8}\u{1F3AF}\u{1F4DA}\u{1F4A1}\u{1F522}\u{1F31F}\u{1F5A5}\u{1F4BE}\u{1F4F1}\u{1F50C}\u{1F9F0}\u{1F6E1}\u{1F50B}\u{1F4E6}\u{1F4B0}\u{1F4BB}\u{1F4DD}\u{1F3A7}\u{1F3AE}\u{1F310}\u{1F4AA}\u{1F3C3}\u{1F510}\u{1F9F5}\u{1F4F9}\u{1F3A4}\u{1F50D}\u{1F4CE}\u{1F4A1}\u{1F507}\u{2668}\u{1F4C8}\u{1F9E9}\u{1F4F1}\u{1F504}\u{23F1}\u{1F4BB}\u{1F525}\u{1F310}]\s*/u, '').trim();
+        const emoji = asignarEmoji(fraseLimpia);
+        return `${emoji} ${fraseLimpia}`;
+      })
+      .join('\n\n');
+  };
+
+  // Cerrar modal con tecla Escape
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && isImageModalOpen) {
+        closeImageModal();
+      }
+    };
+
+    if (isImageModalOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isImageModalOpen]);
 
   // Obtener el slug de categoría desde apiUrl
   const categorySlug = apiUrl ? getCategorySlug(apiUrl) : "generales";
@@ -353,7 +473,17 @@ const AccesoriosContainer = ({
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         {/* Carrusel principal - SECCIÓN MEJORADA */}
-        <div className={`${styles.mainImageContainer} relative h-60 md:h-80`}>
+        <div className={`${styles.mainImageContainer} relative h-96 md:h-[450px] lg:h-[500px]`}>
+          {/* Botón de expansión */}
+          <button
+            onClick={openImageModal}
+            className="absolute bottom-12 right-3 z-10 bg-black/80 hover:bg-black/95 text-white p-2.5 rounded-full transition-all duration-200 backdrop-blur-sm shadow-lg border border-white/20"
+            aria-label="Ver imagen en pantalla completa"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+            </svg>
+          </button>
           <div className="h-full w-full relative overflow-hidden rounded-lg">
             {tieneImagenes ? (
               accesorio.imagenes.map((imagen, index) => {
@@ -376,7 +506,7 @@ const AccesoriosContainer = ({
                           alt={`${accesorio.nombre} - Imagen ${index + 1}`}
                           fill={true}
                           sizes="(max-width: 768px) 100vw, 50vw"
-                          className="rounded-lg object-contain"
+                          className="rounded-lg object-cover"
                           priority={index === mainSlideIndex}
                           onError={() =>
                             handleImageError(`main-${index}`, imagenUrl)
@@ -410,7 +540,7 @@ const AccesoriosContainer = ({
                       alt={accesorio.nombre}
                       fill={true}
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="rounded-lg object-contain"
+                      className="rounded-lg object-cover"
                       priority
                       onError={() => handleImageError("principal")}
                     />
@@ -475,9 +605,13 @@ const AccesoriosContainer = ({
             <h2 className="text-xl font-semibold mb-3 text-black dark:text-white">
               Descripción
             </h2>
-            <p className="whitespace-pre-line text-black dark:text-white mb-4">
-              {accesorio.descripcion || "Sin descripción disponible"}
-            </p>
+            <div className="text-black dark:text-white mb-4 leading-relaxed">
+              {formatearDescripcion(accesorio.descripcion).split('\n\n').map((parrafo, index) => (
+                <p key={index} className="mb-3 text-sm md:text-base">
+                  {parrafo}
+                </p>
+              ))}
+            </div>
 
             {/* Características */}
             {accesorio.caracteristicas &&
@@ -587,20 +721,55 @@ const AccesoriosContainer = ({
 
           {/* Botón de WhatsApp */}
           {accesorio.stock === 0 ? (
-            <div className="mt-6 bg-gray-400 text-gray-600 py-3 px-6 rounded-lg flex items-center justify-center cursor-not-allowed">
-              <MessageCircle className="mr-2" />
-              Producto Agotado
+            <div className="mt-6 space-y-3">
+              {/* Botón de Producto Agotado */}
+              <div className="bg-gray-400 text-gray-600 py-3 px-6 rounded-lg flex items-center justify-center cursor-not-allowed">
+                <MessageCircle className="mr-2" />
+                Producto Agotado
+              </div>
+
+              {/* Botón Solicitarlo */}
+              <Link
+                href={`https://wa.me/573174503604?text=${encodeURIComponent(
+                  `¡Hola! 👋\n\nQuiero más de este producto:\n\n📦 ${accesorio.nombre}\n\n🔗 Puedes verlo aquí: ${typeof window !== "undefined" ? window.location.href : ""}\n\n¡Espero tu respuesta! 😊`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-orange-500 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-orange-600 transition-colors font-medium"
+              >
+                <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.13 8.13 0 01-3.618-.82L3 21l1.82-6.382A8.13 8.13 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+                </svg>
+                Solicitarlo por WhatsApp
+              </Link>
             </div>
           ) : (
-            <Link
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
-            >
-              <MessageCircle className="mr-2 text-black dark:text-white" />
-              Consultar por WhatsApp
-            </Link>
+            <div className="space-y-3">
+              {/* Enlace de pago específico para el libro de Cálculo */}
+              {accesorio.id === 'cmfew2nv3000rs0jpmwvzv6ue' && (
+                <Link
+                  href="https://payco.link/a2bf14cd-759a-4717-a500-baf869523a61"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 bg-blue-600 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors font-semibold"
+                >
+                  <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                  </svg>
+                  Comprar Ahora - Pago Seguro
+                </Link>
+              )}
+
+              <Link
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
+              >
+                <MessageCircle className="mr-2 text-black dark:text-white" />
+                Consultar por WhatsApp
+              </Link>
+            </div>
           )}
         </div>
       </div>
@@ -681,15 +850,149 @@ const AccesoriosContainer = ({
 
                       {/* Botón Agregar al Carrito */}
                       {item.disponible && item.stock > 0 && (
-                        <QuickAddButton
+                        <AddToCartButton
                           producto={item}
-                          className="bg-green-600 text-white hover:bg-green-700 transition-colors w-full rounded py-2 px-4 text-sm font-medium"
-                        />
+                          variant="primary"
+                          size="sm"
+                          className="bg-green-600 text-white hover:bg-green-700 dark:bg-green-600 dark:text-white dark:hover:bg-green-700 transition-colors w-full rounded py-2 px-4 text-sm font-medium"
+                        >
+                          Agregar al carrito
+                        </AddToCartButton>
                       )}
                     </div>
                   </div>
                 );
               })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de imagen expandida */}
+      {isImageModalOpen && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md"
+          onClick={closeImageModal}
+        >
+          <div className="relative max-w-[95vw] max-h-[95vh] w-full h-full flex items-center justify-center p-4">
+            {/* Botón cerrar */}
+            <button
+              onClick={closeImageModal}
+              className="absolute top-4 right-4 z-[10000] bg-black/80 hover:bg-black/95 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm shadow-lg border border-white/20"
+              aria-label="Cerrar imagen expandida"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Imagen expandida */}
+            <div
+              className="relative w-full h-full flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {tieneImagenes ? (
+                <div className="relative w-full h-full flex items-center justify-center">
+                  {accesorio.imagenes.map((imagen, index) => {
+                    const imagenUrl = typeof imagen === "object" && imagen.url ? imagen.url : imagen;
+
+                    return (
+                      <div
+                        key={index}
+                        className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${
+                          index === mainSlideIndex ? "opacity-100" : "opacity-0"
+                        }`}
+                      >
+                        {!imageError[`modal-${index}`] ? (
+                          <Image
+                            src={imagenUrl}
+                            alt={`${accesorio.nombre} - Imagen ${index + 1}`}
+                            width={800}
+                            height={600}
+                            className="max-w-full max-h-full object-contain rounded-lg"
+                            onError={() => handleImageError(`modal-${index}`, imagenUrl)}
+                            style={{ maxWidth: '90vw', maxHeight: '85vh' }}
+                            unoptimized={imagenUrl && typeof imagenUrl === 'string' && imagenUrl.includes("firebasestorage.googleapis.com")}
+                          />
+                        ) : (
+                          <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-8">
+                            <p className="text-gray-500">Imagen no disponible</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+
+                  {/* Controles del carrusel en modal */}
+                  {accesorio.imagenes.length > 1 && (
+                    <>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          prevMainSlide(e);
+                        }}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
+                        aria-label="Imagen anterior"
+                      >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          nextMainSlide(e);
+                        }}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
+                        aria-label="Imagen siguiente"
+                      >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+
+                      {/* Indicadores en modal */}
+                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-black/60 px-4 py-2 rounded-full backdrop-blur-sm">
+                        {accesorio.imagenes.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setMainSlideIndex(index);
+                            }}
+                            className={`w-3 h-3 rounded-full transition-colors ${
+                              index === mainSlideIndex ? "bg-white" : "bg-white/50"
+                            }`}
+                            aria-label={`Ir a imagen ${index + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : imagenPrincipal ? (
+                <div className="relative flex items-center justify-center">
+                  {!imageError["modal-principal"] ? (
+                    <Image
+                      src={imagenPrincipal}
+                      alt={accesorio.nombre}
+                      width={800}
+                      height={600}
+                      className="max-w-full max-h-full object-contain rounded-lg"
+                      onError={() => handleImageError("modal-principal")}
+                      style={{ maxWidth: '90vw', maxHeight: '85vh' }}
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-8">
+                      <p className="text-gray-500">Imagen no disponible</p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center bg-gray-100 rounded-lg p-8">
+                  <p className="text-gray-500">No hay imágenes disponibles</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
