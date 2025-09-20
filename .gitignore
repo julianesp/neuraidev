@@ -29,6 +29,8 @@ yarn-error.log*
 .env*.local
 .env.production
 .env.staging
+.env
+.env.example
 
 # vercel
 .vercel
@@ -45,6 +47,10 @@ next-env.d.ts
 
 # admin config (sensitive)
 admin-config.json
-.env.production
+
+# backup files
 backup-data.sql
 export-data.sql
+
+# cookies and temporary files
+cookies.txt

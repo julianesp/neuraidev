@@ -1,21 +1,36 @@
 "use client";
 
 import { useCart } from '../contexts/CartContext';
+import { useRouter } from 'next/navigation';
 
-export const CartButton = ({ onClick, className = "" }) => {
+export const CartButton = ({ className = "" }) => {
   const { itemCount, loading } = useCart();
+  const router = useRouter();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push('/carrito');
+  };
 
   return (
     <button
-      onClick={onClick}
-      className={`relative p-2 text-gray-600 hover:text-gray-900 transition-colors ${className}`}
-      title="Abrir carrito"
+      onClick={handleClick}
+      className={`cart-button relative p-2 text-gray-600 hover:text-gray-900 transition-colors ${className}`}
+      title="Ir al carrito"
+      style={{
+        zIndex: 9999,
+        position: 'relative',
+        pointerEvents: 'auto',
+        cursor: 'pointer'
+      }}
     >
       <svg
         className="w-6 h-6"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
+        style={{ pointerEvents: 'none' }}
       >
         <path
           strokeLinecap="round"
@@ -27,13 +42,19 @@ export const CartButton = ({ onClick, className = "" }) => {
 
       {/* Badge con cantidad */}
       {!loading && itemCount > 0 && (
-        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+        <span
+          className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
+          style={{ pointerEvents: 'none' }}
+        >
           {itemCount > 99 ? '99+' : itemCount}
         </span>
       )}
 
       {loading && (
-        <span className="absolute -top-1 -right-1 bg-gray-400 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+        <span
+          className="absolute -top-1 -right-1 bg-gray-400 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+          style={{ pointerEvents: 'none' }}
+        >
           <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
         </span>
       )}
