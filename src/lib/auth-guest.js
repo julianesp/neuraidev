@@ -92,10 +92,8 @@ export async function migrateGuestCartToUser(guestSessionToken, usuarioId) {
   for (const item of guestCartItems) {
     await prisma.carritoItem.upsert({
       where: {
-        usuarioId_productoId: {
-          usuarioId,
-          productoId: item.productoId,
-        },
+        usuarioId: usuarioId,
+        productoId: item.productoId,
       },
       update: {
         cantidad: { increment: item.cantidad },

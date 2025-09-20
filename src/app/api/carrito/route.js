@@ -102,8 +102,8 @@ export async function POST(request) {
     const session = await getOrCreateUserSession(request);
 
     const whereClause = session.usuarioId
-      ? { usuarioId_productoId: { usuarioId: session.usuarioId, productoId } }
-      : { sesionId_productoId: { sesionId: session.id, productoId } };
+      ? { usuarioId: session.usuarioId, productoId }
+      : { sesionId: session.id, productoId };
 
     const createData = session.usuarioId
       ? { usuarioId: session.usuarioId, productoId, cantidad, variantes }
