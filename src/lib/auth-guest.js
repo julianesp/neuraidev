@@ -1,4 +1,4 @@
-import { prisma } from './prisma';
+import { prisma } from './prisma.ts';
 import crypto from 'crypto';
 
 // Generar token de sesión seguro
