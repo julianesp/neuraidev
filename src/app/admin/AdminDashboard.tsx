@@ -7,6 +7,7 @@ import ProductosManager from "../../components/admin/ProductosManager";
 import CategoriasManager from "../../components/admin/CategoriasManager";
 import TiendasManager from "../../components/admin/TiendasManager";
 import VentasManager from "../../components/admin/VentasManager";
+import RegistroVentasManager from "../../components/admin/RegistroVentasManager";
 import AnalyticsDashboard from "../../components/admin/AnalyticsDashboard";
 import CredentialsManager from "../../components/admin/CredentialsManager";
 
@@ -15,6 +16,7 @@ type TabType =
   | "categorias"
   | "tiendas"
   | "ventas"
+  | "registro-ventas"
   | "analytics"
   | "config";
 
@@ -38,6 +40,7 @@ export default function AdminDashboard() {
     { id: "categorias", label: "Categorías", icon: "🏷️" },
     { id: "tiendas", label: "Tiendas", icon: "🏪" },
     { id: "ventas", label: "Nueva Venta", icon: "💰" },
+    { id: "registro-ventas", label: "Registro de Ventas", icon: "📋" },
     { id: "analytics", label: "Analytics", icon: "📊" },
     { id: "config", label: "Configuración", icon: "⚙️" },
   ];
@@ -52,6 +55,8 @@ export default function AdminDashboard() {
         return <TiendasManager />;
       case "ventas":
         return <VentasManager />;
+      case "registro-ventas":
+        return <RegistroVentasManager />;
       case "analytics":
         return <AnalyticsDashboard />;
       case "config":

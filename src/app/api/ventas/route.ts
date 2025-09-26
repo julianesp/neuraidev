@@ -18,6 +18,7 @@ const ventaSchema = z.object({
   }).optional(),
   items: z.array(ventaItemSchema),
   metodoPago: z.string(),
+  estado: z.string().default('pendiente'),
   notas: z.string().optional(),
   descuentos: z.number().default(0)
 });
@@ -27,11 +28,12 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "10");
+    const limit = parseInt(searchParams.get("limit") || "100");
     const tiendaId = searchParams.get("tiendaId");
     const estado = searchParams.get("estado");
     const fechaDesde = searchParams.get("fechaDesde");
     const fechaHasta = searchParams.get("fechaHasta");
+    const includeItems = searchParams.get("includeItems") === "true";
 
     const skip = (page - 1) * limit;
 
@@ -50,20 +52,24 @@ export async function GET(request: NextRequest) {
       if (fechaHasta) whereClause.fechaVenta.lte = new Date(fechaHasta);
     }
 
+    const includeClause = {
+      cliente: true,
+      tienda: true,
+      ...(includeItems && {
+        items: {
+          include: {
+            producto: true
+          }
+        }
+      })
+    };
+
     const [ventas, total] = await Promise.all([
       prisma.venta.findMany({
         where: whereClause,
         skip,
         take: limit,
-        include: {
-          cliente: true,
-          tienda: true,
-          items: {
-            include: {
-              producto: true
-            }
-          }
-        },
+        include: includeClause,
         orderBy: {
           fechaVenta: 'desc'
         }
@@ -179,6 +185,7 @@ export async function POST(request: NextRequest) {
           descuentos,
           total,
           metodoPago: validatedData.metodoPago,
+          estado: validatedData.estado,
           notas: validatedData.notas,
           items: {
             create: itemsData
