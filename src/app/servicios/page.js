@@ -18,6 +18,7 @@ export default function Servicios() {
         "Actualización de drivers y software",
         "Diagnóstico de hardware",
         "Cambio de pasta térmica",
+        "Upgrade de RAM y SSD disponibles en tienda",
       ],
       icon: "🔧",
       price: "Desde $50.000",
@@ -34,9 +35,26 @@ export default function Servicios() {
         "Instalación de programas básicos",
         "Transferencia de archivos importantes",
         "Configuración de antivirus",
+        "Upgrade a SSD para mayor velocidad",
       ],
       icon: "💻",
       price: "Desde $80.000",
+    },
+    {
+      id: 5,
+      title: "Venta de Componentes",
+      description:
+        "Componentes originales y de calidad para mejorar el rendimiento de tu computador.",
+      features: [
+        "Memoria RAM DDR4 - Puskill",
+        "Discos SSD mSATA EXRAM de alta velocidad",
+        "Hub USB C para mayor conectividad",
+        "Accesorios para computadores",
+        "Garantía en todos los productos",
+        "Instalación incluida con el servicio",
+      ],
+      icon: "💾",
+      price: "Desde $63.900",
     },
     {
       id: 3,
@@ -172,6 +190,45 @@ export default function Servicios() {
                 <p className={styles.whyDescription}>{item.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Components Section */}
+      <section className={styles.componentsSection}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>Componentes Disponibles en Tienda</h2>
+          <div className={styles.componentsGrid}>
+            <div className={styles.componentCard}>
+              <div className={styles.componentIcon}>💾</div>
+              <h3>Memoria RAM DDR4</h3>
+              <p>Puskill - 8GB DDR4 para mejorar el rendimiento</p>
+              <div className={styles.componentPrice}>$104.900</div>
+              <Link href="/accesorios/computadoras" className={styles.componentButton}>
+                Ver en Tienda
+              </Link>
+            </div>
+            <div className={styles.componentCard}>
+              <div className={styles.componentIcon}>⚡</div>
+              <h3>Disco SSD mSATA</h3>
+              <p>EXRAM 256GB - Velocidad extrema para tu PC</p>
+              <div className={styles.componentPrice}>$124.900</div>
+              <Link href="/accesorios/computadoras" className={styles.componentButton}>
+                Ver en Tienda
+              </Link>
+            </div>
+            <div className={styles.componentCard}>
+              <div className={styles.componentIcon}>🔌</div>
+              <h3>Hub USB C</h3>
+              <p>Extensor USB 7 en 1 - Más conectividad</p>
+              <div className={styles.componentPrice}>$63.900</div>
+              <Link href="/accesorios/computadoras" className={styles.componentButton}>
+                Ver en Tienda
+              </Link>
+            </div>
+          </div>
+          <div className={styles.componentsNote}>
+            <p>💡 <strong>Instalación incluida:</strong> Todos los componentes incluyen instalación gratuita con el servicio de mantenimiento o formateo.</p>
           </div>
         </div>
       </section>

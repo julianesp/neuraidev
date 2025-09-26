@@ -115,6 +115,16 @@ const NavBar = () => {
               Blog
             </Link>
           </li>
+          <li role="none">
+            <Link
+              href="/servicios"
+              title="Ver servicios técnicos"
+              role="menuitem"
+              onClick={handleLinkClick}
+            >
+              Servicio
+            </Link>
+          </li>
 
           {/* <li role="none">
             <Link href="/businesses" className="nav-link">
