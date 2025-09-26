@@ -9,10 +9,21 @@ import { generateProductSlug, buildProductUrl } from "../../utils/slugify";
 // Datos de respaldo para cuando la API no está disponible
 const productosRespaldo = [
   {
+    id: "cmfrllc7s000qs0eds5qnkpx0",
+    nombre: "Hub USB C - USB 3.0. Extensor USB 7 en 1",
+    descripcion: "Hub USB 7 en 1 - Adaptador Dual USB-C + USB-A. Expande tus posibilidades de conexión en un solo dispositivo",
+    precio: 63900,
+    categoria: "computadoras",
+    imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fhub%20usb%20c%2F1.jpg?alt=media&token=12345",
+    imagenes: [],
+    stock: 3,
+    createdAt: "2025-09-20T01:36:00.000Z"
+  },
+  {
     id: "cmfftbrgd0003s0gmnl137i5j",
     nombre: "RAM DDR4 - Puskill",
     descripcion: "Memoria RAM DDR4 de alta calidad para mejorar el rendimiento de tu computador",
-    precio: 45000,
+    precio: 104900,
     categoria: "computadoras",
     imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%2Fpuskill%2F1.jpg?alt=media&token=12345",
     imagenes: [],
@@ -20,25 +31,25 @@ const productosRespaldo = [
     createdAt: "2025-09-11T19:39:00.000Z"
   },
   {
+    id: "cmf70vlwv008rs03v98nhvarb",
+    nombre: "✨ Set de 10 Brochas de Maquillaje 💜",
+    descripcion: "Set completo de 10 brochas profesionales para maquillaje, ideal para crear looks perfectos",
+    precio: 29900,
+    categoria: "belleza",
+    imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=12345",
+    imagenes: [],
+    stock: 8,
+    createdAt: "2025-08-01T10:00:00.000Z"
+  },
+  {
     id: "cmf70vlgl001ns03v32lgdkr3",
     nombre: "🛡️ Funda Protectora Xiaomi Redmi A12",
     descripcion: "Funda protectora resistente para tu Xiaomi Redmi A12",
-    precio: 15000,
+    precio: 34900,
     categoria: "celulares",
     imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%2F1.jpg?alt=media&token=12345",
     imagenes: [],
     stock: 3,
-    createdAt: "2025-08-01T10:00:00.000Z"
-  },
-  {
-    id: "cmf70vll90049s03vwgvrxrsi",
-    nombre: "💾 Disco SSD mSATA EXRAM 256GB",
-    descripcion: "Disco SSD mSATA de 256GB para mejorar la velocidad de tu sistema",
-    precio: 85000,
-    categoria: "computadoras",
-    imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fssd%2F1.jpg?alt=media&token=12345",
-    imagenes: [],
-    stock: 2,
     createdAt: "2025-08-01T10:00:00.000Z"
   }
 ];
