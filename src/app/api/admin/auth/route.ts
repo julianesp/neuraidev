@@ -5,11 +5,11 @@ import { verifyAdminCredentials, createAdminToken, getClientIP, isLocalIP } from
 export async function POST(request: NextRequest) {
   try {
     const clientIP = getClientIP(request);
-    
-    // Verificar que la IP sea local
-    if (!isLocalIP(clientIP)) {
+
+    // Solo verificar IP en desarrollo, permitir acceso en producción
+    if (process.env.NODE_ENV === 'development' && !isLocalIP(clientIP)) {
       return NextResponse.json(
-        { message: "Acceso denegado desde esta ubicación" },
+        { message: "Acceso denegado desde esta ubicación en desarrollo" },
         { status: 403 }
       );
     }
