@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { format, startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, subDays, subWeeks, subMonths } from 'date-fns';
 import { es } from 'date-fns/locale';
 import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 interface Venta {
@@ -80,15 +80,7 @@ export default function RegistroVentasManager() {
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   const [ventaAEliminar, setVentaAEliminar] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchVentas();
-  }, []);
-
-  useEffect(() => {
-    aplicarFiltros();
-  }, [ventas, filtroTexto, periodo, fechaInicio, fechaFin, filtroEstado, filtroMetodoPago]);
-
-  const fetchVentas = async () => {
+  const fetchVentas = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/ventas?includeItems=true');
@@ -103,7 +95,7 @@ export default function RegistroVentasManager() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const calcularEstadisticas = (ventasData: Venta[]) => {
     const ahora = new Date();
@@ -149,7 +141,7 @@ export default function RegistroVentasManager() {
     });
   };
 
-  const aplicarFiltros = () => {
+  const aplicarFiltros = useCallback(() => {
     let filtradas = [...ventas];
 
     // Filtro por texto
@@ -215,7 +207,15 @@ export default function RegistroVentasManager() {
     });
 
     setVentasFiltradas(filtradas);
-  };
+  }, [ventas, filtroTexto, periodo, fechaInicio, fechaFin, filtroEstado, filtroMetodoPago]);
+
+  useEffect(() => {
+    fetchVentas();
+  }, [fetchVentas]);
+
+  useEffect(() => {
+    aplicarFiltros();
+  }, [aplicarFiltros]);
 
   const eliminarVenta = async (ventaId: string) => {
     try {
@@ -429,8 +429,9 @@ export default function RegistroVentasManager() {
         <h3 className="text-lg font-semibold mb-4">🔍 Filtros</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Buscar</label>
+            <label htmlFor="buscar-ventas" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Buscar</label>
             <input
+              id="buscar-ventas"
               type="text"
               value={filtroTexto}
               onChange={(e) => setFiltroTexto(e.target.value)}
@@ -439,8 +440,9 @@ export default function RegistroVentasManager() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Período</label>
+            <label htmlFor="periodo-ventas" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Período</label>
             <select
+              id="periodo-ventas"
               value={periodo}
               onChange={(e) => setPeriodo(e.target.value as PeriodoFiltro)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
@@ -453,8 +455,9 @@ export default function RegistroVentasManager() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Estado</label>
+            <label htmlFor="estado-ventas" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Estado</label>
             <select
+              id="estado-ventas"
               value={filtroEstado}
               onChange={(e) => setFiltroEstado(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
@@ -468,8 +471,9 @@ export default function RegistroVentasManager() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Método de Pago</label>
+            <label htmlFor="metodo-pago-ventas" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Método de Pago</label>
             <select
+              id="metodo-pago-ventas"
               value={filtroMetodoPago}
               onChange={(e) => setFiltroMetodoPago(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
@@ -487,8 +491,9 @@ export default function RegistroVentasManager() {
         {periodo === 'personalizado' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha inicio</label>
+              <label htmlFor="fecha-inicio-ventas" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha inicio</label>
               <input
+                id="fecha-inicio-ventas"
                 type="date"
                 value={fechaInicio}
                 onChange={(e) => setFechaInicio(e.target.value)}
@@ -496,8 +501,9 @@ export default function RegistroVentasManager() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha fin</label>
+              <label htmlFor="fecha-fin-ventas" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha fin</label>
               <input
+                id="fecha-fin-ventas"
                 type="date"
                 value={fechaFin}
                 onChange={(e) => setFechaFin(e.target.value)}
