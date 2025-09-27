@@ -40,6 +40,7 @@ export default function VentasManager() {
     direccion: ''
   });
   const [metodoPago, setMetodoPago] = useState('efectivo');
+  const [estadoVenta, setEstadoVenta] = useState('pendiente');
   const [notas, setNotas] = useState('');
   const [descuentos, setDescuentos] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -52,7 +53,7 @@ export default function VentasManager() {
 
   const fetchProductos = async () => {
     try {
-      const response = await fetch('/api/productos');
+      const response = await fetch('/api/productos?limit=1000'); // Obtener hasta 1000 productos
       if (response.ok) {
         const data = await response.json();
         setProductos(data.productos || []);
@@ -62,35 +63,83 @@ export default function VentasManager() {
     }
   };
 
+  // Función para limpiar texto de emojis y caracteres especiales
+  const limpiarTexto = (texto: string) => {
+    return texto
+      .replace(/[\u2600-\u26FF\u2700-\u27BF\u1F300-\u1F5FF\u1F600-\u1F6FF\u1F680-\u1F6FF\u1F1E0-\u1F1FF]/g, '') // Remover emojis comunes
+      .replace(/[^\w\s]/gi, ' ') // Remover caracteres especiales
+      .replace(/\s+/g, ' ') // Normalizar espacios
+      .trim()
+      .toLowerCase();
+  };
+
   // Filtrar productos
-  const productosFiltrados = productos.filter(p => 
-    p.disponible && 
-    p.stock > 0 &&
-    (p.nombre.toLowerCase().includes(productosFilter.toLowerCase()) ||
-     p.categoria.toLowerCase().includes(productosFilter.toLowerCase()) ||
-     p.marca?.toLowerCase().includes(productosFilter.toLowerCase()))
-  );
+  const productosFiltrados = productos.filter(p => {
+    if (!p.disponible) return false;
+
+    const filtroLimpio = limpiarTexto(productosFilter);
+    const nombreLimpio = limpiarTexto(p.nombre);
+    const categoriaLimpia = limpiarTexto(p.categoria);
+    const marcaLimpia = limpiarTexto(p.marca || '');
+
+    // Si no hay filtro, mostrar todos los productos disponibles
+    if (!productosFilter.trim()) return true;
+
+    // Búsqueda flexible: dividir el filtro en palabras y buscar cada una
+    const palabrasFiltro = filtroLimpio.split(' ').filter(palabra => palabra.length > 0);
+    const palabrasNombre = nombreLimpio.split(' ');
+
+    // Verificar si todas las palabras del filtro están en el nombre
+    const coincideNombre = palabrasFiltro.every(palabra =>
+      palabrasNombre.some(nombrePalabra => nombrePalabra.includes(palabra))
+    );
+
+    return (
+      p.nombre.toLowerCase().includes(productosFilter.toLowerCase()) ||
+      nombreLimpio.includes(filtroLimpio) ||
+      coincideNombre ||
+      p.categoria.toLowerCase().includes(productosFilter.toLowerCase()) ||
+      categoriaLimpia.includes(filtroLimpio) ||
+      (p.marca && p.marca.toLowerCase().includes(productosFilter.toLowerCase())) ||
+      marcaLimpia.includes(filtroLimpio)
+    );
+  });
 
   // Agregar producto a la venta
   const agregarProducto = (producto: Producto) => {
     const itemExistente = ventaItems.find(item => item.productoId === producto.id);
-    
+
     if (itemExistente) {
-      if (itemExistente.cantidad < producto.stock) {
+      // Si ya existe, verificar stock antes de incrementar
+      if (producto.stock > 0 && itemExistente.cantidad < producto.stock) {
         setVentaItems(ventaItems.map(item =>
           item.productoId === producto.id
-            ? { 
-                ...item, 
-                cantidad: item.cantidad + 1, 
-                subtotal: (item.cantidad + 1) * item.precioUnit 
+            ? {
+                ...item,
+                cantidad: item.cantidad + 1,
+                subtotal: (item.cantidad + 1) * item.precioUnit
               }
             : item
         ));
+      } else if (producto.stock === 0) {
+        // Permitir agregar productos sin stock pero con advertencia
+        setVentaItems(ventaItems.map(item =>
+          item.productoId === producto.id
+            ? {
+                ...item,
+                cantidad: item.cantidad + 1,
+                subtotal: (item.cantidad + 1) * item.precioUnit
+              }
+            : item
+        ));
+        setMessage({ type: 'error', text: `⚠️ ${producto.nombre} - Sin stock disponible` });
+        setTimeout(() => setMessage(null), 3000);
       } else {
-        setMessage({ type: 'error', text: `Stock insuficiente para ${producto.nombre}` });
+        setMessage({ type: 'error', text: `Stock insuficiente para ${producto.nombre} (Máximo: ${producto.stock})` });
         setTimeout(() => setMessage(null), 3000);
       }
     } else {
+      // Nuevo producto - Permitir agregar incluso sin stock
       const nuevoItem: VentaItem = {
         productoId: producto.id,
         producto: producto,
@@ -99,6 +148,12 @@ export default function VentasManager() {
         subtotal: Number(producto.precio)
       };
       setVentaItems([...ventaItems, nuevoItem]);
+
+      // Mostrar advertencia si no hay stock
+      if (producto.stock === 0) {
+        setMessage({ type: 'error', text: `⚠️ ${producto.nombre} agregado - Sin stock disponible` });
+        setTimeout(() => setMessage(null), 3000);
+      }
     }
   };
 
@@ -112,21 +167,28 @@ export default function VentasManager() {
       return;
     }
 
-    if (nuevaCantidad > item.producto.stock) {
-      setMessage({ type: 'error', text: `Stock máximo: ${item.producto.stock}` });
+    // Permitir actualizar cantidad incluso para productos sin stock, pero mostrar advertencia
+    if (item.producto.stock > 0 && nuevaCantidad > item.producto.stock) {
+      setMessage({ type: 'error', text: `Stock máximo disponible: ${item.producto.stock}` });
       setTimeout(() => setMessage(null), 3000);
       return;
     }
 
     setVentaItems(ventaItems.map(item =>
       item.productoId === productoId
-        ? { 
-            ...item, 
-            cantidad: nuevaCantidad, 
-            subtotal: nuevaCantidad * item.precioUnit 
+        ? {
+            ...item,
+            cantidad: nuevaCantidad,
+            subtotal: nuevaCantidad * item.precioUnit
           }
         : item
     ));
+
+    // Mostrar advertencia si el producto no tiene stock
+    if (item.producto.stock === 0) {
+      setMessage({ type: 'error', text: `⚠️ ${item.producto.nombre} - Sin stock disponible` });
+      setTimeout(() => setMessage(null), 3000);
+    }
   };
 
   // Eliminar item de la venta
@@ -168,6 +230,7 @@ export default function VentasManager() {
           precioUnit: item.precioUnit
         })),
         metodoPago,
+        estado: estadoVenta,
         notas: notas.trim() || undefined,
         descuentos
       };
@@ -188,6 +251,7 @@ export default function VentasManager() {
         setVentaItems([]);
         setCliente({ nombre: '', email: '', telefono: '', direccion: '' });
         setMetodoPago('efectivo');
+        setEstadoVenta('pendiente');
         setNotas('');
         setDescuentos(0);
         
@@ -230,12 +294,17 @@ export default function VentasManager() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Selección de Productos */}
         <div className="bg-white p-6 rounded-lg shadow border">
-          <h3 className="text-lg font-semibold mb-4">🛒 Productos Disponibles</h3>
-          
+          <h3 className="text-lg font-semibold mb-4">
+            🛒 Productos Disponibles
+            <span className="text-sm font-normal text-gray-500 ml-2">
+              ({productosFiltrados.length} encontrados)
+            </span>
+          </h3>
+
           <div className="mb-4">
             <input
               type="text"
-              placeholder="Buscar productos..."
+              placeholder="Buscar por nombre, categoría o marca..."
               value={productosFilter}
               onChange={(e) => setProductosFilter(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -243,7 +312,15 @@ export default function VentasManager() {
           </div>
 
           <div className="space-y-2 max-h-96 overflow-y-auto">
-            {productosFiltrados.slice(0, 20).map((producto) => (
+            {productosFiltrados.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                {productosFilter.trim() ?
+                  `No se encontraron productos con "${productosFilter}"` :
+                  'No hay productos disponibles'
+                }
+              </div>
+            ) : (
+              productosFiltrados.map((producto) => (
               <div 
                 key={producto.id} 
                 className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
@@ -262,14 +339,24 @@ export default function VentasManager() {
                   )}
                   <div>
                     <div className="font-medium text-sm">{producto.nombre}</div>
-                    <div className="text-xs text-gray-500">{producto.categoria} • Stock: {producto.stock}</div>
+                    <div className="text-xs text-gray-500">
+                      {producto.categoria} • Stock:
+                      <span className={`ml-1 font-medium ${
+                        producto.stock === 0 ? 'text-red-500' :
+                        producto.stock <= 5 ? 'text-yellow-600' :
+                        'text-green-600'
+                      }`}>
+                        {producto.stock === 0 ? 'Sin stock' : producto.stock}
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="font-bold text-green-600">{formatPrice(producto.precio)}</div>
                 </div>
               </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
@@ -405,6 +492,21 @@ export default function VentasManager() {
                 <option value="transferencia">Transferencia</option>
                 <option value="nequi">Nequi</option>
                 <option value="daviplata">Daviplata</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="estado-venta-input" className="block text-sm font-medium text-gray-700 mb-1">Estado de la Venta</label>
+              <select
+                id="estado-venta-input"
+                value={estadoVenta}
+                onChange={(e) => setEstadoVenta(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="pendiente">Pendiente</option>
+                <option value="confirmada">Confirmada</option>
+                <option value="enviada">Enviada</option>
+                <option value="completada">Completada</option>
+                <option value="cancelada">Cancelada</option>
               </select>
             </div>
           </div>

@@ -122,11 +122,11 @@ export function requireAdminAuth(request: NextRequest): {
 } {
   const clientIP = getClientIP(request);
 
-  // 1. Verificar IP local
-  if (!isLocalIP(clientIP)) {
+  // 1. Verificar IP solo en desarrollo
+  if (process.env.NODE_ENV === 'development' && !isLocalIP(clientIP)) {
     return {
       allowed: false,
-      reason: `Acceso denegado desde IP: ${clientIP}. Solo se permite acceso local.`
+      reason: `Acceso denegado desde IP: ${clientIP}. Solo se permite acceso local en desarrollo.`
     };
   }
 

@@ -15,6 +15,7 @@ import FAQ from "./FAQ";
 // import ContactForm from "./ContactForm";
 import SideModal from "./SideModal/page";
 import PresentationCarousel from "./PresentationCarousel/PresentationCarousel";
+import TechnicalServicesCarousel from "./TechnicalServicesCarousel";
 import "./ContactForm.css";
 import "./SideModal/SideModal.module.scss";
 
@@ -248,7 +249,7 @@ export default function Inicio() {
             justifySelf: "end",
             position: "relative",
             marginLeft: "0",
-            height: "100%",
+            // height: "100%",
           }}
         >
           <Suspense
@@ -336,6 +337,8 @@ export default function Inicio() {
             <ProductosRecientes />
           </Suspense>
         </section>
+
+
 
         {/*         
         <section
@@ -581,6 +584,17 @@ export default function Inicio() {
         {/* Section Faq */}
         <section className={styles.faq}>
           <FAQ />
+        </section>
+
+        {/* Section Technical Services Carousel */}
+        <section className={`${styles.technicalServices} w-full py-4 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800`}>
+          <Suspense fallback={
+            <div className="w-full max-w-6xl mx-auto px-4">
+              <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded-2xl h-64"></div>
+            </div>
+          }>
+            <TechnicalServicesCarousel />
+          </Suspense>
         </section>
 
         {/* Formulario para clientes */}

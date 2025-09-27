@@ -9,9 +9,11 @@ import { CartButton } from "./CartButton";
 const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [serviciosDropdownOpen, setServiciosDropdownOpen] = useState(false);
   const [imageError, setImageError] = useState({});
   const menuRef = useRef(null);
   const dropdownRef = useRef(null);
+  const serviciosDropdownRef = useRef(null);
 
   // Define unique ID for the logo image
   const logoImageId = "navbar-logo";
@@ -26,11 +28,19 @@ const NavBar = () => {
   const toggleDropdown = (e) => {
     e.preventDefault();
     setDropdownOpen(!dropdownOpen);
+    setServiciosDropdownOpen(false); // Close other dropdown
+  };
+
+  const toggleServiciosDropdown = (e) => {
+    e.preventDefault();
+    setServiciosDropdownOpen(!serviciosDropdownOpen);
+    setDropdownOpen(false); // Close other dropdown
   };
 
   const handleLinkClick = () => {
     setBurgerOpen(false); // Close the menu when a link is clicked
     setDropdownOpen(false); // Close the dropdown when a link is clicked
+    setServiciosDropdownOpen(false); // Close the servicios dropdown when a link is clicked
   };
 
 
@@ -42,6 +52,11 @@ const NavBar = () => {
     // Close dropdown when clicking outside of it
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setDropdownOpen(false);
+    }
+
+    // Close servicios dropdown when clicking outside of it
+    if (serviciosDropdownRef.current && !serviciosDropdownRef.current.contains(event.target)) {
+      setServiciosDropdownOpen(false);
     }
   };
 
@@ -89,9 +104,8 @@ const NavBar = () => {
 
       <nav className={styles.nav_container}>
         <ul
-          className={`${styles.enlaces__menu}  ${
-            burgerOpen ? styles.open : styles.closed
-          } `}
+          className={`${styles.enlaces__menu}  ${burgerOpen ? styles.open : styles.closed
+            } `}
           role="menubar"
         >
           <li role="none">
@@ -115,6 +129,57 @@ const NavBar = () => {
               Blog
             </Link>
           </li>
+          {/* TODO: Descomentar cuando estén listos para producción */}
+          {/* <li className={styles.dropdown} ref={serviciosDropdownRef} role="none">
+            <button
+              role="menuitem"
+              onClick={toggleServiciosDropdown}
+              className={styles.dropdown_toggle}
+              aria-haspopup="true"
+              aria-expanded={serviciosDropdownOpen}
+              aria-controls="servicios-dropdown-menu"
+              title="Ver servicios disponibles"
+            >
+              Servicios
+              <span className={styles.dropdown_arrow} aria-hidden="true">
+                ▼
+              </span>
+            </button>
+            <ul
+              id="servicios-dropdown-menu"
+              className={`${styles.dropdown_menu} ${serviciosDropdownOpen ? styles.show : ""}`}
+              role="menu"
+              aria-labelledby="servicios-dropdown-toggle"
+            >
+              <li role="none">
+                <Link
+                  href="/servicios/tecnicos"
+                  role="menuitem"
+                  onClick={handleLinkClick}
+                >
+                  💻 Servicios Técnicos
+                </Link>
+              </li>
+              <li role="none">
+                <Link
+                  href="/servicios/transporte"
+                  role="menuitem"
+                  onClick={handleLinkClick}
+                >
+                  🚛 Servicio de Transporte
+                </Link>
+              </li>
+              <li role="none">
+                <Link
+                  href="/servicios/contable"
+                  role="menuitem"
+                  onClick={handleLinkClick}
+                >
+                  📊 Servicio Contable
+                </Link>
+              </li>
+            </ul>
+          </li> */}
 
           {/* <li role="none">
             <Link href="/businesses" className="nav-link">
@@ -122,7 +187,8 @@ const NavBar = () => {
             </Link>
           </li> */}
 
-          <li className={styles.dropdown} ref={dropdownRef} role="none">
+          {/* TODO: Descomentar cuando estén listos para producción */}
+          {/* <li className={styles.dropdown} ref={dropdownRef} role="none">
             <button
               role="menuitem"
               onClick={toggleDropdown}
@@ -130,9 +196,9 @@ const NavBar = () => {
               aria-haspopup="true"
               aria-expanded={dropdownOpen}
               aria-controls="dropdown-menu"
-              title="Ir a la tienda"
+              title="Ir a las tiendas"
             >
-              Tienda
+              Tiendas
               <span className={styles.dropdown_arrow} aria-hidden="true">
                 ▼
               </span>
@@ -144,54 +210,46 @@ const NavBar = () => {
             >
               <li role="none">
                 <Link
-                  href={`/accesorios/celulares`}
+                  href="/tiendas/neuraistore"
                   role="menuitem"
                   onClick={handleLinkClick}
                 >
-                  Accesorios celulares
+                  🏪 NeuraIStore (Accesorios)
                 </Link>
               </li>
               <li role="none">
                 <Link
-                  href={`/accesorios/computadoras`}
+                  href="/tiendas/jose-luis"
                   role="menuitem"
                   onClick={handleLinkClick}
                 >
-                  A. computadores
+                  🛒 Tienda José Luis
                 </Link>
               </li>
-
-              <li>
-                <Link href={`/accesorios/generales`} onClick={handleLinkClick}>
-                  Accesorios generales
-                </Link>
-              </li>
-
-              <li>
-                <Link href={`/accesorios/damas`} onClick={handleLinkClick}>
-                  Damas
-                </Link>
-              </li>
-
-              <li>
+              <li role="none">
                 <Link
-                  href={`/accesorios/libros-nuevos`}
+                  href="/tiendas/pollos-campos-dorados"
+                  role="menuitem"
                   onClick={handleLinkClick}
                 >
-                  Libros nuevos
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/accesorios/libros-usados`}
-                  onClick={handleLinkClick}
-                >
-                  Libros usados
+                  🐔 Pollos Campos Dorados
                 </Link>
               </li>
             </ul>
+          </li> */}
+
+          {/* Enlace temporal a la tienda de accesorios */}
+          <li role="none">
+            <Link
+              href="/accesorios"
+              title="Ir a la tienda de accesorios"
+              onClick={handleLinkClick}
+            >
+              Tienda
+            </Link>
           </li>
-          <li>
+
+          <li role="none">
             <Link
               href="/profile"
               title="Ir al perfil"
@@ -225,7 +283,7 @@ const NavBar = () => {
         </button>
       </div>
 
-    </div>
+    </div >
   );
 };
 

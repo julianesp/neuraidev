@@ -5,10 +5,9 @@
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   overflow-x: hidden;
-  overflow-y: auto;
   position: relative;
   width: 100%;
   margin: 0;
@@ -555,15 +554,18 @@
       "destacados aside"
       "tratamientos aside"
       "accesories aside"
-      "question aside";
+      "question aside"
+      "technicalServices aside";
 
     .container {
-      min-height: 100vh;
+      min-height: auto;
     }
 
     & .faq {
       grid-area: question;
     }
+
+    
 
     & .presentacion {
       grid-area: presentacion;
@@ -580,14 +582,11 @@
     & .aside {
       grid-area: aside;
       width: 100%;
-
       max-width: 300px;
-
       top: 20px;
       align-self: flex-start;
       padding: 1rem;
-      max-height: calc(100vh - 40px);
-      overflow-y: auto;
+      max-height: fit-content;
     }
 
     & .directos {
@@ -611,6 +610,17 @@
     & .accesories {
       grid-area: accesories;
       width: 100%;
+    }
+
+    & .technicalServices {
+      grid-area: technicalServices;
+      margin: 20px auto;
+      width: 90%;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #bababa;
+      border-radius: 20px;
+      box-shadow: 3px 3px 10px #bababa;
     }
   }
 
@@ -641,7 +651,8 @@
   // Estilos específicos para aside desde 768px
   @media (min-width: 768px) {
     & .aside {
-      height: 800px;
+      height: auto;
+      max-height: none;
     }
   }
 }

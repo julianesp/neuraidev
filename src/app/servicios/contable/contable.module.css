@@ -1,8 +1,8 @@
-/* Servicios Page Styles */
+/* Contable Service Styles */
 
-.serviciosContainer {
+.contableContainer {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
 }
 
 /* Hero Section */
@@ -30,7 +30,7 @@
 }
 
 .highlight {
-  color: #ffd700;
+  color: #93c5fd;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -48,19 +48,19 @@
 }
 
 .primaryButton {
-  background: linear-gradient(45deg, #ffd700, #ffed4a);
-  color: #333;
+  background: linear-gradient(45deg, #93c5fd, #dbeafe);
+  color: #1e40af;
   padding: 1rem 2rem;
   border-radius: 50px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(147, 197, 253, 0.3);
 }
 
 .primaryButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 8px 25px rgba(147, 197, 253, 0.4);
 }
 
 .secondaryButton {
@@ -86,11 +86,18 @@
   align-items: center;
 }
 
-.heroImg {
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  max-width: 100%;
-  height: auto;
+.calculatorIcon {
+  font-size: 12rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 /* Services Section */
@@ -108,7 +115,7 @@
   text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2d3748;
+  color: #1e293b;
   margin-bottom: 3rem;
 }
 
@@ -125,13 +132,13 @@
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.1);
 }
 
 .serviceCard:hover {
   transform: translateY(-10px);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-  border-color: rgba(102, 126, 234, 0.3);
+  border-color: rgba(37, 99, 235, 0.3);
 }
 
 .serviceIcon {
@@ -143,13 +150,13 @@
 .serviceTitle {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #2d3748;
+  color: #1e293b;
   margin-bottom: 1rem;
   text-align: center;
 }
 
 .serviceDescription {
-  color: #4a5568;
+  color: #475569;
   margin-bottom: 1.5rem;
   line-height: 1.6;
   text-align: center;
@@ -165,12 +172,12 @@
   display: flex;
   align-items: flex-start;
   margin-bottom: 0.8rem;
-  color: #4a5568;
+  color: #475569;
   line-height: 1.5;
 }
 
 .checkmark {
-  color: #48bb78;
+  color: #2563eb;
   font-weight: bold;
   margin-right: 0.8rem;
   margin-top: 0.1rem;
@@ -179,14 +186,14 @@
 .servicePrice {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #667eea;
+  color: #2563eb;
   text-align: center;
   margin-bottom: 1.5rem;
 }
 
 .serviceButton {
   width: 100%;
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(45deg, #2563eb, #1e40af);
   color: white;
   padding: 1rem;
   border: none;
@@ -198,12 +205,12 @@
 
 .serviceButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
 }
 
 /* Why Choose Us Section */
 .whySection {
-  background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   padding: 5rem 2rem;
   color: white;
 }
@@ -241,7 +248,7 @@
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #ffd700;
+  color: #93c5fd;
 }
 
 .whyDescription {
@@ -249,9 +256,55 @@
   line-height: 1.6;
 }
 
+/* Compliance Section */
+.complianceSection {
+  background: #e0f2fe;
+  padding: 5rem 2rem;
+}
+
+.complianceSection .sectionTitle {
+  color: #1e293b;
+}
+
+.complianceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.complianceCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #2563eb;
+}
+
+.complianceCard h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+}
+
+.complianceCard ul {
+  list-style: none;
+  padding: 0;
+}
+
+.complianceCard li {
+  padding: 0.5rem 0;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.complianceCard li:last-child {
+  border-bottom: none;
+}
+
 /* CTA Section */
 .ctaSection {
-  background: linear-gradient(45deg, #ffd700, #ffed4a);
+  background: linear-gradient(45deg, #93c5fd, #dbeafe);
   padding: 5rem 2rem;
   text-align: center;
 }
@@ -259,13 +312,13 @@
 .ctaTitle {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2d3748;
+  color: #1e293b;
   margin-bottom: 1rem;
 }
 
 .ctaDescription {
   font-size: 1.2rem;
-  color: #4a5568;
+  color: #475569;
   margin-bottom: 2rem;
   max-width: 600px;
   margin-left: auto;
@@ -277,106 +330,53 @@
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 2rem;
 }
 
 .phoneButton {
-  background: #48bb78;
+  background: #1e40af;
   color: white;
   padding: 1rem 2rem;
   border-radius: 50px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+  box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
 }
 
 .phoneButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+  box-shadow: 0 8px 25px rgba(30, 64, 175, 0.4);
 }
 
-/* Components Section */
-.componentsSection {
-  background: linear-gradient(135deg, #e2e8f0 0%, #f7fafc 100%);
-  padding: 5rem 2rem;
-}
-
-.componentsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.componentCard {
-  background: white;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  text-align: center;
-  border: 2px solid transparent;
-}
-
-.componentCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-  border-color: #667eea;
-}
-
-.componentIcon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.componentCard h3 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #2d3748;
-  margin-bottom: 1rem;
-}
-
-.componentCard p {
-  color: #4a5568;
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
-}
-
-.componentPrice {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #667eea;
-  margin-bottom: 1.5rem;
-}
-
-.componentButton {
-  background: linear-gradient(45deg, #48bb78, #38a169);
+.whatsappButton {
+  background: #25d366;
   color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 25px;
+  padding: 1rem 2rem;
+  border-radius: 50px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  display: inline-block;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
 }
 
-.componentButton:hover {
+.whatsappButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
 }
 
-.componentsNote {
-  background: rgba(72, 187, 120, 0.1);
-  border: 1px solid rgba(72, 187, 120, 0.2);
+.professionalInfo {
+  background: rgba(30, 64, 175, 0.1);
+  border: 1px solid rgba(30, 64, 175, 0.2);
   border-radius: 10px;
   padding: 1.5rem;
-  text-align: center;
-  margin-top: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.componentsNote p {
-  color: #2d5016;
-  margin: 0;
+.professionalInfo p {
+  color: #1e293b;
+  margin: 0.5rem 0;
   font-size: 1rem;
 }
 
@@ -390,6 +390,10 @@
 
   .heroTitle {
     font-size: 2.5rem;
+  }
+
+  .calculatorIcon {
+    font-size: 8rem;
   }
 
   .heroButtons {
@@ -406,7 +410,7 @@
     gap: 1.5rem;
   }
 
-  .componentsGrid {
+  .complianceGrid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
@@ -422,7 +426,8 @@
 
   .primaryButton,
   .secondaryButton,
-  .phoneButton {
+  .phoneButton,
+  .whatsappButton {
     width: 100%;
     max-width: 300px;
     text-align: center;
@@ -440,7 +445,12 @@
 
   .servicesSection,
   .whySection,
+  .complianceSection,
   .ctaSection {
     padding: 3rem 1rem;
+  }
+
+  .calculatorIcon {
+    font-size: 6rem;
   }
 }
