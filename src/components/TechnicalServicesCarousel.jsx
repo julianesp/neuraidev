@@ -86,16 +86,16 @@ const TechnicalServicesCarousel = () => {
 
       <div className="relative bg-white/10 backdrop-blur-md dark:bg-black/20 rounded-2xl overflow-hidden shadow-2xl border border-white/20">
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[300px]">
           {/* Image Section */}
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden flex items-center justify-center">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-600/20"></div>
             <Image
               src={currentService.image}
               alt={currentService.title}
               width={600}
-              height={500}
-              className="w-full h-full object-cover"
+              height={100}
+              className="w-full h-48 md:h-80 object-cover"
               priority={currentIndex === 0}
               loading={currentIndex === 0 ? "eager" : "lazy"}
               onError={(e) => {
@@ -154,20 +154,20 @@ const TechnicalServicesCarousel = () => {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-110"
+          className="absolute left-1 top-1/2 transform -translate-y-1/2 bg-black/80 text-white p-2 md:p-3 rounded-full transition-all duration-300 z-10"
           aria-label="Servicio anterior"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="md:w-6 md:h-6">
             <path d="M15 18l-6-6 6-6v12z" />
           </svg>
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-110"
+          className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-black/80 text-white p-2 md:p-3 rounded-full transition-all duration-300 z-10"
           aria-label="Servicio siguiente"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="md:w-6 md:h-6">
             <path d="M9 18l6-6-6-6v12z" />
           </svg>
         </button>

@@ -5,11 +5,11 @@ import { getClientIP, isLocalIP, verifyAdminToken } from "../../../../lib/auth";
 export async function GET(request: NextRequest) {
   try {
     const clientIP = getClientIP(request);
-    
-    // Verificar que la IP sea local
-    if (!isLocalIP(clientIP)) {
+
+    // Solo verificar IP en desarrollo, permitir acceso en producción
+    if (process.env.NODE_ENV === 'development' && !isLocalIP(clientIP)) {
       return NextResponse.json(
-        { authorized: false, reason: "IP no autorizada" },
+        { authorized: false, reason: "IP no autorizada en desarrollo" },
         { status: 403 }
       );
     }
