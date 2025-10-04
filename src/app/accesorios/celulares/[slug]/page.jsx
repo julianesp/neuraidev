@@ -1,10 +1,9 @@
 import ProductDetailWrapper from "../../../../components/ProductDetailWrapper";
-import { generateProductMetadata } from "../../../../utils/productMetadata";
+import { generateProductMetadataForCategory } from "../../../../utils/generateProductMetadata";
 
-// Generar metadatos dinámicos
+// Generar metadatos dinámicos en el servidor
 export async function generateMetadata({ params }) {
-  const { slug } = params;
-  return await generateProductMetadata(slug, 'celulares');
+  return await generateProductMetadataForCategory(params.slug, 'celulares');
 }
 
 export default function CelularesProductPage() {
