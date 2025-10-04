@@ -49,8 +49,12 @@ export async function POST(request: NextRequest) {
     
   } catch (error) {
     console.error("Error en autenticación:", error);
+    const errorMessage = error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
-      { message: "Error interno del servidor" },
+      {
+        message: "Error interno del servidor",
+        details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+      },
       { status: 500 }
     );
   }

@@ -10,12 +10,18 @@ function getAdminCredentials(): { username: string; password: string; } {
   const password = process.env.ADMIN_PASSWORD;
 
   if (!username || !password) {
+    console.error("⚠️ Error de configuración:", {
+      username_set: !!username,
+      password_set: !!password,
+      env: process.env.NODE_ENV
+    });
     throw new Error("ADMIN_USERNAME y ADMIN_PASSWORD deben estar configurados en las variables de entorno");
   }
 
+  // Limpiar posibles saltos de línea o espacios
   return {
-    username,
-    password
+    username: username.trim(),
+    password: password.trim()
   };
 }
 
