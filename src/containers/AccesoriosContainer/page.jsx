@@ -15,7 +15,7 @@ import {
 import ShareButton from "../../components/ShareButton";
 import ProductMetaTags from "../../components/ProductMetaTags";
 import PriceWithDiscount from "../../components/PriceWithDiscount";
-import { QuickAddButton, AddToCartButton } from "../../components/AddToCartButton";
+// import { QuickAddButton, AddToCartButton } from "../../components/AddToCartButton";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -848,17 +848,7 @@ const AccesoriosContainer = ({
                         Ver detalles
                       </Link>
 
-                      {/* Botón Agregar al Carrito */}
-                      {item.disponible && item.stock > 0 && (
-                        <AddToCartButton
-                          producto={item}
-                          variant="primary"
-                          size="sm"
-                          className="bg-green-600 text-white hover:bg-green-700 dark:bg-green-600 dark:text-white dark:hover:bg-green-700 transition-colors w-full rounded py-2 px-4 text-sm font-medium"
-                        >
-                          Agregar al carrito
-                        </AddToCartButton>
-                      )}
+                      {/* Botón Agregar al Carrito - DESHABILITADO */}
                     </div>
                   </div>
                 );

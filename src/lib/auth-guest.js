@@ -20,7 +20,7 @@ export async function createGuestSession() {
     },
   });
 
-  return { sessionToken, guestId, expires };
+  return { ...session, sessionToken };
 }
 
 // Crear sesión para usuario registrado
@@ -90,24 +90,29 @@ export async function migrateGuestCartToUser(guestSessionToken, usuarioId) {
 
   // Transferir items al usuario registrado
   for (const item of guestCartItems) {
-    await prisma.carritoItem.upsert({
-      where: {
-        usuarioId_productoId: {
+    // Buscar si ya existe
+    const existingItem = await prisma.carritoItem.findFirst({
+      where: { usuarioId, productoId: item.productoId },
+    });
+
+    if (existingItem) {
+      await prisma.carritoItem.update({
+        where: { id: existingItem.id },
+        data: {
+          cantidad: existingItem.cantidad + item.cantidad,
+          updatedAt: new Date(),
+        },
+      });
+    } else {
+      await prisma.carritoItem.create({
+        data: {
           usuarioId,
           productoId: item.productoId,
+          cantidad: item.cantidad,
+          variantes: item.variantes,
         },
-      },
-      update: {
-        cantidad: { increment: item.cantidad },
-        updatedAt: new Date(),
-      },
-      create: {
-        usuarioId,
-        productoId: item.productoId,
-        cantidad: item.cantidad,
-        variantes: item.variantes,
-      },
-    });
+      });
+    }
   }
 
   // Eliminar items del carrito de invitado

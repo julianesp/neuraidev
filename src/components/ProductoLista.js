@@ -34,9 +34,7 @@ export default function ProductoLista({ productos }) {
           <h2 className="text-xl font-semibold mb-2">{producto.title}</h2>
           <p className="text-gray-600 mb-4">{producto.description}</p>
           <p className="text-blue-600 font-bold mb-2">${producto.price}</p>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors w-full">
-            Agregar al carrito
-          </button>
+          {/* Botón de agregar al carrito deshabilitado */}
         </div>
       ))}
     </div>
