@@ -18,8 +18,8 @@ import PresentationCarousel from "./PresentationCarousel/PresentationCarousel";
 import TechnicalServicesCarousel from "./TechnicalServicesCarousel";
 import NewsSection from "./News/NewsSection";
 import WebDevSection from "./WebDevelopment/WebDevSection";
-import FacebookLogin from "./Auth/FacebookLogin";
-import "./ContactForm.css";
+// import FacebookLogin from "./Auth/FacebookLogin";
+// import "./ContactForm.css";
 import "./SideModal/SideModal.module.scss";
 
 const API_PRESENTATION = "/presentation.json";
@@ -168,25 +168,25 @@ export default function Inicio() {
     setLoading(false);
 
     // Cargar Facebook SDK
-    if (typeof window !== 'undefined') {
-      window.fbAsyncInit = function() {
+    if (typeof window !== "undefined") {
+      window.fbAsyncInit = function () {
         window.FB.init({
-          appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || '123456789', // Reemplaza con tu App ID
+          appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "123456789", // Reemplaza con tu App ID
           cookie: true,
           xfbml: true,
-          version: 'v18.0'
+          version: "v18.0",
         });
       };
 
       // Cargar el SDK de Facebook
-      (function(d, s, id) {
+      (function (d, s, id) {
         const fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         const js = d.createElement(s);
         js.id = id;
         js.src = "https://connect.facebook.net/es_ES/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
+      })(document, "script", "facebook-jssdk");
     }
   }, []);
 
@@ -246,17 +246,14 @@ export default function Inicio() {
       >
         {/* Modal para envio gratis */}
         <SideModal />
-
         {/* Sección Hero - contenedor con altura controlada */}
         <div className={`${styles.presentacion}`}>
           <PresentationCarousel />
         </div>
-
         {/* Login con Facebook */}
-        <div className="flex justify-center py-4">
+        {/* <div className="flex justify-center py-4">
           <FacebookLogin />
-        </div>
-
+        </div> */}
         {/* <div className={`${styles.carrusel}`}>
           <Suspense fallback={<CarouselSkeleton />}>
             <CarouselDemo
@@ -267,7 +264,6 @@ export default function Inicio() {
             />
           </Suspense>
         </div> */}
-
         {/* Sección lateral de anuncios o aside*/}
         <section
           className={`${styles.aside} `}
@@ -291,73 +287,6 @@ export default function Inicio() {
           </Suspense>
         </section>
 
-        {/* Section directos  */}
-        {/* <div
-          className={`${styles.directos} w-full z-50 bg-black  shadow-md py-2 flex justify-center gap-5 md:static md:shadow-none md:bg-transparent md:py-4 md:mb-2 `}
-        >
-          <a
-            href="#services"
-            onClick={(e) => {
-              e.preventDefault();
-              const element = document.getElementById("services");
-              if (!element) return;
-
-              // Scroll al elemento
-              const offsetTop =
-                element.getBoundingClientRect().top + window.pageYOffset - 100;
-              window.scrollTo({
-                top: offsetTop,
-                behavior: "smooth",
-              });
-
-              // Animación de rebote
-              setTimeout(() => {
-                element.classList.remove(styles.bounceAnimation);
-                void element.offsetWidth;
-                element.classList.add(styles.bounceAnimation);
-
-                setTimeout(() => {
-                  element.classList.remove(styles.bounceAnimation);
-                }, 1000);
-              }, 500);
-            }}
-            className="px-4 py-2  rounded-md border border-slate-300 hover:bg-slate-300 transition-all text-white  dark:bg-white dark:text-black"
-          >
-            Servicios
-          </a>
-          <a
-            href="#accesories"
-            onClick={(e) => {
-              e.preventDefault();
-              const element = document.getElementById("accesories");
-              if (!element) return;
-
-              // Scroll al elemento
-              const offsetTop =
-                element.getBoundingClientRect().top + window.pageYOffset - 80;
-              window.scrollTo({
-                top: offsetTop,
-                behavior: "smooth",
-              });
-
-              // Animación de rebote
-              setTimeout(() => {
-                element.classList.remove(styles.bounceAnimation);
-                void element.offsetWidth;
-                element.classList.add(styles.bounceAnimation);
-
-                setTimeout(() => {
-                  element.classList.remove(styles.bounceAnimation);
-                }, 1000);
-              }, 500);
-            }}
-            className="px-4 py-2  rounded-md border border-slate-300 hover:bg-slate-300 transition-all text-white dark:bg-white dark:text-black"
-          >
-            Accesorios
-          </a>
-        </div> */}
-
-        {/* Section destacados */}
         <section
           ref={destacadosRef}
           className={`${styles.destacados} ${styles.fadeInUp}`}
@@ -367,39 +296,28 @@ export default function Inicio() {
             <ProductosRecientes />
           </Suspense>
         </section>
-
         {/* Sección de Desarrollo Web */}
-        <Suspense fallback={<div className="w-full h-64 bg-gray-100 animate-pulse"></div>}>
-          <WebDevSection />
-        </Suspense>
-
-        {/* Sección de Noticias del Valle de Sibundoy */}
-        <Suspense fallback={<div className="w-full h-64 bg-gray-100 animate-pulse"></div>}>
-          <NewsSection />
-        </Suspense>
-
-
-
-        {/*         
-        <section
-          ref={servicesRef}
-          className={`${styles.tratamientos} ${styles.fadeInUp}`}
+        <Suspense
+          fallback={
+            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
+          }
         >
-          <section className={styles.area}>
-            <h3 id="services">Servicios</h3>
-
-            <ul>
-              <li>Formateo PC</li>
-              <li>Mantenimiento PC</li>
-              <li>Instalación programas</li>
-              <li>Desarrollo páginas web</li>
-            </ul>
-
-            <Link href="/Services">Ver más</Link>
+          <section className={`${styles.webDevSection}`}>
+            <WebDevSection />
           </section>
-        </section> */}
+        </Suspense>
 
-        {/* Section accesories */}
+        {/* Sección de Noticias */}
+        <Suspense
+          fallback={
+            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
+          }
+        >
+          <section className={`${styles.newsSection}`}>
+            <NewsSection />
+          </section>
+        </Suspense>
+
         <section
           ref={accesoriesRef}
           className={`${styles.accesories} ${styles.fadeInUp}`}
@@ -621,18 +539,19 @@ export default function Inicio() {
           </section>
         </section>
 
-        {/* Section Faq */}
         <section className={styles.faq}>
           <FAQ />
         </section>
 
         {/* Section Technical Services Carousel */}
-        <section className={`${styles.technicalServices} w-full py-4 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800`}>
-          <Suspense fallback={
-            <div className="w-full max-w-6xl mx-auto px-4">
-              <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded-2xl h-64"></div>
-            </div>
-          }>
+        <section className={`${styles.technicalServices}`}>
+          <Suspense
+            fallback={
+              <div className="w-full max-w-6xl mx-auto px-4">
+                <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded-2xl h-64"></div>
+              </div>
+            }
+          >
             <TechnicalServicesCarousel />
           </Suspense>
         </section>
@@ -644,7 +563,6 @@ export default function Inicio() {
             <ContactForm />
           </div>
         </section> */}
-
         <div className="mb-16 md:mb-0">
           <Suspense fallback={null}>
             <BackToTop />
