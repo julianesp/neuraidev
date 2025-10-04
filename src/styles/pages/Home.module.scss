@@ -552,7 +552,7 @@
       "destacados aside"
       "accesories aside"
       "webDevSection aside"
-      "newsSection aside"
+      "blogSection aside"
       "faq aside"
       "technicalServices aside";
 
@@ -566,8 +566,8 @@
       margin: 20px 0;
     }
 
-    & .newsSection {
-      grid-area: newsSection;
+    & .blogSection {
+      grid-area: blogSection;
       width: 100%;
       margin: 20px 0;
     }
@@ -664,7 +664,7 @@
       margin: 20px 0;
     }
 
-    & .newsSection {
+    & .blogSection {
       width: 100%;
       margin: 20px 0;
     }

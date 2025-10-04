@@ -16,7 +16,6 @@ import FAQ from "./FAQ";
 import SideModal from "./SideModal/page";
 import PresentationCarousel from "./PresentationCarousel/PresentationCarousel";
 import TechnicalServicesCarousel from "./TechnicalServicesCarousel";
-import NewsSection from "./News/NewsSection";
 import WebDevSection from "./WebDevelopment/WebDevSection";
 // import FacebookLogin from "./Auth/FacebookLogin";
 // import "./ContactForm.css";
@@ -296,27 +295,6 @@ export default function Inicio() {
             <ProductosRecientes />
           </Suspense>
         </section>
-        {/* Sección de Desarrollo Web */}
-        <Suspense
-          fallback={
-            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
-          }
-        >
-          <section className={`${styles.webDevSection}`}>
-            <WebDevSection />
-          </section>
-        </Suspense>
-
-        {/* Sección de Noticias */}
-        <Suspense
-          fallback={
-            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
-          }
-        >
-          <section className={`${styles.newsSection}`}>
-            <NewsSection />
-          </section>
-        </Suspense>
 
         <section
           ref={accesoriesRef}
@@ -538,6 +516,43 @@ export default function Inicio() {
             </article>
           </section>
         </section>
+
+        {/* Sección de Desarrollo Web */}
+        <Suspense
+          fallback={
+            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
+          }
+        >
+          <section className={`${styles.webDevSection}`}>
+            <WebDevSection />
+          </section>
+        </Suspense>
+
+        {/* Sección de Blog */}
+        <Suspense
+          fallback={
+            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
+          }
+        >
+          <section className={`${styles.blogSection}`}>
+            <div className="max-w-6xl mx-auto px-4 py-12">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  Blog NeuraIdev
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  Descubre artículos sobre tecnología, desarrollo web y más
+                </p>
+                <Link
+                  href="/Blog"
+                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-200"
+                >
+                  Ver todos los artículos →
+                </Link>
+              </div>
+            </div>
+          </section>
+        </Suspense>
 
         <section className={styles.faq}>
           <FAQ />

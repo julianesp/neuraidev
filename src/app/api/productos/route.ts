@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { productoCreateSchema } from "./validators";
+import { requireAdminAuth } from "@/lib/auth";
 
 export async function GET(request: NextRequest) {
   try {
@@ -80,6 +81,15 @@ export async function GET(request: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    // Verificar autenticación de admin
+    const authCheck = requireAdminAuth(req);
+    if (!authCheck.allowed) {
+      return NextResponse.json(
+        { error: authCheck.reason || "No autorizado" },
+        { status: 401 }
+      );
+    }
+
     const json = await req.json();
     const data = productoCreateSchema.parse(json);
 

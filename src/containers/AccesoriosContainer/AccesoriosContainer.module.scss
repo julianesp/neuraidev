@@ -34,6 +34,16 @@
   }
 }
 
+.buttonCloseModal {
+  @media (min-width: 768px) {
+    top: 1rem;
+    top: 50px;
+    right: 1rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+}
+
 // Contenedor de imagen principal
 .mainImageContainer {
   width: 100%;

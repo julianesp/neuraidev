@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { productoUpdateSchema } from "../validators";
+import { requireAdminAuth } from "@/lib/auth";
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -30,6 +31,15 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
+    // Verificar autenticación de admin
+    const authCheck = requireAdminAuth(req);
+    if (!authCheck.allowed) {
+      return NextResponse.json(
+        { error: authCheck.reason || "No autorizado" },
+        { status: 401 }
+      );
+    }
+
     const json = await req.json();
     const data = productoUpdateSchema.parse(json);
 
@@ -101,9 +111,18 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   }
 }
 
-export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
+    // Verificar autenticación de admin
+    const authCheck = requireAdminAuth(req);
+    if (!authCheck.allowed) {
+      return NextResponse.json(
+        { error: authCheck.reason || "No autorizado" },
+        { status: 401 }
+      );
+    }
+
     // Verificar si el producto existe
     const existingProduct = await prisma.producto.findUnique({
       where: { id }
