@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
 import ThemeSwitcher from "./ThemeSwitcher";
-import { CartButton } from "./CartButton";
+// import { CartButton } from "./CartButton";
 
 const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
@@ -258,17 +258,17 @@ const NavBar = () => {
               Sobre mí
             </Link>
           </li>
-          {/* Mobile cart button within menu */}
-          <li className={styles.mobileCartButton}>
+          {/* Mobile cart button - DESHABILITADO */}
+          {/* <li className={styles.mobileCartButton}>
             <CartButton className="text-white hover:text-gray-300" />
-          </li>
+          </li> */}
         </ul>
       </nav>
 
-      {/* Desktop cart button positioned after nav */}
-      <div className={styles.cartButtonDesktop}>
+      {/* Desktop cart button - DESHABILITADO */}
+      {/* <div className={styles.cartButtonDesktop}>
         <CartButton />
-      </div>
+      </div> */}
 
       <div className={styles.circle}>
         <button
