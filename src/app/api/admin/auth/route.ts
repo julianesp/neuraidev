@@ -5,6 +5,7 @@ import { verifyAdminCredentials, createAdminToken, getClientIP, isLocalIP } from
 // Configuración de runtime para Vercel
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 // Método GET para verificar que la ruta está activa
 export async function GET() {
