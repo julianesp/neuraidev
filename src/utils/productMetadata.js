@@ -1,18 +1,23 @@
 import { findProductBySlug } from "./slugify";
+import { prisma } from "../lib/prisma";
 
-// Función para obtener productos de una categoría específica
+// Función para obtener productos de una categoría específica directamente desde la BD
 async function getCategoryProducts(categoria) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/productos?categoria=${categoria}`, {
-      cache: 'no-store',
+    const productos = await prisma.producto.findMany({
+      where: {
+        categoria: categoria,
+        disponible: true,
+      },
+      include: {
+        imagenes: {
+          orderBy: { orden: 'asc' },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
     });
 
-    if (!response.ok) {
-      throw new Error(`Error al cargar productos de ${categoria}`);
-    }
-
-    const data = await response.json();
-    return data.productos || data || [];
+    return productos || [];
   } catch (error) {
     console.error(`Error fetching ${categoria} products:`, error);
     return [];
