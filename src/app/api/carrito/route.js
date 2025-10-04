@@ -101,34 +101,57 @@ export async function POST(request) {
 
     const session = await getOrCreateUserSession(request);
 
+    // Buscar item existente en el carrito
     const whereClause = session.usuarioId
-      ? { usuarioId_productoId: { usuarioId: session.usuarioId, productoId } }
-      : { sesionId_productoId: { sesionId: session.id, productoId } };
+      ? { usuarioId: session.usuarioId, productoId }
+      : { sesionId: session.id, productoId };
 
-    const createData = session.usuarioId
-      ? { usuarioId: session.usuarioId, productoId, cantidad, variantes }
-      : { sesionId: session.id, productoId, cantidad, variantes };
-
-    // Upsert del item en el carrito
-    const carritoItem = await prisma.carritoItem.upsert({
+    const existingItem = await prisma.carritoItem.findFirst({
       where: whereClause,
-      update: {
-        cantidad: { increment: cantidad },
-        variantes,
-        updatedAt: new Date(),
-      },
-      create: createData,
-      include: {
-        producto: {
-          include: {
-            imagenes: {
-              orderBy: { orden: 'asc' },
-              take: 1,
+    });
+
+    let carritoItem;
+
+    if (existingItem) {
+      // Actualizar cantidad si ya existe
+      carritoItem = await prisma.carritoItem.update({
+        where: { id: existingItem.id },
+        data: {
+          cantidad: existingItem.cantidad + cantidad,
+          variantes: variantes || existingItem.variantes,
+          updatedAt: new Date(),
+        },
+        include: {
+          producto: {
+            include: {
+              imagenes: {
+                orderBy: { orden: 'asc' },
+                take: 1,
+              },
             },
           },
         },
-      },
-    });
+      });
+    } else {
+      // Crear nuevo item
+      const createData = session.usuarioId
+        ? { usuarioId: session.usuarioId, productoId, cantidad, variantes }
+        : { sesionId: session.id, productoId, cantidad, variantes };
+
+      carritoItem = await prisma.carritoItem.create({
+        data: createData,
+        include: {
+          producto: {
+            include: {
+              imagenes: {
+                orderBy: { orden: 'asc' },
+                take: 1,
+              },
+            },
+          },
+        },
+      });
+    }
 
     // Verificar stock después de la actualización
     if (carritoItem.cantidad > producto.stock) {
