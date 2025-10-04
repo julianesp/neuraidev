@@ -1,4 +1,4 @@
-import { prisma } from './prisma.ts';
+import { prisma } from './prisma';
 import crypto from 'crypto';
 
 // Generar token de sesión seguro
@@ -20,7 +20,7 @@ export async function createGuestSession() {
     },
   });
 
-  return { sessionToken, guestId, expires };
+  return { ...session, sessionToken };
 }
 
 // Crear sesión para usuario registrado
