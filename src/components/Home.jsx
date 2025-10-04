@@ -16,6 +16,9 @@ import FAQ from "./FAQ";
 import SideModal from "./SideModal/page";
 import PresentationCarousel from "./PresentationCarousel/PresentationCarousel";
 import TechnicalServicesCarousel from "./TechnicalServicesCarousel";
+import NewsSection from "./News/NewsSection";
+import WebDevSection from "./WebDevelopment/WebDevSection";
+import FacebookLogin from "./Auth/FacebookLogin";
 import "./ContactForm.css";
 import "./SideModal/SideModal.module.scss";
 
@@ -163,6 +166,28 @@ export default function Inicio() {
     // Usar la URL directamente como imagen
     setPresentationImages([API_PRESENTATION]);
     setLoading(false);
+
+    // Cargar Facebook SDK
+    if (typeof window !== 'undefined') {
+      window.fbAsyncInit = function() {
+        window.FB.init({
+          appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || '123456789', // Reemplaza con tu App ID
+          cookie: true,
+          xfbml: true,
+          version: 'v18.0'
+        });
+      };
+
+      // Cargar el SDK de Facebook
+      (function(d, s, id) {
+        const fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        const js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/es_ES/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    }
   }, []);
 
   if (!isLoaded) return null;
@@ -225,6 +250,11 @@ export default function Inicio() {
         {/* Sección Hero - contenedor con altura controlada */}
         <div className={`${styles.presentacion}`}>
           <PresentationCarousel />
+        </div>
+
+        {/* Login con Facebook */}
+        <div className="flex justify-center py-4">
+          <FacebookLogin />
         </div>
 
         {/* <div className={`${styles.carrusel}`}>
@@ -337,6 +367,16 @@ export default function Inicio() {
             <ProductosRecientes />
           </Suspense>
         </section>
+
+        {/* Sección de Desarrollo Web */}
+        <Suspense fallback={<div className="w-full h-64 bg-gray-100 animate-pulse"></div>}>
+          <WebDevSection />
+        </Suspense>
+
+        {/* Sección de Noticias del Valle de Sibundoy */}
+        <Suspense fallback={<div className="w-full h-64 bg-gray-100 animate-pulse"></div>}>
+          <NewsSection />
+        </Suspense>
 
 
 

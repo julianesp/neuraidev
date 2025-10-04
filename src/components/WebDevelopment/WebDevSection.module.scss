@@ -1,0 +1,247 @@
+.webDevSection {
+  width: 100%;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 4rem 1rem;
+  margin: 2rem 0;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: #333;
+
+      @media (max-width: 768px) {
+        font-size: 1.8rem;
+      }
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+  }
+
+  .servicesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .serviceCard {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .iconWrapper {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: #333;
+    }
+
+    p {
+      color: #666;
+      line-height: 1.6;
+    }
+  }
+
+  .proyectos {
+    margin: 4rem 0;
+
+    h3 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #333;
+    }
+
+    .proyectosGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .proyectoCard {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      border: 2px solid transparent;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        border-color: #667eea;
+      }
+
+      h4 {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+        color: #333;
+      }
+
+      p {
+        color: #666;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+
+      .tecnologias {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+
+        .tech {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 0.25rem 0.75rem;
+          border-radius: 15px;
+          font-size: 0.85rem;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  .cta {
+    text-align: center;
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    margin-top: 3rem;
+
+    h3 {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      color: #333;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .ctaButtons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      .primaryBtn,
+      .secondaryBtn {
+        padding: 1rem 2rem;
+        border-radius: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .primaryBtn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+      }
+
+      .secondaryBtn {
+        background: transparent;
+        color: #667eea;
+        border: 2px solid #667eea;
+
+        &:hover {
+          background: #667eea;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+/* Dark mode */
+:global(.dark) {
+  .webDevSection {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+
+    .header {
+      h2 {
+        color: #fff;
+      }
+
+      p {
+        color: #aaa;
+      }
+    }
+
+    .serviceCard,
+    .proyectos .proyectoCard,
+    .cta {
+      background: #1a1a1a;
+
+      h3,
+      h4 {
+        color: #fff;
+      }
+
+      p {
+        color: #aaa;
+      }
+    }
+
+    .proyectos h3 {
+      color: #fff;
+    }
+  }
+}
