@@ -1,6 +1,7 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../containers/Footer";
+import SplashScreen from "../components/SplashScreen";
 import "./globals.css";
 // import "@/styles/darkMode.scss";
 // import "../styles/components/pages/darkMode.scss";
@@ -61,6 +62,7 @@ export default function RootLayout({ children }) {
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ToastProvider>
               <CartProvider>
+                <SplashScreen />
                 <div className={styles.layoutContainer}>
                   <NavBar />
                   <main className={styles.mainContent}>
