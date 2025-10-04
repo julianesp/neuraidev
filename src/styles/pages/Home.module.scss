@@ -549,12 +549,11 @@
     grid-template-columns: 1fr 300px;
     grid-template-areas:
       "presentacion presentacion"
-      "carrusel aside"
-      "directos aside"
       "destacados aside"
-      "tratamientos aside"
       "accesories aside"
-      "question aside"
+      "webDevSection aside"
+      "newsSection aside"
+      "faq aside"
       "technicalServices aside";
 
     .container {
@@ -562,21 +561,28 @@
     }
 
     & .faq {
-      grid-area: question;
+      grid-area: faq;
+      width: 100%;
+      margin: 20px 0;
     }
 
-    
+    & .newsSection {
+      grid-area: newsSection;
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    & .webDevSection {
+      grid-area: webDevSection;
+      width: 100%;
+      margin: 20px 0;
+    }
 
     & .presentacion {
       grid-area: presentacion;
       width: 100%;
       height: 350px;
-    }
-
-    & .carrusel {
-      grid-area: carrusel;
-      width: 100%;
-      height: 300px;
+      margin-bottom: 20px;
     }
 
     & .aside {
@@ -587,40 +593,25 @@
       align-self: flex-start;
       padding: 1rem;
       max-height: fit-content;
-    }
-
-    & .directos {
-      grid-area: directos;
-      width: 100%;
-      border: 1px solid $black;
-      border-radius: 20px;
-      background-color: #000;
+      position: sticky;
     }
 
     & .destacados {
       grid-area: destacados;
       width: 100%;
-    }
-
-    & .tratamientos {
-      grid-area: tratamientos;
-      width: 100%;
+      margin: 20px 0;
     }
 
     & .accesories {
       grid-area: accesories;
       width: 100%;
+      margin: 20px 0;
     }
 
     & .technicalServices {
       grid-area: technicalServices;
-      margin: 20px auto;
-      width: 90%;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #bababa;
-      border-radius: 20px;
-      box-shadow: 3px 3px 10px #bababa;
+      width: 100%;
+      margin: 20px 0;
     }
   }
 
@@ -653,6 +644,51 @@
     & .aside {
       height: auto;
       max-height: none;
+    }
+  }
+
+  // Estilos para móviles y tablets (menos de 1024px)
+  @media (max-width: 1023px) {
+    & .presentacion {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    & .destacados {
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    & .webDevSection {
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    & .newsSection {
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    & .accesories {
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    & .faq {
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    & .technicalServices {
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    & .aside {
+      width: 100%;
+      max-width: 100%;
+      margin: 20px 0;
+      position: relative;
     }
   }
 }
