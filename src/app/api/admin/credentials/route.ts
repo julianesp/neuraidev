@@ -2,6 +2,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminAuth, updateAdminCredentials } from "../../../../lib/auth";
 
+// Configuración de runtime para Vercel
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function PUT(request: NextRequest) {
   try {
     // Verificar autenticación y permisos de admin

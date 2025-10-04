@@ -22,12 +22,25 @@ export default function AdminLogin() {
         body: JSON.stringify(credentials),
       });
 
+      // Verificar el tipo de contenido de la respuesta
+      const contentType = res.headers.get("content-type");
+      console.log("Response status:", res.status);
+      console.log("Content-Type:", contentType);
+
       if (res.ok) {
         // Redirigir al panel de admin
         router.push("/admin");
       } else {
-        const data = await res.json();
-        setError(data.message || "Credenciales inválidas");
+        // Intentar parsear como JSON solo si el content-type es correcto
+        if (contentType && contentType.includes("application/json")) {
+          const data = await res.json();
+          setError(data.message || "Credenciales inválidas");
+        } else {
+          // Si no es JSON, mostrar el texto plano
+          const text = await res.text();
+          console.error("Respuesta del servidor (no JSON):", text);
+          setError(`Error del servidor (${res.status}): Respuesta inválida`);
+        }
       }
     } catch (error) {
       console.error("Error de autenticación:", error);
