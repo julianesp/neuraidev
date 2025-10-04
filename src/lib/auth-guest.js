@@ -90,22 +90,29 @@ export async function migrateGuestCartToUser(guestSessionToken, usuarioId) {
 
   // Transferir items al usuario registrado
   for (const item of guestCartItems) {
-    await prisma.carritoItem.upsert({
-      where: {
-        usuarioId: usuarioId,
-        productoId: item.productoId,
-      },
-      update: {
-        cantidad: { increment: item.cantidad },
-        updatedAt: new Date(),
-      },
-      create: {
-        usuarioId,
-        productoId: item.productoId,
-        cantidad: item.cantidad,
-        variantes: item.variantes,
-      },
+    // Buscar si ya existe
+    const existingItem = await prisma.carritoItem.findFirst({
+      where: { usuarioId, productoId: item.productoId },
     });
+
+    if (existingItem) {
+      await prisma.carritoItem.update({
+        where: { id: existingItem.id },
+        data: {
+          cantidad: existingItem.cantidad + item.cantidad,
+          updatedAt: new Date(),
+        },
+      });
+    } else {
+      await prisma.carritoItem.create({
+        data: {
+          usuarioId,
+          productoId: item.productoId,
+          cantidad: item.cantidad,
+          variantes: item.variantes,
+        },
+      });
+    }
   }
 
   // Eliminar items del carrito de invitado

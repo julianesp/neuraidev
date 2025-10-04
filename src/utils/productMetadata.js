@@ -6,7 +6,7 @@ async function getCategoryProducts(categoria) {
   try {
     const productos = await prisma.producto.findMany({
       where: {
-        categoria: categoria,
+        categoria,
         disponible: true,
       },
       include: {
@@ -17,7 +17,10 @@ async function getCategoryProducts(categoria) {
       orderBy: { createdAt: 'desc' },
     });
 
-    return productos || [];
+    return productos.map(p => ({
+      ...p,
+      imagenPrincipal: p.imagenes[0]?.url || null,
+    }));
   } catch (error) {
     console.error(`Error fetching ${categoria} products:`, error);
     return [];
