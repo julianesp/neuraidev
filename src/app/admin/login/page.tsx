@@ -30,7 +30,8 @@ export default function AdminLogin() {
         setError(data.message || "Credenciales inválidas");
       }
     } catch (error) {
-      setError("Error de conexión");
+      console.error("Error de autenticación:", error);
+      setError(`Error de conexión: ${error instanceof Error ? error.message : 'Desconocido'}`);
     } finally {
       setLoading(false);
     }
