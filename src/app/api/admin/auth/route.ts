@@ -2,6 +2,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAdminCredentials, createAdminToken, getClientIP, isLocalIP } from "../../../../lib/auth";
 
+// Configuración de runtime para Vercel
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+// Método GET para verificar que la ruta está activa
+export async function GET() {
+  return NextResponse.json({
+    status: "ok",
+    message: "Auth endpoint is active",
+    methods: ["POST", "DELETE"]
+  });
+}
+
 export async function POST(request: NextRequest) {
   try {
     const clientIP = getClientIP(request);

@@ -4,6 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { productoCreateSchema } from "./validators";
 import { requireAdminAuth } from "../../../lib/auth";
 
+// Configuración de runtime para Vercel
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
