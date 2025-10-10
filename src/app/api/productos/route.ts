@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
     const where: Record<string, unknown> = {};
 
     if (categoria) where.categoria = categoria;
-    if (destacado !== null) where.destacado = destacado === "true";
-    if (disponible !== null) where.disponible = disponible === "true";
+    if (destacado) where.destacado = destacado === "true";
+    if (disponible) where.disponible = disponible === "true";
     if (tiendaId) where.tiendaId = tiendaId;
     if (condicion) where.condicion = condicion;
     if (search) {
@@ -58,8 +58,14 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error: unknown) {
-    console.error("Error fetching productos:", error);
-    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
+    console.error("[GET /api/productos] Error fetching productos:", error);
+    if (error instanceof Error) {
+      console.error("[GET /api/productos] Error details:", error.message, error.stack);
+    }
+    return NextResponse.json({
+      error: "Error interno del servidor",
+      details: process.env.NODE_ENV === "development" ? String(error) : undefined
+    }, { status: 500 });
   }
 }
 

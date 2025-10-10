@@ -49,3 +49,7 @@ next-env.d.ts
 admin-config.json
 
 cookies.txt
+
+#vercel
+.env.vercel
+.env.vercel.*

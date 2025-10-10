@@ -40,6 +40,8 @@ const ProductosRecientes = () => {
   // Referencia al contenedor de scroll
   const containerRef = useRef(null);
 
+  // Referencia para evitar llamadas duplicadas en desarrollo (React.StrictMode)
+  const hasFetchedRef = useRef(false);
 
   // Función para obtener productos recientes de los últimos 30 días
   const obtenerProductosRecientes = async () => {
@@ -78,6 +80,10 @@ const ProductosRecientes = () => {
 
   // Efecto para cargar los productos recientes al montar el componente
   useEffect(() => {
+    // Evitar llamadas duplicadas en desarrollo (React.StrictMode)
+    if (hasFetchedRef.current) return;
+    hasFetchedRef.current = true;
+
     const fetchProductos = async () => {
       try {
         setLoading(true);
