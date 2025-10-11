@@ -1,0 +1,282 @@
+.contactSection {
+  width: 100%;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(37, 211, 102, 0.1);
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 250px;
+    height: 250px;
+    background: rgba(37, 211, 102, 0.08);
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  // Modo oscuro
+  :global(.dark) & {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+
+    &::before {
+      background: rgba(37, 211, 102, 0.05);
+    }
+
+    &::after {
+      background: rgba(37, 211, 102, 0.03);
+    }
+  }
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 12px;
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
+
+  // Modo oscuro
+  :global(.dark) & {
+    color: #f7fafc;
+  }
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #4a5568;
+  line-height: 1.6;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+  }
+
+  // Modo oscuro
+  :global(.dark) & {
+    color: #cbd5e0;
+  }
+}
+
+.form {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 25px 15px;
+  }
+
+  // Modo oscuro
+  :global(.dark) & {
+    background: #2d3748;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+
+  // Modo oscuro
+  :global(.dark) & {
+    color: #e2e8f0;
+  }
+}
+
+.required {
+  color: #e53e3e;
+  margin-left: 4px;
+}
+
+.input,
+.select,
+.textarea {
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  background-color: white;
+
+  &:focus {
+    outline: none;
+    border-color: #25d366;
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+  }
+
+  &::placeholder {
+    color: #a0aec0;
+  }
+
+  // Modo oscuro
+  :global(.dark) & {
+    background-color: #1a202c;
+    border-color: #4a5568;
+    color: #e2e8f0;
+
+    &:focus {
+      border-color: #25d366;
+      box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
+    }
+
+    &::placeholder {
+      color: #718096;
+    }
+  }
+}
+
+.inputError {
+  border-color: #e53e3e;
+
+  &:focus {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+  }
+}
+
+.select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232d3748' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+
+  // Modo oscuro - cambiar el color del icono de flecha
+  :global(.dark) & {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e2e8f0' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+.errorText {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: 6px;
+  display: block;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+  margin-top: 10px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    padding: 14px 20px;
+  }
+}
+
+.whatsappIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.privacyText {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #718096;
+  margin-top: 20px;
+  line-height: 1.5;
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+
+  // Modo oscuro
+  :global(.dark) & {
+    color: #a0aec0;
+  }
+}

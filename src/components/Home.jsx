@@ -18,6 +18,7 @@ import PresentationCarousel from "./PresentationCarousel/PresentationCarousel";
 import TechnicalServicesCarousel from "./TechnicalServicesCarousel";
 import NewsSection from "./News/NewsSection";
 import WebDevSection from "./WebDevelopment/WebDevSection";
+import ContactWhatsApp from "./ContactWhatsApp/ContactWhatsApp";
 // import FacebookLogin from "./Auth/FacebookLogin";
 // import "./ContactForm.css";
 import "./SideModal/SideModal.module.scss";
@@ -245,20 +246,18 @@ export default function Inicio() {
         <div className={`${styles.presentacion}`}>
           <PresentationCarousel />
         </div>
-        {/* Login con Facebook */}
-        {/* <div className="flex justify-center py-4">
-          <FacebookLogin />
-        </div> */}
-        {/* <div className={`${styles.carrusel}`}>
-          <Suspense fallback={<CarouselSkeleton />}>
-            <CarouselDemo
-              apiUrl={API_PRESENTATION}
-              showArrows={true}
-              enableTransitions={true}
-              showIndicators={true}
-            />
+
+        {/* Accesorios destacados */}
+        <section
+          ref={destacadosRef}
+          className={`${styles.destacados} ${styles.fadeInUp}`}
+        >
+          <Suspense fallback={<LoadingSkeleton />}>
+            <AccesoriosDestacados />
+            <ProductosRecientes />
           </Suspense>
-        </div> */}
+        </section>
+
         {/* Sección lateral de anuncios o aside*/}
         <section
           className={`${styles.aside} `}
@@ -282,37 +281,7 @@ export default function Inicio() {
           </Suspense>
         </section>
 
-        <section
-          ref={destacadosRef}
-          className={`${styles.destacados} ${styles.fadeInUp}`}
-        >
-          <Suspense fallback={<LoadingSkeleton />}>
-            <AccesoriosDestacados />
-            <ProductosRecientes />
-          </Suspense>
-        </section>
-        {/* Sección de Desarrollo Web */}
-        <Suspense
-          fallback={
-            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
-          }
-        >
-          <section className={`${styles.webDevSection}`}>
-            <WebDevSection />
-          </section>
-        </Suspense>
-
-        {/* Sección de Noticias */}
-        <Suspense
-          fallback={
-            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
-          }
-        >
-          <section className={`${styles.newsSection}`}>
-            <NewsSection />
-          </section>
-        </Suspense>
-
+        {/* Accesorios  */}
         <section
           ref={accesoriesRef}
           className={`${styles.accesories} ${styles.fadeInUp}`}
@@ -533,6 +502,31 @@ export default function Inicio() {
             </article>
           </section>
         </section>
+
+        {/* Formulario de contacto por WhatsApp */}
+        <ContactWhatsApp />
+
+        {/* Sección de Desarrollo Web */}
+        <Suspense
+          fallback={
+            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
+          }
+        >
+          <section className={`${styles.webDevSection}`}>
+            <WebDevSection />
+          </section>
+        </Suspense>
+
+        {/* Sección de Noticias */}
+        <Suspense
+          fallback={
+            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
+          }
+        >
+          <section className={`${styles.newsSection}`}>
+            <NewsSection />
+          </section>
+        </Suspense>
 
         <section className={styles.faq}>
           <FAQ />

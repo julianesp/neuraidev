@@ -1,11 +1,11 @@
 // PresentationCarousel.module.scss
 .carouselContainer {
   width: 100%;
-  height: 50vh; // 50% del viewport
+  height: 50vh; 
   position: relative;
   overflow: hidden;
 
-  top: 50px;
+  // top: 100px;
 }
 
 .carousel {
@@ -69,11 +69,11 @@
   font-weight: 700;
   margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-  
+
   @media (max-width: 768px) {
     font-size: 2rem;
   }
-  
+
   @media (max-width: 480px) {
     font-size: 1.5rem;
   }
@@ -83,11 +83,11 @@
   font-size: 1.25rem;
   margin-bottom: 2rem;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-  
+
   @media (max-width: 768px) {
     font-size: 1rem;
   }
-  
+
   @media (max-width: 480px) {
     font-size: 0.9rem;
   }
@@ -108,23 +108,23 @@
   bottom: 50px; // 50px desde el bottom
   left: 50%;
   transform: translateX(-50%);
-  
+
   &:hover {
     background: linear-gradient(135deg, #0059c9 0%, #0041a3 100%);
     transform: translateX(-50%) translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 112, 243, 0.4);
   }
-  
+
   &:active {
     transform: translateX(-50%) translateY(0);
   }
-  
+
   @media (max-width: 768px) {
     padding: 10px 24px;
     font-size: 1rem;
     bottom: 40px;
   }
-  
+
   @media (max-width: 480px) {
     padding: 8px 20px;
     font-size: 0.9rem;
@@ -148,12 +148,12 @@
   z-index: 4;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: translateY(-50%) scale(1.1);
   }
-  
+
   @media (max-width: 768px) {
     width: 40px;
     height: 40px;
@@ -188,12 +188,12 @@
   background: rgba(255, 255, 255, 0.5);
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
   &.active {
     background: white;
     transform: scale(1.2);
   }
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.8);
   }
