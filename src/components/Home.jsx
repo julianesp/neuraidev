@@ -234,11 +234,6 @@ export default function Inicio() {
         <title>Inicio</title>
         <link rel="icon" href="/favicon.ico" />
         <meta content="Página de inicio" />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332683017412148"
-          crossorigin="anonymous"
-        ></script>
       </Head>
       <main
         className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}

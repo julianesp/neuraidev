@@ -26,7 +26,10 @@ async function getCategoryProducts(categoria) {
     const productos = (data.accesorios || []).map((p) => ({
       ...p,
       imagenPrincipal: p.imagenPrincipal || (p.imagenes && p.imagenes[0]?.url) || null,
-      disponible: p.disponible !== undefined ? p.disponible : (p.cantidad || 0) > 0,
+      // Si tiene disponible definido, usarlo. Si tiene cantidad, verificarla. Sino, asumir disponible.
+      disponible: p.disponible !== undefined
+        ? p.disponible
+        : (p.cantidad !== undefined ? p.cantidad > 0 : true),
     }));
 
     return productos.filter((p) => p.disponible);

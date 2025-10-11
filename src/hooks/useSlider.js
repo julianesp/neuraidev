@@ -16,7 +16,9 @@ export default function useSlider(totalSlides) {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
-    timerRef.current = setTimeout(goToNextSlide, 5000);
+    requestAnimationFrame(() => {
+      timerRef.current = setTimeout(goToNextSlide, 5000);
+    });
   }, [goToNextSlide]);
 
   useEffect(() => {

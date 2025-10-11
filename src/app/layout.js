@@ -8,7 +8,7 @@ import "./globals.css";
 import styles from "../styles/components/Layout.module.scss";
 import { ThemeProvider } from "next-themes";
 import Script from "next/script";
-import NotificationManager from "../components/NotificationManager";
+// import NotificationManager from "../components/NotificationManager";
 import StoreStatus from "../components/StoreStatus";
 import { Analytics } from "@vercel/analytics/next";
 import { ToastProvider } from "../contexts/ToastContext";
@@ -35,13 +35,6 @@ export default function RootLayout({ children }) {
           />
           <meta name="apple-mobile-web-app-title" content="neurai.dev" />
           <link rel="manifest" href="/manifest.json" />
-
-          {/* Google AdSense */}
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332683017412148"
-            crossOrigin="anonymous"
-          ></script>
 
           {/* Google Analytics con variable de entorno */}
           <Script
