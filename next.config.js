@@ -143,6 +143,34 @@ const nextConfig = {
 
   // Optimizaciones de seguridad para el bundle
   serverExternalPackages: ["bcryptjs"],
+
+  // Redirecciones para manejar variaciones de URL
+  async redirects() {
+    return [
+      // Redirecciones para la sección de computadoras
+      {
+        source: "/accesorios/computacio/:slug*",
+        destination: "/accesorios/computadoras/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/accesorios/computacion/:slug*",
+        destination: "/accesorios/computadoras/:slug*",
+        permanent: true,
+      },
+      // Redirecciones para libros
+      {
+        source: "/accesorios/librosnuevos/:slug*",
+        destination: "/accesorios/libros-nuevos/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/accesorios/librosusados/:slug*",
+        destination: "/accesorios/libros-usados/:slug*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

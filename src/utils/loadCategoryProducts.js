@@ -6,12 +6,17 @@ import { findProductBySlug } from "./slugify";
 const categoriaArchivos = {
   celulares: "celulares.json",
   computadoras: "computadoras.json",
-  "libros-usados": "librosusados.json",
-  "libros-nuevos": "librosnuevos.json",
+  "libros-usados": "libros-usados.json",
+  "libros-nuevos": "libros-nuevos.json",
   generales: "generales.json",
   damas: "damas.json",
   belleza: "damas.json",
   bicicletas: "bicicletas.json",
+  // Aliases para mantener compatibilidad
+  computacion: "computadoras.json",
+  computacio: "computadoras.json",
+  librosnuevos: "libros-nuevos.json",
+  librosusados: "libros-usados.json",
 };
 
 /**
@@ -34,11 +39,15 @@ export async function loadCategoryProducts(categoria) {
     // Normalizar estructura de datos
     const productos = (data.accesorios || []).map((p) => ({
       ...p,
-      imagenPrincipal: p.imagenPrincipal || (p.imagenes && p.imagenes[0]?.url) || null,
+      imagenPrincipal:
+        p.imagenPrincipal || (p.imagenes && p.imagenes[0]?.url) || null,
       // Si tiene disponible definido, usarlo. Si tiene cantidad, verificarla. Sino, asumir disponible.
-      disponible: p.disponible !== undefined
-        ? p.disponible
-        : (p.cantidad !== undefined ? p.cantidad > 0 : true),
+      disponible:
+        p.disponible !== undefined
+          ? p.disponible
+          : p.cantidad !== undefined
+            ? p.cantidad > 0
+            : true,
     }));
 
     return productos.filter((p) => p.disponible);
@@ -69,7 +78,7 @@ export async function loadProductBySlug(categoria, slug) {
     }
 
     // Filtrar otros productos (excluyendo el actual)
-    const otrosProductos = productos.filter(p => p.id !== producto.id);
+    const otrosProductos = productos.filter((p) => p.id !== producto.id);
 
     return { producto, otrosProductos };
   } catch (error) {
