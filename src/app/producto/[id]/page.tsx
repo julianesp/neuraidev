@@ -1,27 +1,16 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ProductoDetalle from '../../../components/ProductoDetalle';
+import { findProductById } from '../../../utils/productMetadata';
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-// Función para obtener producto del API
+// Función para obtener producto desde archivos JSON
 async function getProducto(id: string) {
   try {
-    // Usar prisma directamente en el servidor
-    const { prisma } = await import('../../../lib/prisma');
-
-    const producto = await prisma.producto.findUnique({
-      where: { id },
-      include: {
-        imagenes: {
-          orderBy: { orden: "asc" }
-        },
-        tienda: true
-      }
-    });
-
+    const producto = await findProductById(id);
     return producto;
   } catch (error) {
     console.error('Error fetching producto:', error);
@@ -45,12 +34,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ?.replace(/[^\w\s\-.,áéíóúñü]/gi, '')
     .slice(0, 160) || '';
 
-  const ogImageUrl = `/api/og?title=${encodeURIComponent(producto.nombre)}&price=${encodeURIComponent(producto.precio.toString())}&description=${encodeURIComponent(descripcionLimpia)}&image=${encodeURIComponent(producto.imagenPrincipal || '')}&category=${encodeURIComponent(producto.categoria)}`;
+  const precio = typeof producto.precio === 'object' ?
+    parseFloat(producto.precio.toString()) :
+    parseFloat(producto.precio) || 0;
+
+  const imagenPrincipal = producto.imagenPrincipal ||
+    (producto.imagenes && producto.imagenes[0]?.url) || '';
+
+  const ogImageUrl = `/api/og?title=${encodeURIComponent(producto.nombre)}&price=${encodeURIComponent(precio.toString())}&description=${encodeURIComponent(descripcionLimpia)}&image=${encodeURIComponent(imagenPrincipal)}&category=${encodeURIComponent(producto.categoria)}`;
 
   return {
     title: `${producto.nombre} | Neurai.dev`,
     description: descripcionLimpia,
-    keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca}, comprar, ${producto.condicion}`,
+    keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca || 'Neurai.dev'}, comprar, ${producto.condicion || producto.estado || 'nuevo'}`,
     openGraph: {
       title: `${producto.nombre} | Neurai.dev`,
       description: descripcionLimpia,
@@ -65,8 +61,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           alt: `${producto.nombre} - Neurai.dev`,
         },
         // Imagen principal como fallback
-        ...(producto.imagenPrincipal ? [{
-          url: producto.imagenPrincipal,
+        ...(imagenPrincipal ? [{
+          url: imagenPrincipal,
           width: 800,
           height: 600,
           alt: producto.nombre,
@@ -80,10 +76,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [ogImageUrl],
     },
     other: {
-      'product:price:amount': producto.precio.toString(),
+      'product:price:amount': precio.toString(),
       'product:price:currency': 'COP',
       'product:availability': producto.disponible ? 'in stock' : 'out of stock',
-      'product:condition': producto.condicion,
+      'product:condition': producto.condicion || producto.estado || 'nuevo',
       'product:brand': producto.marca || 'Neurai.dev',
       'product:category': producto.categoria,
     },

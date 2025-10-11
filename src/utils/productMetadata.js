@@ -63,6 +63,33 @@ async function findProductInAllCategories(slug) {
   return null;
 }
 
+// Función para buscar producto por ID en todas las categorías
+export async function findProductById(id) {
+  const categorias = [
+    'celulares',
+    'computadoras',
+    'bicicletas',
+    'generales',
+    'damas',
+    'libros-nuevos',
+    'libros-usados'
+  ];
+
+  for (const categoria of categorias) {
+    try {
+      const productos = await getCategoryProducts(categoria);
+      const producto = productos.find(p => p.id === id);
+      if (producto) {
+        return producto;
+      }
+    } catch (err) {
+      continue;
+    }
+  }
+
+  return null;
+}
+
 // Función principal para generar metadatos de productos
 export async function generateProductMetadata(slug, categoria) {
   // Primero buscar en la categoría específica
