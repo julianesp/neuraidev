@@ -1,29 +1,35 @@
 import { findProductBySlug } from "./slugify";
-import { PrismaClient } from "@prisma/client";
+import { promises as fs } from "fs";
+import path from "path";
 
-const prisma = new PrismaClient();
+const categoriaArchivos = {
+  celulares: "celulares.json",
+  computadoras: "computadoras.json",
+  "libros-usados": "librosusados.json",
+  "libros-nuevos": "librosnuevos.json",
+  generales: "generales.json",
+  damas: "damas.json",
+  belleza: "damas.json",
+  bicicletas: "bicicletas.json",
+};
 
-// Función para obtener productos de una categoría específica usando Prisma
+// Función para obtener productos de una categoría específica usando JSON
 async function getCategoryProducts(categoria) {
   try {
-    const productos = await prisma.producto.findMany({
-      where: {
-        categoria,
-        disponible: true,
-      },
-      include: {
-        imagenes: {
-          orderBy: {
-            orden: 'asc',
-          },
-        },
-      },
-    });
+    const archivo = categoriaArchivos[categoria];
+    if (!archivo) return [];
 
-    return productos.map(p => ({
+    const filePath = path.join(process.cwd(), "public", archivo);
+    const fileContent = await fs.readFile(filePath, "utf-8");
+    const data = JSON.parse(fileContent);
+
+    const productos = (data.accesorios || []).map((p) => ({
       ...p,
-      imagenPrincipal: p.imagenes[0]?.url || null,
+      imagenPrincipal: p.imagenPrincipal || (p.imagenes && p.imagenes[0]?.url) || null,
+      disponible: p.disponible !== undefined ? p.disponible : (p.cantidad || 0) > 0,
     }));
+
+    return productos.filter((p) => p.disponible);
   } catch (error) {
     console.error(`Error fetching ${categoria} products:`, error);
     return [];
@@ -36,7 +42,6 @@ async function findProductInAllCategories(slug) {
     'celulares',
     'computadoras',
     'bicicletas',
-    'gadgets',
     'generales',
     'damas',
     'libros-nuevos',
@@ -88,7 +93,7 @@ export async function generateProductMetadata(slug, categoria) {
   return {
     title: `${producto.nombre} | Neurai.dev`,
     description: descripcionLimpia,
-    keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca || 'Neurai.dev'}, comprar, ${producto.condicion || 'nuevo'}`,
+    keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca || 'Neurai.dev'}, comprar, ${producto.condicion || producto.estado || 'nuevo'}`,
     openGraph: {
       title: `${producto.nombre} | Neurai.dev`,
       description: descripcionLimpia,
@@ -121,7 +126,7 @@ export async function generateProductMetadata(slug, categoria) {
       'product:price:amount': precio.toString(),
       'product:price:currency': 'COP',
       'product:availability': producto.disponible ? 'in stock' : 'out of stock',
-      'product:condition': producto.condicion || 'nuevo',
+      'product:condition': producto.condicion || producto.estado || 'nuevo',
       'product:brand': producto.marca || 'Neurai.dev',
       'product:category': producto.categoria,
     },

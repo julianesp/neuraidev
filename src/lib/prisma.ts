@@ -1,10 +1,8 @@
-// src/lib/prisma.ts
-import { PrismaClient } from "@prisma/client";
+// Prisma ha sido desactivado - ahora se usan archivos JSON
+// Este archivo existe solo para compatibilidad con imports antiguos
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
-
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  log: ["error", "warn"],
-});
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const prisma: any = {
+  // Placeholder para evitar errores de importación
+  $disconnect: async () => {},
+};

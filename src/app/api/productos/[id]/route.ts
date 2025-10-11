@@ -1,25 +1,86 @@
 // src/app/api/productos/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { productoUpdateSchema } from "../validators";
+import { promises as fs } from "fs";
+import path from "path";
+
+const categoriaArchivos: Record<string, string> = {
+  celulares: "celulares.json",
+  computadoras: "computadoras.json",
+  "libros-usados": "librosusados.json",
+  "libros-nuevos": "librosnuevos.json",
+  generales: "generales.json",
+  damas: "damas.json",
+  belleza: "damas.json",
+  bicicletas: "bicicletas.json",
+};
+
+interface Producto {
+  id: number | string;
+  nombre: string;
+  descripcion?: string;
+  precio: number;
+  precioAnterior?: number;
+  categoria: string;
+  imagenPrincipal?: string;
+  imagenes?: Array<{ url: string; alt?: string }>;
+  videoUrl?: string;
+  destacado?: boolean;
+  disponible?: boolean;
+  stock?: number;
+  sku?: string;
+  marca?: string;
+  condicion?: string;
+  estado?: string;
+  tags?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+  cantidad?: number;
+  fechaIngreso?: string;
+}
+
+async function buscarProductoPorId(id: string): Promise<Producto | null> {
+  const archivos = Object.values(categoriaArchivos);
+  const uniqueArchivos = Array.from(new Set(archivos));
+
+  for (const archivo of uniqueArchivos) {
+    try {
+      const filePath = path.join(process.cwd(), "public", archivo);
+      const fileContent = await fs.readFile(filePath, "utf-8");
+      const data = JSON.parse(fileContent);
+
+      if (data.accesorios) {
+        const producto = data.accesorios.find(
+          (p: Producto) => String(p.id) === String(id)
+        );
+
+        if (producto) {
+          return {
+            ...producto,
+            stock: producto.cantidad || producto.stock || 0,
+            disponible: producto.disponible !== undefined ? producto.disponible : (producto.cantidad || 0) > 0,
+            condicion: producto.condicion || producto.estado || "nuevo",
+            createdAt: producto.createdAt || producto.fechaIngreso || new Date().toISOString(),
+            imagenes: producto.imagenes || (producto.imagenPrincipal ? [{ url: producto.imagenPrincipal }] : []),
+          };
+        }
+      }
+    } catch (err) {
+      console.warn(`Error leyendo ${archivo}:`, err);
+    }
+  }
+
+  return null;
+}
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   try {
-    const producto = await prisma.producto.findUnique({ 
-      where: { id },
-      include: {
-        imagenes: {
-          orderBy: { orden: "asc" }
-        },
-        tienda: true
-      }
-    });
-    
+    const producto = await buscarProductoPorId(id);
+
     if (!producto) {
       return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
     }
-    
+
     return NextResponse.json(producto);
   } catch (error: unknown) {
     console.error("Error fetching producto:", error);
@@ -28,99 +89,15 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  try {
-    const json = await req.json();
-    const data = productoUpdateSchema.parse(json);
-
-    const { imagenes, createdAt, updatedAt, ...productoData } = data;
-
-    // Primero verificar si el producto existe
-    const existingProduct = await prisma.producto.findUnique({
-      where: { id }
-    });
-
-    if (!existingProduct) {
-      return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
-    }
-
-    // Preparar la data de actualización
-    const updateData: Record<string, unknown> = {
-      ...productoData
-    };
-
-    // Si hay precio, convertir a Decimal
-    if (data.precio !== undefined) {
-      updateData.precio = data.precio;
-    }
-    if (data.precioAnterior !== undefined) {
-      updateData.precioAnterior = data.precioAnterior;
-    }
-
-    // Agregar fechas personalizadas si están presentes
-    if (createdAt) {
-      updateData.createdAt = new Date(createdAt);
-    }
-    if (updatedAt) {
-      updateData.updatedAt = new Date(updatedAt);
-    }
-
-    // Si se incluyen imágenes, actualizar también
-    if (imagenes) {
-      updateData.imagenes = {
-        deleteMany: {},
-        create: imagenes.map((img, index) => ({
-          url: img.url,
-          alt: img.alt || "",
-          orden: img.orden || index
-        }))
-      };
-    }
-
-    const updated = await prisma.producto.update({
-      where: { id },
-      data: updateData,
-      include: {
-        imagenes: {
-          orderBy: { orden: "asc" }
-        },
-        tienda: true
-      }
-    });
-
-    return NextResponse.json(updated);
-  } catch (error: unknown) {
-    console.error("Error updating producto:", error);
-    if (error && typeof error === 'object' && 'name' in error && error.name === "ZodError") {
-      return NextResponse.json({ 
-        error: "Datos inválidos", 
-        details: 'errors' in error ? error.errors : [] 
-      }, { status: 400 });
-    }
-    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
-  }
+  return NextResponse.json(
+    { error: "La funcionalidad de actualizar productos desde JSON no está disponible" },
+    { status: 501 }
+  );
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  try {
-    // Verificar si el producto existe
-    const existingProduct = await prisma.producto.findUnique({
-      where: { id }
-    });
-
-    if (!existingProduct) {
-      return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
-    }
-
-    // Eliminar el producto (las imágenes se eliminan automáticamente por el cascade)
-    await prisma.producto.delete({ 
-      where: { id } 
-    });
-
-    return NextResponse.json({ ok: true, message: "Producto eliminado correctamente" });
-  } catch (error: unknown) {
-    console.error("Error deleting producto:", error);
-    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
-  }
+  return NextResponse.json(
+    { error: "La funcionalidad de eliminar productos desde JSON no está disponible" },
+    { status: 501 }
+  );
 }

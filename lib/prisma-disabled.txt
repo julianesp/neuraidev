@@ -1,0 +1,1 @@
+// Prisma ha sido eliminado - ahora se usan archivos JSON

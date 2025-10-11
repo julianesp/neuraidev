@@ -1,74 +1,91 @@
 // src/app/api/productos/recientes/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { promises as fs } from "fs";
+import path from "path";
+
+interface Producto {
+  id: number | string;
+  nombre: string;
+  descripcion?: string;
+  precio: number;
+  precioAnterior?: number;
+  categoria: string;
+  imagenPrincipal?: string;
+  imagenes?: Array<{ url: string; alt?: string }>;
+  videoUrl?: string;
+  destacado?: boolean;
+  disponible?: boolean;
+  stock?: number;
+  sku?: string;
+  marca?: string;
+  condicion?: string;
+  estado?: string;
+  tags?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+  cantidad?: number;
+  fechaIngreso?: string;
+}
+
+async function leerTodosLosProductos(): Promise<Producto[]> {
+  const archivos = [
+    "celulares.json",
+    "computadoras.json",
+    "librosusados.json",
+    "librosnuevos.json",
+    "generales.json",
+    "damas.json",
+    "bicicletas.json",
+  ];
+
+  let todosLosProductos: Producto[] = [];
+
+  for (const archivo of archivos) {
+    try {
+      const filePath = path.join(process.cwd(), "public", archivo);
+      const fileContent = await fs.readFile(filePath, "utf-8");
+      const data = JSON.parse(fileContent);
+      if (data.accesorios) {
+        todosLosProductos = todosLosProductos.concat(data.accesorios);
+      }
+    } catch (err) {
+      console.warn(`No se pudo leer ${archivo}:`, err);
+    }
+  }
+
+  return todosLosProductos;
+}
 
 export async function GET(request: NextRequest) {
   try {
-    // Calcular la fecha de hace 30 días
-    const fechaLimite = new Date();
-    fechaLimite.setDate(fechaLimite.getDate() - 30);
+    const productos = await leerTodosLosProductos();
 
-    // Obtener productos creados en los últimos 30 días
-    const productosRecientes = await prisma.producto.findMany({
-      where: {
-        createdAt: {
-          gte: fechaLimite
-        },
-        disponible: true // Solo productos disponibles
-      },
-      include: {
-        imagenes: {
-          orderBy: {
-            orden: 'asc'
-          }
-        },
-        tienda: {
-          select: {
-            id: true,
-            nombre: true
-          }
-        }
-      },
-      orderBy: {
-        createdAt: 'desc' // Más recientes primero
-      },
-      take: 20 // Limitar a 20 productos
+    // Normalizar y filtrar productos
+    const productosNormalizados = productos
+      .map((p) => ({
+        ...p,
+        stock: p.cantidad || p.stock || 0,
+        disponible: p.disponible !== undefined ? p.disponible : (p.cantidad || 0) > 0,
+        condicion: p.condicion || p.estado || "nuevo",
+        createdAt: p.createdAt || p.fechaIngreso || new Date().toISOString(),
+        imagenes: p.imagenes || (p.imagenPrincipal ? [{ url: p.imagenPrincipal }] : []),
+      }))
+      .filter((p) => p.disponible === true); // Solo disponibles
+
+    // Ordenar por fecha de creación (más recientes primero)
+    productosNormalizados.sort((a, b) => {
+      const dateA = new Date(a.createdAt || 0).getTime();
+      const dateB = new Date(b.createdAt || 0).getTime();
+      return dateB - dateA;
     });
 
-    // Transformar los datos para el frontend
-    const productosTransformados = productosRecientes.map(producto => ({
-      id: producto.id,
-      nombre: producto.nombre,
-      descripcion: producto.descripcion,
-      precio: parseFloat(producto.precio.toString()),
-      precioAnterior: producto.precioAnterior ? parseFloat(producto.precioAnterior.toString()) : null,
-      categoria: producto.categoria,
-      imagenPrincipal: producto.imagenPrincipal,
-      imagenes: producto.imagenes.map(img => ({
-        id: img.id,
-        url: img.url,
-        alt: img.alt,
-        orden: img.orden
-      })),
-      videoUrl: producto.videoUrl,
-      destacado: producto.destacado,
-      disponible: producto.disponible,
-      stock: producto.stock,
-      sku: producto.sku,
-      marca: producto.marca,
-      condicion: producto.condicion,
-      tags: producto.tags,
-      createdAt: producto.createdAt.toISOString(),
-      updatedAt: producto.updatedAt.toISOString(),
-      tienda: producto.tienda
-    }));
+    // Tomar los primeros 20
+    const productosRecientes = productosNormalizados.slice(0, 20);
 
     return NextResponse.json({
-      productos: productosTransformados,
-      total: productosTransformados.length,
-      fechaLimite: fechaLimite.toISOString()
+      productos: productosRecientes,
+      total: productosRecientes.length,
     });
-
   } catch (error: unknown) {
     console.error("Error al obtener productos recientes:", error);
     return NextResponse.json(
