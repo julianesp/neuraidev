@@ -5,8 +5,8 @@ import path from "path";
 const categoriaArchivos = {
   celulares: "celulares.json",
   computadoras: "computadoras.json",
-  "libros-usados": "librosusados.json",
-  "libros-nuevos": "librosnuevos.json",
+  "libros-usados": "libros-usados.json",
+  "libros-nuevos": "libros-nuevos.json",
   generales: "generales.json",
   damas: "damas.json",
   belleza: "damas.json",

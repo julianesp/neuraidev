@@ -37,6 +37,37 @@ const NavBar = () => {
     setDropdownOpen(false); // Close other dropdown
   };
 
+  // Manejadores de hover para desktop
+  const handleTiendaMouseEnter = () => {
+    if (window.innerWidth >= 1024) {
+      setDropdownOpen(true);
+      setServiciosDropdownOpen(false);
+    }
+  };
+
+  const handleTiendaMouseLeave = () => {
+    if (window.innerWidth >= 1024) {
+      setTimeout(() => {
+        setDropdownOpen(false);
+      }, 300); // Delay de 300ms antes de cerrar
+    }
+  };
+
+  const handleServiciosMouseEnter = () => {
+    if (window.innerWidth >= 1024) {
+      setServiciosDropdownOpen(true);
+      setDropdownOpen(false);
+    }
+  };
+
+  const handleServiciosMouseLeave = () => {
+    if (window.innerWidth >= 1024) {
+      setTimeout(() => {
+        setServiciosDropdownOpen(false);
+      }, 300); // Delay de 300ms antes de cerrar
+    }
+  };
+
   const handleLinkClick = () => {
     setBurgerOpen(false); // Close the menu when a link is clicked
     setDropdownOpen(false); // Close the dropdown when a link is clicked
@@ -133,15 +164,136 @@ const NavBar = () => {
             </Link>
           </li>
 
-          {/* Enlace temporal a la tienda de accesorios */}
-          <li role="none">
+          {/* Dropdown de Tienda */}
+          <li
+            role="none"
+            ref={dropdownRef}
+            onMouseEnter={handleTiendaMouseEnter}
+            onMouseLeave={handleTiendaMouseLeave}
+          >
             <Link
               href="/accesorios"
               title="Ir a la tienda de accesorios"
-              onClick={handleLinkClick}
+              onClick={(e) => {
+                // Solo prevenir navegación en móvil para toggle
+                if (window.innerWidth < 1024) {
+                  e.preventDefault();
+                  toggleDropdown(e);
+                }
+              }}
             >
-              Tienda
+              Tienda ▾
             </Link>
+            {dropdownOpen && (
+              <ul className={styles.dropdown}>
+                <li>
+                  <Link
+                    href="/accesorios/destacados"
+                    onClick={handleLinkClick}
+                  >
+                    Destacados
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accesorios/celulares"
+                    onClick={handleLinkClick}
+                  >
+                    Celulares
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accesorios/computadoras"
+                    onClick={handleLinkClick}
+                  >
+                    Computadoras
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accesorios/damas"
+                    onClick={handleLinkClick}
+                  >
+                    Damas
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accesorios/belleza"
+                    onClick={handleLinkClick}
+                  >
+                    Belleza
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accesorios/libros-nuevos"
+                    onClick={handleLinkClick}
+                  >
+                    Libros Nuevos
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accesorios/libros-usados"
+                    onClick={handleLinkClick}
+                  >
+                    Libros Usados
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accesorios/generales"
+                    onClick={handleLinkClick}
+                  >
+                    Generales
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+
+          {/* Dropdown de Servicios */}
+          <li
+            role="none"
+            ref={serviciosDropdownRef}
+            onMouseEnter={handleServiciosMouseEnter}
+            onMouseLeave={handleServiciosMouseLeave}
+          >
+            <Link
+              href="/servicios"
+              title="Ver servicios profesionales"
+              onClick={(e) => {
+                // Solo prevenir navegación en móvil para toggle
+                if (window.innerWidth < 1024) {
+                  e.preventDefault();
+                  toggleServiciosDropdown(e);
+                }
+              }}
+            >
+              Servicios ▾
+            </Link>
+            {serviciosDropdownOpen && (
+              <ul className={styles.dropdown}>
+                <li>
+                  <Link
+                    href="/servicios/tecnico-sistemas"
+                    onClick={handleLinkClick}
+                  >
+                    Técnico en Sistemas
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/servicios/desarrollador-software"
+                    onClick={handleLinkClick}
+                  >
+                    Desarrollador Web
+                  </Link>
+                </li>
+              </ul>
+            )}
           </li>
 
           <li role="none">

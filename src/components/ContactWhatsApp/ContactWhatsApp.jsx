@@ -58,7 +58,7 @@ export default function ContactWhatsApp() {
 
     // Construir el mensaje para WhatsApp
     const mensaje = `
-Hola, me gustaría obtener información:
+Hola, me gustaría obtener información sobre este producto:
 
 👤 *Nombre:* ${formData.nombre}
 📱 *Teléfono:* ${formData.telefono}
