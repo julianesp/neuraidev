@@ -11,7 +11,6 @@ const categoriaArchivos = {
   generales: "generales.json",
   damas: "damas.json",
   belleza: "damas.json",
-  bicicletas: "bicicletas.json",
   // Aliases para mantener compatibilidad
   computacion: "computadoras.json",
   computacio: "computadoras.json",
