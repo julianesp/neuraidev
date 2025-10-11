@@ -17,51 +17,53 @@ export default function GenericProductPage() {
     const loadProductData = async () => {
       try {
         setLoading(true);
-        
+
         // Lista de archivos JSON donde buscar el producto (orden por prioridad)
         const filesToSearch = [
-          '/computadoras.json',
-          '/celulares.json',
-          '/bicicletas.json',
-          '/gadgets.json',
-          '/generales.json',
-          '/damas.json',
-          '/librosnuevos.json',
-          '/librosusados.json',
-          '/accesoriosDestacados.json',
-          '/accesoriosDestacados.json',
-          '/accesoriosNuevos.json',
-          '/accesorios_generales.json',
-          '/tecnico_sistemas.json',
-          '/peluqueria.json',
-          '/tienda.json',
-          '/presentation.json'
+          "/computadoras.json",
+          "/celulares.json",
+          "/bicicletas.json",
+          "/gadgets.json",
+          "/generales.json",
+          "/damas.json",
+          "/libros-nuevos.json",
+          "/librosusados.json",
+          "/accesoriosDestacados.json",
+          "/accesoriosDestacados.json",
+          "/accesoriosNuevos.json",
+          "/accesorios_generales.json",
+          "/tecnico_sistemas.json",
+          "/peluqueria.json",
+          "/tienda.json",
+          "/presentation.json",
         ];
-        
+
         let foundProduct = null;
         let allProducts = [];
-        
+
         // Buscar en cada archivo hasta encontrar el producto
         for (const file of filesToSearch) {
           try {
             const response = await fetch(file);
             if (!response.ok) continue;
-            
+
             const data = await response.json();
             let productos = [];
-            
+
             // Manejar diferentes estructuras de datos
             if (Array.isArray(data)) {
               productos = data;
             } else if (data.accesorios && Array.isArray(data.accesorios)) {
               productos = data.accesorios;
             }
-            
+
             // Buscar el producto por slug
             const producto = findProductBySlug(productos, params.slug);
-            
+
             if (producto) {
-              console.warn(`GenericProductPage: Producto encontrado en ${file}: ${producto.nombre || producto.title}`);
+              console.warn(
+                `GenericProductPage: Producto encontrado en ${file}: ${producto.nombre || producto.title}`,
+              );
               foundProduct = producto;
               allProducts = productos;
               break;
@@ -71,22 +73,23 @@ export default function GenericProductPage() {
             continue;
           }
         }
-        
+
         if (!foundProduct) {
-          setError('Producto no encontrado');
+          setError("Producto no encontrado");
           return;
         }
-        
+
         // Configurar datos
         setProductData(foundProduct);
-        
+
         // Otros productos (excluyendo el actual)
-        const otrosProductos = allProducts.filter(p => p.id !== foundProduct.id);
+        const otrosProductos = allProducts.filter(
+          (p) => p.id !== foundProduct.id,
+        );
         setOtherProducts(otrosProductos);
-        
       } catch (err) {
-        console.error('Error cargando producto:', err);
-        setError('Error al cargar el producto');
+        console.error("Error cargando producto:", err);
+        setError("Error al cargar el producto");
       } finally {
         setLoading(false);
       }
@@ -115,7 +118,7 @@ export default function GenericProductPage() {
           <p className="text-gray-600 mb-4">
             El producto que buscas no existe o ha sido eliminado.
           </p>
-          <Link 
+          <Link
             href="/accesorios/generales"
             className="bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark transition-colors"
           >
