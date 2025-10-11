@@ -1,4 +1,6 @@
-import ProductDetailWrapper from "../../../../components/ProductDetailWrapper";
+import { notFound } from "next/navigation";
+import AccesoriosContainer from "../../../../containers/AccesoriosContainer/page";
+import { loadProductBySlug } from "../../../../utils/loadCategoryProducts";
 import { generateProductMetadata } from "../../../../utils/productMetadata";
 
 // Forzar renderizado dinámico
@@ -10,11 +12,22 @@ export async function generateMetadata({ params }) {
   return await generateProductMetadata(slug, 'libros-usados');
 }
 
-export default function LibrosUsadosProductPage() {
+export default async function LibrosUsadosProductPage({ params }) {
+  const { slug } = await params;
+  const { producto, otrosProductos } = await loadProductBySlug('libros-usados', slug);
+
+  if (!producto) {
+    notFound();
+  }
+
   return (
-    <ProductDetailWrapper
-      apiUrl="/api/productos?categoria=libros-usados"
-      categoryName="libros usados"
-    />
+    <main className="py-14">
+      <div className="max-w-6xl mx-auto px-4">
+        <AccesoriosContainer
+          accesorio={producto}
+          otrosAccesorios={otrosProductos}
+        />
+      </div>
+    </main>
   );
 }

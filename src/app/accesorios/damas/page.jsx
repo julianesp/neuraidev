@@ -1,5 +1,6 @@
 import React from "react";
 import AccesoriosContainer from "../../../containers/AccesoriosContainer/page";
+import { loadCategoryProducts } from "../../../utils/loadCategoryProducts";
 // import { generateCategoryMetadata } from "../../../utils/categoryMetadata";
 
 // export const metadata = generateCategoryMetadata('damas');
@@ -7,12 +8,18 @@ import AccesoriosContainer from "../../../containers/AccesoriosContainer/page";
 // Forzar renderizado dinámico para evitar errores de prerenderizado
 export const dynamic = 'force-dynamic';
 
-export default function DamasPage() {
+export default async function DamasPage() {
+  const productos = await loadCategoryProducts('damas');
+  const accesorioInicial = productos.length > 0 ? productos[0] : null;
+  const otrosAccesorios = productos.slice(1);
+
   return (
-    
     <main className="py-14">
       <div className="max-w-6xl mx-auto px-4">
-        <AccesoriosContainer apiUrl="/api/productos?categoria=belleza" />
+        <AccesoriosContainer
+          accesorio={accesorioInicial}
+          otrosAccesorios={otrosAccesorios}
+        />
       </div>
     </main>
   );

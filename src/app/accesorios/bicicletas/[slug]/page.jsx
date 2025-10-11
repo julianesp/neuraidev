@@ -1,4 +1,6 @@
-import ProductDetailWrapper from "../../../../components/ProductDetailWrapper";
+import { notFound } from "next/navigation";
+import AccesoriosContainer from "../../../../containers/AccesoriosContainer/page";
+import { loadProductBySlug } from "../../../../utils/loadCategoryProducts";
 import { generateProductMetadata } from "../../../../utils/productMetadata";
 
 // Forzar renderizado dinámico
@@ -10,11 +12,22 @@ export async function generateMetadata({ params }) {
   return await generateProductMetadata(slug, 'bicicletas');
 }
 
-export default function BicicletasProductPage() {
+export default async function BicicletasProductPage({ params }) {
+  const { slug } = await params;
+  const { producto, otrosProductos } = await loadProductBySlug('bicicletas', slug);
+
+  if (!producto) {
+    notFound();
+  }
+
   return (
-    <ProductDetailWrapper 
-      apiUrl="/api/productos?categoria=bicicletas" 
-      categoryName="bicicletas"
-    />
+    <main className="py-14">
+      <div className="max-w-6xl mx-auto px-4">
+        <AccesoriosContainer
+          accesorio={producto}
+          otrosAccesorios={otrosProductos}
+        />
+      </div>
+    </main>
   );
 }

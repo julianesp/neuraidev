@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Head from "next/head";
-import BackToTop from "@/src/components/backTop/BackToTop";
+import BackToTop from "../../components/backTop/BackToTop";
 
 // Forzar renderizado dinámico para evitar errores de prerenderizado
 export const dynamic = 'force-dynamic';

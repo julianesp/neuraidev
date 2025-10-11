@@ -119,20 +119,17 @@ export const CartProvider = ({ children }) => {
     }
   }, [state.items, state.itemCount, state.subtotal]);
 
-  const loadCart = async () => {
+  const loadCart = () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
 
-      const response = await fetch('/api/carrito', {
-        credentials: 'include',
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        dispatch({ type: 'SET_CART', payload: data.carrito });
+      // Cargar carrito desde localStorage
+      const savedCart = localStorage.getItem('neuraidev-cart');
+      if (savedCart) {
+        const cartData = JSON.parse(savedCart);
+        dispatch({ type: 'SET_CART', payload: cartData });
       } else {
-        dispatch({ type: 'SET_ERROR', payload: data.error });
+        dispatch({ type: 'SET_CART', payload: { items: [], itemCount: 0, subtotal: 0 } });
       }
     } catch (error) {
       console.error('Error cargando carrito:', error);
@@ -140,31 +137,55 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const addToCart = async (productoId, cantidad = 1, variantes = null) => {
+  const addToCart = async (producto, cantidad = 1, variantes = null) => {
     try {
-      const response = await fetch('/api/carrito', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ productoId, cantidad, variantes }),
-      });
+      // Buscar si el producto ya existe en el carrito
+      const existingItemIndex = state.items.findIndex(
+        item => item.producto.id === producto.id
+      );
 
-      const data = await response.json();
+      let updatedItems;
+      let carritoItem;
 
-      if (data.success) {
-        dispatch({ type: 'ADD_ITEM', payload: data.carritoItem });
-        success('Producto agregado al carrito');
-
-        // Track analytics event
-        ecommerceEvents.addToCart(data.carritoItem.producto, cantidad);
-
-        return { success: true, item: data.carritoItem };
+      if (existingItemIndex >= 0) {
+        // Si existe, actualizar cantidad
+        updatedItems = [...state.items];
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          cantidad: updatedItems[existingItemIndex].cantidad + cantidad,
+        };
+        carritoItem = updatedItems[existingItemIndex];
       } else {
-        showError(data.error);
-        return { success: false, error: data.error };
+        // Si no existe, agregar nuevo item
+        carritoItem = {
+          id: Date.now().toString(), // ID único temporal
+          producto,
+          cantidad,
+          variantes,
+        };
+        updatedItems = [...state.items, carritoItem];
       }
+
+      // Calcular totales
+      const itemCount = updatedItems.reduce((sum, item) => sum + item.cantidad, 0);
+      const subtotal = updatedItems.reduce((sum, item) => {
+        const precio = parseFloat(item.producto.precio);
+        return sum + (precio * item.cantidad);
+      }, 0);
+
+      const cartData = { items: updatedItems, itemCount, subtotal };
+
+      // Guardar en localStorage
+      localStorage.setItem('neuraidev-cart', JSON.stringify(cartData));
+
+      // Actualizar estado
+      dispatch({ type: 'SET_CART', payload: cartData });
+      success('Producto agregado al carrito');
+
+      // Track analytics event
+      ecommerceEvents.addToCart(producto, cantidad);
+
+      return { success: true, item: carritoItem };
     } catch (error) {
       console.error('Error agregando al carrito:', error);
       showError('Error agregando producto al carrito');
@@ -172,26 +193,28 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const updateQuantity = async (itemId, cantidad) => {
+  const updateQuantity = (itemId, cantidad) => {
     try {
-      const response = await fetch(`/api/carrito/${itemId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ cantidad }),
-      });
+      const updatedItems = state.items.map(item =>
+        item.id === itemId ? { ...item, cantidad } : item
+      );
 
-      const data = await response.json();
+      // Calcular totales
+      const itemCount = updatedItems.reduce((sum, item) => sum + item.cantidad, 0);
+      const subtotal = updatedItems.reduce((sum, item) => {
+        const precio = parseFloat(item.producto.precio);
+        return sum + (precio * item.cantidad);
+      }, 0);
 
-      if (data.success) {
-        dispatch({ type: 'UPDATE_ITEM', payload: data.carritoItem });
-        return { success: true };
-      } else {
-        showError(data.error);
-        return { success: false, error: data.error };
-      }
+      const cartData = { items: updatedItems, itemCount, subtotal };
+
+      // Guardar en localStorage
+      localStorage.setItem('neuraidev-cart', JSON.stringify(cartData));
+
+      // Actualizar estado
+      dispatch({ type: 'SET_CART', payload: cartData });
+
+      return { success: true };
     } catch (error) {
       console.error('Error actualizando cantidad:', error);
       showError('Error actualizando cantidad');
@@ -199,29 +222,33 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const removeFromCart = async (itemId) => {
+  const removeFromCart = (itemId) => {
     try {
-      const response = await fetch(`/api/carrito/${itemId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        // Track analytics event before removing
-        const item = state.items.find(item => item.id === itemId);
-        if (item) {
-          ecommerceEvents.removeFromCart(item.producto, item.cantidad);
-        }
-
-        dispatch({ type: 'REMOVE_ITEM', payload: itemId });
-        success('Producto eliminado del carrito');
-        return { success: true };
-      } else {
-        showError(data.error);
-        return { success: false, error: data.error };
+      // Track analytics event before removing
+      const item = state.items.find(item => item.id === itemId);
+      if (item) {
+        ecommerceEvents.removeFromCart(item.producto, item.cantidad);
       }
+
+      const updatedItems = state.items.filter(item => item.id !== itemId);
+
+      // Calcular totales
+      const itemCount = updatedItems.reduce((sum, item) => sum + item.cantidad, 0);
+      const subtotal = updatedItems.reduce((sum, item) => {
+        const precio = parseFloat(item.producto.precio);
+        return sum + (precio * item.cantidad);
+      }, 0);
+
+      const cartData = { items: updatedItems, itemCount, subtotal };
+
+      // Guardar en localStorage
+      localStorage.setItem('neuraidev-cart', JSON.stringify(cartData));
+
+      // Actualizar estado
+      dispatch({ type: 'SET_CART', payload: cartData });
+      success('Producto eliminado del carrito');
+
+      return { success: true };
     } catch (error) {
       console.error('Error eliminando del carrito:', error);
       showError('Error eliminando producto');
@@ -229,23 +256,16 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const clearCart = async () => {
+  const clearCart = () => {
     try {
-      const response = await fetch('/api/carrito/clear', {
-        method: 'DELETE',
-        credentials: 'include',
-      });
+      // Limpiar localStorage
+      localStorage.removeItem('neuraidev-cart');
 
-      const data = await response.json();
+      // Actualizar estado
+      dispatch({ type: 'CLEAR_CART' });
+      success('Carrito limpiado');
 
-      if (data.success) {
-        dispatch({ type: 'CLEAR_CART' });
-        success('Carrito limpiado');
-        return { success: true };
-      } else {
-        showError(data.error);
-        return { success: false, error: data.error };
-      }
+      return { success: true };
     } catch (error) {
       console.error('Error limpiando carrito:', error);
       showError('Error limpiando carrito');

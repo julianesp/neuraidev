@@ -43,17 +43,17 @@ const ProductosRecientes = () => {
   // Referencia para evitar llamadas duplicadas en desarrollo (React.StrictMode)
   const hasFetchedRef = useRef(false);
 
-  // Función para obtener productos recientes de los últimos 30 días
+  // Función para obtener productos recientes desde el archivo JSON
   const obtenerProductosRecientes = async () => {
     try {
-      const response = await fetch("/api/productos/recientes");
+      const response = await fetch("/productosRecientes.json");
       if (!response.ok) {
-        // Si falla la API, usar datos de respaldo
-        console.warn("API no disponible, usando datos de respaldo");
+        // Si falla la carga del JSON, usar datos de respaldo
+        console.warn("JSON no disponible, usando datos de respaldo");
         return productosRespaldo;
       }
       const data = await response.json();
-      return data.productos || productosRespaldo;
+      return data.productos || data || productosRespaldo;
     } catch (error) {
       console.error("Error al obtener productos recientes:", error);
       console.warn("Usando datos de respaldo");
