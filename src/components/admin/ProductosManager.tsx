@@ -169,7 +169,6 @@ export default function ProductosManager() {
       damas: "👗",
       belleza: "💄",
       bicicletas: "🚲",
-      gadgets: "⚡",
     };
     return icons[categoria] || "📦";
   };
@@ -186,7 +185,6 @@ export default function ProductosManager() {
       damas: "Productos para Damas",
       belleza: "Belleza y Cuidado Personal",
       bicicletas: "Bicicletas y Accesorios",
-      gadgets: "Gadgets y Electrónicos",
     };
     return (
       names[categoria] || categoria.charAt(0).toUpperCase() + categoria.slice(1)

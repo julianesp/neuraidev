@@ -112,18 +112,6 @@ export const categoryMetadata = {
       "recién llegados",
       "nuevos lanzamientos"
     ]
-  },
-
-  gadgets: {
-    title: "Gadgets y Tecnología | Neurai.dev",
-    description: "Gadgets tecnológicos y dispositivos innovadores. Encuentra los últimos avances en tecnología.",
-    keywords: [
-      "gadgets",
-      "tecnología",
-      "dispositivos tecnológicos",
-      "gadgets innovadores",
-      "tech gadgets"
-    ]
   }
 };
 

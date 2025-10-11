@@ -14,7 +14,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^6.15.0",
+    "@prisma/client": "^6.17.1",
     "@radix-ui/react-accordion": "^1.2.8",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-dropdown-menu": "^2.1.12",
@@ -81,7 +81,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "postcss": "^8.4.31",
     "prettier": "^3.5.3",
-    "prisma": "^6.16.2",
+    "prisma": "^6.17.1",
     "tailwindcss": "^3.3.3",
     "tsx": "^4.20.5"
   },
