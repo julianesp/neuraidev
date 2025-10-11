@@ -28,7 +28,7 @@ async function fixCategories() {
         }
       });
 
-      console.log(`📝 Encontrados ${productosACorregir.length} productos con categoría "${categoriaIncorrecta}"`);
+      // console.log(`📝 Encontrados ${productosACorregir.length} productos con categoría "${categoriaIncorrecta}"`);
 
       if (productosACorregir.length > 0) {
         await prisma.producto.updateMany({
@@ -41,7 +41,7 @@ async function fixCategories() {
         });
 
         correccionesRealizadas += productosACorregir.length;
-        console.log(`✅ Corregidos ${productosACorregir.length} productos: ${categoriaIncorrecta} → ${categoriaCorrecta}`);
+        // console.log(`✅ Corregidos ${productosACorregir.length} productos: ${categoriaIncorrecta} → ${categoriaCorrecta}`);
       }
     }
 
@@ -54,10 +54,10 @@ async function fixCategories() {
       const count = await prisma.producto.count({
         where: { categoria }
       });
-      console.log(`📦 ${categoria}: ${count} productos`);
+      // console.log(`📦 ${categoria}: ${count} productos`);
     }
 
-    console.log(`\n🎉 Corrección completada! Total de productos corregidos: ${correccionesRealizadas}`);
+    // console.log(`\n🎉 Corrección completada! Total de productos corregidos: ${correccionesRealizadas}`);
     
   } catch (error) {
     console.error('❌ Error en la corrección:', error);
@@ -70,7 +70,7 @@ async function fixCategories() {
 if (require.main === module) {
   fixCategories()
     .then(() => {
-      console.log('✅ Script de corrección finalizado');
+      // console.log('✅ Script de corrección finalizado');
       process.exit(0);
     })
     .catch((error) => {

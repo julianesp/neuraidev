@@ -67,15 +67,15 @@ async function main() {
     create: {
       id: "neuraidev-principal",
       nombre: "Neuraidev - Tienda Principal",
-      descripcion: "La tienda principal de Neuraidev en el Valle del Cauca",
-      direccion: "Valle del Cauca, Colombia",
-      telefono: "+57 300 123 4567",
-      email: "ventas@neuraidev.com",
-      activa: true
+      descripcion: "Sitio web para negocios de pueblo",
+      direccion: "Colón, Putumayo",
+      telefono: "+573174503604",
+      email: "julii1295@gmail.com",
+      activa: false
     }
   });
 
-  console.log("✅ Creada tienda principal");
+  // console.log("✅ Creada tienda principal");
 
   // Crear productos de ejemplo
   const productos = [

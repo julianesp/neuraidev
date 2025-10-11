@@ -43,7 +43,6 @@ const NavBar = () => {
     setServiciosDropdownOpen(false); // Close the servicios dropdown when a link is clicked
   };
 
-
   const handleOutsideClick = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setBurgerOpen(false); // Close the menu when clicking outside
@@ -55,7 +54,10 @@ const NavBar = () => {
     }
 
     // Close servicios dropdown when clicking outside of it
-    if (serviciosDropdownRef.current && !serviciosDropdownRef.current.contains(event.target)) {
+    if (
+      serviciosDropdownRef.current &&
+      !serviciosDropdownRef.current.contains(event.target)
+    ) {
       setServiciosDropdownOpen(false);
     }
   };
@@ -104,8 +106,9 @@ const NavBar = () => {
 
       <nav className={styles.nav_container}>
         <ul
-          className={`${styles.enlaces__menu}  ${burgerOpen ? styles.open : styles.closed
-            } `}
+          className={`${styles.enlaces__menu}  ${
+            burgerOpen ? styles.open : styles.closed
+          } `}
           role="menubar"
         >
           <li role="none">
@@ -129,114 +132,6 @@ const NavBar = () => {
               Blog
             </Link>
           </li>
-          {/* TODO: Descomentar cuando estén listos para producción */}
-          {/* <li className={styles.dropdown} ref={serviciosDropdownRef} role="none">
-            <button
-              role="menuitem"
-              onClick={toggleServiciosDropdown}
-              className={styles.dropdown_toggle}
-              aria-haspopup="true"
-              aria-expanded={serviciosDropdownOpen}
-              aria-controls="servicios-dropdown-menu"
-              title="Ver servicios disponibles"
-            >
-              Servicios
-              <span className={styles.dropdown_arrow} aria-hidden="true">
-                ▼
-              </span>
-            </button>
-            <ul
-              id="servicios-dropdown-menu"
-              className={`${styles.dropdown_menu} ${serviciosDropdownOpen ? styles.show : ""}`}
-              role="menu"
-              aria-labelledby="servicios-dropdown-toggle"
-            >
-              <li role="none">
-                <Link
-                  href="/servicios/tecnicos"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  💻 Servicios Técnicos
-                </Link>
-              </li>
-              <li role="none">
-                <Link
-                  href="/servicios/transporte"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  🚛 Servicio de Transporte
-                </Link>
-              </li>
-              <li role="none">
-                <Link
-                  href="/servicios/contable"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  📊 Servicio Contable
-                </Link>
-              </li>
-            </ul>
-          </li> */}
-
-          {/* <li role="none">
-            <Link href="/businesses" className="nav-link">
-              Negocios
-            </Link>
-          </li> */}
-
-          {/* TODO: Descomentar cuando estén listos para producción */}
-          {/* <li className={styles.dropdown} ref={dropdownRef} role="none">
-            <button
-              role="menuitem"
-              onClick={toggleDropdown}
-              className={styles.dropdown_toggle}
-              aria-haspopup="true"
-              aria-expanded={dropdownOpen}
-              aria-controls="dropdown-menu"
-              title="Ir a las tiendas"
-            >
-              Tiendas
-              <span className={styles.dropdown_arrow} aria-hidden="true">
-                ▼
-              </span>
-            </button>
-            <ul
-              className={`${styles.dropdown_menu} ${dropdownOpen ? styles.show : ""}`}
-              role="menu"
-              aria-labelledby="dropdown-toggle"
-            >
-              <li role="none">
-                <Link
-                  href="/tiendas/neuraistore"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  🏪 NeuraIStore (Accesorios)
-                </Link>
-              </li>
-              <li role="none">
-                <Link
-                  href="/tiendas/jose-luis"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  🛒 Tienda José Luis
-                </Link>
-              </li>
-              <li role="none">
-                <Link
-                  href="/tiendas/pollos-campos-dorados"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  🐔 Pollos Campos Dorados
-                </Link>
-              </li>
-            </ul>
-          </li> */}
 
           {/* Enlace temporal a la tienda de accesorios */}
           <li role="none">
@@ -258,17 +153,8 @@ const NavBar = () => {
               Sobre mí
             </Link>
           </li>
-          {/* Mobile cart button - DESHABILITADO */}
-          {/* <li className={styles.mobileCartButton}>
-            <CartButton className="text-white hover:text-gray-300" />
-          </li> */}
         </ul>
       </nav>
-
-      {/* Desktop cart button - DESHABILITADO */}
-      {/* <div className={styles.cartButtonDesktop}>
-        <CartButton />
-      </div> */}
 
       <div className={styles.circle}>
         <button
@@ -282,8 +168,7 @@ const NavBar = () => {
           <span></span>
         </button>
       </div>
-
-    </div >
+    </div>
   );
 };
 

@@ -19,7 +19,7 @@ const categoryMapping = {
   'librosusados': 'libros-usados',
   'librosnuevos': 'libros-nuevos',
   'accesorios_generales': 'generales',
-  'gadgets': 'gadgets'
+  // 'gadgets': 'gadgets'
 };
 
 function extractCategoryFromFilename(filename) {
@@ -43,14 +43,14 @@ function parsePrice(precio) {
 }
 
 async function importProductsFromFile(filePath) {
-  console.log(`Importando productos desde: ${filePath}`);
+  // console.log(`Importando productos desde: ${filePath}`);
   
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const data = JSON.parse(fileContent);
     const categoria = extractCategoryFromFilename(filePath);
     
-    console.log(`Categoría detectada: ${categoria}`);
+    // console.log(`Categoría detectada: ${categoria}`);
     
     // Buscar productos en la estructura del JSON
     let productos = [];
@@ -61,7 +61,7 @@ async function importProductsFromFile(filePath) {
     } else if (Array.isArray(data)) {
       productos = data;
     } else {
-      console.log(`No se encontraron productos en ${filePath}`);
+      // console.log(`No se encontraron productos en ${filePath}`);
       return 0;
     }
 
@@ -121,7 +121,7 @@ async function importProductsFromFile(filePath) {
           });
         }
 
-        console.log(`✅ Importado: ${producto.nombre}`);
+        // console.log(`✅ Importado: ${producto.nombre}`);
         importedCount++;
 
       } catch (error) {
@@ -129,7 +129,7 @@ async function importProductsFromFile(filePath) {
       }
     }
 
-    console.log(`📊 Importados ${importedCount} productos de ${filePath}`);
+    // console.log(`📊 Importados ${importedCount} productos de ${filePath}`);
     return importedCount;
 
   } catch (error) {
@@ -139,7 +139,7 @@ async function importProductsFromFile(filePath) {
 }
 
 async function main() {
-  console.log('🚀 Iniciando importación de productos...\n');
+  // console.log('🚀 Iniciando importación de productos...\n');
 
   // Obtener todos los archivos JSON del directorio public
   const publicDir = path.join(__dirname, '../public');
@@ -148,7 +148,7 @@ async function main() {
     .filter(file => !['manifest.json', 'tienda.json', 'presentation.json', 'productosRecientes.json', 'accesoriosDestacados.json', 'accesoriosNuevos.json'].includes(file))
     .map(file => path.join(publicDir, file));
 
-  console.log(`📁 Archivos encontrados: ${jsonFiles.length}\n`);
+  // console.log(`📁 Archivos encontrados: ${jsonFiles.length}\n`);
 
   // Crear tienda principal si no existe
   try {
@@ -162,9 +162,9 @@ async function main() {
         activa: true
       }
     });
-    console.log('✅ Tienda principal verificada\n');
+    // console.log('✅ Tienda principal verificada\n');
   } catch (error) {
-    console.error('❌ Error creando tienda:', error.message);
+    // console.error('❌ Error creando tienda:', error.message);
   }
 
   let totalImported = 0;
