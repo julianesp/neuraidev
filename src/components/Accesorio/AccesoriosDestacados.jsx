@@ -169,8 +169,8 @@ const AccesoriosDestacados = () => {
       >
         {destacados.map((accesorio, index) => (
           <Link
-            key={accesorio.id}
-            href={`/accesorios/${accesorio.id}`}
+            key={`${accesorio.categoria}-${accesorio.id}-${index}`}
+            href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}
             className="accesorio-card border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 snap-start mx-2 flex flex-col"
             style={{
               minWidth: "calc(100% - 1rem)",
@@ -186,7 +186,7 @@ const AccesoriosDestacados = () => {
 
               // Navegar después de un breve delay para permitir la animación
               setTimeout(() => {
-                window.location.href = `/accesorios/${accesorio.id}`;
+                window.location.href = `/accesorios/${accesorio.categoria}/${accesorio.id}`;
               }, 300);
             }}
           >

@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../containers/Footer";
 import SplashScreen from "../components/SplashScreen";
+import StructuredData from "../components/StructuredData";
 import "./globals.css";
 // import "@/styles/darkMode.scss";
 // import "../styles/components/pages/darkMode.scss";
@@ -52,6 +53,7 @@ export default function RootLayout({ children }) {
         </head>
 
         <body>
+          <StructuredData />
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ToastProvider>
               <CartProvider>

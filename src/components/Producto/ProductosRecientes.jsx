@@ -4,22 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import styles from "../../styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
-import { generateProductSlug, buildProductUrl } from "../../utils/slugify";
-
-// Datos de respaldo para cuando la API no está disponible
-const productosRespaldo = [
-  {
-    id: "cmfftbrgd0003s0gmnl137i5j",
-    nombre: "RAM DDR4 - Puskill",
-    descripcion: "Memoria RAM de 8 gigas de procesamiento que garantiza la correcta ejecución de las aplicaciones de su sistema.\nColor disponible: morado",
-    precio: 104900,
-    categoria: "computadoras",
-    imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ram%20ddr4%20puskill%208%20gb/1.png",
-    imagenes: [],
-    stock: 4,
-    createdAt: "2025-09-11T19:39:00.000Z"
-  }
-];
+import { obtenerProductosRecientes } from "../productosRecientesService";
 
 const ProductosRecientes = () => {
   // Estado para almacenar los productos recientes
@@ -40,30 +25,10 @@ const ProductosRecientes = () => {
   // Referencia al contenedor de scroll
   const containerRef = useRef(null);
 
-  // Referencia para evitar llamadas duplicadas en desarrollo (React.StrictMode)
-  const hasFetchedRef = useRef(false);
-
-  // Función para obtener productos recientes desde el archivo JSON
-  const obtenerProductosRecientes = async () => {
-    try {
-      const response = await fetch("/productosRecientes.json");
-      if (!response.ok) {
-        // Si falla la carga del JSON, usar datos de respaldo
-        console.warn("JSON no disponible, usando datos de respaldo");
-        return productosRespaldo;
-      }
-      const data = await response.json();
-      return data.productos || data || productosRespaldo;
-    } catch (error) {
-      console.error("Error al obtener productos recientes:", error);
-      console.warn("Usando datos de respaldo");
-      // En lugar de lanzar error, devolver datos de respaldo
-      return productosRespaldo;
-    }
-  };
-
-  // Función para formatear la fecha de creación
+  // Función para formatear la fecha de ingreso
   const formatearFechaCreacion = (fecha) => {
+    if (!fecha) return "Nuevo";
+
     const fechaCreacion = new Date(fecha);
     const ahora = new Date();
     const diferenciaDias = Math.floor(
@@ -80,10 +45,6 @@ const ProductosRecientes = () => {
 
   // Efecto para cargar los productos recientes al montar el componente
   useEffect(() => {
-    // Evitar llamadas duplicadas en desarrollo (React.StrictMode)
-    if (hasFetchedRef.current) return;
-    hasFetchedRef.current = true;
-
     const fetchProductos = async () => {
       try {
         setLoading(true);
@@ -92,10 +53,7 @@ const ProductosRecientes = () => {
         setErrorState(null);
       } catch (err) {
         console.error("Error al cargar productos recientes:", err);
-        // Como ahora obtenerProductosRecientes nunca debería fallar (tiene respaldo),
-        // este catch probablemente no se ejecute, pero lo mantenemos por seguridad
-        setRecientes(productosRespaldo);
-        setErrorState(null);
+        setErrorState("No se pudieron cargar los productos");
       } finally {
         setLoading(false);
       }
@@ -248,13 +206,10 @@ const ProductosRecientes = () => {
         }}
       >
         {recientes.map((producto, index) => {
-          const productSlug = generateProductSlug(producto.nombre, producto.id);
-          const productUrl = buildProductUrl(producto.categoria, productSlug);
-
           return (
             <Link
-              key={producto.id}
-              href={productUrl}
+              key={`${producto.categoria}-${producto.id}-${index}`}
+              href={`/accesorios/${producto.categoria}/${producto.id}`}
               className="producto-card border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 snap-start mx-2 flex flex-col relative"
               style={{
                 minWidth: "calc(100% - 1rem)",
@@ -270,7 +225,7 @@ const ProductosRecientes = () => {
 
                 // Navegar después de un breve delay para permitir la animación
                 setTimeout(() => {
-                  window.location.href = productUrl;
+                  window.location.href = `/accesorios/${producto.categoria}/${producto.id}`;
                 }, 300);
               }}
             >
@@ -279,9 +234,9 @@ const ProductosRecientes = () => {
                 NUEVO
               </div>
 
-              {/* Badge con fecha de creación */}
+              {/* Badge con fecha de ingreso */}
               <div className="absolute top-2 right-2 bg-white bg-opacity-90 text-gray-700 px-2 py-1 rounded-full text-xs font-medium z-10">
-                {formatearFechaCreacion(producto.createdAt)}
+                {formatearFechaCreacion(producto.fechaIngreso)}
               </div>
               {/* Contenedor de imagen con posición relativa y tamaño fijo */}
               <div className="w-full h-48 relative">
@@ -335,18 +290,18 @@ const ProductosRecientes = () => {
                   )}
                 </div>
 
-                {/* Mostrar stock si está disponible */}
-                {producto.stock !== undefined && (
+                {/* Mostrar cantidad si está disponible */}
+                {producto.cantidad !== undefined && (
                   <div className="mt-2">
                     <span
                       className={`text-xs px-2 py-1 rounded-full ${
-                        producto.stock > 0
+                        producto.cantidad > 0
                           ? "bg-green-100 text-green-800"
                           : "bg-red-100 text-red-800"
                       }`}
                     >
-                      {producto.stock > 0
-                        ? `${producto.stock} disponibles`
+                      {producto.cantidad > 0
+                        ? `${producto.cantidad} disponibles`
                         : "Sin stock"}
                     </span>
                   </div>

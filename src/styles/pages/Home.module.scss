@@ -169,19 +169,19 @@
     padding: 0 20px;
     margin-top: -25vh;
 
-    // Vista en columna
+    // Vista en columna para móviles
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    // Vista en fila desde 768px
     @media (min-width: 768px) {
       display: flex;
-      align-items: center;
+      flex-direction: row;
+      align-items: flex-start;
       justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    @media (min-width > 1024) {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-
-      width: 300px;
+      gap: 20px;
+      flex-wrap: nowrap;
     }
   }
 
