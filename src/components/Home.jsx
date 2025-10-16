@@ -16,7 +16,6 @@ import FAQ from "./FAQ";
 import SideModal from "./SideModal/page";
 import PresentationCarousel from "./PresentationCarousel/PresentationCarousel";
 import TechnicalServicesCarousel from "./TechnicalServicesCarousel";
-import NewsSection from "./News/NewsSection";
 import WebDevSection from "./WebDevelopment/WebDevSection";
 import ContactWhatsApp from "./ContactWhatsApp/ContactWhatsApp";
 // import FacebookLogin from "./Auth/FacebookLogin";
@@ -521,17 +520,6 @@ export default function Inicio() {
         >
           <section className={`${styles.webDevSection}`}>
             <WebDevSection />
-          </section>
-        </Suspense>
-
-        {/* Sección de Noticias */}
-        <Suspense
-          fallback={
-            <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
-          }
-        >
-          <section className={`${styles.newsSection}`}>
-            <NewsSection />
           </section>
         </Suspense>
 

@@ -1,0 +1,528 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.03) 0px,
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 1px,
+        transparent 20px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.03) 0px,
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 1px,
+        transparent 20px
+      );
+    pointer-events: none;
+  }
+
+  // Modo oscuro
+  :global(.dark) & {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  }
+}
+
+.content {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+// Bloque de código
+.codeBlock {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  :global(.dark) & {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.codeHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  :global(.dark) & {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
+.dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f56;
+
+  &:nth-child(2) {
+    background: #ffbd2e;
+  }
+
+  &:nth-child(3) {
+    background: #27c93f;
+  }
+}
+
+.filename {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  font-family: "Courier New", monospace;
+}
+
+.codeContent {
+  padding: 1.5rem;
+  font-family: "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+
+  pre {
+    margin: 0;
+  }
+
+  code {
+    color: #e0e0e0;
+  }
+}
+
+.codeLine {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.lineNumber {
+  color: rgba(255, 255, 255, 0.4);
+  min-width: 2rem;
+  text-align: right;
+  user-select: none;
+}
+
+.comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.keyword {
+  color: #c586c0;
+  font-weight: 600;
+}
+
+.className {
+  color: #4ec9b0;
+}
+
+.string {
+  color: #ce9178;
+}
+
+.punctuation {
+  color: #d4d4d4;
+}
+
+// Error principal
+.mainError {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  :global(.dark) & {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.errorCode {
+  font-size: clamp(4rem, 15vw, 8rem);
+  font-weight: 900;
+  color: white;
+  margin: 0;
+  line-height: 1;
+  font-family: "Courier New", monospace;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  animation: glitch 2s infinite;
+
+  @keyframes glitch {
+    0%, 100% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+  }
+}
+
+.bracket {
+  color: #ffd700;
+  animation: pulse 2s ease-in-out infinite;
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}
+
+.errorTitle {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: white;
+  margin: 1rem 0;
+  font-weight: 700;
+}
+
+.errorDescription {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+// Terminal
+.terminal {
+  background: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  font-family: "Courier New", monospace;
+
+  :global(.dark) & {
+    background: #0d1117;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.terminalHeader {
+  background: #323232;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid #444;
+
+  :global(.dark) & {
+    background: #161b22;
+    border-bottom-color: #30363d;
+  }
+}
+
+.terminalButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.terminalBtn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+
+  &.close {
+    background: #ff5f56;
+  }
+
+  &.minimize {
+    background: #ffbd2e;
+  }
+
+  &.maximize {
+    background: #27c93f;
+  }
+}
+
+.terminalTitle {
+  color: #999;
+  font-size: 0.875rem;
+}
+
+.terminalBody {
+  padding: 1.5rem;
+  min-height: 200px;
+  color: #0f0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  background: #000;
+
+  :global(.dark) & {
+    background: #010409;
+  }
+}
+
+.terminalLine {
+  margin-bottom: 0.5rem;
+  animation: typewriter 0.5s steps(40) forwards;
+  overflow: hidden;
+  white-space: nowrap;
+
+  @keyframes typewriter {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+}
+
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 1rem;
+  background: #0f0;
+  animation: blink 1s infinite;
+  margin-left: 2px;
+
+  @keyframes blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+}
+
+// Botones de acción
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.primaryBtn {
+  background: white;
+  color: #667eea;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+  }
+
+  :global(.dark) & {
+    background: #4c1d95;
+    color: white;
+    box-shadow: 0 4px 15px rgba(76, 29, 149, 0.5);
+
+    &:hover {
+      box-shadow: 0 6px 20px rgba(76, 29, 149, 0.7);
+    }
+  }
+}
+
+.secondaryBtn {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  :global(.dark) & {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+.btnIcon {
+  font-size: 1.25rem;
+}
+
+// Sugerencias
+.suggestions {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+
+  :global(.dark) & {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: white;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 0.75rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
+
+      &::before {
+        content: ">";
+        position: absolute;
+        left: 0;
+        color: #ffd700;
+        font-weight: bold;
+      }
+
+      a {
+        color: #ffd700;
+        text-decoration: underline;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #ffed4e;
+        }
+      }
+    }
+  }
+}
+
+// ASCII Art
+.asciiArt {
+  text-align: center;
+  margin-top: 2rem;
+
+  pre {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    font-family: "Courier New", monospace;
+    margin: 0;
+
+    :global(.dark) & {
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .content {
+    gap: 1.5rem;
+  }
+
+  .mainError {
+    padding: 1.5rem;
+  }
+
+  .errorCode {
+    font-size: 5rem;
+  }
+
+  .errorTitle {
+    font-size: 1.5rem;
+  }
+
+  .errorDescription {
+    font-size: 1rem;
+  }
+
+  .actions {
+    flex-direction: column;
+
+    button,
+    a {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .suggestions {
+    padding: 1.5rem;
+
+    h3 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .codeContent {
+    padding: 1rem;
+    font-size: 0.75rem;
+  }
+
+  .terminalBody {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+}

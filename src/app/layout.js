@@ -14,7 +14,6 @@ import StoreStatus from "../components/StoreStatus";
 import { Analytics } from "@vercel/analytics/next";
 import { ToastProvider } from "../contexts/ToastContext";
 import { CartProvider } from "../contexts/CartContext";
-import { AuthProvider } from "../contexts/AuthContext";
 import { ToastContainer } from "../components/Toast";
 
 export const metadata = {
@@ -98,24 +97,22 @@ export default function RootLayout({ children }) {
         <body>
           <StructuredData />
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <AuthProvider>
-              <ToastProvider>
-                <CartProvider>
-                  <SplashScreen />
-                  <div className={styles.layoutContainer}>
-                    <NavBar />
-                    <main className={styles.mainContent}>
-                      {children}
-                      {/* <NotificationManager /> */}
-                      <Analytics />
-                    </main>
-                    <Footer />
-                    {/* <StoreStatus /> */}
-                  </div>
-                  <ToastContainer />
-                </CartProvider>
-              </ToastProvider>
-            </AuthProvider>
+            <ToastProvider>
+              <CartProvider>
+                <SplashScreen />
+                <div className={styles.layoutContainer}>
+                  <NavBar />
+                  <main className={styles.mainContent}>
+                    {children}
+                    {/* <NotificationManager /> */}
+                    <Analytics />
+                  </main>
+                  <Footer />
+                  {/* <StoreStatus /> */}
+                </div>
+                <ToastContainer />
+              </CartProvider>
+            </ToastProvider>
           </ThemeProvider>
         </body>
       </html>
