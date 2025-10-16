@@ -6,7 +6,7 @@ export default function StructuredData() {
     "@type": "Organization",
     name: "Neurai.dev",
     url: "https://www.neurai.dev",
-    logo: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb",
+    logo: "/images/logo.png",
     description:
       "Tienda online de accesorios tecnológicos, servicios de desarrollo web y soporte técnico en sistemas",
     sameAs: [
@@ -42,7 +42,7 @@ export default function StructuredData() {
     "@type": "LocalBusiness",
     name: "Neurai.dev",
     image:
-      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb",
+      "/images/logo.png",
     "@id": "https://www.neurai.dev",
     url: "https://www.neurai.dev",
     telephone: "+57-317-450-3604",

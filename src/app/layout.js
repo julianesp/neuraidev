@@ -14,7 +14,36 @@ import StoreStatus from "../components/StoreStatus";
 import { Analytics } from "@vercel/analytics/next";
 import { ToastProvider } from "../contexts/ToastContext";
 import { CartProvider } from "../contexts/CartContext";
+import { AuthProvider } from "../contexts/AuthContext";
 import { ToastContainer } from "../components/Toast";
+
+export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://neurai.dev'),
+  title: {
+    default: 'neurai.dev - Tienda de Accesorios y Servicios',
+    template: '%s | neurai.dev'
+  },
+  description: 'Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales en desarrollo de software y técnico en sistemas.',
+  keywords: ['accesorios', 'Valle de Sibundoy', 'noticias', 'desarrollo software', 'técnico sistemas', 'Putumayo'],
+  authors: [{ name: 'neurai.dev' }],
+  openGraph: {
+    type: 'website',
+    locale: 'es_CO',
+    url: 'https://neurai.dev',
+    siteName: 'neurai.dev',
+    title: 'neurai.dev - Tienda de Accesorios y Servicios',
+    description: 'Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'neurai.dev - Tienda de Accesorios y Servicios',
+    description: 'Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function RootLayout({ children }) {
   return (
@@ -50,27 +79,43 @@ export default function RootLayout({ children }) {
             gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
           `}
           </Script>
+
+          {/* Script para prevenir scroll automático al cargar */}
+          <Script id="scroll-restoration" strategy="beforeInteractive">
+            {`
+            if ('scrollRestoration' in history) {
+              history.scrollRestoration = 'manual';
+            }
+            window.addEventListener('load', function() {
+              setTimeout(function() {
+                window.scrollTo(0, 0);
+              }, 0);
+            });
+          `}
+          </Script>
         </head>
 
         <body>
           <StructuredData />
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ToastProvider>
-              <CartProvider>
-                <SplashScreen />
-                <div className={styles.layoutContainer}>
-                  <NavBar />
-                  <main className={styles.mainContent}>
-                    {children}
-                    {/* <NotificationManager /> */}
-                    <Analytics />
-                  </main>
-                  <Footer />
-                  {/* <StoreStatus /> */}
-                </div>
-                <ToastContainer />
-              </CartProvider>
-            </ToastProvider>
+            <AuthProvider>
+              <ToastProvider>
+                <CartProvider>
+                  <SplashScreen />
+                  <div className={styles.layoutContainer}>
+                    <NavBar />
+                    <main className={styles.mainContent}>
+                      {children}
+                      {/* <NotificationManager /> */}
+                      <Analytics />
+                    </main>
+                    <Footer />
+                    {/* <StoreStatus /> */}
+                  </div>
+                  <ToastContainer />
+                </CartProvider>
+              </ToastProvider>
+            </AuthProvider>
           </ThemeProvider>
         </body>
       </html>

@@ -119,7 +119,7 @@ export default function AccesoriosDestacadosPage() {
                       accesorio.imagenPrincipal ||
                       (accesorio.imagenes && accesorio.imagenes.length > 0
                         ? accesorio.imagenes[0].url
-                        : "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b")
+                        : "/images/placeholder.png")
                     }
                     alt={accesorio.nombre}
                     fill={true}

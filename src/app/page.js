@@ -28,7 +28,7 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Ftab.png?alt=media&token=5cefe9cd-82cc-4b31-b896-f9db4ec43a33",
+        url: "/images/logo.png",
         width: 1200,
         height: 630,
         alt: "Neurai.dev - Tienda Online",
@@ -41,7 +41,7 @@ export const metadata = {
     description:
       "Compra celulares, computadoras, accesorios y más. Servicios profesionales de desarrollo web y soporte técnico.",
     images: [
-      "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Ftab.png?alt=media&token=5cefe9cd-82cc-4b31-b896-f9db4ec43a33",
+      "/images/logo.png",
     ],
   },
   robots: {

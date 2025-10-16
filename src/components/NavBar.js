@@ -115,7 +115,7 @@ const NavBar = () => {
           <div className={styles.container__principal}>
             <Image
               alt="Neurai.dev - Logo de la empresa"
-              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb"
+              src="/images/logo.png"
               width={30}
               height={30}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

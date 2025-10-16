@@ -631,13 +631,6 @@ const AccesoriosContainer = ({
                             onError={() =>
                               handleImageError(`main-${index}`, imagenUrl)
                             }
-                            unoptimized={
-                              imagenUrl &&
-                              typeof imagenUrl === "string" &&
-                              imagenUrl.includes(
-                                "firebasestorage.googleapis.com",
-                              )
-                            }
                           />
                         ) : (
                           <div className="flex flex-col items-center justify-center h-full bg-slate-100/40 backdrop-blur-sm rounded-lg">
@@ -1076,13 +1069,6 @@ const AccesoriosContainer = ({
                                 handleImageError(`modal-${index}`, imagenUrl)
                               }
                               style={{ maxWidth: "90vw", maxHeight: "85vh" }}
-                              unoptimized={
-                                imagenUrl &&
-                                typeof imagenUrl === "string" &&
-                                imagenUrl.includes(
-                                  "firebasestorage.googleapis.com",
-                                )
-                              }
                             />
                           ) : (
                             <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-8">

@@ -131,7 +131,7 @@ export default async function PostPage({ params }) {
       >
         <div className="bg-black dark:bg-white rounded-full grid place-items-center left-80 absolute transition-transform hover:scale-110 hover:rotate-180 top-18 w-12 h-12">
           <Image
-            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fback.svg?alt=media&token=ae65c5f5-97e7-4557-81ef-57c09b11ea1a"
+            src="/images/back.svg"
             alt="Volver al blog"
             width={18}
             height={18}

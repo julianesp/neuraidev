@@ -8,7 +8,7 @@ export const metadata = {
     description: "Aprovecha nuestros descuentos especiales en servicios de tecnología",
     images: [
       {
-        url: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fofertas-og.jpg?alt=media&token=ofertas-special",
+        url: "/images/ofertas.png",
         width: 1200,
         height: 630,
         alt: "Ofertas especiales Neurai.dev",

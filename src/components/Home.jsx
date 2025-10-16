@@ -76,6 +76,17 @@ export default function Inicio() {
   const librosUsadosRef = useRef(null);
   const accesoriosRef = useRef(null);
 
+  // Efecto para asegurar que la página inicie en la parte superior
+  useEffect(() => {
+    // Scroll al inicio cuando el componente se monta
+    window.scrollTo(0, 0);
+
+    // También prevenimos cualquier scroll automático
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   // Efecto para manejar las animaciones al hacer scroll
   useEffect(() => {
     const handleScrollAnimation = () => {
@@ -198,32 +209,28 @@ export default function Inicio() {
       businessName: "Tienda Local",
       description:
         "Abarrotes y productos básicos para tu hogar. Servicio a domicilio disponible.",
-      imageUrl:
-        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      imageUrl: "/images/placeholder.png",
       businessId: "tienda-local",
     },
     {
       businessName: "Panadería El Trigal",
       description:
         "Pan fresco todos los días. Especialistas en productos artesanales.",
-      imageUrl:
-        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      imageUrl: "/images/placeholder.png",
       businessId: "panaderia-el-trigal",
     },
     {
       businessName: "Ferretería Martínez",
       description:
         "Todo para construcción y reparaciones. Más de 20 años de experiencia.",
-      imageUrl:
-        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      imageUrl: "/images/placeholder.png",
       businessId: "ferreteria-martinez",
     },
     {
       businessName: "¿Tienes un negocio?",
       description:
         "Solicita tu espacio publicitario aquí y llega a más clientes en tu zona.",
-      imageUrl:
-        "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      imageUrl: "/images/placeholder.png",
       linkUrl:
         "https://wa.me/573174503604?text=Hola,%20me%20interesa%20solicitar%20un%20espacio%20publicitario%20para%20mi%20negocio%20en%20NeuraIdev",
     },
@@ -307,7 +314,7 @@ export default function Inicio() {
 
               <div className={`${styles.imageContainer}`}>
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Fcable%20pzoz%20100w%20c%20-%20c%2FScreenshot_2025-05-13-21-31-33-554_com.alibaba.aliexpresshd-edit.jpg?alt=media&token=fa0d2a66-8a7e-4551-98f3-a7dd8105a0d5"
+                  src="/images/celulares-placeholder.png"
                   alt="Celulares"
                   width={300}
                   height={200}
@@ -340,7 +347,7 @@ export default function Inicio() {
               <h2 className="text-black dark:text-black">Computadores</h2>
               <div className={`${styles.imageContainer}`}>
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fcarcasa%202.5%20black%2F1.jpg?alt=media&token=87377fab-a145-4ce1-a87a-cf9caffc1990"
+                  src="/images/computadores-placeholder.png"
                   alt="Computadores"
                   width={300}
                   height={200}
@@ -374,7 +381,7 @@ export default function Inicio() {
 
               <div className={`${styles.imageContainer}`}>
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Frizador%2F470206118_122195128148083804_8173820928240704070_n.jpg?alt=media&token=dfb4c27d-7dc7-4ad6-9f94-a60f2c2afc72"
+                  src="/images/damas-placeholder.png"
                   alt="Damas"
                   width={300}
                   height={200}
@@ -408,7 +415,7 @@ export default function Inicio() {
 
               <div className={`${styles.imageContainer}`}>
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fnew%2Fenamorate%20de%20ti%2F480534106_122204421584083804_6430148799072894958_n.jpg?alt=media&token=ba8c5d5b-6bf3-478c-aaf6-0f50bfe22be1"
+                  src="/images/libros-nuevos-placeholder.png"
                   alt="Libros Nuevos"
                   width={300}
                   height={200}
@@ -442,7 +449,7 @@ export default function Inicio() {
 
               <div className={`${styles.imageContainer}`}>
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fbooks%2Fold%2Fcircuitos%20electricos%2F1.jpg?alt=media&token=5ca250e3-8461-4415-9f0d-1da8e6ae8f6a"
+                  src="/images/libros-usados-placeholder.png"
                   alt="Libros Usados"
                   width={300}
                   height={200}
@@ -476,7 +483,7 @@ export default function Inicio() {
 
               <div className={`${styles.imageContainer}`}>
                 <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fgeneral%2Fcepillo%20pets%2F488471910_122211784658083804_5069962783250805604_n.jpg?alt=media&token=7a9310af-278b-42de-b45c-62a1b25a6ee3"
+                  src="/images/generales-placeholder.png"
                   alt="Accesorios"
                   width={300}
                   height={200}

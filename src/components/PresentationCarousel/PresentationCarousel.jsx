@@ -54,9 +54,12 @@ const PresentationCarousel = () => {
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  // Marcar como cargado después del montaje
+  // Marcar como cargado después del montaje y asegurar scroll al inicio
   useEffect(() => {
     setIsLoaded(true);
+
+    // Asegurar que la página inicie en la parte superior
+    window.scrollTo(0, 0);
   }, []);
 
   const goToSlide = (index) => {

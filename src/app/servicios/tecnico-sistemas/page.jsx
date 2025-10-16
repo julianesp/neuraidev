@@ -76,7 +76,7 @@ export default function TecnicoSistemas() {
           </div>
           <div className={styles.aboutImage}>
             <Image
-              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Ftecnico-sistemas.jpg?alt=media&token=example"
+              src="/images/tecnico-sistemas.png"
               alt="Técnico en Sistemas"
               width={500}
               height={400}

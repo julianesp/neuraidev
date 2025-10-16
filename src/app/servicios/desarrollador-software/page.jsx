@@ -108,7 +108,7 @@ export default function DesarrolladorSoftware() {
           </div>
           <div className={styles.aboutImage}>
             <Image
-              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fdev-software.jpg?alt=media&token=example"
+              src="/images/dev-software.png"
               alt="Desarrollador Web"
               width={500}
               height={400}

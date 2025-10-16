@@ -19,41 +19,21 @@ export default function NewsSection() {
   ];
 
   useEffect(() => {
-    // Simular carga de noticias (aquí conectarías con tu API)
+    // Cargar noticias desde la API (base de datos en la nube)
     setLoading(true);
-    setTimeout(() => {
-      setNoticias([
-        {
-          id: 1,
-          titulo: "Festival del Carnaval del Perdón en Sibundoy",
-          descripcion: "La tradicional celebración que reúne a miles de visitantes cada año.",
-          imagen: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
-          fecha: "2025-02-10",
-          municipio: "sibundoy",
-          categoria: "cultura"
-        },
-        {
-          id: 2,
-          titulo: "Nuevas oportunidades de empleo en la región",
-          descripcion: "Empresas locales abren convocatorias para jóvenes profesionales.",
-          imagen: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
-          fecha: "2025-02-08",
-          municipio: "general",
-          categoria: "economia"
-        },
-        {
-          id: 3,
-          titulo: "Mejoras en la vía Pasto - Mocoa",
-          descripcion: "Gobierno departamental anuncia inversión en infraestructura vial.",
-          imagen: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
-          fecha: "2025-02-05",
-          municipio: "general",
-          categoria: "infraestructura"
-        },
-      ]);
-      setLoading(false);
-    }, 500);
-  }, [selectedMunicipio]);
+    fetch("/api/noticias")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setNoticias(data.noticias || []);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error cargando noticias:", err);
+        setLoading(false);
+      });
+  }, []);
 
   const noticiasFiltradas = selectedMunicipio === "general"
     ? noticias

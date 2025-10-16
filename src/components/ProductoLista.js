@@ -16,7 +16,7 @@ export default function ProductoLista({ productos }) {
             <Image
               src={
                 producto.images?.[0] ||
-                "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b"
+                "/images/placeholder.png"
               }
               alt={producto.title}
               className="object-cover rounded"
