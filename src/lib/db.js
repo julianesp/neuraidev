@@ -15,6 +15,12 @@ export function getPool() {
 }
 
 // Crear tabla de noticias si no existe
+// Función query para ejecutar consultas SQL
+export async function query(text, params) {
+  const pool = getPool();
+  return pool.query(text, params);
+}
+
 export async function initNoticiasTable() {
   const client = getPool();
 
