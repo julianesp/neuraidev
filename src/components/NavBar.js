@@ -46,11 +46,7 @@ const NavBar = () => {
   };
 
   const handleTiendaMouseLeave = () => {
-    if (window.innerWidth >= 1024) {
-      setTimeout(() => {
-        setDropdownOpen(false);
-      }, 300); // Delay de 300ms antes de cerrar
-    }
+    // No hacer nada aquí - el dropdown se cerrará solo cuando el mouse salga completamente
   };
 
   const handleServiciosMouseEnter = () => {
@@ -61,11 +57,7 @@ const NavBar = () => {
   };
 
   const handleServiciosMouseLeave = () => {
-    if (window.innerWidth >= 1024) {
-      setTimeout(() => {
-        setServiciosDropdownOpen(false);
-      }, 300); // Delay de 300ms antes de cerrar
-    }
+    // No hacer nada aquí - el dropdown se cerrará solo cuando el mouse salga completamente
   };
 
   const handleLinkClick = () => {
@@ -168,8 +160,13 @@ const NavBar = () => {
           <li
             role="none"
             ref={dropdownRef}
+            className={styles.dropdownContainer}
             onMouseEnter={handleTiendaMouseEnter}
-            onMouseLeave={handleTiendaMouseLeave}
+            onMouseLeave={() => {
+              if (window.innerWidth >= 1024) {
+                setTimeout(() => setDropdownOpen(false), 300);
+              }
+            }}
           >
             <Link
               href="/accesorios"
@@ -187,18 +184,12 @@ const NavBar = () => {
             {dropdownOpen && (
               <ul className={styles.dropdown}>
                 <li>
-                  <Link
-                    href="/accesorios/destacados"
-                    onClick={handleLinkClick}
-                  >
+                  <Link href="/accesorios/destacados" onClick={handleLinkClick}>
                     Destacados
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/accesorios/celulares"
-                    onClick={handleLinkClick}
-                  >
+                  <Link href="/accesorios/celulares" onClick={handleLinkClick}>
                     Celulares
                   </Link>
                 </li>
@@ -211,18 +202,12 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/accesorios/damas"
-                    onClick={handleLinkClick}
-                  >
+                  <Link href="/accesorios/damas" onClick={handleLinkClick}>
                     Damas
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/accesorios/belleza"
-                    onClick={handleLinkClick}
-                  >
+                  <Link href="/accesorios/belleza" onClick={handleLinkClick}>
                     Belleza
                   </Link>
                 </li>
@@ -243,10 +228,7 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/accesorios/generales"
-                    onClick={handleLinkClick}
-                  >
+                  <Link href="/accesorios/generales" onClick={handleLinkClick}>
                     Generales
                   </Link>
                 </li>
@@ -258,8 +240,13 @@ const NavBar = () => {
           <li
             role="none"
             ref={serviciosDropdownRef}
+            className={styles.dropdownContainer}
             onMouseEnter={handleServiciosMouseEnter}
-            onMouseLeave={handleServiciosMouseLeave}
+            onMouseLeave={() => {
+              if (window.innerWidth >= 1024) {
+                setTimeout(() => setServiciosDropdownOpen(false), 300);
+              }
+            }}
           >
             <Link
               href="/servicios"

@@ -396,31 +396,48 @@
       margin: 0 0 0 30px;
       position: relative;
 
+      /* Contenedor del dropdown para mejor control del hover */
+      &.dropdownContainer {
+        &::after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: -20px;
+          right: -20px;
+          height: 20px;
+          background: transparent;
+          z-index: 1999;
+        }
+      }
+
       /* Dropdown en desktop */
       .dropdown {
         display: none;
         position: absolute;
-        top: 100%;
+        top: calc(100% + 5px);
         left: 50%;
         transform: translateX(-50%);
-        background-color: transparent;
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 8px;
         padding: 10px 0;
-        margin-top: 10px;
+        margin-top: 0;
         min-width: 200px;
         list-style: none;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
         z-index: 2000;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
+
+        background-color: rgba(30, 30, 30, 0.95);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+
+        border-radius: 20px;
+
         transition:
-          opacity 0.3s ease,
-          visibility 0s linear 0.5s,
-          pointer-events 0s linear 0.5s; /* Delay de 0.5s antes de ocultar */
+          opacity 0.2s ease,
+          visibility 0s linear 0s,
+          pointer-events 0s linear 0s;
 
         li {
           margin: 0;
@@ -443,7 +460,7 @@
             z-index: 2001;
 
             &:hover {
-              background-color: rgba(255, 255, 255, 0.2);
+              background-color: rgba(255, 255, 255, 0.5);
               transform: scale(1);
               padding-left: 25px;
             }
@@ -452,15 +469,13 @@
       }
 
       /* Mostrar dropdown en hover del li padre */
+      &.dropdownContainer:hover > .dropdown,
       &:hover > .dropdown {
         display: block;
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        transition:
-          opacity 0.3s ease,
-          visibility 0s linear 0s,
-          pointer-events 0s linear 0s; /* Sin delay al aparecer */
+        transition: opacity 0.2s ease;
       }
 
       /* Mantener dropdown visible cuando el cursor está sobre él */
@@ -469,10 +484,6 @@
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        transition:
-          opacity 0.3s ease,
-          visibility 0s linear 0s,
-          pointer-events 0s linear 0s; /* Sin delay al mantenerse visible */
       }
     }
 
@@ -614,8 +625,8 @@
     /* Improved transitions with longer delay before hiding */
     transition:
       opacity 0.3s ease,
-      visibility 0s linear 1.2s,
-      /* Longer delay before hiding */ pointer-events 0s linear 1.2s; /* Match visibility delay */
+      visibility 0s linear 1.5s,
+      /* Longer delay before hiding */ pointer-events 0s linear 1.5s; /* Match visibility delay */
 
     display: block; /* Always keep in the DOM */
 

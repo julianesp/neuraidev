@@ -13,7 +13,6 @@ import Script from "next/script";
 import StoreStatus from "../components/StoreStatus";
 import { Analytics } from "@vercel/analytics/next";
 import { ToastProvider } from "../contexts/ToastContext";
-import { CartProvider } from "../contexts/CartContext";
 import { ToastContainer } from "../components/Toast";
 
 export const metadata = {
@@ -98,20 +97,18 @@ export default function RootLayout({ children }) {
           <StructuredData />
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ToastProvider>
-              <CartProvider>
-                <SplashScreen />
-                <div className={styles.layoutContainer}>
-                  <NavBar />
-                  <main className={styles.mainContent}>
-                    {children}
-                    {/* <NotificationManager /> */}
-                    <Analytics />
-                  </main>
-                  <Footer />
-                  {/* <StoreStatus /> */}
-                </div>
-                <ToastContainer />
-              </CartProvider>
+              <SplashScreen />
+              <div className={styles.layoutContainer}>
+                <NavBar />
+                <main className={styles.mainContent}>
+                  {children}
+                  {/* <NotificationManager /> */}
+                  <Analytics />
+                </main>
+                <Footer />
+                {/* <StoreStatus /> */}
+              </div>
+              <ToastContainer />
             </ToastProvider>
           </ThemeProvider>
         </body>
