@@ -28,7 +28,7 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "/images/logo.png",
+        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
         width: 1200,
         height: 630,
         alt: "Neurai.dev - Tienda Online",
@@ -41,7 +41,7 @@ export const metadata = {
     description:
       "Compra celulares, computadoras, accesorios y más. Servicios profesionales de desarrollo web y soporte técnico.",
     images: [
-      "/images/logo.png",
+      "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
     ],
   },
   robots: {
@@ -56,7 +56,8 @@ export const metadata = {
     },
   },
   verification: {
-    google: "google-site-verification-code", // Agregar tu código de verificación
+    google:
+      "google-site-verification=j5F1gIRKtoFcGqjKTDo7lUp7bRgRFjWw4HJz7AQ1ZnM",
   },
 };
 
