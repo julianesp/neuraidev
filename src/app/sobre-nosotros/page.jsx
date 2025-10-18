@@ -10,8 +10,8 @@ export default function SobreNosotrosPage() {
           Sobre Nosotros
         </h1>
 
-        <div className="grid md:grid-cols-2 gap-8 items-center mb-12">
-          <div>
+        <div className="grid md:grid-cols-1 gap-8 items-center mb-12">
+          {/* <div>
             <Image
               src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb"
               alt="NeuraI.dev"
@@ -19,21 +19,42 @@ export default function SobreNosotrosPage() {
               height={400}
               className="rounded-lg shadow-lg"
             />
-          </div>
+          </div> */}
           <div>
             <h2 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
-              Nuestra Historia
+              Historia
             </h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              NeuraI.dev nace con la misión de ofrecer productos tecnológicos de
+              neurai.dev nace con la misión de ofrecer productos tecnológicos de
               calidad y servicios especializados en el Valle de Sibundoy y sus
-              alrededores.
+              alrededores con un enfoque en la satisfacción del cliente tanto en
+              el trabajo como en los precios de nuestros productos.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              Somos una tienda local comprometida con brindar las mejores
-              soluciones tecnológicas, desde accesorios para celulares y
-              computadoras hasta servicios de desarrollo web y mantenimiento de
-              equipos.
+              Somos una tienda local comprometida con brindar las mejores soluciones tecnológicas, desde accesorios para celulares, computadoras y otros dispositivos hasta servicios de desarrollo web y mantenimiento de equipos.
+            </p>
+          </div>
+        </div>
+
+        {/* Misión y Visión */}
+        <div className="flex  mb-12">
+          <div className="border border-black dark:bg-gray-800 rounded-lg p-8 w-1/2 mr-3">
+            <h2 className="text-3xl font-semibold mb-6 text-center text-gray-900 dark:text-white">
+              Misión
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+              Brindar soluciones tecnológicas accesibles y de calidad, adaptadas
+              a las necesidades de nuestros clientes ofreciendo productos y servicios de buena calidad.
+            </p>
+          </div>
+
+          <div className="border border-black dark:bg-gray-800 rounded-lg p-8 w-1/2">
+            <h2 className="text-3xl font-semibold mb-6 text-center text-gray-900 dark:text-white">
+              Visión
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+              Ser la tienda de tecnología de referencia en el Valle de Sibundoy,
+              reconocida por su compromiso con la satisfacción del cliente.
             </p>
           </div>
         </div>
@@ -110,7 +131,8 @@ export default function SobreNosotrosPage() {
                 📦 Envíos
               </h3>
               <p className="text-gray-700 dark:text-gray-300">
-                Servicio de entrega local y envíos a todo el país. <strong>Envío gratis solo para el Valle de Sibundoy</strong>
+                Servicio de entrega local y envíos a todo el país.{" "}
+                <strong>Envío gratis solo para el Valle de Sibundoy</strong>
               </p>
             </div>
           </div>
@@ -118,10 +140,10 @@ export default function SobreNosotrosPage() {
 
         <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-8 text-center">
           <h2 className="text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
-            Nuestra Ubicación
+            Ubicación
           </h2>
           <p className="text-gray-700 dark:text-gray-300 mb-2">
-            📍 Calle 1A # 6 - 7, Colón - Putumayo
+            Colón - Putumayo
           </p>
           {/* <p className="text-gray-700 dark:text-gray-300 mb-2">
             📞 +57 317 450 3604

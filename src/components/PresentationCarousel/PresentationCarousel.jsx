@@ -24,7 +24,8 @@ const PresentationCarousel = () => {
       image:
         "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/mantenimiento.jpg",
       title: "Técnico en Sistemas",
-      description: "Soluciones profesionales para todos tus problemas informáticos",
+      description:
+        "Soluciones profesionales para todos tus problemas informáticos",
       link: "/servicios/tecnico-sistemas",
     },
     {

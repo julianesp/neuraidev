@@ -45,6 +45,10 @@ export default function ContactWhatsApp() {
       newErrors.producto = "Por favor indica qué producto te interesa";
     }
 
+    if (!formData.mensaje.trim()) {
+      newErrors.mensaje = "Por favor cuéntanos sobre el producto que buscas";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -63,7 +67,7 @@ Hola, me gustaría obtener información sobre este producto:
 👤 *Nombre:* ${formData.nombre}
 📱 *Teléfono:* ${formData.telefono}
 🛍️ *Producto de interés:* ${formData.producto}
-${formData.mensaje ? `\n💬 *Mensaje adicional:* ${formData.mensaje}` : ""}
+💬 *Detalles del producto:* ${formData.mensaje}
     `.trim();
 
     // Número de WhatsApp (debes reemplazarlo con tu número)
@@ -93,7 +97,7 @@ ${formData.mensaje ? `\n💬 *Mensaje adicional:* ${formData.mensaje}` : ""}
       <div className={`${styles.container} dark:bg-gray-900 dark:backdrop`}>
         <div className={styles.header}>
           <h2 className={`${styles.title} dark:text-white`}>
-            ¿Te interesa algún producto?
+            ¿Falta el producto que buscabas?
           </h2>
           <p className={styles.subtitle}>
             Completa el formulario y te contactaremos por WhatsApp para ayudarte
@@ -116,7 +120,7 @@ ${formData.mensaje ? `\n💬 *Mensaje adicional:* ${formData.mensaje}` : ""}
                 className={`${styles.input} ${
                   errors.nombre ? styles.inputError : ""
                 }`}
-                placeholder="Ej: Juan Pérez"
+                placeholder="Ej: Alan Turing"
               />
               {errors.nombre && (
                 <span className={styles.errorText}>{errors.nombre}</span>
@@ -180,17 +184,22 @@ ${formData.mensaje ? `\n💬 *Mensaje adicional:* ${formData.mensaje}` : ""}
           {/* Campo Mensaje Adicional */}
           <div className={styles.formGroup}>
             <label htmlFor="mensaje" className={styles.label}>
-              Mensaje adicional (opcional)
+              Cuéntame acerca de tu producto <span className={styles.required}>*</span>
             </label>
             <textarea
               id="mensaje"
               name="mensaje"
               value={formData.mensaje}
               onChange={handleChange}
-              className={styles.textarea}
+              className={`${styles.textarea} ${
+                errors.mensaje ? styles.inputError : ""
+              }`}
               placeholder="Cuéntanos más detalles sobre lo que necesitas..."
               rows="4"
             />
+            {errors.mensaje && (
+              <span className={styles.errorText}>{errors.mensaje}</span>
+            )}
           </div>
 
           {/* Botón de envío */}

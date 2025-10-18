@@ -69,7 +69,7 @@ const Footer = () => {
       <button ref={flechaRef} className={styles.flecha} onClick={switchOptions}>
         <Image
           alt="Links to navigation"
-          src="/images/next.svg"
+          src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/icons/arrow.png"
           priority
           width={30}
           height={30}
@@ -156,9 +156,7 @@ const Footer = () => {
         <h3>
           <Link href="mailto:julii1295@gmail.com">📧 Enviar correo</Link>
         </h3>
-        <h3>
-          <Link href="tel:+573174503604">📞 +57 317 450 3604</Link>
-        </h3>
+
         <h3>
           <Link href="https://wa.me/573174503604" target="_blank">
             💬 WhatsApp
@@ -170,7 +168,7 @@ const Footer = () => {
       <article className={`${styles.information} ${styles.ubicacionInfo}`}>
         <h2>Ubicación</h2>
         <p>📍 Colón - Putumayo</p>
-        <p>🏪 Calle 1A # 6 - 7</p>
+
         <p>🕒 Lun-Vie: 8:00-18:00</p>
         <p>NIT: 1124315657-2</p>
       </article>

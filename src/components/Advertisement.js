@@ -96,7 +96,7 @@ export default function AdvertisementToggle({ ads = [] }) {
           >
             <Image
               src={
-                "/images/logo.png"
+                "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png"
               }
               alt="Toggle Anuncios"
               width={24}
@@ -173,7 +173,7 @@ function AdContent({
         <Image
           src={
             imageUrl ||
-            "/images/placeholder.png"
+            "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png"
           }
           alt={businessName}
           className="p-2"
@@ -204,14 +204,14 @@ function AdContent({
             Más información
           </Link>
         ) : (
-          <a
+          <Link
             href={linkUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-green-500 text-white px-2 py-2 rounded hover:bg-green-600 transition-colors"
           >
             Contactar
-          </a>
+          </Link>
         )}
       </div>
     </>
