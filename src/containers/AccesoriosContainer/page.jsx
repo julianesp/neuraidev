@@ -490,10 +490,10 @@ const AccesoriosContainer = ({
           : `${imageSrc}?retry=${timeStamp}`;
 
       // Actualizar la URL temporal para forzar recarga (solo para lógica interna)
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         const img = new Image();
         img.src = retrySrc;
-      });
+      }, 1000);
     } else {
       // Después de reintentos fallidos, marcar como error
       setImageError((prev) => ({
@@ -573,8 +573,9 @@ const AccesoriosContainer = ({
       <div
         ref={containerRef}
         id="accesorios-container"
-        className={`${styles.container} max-w-6xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg`}
+        className="w-full"
       >
+      <div className="max-w-4xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg mb-8">
         {/* Título del accesorio */}
         <h1 className="text-3xl font-bold text-center mb-6">
           {accesorio.nombre}
@@ -582,16 +583,16 @@ const AccesoriosContainer = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           {/* Carrusel principal - SECCIÓN MEJORADA */}
           <div
-            className={`${styles.mainImageContainer} relative h-96 md:h-[450px] lg:h-[500px]`}
+            className={`${styles.mainImageContainer} relative h-96 md:h-[450px] lg:h-[500px] group`}
           >
-            {/* Botón de expansión */}
+            {/* Botón de expansión - visible en hover */}
             <button
               onClick={openImageModal}
-              className="absolute bottom-12 right-3 z-10 bg-black/80 hover:bg-black/95 text-white p-2.5 rounded-full transition-all duration-200 backdrop-blur-sm shadow-lg border border-white/20"
+              className="absolute top-4 right-4 z-10 bg-black/60 hover:bg-black/90 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm shadow-lg border border-white/20 opacity-0 group-hover:opacity-100"
               aria-label="Ver imagen en pantalla completa"
             >
               <svg
-                className="w-5 h-5"
+                className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -604,7 +605,10 @@ const AccesoriosContainer = ({
                 />
               </svg>
             </button>
-            <div className="h-full w-full relative overflow-hidden rounded-lg">
+            <div
+              className="h-full w-full relative overflow-hidden rounded-lg cursor-pointer"
+              onClick={openImageModal}
+            >
               {tieneImagenes ? (
                 accesorio.imagenes.map((imagen, index) => {
                   const imagenUrl =
@@ -630,6 +634,13 @@ const AccesoriosContainer = ({
                             priority={index === mainSlideIndex}
                             onError={() =>
                               handleImageError(`main-${index}`, imagenUrl)
+                            }
+                            unoptimized={
+                              imagenUrl &&
+                              typeof imagenUrl === "string" &&
+                              imagenUrl.includes(
+                                "firebasestorage.googleapis.com",
+                              )
                             }
                           />
                         ) : (
@@ -987,7 +998,7 @@ const AccesoriosContainer = ({
                       <div className="mt-3 space-y-2">
                         <Link
                           href={buildProductUrl(
-                            item.categoria || categorySlug,
+                            categorySlug,
                             generateProductSlug(item),
                             item,
                           )}
@@ -1007,177 +1018,199 @@ const AccesoriosContainer = ({
             </div>
           </div>
         )}
+      </div>
+      </div>
 
-        {/* Modal de imagen expandida */}
-        {isImageModalOpen && (
-          <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md"
-            onClick={closeImageModal}
-          >
-            <div className="relative max-w-[95vw] max-h-[95vh] w-full h-full flex items-center justify-center p-4">
-              {/* Botón cerrar */}
-              <button
-                onClick={closeImageModal}
-                className="absolute top-4 right-4 z-[10000] bg-black/80 hover:bg-black/95 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm shadow-lg border border-white/20"
-                aria-label="Cerrar imagen expandida"
+      {/* Modal de imagen expandida - FUERA del contenedor principal */}
+      {isImageModalOpen && (
+        <div
+          className="fixed top-0 left-0 right-0 bottom-0 z-[99999] bg-black/95 backdrop-blur-md overflow-hidden"
+          onClick={closeImageModal}
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            {/* Botón cerrar - Esquina superior derecha */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                closeImageModal();
+              }}
+              className={`fixed top-6 right-2 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-all duration-200 shadow-2xl border-2 border-white hover:scale-110 cursor-pointer z-50 ${styles.buttonCloseModal}`}
+              aria-label="Cerrar imagen expandida"
+              type="button"
+            >
+              <svg
+                className="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={3}
               >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
 
-              {/* Imagen expandida */}
-              <div
-                className="relative w-full h-full flex items-center justify-center"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {tieneImagenes ? (
-                  <div className="relative w-full h-full flex items-center justify-center">
-                    {accesorio.imagenes.map((imagen, index) => {
-                      const imagenUrl =
-                        typeof imagen === "object" && imagen.url
-                          ? imagen.url
-                          : imagen;
+            {/* Contenedor de la imagen - centrado en el viewport */}
+            <div
+              className="relative flex items-center justify-center w-full h-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {tieneImagenes ? (
+                <div className="relative w-full h-full flex items-center justify-center">
+                  {accesorio.imagenes.map((imagen, index) => {
+                    const imagenUrl =
+                      typeof imagen === "object" && imagen.url
+                        ? imagen.url
+                        : imagen;
 
-                      return (
-                        <div
-                          key={index}
-                          className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${
-                            index === mainSlideIndex
-                              ? "opacity-100"
-                              : "opacity-0"
-                          }`}
-                        >
-                          {!imageError[`modal-${index}`] ? (
+                    return (
+                      <div
+                        key={index}
+                        className={`absolute top-0 left-0 w-full h-full flex items-center justify-center transition-opacity duration-500 ${
+                          index === mainSlideIndex
+                            ? "opacity-100 z-10"
+                            : "opacity-0 z-0"
+                        }`}
+                      >
+                        {!imageError[`modal-${index}`] ? (
+                          <div className="relative w-full h-full flex items-center justify-center">
                             <Image
                               src={imagenUrl}
                               alt={`${accesorio.nombre} - Imagen ${index + 1}`}
-                              width={800}
-                              height={600}
-                              className="max-w-full max-h-full object-contain rounded-lg"
+                              width={2000}
+                              height={1500}
+                              className="object-contain rounded-xl shadow-2xl"
                               onError={() =>
                                 handleImageError(`modal-${index}`, imagenUrl)
                               }
-                              style={{ maxWidth: "90vw", maxHeight: "85vh" }}
-                            />
-                          ) : (
-                            <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-8">
-                              <p className="text-gray-500">
-                                Imagen no disponible
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-
-                    {/* Controles del carrusel en modal */}
-                    {accesorio.imagenes.length > 1 && (
-                      <>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            prevMainSlide(e);
-                          }}
-                          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
-                          aria-label="Imagen anterior"
-                        >
-                          <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15 19l-7-7 7-7"
-                            />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            nextMainSlide(e);
-                          }}
-                          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
-                          aria-label="Imagen siguiente"
-                        >
-                          <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </button>
-
-                        {/* Indicadores en modal */}
-                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-black/60 px-4 py-2 rounded-full backdrop-blur-sm">
-                          {accesorio.imagenes.map((_, index) => (
-                            <button
-                              key={index}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setMainSlideIndex(index);
+                              style={{
+                                maxWidth: "85vw",
+                                maxHeight: "80vh",
+                                width: "auto",
+                                height: "auto",
+                                minHeight: "400px",
                               }}
-                              className={`w-3 h-3 rounded-full transition-colors ${
-                                index === mainSlideIndex
-                                  ? "bg-white"
-                                  : "bg-white/50"
-                              }`}
-                              aria-label={`Ir a imagen ${index + 1}`}
+                              unoptimized={
+                                imagenUrl &&
+                                typeof imagenUrl === "string" &&
+                                imagenUrl.includes(
+                                  "firebasestorage.googleapis.com",
+                                )
+                              }
+                              priority
                             />
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                ) : imagenPrincipal ? (
-                  <div className="relative flex items-center justify-center">
-                    {!imageError["modal-principal"] ? (
-                      <Image
-                        src={imagenPrincipal}
-                        alt={accesorio.nombre}
-                        width={800}
-                        height={600}
-                        className="max-w-full max-h-full object-contain rounded-lg"
-                        onError={() => handleImageError("modal-principal")}
-                        style={{ maxWidth: "90vw", maxHeight: "85vh" }}
-                      />
-                    ) : (
-                      <div className="flex flex-col items-center justify-center bg-gray-100 rounded-lg p-8">
-                        <p className="text-gray-500">Imagen no disponible</p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center bg-gray-800 rounded-lg p-8">
+                            <p className="text-gray-300">
+                              Imagen no disponible
+                            </p>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center bg-gray-100 rounded-lg p-8">
-                    <p className="text-gray-500">No hay imágenes disponibles</p>
-                  </div>
-                )}
-              </div>
+                    );
+                  })}
+
+                  {/* Controles del carrusel en modal */}
+                  {accesorio.imagenes.length > 1 && (
+                    <>
+                      <button
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // eslint-disable-next-line no-console
+                          console.log("Flecha izquierda presionada");
+                          setMainSlideIndex((prevIndex) =>
+                            prevIndex === 0
+                              ? accesorio.imagenes.length - 1
+                              : prevIndex - 1,
+                          );
+                        }}
+                        className="fixed left-4 top-1/2 transform -translate-y-1/2 bg-black  text-white p-2 rounded-full transition-all duration-200 backdrop-blur-sm shadow-2xl border-2  cursor-pointer hover:scale-110"
+                        aria-label="Imagen anterior"
+                        type="button"
+                        style={{ zIndex: 999999, pointerEvents: "auto" }}
+                      >
+                        <ChevronLeft size={40} strokeWidth={3} />
+                      </button>
+                      <button
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // eslint-disable-next-line no-console
+                          console.log("Flecha derecha presionada");
+                          setMainSlideIndex((prevIndex) =>
+                            prevIndex === accesorio.imagenes.length - 1
+                              ? 0
+                              : prevIndex + 1,
+                          );
+                        }}
+                        className="fixed right-4 top-1/2 transform -translate-y-1/2 bg-black  text-white p-2 rounded-full transition-all duration-200 backdrop-blur-sm shadow-2xl border-2  cursor-pointer hover:scale-110"
+                        aria-label="Imagen siguiente"
+                        type="button"
+                        style={{ zIndex: 999999, pointerEvents: "auto" }}
+                      >
+                        <ChevronRight size={40} strokeWidth={3} />
+                      </button>
+
+                      {/* Indicadores en modal */}
+                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-black/60 px-4 py-2 rounded-full backdrop-blur-sm">
+                        {accesorio.imagenes.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setMainSlideIndex(index);
+                            }}
+                            className={`w-3 h-3 rounded-full transition-colors ${
+                              index === mainSlideIndex
+                                ? "bg-white"
+                                : "bg-white/50"
+                            }`}
+                            aria-label={`Ir a imagen ${index + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : imagenPrincipal ? (
+                <div className="relative w-full h-full flex items-center justify-center">
+                  {!imageError["modal-principal"] ? (
+                    <Image
+                      src={imagenPrincipal}
+                      alt={accesorio.nombre}
+                      width={2000}
+                      height={1500}
+                      className="object-contain rounded-xl shadow-2xl"
+                      onError={() => handleImageError("modal-principal")}
+                      style={{
+                        maxWidth: "85vw",
+                        maxHeight: "80vh",
+                        width: "auto",
+                        height: "auto",
+                        minHeight: "400px",
+                      }}
+                      priority
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center bg-gray-800 rounded-lg p-8">
+                      <p className="text-gray-300">Imagen no disponible</p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center bg-gray-800 rounded-lg p-8">
+                  <p className="text-gray-300">No hay imágenes disponibles</p>
+                </div>
+              )}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };

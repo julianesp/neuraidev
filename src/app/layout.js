@@ -14,6 +14,7 @@ import StoreStatus from "../components/StoreStatus";
 import { Analytics } from "@vercel/analytics/next";
 import { ToastProvider } from "../contexts/ToastContext";
 import { ToastContainer } from "../components/Toast";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://neurai.dev'),
@@ -95,22 +96,24 @@ export default function RootLayout({ children }) {
 
         <body>
           <StructuredData />
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ToastProvider>
-              <SplashScreen />
-              <div className={styles.layoutContainer}>
-                <NavBar />
-                <main className={styles.mainContent}>
-                  {children}
-                  {/* <NotificationManager /> */}
-                  <Analytics />
-                </main>
-                <Footer />
-                {/* <StoreStatus /> */}
-              </div>
-              <ToastContainer />
-            </ToastProvider>
-          </ThemeProvider>
+          <ClerkProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <ToastProvider>
+                <SplashScreen />
+                <div className={styles.layoutContainer}>
+                  <NavBar />
+                  <main className={styles.mainContent}>
+                    {children}
+                    {/* <NotificationManager /> */}
+                    <Analytics />
+                  </main>
+                  <Footer />
+                  {/* <StoreStatus /> */}
+                </div>
+                <ToastContainer />
+              </ToastProvider>
+            </ThemeProvider>
+          </ClerkProvider>
         </body>
       </html>
     </React.Fragment>
