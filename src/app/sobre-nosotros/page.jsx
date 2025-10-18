@@ -25,10 +25,15 @@ export default function SobreNosotrosPage() {
               Nuestra Historia
             </h2>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              NeuraI.dev nace con la misión de ofrecer productos tecnológicos de calidad y servicios especializados en el Valle de Sibundoy y sus alrededores.
+              NeuraI.dev nace con la misión de ofrecer productos tecnológicos de
+              calidad y servicios especializados en el Valle de Sibundoy y sus
+              alrededores.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              Somos una tienda local comprometida con brindar las mejores soluciones tecnológicas, desde accesorios para celulares y computadoras hasta servicios de desarrollo web y mantenimiento de equipos.
+              Somos una tienda local comprometida con brindar las mejores
+              soluciones tecnológicas, desde accesorios para celulares y
+              computadoras hasta servicios de desarrollo web y mantenimiento de
+              equipos.
             </p>
           </div>
         </div>
@@ -78,7 +83,8 @@ export default function SobreNosotrosPage() {
                 🛍️ Tienda de Accesorios
               </h3>
               <p className="text-gray-700 dark:text-gray-300">
-                Accesorios para celulares, computadoras, productos para damas, libros y artículos generales.
+                Accesorios para celulares, computadoras, productos para damas,
+                libros y artículos generales.
               </p>
             </div>
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
@@ -86,7 +92,8 @@ export default function SobreNosotrosPage() {
                 💻 Servicios Técnicos
               </h3>
               <p className="text-gray-700 dark:text-gray-300">
-                Formateo y mantenimiento de computadores, reparaciones y asesoría técnica.
+                Formateo y mantenimiento de computadores, reparaciones y
+                asesoría técnica.
               </p>
             </div>
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
@@ -94,7 +101,8 @@ export default function SobreNosotrosPage() {
                 🌐 Desarrollo Web
               </h3>
               <p className="text-gray-700 dark:text-gray-300">
-                Creación de sitios web, tiendas en línea y aplicaciones personalizadas.
+                Creación de sitios web, tiendas en línea y aplicaciones
+                personalizadas.
               </p>
             </div>
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
@@ -102,7 +110,7 @@ export default function SobreNosotrosPage() {
                 📦 Envíos
               </h3>
               <p className="text-gray-700 dark:text-gray-300">
-                Servicio de entrega local y envíos a todo el país.
+                Servicio de entrega local y envíos a todo el país. <strong>Envío gratis solo para el Valle de Sibundoy</strong>
               </p>
             </div>
           </div>

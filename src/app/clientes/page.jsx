@@ -45,7 +45,7 @@ export default function ClientesPage() {
               href="mailto:julii1295@gmail.com"
               className="text-blue-500 dark:text-blue-400 underline hover:text-blue-600 dark:hover:text-blue-300"
             >
-              enviar mensaje
+              Enviar mensaje
             </Link>
           </li>
         </ul>
