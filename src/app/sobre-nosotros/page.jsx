@@ -123,9 +123,9 @@ export default function SobreNosotrosPage() {
           <p className="text-gray-700 dark:text-gray-300 mb-2">
             📍 Calle 1A # 6 - 7, Colón - Putumayo
           </p>
-          <p className="text-gray-700 dark:text-gray-300 mb-2">
+          {/* <p className="text-gray-700 dark:text-gray-300 mb-2">
             📞 +57 317 450 3604
-          </p>
+          </p> */}
           <p className="text-gray-700 dark:text-gray-300 mb-2">
             📧 julii1295@gmail.com
           </p>
