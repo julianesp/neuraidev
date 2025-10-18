@@ -54,3 +54,7 @@ export-data.sql
 
 # cookies and temporary files
 cookies.txt
+
+#vercel
+.env.vercel
+.env.vercel.*

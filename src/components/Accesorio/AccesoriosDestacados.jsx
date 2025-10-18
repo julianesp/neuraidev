@@ -169,8 +169,8 @@ const AccesoriosDestacados = () => {
       >
         {destacados.map((accesorio, index) => (
           <Link
-            key={accesorio.id}
-            href={`/accesorios/${accesorio.id}`}
+            key={`${accesorio.categoria}-${accesorio.id}-${index}`}
+            href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}
             className="accesorio-card border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 snap-start mx-2 flex flex-col"
             style={{
               minWidth: "calc(100% - 1rem)",
@@ -186,7 +186,7 @@ const AccesoriosDestacados = () => {
 
               // Navegar después de un breve delay para permitir la animación
               setTimeout(() => {
-                window.location.href = `/accesorios/${accesorio.id}`;
+                window.location.href = `/accesorios/${accesorio.categoria}/${accesorio.id}`;
               }, 300);
             }}
           >
@@ -197,7 +197,7 @@ const AccesoriosDestacados = () => {
                   accesorio.imagenPrincipal ||
                   (accesorio.imagenes && accesorio.imagenes.length > 0
                     ? accesorio.imagenes[0].url
-                    : "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b")
+                    : "/images/placeholder.png")
                 }
                 alt={accesorio.nombre}
                 fill={true}

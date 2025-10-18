@@ -149,8 +149,6 @@
   width: 230px;
   height: 90%;
 
-  cursor: pointer;
-
   border-radius: 10px;
   padding: 20px 0;
   list-style: none;
@@ -166,6 +164,7 @@
     width: 100%;
     text-align: center;
     margin-bottom: 15px;
+    position: relative;
     &:last-child {
       margin-bottom: 0;
     }
@@ -193,6 +192,30 @@
       // transform: translateY(-2px) scale(1.05);
       // color: #ffffff;
       // border-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  /* Estilos para los dropdowns en mobile */
+  .dropdown {
+    list-style: none;
+    padding: 5px 0;
+    margin: 5px 0 0 0;
+    width: 100%;
+
+    li {
+      margin-bottom: 8px;
+
+      a {
+        font-size: 1rem;
+        padding: 8px 12px;
+        margin: 0 20px;
+        background-color: rgba(60, 60, 60, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+
+        &:hover {
+          background-color: rgba(80, 80, 80, 0.9);
+        }
+      }
     }
   }
 }
@@ -371,21 +394,113 @@
     li {
       width: auto;
       margin: 0 0 0 30px;
+      position: relative;
+
+      /* Contenedor del dropdown para mejor control del hover */
+      &.dropdownContainer {
+        &::after {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: -20px;
+          right: -20px;
+          height: 20px;
+          background: transparent;
+          z-index: 1999;
+        }
+      }
+
+      /* Dropdown en desktop */
+      .dropdown {
+        display: none;
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 0;
+        margin-top: 0;
+        min-width: 200px;
+        list-style: none;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+
+        background-color: rgba(30, 30, 30, 0.95);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+
+        border-radius: 20px;
+
+        transition:
+          opacity 0.2s ease,
+          visibility 0s linear 0s,
+          pointer-events 0s linear 0s;
+
+        li {
+          margin: 0;
+          width: 100%;
+
+          a {
+            display: block;
+            padding: 10px 20px;
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            white-space: nowrap;
+            border: none;
+            background-color: transparent;
+            text-decoration: none;
+            cursor: pointer;
+            pointer-events: auto;
+            position: relative;
+            z-index: 2001;
+
+            &:hover {
+              background-color: rgba(255, 255, 255, 0.5);
+              transform: scale(1);
+              padding-left: 25px;
+            }
+          }
+        }
+      }
+
+      /* Mostrar dropdown en hover del li padre */
+      &.dropdownContainer:hover > .dropdown,
+      &:hover > .dropdown {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition: opacity 0.2s ease;
+      }
+
+      /* Mantener dropdown visible cuando el cursor está sobre él */
+      .dropdown:hover {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
     }
 
-    a {
+    > li > a {
       font-size: 1.1rem;
       padding: 8px 5px;
       color: #ffffff;
-      // color: #000;
       font-weight: 700;
       margin: 0;
       text-shadow: 0 0 3px rgba(0, 0, 0, 1);
+      border: none;
+      background-color: transparent;
 
       &:hover {
         background-color: transparent;
         text-decoration: underline;
-        transform: scale(1.5);
+        transform: scale(1.05);
       }
     }
 
@@ -510,8 +625,8 @@
     /* Improved transitions with longer delay before hiding */
     transition:
       opacity 0.3s ease,
-      visibility 0s linear 1.2s,
-      /* Longer delay before hiding */ pointer-events 0s linear 1.2s; /* Match visibility delay */
+      visibility 0s linear 1.5s,
+      /* Longer delay before hiding */ pointer-events 0s linear 1.5s; /* Match visibility delay */
 
     display: block; /* Always keep in the DOM */
 

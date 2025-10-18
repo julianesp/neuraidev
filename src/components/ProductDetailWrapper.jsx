@@ -16,74 +16,64 @@ export default function ProductDetailWrapper({ apiUrl, categoryName }) {
     const loadProductData = async () => {
       try {
         setLoading(true);
-        
-        // Usar la API de productos en lugar de archivos JSON
+
+        // Extraer el ID del slug (última parte después del último guion)
+        const slugParts = params.slug.split('-');
+        const productId = slugParts[slugParts.length - 1];
+
+        // Intentar cargar el producto directamente por ID
+        try {
+          const productResponse = await fetch(`/api/productos/${productId}`);
+          if (productResponse.ok) {
+            const producto = await productResponse.json();
+
+            // Cargar productos de la misma categoría para "otros productos"
+            const categoryResponse = await fetch(apiUrl);
+            if (categoryResponse.ok) {
+              const data = await categoryResponse.json();
+              const productos = data.productos || data || [];
+              const otrosProductos = productos.filter(p => p.id !== producto.id);
+              setOtherProducts(otrosProductos);
+            }
+
+            setProductData(producto);
+            return;
+          }
+        } catch (err) {
+          console.warn('Error cargando producto por ID, intentando por slug:', err);
+        }
+
+        // Fallback: Buscar por slug en la categoría actual
         const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error('Error al cargar los datos');
         }
-        
+
         const data = await response.json();
         let productos = [];
-        
+
         // Manejar la estructura de la API
         if (data.productos && Array.isArray(data.productos)) {
           productos = data.productos;
         } else if (Array.isArray(data)) {
           productos = data;
         }
-        
+
         // Buscar el producto por slug
-        let producto = findProductBySlug(productos, params.slug);
-        
-        // Si no se encontró el producto en la categoría actual, buscar en todas las categorías
-        if (!producto) {
-          const categoriasParaBuscar = [
-            'celulares',
-            'computadoras', 
-            'bicicletas',
-            'gadgets',
-            'generales',
-            'damas',
-            'libros-nuevos',
-            'libros-usados'
-          ];
-          
-          // Buscar en todas las categorías
-          for (const categoria of categoriasParaBuscar) {
-            if (categoria === categoryName) continue; // Ya buscamos en la categoría actual
-            
-            try {
-              const response = await fetch(`/api/productos?categoria=${categoria}`);
-              if (!response.ok) continue;
-              
-              const data = await response.json();
-              const productosCategoria = data.productos || data || [];
-              
-              const productoEncontrado = findProductBySlug(productosCategoria, params.slug);
-              if (productoEncontrado) {
-                producto = productoEncontrado;
-                productos = productosCategoria;
-                break;
-              }
-            } catch (err) {
-              continue;
-            }
-          }
-        }
-        
+        const producto = findProductBySlug(productos, params.slug);
+
         if (!producto) {
           setError('Producto no encontrado');
           return;
         }
-        
+
         // Configurar datos
         setProductData(producto);
-        
+
         // Otros productos (excluyendo el actual)
         const otrosProductos = productos.filter(p => p.id !== producto.id);
         setOtherProducts(otrosProductos);
-        
+
       } catch (err) {
         console.error('Error cargando producto:', err);
         setError('Error al cargar el producto');

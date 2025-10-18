@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   CheckCircle,
   Download,
@@ -7,6 +8,8 @@ import {
   ArrowRight,
   Package,
   Calendar,
+  MessageCircle,
+  Home,
 } from "lucide-react";
 
 export default function ThankYouPage() {
@@ -40,7 +43,7 @@ export default function ThankYouPage() {
               ¡Compra Exitosa!
             </h1>
             <p className="text-xl text-gray-600">
-              Gracias por tu confianza en nosotros
+              Gracias por confiar en Neurai.dev
             </p>
           </div>
         </div>
@@ -179,10 +182,15 @@ export default function ThankYouPage() {
                 Nuestro equipo de soporte está aquí para ayudarte con cualquier
                 pregunta.
               </p>
-              <button className="w-full flex items-center justify-center px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors duration-200 text-sm font-medium">
-                Contactar Soporte
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </button>
+              <a
+                href="https://wa.me/573174503604?text=Hola,%20tengo%20una%20pregunta%20sobre%20mi%20pedido"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm font-medium"
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Contactar por WhatsApp
+              </a>
             </div>
 
             {/* Continuar comprando */}
@@ -191,9 +199,13 @@ export default function ThankYouPage() {
               <p className="text-blue-100 text-sm mb-4">
                 Descubre más productos que podrían interesarte.
               </p>
-              <button className="w-full bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-sm font-medium">
+              <Link
+                href="/"
+                className="w-full bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 text-sm font-medium flex items-center justify-center"
+              >
+                <Home className="w-4 h-4 mr-2" />
                 Continuar Comprando
-              </button>
+              </Link>
             </div>
 
             {/* Compartir */}
@@ -221,7 +233,10 @@ export default function ThankYouPage() {
       <footer className="bg-white border-t border-gray-200">
         <div className="max-w-4xl mx-auto px-4 py-8 text-center">
           <p className="text-gray-500 text-sm">
-            © 2025 Tu Empresa. Todos los derechos reservados.
+            © 2025 Neurai.dev. Todos los derechos reservados.
+          </p>
+          <p className="text-gray-400 text-xs mt-2">
+            Tienda Online de Tecnología y Servicios Profesionales
           </p>
         </div>
       </footer>

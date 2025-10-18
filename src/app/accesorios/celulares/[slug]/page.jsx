@@ -1,16 +1,33 @@
-import ProductDetailWrapper from "../../../../components/ProductDetailWrapper";
-import { generateProductMetadataForCategory } from "../../../../utils/generateProductMetadata";
+import { notFound } from "next/navigation";
+import AccesoriosContainer from "../../../../containers/AccesoriosContainer/page";
+import { loadProductBySlug } from "../../../../utils/loadCategoryProducts";
+import { generateProductMetadata } from "../../../../utils/productMetadata";
 
-// Generar metadatos dinámicos en el servidor
+// Forzar renderizado dinámico
+export const dynamic = 'force-dynamic';
+
+// Generar metadatos dinámicos
 export async function generateMetadata({ params }) {
-  return await generateProductMetadataForCategory(params.slug, 'celulares');
+  const { slug } = await params;
+  return await generateProductMetadata(slug, 'celulares');
 }
 
-export default function CelularesProductPage() {
+export default async function CelularesProductPage({ params }) {
+  const { slug } = await params;
+  const { producto, otrosProductos } = await loadProductBySlug('celulares', slug);
+
+  if (!producto) {
+    notFound();
+  }
+
   return (
-    <ProductDetailWrapper
-      apiUrl="/api/productos?categoria=celulares"
-      categoryName="celulares"
-    />
+    <main className="py-14">
+      <div className="max-w-6xl mx-auto px-4">
+        <AccesoriosContainer
+          accesorio={producto}
+          otrosAccesorios={otrosProductos}
+        />
+      </div>
+    </main>
   );
 }

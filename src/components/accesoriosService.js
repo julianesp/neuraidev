@@ -3,41 +3,82 @@
  * Centraliza la lógica de obtención de datos para reutilización
  */
 
-// URL del archivo JSON (corregida)
-const API_URL = "/accesoriosDestacados.json";
+// Archivos de categorías
+const CATEGORIAS_ARCHIVOS = {
+  celulares: "/celulares.json",
+  computadoras: "/computadoras.json",
+  damas: "/damas.json",
+  belleza: "/damas.json", // belleza usa el mismo archivo que damas
+  "libros-nuevos": "/libros-nuevos.json",
+  "libros-usados": "/libros-usados.json",
+  generales: "/generales.json",
+};
 
 /**
- * Obtiene todos los accesorios disponibles
- * @returns {Promise<Array>} Lista de accesorios
+ * Obtiene todos los accesorios de una categoría específica
+ * @param {string} categoria - Nombre de la categoría
+ * @returns {Promise<Array>} Lista de accesorios de la categoría
  */
-export const obtenerAccesorios = async () => {
+const obtenerAccesoriosDeCategoria = async (categoria) => {
   try {
-    const respuesta = await fetch(API_URL);
-    if (!respuesta.ok) {
-      throw new Error(
-        `Error al cargar los accesorios. Estado: ${respuesta.status}`,
-      );
-    }
-    const data = await respuesta.json();
+    const url = CATEGORIAS_ARCHIVOS[categoria];
+    if (!url) return [];
 
-    // Extraer el array de accesorios de la estructura
+    const respuesta = await fetch(url);
+    if (!respuesta.ok) return [];
+
+    const data = await respuesta.json();
     return data.accesorios || [];
   } catch (error) {
-    // console.error("Error en el servicio de accesorios:", error);
-    // Devolver array vacío para evitar errores en los componentes
+    console.error(`Error al cargar ${categoria}:`, error);
     return [];
   }
 };
 
 /**
- * Obtiene solo los accesorios destacados
- * @returns {Promise<Array>} Lista de accesorios destacados
+ * Obtiene todos los accesorios de todas las categorías
+ * @returns {Promise<Array>} Lista de todos los accesorios
+ */
+export const obtenerAccesorios = async () => {
+  try {
+    const categorias = Object.keys(CATEGORIAS_ARCHIVOS);
+    const promesas = categorias.map((cat) => obtenerAccesoriosDeCategoria(cat));
+    const resultados = await Promise.all(promesas);
+
+    // Combinar todos los arrays en uno solo
+    const todosLosAccesorios = resultados.flat();
+
+    return todosLosAccesorios;
+  } catch (error) {
+    console.error("Error en el servicio de accesorios:", error);
+    return [];
+  }
+};
+
+/**
+ * Obtiene solo los accesorios destacados de todas las categorías
+ * Filtra por la propiedad "destacado": true y ordena por fecha de ingreso
+ * @returns {Promise<Array>} Lista de accesorios destacados ordenados por fecha
  */
 export const obtenerAccesoriosDestacados = async () => {
   try {
-    // Simplemente devolver todos los accesorios ya que en la nueva estructura
-    // todos los accesorios en el archivo son destacados
-    return await obtenerAccesorios();
+    const todosLosAccesorios = await obtenerAccesorios();
+
+    // Filtrar solo los que tienen destacado: true y están disponibles
+    const destacados = todosLosAccesorios.filter(
+      (accesorio) =>
+        accesorio.destacado === true && accesorio.disponible !== false
+    );
+
+    // Ordenar por fecha de ingreso (más recientes primero)
+    const destacadosOrdenados = destacados.sort((a, b) => {
+      const fechaA = new Date(a.fechaIngreso || "2024-01-01");
+      const fechaB = new Date(b.fechaIngreso || "2024-01-01");
+      return fechaB - fechaA; // Orden descendente (más reciente primero)
+    });
+
+    // Limitar a 10 productos destacados
+    return destacadosOrdenados.slice(0, 10);
   } catch (error) {
     console.error("Error al obtener accesorios destacados:", error);
     return [];

@@ -37,12 +37,34 @@ const NavBar = () => {
     setDropdownOpen(false); // Close other dropdown
   };
 
+  // Manejadores de hover para desktop
+  const handleTiendaMouseEnter = () => {
+    if (window.innerWidth >= 1024) {
+      setDropdownOpen(true);
+      setServiciosDropdownOpen(false);
+    }
+  };
+
+  const handleTiendaMouseLeave = () => {
+    // No hacer nada aquí - el dropdown se cerrará solo cuando el mouse salga completamente
+  };
+
+  const handleServiciosMouseEnter = () => {
+    if (window.innerWidth >= 1024) {
+      setServiciosDropdownOpen(true);
+      setDropdownOpen(false);
+    }
+  };
+
+  const handleServiciosMouseLeave = () => {
+    // No hacer nada aquí - el dropdown se cerrará solo cuando el mouse salga completamente
+  };
+
   const handleLinkClick = () => {
     setBurgerOpen(false); // Close the menu when a link is clicked
     setDropdownOpen(false); // Close the dropdown when a link is clicked
     setServiciosDropdownOpen(false); // Close the servicios dropdown when a link is clicked
   };
-
 
   const handleOutsideClick = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -55,7 +77,10 @@ const NavBar = () => {
     }
 
     // Close servicios dropdown when clicking outside of it
-    if (serviciosDropdownRef.current && !serviciosDropdownRef.current.contains(event.target)) {
+    if (
+      serviciosDropdownRef.current &&
+      !serviciosDropdownRef.current.contains(event.target)
+    ) {
       setServiciosDropdownOpen(false);
     }
   };
@@ -82,7 +107,7 @@ const NavBar = () => {
           <div className={styles.container__principal}>
             <Image
               alt="Neurai.dev - Logo de la empresa"
-              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb"
+              src="/images/logo.png"
               width={30}
               height={30}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -104,8 +129,9 @@ const NavBar = () => {
 
       <nav className={styles.nav_container}>
         <ul
-          className={`${styles.enlaces__menu}  ${burgerOpen ? styles.open : styles.closed
-            } `}
+          className={`${styles.enlaces__menu}  ${
+            burgerOpen ? styles.open : styles.closed
+          } `}
           role="menubar"
         >
           <li role="none">
@@ -129,124 +155,132 @@ const NavBar = () => {
               Blog
             </Link>
           </li>
-          {/* TODO: Descomentar cuando estén listos para producción */}
-          {/* <li className={styles.dropdown} ref={serviciosDropdownRef} role="none">
-            <button
-              role="menuitem"
-              onClick={toggleServiciosDropdown}
-              className={styles.dropdown_toggle}
-              aria-haspopup="true"
-              aria-expanded={serviciosDropdownOpen}
-              aria-controls="servicios-dropdown-menu"
-              title="Ver servicios disponibles"
-            >
-              Servicios
-              <span className={styles.dropdown_arrow} aria-hidden="true">
-                ▼
-              </span>
-            </button>
-            <ul
-              id="servicios-dropdown-menu"
-              className={`${styles.dropdown_menu} ${serviciosDropdownOpen ? styles.show : ""}`}
-              role="menu"
-              aria-labelledby="servicios-dropdown-toggle"
-            >
-              <li role="none">
-                <Link
-                  href="/servicios/tecnicos"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  💻 Servicios Técnicos
-                </Link>
-              </li>
-              <li role="none">
-                <Link
-                  href="/servicios/transporte"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  🚛 Servicio de Transporte
-                </Link>
-              </li>
-              <li role="none">
-                <Link
-                  href="/servicios/contable"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  📊 Servicio Contable
-                </Link>
-              </li>
-            </ul>
-          </li> */}
 
-          {/* <li role="none">
-            <Link href="/businesses" className="nav-link">
-              Negocios
-            </Link>
-          </li> */}
-
-          {/* TODO: Descomentar cuando estén listos para producción */}
-          {/* <li className={styles.dropdown} ref={dropdownRef} role="none">
-            <button
-              role="menuitem"
-              onClick={toggleDropdown}
-              className={styles.dropdown_toggle}
-              aria-haspopup="true"
-              aria-expanded={dropdownOpen}
-              aria-controls="dropdown-menu"
-              title="Ir a las tiendas"
-            >
-              Tiendas
-              <span className={styles.dropdown_arrow} aria-hidden="true">
-                ▼
-              </span>
-            </button>
-            <ul
-              className={`${styles.dropdown_menu} ${dropdownOpen ? styles.show : ""}`}
-              role="menu"
-              aria-labelledby="dropdown-toggle"
-            >
-              <li role="none">
-                <Link
-                  href="/tiendas/neuraistore"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  🏪 NeuraIStore (Accesorios)
-                </Link>
-              </li>
-              <li role="none">
-                <Link
-                  href="/tiendas/jose-luis"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  🛒 Tienda José Luis
-                </Link>
-              </li>
-              <li role="none">
-                <Link
-                  href="/tiendas/pollos-campos-dorados"
-                  role="menuitem"
-                  onClick={handleLinkClick}
-                >
-                  🐔 Pollos Campos Dorados
-                </Link>
-              </li>
-            </ul>
-          </li> */}
-
-          {/* Enlace temporal a la tienda de accesorios */}
-          <li role="none">
+          {/* Dropdown de Tienda */}
+          <li
+            role="none"
+            ref={dropdownRef}
+            className={styles.dropdownContainer}
+            onMouseEnter={handleTiendaMouseEnter}
+            onMouseLeave={() => {
+              if (window.innerWidth >= 1024) {
+                setTimeout(() => setDropdownOpen(false), 300);
+              }
+            }}
+          >
             <Link
               href="/accesorios"
               title="Ir a la tienda de accesorios"
-              onClick={handleLinkClick}
+              onClick={(e) => {
+                // Solo prevenir navegación en móvil para toggle
+                if (window.innerWidth < 1024) {
+                  e.preventDefault();
+                  toggleDropdown(e);
+                }
+              }}
             >
-              Tienda
+              Tienda ▾
             </Link>
+            {dropdownOpen && (
+              <ul className={styles.dropdown}>
+                <li>
+                  <Link href="/accesorios/destacados" onClick={handleLinkClick}>
+                    Destacados
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/accesorios/celulares" onClick={handleLinkClick}>
+                    Celulares
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accesorios/computadoras"
+                    onClick={handleLinkClick}
+                  >
+                    Computadoras
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/accesorios/damas" onClick={handleLinkClick}>
+                    Damas
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/accesorios/belleza" onClick={handleLinkClick}>
+                    Belleza
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accesorios/libros-nuevos"
+                    onClick={handleLinkClick}
+                  >
+                    Libros Nuevos
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/accesorios/libros-usados"
+                    onClick={handleLinkClick}
+                  >
+                    Libros Usados
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/accesorios/generales" onClick={handleLinkClick}>
+                    Generales
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+
+          {/* Dropdown de Servicios */}
+          <li
+            role="none"
+            ref={serviciosDropdownRef}
+            className={styles.dropdownContainer}
+            onMouseEnter={handleServiciosMouseEnter}
+            onMouseLeave={() => {
+              if (window.innerWidth >= 1024) {
+                setTimeout(() => setServiciosDropdownOpen(false), 300);
+              }
+            }}
+          >
+            <Link
+              href="/servicios"
+              title="Ver servicios profesionales"
+              onClick={(e) => {
+                // Solo prevenir navegación en móvil para toggle
+                if (window.innerWidth < 1024) {
+                  e.preventDefault();
+                  toggleServiciosDropdown(e);
+                }
+              }}
+            >
+              Servicios ▾
+            </Link>
+            {serviciosDropdownOpen && (
+              <ul className={styles.dropdown}>
+                <li>
+                  <Link
+                    href="/servicios/tecnico-sistemas"
+                    onClick={handleLinkClick}
+                  >
+                    Técnico en Sistemas
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/servicios/desarrollador-software"
+                    onClick={handleLinkClick}
+                  >
+                    Desarrollador Web
+                  </Link>
+                </li>
+              </ul>
+            )}
           </li>
 
           <li role="none">
@@ -258,17 +292,8 @@ const NavBar = () => {
               Sobre mí
             </Link>
           </li>
-          {/* Mobile cart button - DESHABILITADO */}
-          {/* <li className={styles.mobileCartButton}>
-            <CartButton className="text-white hover:text-gray-300" />
-          </li> */}
         </ul>
       </nav>
-
-      {/* Desktop cart button - DESHABILITADO */}
-      {/* <div className={styles.cartButtonDesktop}>
-        <CartButton />
-      </div> */}
 
       <div className={styles.circle}>
         <button
@@ -282,8 +307,7 @@ const NavBar = () => {
           <span></span>
         </button>
       </div>
-
-    </div >
+    </div>
   );
 };
 

@@ -191,7 +191,7 @@ const NightSkyHero = () => {
           width: "100vw",
           height: "100vh",
           backgroundImage:
-            "url('https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Ffondo.jpg?alt=media&token=9b05c92d-f52f-44f3-810e-a312826fabd4')",
+            "url('/images/background.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

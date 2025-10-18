@@ -139,7 +139,7 @@ export default function Servicios() {
         </div>
         <div className={styles.heroImage}>
           <Image
-            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/services%2Fhero-tech.jpg?alt=media&token=hero-tech"
+            src="/images/services/hero-tech.png"
             alt="Servicios técnicos profesionales"
             width={600}
             height={400}

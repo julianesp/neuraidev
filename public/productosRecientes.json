@@ -7,10 +7,10 @@
       "precio": 850000,
       "precioAnterior": 950000,
       "categoria": "celulares",
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      "imagenPrincipal": "/images/placeholder.png",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          "url": "/images/placeholder.png",
           "alt": "Samsung Galaxy S24 frontal"
         }
       ],
@@ -24,10 +24,10 @@
       "descripcion": "Laptop para gaming con RTX 4070, 32GB RAM y procesador Intel i7",
       "precio": 1450000,
       "categoria": "computadoras",
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      "imagenPrincipal": "/images/placeholder.png",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          "url": "/images/placeholder.png",
           "alt": "ASUS ROG Strix Gaming"
         }
       ],
@@ -41,10 +41,10 @@
       "descripcion": "Auriculares inalámbricos con cancelación de ruido mejorada",
       "precio": 189000,
       "categoria": "accesorios",
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      "imagenPrincipal": "/images/placeholder.png",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          "url": "/images/placeholder.png",
           "alt": "Apple AirPods Pro 3ra generación"
         }
       ],
@@ -58,10 +58,10 @@
       "descripcion": "Nueva iPad Air con chip M2, pantalla de 11 pulgadas y soporte para Apple Pencil",
       "precio": 650000,
       "categoria": "tablets",
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      "imagenPrincipal": "/images/placeholder.png",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          "url": "/images/placeholder.png",
           "alt": "iPad Air con chip M2"
         }
       ],
@@ -75,10 +75,10 @@
       "descripcion": "Monitor curvo 4K de 32 pulgadas, 144Hz, ideal para gaming y trabajo profesional",
       "precio": 420000,
       "categoria": "monitores",
-      "imagenPrincipal": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+      "imagenPrincipal": "/images/placeholder.png",
       "imagenes": [
         {
-          "url": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flocal.png?alt=media&token=28b13e34-2396-4934-925b-75863006bb4b",
+          "url": "/images/placeholder.png",
           "alt": "Monitor 4K Gaming 32 pulgadas"
         }
       ],

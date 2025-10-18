@@ -101,7 +101,6 @@ export function getCategorySlug(apiUrl) {
     computadoras: "computadoras",
     computers: "computadoras", // Alias
     celulares: "celulares",
-    bicicletas: "bicicletas",
     gadgets: "gadgets",
     generales: "generales",
     damas: "damas",

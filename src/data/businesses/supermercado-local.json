@@ -3,8 +3,8 @@
     "name": "Super Familiar",
     "type": "Supermercado",
     "description": "Tu supermercado de confianza con productos frescos, abarrotes y todo lo que necesitas para tu hogar. Atención familiar desde 1995.",
-    "logo": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
-    "headerImage": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+    "logo": "/images/services/barber-shop.png",
+    "headerImage": "/images/services/barber-shop.png",
     "contact": {
         "phone": "+57 315 444 5555",
         "email": "info@superfamiliar.com",
@@ -45,28 +45,28 @@
             "id": 1,
             "name": "Combo Frutas Frescas",
             "price": "$15.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Selección diaria de frutas de temporada"
         },
         {
             "id": 2,
             "name": "Carne Premium Kg",
             "price": "$28.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Cortes selectos de res"
         },
         {
             "id": 3,
             "name": "Canasta Básica",
             "price": "$85.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Todo lo esencial para tu hogar"
         },
         {
             "id": 4,
             "name": "Productos Lácteos",
             "price": "$12.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Leche, queso y yogurt frescos"
         }
     ],
@@ -76,7 +76,7 @@
             "name": "Combo Limpieza Hogar",
             "price": "$35.000",
             "originalPrice": "$45.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Detergente + Desinfectante + Esponja"
         }
     ],
@@ -85,7 +85,7 @@
             "id": 1,
             "name": "Pan Fresco",
             "price": "$2.500",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Recién horneado - Oferta del día"
         }
     ],
@@ -94,7 +94,7 @@
             "id": 1,
             "name": "Productos Orgánicos",
             "price": "$18.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Nueva línea de productos saludables"
         }
     ],

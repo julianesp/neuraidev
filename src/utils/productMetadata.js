@@ -1,26 +1,38 @@
 import { findProductBySlug } from "./slugify";
-import { prisma } from "../lib/prisma";
+import { promises as fs } from "fs";
+import path from "path";
 
-// Función para obtener productos de una categoría específica directamente desde la BD
+const categoriaArchivos = {
+  celulares: "celulares.json",
+  computadoras: "computadoras.json",
+  "libros-usados": "libros-usados.json",
+  "libros-nuevos": "libros-nuevos.json",
+  generales: "generales.json",
+  damas: "damas.json",
+  belleza: "damas.json",
+  bicicletas: "bicicletas.json",
+};
+
+// Función para obtener productos de una categoría específica usando JSON
 async function getCategoryProducts(categoria) {
   try {
-    const productos = await prisma.producto.findMany({
-      where: {
-        categoria,
-        disponible: true,
-      },
-      include: {
-        imagenes: {
-          orderBy: { orden: 'asc' },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+    const archivo = categoriaArchivos[categoria];
+    if (!archivo) return [];
 
-    return productos.map(p => ({
+    const filePath = path.join(process.cwd(), "public", archivo);
+    const fileContent = await fs.readFile(filePath, "utf-8");
+    const data = JSON.parse(fileContent);
+
+    const productos = (data.accesorios || []).map((p) => ({
       ...p,
-      imagenPrincipal: p.imagenes[0]?.url || null,
+      imagenPrincipal: p.imagenPrincipal || (p.imagenes && p.imagenes[0]?.url) || null,
+      // Si tiene disponible definido, usarlo. Si tiene cantidad, verificarla. Sino, asumir disponible.
+      disponible: p.disponible !== undefined
+        ? p.disponible
+        : (p.cantidad !== undefined ? p.cantidad > 0 : true),
     }));
+
+    return productos.filter((p) => p.disponible);
   } catch (error) {
     console.error(`Error fetching ${categoria} products:`, error);
     return [];
@@ -33,7 +45,6 @@ async function findProductInAllCategories(slug) {
     'celulares',
     'computadoras',
     'bicicletas',
-    'gadgets',
     'generales',
     'damas',
     'libros-nuevos',
@@ -44,6 +55,33 @@ async function findProductInAllCategories(slug) {
     try {
       const productos = await getCategoryProducts(categoria);
       const producto = findProductBySlug(productos, slug);
+      if (producto) {
+        return producto;
+      }
+    } catch (err) {
+      continue;
+    }
+  }
+
+  return null;
+}
+
+// Función para buscar producto por ID en todas las categorías
+export async function findProductById(id) {
+  const categorias = [
+    'celulares',
+    'computadoras',
+    'bicicletas',
+    'generales',
+    'damas',
+    'libros-nuevos',
+    'libros-usados'
+  ];
+
+  for (const categoria of categorias) {
+    try {
+      const productos = await getCategoryProducts(categoria);
+      const producto = productos.find(p => p.id === id);
       if (producto) {
         return producto;
       }
@@ -85,7 +123,7 @@ export async function generateProductMetadata(slug, categoria) {
   return {
     title: `${producto.nombre} | Neurai.dev`,
     description: descripcionLimpia,
-    keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca || 'Neurai.dev'}, comprar, ${producto.condicion || 'nuevo'}`,
+    keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca || 'Neurai.dev'}, comprar, ${producto.condicion || producto.estado || 'nuevo'}`,
     openGraph: {
       title: `${producto.nombre} | Neurai.dev`,
       description: descripcionLimpia,
@@ -118,7 +156,7 @@ export async function generateProductMetadata(slug, categoria) {
       'product:price:amount': precio.toString(),
       'product:price:currency': 'COP',
       'product:availability': producto.disponible ? 'in stock' : 'out of stock',
-      'product:condition': producto.condicion || 'nuevo',
+      'product:condition': producto.condicion || producto.estado || 'nuevo',
       'product:brand': producto.marca || 'Neurai.dev',
       'product:category': producto.categoria,
     },

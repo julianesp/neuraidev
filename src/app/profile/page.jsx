@@ -31,7 +31,7 @@ export default function Profile() {
           <Image
             className={styles.me}
             alt="Desarrollador web"
-            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fdev.jpg?alt=media&token=9e22983b-7efe-43c4-9b4e-4bbb41ff3cb0"
+            src="/images/profile.png"
             width={100}
             height={100}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -82,7 +82,7 @@ export default function Profile() {
           >
             <Image
               alt="LinkedIn"
-              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flinkedin.png?alt=media&token=f709970c-0660-409b-b141-f47cde75b110"
+              src="/images/social/linkedin.png"
               width={80}
               height={80}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -99,7 +99,7 @@ export default function Profile() {
           <Link href="https://github.com/julianesp" target="_blank">
             <Image
               alt="GitHub"
-              src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fgithub.png?alt=media&token=236a6e79-361e-470a-8743-5fa0a1e501ac"
+              src="/images/social/github.png"
               width={80}
               height={80}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

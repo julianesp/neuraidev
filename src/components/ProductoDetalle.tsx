@@ -3,7 +3,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { DetailedAddButton } from './AddToCartButton';
 
 interface Producto {
   id: string;
@@ -45,7 +44,6 @@ interface Props {
 
 export default function ProductoDetalle({ producto }: Props) {
   const [imagenSeleccionada, setImagenSeleccionada] = useState(producto.imagenPrincipal || '');
-  const [cantidad, setCantidad] = useState(1);
 
   const precio = parseFloat(producto.precio.toString());
   const precioAnterior = producto.precioAnterior ? parseFloat(producto.precioAnterior.toString()) : null;
@@ -72,25 +70,6 @@ export default function ProductoDetalle({ producto }: Props) {
       // Fallback: copiar al portapapeles
       navigator.clipboard.writeText(window.location.href);
       alert('Enlace copiado al portapapeles');
-    }
-  };
-
-  const incrementarCantidad = () => {
-    if (cantidad < producto.stock) {
-      setCantidad(cantidad + 1);
-    }
-  };
-
-  const decrementarCantidad = () => {
-    if (cantidad > 1) {
-      setCantidad(cantidad - 1);
-    }
-  };
-
-  const handleCantidadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    if (value >= 1 && value <= producto.stock) {
-      setCantidad(value);
     }
   };
 
@@ -241,56 +220,6 @@ export default function ProductoDetalle({ producto }: Props) {
           </div>
         )}
 
-        {/* Selector de cantidad y carrito */}
-        {producto.disponible && producto.stock > 0 && (
-          <div className="border-t pt-6">
-            <h3 className="text-lg font-semibold mb-4">Agregar al carrito</h3>
-
-            {/* Selector de cantidad */}
-            <div className="flex items-center gap-4 mb-4">
-              <label htmlFor="cantidad" className="text-sm font-medium text-gray-700">
-                Cantidad:
-              </label>
-              <div className="flex items-center border border-gray-300 rounded-lg">
-                <button
-                  type="button"
-                  onClick={decrementarCantidad}
-                  disabled={cantidad <= 1}
-                  className="px-3 py-2 text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  −
-                </button>
-                <input
-                  type="number"
-                  id="cantidad"
-                  min="1"
-                  max={producto.stock}
-                  value={cantidad}
-                  onChange={handleCantidadChange}
-                  className="w-16 px-2 py-2 text-center border-0 focus:ring-0"
-                />
-                <button
-                  type="button"
-                  onClick={incrementarCantidad}
-                  disabled={cantidad >= producto.stock}
-                  className="px-3 py-2 text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  +
-                </button>
-              </div>
-              <span className="text-sm text-gray-500">
-                (Máximo: {producto.stock})
-              </span>
-            </div>
-
-            {/* Botón agregar al carrito */}
-            <DetailedAddButton
-              producto={producto}
-              cantidad={cantidad}
-              className="mb-4"
-            />
-          </div>
-        )}
 
         {/* Botones de acción */}
         <div className="space-y-3">

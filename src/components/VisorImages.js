@@ -68,7 +68,7 @@ const VisorImages = ({ images, automaticTransition }) => {
       <div id="arrows">
         <button id="prevBtn" onClick={prevImage}>
           <Image
-            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Faback.svg?alt=media&token=87379bdd-1edf-4b20-93c6-880825bef072"
+            src="/images/aback.svg"
             priority
             alt="Flecha izquierda"
           />
@@ -76,7 +76,7 @@ const VisorImages = ({ images, automaticTransition }) => {
 
         <button id="nextBtn" onClick={nextImage}>
           <Image
-            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Faright.svg?alt=media&token=aad271ce-b885-4aa3-956d-58630cd34f46"
+            src="/images/aright.svg"
             priority
             alt="Flecha derecha"
           />

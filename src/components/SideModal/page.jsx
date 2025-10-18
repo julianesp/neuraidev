@@ -100,7 +100,7 @@ const SideModal = () => {
               onClick={handleTaxiClick}
             >
               <Image
-                src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Ftaxi.png?alt=media&token=c6ea14f0-6355-4b4b-b85e-70fd6180d01e"
+                src="/images/taxi.png"
                 alt="Taxi - Envío gratis"
                 width={35}
                 height={35}

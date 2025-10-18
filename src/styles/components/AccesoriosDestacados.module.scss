@@ -1,15 +1,20 @@
 /* Estilos específicos para el componente de accesorios destacados */
 
 .container {
-  // width: 100%;
+  width: 100%;
   max-width: 600px;
   margin: 10px auto;
   padding: 20px 10px;
   background-color: transparent;
 
-  @media (width > 768px) {
+  @media (min-width: 768px) {
     max-width: 450px;
-    
+    flex: 1;
+    margin: 10px 0;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 500px;
   }
 }
 

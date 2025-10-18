@@ -34,8 +34,8 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' https: data: blob:",
       "font-src 'self' https://fonts.gstatic.com",
-      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com",
-      "frame-src 'self' https://www.youtube.com https://youtube.com",
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net",
+      "frame-src 'self' https://www.youtube.com https://youtube.com https://www.facebook.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
@@ -89,10 +89,6 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "firebasestorage.googleapis.com",
-      },
-      {
-        protocol: "https",
         hostname: "pixabay.com",
       },
       {
@@ -143,6 +139,34 @@ const nextConfig = {
 
   // Optimizaciones de seguridad para el bundle
   serverExternalPackages: ["bcryptjs"],
+
+  // Redirecciones para manejar variaciones de URL
+  async redirects() {
+    return [
+      // Redirecciones para la sección de computadoras
+      {
+        source: "/accesorios/computacio/:slug*",
+        destination: "/accesorios/computadoras/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/accesorios/computacion/:slug*",
+        destination: "/accesorios/computadoras/:slug*",
+        permanent: true,
+      },
+      // Redirecciones para libros
+      {
+        source: "/accesorios/librosnuevos/:slug*",
+        destination: "/accesorios/libros-nuevos/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/accesorios/librosusados/:slug*",
+        destination: "/accesorios/libros-usados/:slug*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

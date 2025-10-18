@@ -69,10 +69,11 @@ const Footer = () => {
       <button ref={flechaRef} className={styles.flecha} onClick={switchOptions}>
         <Image
           alt="Links to navigation"
-          src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fnext.png?alt=media&token=e66ac434-3360-4247-b1e1-aaf095c30a57"
+          src="/images/next.svg"
           priority
           width={30}
           height={30}
+          unoptimized
           onError={() =>
             setImageError((prev) => ({ ...prev, [arrowImageId]: true }))
           }
@@ -100,7 +101,7 @@ const Footer = () => {
       <article className={`${styles.description}`}>
         <Link href="/">
           <Image
-            src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Flogo.png?alt=media&token=96ed73e2-f6fd-4daf-ad5d-4cb0690aa9fb"
+            src="/images/logo.png"
             alt="neurai.dev"
             width={120}
             height={120}
@@ -204,7 +205,7 @@ const Footer = () => {
               >
                 <Image
                   alt="Facebook"
-                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fsocialmedia%2Ffacebook.png?alt=media&token=e719a37e-cb63-45ea-8535-ca23b6bdba35"
+                  src="/images/social/facebook.png"
                   width={40}
                   height={40}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -230,7 +231,7 @@ const Footer = () => {
               >
                 <Image
                   alt="Instagram"
-                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fsocialmedia%2Finstagram.png?alt=media&token=dd5ed25b-1b37-4eaa-9467-a127ce8124b2"
+                  src="/images/social/instagram.png"
                   width={40}
                   height={40}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -256,7 +257,7 @@ const Footer = () => {
               >
                 <Image
                   alt="Whatsapp"
-                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fsocialmedia%2Fsocial.png?alt=media&token=8b2f56eb-ce82-412c-b883-f088a9bfa752"
+                  src="/images/social/whatsapp.png"
                   width={40}
                   height={40}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -282,7 +283,7 @@ const Footer = () => {
               >
                 <Image
                   alt="TikTok"
-                  src="https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Fsocialmedia%2Ftik-tok.png?alt=media&token=421205be-9170-4b4c-b873-04f63c9d727f"
+                  src="/images/social/tiktok.png"
                   width={40}
                   height={40}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

@@ -4,55 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import styles from "../../styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
-import { generateProductSlug, buildProductUrl } from "../../utils/slugify";
-
-// Datos de respaldo para cuando la API no está disponible
-const productosRespaldo = [
-  {
-    id: "cmfrllc7s000qs0eds5qnkpx0",
-    nombre: "Hub USB C - USB 3.0. Extensor USB 7 en 1",
-    descripcion: "Hub USB 7 en 1 - Adaptador Dual USB-C + USB-A. Expande tus posibilidades de conexión en un solo dispositivo",
-    precio: 63900,
-    categoria: "computadoras",
-    imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fhub%20usb%20c%2F1.jpg?alt=media&token=12345",
-    imagenes: [],
-    stock: 3,
-    createdAt: "2025-09-20T01:36:00.000Z"
-  },
-  {
-    id: "cmfftbrgd0003s0gmnl137i5j",
-    nombre: "RAM DDR4 - Puskill",
-    descripcion: "Memoria RAM DDR4 de alta calidad para mejorar el rendimiento de tu computador",
-    precio: 104900,
-    categoria: "computadoras",
-    imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fcomputers%2Fram%2Fpuskill%2F1.jpg?alt=media&token=12345",
-    imagenes: [],
-    stock: 5,
-    createdAt: "2025-09-11T19:39:00.000Z"
-  },
-  {
-    id: "cmf70vlwv008rs03v98nhvarb",
-    nombre: "✨ Set de 10 Brochas de Maquillaje 💜",
-    descripcion: "Set completo de 10 brochas profesionales para maquillaje, ideal para crear looks perfectos",
-    precio: 29900,
-    categoria: "belleza",
-    imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2Fdamas%2Fbrochas%2F1.jpg?alt=media&token=12345",
-    imagenes: [],
-    stock: 8,
-    createdAt: "2025-08-01T10:00:00.000Z"
-  },
-  {
-    id: "cmf70vlgl001ns03v32lgdkr3",
-    nombre: "🛡️ Funda Protectora Xiaomi Redmi A12",
-    descripcion: "Funda protectora resistente para tu Xiaomi Redmi A12",
-    precio: 34900,
-    categoria: "celulares",
-    imagenPrincipal: "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/Accesorios%2FCelulares%2Ffunda%2F1.jpg?alt=media&token=12345",
-    imagenes: [],
-    stock: 3,
-    createdAt: "2025-08-01T10:00:00.000Z"
-  }
-];
+import { obtenerProductosRecientes } from "../productosRecientesService";
 
 const ProductosRecientes = () => {
   // Estado para almacenar los productos recientes
@@ -73,28 +25,10 @@ const ProductosRecientes = () => {
   // Referencia al contenedor de scroll
   const containerRef = useRef(null);
 
-
-  // Función para obtener productos recientes de los últimos 30 días
-  const obtenerProductosRecientes = async () => {
-    try {
-      const response = await fetch("/api/productos/recientes");
-      if (!response.ok) {
-        // Si falla la API, usar datos de respaldo
-        console.warn("API no disponible, usando datos de respaldo");
-        return productosRespaldo;
-      }
-      const data = await response.json();
-      return data.productos || productosRespaldo;
-    } catch (error) {
-      console.error("Error al obtener productos recientes:", error);
-      console.warn("Usando datos de respaldo");
-      // En lugar de lanzar error, devolver datos de respaldo
-      return productosRespaldo;
-    }
-  };
-
-  // Función para formatear la fecha de creación
+  // Función para formatear la fecha de ingreso
   const formatearFechaCreacion = (fecha) => {
+    if (!fecha) return "Nuevo";
+
     const fechaCreacion = new Date(fecha);
     const ahora = new Date();
     const diferenciaDias = Math.floor(
@@ -119,10 +53,7 @@ const ProductosRecientes = () => {
         setErrorState(null);
       } catch (err) {
         console.error("Error al cargar productos recientes:", err);
-        // Como ahora obtenerProductosRecientes nunca debería fallar (tiene respaldo),
-        // este catch probablemente no se ejecute, pero lo mantenemos por seguridad
-        setRecientes(productosRespaldo);
-        setErrorState(null);
+        setErrorState("No se pudieron cargar los productos");
       } finally {
         setLoading(false);
       }
@@ -275,13 +206,10 @@ const ProductosRecientes = () => {
         }}
       >
         {recientes.map((producto, index) => {
-          const productSlug = generateProductSlug(producto.nombre, producto.id);
-          const productUrl = buildProductUrl(producto.categoria, productSlug);
-
           return (
             <Link
-              key={producto.id}
-              href={productUrl}
+              key={`${producto.categoria}-${producto.id}-${index}`}
+              href={`/accesorios/${producto.categoria}/${producto.id}`}
               className="producto-card border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 snap-start mx-2 flex flex-col relative"
               style={{
                 minWidth: "calc(100% - 1rem)",
@@ -297,7 +225,7 @@ const ProductosRecientes = () => {
 
                 // Navegar después de un breve delay para permitir la animación
                 setTimeout(() => {
-                  window.location.href = productUrl;
+                  window.location.href = `/accesorios/${producto.categoria}/${producto.id}`;
                 }, 300);
               }}
             >
@@ -306,9 +234,9 @@ const ProductosRecientes = () => {
                 NUEVO
               </div>
 
-              {/* Badge con fecha de creación */}
+              {/* Badge con fecha de ingreso */}
               <div className="absolute top-2 right-2 bg-white bg-opacity-90 text-gray-700 px-2 py-1 rounded-full text-xs font-medium z-10">
-                {formatearFechaCreacion(producto.createdAt)}
+                {formatearFechaCreacion(producto.fechaIngreso)}
               </div>
               {/* Contenedor de imagen con posición relativa y tamaño fijo */}
               <div className="w-full h-48 relative">
@@ -362,18 +290,18 @@ const ProductosRecientes = () => {
                   )}
                 </div>
 
-                {/* Mostrar stock si está disponible */}
-                {producto.stock !== undefined && (
+                {/* Mostrar cantidad si está disponible */}
+                {producto.cantidad !== undefined && (
                   <div className="mt-2">
                     <span
                       className={`text-xs px-2 py-1 rounded-full ${
-                        producto.stock > 0
+                        producto.cantidad > 0
                           ? "bg-green-100 text-green-800"
                           : "bg-red-100 text-red-800"
                       }`}
                     >
-                      {producto.stock > 0
-                        ? `${producto.stock} disponibles`
+                      {producto.cantidad > 0
+                        ? `${producto.cantidad} disponibles`
                         : "Sin stock"}
                     </span>
                   </div>

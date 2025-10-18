@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import arrowLeft from "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2Faback.svg?alt=media&token=87379bdd-1edf-4b20-93c6-880825bef072";
-import arrowLeftTwo from "../../public/aback.svg";
+import arrowLeft from "../../public/images/aback.svg";
 // import colecis from "../../public/images/colecistectomia.jpg";
 // import lapa from "../../public/images/cirugia_laparoscopia.jpg";
 // import info_1 from "../../public/images/info_1.jpg";
@@ -102,7 +101,7 @@ const Slider = () => {
 
           <button id="nextBtn" onClick={nextImage}>
             <Image
-              src={arrowLeftTwo}
+              src={arrowLeft}
               priority
               alt="Flecha derecha"
               width={40}

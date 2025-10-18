@@ -3,8 +3,8 @@
     "name": "Peluquería Bella",
     "type": "Peluquería",
     "description": "Especialistas en cortes modernos, coloración y tratamientos de belleza. Más de 10 años embelleciendo tu imagen.",
-    "logo": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
-    "headerImage": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+    "logo": "/images/services/barber-shop.png",
+    "headerImage": "/images/services/barber-shop.png",
     "contact": {
         "phone": "+57 300 123 4567",
         "email": "info@peluqueriabella.com",
@@ -42,28 +42,28 @@
             "id": 1,
             "name": "Corte y Peinado",
             "price": "$25.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Corte personalizado + peinado profesional"
         },
         {
             "id": 2,
             "name": "Coloración Completa",
             "price": "$80.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Cambio de color completo con productos premium"
         },
         {
             "id": 3,
             "name": "Tratamiento Keratina",
             "price": "$120.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Tratamiento alisador y nutritivo"
         },
         {
             "id": 4,
             "name": "Peinado de Fiesta",
             "price": "$35.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Peinado elegante para ocasiones especiales"
         }
     ],
@@ -73,7 +73,7 @@
             "name": "Combo Corte + Color",
             "price": "$85.000",
             "originalPrice": "$105.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Ahorra $20.000 en este combo especial"
         },
         {
@@ -81,7 +81,7 @@
             "name": "Manicure + Pedicure",
             "price": "$35.000",
             "originalPrice": "$45.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Oferta especial de fin de mes"
         }
     ],
@@ -90,7 +90,7 @@
             "id": 1,
             "name": "Corte Express",
             "price": "$15.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Solo por hoy - Corte rápido"
         }
     ],
@@ -99,14 +99,14 @@
             "id": 1,
             "name": "Extensiones de Pestañas",
             "price": "$65.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Nuevo servicio disponible"
         },
         {
             "id": 2,
             "name": "Masaje Capilar Relajante",
             "price": "$30.000",
-            "image": "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/images%2FServices%2Fbarber-shop.png?alt=media&token=87714dee-2bc0-47ef-a076-488578a320a2",
+            "image": "/images/services/barber-shop.png",
             "description": "Nuevo tratamiento de relajación"
         }
     ],

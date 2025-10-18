@@ -19,22 +19,30 @@ const PresentationCarousel = () => {
       description: "Descubre nuestros mejores productos",
       link: "/accesorios/destacados",
     },
-    // {
-    //   id: 2,
-    //   image:
-    //     "https://firebasestorage.googleapis.com/v0/b/neuraidev.appspot.com/o/carousel%2Fslide2.jpg?alt=media&token=example2",
-    //   title: "Servicios Premium",
-    //   description: "Conoce nuestros servicios especializados",
-    //   link: "/servicios",
-    // },
+    {
+      id: 2,
+      image:
+        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/mantenimiento.jpg",
+      title: "Técnico en Sistemas",
+      description: "Soluciones profesionales para todos tus problemas informáticos",
+      link: "/servicios/tecnico-sistemas",
+    },
     {
       id: 3,
       image:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/loveFriend.jpg",
-      title: "Ofertas Especiales",
-      description: "No te pierdas nuestras promociones",
-      link: "/ofertas",
+        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/web_develop.png",
+      title: "Desarrollador Web",
+      description: "Creando soluciones digitales innovadoras para tu negocio",
+      link: "/servicios/desarrollador-software",
     },
+    // {
+    //   id: 4,
+    //   image:
+    //     "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/loveFriend.jpg",
+    //   title: "Ofertas Especiales",
+    //   description: "No te pierdas nuestras promociones",
+    //   link: "/ofertas",
+    // },
   ];
 
   // Auto-slide cada 5 segundos
@@ -46,9 +54,12 @@ const PresentationCarousel = () => {
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  // Marcar como cargado después del montaje
+  // Marcar como cargado después del montaje y asegurar scroll al inicio
   useEffect(() => {
     setIsLoaded(true);
+
+    // Asegurar que la página inicie en la parte superior
+    window.scrollTo(0, 0);
   }, []);
 
   const goToSlide = (index) => {
