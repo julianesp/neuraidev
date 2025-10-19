@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { obtenerAccesoriosDestacados } from "../accesoriosService";
+import { obtenerProductosDestacados } from "../../lib/supabase/productos";
 import Image from "next/image";
 // import styles from "@/styles/components/AccesoriosDestacados.module.scss";
 import styles from "../../styles/components/AccesoriosDestacados.module.scss";
@@ -31,7 +31,7 @@ const AccesoriosDestacados = () => {
     const cargarAccesorios = async () => {
       try {
         setCargando(true);
-        const accesoriosData = await obtenerAccesoriosDestacados();
+        const accesoriosData = await obtenerProductosDestacados();
         setDestacados(accesoriosData);
         setError(null);
       } catch (err) {

@@ -28,7 +28,14 @@ const obtenerAccesoriosDeCategoria = async (categoria) => {
     if (!respuesta.ok) return [];
 
     const data = await respuesta.json();
-    return data.accesorios || [];
+    const accesorios = data.accesorios || [];
+
+    // IMPORTANTE: Asegurar que cada accesorio tenga la categoría correcta
+    // Si el accesorio no tiene categoría definida, usar la categoría del archivo
+    return accesorios.map(accesorio => ({
+      ...accesorio,
+      categoria: accesorio.categoria || categoria
+    }));
   } catch (error) {
     console.error(`Error al cargar ${categoria}:`, error);
     return [];

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Store, Package, ShoppingCart, Settings, Menu, X } from "lucide-react";
 import { useState } from "react";
+import AdminGuard from "../../components/auth/AdminGuard";
 
 export default function DashboardLayout({ children }) {
   const { user, isLoaded } = useUser();
@@ -53,6 +54,7 @@ export default function DashboardLayout({ children }) {
   }
 
   return (
+    <AdminGuard>
     <div className="min-h-screen bg-gray-50">
       {/* Mobile sidebar toggle */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
@@ -142,5 +144,6 @@ export default function DashboardLayout({ children }) {
         />
       )}
     </div>
+    </AdminGuard>
   );
 }

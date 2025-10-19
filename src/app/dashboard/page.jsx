@@ -3,80 +3,29 @@
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Store, Package, ShoppingCart, TrendingUp, Plus } from "lucide-react";
-import { createClient } from "../../lib/supabase/client";
+import { Package, ShoppingCart, TrendingUp, Plus, Star } from "lucide-react";
+import { obtenerEstadisticasProductos } from "../../lib/supabase/productos";
 
 export default function DashboardPage() {
   const { user } = useUser();
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
-    stores: 0,
-    products: 0,
-    orders: 0,
-    hasStore: false,
+    total: 0,
+    disponibles: 0,
+    destacados: 0,
+    sinStock: 0,
   });
 
   useEffect(() => {
     if (user) {
       loadDashboardStats();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   async function loadDashboardStats() {
     try {
-      const supabase = createClient();
-
-      // Obtener el perfil del usuario
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("id")
-        .eq("clerk_user_id", user.id)
-        .single();
-
-      if (!profile) {
-        setLoading(false);
-        return;
-      }
-
-      // Obtener las tiendas del usuario
-      const { data: stores, error: storesError } = await supabase
-        .from("stores")
-        .select("id")
-        .eq("profile_id", profile.id);
-
-      if (storesError) throw storesError;
-
-      const hasStore = stores && stores.length > 0;
-      const storeIds = stores?.map((s) => s.id) || [];
-
-      let productsCount = 0;
-      let ordersCount = 0;
-
-      if (hasStore && storeIds.length > 0) {
-        // Contar productos
-        const { count: pCount } = await supabase
-          .from("products")
-          .select("*", { count: "exact", head: true })
-          .in("store_id", storeIds);
-
-        productsCount = pCount || 0;
-
-        // Contar pedidos
-        const { count: oCount } = await supabase
-          .from("orders")
-          .select("*", { count: "exact", head: true })
-          .in("store_id", storeIds);
-
-        ordersCount = oCount || 0;
-      }
-
-      setStats({
-        stores: stores?.length || 0,
-        products: productsCount,
-        orders: ordersCount,
-        hasStore,
-      });
+      const estadisticas = await obtenerEstadisticasProductos();
+      setStats(estadisticas);
     } catch (error) {
       console.error("Error loading dashboard stats:", error);
     } finally {
@@ -96,96 +45,72 @@ export default function DashboardPage() {
     <div className="max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           ¡Hola, {user?.firstName || "Usuario"}! 👋
         </h1>
-        <p className="mt-2 text-gray-600">
+        <p className="mt-2 text-gray-600 dark:text-gray-400">
           Bienvenido a tu panel de control de Neurai.dev
         </p>
       </div>
 
-      {/* No tiene tienda - CTA */}
-      {!stats.hasStore && (
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white mb-8">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl font-bold mb-2">
-              ¡Crea tu primera tienda!
-            </h2>
-            <p className="text-blue-100 mb-6">
-              Comienza a vender tus productos online en minutos. Configura tu
-              tienda, agrega productos y empieza a recibir pedidos.
-            </p>
-            <Link
-              href="/dashboard/tienda/nueva"
-              className="inline-flex items-center px-6 py-3 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-medium"
-            >
-              <Plus className="w-5 h-5 mr-2" />
-              Crear mi tienda
-            </Link>
-          </div>
-        </div>
-      )}
-
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard
-          title="Tiendas"
-          value={stats.stores}
-          icon={Store}
+          title="Total Productos"
+          value={stats.total}
+          icon={Package}
           color="blue"
-          href="/dashboard/tienda"
+          href="/dashboard/productos"
         />
         <StatCard
-          title="Productos"
-          value={stats.products}
+          title="Disponibles"
+          value={stats.disponibles}
           icon={Package}
           color="green"
           href="/dashboard/productos"
         />
         <StatCard
-          title="Pedidos"
-          value={stats.orders}
-          icon={ShoppingCart}
-          color="purple"
-          href="/dashboard/pedidos"
+          title="Destacados"
+          value={stats.destacados}
+          icon={Star}
+          color="yellow"
+          href="/dashboard/productos"
         />
         <StatCard
-          title="Ventas"
-          value="$0"
-          icon={TrendingUp}
-          color="orange"
-          href="/dashboard/pedidos"
+          title="Sin Stock"
+          value={stats.sinStock}
+          icon={Package}
+          color="red"
+          href="/dashboard/productos"
         />
       </div>
 
       {/* Acciones rápidas */}
-      {stats.hasStore && (
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            Acciones rápidas
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <QuickAction
-              title="Agregar producto"
-              description="Agrega un nuevo producto a tu tienda"
-              href="/dashboard/productos/nuevo"
-              icon={Package}
-            />
-            <QuickAction
-              title="Ver pedidos"
-              description="Gestiona los pedidos de tus clientes"
-              href="/dashboard/pedidos"
-              icon={ShoppingCart}
-            />
-            <QuickAction
-              title="Configurar tienda"
-              description="Personaliza tu tienda online"
-              href="/dashboard/tienda"
-              icon={Store}
-            />
-          </div>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          Acciones rápidas
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <QuickAction
+            title="Agregar producto"
+            description="Agrega un nuevo producto al catálogo"
+            href="/dashboard/productos/nuevo"
+            icon={Plus}
+          />
+          <QuickAction
+            title="Ver productos"
+            description="Gestiona tu catálogo de productos"
+            href="/dashboard/productos"
+            icon={Package}
+          />
+          <QuickAction
+            title="Ver tienda"
+            description="Ve tu tienda en vivo"
+            href="/"
+            icon={TrendingUp}
+          />
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -194,6 +119,8 @@ function StatCard({ title, value, icon: Icon, color, href }) {
   const colorClasses = {
     blue: "bg-blue-500",
     green: "bg-green-500",
+    yellow: "bg-yellow-500",
+    red: "bg-red-500",
     purple: "bg-purple-500",
     orange: "bg-orange-500",
   };

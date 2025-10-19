@@ -4,9 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
 import ThemeSwitcher from "./ThemeSwitcher";
+import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+import { isAdmin } from "../lib/auth/roles";
 // import { CartButton } from "./CartButton";
 
 const NavBar = () => {
+  const { user } = useUser();
   const [burgerOpen, setBurgerOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [serviciosDropdownOpen, setServiciosDropdownOpen] = useState(false);
@@ -20,6 +23,9 @@ const NavBar = () => {
 
   // Solution for hydratation errors
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // Verificar si el usuario es administrador
+  const userIsAdmin = user && isAdmin(user);
 
   const menuBurger = () => {
     setBurgerOpen(!burgerOpen);
@@ -292,8 +298,43 @@ const NavBar = () => {
               Sobre mí
             </Link>
           </li>
+
+          {/* Botón de Dashboard solo para admins */}
+          {userIsAdmin && (
+            <li role="none">
+              <Link
+                href="/dashboard"
+                title="Ir al dashboard"
+                onClick={handleLinkClick}
+                className={styles.dashboardLink}
+              >
+                Dashboard
+              </Link>
+            </li>
+          )}
         </ul>
       </nav>
+
+      {/* Botones de autenticación */}
+      <div className={styles.authButtons}>
+        <SignedOut>
+          <SignInButton mode="modal">
+            <button className={styles.signInBtn}>
+              Iniciar Sesión
+            </button>
+          </SignInButton>
+        </SignedOut>
+        <SignedIn>
+          <UserButton
+            fallbackRedirectUrl="/"
+            appearance={{
+              elements: {
+                avatarBox: "w-10 h-10"
+              }
+            }}
+          />
+        </SignedIn>
+      </div>
 
       <div className={styles.circle}>
         <button
