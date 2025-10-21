@@ -1,0 +1,30 @@
+import React from "react";
+import Link from "next/link";
+
+export const metadata = {
+  title: "SSD vs HDD: ¿Cuál Necesitas Realmente en 2025? | Neurai.dev",
+  description: "Comparativa completa entre discos SSD y HDD. Descubre las diferencias, ventajas, desventajas y cuál es la mejor opción según tu uso. Guía actualizada 2025 para Colombia.",
+  keywords: "SSD vs HDD, disco duro, disco sólido, almacenamiento PC, upgrade SSD, Colombia",
+};
+
+export default function SSDvsHDD() {
+  return (
+    <article className="min-h-screen bg-white dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <nav className="mb-8 text-sm">
+          <Link href="/" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Inicio</Link>
+          <span className="mx-2 text-gray-500">/</span>
+          <Link href="/blog" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Blog</Link>
+          <span className="mx-2 text-gray-500">/</span>
+          <span className="text-gray-600 dark:text-gray-400">SSD vs HDD</span>
+        </nav>
+
+        <header className="mb-8">
+          <span className="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full text-sm font-medium mb-4">
+            Hardware
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            SSD vs HDD: ¿Cuál Necesitas Realmente en 2025?
+          </h1>
+          <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm space-x-4">
+            <time dateTime="2025-01-10">10 de enero de 2025</time>

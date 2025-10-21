@@ -40,6 +40,27 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://www.neurai.dev/blog/ssd-vs-hdd-cual-elegir</loc>
+    <lastmod>2025-01-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/blog/ram-ddr4-vs-ddr5</loc>
+    <lastmod>2025-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/blog/desarrollo-web-pequenos-negocios</loc>
+    <lastmod>2025-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Páginas Legales -->
   <url>
     <loc>https://www.neurai.dev/politica-privacidad</loc>
