@@ -4,7 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
 import ThemeSwitcher from "./ThemeSwitcher";
-import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 import { isAdmin } from "../lib/auth/roles";
 // import { CartButton } from "./CartButton";
 
@@ -153,7 +159,7 @@ const NavBar = () => {
           </li>
           <li role="none">
             <Link
-              href="/Blog"
+              href="/blog"
               title="Ir al blog"
               role="menuitem"
               onClick={handleLinkClick}
@@ -291,11 +297,11 @@ const NavBar = () => {
 
           <li role="none">
             <Link
-              href="/profile"
+              href="/sobre-nosotros"
               title="Ir al perfil"
               onClick={handleLinkClick}
             >
-              Sobre mí
+              Sobre nosotros
             </Link>
           </li>
 
@@ -319,9 +325,7 @@ const NavBar = () => {
       <div className={styles.authButtons}>
         <SignedOut>
           <SignInButton mode="modal">
-            <button className={styles.signInBtn}>
-              Iniciar Sesión
-            </button>
+            <button className={styles.signInBtn}>Iniciar Sesión</button>
           </SignInButton>
         </SignedOut>
         <SignedIn>
@@ -329,8 +333,8 @@ const NavBar = () => {
             fallbackRedirectUrl="/"
             appearance={{
               elements: {
-                avatarBox: "w-10 h-10"
-              }
+                avatarBox: "w-10 h-10",
+              },
             }}
           />
         </SignedIn>

@@ -84,16 +84,16 @@ const Footer = () => {
       <article className={`${styles.information} ${styles.informationLinks}`}>
         <h2>Información</h2>
         <h3>
-          <Link href="/politicas">Políticas de privacidad</Link>
-        </h3>
-        <h3>
-          <Link href="/clientes">Atención al cliente</Link>
-        </h3>
-        <h3>
           <Link href="/sobre-nosotros">Sobre nosotros</Link>
         </h3>
         <h3>
-          <Link href="/preguntas-frecuentes">FAQ</Link>
+          <Link href="/blog">Blog</Link>
+        </h3>
+        <h3>
+          <Link href="/politica-privacidad">Privacidad</Link>
+        </h3>
+        <h3>
+          <Link href="/politica-cookies">Cookies</Link>
         </h3>
       </article>
 
@@ -137,16 +137,13 @@ const Footer = () => {
       <article className={`${styles.information} ${styles.serviciosInfo}`}>
         <h2>Servicios</h2>
         <h3>
-          {/* <Link href="/servicios">Formateo PC</Link> */}
-          <p>Formateo PC</p>
+          <Link href="/servicios/tecnicos">Servicios Técnicos</Link>
         </h3>
         <h3>
-          {/* <Link href="/servicios">Mantenimiento PC</Link> */}
-          <p>Mantenimiento PC</p>
+          <Link href="/servicios/contable">Servicios Contables</Link>
         </h3>
         <h3>
-          {/* <Link href="/servicios">Desarrollo Web</Link> */}
-          <p>Desarrollo web</p>
+          <Link href="/servicios/transporte">Transporte</Link>
         </h3>
       </article>
 
@@ -177,14 +174,17 @@ const Footer = () => {
       <article className={`${styles.information} ${styles.legalInfo}`}>
         <h2>Legal</h2>
         <h3>
-          <Link href="/terminos-condiciones">Términos</Link>
+          <Link href="/terminos-condiciones">Términos y Condiciones</Link>
         </h3>
         <h3>
-          <Link href="/politica-devoluciones">Devoluciones</Link>
+          <Link href="/politica-privacidad">Política de Privacidad</Link>
+        </h3>
+        <h3>
+          <Link href="/politica-cookies">Política de Cookies</Link>
         </h3>
 
         <p className={styles.copyright}>
-          © 2025 NeuraI.dev - Todos los derechos reservados
+          © 2025 Neurai.dev - Todos los derechos reservados
         </p>
       </article>
 
