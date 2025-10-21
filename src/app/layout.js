@@ -102,7 +102,7 @@ export default function RootLayout({ children }) {
                 <SplashScreen />
                 <div className={styles.layoutContainer}>
                   <NavBar />
-                  <main className={styles.mainContent}>
+                  <main id="main-content" className={styles.mainContent} role="main" aria-label="Contenido principal">
                     {children}
                     {/* <NotificationManager /> */}
                     <Analytics />

@@ -109,3 +109,38 @@ body {
         color-scheme: dark;
     }
 }
+
+/* Estilos de accesibilidad */
+/* Mejorar el focus visible para navegación por teclado */
+*:focus-visible {
+    outline: 2px solid #4A90E2;
+    outline-offset: 2px;
+}
+
+/* Asegurar que los links tengan buen contraste */
+a:focus-visible {
+    outline: 2px solid #4A90E2;
+    outline-offset: 2px;
+}
+
+/* Mejorar visibilidad de elementos interactivos */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid #4A90E2;
+    outline-offset: 2px;
+}
+
+/* Asegurar que el texto sea legible para lectores de pantalla */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

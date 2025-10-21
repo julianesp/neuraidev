@@ -1,13 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft, Save, Upload } from "lucide-react";
-import { crearProducto } from "../../../../lib/supabase/productos";
+import {
+  obtenerProductoPorId,
+  actualizarProducto,
+} from "../../../../../lib/supabase/productos";
 
-export default function NuevoProductoPage() {
+export default function EditarProductoPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const params = useParams();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     nombre: "",
     descripcion: "",
@@ -23,7 +28,7 @@ export default function NuevoProductoPage() {
     garantia: 1,
     estado: "nuevo",
     imagen_principal: "",
-    imagenes: [""]
+    imagenes: [""],
   });
 
   const categorias = [
@@ -32,40 +37,82 @@ export default function NuevoProductoPage() {
     "damas",
     "libros-nuevos",
     "libros-usados",
-    "generales"
+    "generales",
   ];
+
+  const cargarProducto = useCallback(async () => {
+    try {
+      setLoading(true);
+      const producto = await obtenerProductoPorId(params.id);
+
+      if (!producto) {
+        alert("Producto no encontrado");
+        router.push("/dashboard/productos");
+        return;
+      }
+
+      setFormData({
+        nombre: producto.nombre || "",
+        descripcion: producto.descripcion || "",
+        precio: producto.precio || "",
+        precio_oferta: producto.precioAnterior || "",
+        categoria: producto.categoria || "celulares",
+        marca: producto.marca || "",
+        stock: producto.stock || 0,
+        sku: producto.sku || "",
+        activo: true,
+        disponible: producto.disponible ?? true,
+        destacado: producto.destacado ?? false,
+        garantia: 1,
+        estado: producto.condicion || "nuevo",
+        imagen_principal: producto.imagenPrincipal || "",
+        imagenes:
+          producto.tags && producto.tags.length > 0 ? producto.tags : [""],
+      });
+    } catch (error) {
+      console.error("Error cargando producto:", error);
+      alert("Error cargando producto: " + error.message);
+      router.push("/dashboard/productos");
+    } finally {
+      setLoading(false);
+    }
+  }, [params.id, router]);
+
+  useEffect(() => {
+    cargarProducto();
+  }, [cargarProducto]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const handleImagenChange = (index, value) => {
     const nuevasImagenes = [...formData.imagenes];
     nuevasImagenes[index] = value;
-    setFormData(prev => ({ ...prev, imagenes: nuevasImagenes }));
+    setFormData((prev) => ({ ...prev, imagenes: nuevasImagenes }));
   };
 
   const agregarImagenCampo = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      imagenes: [...prev.imagenes, ""]
+      imagenes: [...prev.imagenes, ""],
     }));
   };
 
   const eliminarImagenCampo = (index) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      imagenes: prev.imagenes.filter((_, i) => i !== index)
+      imagenes: prev.imagenes.filter((_, i) => i !== index),
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
 
     try {
       // Limpiar y preparar datos (usar camelCase para la tabla Producto)
@@ -73,7 +120,9 @@ export default function NuevoProductoPage() {
         nombre: formData.nombre,
         descripcion: formData.descripcion,
         precio: parseFloat(formData.precio) || 0,
-        precioAnterior: formData.precio_oferta ? parseFloat(formData.precio_oferta) : null,
+        precioAnterior: formData.precio_oferta
+          ? parseFloat(formData.precio_oferta)
+          : null,
         categoria: formData.categoria,
         marca: formData.marca || null,
         stock: parseInt(formData.stock) || 0,
@@ -81,20 +130,31 @@ export default function NuevoProductoPage() {
         disponible: formData.disponible,
         destacado: formData.destacado,
         condicion: formData.estado,
-        imagenPrincipal: formData.imagen_principal || (formData.imagenes.filter(img => img)[0]) || null,
-        tags: formData.imagenes.filter(img => img.trim() !== "")
+        imagenPrincipal:
+          formData.imagen_principal ||
+          formData.imagenes.filter((img) => img)[0] ||
+          null,
+        tags: formData.imagenes.filter((img) => img.trim() !== ""),
       };
 
-      await crearProducto(productoData);
-      alert("Producto creado exitosamente");
+      await actualizarProducto(params.id, productoData);
+      alert("Producto actualizado exitosamente");
       router.push("/dashboard/productos");
     } catch (error) {
-      console.error("Error creando producto:", error);
-      alert("Error creando producto: " + error.message);
+      console.error("Error actualizando producto:", error);
+      alert("Error actualizando producto: " + error.message);
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
@@ -109,16 +169,19 @@ export default function NuevoProductoPage() {
           </button>
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Nuevo Producto
+              Editar Producto
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Agrega un nuevo producto al catálogo
+              Modifica la información del producto
             </p>
           </div>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
+        >
           <div className="space-y-6">
             {/* Información básica */}
             <div>
@@ -127,7 +190,10 @@ export default function NuevoProductoPage() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label htmlFor="nombre" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="nombre"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     Nombre del producto *
                   </label>
                   <input
@@ -142,7 +208,10 @@ export default function NuevoProductoPage() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label htmlFor="descripcion" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="descripcion"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     Descripción
                   </label>
                   <textarea
@@ -156,7 +225,10 @@ export default function NuevoProductoPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="categoria" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="categoria"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     Categoría *
                   </label>
                   <select
@@ -167,14 +239,19 @@ export default function NuevoProductoPage() {
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   >
-                    {categorias.map(cat => (
-                      <option key={cat} value={cat}>{cat}</option>
+                    {categorias.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
                     ))}
                   </select>
                 </div>
 
                 <div>
-                  <label htmlFor="marca" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="marca"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     Marca
                   </label>
                   <input
@@ -188,7 +265,10 @@ export default function NuevoProductoPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="sku" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="sku"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     SKU
                   </label>
                   <input
@@ -202,7 +282,10 @@ export default function NuevoProductoPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="estado" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="estado"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     Estado
                   </label>
                   <select
@@ -226,7 +309,10 @@ export default function NuevoProductoPage() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label htmlFor="precio" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="precio"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     Precio *
                   </label>
                   <input
@@ -243,7 +329,10 @@ export default function NuevoProductoPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="precio_oferta" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="precio_oferta"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     Precio en Oferta
                   </label>
                   <input
@@ -259,7 +348,10 @@ export default function NuevoProductoPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="stock" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="stock"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     Stock
                   </label>
                   <input
@@ -274,7 +366,10 @@ export default function NuevoProductoPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="garantia" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="garantia"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     Garantía (meses)
                   </label>
                   <input
@@ -297,7 +392,10 @@ export default function NuevoProductoPage() {
               </h2>
               <div className="space-y-3">
                 <div>
-                  <label htmlFor="imagen_principal" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="imagen_principal"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
                     URL de Imagen Principal
                   </label>
                   <input
@@ -309,6 +407,16 @@ export default function NuevoProductoPage() {
                     placeholder="https://ejemplo.com/imagen.jpg"
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
+                  {formData.imagen_principal && (
+                    <div className="mt-2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={formData.imagen_principal}
+                        alt="Vista previa"
+                        className="w-32 h-32 object-cover rounded border border-gray-300"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {formData.imagenes.map((img, index) => (
@@ -316,7 +424,9 @@ export default function NuevoProductoPage() {
                     <input
                       type="url"
                       value={img}
-                      onChange={(e) => handleImagenChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handleImagenChange(index, e.target.value)
+                      }
                       placeholder={`URL de imagen ${index + 1}`}
                       className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     />
@@ -357,7 +467,9 @@ export default function NuevoProductoPage() {
                     onChange={handleChange}
                     className="w-4 h-4 text-blue-600 rounded"
                   />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Activo</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
+                    Activo
+                  </span>
                 </label>
 
                 <label className="flex items-center gap-2">
@@ -368,7 +480,9 @@ export default function NuevoProductoPage() {
                     onChange={handleChange}
                     className="w-4 h-4 text-blue-600 rounded"
                   />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Disponible</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
+                    Disponible
+                  </span>
                 </label>
 
                 <label className="flex items-center gap-2">
@@ -379,7 +493,9 @@ export default function NuevoProductoPage() {
                     onChange={handleChange}
                     className="w-4 h-4 text-blue-600 rounded"
                   />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Destacado</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
+                    Destacado
+                  </span>
                 </label>
               </div>
             </div>
@@ -395,10 +511,10 @@ export default function NuevoProductoPage() {
               </button>
               <button
                 type="submit"
-                disabled={loading}
+                disabled={saving}
                 className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? (
+                {saving ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                     Guardando...
@@ -406,7 +522,7 @@ export default function NuevoProductoPage() {
                 ) : (
                   <>
                     <Save className="w-4 h-4" />
-                    Guardar Producto
+                    Actualizar Producto
                   </>
                 )}
               </button>

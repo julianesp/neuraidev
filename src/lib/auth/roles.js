@@ -6,9 +6,8 @@
 // Lista de emails de administradores
 // IMPORTANTE: Agrega tu email de Clerk aquí
 export const ADMIN_EMAILS = [
-  "julii1295@gmail.com", // Reemplaza con tu email de Clerk
+  "julii1295@gmail.com",
   "admin@neurai.dev",
-  "contacto@neurai.dev",
 ];
 
 /**

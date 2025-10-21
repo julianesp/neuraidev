@@ -194,10 +194,10 @@ export default function ProductosPage() {
                   <tr key={producto.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
-                        {producto.imagen_principal && (
+                        {producto.imagenPrincipal && (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
-                            src={producto.imagen_principal}
+                            src={producto.imagenPrincipal}
                             alt={producto.nombre}
                             className="w-12 h-12 rounded object-cover mr-3"
                           />
