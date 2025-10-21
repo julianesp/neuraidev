@@ -68,21 +68,18 @@ export default function NuevoProductoPage() {
     setLoading(true);
 
     try {
-      // Limpiar y preparar datos (usar camelCase para la tabla Producto)
+      // Limpiar y preparar datos para la tabla products de Supabase
       const productoData = {
         nombre: formData.nombre,
         descripcion: formData.descripcion,
         precio: parseFloat(formData.precio) || 0,
-        precioAnterior: formData.precio_oferta ? parseFloat(formData.precio_oferta) : null,
         categoria: formData.categoria,
         marca: formData.marca || null,
         stock: parseInt(formData.stock) || 0,
         sku: formData.sku || null,
         disponible: formData.disponible,
         destacado: formData.destacado,
-        condicion: formData.estado,
-        imagenPrincipal: formData.imagen_principal || (formData.imagenes.filter(img => img)[0]) || null,
-        tags: formData.imagenes.filter(img => img.trim() !== "")
+        // Nota: solo incluir campos que existan en la tabla 'products'
       };
 
       await crearProducto(productoData);

@@ -55,7 +55,7 @@ export default function EditarProductoPage() {
         nombre: producto.nombre || "",
         descripcion: producto.descripcion || "",
         precio: producto.precio || "",
-        precio_oferta: producto.precioAnterior || "",
+        precio_oferta: producto.precio_oferta || "",
         categoria: producto.categoria || "celulares",
         marca: producto.marca || "",
         stock: producto.stock || 0,
@@ -63,11 +63,10 @@ export default function EditarProductoPage() {
         activo: true,
         disponible: producto.disponible ?? true,
         destacado: producto.destacado ?? false,
-        garantia: 1,
-        estado: producto.condicion || "nuevo",
-        imagen_principal: producto.imagenPrincipal || "",
-        imagenes:
-          producto.tags && producto.tags.length > 0 ? producto.tags : [""],
+        garantia: producto.garantia || 1,
+        estado: "nuevo", // Campo de solo UI, no se guarda en DB
+        imagen_principal: producto.imagen_principal || "",
+        imagenes: [""], // Simplificado por ahora
       });
     } catch (error) {
       console.error("Error cargando producto:", error);
@@ -115,26 +114,19 @@ export default function EditarProductoPage() {
     setSaving(true);
 
     try {
-      // Limpiar y preparar datos (usar camelCase para la tabla Producto)
+      // Limpiar y preparar datos para la tabla products de Supabase
       const productoData = {
         nombre: formData.nombre,
         descripcion: formData.descripcion,
         precio: parseFloat(formData.precio) || 0,
-        precioAnterior: formData.precio_oferta
-          ? parseFloat(formData.precio_oferta)
-          : null,
         categoria: formData.categoria,
         marca: formData.marca || null,
         stock: parseInt(formData.stock) || 0,
         sku: formData.sku || null,
         disponible: formData.disponible,
         destacado: formData.destacado,
-        condicion: formData.estado,
-        imagenPrincipal:
-          formData.imagen_principal ||
-          formData.imagenes.filter((img) => img)[0] ||
-          null,
-        tags: formData.imagenes.filter((img) => img.trim() !== ""),
+        // Nota: solo incluir campos que existan en la tabla 'products'
+        // Si necesitas más campos, agrégalos a la tabla primero
       };
 
       await actualizarProducto(params.id, productoData);
