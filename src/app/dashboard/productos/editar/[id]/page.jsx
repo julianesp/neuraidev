@@ -114,6 +114,10 @@ export default function EditarProductoPage() {
     setSaving(true);
 
     try {
+      console.log('=== DEBUG: Actualizando producto vía API ===');
+      console.log('ID del producto:', params.id);
+      console.log('Tipo de ID:', typeof params.id);
+
       // Limpiar y preparar datos para la tabla products de Supabase
       const productoData = {
         nombre: formData.nombre,
@@ -129,9 +133,27 @@ export default function EditarProductoPage() {
         // Si necesitas más campos, agrégalos a la tabla primero
       };
 
-      await actualizarProducto(params.id, productoData);
-      alert("Producto actualizado exitosamente");
-      router.push("/dashboard/productos");
+      console.log('Datos a actualizar:', productoData);
+
+      // Usar API route en lugar de llamada directa a Supabase
+      const response = await fetch(`/api/productos/${params.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productoData),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Error actualizando producto');
+      }
+
+      const data = await response.json();
+      console.log('✅ Producto actualizado:', data);
+
+      // Forzar recarga completa eliminando caché
+      window.location.href = "/dashboard/productos";
     } catch (error) {
       console.error("Error actualizando producto:", error);
       alert("Error actualizando producto: " + error.message);

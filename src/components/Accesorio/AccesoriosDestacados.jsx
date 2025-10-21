@@ -178,23 +178,12 @@ const AccesoriosDestacados = () => {
               opacity: currentIndex === index ? 1 : 0.7,
               transform: `scale(${currentIndex === index ? 1 : 0.95})`,
             }}
-            onClick={(e) => {
-              // Prevenir navegación para permitir el manejo de scroll primero
-              e.preventDefault();
-              setCurrentIndex(index);
-              scrollToItem(index);
-
-              // Navegar después de un breve delay para permitir la animación
-              setTimeout(() => {
-                window.location.href = `/accesorios/${accesorio.categoria}/${accesorio.id}`;
-              }, 300);
-            }}
           >
             {/* Contenedor de imagen con posición relativa y tamaño fijo */}
             <div className="w-full h-48 relative">
               <Image
                 src={
-                  accesorio.imagenPrincipal ||
+                  accesorio.imagen_principal ||
                   (accesorio.imagenes && accesorio.imagenes.length > 0
                     ? accesorio.imagenes[0].url
                     : "/images/placeholder.png")

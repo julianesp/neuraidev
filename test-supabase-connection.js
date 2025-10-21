@@ -53,7 +53,7 @@ async function testSupabaseConnection() {
 
   try {
     const { count, error } = await supabase
-      .from('Producto')
+      .from('products')
       .select('*', { count: 'exact', head: true });
 
     if (error) {
@@ -94,7 +94,7 @@ async function testSupabaseConnection() {
       console.log('4️⃣  Obteniendo estadísticas de productos...');
 
       const { data: productos, error: errorProductos } = await supabase
-        .from('Producto')
+        .from('products')
         .select('id, nombre, categoria, precio, stock, disponible, destacado');
 
       if (errorProductos) {

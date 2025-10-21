@@ -1,5 +1,8 @@
 import { createBrowserClient } from "@supabase/ssr";
 
+/**
+ * Cliente de Supabase para operaciones públicas (solo lectura)
+ */
 export function createClient() {
   return createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,

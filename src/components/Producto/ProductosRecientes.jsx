@@ -217,17 +217,6 @@ const ProductosRecientes = () => {
                 opacity: activeIndex === index ? 1 : 0.7,
                 transform: `scale(${activeIndex === index ? 1 : 0.95})`,
               }}
-              onClick={(e) => {
-                // Prevenir navegación para permitir el manejo de scroll primero
-                e.preventDefault();
-                setActiveIndex(index);
-                scrollToPosition(index);
-
-                // Navegar después de un breve delay para permitir la animación
-                setTimeout(() => {
-                  window.location.href = `/accesorios/${producto.categoria}/${producto.id}`;
-                }, 300);
-              }}
             >
               {/* Badge de "NUEVO" */}
               <div className="absolute top-2 left-2 bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
@@ -242,7 +231,7 @@ const ProductosRecientes = () => {
               <div className="w-full h-48 relative">
                 <Image
                   src={
-                    producto.imagenPrincipal ||
+                    producto.imagen_principal ||
                     (producto.imagenes && producto.imagenes.length > 0
                       ? producto.imagenes[0].url
                       : "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/2.jpg")
