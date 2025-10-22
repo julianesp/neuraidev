@@ -11,6 +11,7 @@ import { getSupabaseClient } from "../lib/db";
  */
 export async function loadCategoryProducts(categoria) {
   try {
+    console.log(`[loadCategoryProducts] Iniciando carga para: ${categoria}`);
     const supabase = getSupabaseClient();
 
     const { data, error } = await supabase
@@ -21,8 +22,11 @@ export async function loadCategoryProducts(categoria) {
       .order("created_at", { ascending: false });
 
     if (error) {
+      console.error(`[loadCategoryProducts] Error de Supabase:`, error);
       throw error;
     }
+
+    console.log(`[loadCategoryProducts] Datos recibidos:`, data?.length || 0, 'productos');
 
     // Normalizar estructura de datos para compatibilidad
     const productos = (data || []).map((p) => ({
@@ -37,10 +41,11 @@ export async function loadCategoryProducts(categoria) {
       updatedAt: p.updated_at,
     }));
 
+    console.log(`[loadCategoryProducts] Productos procesados:`, productos.length);
     return productos;
   } catch (error) {
-    console.error(`Error loading ${categoria} products:`, error);
-    return [];
+    console.error(`[loadCategoryProducts] Error fatal loading ${categoria} products:`, error);
+    throw error; // Re-lanzar el error para que la página lo capture
   }
 }
 
