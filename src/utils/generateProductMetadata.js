@@ -11,7 +11,7 @@ export async function generateProductMetadataForCategory(slug, categoria) {
       },
       include: {
         imagenes: {
-          orderBy: { orden: 'asc' },
+          orderBy: { orden: "asc" },
         },
       },
     });
@@ -21,18 +21,19 @@ export async function generateProductMetadataForCategory(slug, categoria) {
 
     if (!producto) {
       return {
-        title: 'Producto no encontrado | Neurai.dev',
-        description: 'El producto que buscas no existe o ha sido eliminado.',
+        title: "Producto no encontrado | Neurai.dev",
+        description: "El producto que buscas no existe o ha sido eliminado.",
       };
     }
 
-    const descripcionLimpia = producto.descripcion
-      ?.replace(/[^\w\s\-.,áéíóúñü]/gi, '')
-      .slice(0, 160) || `${producto.nombre} - ${producto.categoria}`;
+    const descripcionLimpia =
+      producto.descripcion?.replace(/[^\w\s\-.,áéíóúñü]/gi, "").slice(0, 160) ||
+      `${producto.nombre} - ${producto.categoria}`;
 
-    const imagenProducto = producto.imagenPrincipal ||
+    const imagenProducto =
+      producto.imagenPrincipal ||
       (producto.imagenes && producto.imagenes[0]?.url) ||
-      'https://neurai.dev/favicon-96x96.png';
+      "https://neurai.dev/favicon-96x96.png";
 
     return {
       title: `${producto.nombre} | Neurai.dev`,
@@ -40,8 +41,8 @@ export async function generateProductMetadataForCategory(slug, categoria) {
       openGraph: {
         title: `${producto.nombre} | Neurai.dev`,
         description: descripcionLimpia,
-        type: 'website',
-        siteName: 'Neurai.dev',
+        type: "website",
+        siteName: "Neurai.dev",
         url: `https://neurai.dev/accesorios/${categoria}/${slug}`,
         images: [
           {
@@ -53,15 +54,15 @@ export async function generateProductMetadataForCategory(slug, categoria) {
         ],
       },
       twitter: {
-        card: 'summary_large_image',
+        card: "summary_large_image",
         title: `${producto.nombre} | Neurai.dev`,
         description: descripcionLimpia,
         images: [imagenProducto],
       },
     };
   } catch (error) {
-    console.error('Error generando metadatos:', error);
-    const categoriaNombre = categoria.replace('-', ' ');
+    console.error("Error generando metadatos:", error);
+    const categoriaNombre = categoria.replace("-", " ");
     return {
       title: `Accesorios ${categoriaNombre} | Neurai.dev`,
       description: `Encuentra los mejores accesorios de ${categoriaNombre} en Neurai.dev`,

@@ -14,11 +14,11 @@ export async function loadCategoryProducts(categoria) {
     const supabase = getSupabaseClient();
 
     const { data, error } = await supabase
-      .from('products')
-      .select('*')
-      .eq('categoria', categoria)
-      .eq('disponible', true)
-      .order('createdAt', { ascending: false });
+      .from("products")
+      .select("*")
+      .eq("categoria", categoria)
+      .eq("disponible", true)
+      .order("created_at", { ascending: false });
 
     if (error) {
       throw error;
@@ -27,11 +27,14 @@ export async function loadCategoryProducts(categoria) {
     // Normalizar estructura de datos para compatibilidad
     const productos = (data || []).map((p) => ({
       ...p,
-      imagenPrincipal: p.imagenPrincipal,
+      // Mapear snake_case a camelCase para compatibilidad
+      imagenPrincipal: p.imagen_principal,
+      precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
       precio: parseFloat(p.precio),
-      precioAnterior: p.precioAnterior ? parseFloat(p.precioAnterior) : null,
-      cantidad: p.stock,
-      disponible: p.disponible && p.stock > 0,
+      cantidad: p.stock || p.cantidad || 0,
+      disponible: p.disponible && (p.stock > 0 || p.cantidad > 0),
+      createdAt: p.created_at,
+      updatedAt: p.updated_at,
     }));
 
     return productos;
@@ -60,37 +63,31 @@ export async function loadProductBySlug(categoria, slug) {
 
     // Si no se encuentra por slug, intentar buscar por SKU
     if (!producto) {
-      producto = productos.find(p => p.sku === slug || p.id === slug);
+      producto = productos.find((p) => p.sku === slug || p.id === slug);
     }
 
     if (!producto) {
       return { producto: null, otrosProductos: productos };
     }
 
-    // Obtener imágenes adicionales del producto desde la tabla ProductoImagen
-    try {
-      const supabase = getSupabaseClient();
-
-      const { data: imagenes, error: imgError } = await supabase
-        .from('product_images')
-        .select('url, alt, orden')
-        .eq('productoId', producto.id)
-        .order('orden', { ascending: true });
-
-      if (imgError) {
-        throw imgError;
-      }
-
-      if (imagenes) {
-        // Agregar las imágenes al producto en el formato esperado
-        producto.imagenes = imagenes.map(img => ({
-          url: img.url,
-          alt: img.alt || producto.nombre
-        }));
-      }
-    } catch (imgErr) {
-      console.error('Error loading product images:', imgErr);
-      producto.imagenes = [];
+    // Las imágenes ya vienen en el array 'imagenes' del producto
+    // Si no hay imágenes, usar la imagen principal
+    if (!producto.imagenes || producto.imagenes.length === 0) {
+      producto.imagenes = producto.imagen_principal
+        ? [
+            {
+              url: producto.imagen_principal,
+              alt: producto.nombre,
+            },
+          ]
+        : [];
+    } else {
+      // Formatear las imágenes del array JSON
+      producto.imagenes = producto.imagenes.map((url, index) => ({
+        url: url,
+        alt: producto.nombre,
+        orden: index,
+      }));
     }
 
     // Filtrar otros productos (excluyendo el actual)
