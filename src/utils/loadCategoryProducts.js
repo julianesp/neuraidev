@@ -1,27 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
 import { findProductBySlug } from "./slugify";
+import { getSupabaseClient } from "../lib/db";
 
-// Cliente de Supabase para server-side
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
-
-// Mapeo de categorías a archivos JSON
-const categoriaArchivos = {
-  celulares: "celulares.json",
-  computadoras: "computadoras.json",
-  "libros-usados": "libros-usados.json",
-  "libros-nuevos": "libros-nuevos.json",
-  generales: "generales.json",
-  damas: "damas.json",
-  belleza: "damas.json",
-  // Aliases para mantener compatibilidad
-  computacion: "computadoras.json",
-  computacio: "computadoras.json",
-  librosnuevos: "libros-nuevos.json",
-  librosusados: "libros-usados.json",
-};
+// Categorías soportadas
+// Ahora se obtienen directamente desde Supabase
 
 /**
  * Carga los productos de una categoría desde Supabase
@@ -30,29 +11,27 @@ const categoriaArchivos = {
  */
 export async function loadCategoryProducts(categoria) {
   try {
+    const supabase = getSupabaseClient();
+
     const { data, error } = await supabase
       .from('products')
       .select('*')
-      .is('store_id', null) // Solo productos de la tienda principal
       .eq('categoria', categoria)
-      .eq('activo', true)
       .eq('disponible', true)
-      .order('fecha_ingreso', { ascending: false });
+      .order('createdAt', { ascending: false });
 
     if (error) {
-      console.error(`Error loading ${categoria} products:`, error);
-      return [];
+      throw error;
     }
 
     // Normalizar estructura de datos para compatibilidad
     const productos = (data || []).map((p) => ({
       ...p,
-      // Mantener compatibilidad con código antiguo
-      imagenPrincipal: p.imagen_principal || (p.imagenes && p.imagenes[0]) || null,
-      precio: p.precio,
-      precioAnterior: p.precio_oferta,
+      imagenPrincipal: p.imagenPrincipal,
+      precio: parseFloat(p.precio),
+      precioAnterior: p.precioAnterior ? parseFloat(p.precioAnterior) : null,
       cantidad: p.stock,
-      imagenes: p.imagenes?.map(url => ({ url })) || [] // Convertir array de URLs a array de objetos
+      disponible: p.disponible && p.stock > 0,
     }));
 
     return productos;
@@ -86,6 +65,32 @@ export async function loadProductBySlug(categoria, slug) {
 
     if (!producto) {
       return { producto: null, otrosProductos: productos };
+    }
+
+    // Obtener imágenes adicionales del producto desde la tabla ProductoImagen
+    try {
+      const supabase = getSupabaseClient();
+
+      const { data: imagenes, error: imgError } = await supabase
+        .from('product_images')
+        .select('url, alt, orden')
+        .eq('productoId', producto.id)
+        .order('orden', { ascending: true });
+
+      if (imgError) {
+        throw imgError;
+      }
+
+      if (imagenes) {
+        // Agregar las imágenes al producto en el formato esperado
+        producto.imagenes = imagenes.map(img => ({
+          url: img.url,
+          alt: img.alt || producto.nombre
+        }));
+      }
+    } catch (imgErr) {
+      console.error('Error loading product images:', imgErr);
+      producto.imagenes = [];
     }
 
     // Filtrar otros productos (excluyendo el actual)
