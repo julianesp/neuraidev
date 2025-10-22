@@ -998,7 +998,7 @@ const AccesoriosContainer = ({
                       <div className="mt-3 space-y-2">
                         <Link
                           href={buildProductUrl(
-                            categorySlug,
+                            item.categoria || categorySlug,
                             generateProductSlug(item),
                             item,
                           )}
