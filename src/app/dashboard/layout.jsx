@@ -55,7 +55,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <AdminGuard>
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 mt-8">
       {/* Mobile sidebar toggle */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button

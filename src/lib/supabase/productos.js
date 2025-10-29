@@ -231,7 +231,6 @@ export async function eliminarProducto(id) {
 export async function actualizarStock(id, nuevoStock) {
   return actualizarProducto(id, {
     stock: nuevoStock,
-    cantidad: nuevoStock,
     disponible: nuevoStock > 0
   });
 }

@@ -32,8 +32,8 @@ export async function loadCategoryProducts(categoria) {
       imagenPrincipal: p.imagen_principal,
       precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
       precio: parseFloat(p.precio),
-      cantidad: p.stock || p.cantidad || 0,
-      disponible: p.disponible && (p.stock > 0 || p.cantidad > 0),
+      cantidad: p.stock || 0,
+      disponible: p.disponible && (p.stock > 0),
       createdAt: p.created_at,
       updatedAt: p.updated_at,
     }));
