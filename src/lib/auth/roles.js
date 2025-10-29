@@ -18,36 +18,22 @@ export const ADMIN_EMAILS = [
 export function isAdmin(user) {
   if (!user) return false;
 
-  console.log('🔍 [isAdmin] Verificando usuario:', {
-    email: user.primaryEmailAddress?.emailAddress,
-    adminEmails: ADMIN_EMAILS
-  });
-
   // Verificar por email
   const email =
     user.primaryEmailAddress?.emailAddress ||
     user.emailAddresses?.[0]?.emailAddress;
 
   const emailLower = email?.toLowerCase();
-  const isAdminByEmail = emailLower && ADMIN_EMAILS.includes(emailLower);
 
-  console.log('🔍 [isAdmin] Email comparación:', {
-    userEmail: emailLower,
-    isInArray: isAdminByEmail
-  });
-
-  if (isAdminByEmail) {
-    console.log('✅ [isAdmin] Usuario ES admin por email');
+  if (emailLower && ADMIN_EMAILS.includes(emailLower)) {
     return true;
   }
 
   // Verificar por metadata público (se puede configurar en Clerk Dashboard)
   if (user.publicMetadata?.role === "admin") {
-    console.log('✅ [isAdmin] Usuario ES admin por metadata');
     return true;
   }
 
-  console.warn('⛔ [isAdmin] Usuario NO es admin');
   return false;
 }
 
