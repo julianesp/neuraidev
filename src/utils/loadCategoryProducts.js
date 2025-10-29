@@ -11,7 +11,6 @@ import { getSupabaseClient } from "../lib/db";
  */
 export async function loadCategoryProducts(categoria) {
   try {
-    console.log(`[loadCategoryProducts] Iniciando carga para: ${categoria}`);
     const supabase = getSupabaseClient();
 
     const { data, error } = await supabase
@@ -26,8 +25,6 @@ export async function loadCategoryProducts(categoria) {
       throw error;
     }
 
-    console.log(`[loadCategoryProducts] Datos recibidos:`, data?.length || 0, 'productos');
-
     // Normalizar estructura de datos para compatibilidad
     const productos = (data || []).map((p) => ({
       ...p,
@@ -41,7 +38,6 @@ export async function loadCategoryProducts(categoria) {
       updatedAt: p.updated_at,
     }));
 
-    console.log(`[loadCategoryProducts] Productos procesados:`, productos.length);
     return productos;
   } catch (error) {
     console.error(`[loadCategoryProducts] Error fatal loading ${categoria} products:`, error);
@@ -57,42 +53,23 @@ export async function loadCategoryProducts(categoria) {
  */
 export async function loadProductBySlug(categoria, slug) {
   try {
-    console.log(`[loadProductBySlug] Buscando producto: categoria=${categoria}, slug=${slug}`);
     const productos = await loadCategoryProducts(categoria);
 
     if (productos.length === 0) {
-      console.log(`[loadProductBySlug] No hay productos en ${categoria}`);
       return { producto: null, otrosProductos: [] };
     }
 
-    console.log(`[loadProductBySlug] Productos disponibles: ${productos.length}`);
-
     // Buscar producto por slug (usando SKU como fallback)
     let producto = findProductBySlug(productos, slug);
-    console.log(`[loadProductBySlug] Búsqueda por slug: ${producto ? 'ENCONTRADO' : 'NO ENCONTRADO'}`);
 
     // Si no se encuentra por slug, intentar buscar por SKU
     if (!producto) {
       producto = productos.find((p) => p.sku === slug || p.id === slug);
-      console.log(`[loadProductBySlug] Búsqueda por SKU/ID: ${producto ? 'ENCONTRADO' : 'NO ENCONTRADO'}`);
-
-      if (!producto) {
-        // Mostrar algunos slugs disponibles para debug
-        console.log(`[loadProductBySlug] Slugs disponibles:`, productos.slice(0, 3).map(p => ({
-          nombre: p.nombre,
-          slug: generateProductSlug(p),
-          sku: p.sku,
-          id: p.id
-        })));
-      }
     }
 
     if (!producto) {
-      console.log(`[loadProductBySlug] Producto NO encontrado con slug: ${slug}`);
       return { producto: null, otrosProductos: productos };
     }
-
-    console.log(`[loadProductBySlug] Producto encontrado: ${producto.nombre}`);
 
     // Las imágenes ya vienen en el array 'imagenes' del producto
     // Si no hay imágenes, usar la imagen principal

@@ -33,9 +33,6 @@ export async function POST(request) {
 
     const body = await request.json();
 
-    console.log('🔐 [API] Creando nuevo producto');
-    console.log('📦 [API] Datos recibidos:', body);
-
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
@@ -54,7 +51,6 @@ export async function POST(request) {
       );
     }
 
-    console.log('✅ [API] Producto creado exitosamente');
     return NextResponse.json(data, { status: 201 });
 
   } catch (error) {

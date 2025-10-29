@@ -34,9 +34,6 @@ export async function PUT(request, { params }) {
     const { id } = await params;
     const body = await request.json();
 
-    console.log('🔐 [API] Actualizando producto:', id);
-    console.log('📦 [API] Datos recibidos:', body);
-
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
@@ -56,7 +53,6 @@ export async function PUT(request, { params }) {
       );
     }
 
-    console.log('✅ [API] Producto actualizado exitosamente');
     return NextResponse.json(data);
 
   } catch (error) {
@@ -85,8 +81,6 @@ export async function DELETE(request, { params }) {
 
     const { id } = await params;
 
-    console.log('🗑️  [API] Eliminando producto:', id);
-
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
@@ -104,7 +98,6 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    console.log('✅ [API] Producto eliminado exitosamente');
     return NextResponse.json({ success: true });
 
   } catch (error) {

@@ -82,8 +82,6 @@ export default function NuevoProductoPage() {
         // Nota: solo incluir campos que existan en la tabla 'products'
       };
 
-      console.log('🆕 Creando producto vía API:', productoData);
-
       // Usar API route en lugar de llamada directa a Supabase
       const response = await fetch('/api/productos', {
         method: 'POST',
@@ -98,8 +96,7 @@ export default function NuevoProductoPage() {
         throw new Error(error.error || 'Error creando producto');
       }
 
-      const data = await response.json();
-      console.log('✅ Producto creado:', data);
+      await response.json();
 
       alert("Producto creado exitosamente");
       router.push("/dashboard/productos");

@@ -53,6 +53,9 @@ const nextConfig = {
   reactStrictMode: true,
   trailingSlash: false,
 
+  // Configurar el directorio raíz del workspace
+  outputFileTracingRoot: path.join(__dirname, './'),
+
   // Mejorar sourcemaps para debugging
   productionBrowserSourceMaps: false,
 

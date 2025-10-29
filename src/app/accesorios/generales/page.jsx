@@ -10,9 +10,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function GeneralesPage() {
   try {
-    console.log('[GeneralesPage] Cargando productos de generales...');
     const productos = await loadCategoryProducts('generales');
-    console.log('[GeneralesPage] Productos cargados:', productos.length);
 
     const accesorioInicial = productos.length > 0 ? productos[0] : null;
     const otrosAccesorios = productos.slice(1);

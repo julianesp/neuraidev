@@ -170,10 +170,6 @@ export async function actualizarProducto(id, cambios) {
   try {
     const supabase = createClient();
 
-    console.log('🔍 [actualizarProducto] Iniciando actualización...');
-    console.log('   ID recibido:', id);
-    console.log('   Cambios a aplicar:', JSON.stringify(cambios, null, 2));
-
     // Primero verificar que el producto existe
     const { data: productoExistente, error: errorBusqueda } = await supabase
       .from('products')
@@ -186,9 +182,6 @@ export async function actualizarProducto(id, cambios) {
       throw new Error(`Producto con ID ${id} no encontrado: ${errorBusqueda.message}`);
     }
 
-    console.log('✅ Producto encontrado:', productoExistente.nombre);
-    console.log('   Stock ANTES:', productoExistente.stock);
-
     // Ahora actualizar
     const { data, error } = await supabase
       .from('products')
@@ -199,13 +192,6 @@ export async function actualizarProducto(id, cambios) {
     if (error) {
       console.error('❌ Error actualizando producto:', error);
       throw error;
-    }
-
-    console.log('✅ UPDATE ejecutado exitosamente');
-    console.log('   Filas afectadas:', data?.length || 0);
-    if (data && data.length > 0) {
-      console.log('   Stock DESPUÉS:', data[0].stock);
-      console.log('   Producto actualizado:', data[0]);
     }
 
     // Retornar el primer elemento (debería ser solo uno)

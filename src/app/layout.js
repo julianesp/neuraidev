@@ -17,26 +17,38 @@ import { ToastContainer } from "../components/Toast";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://neurai.dev'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev",
+  ),
   title: {
-    default: 'neurai.dev - Tienda de Accesorios y Servicios',
-    template: '%s | neurai.dev'
+    default: "neurai.dev - Tienda de Accesorios y Servicios",
+    template: "%s | neurai.dev",
   },
-  description: 'Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales en desarrollo de software y técnico en sistemas.',
-  keywords: ['accesorios', 'Valle de Sibundoy', 'noticias', 'desarrollo software', 'técnico sistemas', 'Putumayo'],
-  authors: [{ name: 'neurai.dev' }],
+  description:
+    "Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales en desarrollo de software y técnico en sistemas.",
+  keywords: [
+    "accesorios",
+    "Valle de Sibundoy",
+    "noticias",
+    "desarrollo software",
+    "técnico sistemas",
+    "Putumayo",
+  ],
+  authors: [{ name: "neurai.dev" }],
   openGraph: {
-    type: 'website',
-    locale: 'es_CO',
-    url: 'https://neurai.dev',
-    siteName: 'neurai.dev',
-    title: 'neurai.dev - Tienda de Accesorios y Servicios',
-    description: 'Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales.',
+    type: "website",
+    locale: "es_CO",
+    url: "https://neurai.dev",
+    siteName: "neurai.dev",
+    title: "neurai.dev - Tienda de Accesorios y Servicios",
+    description:
+      "Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales.",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'neurai.dev - Tienda de Accesorios y Servicios',
-    description: 'Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales.',
+    card: "summary_large_image",
+    title: "neurai.dev - Tienda de Accesorios y Servicios",
+    description:
+      "Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales.",
   },
   robots: {
     index: true,
@@ -102,7 +114,12 @@ export default function RootLayout({ children }) {
                 <SplashScreen />
                 <div className={styles.layoutContainer}>
                   <NavBar />
-                  <main id="main-content" className={styles.mainContent} role="main" aria-label="Contenido principal">
+                  <main
+                    id="main-content"
+                    className={styles.mainContent}
+                    role="main"
+                    aria-label="Contenido principal"
+                  >
                     {children}
                     {/* <NotificationManager /> */}
                     <Analytics />

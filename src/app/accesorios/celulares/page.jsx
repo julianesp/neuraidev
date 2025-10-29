@@ -11,9 +11,7 @@ export const dynamic = 'force-dynamic';
 // Este componente será la página que muestra todos los accesorios de celulares
 export default async function AccesoriosCelularesPage() {
   try {
-    console.log('[AccesoriosCelularesPage] Cargando productos de celulares...');
     const productos = await loadCategoryProducts('celulares');
-    console.log('[AccesoriosCelularesPage] Productos cargados:', productos.length);
 
     const accesorioInicial = productos.length > 0 ? productos[0] : null;
     const otrosAccesorios = productos.slice(1);

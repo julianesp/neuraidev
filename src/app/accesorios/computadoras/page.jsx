@@ -6,10 +6,10 @@ import { loadCategoryProducts } from "../../../utils/loadCategoryProducts";
 // export const metadata = generateCategoryMetadata('computadoras');
 
 // Forzar renderizado dinámico para evitar errores de prerenderizado
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function ComputadorasPage() {
-  const productos = await loadCategoryProducts('computadoras');
+  const productos = await loadCategoryProducts("computadoras");
   const accesorioInicial = productos.length > 0 ? productos[0] : null;
   const otrosAccesorios = productos.slice(1);
 
