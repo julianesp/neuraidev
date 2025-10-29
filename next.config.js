@@ -132,6 +132,11 @@ const nextConfig = {
       tls: false,
     };
 
+    // Silenciar advertencia de serialización de strings grandes en caché
+    config.infrastructureLogging = {
+      level: 'error',
+    };
+
     return config;
   },
 

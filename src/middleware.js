@@ -1,6 +1,4 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { checkIsAdmin } from "./src/lib/auth/server-roles";
-import { NextResponse } from "next/server";
 
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -24,8 +22,8 @@ const isPublicRoute = createRouteMatcher([
   "/blog(.*)",
 ]);
 
-// Rutas que requieren rol de administrador
-const isAdminRoute = createRouteMatcher([
+// Rutas que requieren autenticación (dashboard completo)
+const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
 ]);
 
@@ -35,20 +33,10 @@ export default clerkMiddleware(async (auth, request) => {
     await auth.protect();
   }
 
-  // Verificar rutas de administrador (requieren rol de admin)
-  if (isAdminRoute(request)) {
-    // Primero verificar que esté autenticado
+  // Proteger dashboard (solo requiere autenticación, no verificamos admin aquí)
+  // La verificación de admin se hace en los Server Components individuales
+  if (isProtectedRoute(request)) {
     await auth.protect();
-
-    // Luego verificar que sea admin
-    const isAdmin = await checkIsAdmin();
-
-    if (!isAdmin) {
-      // Redirigir a página principal con mensaje de error
-      const url = new URL("/", request.url);
-      url.searchParams.set("error", "unauthorized");
-      return NextResponse.redirect(url);
-    }
   }
 });
 

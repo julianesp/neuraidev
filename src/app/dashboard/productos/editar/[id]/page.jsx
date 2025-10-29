@@ -139,11 +139,11 @@ export default function EditarProductoPage() {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Error actualizando producto');
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
       }
 
-      await response.json();
+      const data = await response.json();
 
       // Forzar recarga completa eliminando caché
       window.location.href = "/dashboard/productos";

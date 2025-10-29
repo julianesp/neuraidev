@@ -26,7 +26,7 @@ export default function SignUpPage() {
           routing="path"
           path="/sign-up"
           signInUrl="/sign-in"
-          afterSignUpUrl="/dashboard"
+          forceRedirectUrl="/dashboard"
         />
 
         <div className="mt-6 text-center">
