@@ -97,8 +97,9 @@ export default function StoreStatus() {
   useEffect(() => {
     fetchStoreStatus();
 
-    // Actualizar cada 60 segundos
-    const interval = setInterval(fetchStoreStatus, 60000);
+    // Actualizar cada 5 minutos (300000ms) en lugar de cada minuto
+    // Ya que tenemos suscripción en tiempo real, no necesitamos polling tan frecuente
+    const interval = setInterval(fetchStoreStatus, 300000);
 
     // Suscripción a cambios en tiempo real
     const channel = supabase

@@ -61,7 +61,7 @@ export async function PUT(request, { params }) {
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
-    console.log('🔄 [API] Actualizando producto:', id, 'con datos:', body);
+    // Actualizando producto
 
     // Actualizar producto
     const { data, error } = await supabase
@@ -92,7 +92,7 @@ export async function PUT(request, { params }) {
       );
     }
 
-    console.log('✅ [API] Producto actualizado exitosamente:', data);
+    // Producto actualizado exitosamente
     return NextResponse.json(data);
 
   } catch (error) {

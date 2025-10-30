@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ArrowLeft, Save, Upload } from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 import {
   obtenerProductoPorId,
   actualizarProducto,
 } from "../../../../../lib/supabase/productos";
+import ImageUploader from "../../../../../components/ImageUploader";
 
 export default function EditarProductoPage() {
   const router = useRouter();
@@ -66,7 +67,9 @@ export default function EditarProductoPage() {
         garantia: producto.garantia || 1,
         estado: "nuevo", // Campo de solo UI, no se guarda en DB
         imagen_principal: producto.imagen_principal || "",
-        imagenes: [""], // Simplificado por ahora
+        imagenes: Array.isArray(producto.imagenes) && producto.imagenes.length > 0
+          ? producto.imagenes
+          : [],
       });
     } catch (error) {
       console.error("Error cargando producto:", error);
@@ -125,8 +128,10 @@ export default function EditarProductoPage() {
         sku: formData.sku || null,
         disponible: formData.disponible,
         destacado: formData.destacado,
-        // Nota: solo incluir campos que existan en la tabla 'products'
-        // Si necesitas más campos, agrégalos a la tabla primero
+        imagen_principal: formData.imagen_principal || null,
+        imagenes: Array.isArray(formData.imagenes)
+          ? formData.imagenes.filter(img => img && img.trim() !== '')
+          : [],
       };
 
       // Usar API route en lugar de llamada directa a Supabase
@@ -409,66 +414,19 @@ export default function EditarProductoPage() {
               <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
                 Imágenes
               </h2>
-              <div className="space-y-3">
-                <div>
-                  <label
-                    htmlFor="imagen_principal"
-                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
-                  >
-                    URL de Imagen Principal
-                  </label>
-                  <input
-                    id="imagen_principal"
-                    type="url"
-                    name="imagen_principal"
-                    value={formData.imagen_principal}
-                    onChange={handleChange}
-                    placeholder="https://ejemplo.com/imagen.jpg"
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  />
-                  {formData.imagen_principal && (
-                    <div className="mt-2">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={formData.imagen_principal}
-                        alt="Vista previa"
-                        className="w-32 h-32 object-cover rounded border border-gray-300"
-                      />
-                    </div>
-                  )}
-                </div>
+              <div className="space-y-4">
+                <ImageUploader
+                  value={formData.imagen_principal}
+                  onChange={(url) => setFormData(prev => ({ ...prev, imagen_principal: url }))}
+                  label="Imagen Principal"
+                />
 
-                {formData.imagenes.map((img, index) => (
-                  <div key={index} className="flex gap-2">
-                    <input
-                      type="url"
-                      value={img}
-                      onChange={(e) =>
-                        handleImagenChange(index, e.target.value)
-                      }
-                      placeholder={`URL de imagen ${index + 1}`}
-                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                    />
-                    {index > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => eliminarImagenCampo(index)}
-                        className="px-3 py-2 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200 rounded-lg hover:bg-red-200 dark:hover:bg-red-800"
-                      >
-                        Eliminar
-                      </button>
-                    )}
-                  </div>
-                ))}
-
-                <button
-                  type="button"
-                  onClick={agregarImagenCampo}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600"
-                >
-                  <Upload className="w-4 h-4" />
-                  Agregar otra imagen
-                </button>
+                <ImageUploader
+                  value={formData.imagenes.filter(img => img)}
+                  onChange={(urls) => setFormData(prev => ({ ...prev, imagenes: urls }))}
+                  label="Imágenes Adicionales"
+                  multiple
+                />
               </div>
             </div>
 

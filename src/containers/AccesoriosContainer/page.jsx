@@ -413,6 +413,7 @@ const AccesoriosContainer = ({
   // Función para avanzar en el carrusel principal
   const nextMainSlide = (e) => {
     e.preventDefault(); // Prevenir comportamiento predeterminado
+    e.stopPropagation(); // Detener propagación del evento
 
     if (
       !accesorio?.imagenes ||
@@ -429,6 +430,7 @@ const AccesoriosContainer = ({
   // Función para retroceder en el carrusel principal
   const prevMainSlide = (e) => {
     e.preventDefault(); // Prevenir comportamiento predeterminado
+    e.stopPropagation(); // Detener propagación del evento
 
     if (
       !accesorio?.imagenes ||
@@ -569,341 +571,310 @@ const AccesoriosContainer = ({
     <>
       {/* Meta tags para redes sociales */}
       <ProductMetaTags product={accesorio} category={categorySlug} />
-
-      <div
-        ref={containerRef}
-        id="accesorios-container"
-        className="w-full"
-      >
-      <div className="max-w-4xl mx-auto p-4 bg-white/30 backdrop-blur-md rounded-lg shadow-lg mb-8">
-        {/* Título del accesorio */}
-        <h1 className="text-3xl font-bold text-center mb-6">
-          {accesorio.nombre}
-        </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          {/* Carrusel principal - SECCIÓN MEJORADA */}
+      {/* max-w-4xl */}
+      <div ref={containerRef} id="accesorios-container" className="w-full">
+        <div className="lg:max-w-md mx-auto p-4">
+          <h1 className="text-3xl font-bold text-center mb-6">
+            {accesorio.nombre}
+          </h1>
           <div
-            className={`${styles.mainImageContainer} relative h-96 md:h-[450px] lg:h-[500px] group`}
+            className={`grid grid-cols-1 md:grid-cols-2 gap-8 mb-32 ${styles.accesorioContainer}`}
           >
-            {/* Botón de expansión - visible en hover */}
-            <button
-              onClick={openImageModal}
-              className="absolute top-4 right-4 z-10 bg-black/60 hover:bg-black/90 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm shadow-lg border border-white/20 opacity-0 group-hover:opacity-100"
-              aria-label="Ver imagen en pantalla completa"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-                />
-              </svg>
-            </button>
+            {/* Carrusel principal - SECCIÓN MEJORADA */}
             <div
-              className="h-full w-full relative overflow-hidden rounded-lg cursor-pointer"
-              onClick={openImageModal}
+              className={`${styles.mainImageContainer} relative h-96 md:h-[450px] lg:h-[500px] group`}
             >
-              {tieneImagenes ? (
-                accesorio.imagenes.map((imagen, index) => {
-                  const imagenUrl =
-                    typeof imagen === "object" && imagen.url
-                      ? imagen.url
-                      : imagen;
-
-                  return (
-                    <div
-                      key={index}
-                      className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
-                        index === mainSlideIndex ? "opacity-100" : "opacity-0"
-                      }`}
-                    >
-                      <div className="relative w-full h-full">
-                        {!imageError[`main-${index}`] ? (
-                          <Image
-                            src={imagenUrl}
-                            alt={`${accesorio.nombre} - Imagen ${index + 1}`}
-                            fill={true}
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                            className="rounded-lg object-cover"
-                            priority={index === mainSlideIndex}
-                            onError={() =>
-                              handleImageError(`main-${index}`, imagenUrl)
-                            }
-                            unoptimized={
-                              imagenUrl &&
-                              typeof imagenUrl === "string" &&
-                              imagenUrl.includes(
-                                "firebasestorage.googleapis.com",
-                              )
-                            }
-                          />
-                        ) : (
-                          <div className="flex flex-col items-center justify-center h-full bg-slate-100/40 backdrop-blur-sm rounded-lg">
-                            <Image
-                              src="/images/placeholder-product.png"
-                              alt="Imagen no disponible"
-                              width={200}
-                              height={200}
-                              className="mb-2 opacity-60"
-                            />
-                            <p className="text-gray-500">
-                              Imagen no disponible
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })
-              ) : imagenPrincipal ? (
-                <div className="absolute inset-0">
-                  <div className="relative w-full h-full">
-                    {!imageError["principal"] ? (
-                      <Image
-                        src={imagenPrincipal}
-                        alt={accesorio.nombre}
-                        fill={true}
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="rounded-lg object-cover"
-                        priority
-                        onError={() => handleImageError("principal")}
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
-                        <p className="text-gray-500 dark:text-gray-300">
-                          Imagen no disponible
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
-                  <p className="text-gray-500 dark:text-gray-300">
-                    No hay imágenes disponibles
-                  </p>
-                </div>
-              )}
-
-              {/* Controles del carrusel principal - solo si hay múltiples imágenes */}
-              {tieneImagenes && accesorio.imagenes.length > 1 && (
-                <>
-                  <button
-                    onClick={prevMainSlide}
-                    className={`${styles.navButton} bg-black text-white dark:bg-white absolute left-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md  transition-all  darl:text-black dark:text-black dark:border-white dark:border-solid `}
-                    aria-label="Imagen anterior"
-                  >
-                    <ChevronLeft size={24} />
-                  </button>
-                  <button
-                    onClick={nextMainSlide}
-                    className={`${styles.navButton} bg-black text-white dark:bg-white dark:text-black absolute right-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
-                    aria-label="Imagen siguiente"
-                  >
-                    <ChevronRight size={24} />
-                  </button>
-
-                  {/* Indicadores de posición */}
-                  <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950">
-                    {accesorio.imagenes.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setMainSlideIndex(index);
-                        }}
-                        className={`w-3 h-3 rounded-full ${
-                          index === mainSlideIndex
-                            ? "bg-primary"
-                            : "bg-gray-300"
-                        }`}
-                        aria-label={`Ir a imagen ${index + 1}`}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="flex flex-col justify-between">
-            <div>
-              <h2 className="text-xl font-semibold mb-3 text-black dark:text-white">
-                Descripción
-              </h2>
-              <div className="text-black dark:text-white mb-4 leading-relaxed">
-                {formatearDescripcion(accesorio.descripcion)
-                  .split("\n\n")
-                  .map((parrafo, index) => (
-                    <p key={index} className="mb-3 text-sm md:text-base">
-                      {parrafo}
-                    </p>
-                  ))}
-              </div>
-
-              {/* Características */}
-              {accesorio.caracteristicas &&
-                accesorio.caracteristicas.length > 0 && (
-                  <div className="mb-4">
-                    <h3 className="text-lg font-medium mb-2 text-black dark:text-black">
-                      Características
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1">
-                      {accesorio.caracteristicas.map(
-                        (caracteristica, index) => (
-                          <li
-                            key={index}
-                            className="text-gray-800 dark:text-gray-200"
-                          >
-                            {caracteristica}
-                          </li>
-                        ),
-                      )}
-                    </ul>
-                  </div>
-                )}
-
-              {/* Información adicional del producto */}
-              <div className="mt-4 space-y-3">
-                {/* Stock y disponibilidad */}
-                <div className="flex flex-wrap gap-4">
-                  {/* Información de stock/cantidad */}
-                  <div className="flex items-center">
-                    <span
-                      className={`text-sm px-3 py-1 rounded-full font-medium ${
-                        accesorio.stock > 0
-                          ? accesorio.stock > 10
-                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-                            : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
-                          : ""
-                      }`}
-                      style={
-                        accesorio.stock === 0
-                          ? {
-                              backgroundColor: "rgba(239, 68, 68, 0.1)",
-                              color: "rgba(185, 28, 28, 0.8)",
-                            }
-                          : {}
-                      }
-                    >
-                      {accesorio.stock > 0
-                        ? `Cantidad: ${accesorio.stock}`
-                        : "Agotado"}
-                    </span>
-                  </div>
-
-                  {/* Cantidad legacy - mantener por compatibilidad */}
-                  {accesorio.cantidad !== undefined &&
-                    accesorio.stock === undefined && (
-                      <div className="flex items-center">
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
-                          Cantidad:
-                        </span>
-                        <span className="text-sm px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
-                          {accesorio.cantidad}
-                        </span>
-                      </div>
-                    )}
-                </div>
-
-                {/* Peso y dimensiones */}
-                {(accesorio.peso || accesorio.dimensiones) && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {accesorio.peso && (
-                      <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
-                        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Peso
-                        </h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {accesorio.peso}
-                        </p>
-                      </div>
-                    )}
-                    {accesorio.dimensiones && (
-                      <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
-                        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Dimensiones
-                        </h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {accesorio.dimensiones}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Precio */}
-              <div className="mt-4">
-                <PriceWithDiscount
-                  precio={accesorio.precio}
-                  showBadge={true}
-                  className="text-2xl font-bold text-primary dark:text-white"
-                />
-                {accesorio.precioAnterior && (
-                  <span className="ml-2 text-gray-400 dark:text-gray-500 line-through">
-                    $
-                    {typeof accesorio.precioAnterior === "number"
-                      ? accesorio.precioAnterior.toLocaleString("es-CO")
-                      : accesorio.precioAnterior}
-                  </span>
-                )}
-              </div>
-              {/* Botón para compartir el producto */}
-              <div className="mt-4">
-                <ShareButton product={accesorio} />
-              </div>
-            </div>
-
-            {/* Botón de WhatsApp */}
-            {accesorio.stock === 0 ? (
-              <div className="mt-6 space-y-3">
-                {/* Botón de Producto Agotado */}
-                <div className="bg-gray-400 text-gray-600 py-3 px-6 rounded-lg flex items-center justify-center cursor-not-allowed">
-                  <MessageCircle className="mr-2" />
-                  Producto Agotado
-                </div>
-
-                {/* Botón Solicitarlo */}
-                <Link
-                  href={`https://wa.me/573174503604?text=${encodeURIComponent(
-                    `¡Hola! 👋\n\nQuiero más de este producto:\n\n📦 ${accesorio.nombre}\n\n🔗 Puedes verlo aquí: ${typeof window !== "undefined" ? window.location.href : ""}\n\n¡Espero tu respuesta! 😊`,
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-orange-500 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-orange-600 transition-colors font-medium"
+              {/* Botón de expansión - visible en hover */}
+              <button
+                onClick={openImageModal}
+                className="absolute top-4 right-4 z-9 bg-black hover:bg-black/90 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm shadow-lg border border-black  group-hover:opacity-100"
+                aria-label="Ver imagen en pantalla completa"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    className="mr-2 w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.13 8.13 0 01-3.618-.82L3 21l1.82-6.382A8.13 8.13 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"
-                    />
-                  </svg>
-                  Solicitarlo por WhatsApp
-                </Link>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                  />
+                </svg>
+              </button>
+
+              <div className="h-full w-full relative overflow-hidden rounded-lg">
+                {tieneImagenes ? (
+                  accesorio.imagenes.map((imagen, index) => {
+                    const imagenUrl =
+                      typeof imagen === "object" && imagen.url
+                        ? imagen.url
+                        : imagen;
+
+                    return (
+                      <div
+                        key={index}
+                        className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+                          index === mainSlideIndex ? "opacity-100" : "opacity-0"
+                        }`}
+                      >
+                        <div className="relative w-full h-full z-1">
+                          {!imageError[`main-${index}`] ? (
+                            <Image
+                              src={imagenUrl}
+                              alt={`${accesorio.nombre} - Imagen ${index + 1}`}
+                              fill={true}
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                              className="rounded-lg object-cover"
+                              priority={index === mainSlideIndex}
+                              onError={() =>
+                                handleImageError(`main-${index}`, imagenUrl)
+                              }
+                              unoptimized={
+                                imagenUrl &&
+                                typeof imagenUrl === "string" &&
+                                imagenUrl.includes(
+                                  "firebasestorage.googleapis.com",
+                                )
+                              }
+                            />
+                          ) : (
+                            <div className="flex flex-col items-center justify-center h-full bg-slate-100/40 backdrop-blur-sm rounded-lg">
+                              <Image
+                                src="/images/placeholder-product.png"
+                                alt="Imagen no disponible"
+                                width={200}
+                                height={200}
+                                className="mb-2 opacity-60"
+                              />
+                              <p className="text-gray-500">
+                                Imagen no disponible
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : imagenPrincipal ? (
+                  <div className="absolute inset-0">
+                    <div className="relative w-full h-full">
+                      {!imageError["principal"] ? (
+                        <Image
+                          src={imagenPrincipal}
+                          alt={accesorio.nombre}
+                          fill={true}
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="rounded-lg object-cover"
+                          priority
+                          onError={() => handleImageError("principal")}
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
+                          <p className="text-gray-500 dark:text-gray-300">
+                            Imagen no disponible
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
+                    <p className="text-gray-500 dark:text-gray-300">
+                      No hay imágenes disponibles
+                    </p>
+                  </div>
+                )}
+
+                {/* Controles del carrusel principal - solo si hay múltiples imágenes */}
+                {tieneImagenes && accesorio.imagenes.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevMainSlide}
+                      className={`${styles.navButton} bg-black text-white  absolute left-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md  transition-all     dark:border-solid `}
+                      aria-label="Imagen anterior"
+                    >
+                      <ChevronLeft size={24} />
+                    </button>
+                    <button
+                      onClick={nextMainSlide}
+                      className={`${styles.navButton} bg-black text-white dark:bg-white dark:text-black absolute right-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
+                      aria-label="Imagen siguiente"
+                    >
+                      <ChevronRight size={24} />
+                    </button>
+
+                    {/* Indicadores de posición */}
+                    <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950">
+                      {accesorio.imagenes.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setMainSlideIndex(index);
+                          }}
+                          className={`w-3 h-3 rounded-full ${
+                            index === mainSlideIndex
+                              ? "bg-primary"
+                              : "bg-gray-300"
+                          }`}
+                          aria-label={`Ir a imagen ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
-            ) : (
-              <div className="space-y-3">
-                {/* Enlace de pago específico para el libro de Cálculo */}
-                {accesorio.id === "cmfew2nv3000rs0jpmwvzv6ue" && (
+            </div>
+
+            <div className="flex flex-col justify-between">
+              <div>
+                <h2 className="text-sm font-semibold mb-3 text-black dark:text-white">
+                  Descripción
+                </h2>
+                <div className="text-black dark:text-white mb-2 leading-relaxed">
+                  {formatearDescripcion(accesorio.descripcion)
+                    .split("\n\n")
+                    .map((parrafo, index) => (
+                      <p key={index} className=" text-sm md:text-base">
+                        {parrafo}
+                      </p>
+                    ))}
+                </div>
+
+                {/* Características */}
+                {accesorio.caracteristicas &&
+                  accesorio.caracteristicas.length > 0 && (
+                    <div className="mb-4">
+                      <h3 className="text-lg font-medium mb-2 text-black dark:text-black">
+                        Características
+                      </h3>
+                      <ul className="list-disc pl-5 space-y-1">
+                        {accesorio.caracteristicas.map(
+                          (caracteristica, index) => (
+                            <li
+                              key={index}
+                              className="text-gray-800 dark:text-gray-200"
+                            >
+                              {caracteristica}
+                            </li>
+                          ),
+                        )}
+                      </ul>
+                    </div>
+                  )}
+
+                {/* Información adicional del producto */}
+                <div className="mt-4 space-y-3">
+                  {/* Stock y disponibilidad */}
+                  <div className="flex flex-wrap gap-4">
+                    {/* Información de stock/cantidad */}
+                    <div className="flex items-center">
+                      <span
+                        className={`text-sm px-3 py-1 rounded-full font-medium ${
+                          accesorio.stock > 0
+                            ? accesorio.stock > 10
+                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+                              : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
+                            : ""
+                        }`}
+                        style={
+                          accesorio.stock === 0
+                            ? {
+                                backgroundColor: "rgba(239, 68, 68, 0.1)",
+                                color: "rgba(185, 28, 28, 0.8)",
+                              }
+                            : {}
+                        }
+                      >
+                        {accesorio.stock > 0
+                          ? `Cantidad: ${accesorio.stock}`
+                          : "Agotado"}
+                      </span>
+                    </div>
+
+                    {/* Cantidad legacy - mantener por compatibilidad */}
+                    {accesorio.cantidad !== undefined &&
+                      accesorio.stock === undefined && (
+                        <div className="flex items-center">
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
+                            Cantidad:
+                          </span>
+                          <span className="text-sm px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
+                            {accesorio.cantidad}
+                          </span>
+                        </div>
+                      )}
+                  </div>
+
+                  {/* Peso y dimensiones */}
+                  {(accesorio.peso || accesorio.dimensiones) && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {accesorio.peso && (
+                        <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+                          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Peso
+                          </h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            {accesorio.peso}
+                          </p>
+                        </div>
+                      )}
+                      {accesorio.dimensiones && (
+                        <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+                          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Dimensiones
+                          </h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            {accesorio.dimensiones}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Precio */}
+                <div className="mt-4">
+                  <PriceWithDiscount
+                    precio={accesorio.precio}
+                    showBadge={true}
+                    className="text-2xl font-bold text-primary dark:text-white"
+                  />
+                  {accesorio.precioAnterior && (
+                    <span className="ml-2 text-gray-400 dark:text-gray-500 line-through">
+                      $
+                      {typeof accesorio.precioAnterior === "number"
+                        ? accesorio.precioAnterior.toLocaleString("es-CO")
+                        : accesorio.precioAnterior}
+                    </span>
+                  )}
+                </div>
+                {/* Botón para compartir el producto */}
+                <div className="mt-4 ">
+                  <ShareButton product={accesorio} />
+                </div>
+              </div>
+
+              {/* Botón de WhatsApp */}
+              {accesorio.stock === 0 ? (
+                <div className="mt-6 space-y-3">
+                  {/* Botón de Producto Agotado */}
+                  <div className="bg-gray-400 text-gray-600 py-3 px-6 rounded-lg flex items-center justify-center cursor-not-allowed">
+                    <MessageCircle className="mr-2" />
+                    Producto Agotado
+                  </div>
+
+                  {/* Botón Solicitarlo */}
                   <Link
-                    href="https://payco.link/a2bf14cd-759a-4717-a500-baf869523a61"
+                    href={`https://wa.me/573174503604?text=${encodeURIComponent(
+                      `¡Hola! 👋\n\nQuiero más de este producto:\n\n📦 ${accesorio.nombre}\n\n🔗 Puedes verlo aquí: ${typeof window !== "undefined" ? window.location.href : ""}\n\n¡Espero tu respuesta! 😊`,
+                    )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-6 bg-blue-600 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors font-semibold"
+                    className="bg-orange-500 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-orange-600 transition-colors font-medium"
                   >
                     <svg
                       className="mr-2 w-5 h-5"
@@ -915,110 +886,141 @@ const AccesoriosContainer = ({
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.13 8.13 0 01-3.618-.82L3 21l1.82-6.382A8.13 8.13 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"
                       />
                     </svg>
-                    Comprar Ahora - Pago Seguro
+                    Solicitarlo por WhatsApp
                   </Link>
-                )}
-
-                <Link
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors`}
-                >
-                  <MessageCircle className="mr-2 text-black dark:text-white" />
-                  Consultar por WhatsApp
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {otrosAccesorios && otrosAccesorios.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold mb-6 text-center">
-              Otros accesorios
-            </h2>
-
-            <div className="relative">
-              {/* IMPORTANTE: Solo usar la clase SCSS, NO mezclar con Tailwind grid */}
-              <div className={styles.otrosAccesoriosGrid}>
-                {otrosAccesorios.map((item, itemIndex) => {
-                  // Obtener URL de imagen de manera segura
-                  const itemImageUrl =
-                    item.imagenPrincipal ||
-                    (item.imagenes && item.imagenes.length > 0
-                      ? typeof item.imagenes[0] === "object" &&
-                        item.imagenes[0].url
-                        ? item.imagenes[0].url
-                        : item.imagenes[0]
-                      : null);
-
-                  return (
-                    <div
-                      key={itemIndex}
-                      className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-3 hover:shadow-md transition-shadow`}
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {/* Enlace de pago específico para el libro de Cálculo */}
+                  {accesorio.id === "cmfew2nv3000rs0jpmwvzv6ue" && (
+                    <Link
+                      href="https://payco.link/a2bf14cd-759a-4717-a500-baf869523a61"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-6 bg-blue-600 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors font-semibold"
                     >
-                      <div className="relative h-40 mb-2 overflow-hidden rounded">
-                        {!imageError[`related-${itemIndex}`] && itemImageUrl ? (
-                          <Image
-                            src={itemImageUrl}
-                            alt={item.nombre || ""}
-                            fill={true}
-                            className="object-contain"
-                            onError={() =>
-                              handleImageError(`related-${itemIndex}`)
-                            }
-                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                            priority={false}
-                            loading="lazy"
-                            quality={85}
-                            placeholder="blur"
-                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                          />
-                        ) : (
-                          <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm">
-                            <p className="text-gray-500">Sin imagen</p>
-                          </div>
-                        )}
-                      </div>
+                      <svg
+                        className="mr-2 w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                        />
+                      </svg>
+                      Comprar Ahora - Pago Seguro
+                    </Link>
+                  )}
 
-                      <h3 className="font-medium text-sm truncate text-black dark:text-white">
-                        {item.nombre || ""}
-                      </h3>
-                      <PriceWithDiscount
-                        precio={item.precio}
-                        showBadge={false}
-                        className="text-black dark:text-white font-bold mt-1"
-                      />
-
-                      {/* Botones de acción */}
-                      <div className="mt-3 space-y-2">
-                        <Link
-                          href={buildProductUrl(
-                            item.categoria || categorySlug,
-                            generateProductSlug(item),
-                            item,
-                          )}
-                          className="py-2 px-4 rounded flex items-center justify-center w-full transition-colors text-sm bg-blue-600 text-white hover:bg-blue-700"
-                          aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
-                        >
-                          <Eye size={16} className="mr-1" />
-                          Ver detalles
-                        </Link>
-
-                        {/* Botón Agregar al Carrito - DESHABILITADO */}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                  <Link
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center  transition-colors dark:bg-gray-800`}
+                  >
+                    <MessageCircle className="mr-2 text-black dark:text-white" />
+                    Consultar por WhatsApp
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
-        )}
-      </div>
+
+          {otrosAccesorios && otrosAccesorios.length > 0 && (
+            <div className="mt-12">
+              <h2 className="text-2xl font-bold mb-6 text-center">
+                Otros accesorios
+              </h2>
+
+              <div className="relative">
+                {/* IMPORTANTE: Solo usar la clase SCSS, NO mezclar con Tailwind grid */}
+                <div
+                  className={`${styles.otrosAccesoriosGrid} dark:bg-gray-800 `}
+                >
+                  {otrosAccesorios.map((item, itemIndex) => {
+                    // Obtener URL de imagen de manera segura
+                    const itemImageUrl =
+                      item.imagenPrincipal ||
+                      (item.imagenes && item.imagenes.length > 0
+                        ? typeof item.imagenes[0] === "object" &&
+                          item.imagenes[0].url
+                          ? item.imagenes[0].url
+                          : item.imagenes[0]
+                        : null);
+
+                    return (
+                      <div
+                        key={itemIndex}
+                        className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-2 flex flex-col justify-between hover:scale-105 transition-transform`}
+                      >
+                        <div className="relative h-40 mb-2 overflow-hidden rounded">
+                          {!imageError[`related-${itemIndex}`] &&
+                          itemImageUrl ? (
+                            <Image
+                              src={itemImageUrl}
+                              alt={item.nombre || ""}
+                              fill={true}
+                              className="object-contain"
+                              onError={() =>
+                                handleImageError(`related-${itemIndex}`)
+                              }
+                              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                              priority={false}
+                              loading="lazy"
+                              quality={85}
+                              placeholder="blur"
+                              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm">
+                              <p className="text-gray-500">Sin imagen</p>
+                            </div>
+                          )}
+                        </div>
+
+                        <h3 className="font-medium text-sm truncate text-black dark:text-white">
+                          {item.nombre || ""}
+                        </h3>
+                        <PriceWithDiscount
+                          precio={item.precio}
+                          showBadge={false}
+                          className="text-black dark:text-white font-bold mt-1"
+                        />
+
+                        {/* Botones de acción */}
+                        <div
+                          className={`mt-3 space-y-2   ${styles.relatedItemButtons}`}
+                        >
+                          <Link
+                            href={buildProductUrl(
+                              item.categoria || categorySlug,
+                              generateProductSlug(item),
+                              item,
+                            )}
+                            className="py-2 px-4 rounded flex items-center justify-center w-1/2 transition-colors text-sm bg-blue-600 text-white hover:bg-blue-700"
+                            aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
+                          >
+                            <Eye size={16} className="mr-1 text-xs" />
+                            <h6>Ver detalles</h6>
+                          </Link>
+
+                          {/* Botón Agregar al Carrito - DESHABILITADO */}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Modal de imagen expandida - FUERA del contenedor principal */}
@@ -1121,39 +1123,35 @@ const AccesoriosContainer = ({
                         onMouseDown={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          // eslint-disable-next-line no-console
-                          console.log("Flecha izquierda presionada");
                           setMainSlideIndex((prevIndex) =>
                             prevIndex === 0
                               ? accesorio.imagenes.length - 1
                               : prevIndex - 1,
                           );
                         }}
-                        className="fixed left-4 top-1/2 transform -translate-y-1/2 bg-black  text-white p-2 rounded-full transition-all duration-200 backdrop-blur-sm shadow-2xl border-2  cursor-pointer hover:scale-110"
+                        className="fixed left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white/30 cursor-pointer hover:scale-110"
                         aria-label="Imagen anterior"
                         type="button"
-                        style={{ zIndex: 999999, pointerEvents: "auto" }}
+                        style={{ zIndex: 9999999, pointerEvents: "auto" }}
                       >
-                        <ChevronLeft size={40} strokeWidth={3} />
+                        <ChevronLeft size={48} strokeWidth={2.5} />
                       </button>
                       <button
                         onMouseDown={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          // eslint-disable-next-line no-console
-                          console.log("Flecha derecha presionada");
                           setMainSlideIndex((prevIndex) =>
                             prevIndex === accesorio.imagenes.length - 1
                               ? 0
                               : prevIndex + 1,
                           );
                         }}
-                        className="fixed right-4 top-1/2 transform -translate-y-1/2 bg-black  text-white p-2 rounded-full transition-all duration-200 backdrop-blur-sm shadow-2xl border-2  cursor-pointer hover:scale-110"
+                        className="fixed right-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white/30 cursor-pointer hover:scale-110"
                         aria-label="Imagen siguiente"
                         type="button"
-                        style={{ zIndex: 999999, pointerEvents: "auto" }}
+                        style={{ zIndex: 9999999, pointerEvents: "auto" }}
                       >
-                        <ChevronRight size={40} strokeWidth={3} />
+                        <ChevronRight size={48} strokeWidth={2.5} />
                       </button>
 
                       {/* Indicadores en modal */}

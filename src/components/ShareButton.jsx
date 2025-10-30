@@ -157,7 +157,7 @@ const ShareButton = ({
         transition-all duration-200 ease-in-out
         hover:scale-105 active:scale-95
         disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100
-        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50
+        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:focus:bg-gray-800
         ${className}
       `}
       aria-label={buttonText}

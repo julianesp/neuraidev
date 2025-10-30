@@ -44,6 +44,23 @@
   }
 }
 
+// modificacion para imagenes de productos mas grandes
+.accesorioContainer {
+  @media screen and (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: 1fr 600px;
+    height: 450px;
+
+    margin-bottom: 1c00px;
+  }
+
+  .mainImageContainer {
+    @media screen and (min-width: 1024px) {
+      height: 450px;
+    }
+  }
+}
+
 // Contenedor de imagen principal
 .mainImageContainer {
   width: 100%;
@@ -67,7 +84,16 @@
 .otrosAccesoriosGrid {
   display: grid;
   gap: 1rem;
-  width: 100%;
+  // width: 100%;
+  padding: 0;
+  margin: 0;
+
+  @media screen and (prefers-color-scheme: dark) {
+    // background-color: darken(#baba, 40%);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: none;
+  }
 
   // Móviles pequeños (320px - 640px): 2 columnas
   @media screen and (min-width: 320px) and (max-width: 640px) {
@@ -77,13 +103,13 @@
 
   // Tablets (641px - 1023px): 3 columnas
   @media screen and (min-width: 641px) and (max-width: 1023px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
   }
 
   // Desktop (1024px en adelante): 4 columnas
   @media screen and (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 1.25rem;
   }
 }
