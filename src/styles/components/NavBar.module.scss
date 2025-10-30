@@ -1047,3 +1047,24 @@
     text-decoration: underline;
   }
 }
+
+// Store Status Wrapper
+.storeStatusWrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+
+  @media (max-width: 1024px) {
+    margin-left: 10px;
+  }
+
+  @media (max-width: 768px) {
+    margin-left: auto;
+    margin-right: 10px;
+  }
+
+  @media (max-width: 480px) {
+    margin-left: auto;
+    margin-right: 5px;
+  }
+}

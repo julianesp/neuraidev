@@ -31,10 +31,11 @@ export default function ConfiguracionPage() {
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="user-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Nombre
                 </label>
                 <input
+                  id="user-name"
                   type="text"
                   value={user?.fullName || ''}
                   disabled
@@ -42,10 +43,11 @@ export default function ConfiguracionPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="user-email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email
                 </label>
                 <input
+                  id="user-email"
                   type="email"
                   value={user?.primaryEmailAddress?.emailAddress || ''}
                   disabled
@@ -72,8 +74,9 @@ export default function ConfiguracionPage() {
                   <p className="font-medium text-gray-900 dark:text-white">Nuevos pedidos</p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Recibe notificaciones de nuevos pedidos</p>
                 </div>
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" className="sr-only peer" disabled />
+                <label htmlFor="notify-orders" className="relative inline-flex items-center cursor-pointer">
+                  <span className="sr-only">Activar notificaciones de nuevos pedidos</span>
+                  <input id="notify-orders" type="checkbox" className="sr-only peer" disabled />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 opacity-50"></div>
                 </label>
               </div>
@@ -82,8 +85,9 @@ export default function ConfiguracionPage() {
                   <p className="font-medium text-gray-900 dark:text-white">Stock bajo</p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Alertas cuando el stock sea menor a 5 unidades</p>
                 </div>
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" className="sr-only peer" disabled />
+                <label htmlFor="notify-stock" className="relative inline-flex items-center cursor-pointer">
+                  <span className="sr-only">Activar alertas de stock bajo</span>
+                  <input id="notify-stock" type="checkbox" className="sr-only peer" disabled />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 opacity-50"></div>
                 </label>
               </div>
@@ -103,10 +107,11 @@ export default function ConfiguracionPage() {
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="theme-select" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Tema
                 </label>
                 <select
+                  id="theme-select"
                   disabled
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white opacity-50"
                 >

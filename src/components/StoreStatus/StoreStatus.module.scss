@@ -1,55 +1,41 @@
 .storeStatusContainer {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .storeButton {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 20px;
+  padding: 8px 16px;
   border: none;
-  border-radius: 25px;
+  border-radius: 20px;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
+  cursor: default;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 .storeButton.open {
   background: linear-gradient(135deg, #10b981, #059669);
   color: white;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), 
-              0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 0 20px rgba(16, 185, 129, 0.4),
+    0 4px 15px rgba(0, 0, 0, 0.1);
   border: 2px solid rgba(16, 185, 129, 0.3);
 }
 
-.storeButton.open:hover {
-  background: linear-gradient(135deg, #059669, #047857);
-  box-shadow: 0 0 25px rgba(16, 185, 129, 0.6), 
-              0 6px 20px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
-}
-
 .storeButton.closed {
-  background: linear-gradient(135deg, #6b7280, #4b5563);
+  // background: linear-gradient(135deg, #6b7280, #4b5563);
   color: white;
-  box-shadow: 0 0 15px rgba(107, 114, 128, 0.3), 
-              0 4px 15px rgba(0, 0, 0, 0.1);
-  border: 2px solid rgba(107, 114, 128, 0.3);
-}
-
-.storeButton.closed:hover {
-  background: linear-gradient(135deg, #4b5563, #374151);
-  box-shadow: 0 0 20px rgba(107, 114, 128, 0.4), 
-              0 6px 20px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
+  box-shadow:
+    0 0 12px rgba(107, 114, 128, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1.5px solid rgba(107, 114, 128, 0.3);
 }
 
 .statusIcon {
@@ -78,8 +64,10 @@
 }
 
 .statusText {
-  white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  // white-space: nowrap;
+  // color: red;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  
 }
 
 @keyframes pulse {
@@ -87,8 +75,9 @@
     box-shadow: 0 0 10px rgba(52, 247, 89, 0.8);
   }
   50% {
-    box-shadow: 0 0 20px rgba(52, 247, 89, 1), 
-                0 0 30px rgba(52, 247, 89, 0.5);
+    box-shadow:
+      0 0 20px rgba(52, 247, 89, 1),
+      0 0 30px rgba(52, 247, 89, 0.5);
   }
   100% {
     box-shadow: 0 0 10px rgba(52, 247, 89, 0.8);
@@ -96,33 +85,41 @@
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
-  .storeStatusContainer {
-    top: 10px;
-    right: 10px;
-  }
-  
+@media (max-width: 1024px) {
   .storeButton {
-    padding: 10px 16px;
+    padding: 6px 14px;
     font-size: 12px;
   }
-  
+
   .statusText {
     font-size: 11px;
   }
 }
 
+@media (max-width: 768px) {
+  .storeButton {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+
 @media (max-width: 480px) {
   .storeButton {
-    padding: 8px 12px;
+    padding: 6px 10px;
+    gap: 6px;
   }
-  
+
   .statusText {
     display: none;
   }
-  
+
   .dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
   }
 }

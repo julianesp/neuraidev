@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/components/NavBar.module.scss";
 import ThemeSwitcher from "./ThemeSwitcher";
+import StoreStatus from "./StoreStatus";
 import {
   SignInButton,
   SignedIn,
@@ -133,6 +134,10 @@ const NavBar = () => {
             />
           </div>
         </Link>
+      </div>
+
+      <div className={styles.storeStatusWrapper}>
+        <StoreStatus />
       </div>
 
       <div className={styles.themeSwitcher}>
