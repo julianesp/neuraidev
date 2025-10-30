@@ -9,8 +9,6 @@ const isPublicRoute = createRouteMatcher([
   "/servicios(.*)",
   "/tiendas(.*)",
   "/Blog(.*)",
-  "/api/productos(.*)",
-  "/api/categorias(.*)",
   "/politicas(.*)",
   "/terminos-condiciones(.*)",
   "/sobre-nosotros(.*)",
@@ -22,12 +20,26 @@ const isPublicRoute = createRouteMatcher([
   "/blog(.*)",
 ]);
 
+// Rutas API públicas (solo GET)
+const isPublicApiRoute = createRouteMatcher([
+  "/api/productos",
+  "/api/categorias(.*)",
+]);
+
 // Rutas que requieren autenticación (dashboard completo)
 const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, request) => {
+  const { pathname } = request.nextUrl;
+  const method = request.method;
+
+  // Permitir solo GET en rutas API públicas
+  if (isPublicApiRoute(request) && method === 'GET') {
+    return;
+  }
+
   // Proteger rutas no públicas (requieren autenticación)
   if (!isPublicRoute(request)) {
     await auth.protect();

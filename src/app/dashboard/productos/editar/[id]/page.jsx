@@ -138,12 +138,24 @@ export default function EditarProductoPage() {
         body: JSON.stringify(productoData),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
+      // Verificar si la respuesta es JSON válido
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        console.error('Respuesta no es JSON:', await response.text());
+        throw new Error('El servidor no devolvió una respuesta JSON válida');
       }
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('Error parseando JSON:', jsonError);
+        throw new Error('Error parseando la respuesta del servidor: ' + jsonError.message);
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || `Error ${response.status}: ${response.statusText}`);
+      }
 
       // Forzar recarga completa eliminando caché
       window.location.href = "/dashboard/productos";
