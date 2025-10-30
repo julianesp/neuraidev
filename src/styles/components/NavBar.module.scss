@@ -22,6 +22,10 @@
   align-items: center;
   cursor: pointer;
 
+  @media (max-width: 1023px) {
+    order: 1; // Logo primero solo en móvil/tablet
+  }
+
   & a {
     & img {
       border-radius: 50%;
@@ -114,6 +118,10 @@
   background-color: rgba(#fff, 0.7);
   border-radius: 50%;
   border: 0.5px solid #000;
+
+  @media (max-width: 1023px) {
+    order: 4; // Menú hamburguesa al final solo en móvil/tablet
+  }
 
   button {
     display: flex;
@@ -1015,6 +1023,10 @@
   margin-left: auto;
   margin-right: 70px;
 
+  @media (max-width: 1023px) {
+    order: 3; // Botones de auth antes del menú hamburguesa solo en móvil/tablet
+  }
+
   @media (max-width: 768px) {
     display: none;
   }
@@ -1054,17 +1066,58 @@
   align-items: center;
   margin-left: 15px;
 
-  @media (max-width: 1024px) {
-    margin-left: 10px;
+  @media (max-width: 1023px) {
+    margin-left: 15px;
+    margin-right: auto; // Empuja el resto a la derecha
+    order: 2; // Coloca después del logo solo en móvil/tablet
   }
 
   @media (max-width: 768px) {
-    margin-left: auto;
-    margin-right: 10px;
+    margin-left: 15px;
   }
 
   @media (max-width: 480px) {
-    margin-left: auto;
-    margin-right: 5px;
+    margin-left: 12px;
   }
+}
+
+// Mobile Auth Item
+.mobileAuthItem {
+  display: block;
+  padding-top: 15px;
+  margin-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+
+  @media screen and (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.mobileSignInBtn {
+  display: block;
+  width: calc(100% - 30px);
+  margin: 0 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  }
+}
+
+.mobileUserSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
 }

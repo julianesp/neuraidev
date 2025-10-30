@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }) {
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="flex items-center justify-between h-16 px-6 border-b">
+          <div className="flex items-center justify-between h-16 px-6 border-b flex-shrink-0">
             <Link href="/" className="flex items-center space-x-2">
               <span className="text-2xl font-bold text-blue-600">
                 Neurai.dev
@@ -109,7 +109,7 @@ export default function DashboardLayout({ children }) {
           </nav>
 
           {/* User section */}
-          <div className="p-4 border-t">
+          <div className="p-4 border-t flex-shrink-0 bg-white">
             <div className="flex items-center space-x-3">
               <UserButton
                 appearance={{
@@ -132,8 +132,8 @@ export default function DashboardLayout({ children }) {
       </aside>
 
       {/* Main content */}
-      <div className="lg:pl-64">
-        <main className="p-6 lg:p-8">{children}</main>
+      <div className="lg:pl-64 min-h-screen">
+        <main className="p-6 lg:p-8 pb-24">{children}</main>
       </div>
 
       {/* Overlay for mobile */}

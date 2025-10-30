@@ -323,6 +323,29 @@ const NavBar = () => {
               </Link>
             </li>
           )}
+
+          {/* Botones de autenticación en móvil */}
+          <li role="none" className={styles.mobileAuthItem}>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className={styles.mobileSignInBtn} onClick={handleLinkClick}>
+                  Iniciar Sesión
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <div className={styles.mobileUserSection}>
+                <UserButton
+                  fallbackRedirectUrl="/"
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-10 h-10",
+                    },
+                  }}
+                />
+              </div>
+            </SignedIn>
+          </li>
         </ul>
       </nav>
 
