@@ -20,6 +20,7 @@ import {
   buildProductUrl,
   getCategorySlug,
 } from "../utils/slugify";
+import { useCart } from "../context/CartContext";
 
 const ModernProductGrid = (props) => {
   const [accesorios, setAccesorios] = useState([]);
@@ -30,6 +31,7 @@ const ModernProductGrid = (props) => {
   const [expandedImageIndex, setExpandedImageIndex] = useState(0);
 
   const { applySoldStatus, toggleSoldStatus } = useSoldProducts();
+  const { addToCart } = useCart();
   const categorySlug = props.categorySlug || "generales";
 
   useEffect(() => {
@@ -344,13 +346,25 @@ const ModernProductGrid = (props) => {
 
                     <button
                       className={`p-3 rounded-xl transition-colors ${
-                        accesorio.vendido
+                        accesorio.vendido || (accesorio.stock !== undefined && accesorio.stock === 0)
                           ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                           : "bg-green-600 hover:bg-green-700 text-white"
                       }`}
-                      disabled={accesorio.vendido}
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label="Comprar"
+                      disabled={accesorio.vendido || (accesorio.stock !== undefined && accesorio.stock === 0)}
+                      onClick={async (e) => {
+                        e.stopPropagation();
+                        if (!accesorio.vendido) {
+                          await addToCart({
+                            id: accesorio.id,
+                            nombre: accesorio.title || accesorio.nombre,
+                            precio: parseFloat((accesorio.price || accesorio.precio).toString().replace(/[^\d.-]/g, '')),
+                            imagen: (accesorio.images || accesorio.imagenes || ['/placeholder.jpg'])[0],
+                            categoria: categorySlug
+                          }, 1, null);
+                        }
+                      }}
+                      aria-label="Agregar al carrito"
+                      title={(accesorio.stock !== undefined && accesorio.stock === 0) ? "Sin stock" : "Agregar al carrito"}
                     >
                       <ShoppingCart size={20} />
                     </button>

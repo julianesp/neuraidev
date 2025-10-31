@@ -13,7 +13,7 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import { isAdmin } from "../lib/auth/roles";
-// import { CartButton } from "./CartButton";
+import CartIcon from "./CartIcon";
 
 const NavBar = () => {
   const { user } = useUser();
@@ -349,8 +349,9 @@ const NavBar = () => {
         </ul>
       </nav>
 
-      {/* Botones de autenticación */}
+      {/* Botones de autenticación y carrito */}
       <div className={styles.authButtons}>
+        <CartIcon />
         <SignedOut>
           <SignInButton mode="modal">
             <button className={styles.signInBtn}>Iniciar Sesión</button>

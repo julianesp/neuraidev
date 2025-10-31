@@ -15,6 +15,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { ToastProvider } from "../contexts/ToastContext";
 import { ToastContainer } from "../components/Toast";
 import { ClerkProvider } from "@clerk/nextjs";
+import { CartProvider } from "../context/CartContext";
+import ShoppingCart from "../components/ShoppingCart";
 
 export const metadata = {
   metadataBase: new URL(
@@ -111,23 +113,29 @@ export default function RootLayout({ children }) {
           <ClerkProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <ToastProvider>
-                <SplashScreen />
-                <div className={styles.layoutContainer}>
-                  <NavBar />
-                  <main
-                    id="main-content"
-                    className={styles.mainContent}
-                    role="main"
-                    aria-label="Contenido principal"
-                  >
-                    {children}
-                    {/* <NotificationManager /> */}
-                    <Analytics />
-                  </main>
-                  <Footer />
-                  {/* <StoreStatus /> */}
-                </div>
-                <ToastContainer />
+                <CartProvider>
+                  {/*
+                  presentacion de mi logo
+                   <SplashScreen /> 
+                   */}
+                  <div className={styles.layoutContainer}>
+                    <NavBar />
+                    <main
+                      id="main-content"
+                      className={styles.mainContent}
+                      role="main"
+                      aria-label="Contenido principal"
+                    >
+                      {children}
+                      {/* <NotificationManager /> */}
+                      <Analytics />
+                    </main>
+                    <Footer />
+                    {/* <StoreStatus /> */}
+                  </div>
+                  <ShoppingCart />
+                  <ToastContainer />
+                </CartProvider>
               </ToastProvider>
             </ThemeProvider>
           </ClerkProvider>

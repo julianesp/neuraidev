@@ -15,7 +15,7 @@ import {
 import ShareButton from "../../components/ShareButton";
 import ProductMetaTags from "../../components/ProductMetaTags";
 import PriceWithDiscount from "../../components/PriceWithDiscount";
-// import { QuickAddButton, AddToCartButton } from "../../components/AddToCartButton";
+import AddToCartButton from "../../components/AddToCartButton";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -893,14 +893,17 @@ const AccesoriosContainer = ({
                   </Link>
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-3 mt-6">
+                  {/* Componente de agregar al carrito */}
+                  <AddToCartButton producto={accesorio} />
+
                   {/* Enlace de pago específico para el libro de Cálculo */}
                   {accesorio.id === "cmfew2nv3000rs0jpmwvzv6ue" && (
                     <Link
                       href="https://payco.link/a2bf14cd-759a-4717-a500-baf869523a61"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-6 bg-blue-600 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors font-semibold"
+                      className="bg-blue-600 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors font-semibold"
                     >
                       <svg
                         className="mr-2 w-5 h-5"
@@ -923,7 +926,7 @@ const AccesoriosContainer = ({
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`${styles.boton} mt-6 bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center  transition-colors dark:bg-gray-800`}
+                    className={`${styles.boton} bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center transition-colors dark:bg-gray-800`}
                   >
                     <MessageCircle className="mr-2 text-black dark:text-white" />
                     Consultar por WhatsApp
