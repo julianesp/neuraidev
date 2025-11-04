@@ -42,25 +42,10 @@ const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
 ]);
 
-export default clerkMiddleware(async (auth, request) => {
-  const { pathname } = request.nextUrl;
-  const method = request.method;
-
-  // Proteger mutaciones en API de productos (requieren autenticación en el route handler)
-  if (pathname.startsWith('/api/productos') && (method === 'POST' || method === 'PUT' || method === 'DELETE')) {
-    // Permitir pasar - la autenticación se valida dentro del API route handler
-    return;
-  }
-
+export default clerkMiddleware((auth, request) => {
   // Proteger dashboard (requiere autenticación)
   if (isProtectedRoute(request)) {
-    await auth.protect();
-    return;
-  }
-
-  // Proteger rutas no públicas (requieren autenticación)
-  if (!isPublicRoute(request)) {
-    await auth.protect();
+    auth().protect();
   }
 });
 
