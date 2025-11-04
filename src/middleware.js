@@ -1,52 +1,16 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const isPublicRoute = createRouteMatcher([
-  "/",
-  "/sign-in(.*)",
-  "/sign-up(.*)",
-  "/accesorios(.*)",
-  "/producto(.*)",
-  "/servicios(.*)",
-  "/tiendas(.*)",
-  "/Blog(.*)",
-  "/politicas(.*)",
-  "/terminos-condiciones(.*)",
-  "/sobre-nosotros(.*)",
-  "/preguntas-frecuentes(.*)",
-  "/politica-devoluciones(.*)",
-  "/clientes(.*)",
-  "/politica-privacidad(.*)",
-  "/politica-cookies(.*)",
-  "/blog(.*)",
-  "/respuesta-pago(.*)",
-  "/pago-epayco(.*)",
-  "/api/payments(.*)",
-  "/api/productos(.*)",
-  "/api/categorias(.*)",
-]);
-
-// Rutas API públicas (solo GET)
-const isPublicApiRoute = createRouteMatcher([
-  "/api/productos",
-  "/api/categorias(.*)",
-]);
-
-// Rutas API públicas para pagos (permiten POST)
-const isPublicPaymentRoute = createRouteMatcher([
-  "/api/payments/create",
-  "/api/payments/confirmation",
-]);
-
-// Rutas que requieren autenticación (dashboard completo)
-const isProtectedRoute = createRouteMatcher([
-  "/dashboard(.*)",
-]);
+// Solo proteger rutas del dashboard
+const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
 export default clerkMiddleware((auth, request) => {
-  // Proteger dashboard (requiere autenticación)
+  // Solo proteger dashboard, todo lo demás es público
   if (isProtectedRoute(request)) {
     auth().protect();
   }
+
+  // Permitir explícitamente todas las demás rutas
+  return;
 });
 
 export const config = {
