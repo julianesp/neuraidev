@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run generate:sitemap && next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "lint:strict": "eslint --max-warnings=0 .",
-    "lint:critical": "node lint-critical.js"
+    "lint:critical": "node lint-critical.js",
+    "generate:sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.33.7",

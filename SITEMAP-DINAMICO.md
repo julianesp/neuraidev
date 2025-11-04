@@ -2,20 +2,27 @@
 
 ## Descripción
 
-Este proyecto utiliza un **sitemap dinámico** generado automáticamente por Next.js que incluye:
+Este proyecto utiliza un **sitemap generado automáticamente** desde la base de datos que incluye:
 
 - ✅ Todas las páginas estáticas del sitio
 - ✅ Productos disponibles desde Supabase
 - ✅ Fechas de última modificación reales
 - ✅ Prioridades optimizadas para SEO
-- ✅ Generación automática en cada build
+- ✅ Generación automática en cada build de producción
 
-## Ubicación del archivo
+## Ubicación y archivos
 
-El sitemap se genera desde: `src/app/sitemap.js`
+- **Script generador**: `scripts/generate-sitemap.js`
+- **Archivo generado**: `public/sitemap.xml`
+- **URL pública**: `https://www.neurai.dev/sitemap.xml`
 
-Next.js automáticamente detecta este archivo y sirve el sitemap en:
-- `https://www.neurai.dev/sitemap.xml`
+## Cómo se genera
+
+El sitemap se genera ejecutando el script Node.js que:
+1. Se conecta a Supabase
+2. Obtiene todos los productos disponibles
+3. Combina páginas estáticas + productos dinámicos
+4. Genera el archivo XML en `public/sitemap.xml`
 
 ## Cómo funciona
 
@@ -72,23 +79,34 @@ Las siguientes páginas NO se incluyen porque:
 
 **Nota:** Estas páginas están bloqueadas en `robots.txt`
 
-## Verificar el sitemap
+## Comandos disponibles
+
+### Generar sitemap manualmente
+
+```bash
+npm run generate:sitemap
+```
+
+Este comando:
+- Consulta Supabase para obtener productos
+- Genera el archivo `public/sitemap.xml`
+- Muestra estadísticas (total de URLs, productos, etc.)
 
 ### En desarrollo local
 
 ```bash
-npm run dev
-# Visitar: http://localhost:3000/sitemap.xml
+# El sitemap está en public/sitemap.xml
+# Acceder en: http://localhost:3000/sitemap.xml
 ```
 
 ### En producción
 
 ```bash
-# Verificar en el navegador
-curl https://www.neurai.dev/sitemap.xml
+# El sitemap se genera automáticamente antes de cada build
+npm run build  # Ejecuta: generate:sitemap && next build
 
-# O en el navegador:
-# https://www.neurai.dev/sitemap.xml
+# Verificar en producción:
+curl https://www.neurai.dev/sitemap.xml
 ```
 
 ## Validación del sitemap
@@ -109,10 +127,25 @@ Puedes validar el sitemap usando:
 El sitemap se regenera automáticamente en cada:
 
 - ✅ Build de producción (`npm run build`)
-- ✅ Deploy a Vercel
-- ✅ Revalidación de páginas (ISR)
+- ✅ Deploy a Vercel (ejecuta el build automáticamente)
+- ✅ Manualmente ejecutando `npm run generate:sitemap`
 
-**No necesitas hacer nada manualmente** - el sitemap siempre estará actualizado.
+### ¿Cuándo regenerar el sitemap?
+
+**Se regenera automáticamente al hacer deploy**, pero puedes regenerarlo manualmente cuando:
+- Agregues nuevos productos a la base de datos
+- Quieras actualizar las fechas de modificación
+- Hagas cambios en páginas estáticas
+
+```bash
+# Regenerar manualmente
+npm run generate:sitemap
+
+# Hacer commit y push
+git add public/sitemap.xml
+git commit -m "Update sitemap with latest products"
+git push
+```
 
 ## Configuración de robots.txt
 
@@ -164,16 +197,56 @@ El sitemap genera logs en la consola:
 
 ## Archivos relacionados
 
-- `src/app/sitemap.js` - Generador del sitemap dinámico
+- `scripts/generate-sitemap.js` - Script generador del sitemap
+- `public/sitemap.xml` - Sitemap generado (incluido en git)
 - `public/robots.txt` - Configuración de robots
 - `src/lib/db.js` - Cliente de Supabase
-- `public/sitemap.xml.backup` - Backup del sitemap estático anterior
+- `package.json` - Comandos npm (build, generate:sitemap)
+
+## Estadísticas del último sitemap generado
+
+```
+🚀 Generando sitemap.xml...
+
+✅ 51 productos obtenidos desde Supabase
+📄 Total de URLs: 84
+   - Páginas estáticas: 33
+   - Productos: 51
+
+✅ Sitemap generado exitosamente
+```
 
 ## Recursos útiles
 
-- [Next.js Sitemap Documentation](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap)
 - [Google Sitemap Guidelines](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview)
 - [Sitemap Protocol](https://www.sitemaps.org/protocol.html)
+- [Google Search Console](https://search.google.com/search-console)
+
+## Troubleshooting
+
+### Error: "No se ha podido leer el sitemap" en Google Search Console
+
+**Solución:**
+1. Verifica que el sitemap esté accesible: `https://www.neurai.dev/sitemap.xml`
+2. Regenera el sitemap: `npm run generate:sitemap`
+3. Haz commit y push a producción
+4. Espera unos minutos y vuelve a enviar en Search Console
+
+### El sitemap no incluye productos nuevos
+
+**Solución:**
+1. Ejecuta `npm run generate:sitemap` para regenerar
+2. Verifica que los productos estén marcados como `disponible: true` en Supabase
+3. Haz commit del archivo actualizado: `git add public/sitemap.xml`
+4. Push a producción
+
+### Error al conectar con Supabase
+
+**Solución:**
+1. Verifica que las variables de entorno estén configuradas en `.env.local`:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+2. Si faltan credenciales, el script generará solo páginas estáticas
 
 ---
 
