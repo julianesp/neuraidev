@@ -5,7 +5,6 @@ import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import Image from "next/image";
-import EpaycoCheckout from "./EpaycoCheckout";
 
 export default function ShoppingCart() {
   const {
@@ -188,14 +187,16 @@ export default function ShoppingCart() {
 
             {/* Mostrar checkout o botones de pago */}
             {showCheckout ? (
-              <div>
+              <div className="text-center py-8">
+                <p className="text-gray-600 mb-4">
+                  Sistema de pago en desarrollo
+                </p>
                 <button
                   onClick={() => setShowCheckout(false)}
-                  className="mb-3 text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                  className="text-sm text-blue-600 hover:text-blue-700"
                 >
-                  ← Volver a opciones de pago
+                  ← Volver
                 </button>
-                <EpaycoCheckout onClose={() => setShowCheckout(false)} />
               </div>
             ) : (
               <>
