@@ -66,7 +66,7 @@ export default function EpaycoCheckout({ onClose }) {
     setLoading(true);
 
     try {
-      // Crear la orden en nuestro backend
+      // Crear la sesión de pago en nuestro backend
       const response = await fetch("/api/payments/create", {
         method: "POST",
         headers: {
@@ -85,7 +85,7 @@ export default function EpaycoCheckout({ onClose }) {
       }
 
       // Mostrar notificación de éxito
-      toast.success("Redirigiendo a la pasarela de pago...", {
+      toast.success("Abriendo pasarela de pago...", {
         title: "Orden Creada",
         duration: 2000,
       });
@@ -96,11 +96,33 @@ export default function EpaycoCheckout({ onClose }) {
       // Cerrar el modal
       onClose();
 
-      // Esperar un momento antes de redirigir
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Verificar que el script de ePayco esté cargado
+      if (typeof window.ePayco === 'undefined') {
+        throw new Error('ePayco SDK no está cargado. Por favor recarga la página.');
+      }
 
-      // Redirigir directamente a ePayco
-      window.location.href = data.paymentUrl;
+      // Configurar y abrir Smart Checkout v2
+      const checkout = window.ePayco.checkout.configure({
+        sessionId: data.sessionId,
+        type: "onepage",
+        test: process.env.NEXT_PUBLIC_EPAYCO_TEST_MODE === 'true'
+      });
+
+      // Eventos del checkout
+      checkout.onErrors((error) => {
+        console.error("❌ Error en checkout:", error);
+        toast.error("Ocurrió un error en el proceso de pago", {
+          title: "Error",
+          duration: 5000,
+        });
+      });
+
+      checkout.onClosed(() => {
+        setLoading(false);
+      });
+
+      // Abrir el checkout
+      checkout.open();
 
     } catch (error) {
       console.error("❌ Error al procesar el pago:", error);
