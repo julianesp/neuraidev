@@ -18,12 +18,20 @@ const isPublicRoute = createRouteMatcher([
   "/politica-privacidad(.*)",
   "/politica-cookies(.*)",
   "/blog(.*)",
+  "/respuesta-pago(.*)",
+  "/pago-epayco(.*)",
 ]);
 
 // Rutas API públicas (solo GET)
 const isPublicApiRoute = createRouteMatcher([
   "/api/productos",
   "/api/categorias(.*)",
+]);
+
+// Rutas API públicas para pagos (permiten POST)
+const isPublicPaymentRoute = createRouteMatcher([
+  "/api/payments/create",
+  "/api/payments/confirmation",
 ]);
 
 // Rutas que requieren autenticación (dashboard completo)
@@ -34,6 +42,11 @@ const isProtectedRoute = createRouteMatcher([
 export default clerkMiddleware(async (auth, request) => {
   const { pathname } = request.nextUrl;
   const method = request.method;
+
+  // Permitir rutas de pago (GET y POST)
+  if (isPublicPaymentRoute(request)) {
+    return; // Permitir acceso público a endpoints de pago
+  }
 
   // Permitir solo GET en rutas API de productos
   if (pathname.startsWith('/api/productos') && method === 'GET') {
