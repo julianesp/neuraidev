@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 
 /**
- * API para crear una orden de pago con ePayco
+ * API para crear una sesión de pago con ePayco Smart Checkout v2
  * POST /api/payments/create
  *
- * Usa el método de link de pago directo de ePayco
+ * Documentación: https://docs.epayco.com/docs/checkout-implementacion
  */
 export async function POST(request) {
   try {
@@ -15,15 +15,15 @@ export async function POST(request) {
     // Validar datos requeridos
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
       return NextResponse.json(
-        { error: 'El carrito está vacío' },
-        { status: 400 }
+        { error: "El carrito está vacío" },
+        { status: 400 },
       );
     }
 
     if (!customer || !customer.email || !customer.name || !customer.phone) {
       return NextResponse.json(
-        { error: 'Información del cliente incompleta' },
-        { status: 400 }
+        { error: "Información del cliente incompleta" },
+        { status: 400 },
       );
     }
 
@@ -31,14 +31,14 @@ export async function POST(request) {
     const total = cart.reduce((sum, item) => {
       const precio = item.precio || item.price || 0;
       const cantidad = item.cantidad || item.quantity || 1;
-      return sum + (precio * cantidad);
+      return sum + precio * cantidad;
     }, 0);
 
     // Validar que el monto sea mayor a 0
     if (total <= 0) {
       return NextResponse.json(
-        { error: 'El monto total debe ser mayor a 0' },
-        { status: 400 }
+        { error: "El monto total debe ser mayor a 0" },
+        { status: 400 },
       );
     }
 
@@ -46,18 +46,22 @@ export async function POST(request) {
     const invoice = `INV-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
     // Crear descripción del pedido
-    const description = cart.map(item =>
-      `${item.cantidad}x ${item.nombre}`
-    ).join(', ');
+    const description = cart
+      .map(
+        (item) =>
+          `${item.cantidad || 1}x ${item.nombre || item.name || "Producto"}`,
+      )
+      .join(", ")
+      .substring(0, 200);
 
     // Guardar orden en Supabase
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
     );
 
     const { data: order, error: orderError } = await supabase
-      .from('orders')
+      .from("orders")
       .insert({
         invoice,
         customer_name: customer.name,
@@ -66,122 +70,171 @@ export async function POST(request) {
         customer_document: customer.document || null,
         items: cart,
         total,
-        status: 'pending',
-        payment_method: 'epayco',
-        created_at: new Date().toISOString()
+        status: "pending",
+        payment_method: "epayco",
+        created_at: new Date().toISOString(),
       })
       .select()
       .single();
 
     if (orderError) {
-      console.error('Error creating order:', orderError);
+      console.error("❌ Error creating order:", orderError);
       return NextResponse.json(
-        { error: 'Error al crear la orden' },
-        { status: 500 }
+        { error: "Error al crear la orden" },
+        { status: 500 },
       );
     }
 
     // Obtener la URL base
-    const baseUrl = process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000'
-      : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const baseUrl =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : process.env.NEXT_PUBLIC_SITE_URL || "https://www.neurai.dev";
 
-    // Construir URL de pago de ePayco con todos los parámetros
-    // Este es el método oficial de ePayco Standard Checkout
-    const params = new URLSearchParams();
+    // Obtener IP del cliente
+    const forwarded = request.headers.get("x-forwarded-for");
+    const ip = forwarded ? forwarded.split(",")[0] : "186.84.0.0";
 
-    // Credenciales
-    params.append('public-key', process.env.NEXT_PUBLIC_EPAYCO_PUBLIC_KEY);
+    // Crear sesión de pago con ePayco Smart Checkout v2
+    const sessionData = {
+      checkout_version: "2",
+      name: "Neurai.dev",
+      description: description,
+      currency: "COP",
+      amount: total.toString(),
+      lang: "ES",
+      country: "CO",
+      taxBase: "0",
+      tax: "0",
+      taxIco: "0",
+      external: "false",
 
-    // Información del producto/servicio
-    params.append('name', 'Compra en Neurai Dev');
-    params.append('description', description.length > 200 ? description.substring(0, 197) + '...' : description);
-    params.append('invoice', invoice);
-    params.append('currency', 'cop');
-    params.append('amount', total.toString());
-    params.append('tax-base', '0');
-    params.append('tax', '0');
-    params.append('country', 'co');
-    params.append('lang', 'es');
+      // URLs de callback
+      response: `${baseUrl}/respuesta-pago`,
+      confirmation: `${baseUrl}/api/payments/confirmation`,
+      methodConfirmation: "GET",
 
-    // URLs de respuesta
-    params.append('external', 'false');
-    params.append('response-url', `${baseUrl}/respuesta-pago`);
-    params.append('confirmation-url', `${baseUrl}/api/payments/confirmation`);
-    params.append('method-confirmation', 'GET');
+      // Datos del comprador
+      billing: {
+        name: customer.name,
+        email: customer.email,
+        address: customer.address || "Calle 1 # 1-1",
+        typeDoc: customer.docType || "CC",
+        numberDoc: customer.document || "000000000",
+        mobilePhone: customer.phone,
+      },
 
-    // Información del cliente
-    params.append('name-billing', customer.name);
-    params.append('address-billing', customer.address || 'Calle 1 # 1-1');
-    params.append('type-doc-billing', customer.docType || 'CC');
-    params.append('mobilephone-billing', customer.phone);
-    params.append('number-doc-billing', customer.document || '1234567890');
-    params.append('email-billing', customer.email);
+      // Información adicional
+      extra1: order.id.toString(),
+      extra2: customer.email,
+      extra3: invoice,
+      invoice: invoice,
 
-    // Extras
-    params.append('extra1', order.id);
-    params.append('extra2', customer.email);
-    params.append('extra3', invoice);
+      // IP del cliente
+      ip: ip,
 
-    // Modo test
-    params.append('test', process.env.NEXT_PUBLIC_EPAYCO_TEST_MODE === 'true' ? 'true' : 'false');
+      // Modo test
+      test: process.env.NEXT_PUBLIC_EPAYCO_TEST_MODE === "true",
+    };
 
-    // Aceptación de términos
-    params.append('acepted', 'true');
-    params.append('acepted-terms-and-conditions', 'true');
+    // Primero obtener el token Bearer de ePayco
+    const authResponse = await fetch("https://apify.epayco.co/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${Buffer.from(
+          `${process.env.NEXT_PUBLIC_EPAYCO_PUBLIC_KEY}:${process.env.EPAYCO_PRIVATE_KEY}`,
+        ).toString("base64")}`,
+      },
+    });
 
-    // Construir URL del widget de ePayco (el que SÍ acepta GET)
-    const widgetParams = new URLSearchParams();
-    widgetParams.append('public_key', process.env.NEXT_PUBLIC_EPAYCO_PUBLIC_KEY);
-    widgetParams.append('amount', total.toString());
-    widgetParams.append('name', 'Compra en Neurai Dev');
-    widgetParams.append('description', description.length > 200 ? description.substring(0, 197) + '...' : description);
-    widgetParams.append('invoice', invoice);
-    widgetParams.append('currency', 'COP');
-    widgetParams.append('country', 'CO');
-    widgetParams.append('test', process.env.NEXT_PUBLIC_EPAYCO_TEST_MODE === 'true' ? 'true' : 'false');
-    widgetParams.append('response_url', `${baseUrl}/respuesta-pago`);
-    widgetParams.append('confirmation_url', `${baseUrl}/api/payments/confirmation`);
-    widgetParams.append('name_billing', customer.name);
-    widgetParams.append('address_billing', customer.address || 'Calle 1 # 1-1');
-    widgetParams.append('type_doc_billing', customer.docType || 'CC');
-    widgetParams.append('mobilephone_billing', customer.phone);
-    widgetParams.append('number_doc_billing', customer.document || '1234567890');
-    widgetParams.append('email_billing', customer.email);
-    widgetParams.append('extra1', order.id);
-    widgetParams.append('extra2', customer.email);
-    widgetParams.append('extra3', invoice);
+    if (!authResponse.ok) {
+      const authError = await authResponse.text();
+      console.error("❌ ePayco Auth Error:", authError);
+      throw new Error(
+        `Error de autenticación con ePayco: ${authResponse.status}`,
+      );
+    }
 
-    // URL del widget de ePayco (este SÍ acepta GET)
-    const paymentUrl = `https://secure.epayco.co/payco.php?${widgetParams.toString()}`;
+    const authData = await authResponse.json();
+    const bearerToken = authData.token;
 
-    // Actualizar la orden con la referencia
+    if (!bearerToken) {
+      throw new Error("No se pudo obtener el token de autenticación de ePayco");
+    }
+
+    // Ahora crear la sesión de pago con el token Bearer
+    const epaycoResponse = await fetch(
+      "https://apify.epayco.co/payment/session/create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${bearerToken}`,
+        },
+        body: JSON.stringify(sessionData),
+      },
+    );
+
+    if (!epaycoResponse.ok) {
+      const errorText = await epaycoResponse.text();
+      console.error("❌ ePayco API Error:", errorText);
+      throw new Error(
+        `ePayco API error: ${epaycoResponse.status} - ${errorText}`,
+      );
+    }
+
+    const epaycoData = await epaycoResponse.json();
+
+    // El sessionId viene dentro de data.sessionId
+    const sessionId = epaycoData.data?.sessionId;
+
+    // Verificar que se recibió el sessionId
+    if (!epaycoData.success || !sessionId) {
+      console.error(
+        "❌ Invalid ePayco response:",
+        JSON.stringify(epaycoData, null, 2),
+      );
+      // Si hay errores de validación, mostrarlos
+      if (epaycoData.data && epaycoData.data.errors) {
+        console.error(
+          "❌ Validation errors:",
+          JSON.stringify(epaycoData.data.errors, null, 2),
+        );
+      }
+      const errorMsg =
+        epaycoData.textResponse ||
+        epaycoData.message ||
+        "Error al crear la sesión de pago";
+      throw new Error(errorMsg);
+    }
+
+    // Actualizar la orden con el sessionId
     await supabase
-      .from('orders')
+      .from("orders")
       .update({
-        ref_payco: invoice,
+        ref_payco: sessionId,
         payment_response: {
-          method: 'widget_url',
-          url: paymentUrl,
-          created_at: new Date().toISOString()
-        }
+          sessionId: sessionId,
+          method: "smart_checkout_v2",
+          created_at: new Date().toISOString(),
+        },
       })
-      .eq('id', order.id);
+      .eq("id", order.id);
 
-    // Retornar URL directa
+    // Retornar sessionId para usar en el frontend
     return NextResponse.json({
       success: true,
       orderId: order.id,
       invoice,
-      paymentUrl: paymentUrl,
+      sessionId: sessionId,
       transactionId: invoice,
     });
-
   } catch (error) {
-    console.error('❌ Error in payment creation:', error);
+    console.error("❌ Error in payment creation:", error);
     return NextResponse.json(
-      { error: 'Error al procesar el pago', details: error.message },
-      { status: 500 }
+      { error: "Error al procesar el pago", details: error.message },
+      { status: 500 },
     );
   }
 }
