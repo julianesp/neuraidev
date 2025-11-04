@@ -20,6 +20,9 @@ const isPublicRoute = createRouteMatcher([
   "/blog(.*)",
   "/respuesta-pago(.*)",
   "/pago-epayco(.*)",
+  "/api/payments(.*)",
+  "/api/productos(.*)",
+  "/api/categorias(.*)",
 ]);
 
 // Rutas API públicas (solo GET)
@@ -43,36 +46,20 @@ export default clerkMiddleware(async (auth, request) => {
   const { pathname } = request.nextUrl;
   const method = request.method;
 
-  // Permitir rutas de pago (GET y POST)
-  if (isPublicPaymentRoute(request)) {
-    return; // Permitir acceso público a endpoints de pago
-  }
-
-  // Permitir solo GET en rutas API de productos
-  if (pathname.startsWith('/api/productos') && method === 'GET') {
-    return; // Permitir lectura pública de productos
-  }
-
-  // Permitir GET en otras rutas API públicas
-  if (isPublicApiRoute(request) && method === 'GET') {
+  // Proteger mutaciones en API de productos (requieren autenticación en el route handler)
+  if (pathname.startsWith('/api/productos') && (method === 'POST' || method === 'PUT' || method === 'DELETE')) {
+    // Permitir pasar - la autenticación se valida dentro del API route handler
     return;
   }
 
-  // Para PUT/DELETE en /api/productos/*, requiere autenticación pero permitir que pase
-  // La verificación de auth se hace en el API route mismo
-  if (pathname.startsWith('/api/productos/') && (method === 'PUT' || method === 'DELETE')) {
-    // Dejar pasar - la autenticación se valida en el API route
+  // Proteger dashboard (requiere autenticación)
+  if (isProtectedRoute(request)) {
+    await auth.protect();
     return;
   }
 
   // Proteger rutas no públicas (requieren autenticación)
   if (!isPublicRoute(request)) {
-    await auth.protect();
-  }
-
-  // Proteger dashboard (solo requiere autenticación, no verificamos admin aquí)
-  // La verificación de admin se hace en los Server Components individuales
-  if (isProtectedRoute(request)) {
     await auth.protect();
   }
 });
