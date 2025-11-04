@@ -1,66 +1,18 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-const isPublicRoute = createRouteMatcher([
-  "/",
-  "/sign-in(.*)",
-  "/sign-up(.*)",
-  "/accesorios(.*)",
-  "/producto(.*)",
-  "/servicios(.*)",
-  "/tiendas(.*)",
-  "/Blog(.*)",
-  "/politicas(.*)",
-  "/terminos-condiciones(.*)",
-  "/sobre-nosotros(.*)",
-  "/preguntas-frecuentes(.*)",
-  "/politica-devoluciones(.*)",
-  "/clientes(.*)",
-  "/politica-privacidad(.*)",
-  "/politica-cookies(.*)",
-  "/blog(.*)",
-]);
+// Solo proteger rutas del dashboard
+const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
-// Rutas API públicas (solo GET)
-const isPublicApiRoute = createRouteMatcher([
-  "/api/productos",
-  "/api/categorias(.*)",
-]);
-
-// Rutas que requieren autenticación (dashboard completo)
-const isProtectedRoute = createRouteMatcher([
-  "/dashboard(.*)",
-]);
-
-export default clerkMiddleware(async (auth, request) => {
-  const { pathname } = request.nextUrl;
-  const method = request.method;
-
-  // Permitir solo GET en rutas API de productos
-  if (pathname.startsWith('/api/productos') && method === 'GET') {
-    return; // Permitir lectura pública de productos
+export default clerkMiddleware((auth, request) => {
+  // Bypass completo para rutas de pago - ni siquiera ejecutar Clerk
+  if (request.nextUrl.pathname.startsWith("/api/payments")) {
+    return NextResponse.next();
   }
 
-  // Permitir GET en otras rutas API públicas
-  if (isPublicApiRoute(request) && method === 'GET') {
-    return;
-  }
-
-  // Para PUT/DELETE en /api/productos/*, requiere autenticación pero permitir que pase
-  // La verificación de auth se hace en el API route mismo
-  if (pathname.startsWith('/api/productos/') && (method === 'PUT' || method === 'DELETE')) {
-    // Dejar pasar - la autenticación se valida en el API route
-    return;
-  }
-
-  // Proteger rutas no públicas (requieren autenticación)
-  if (!isPublicRoute(request)) {
-    await auth.protect();
-  }
-
-  // Proteger dashboard (solo requiere autenticación, no verificamos admin aquí)
-  // La verificación de admin se hace en los Server Components individuales
+  // Solo proteger dashboard, todo lo demás es público
   if (isProtectedRoute(request)) {
-    await auth.protect();
+    auth().protect();
   }
 });
 
