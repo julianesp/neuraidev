@@ -1,142 +1,119 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
 import AccesoriosContainer from "../../../containers/AccesoriosContainer/page";
 import { findProductBySlug } from "../../../utils/slugify";
 
-export default function GenericProductPage() {
-  const params = useParams();
-  const [productData, setProductData] = useState(null);
-  const [otherProducts, setOtherProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+// Cliente de Supabase para server-side
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+);
 
-  useEffect(() => {
-    const loadProductData = async () => {
-      try {
-        setLoading(true);
+// Forzar renderizado dinámico para esta ruta
+export const dynamic = 'force-dynamic';
 
-        // Lista de archivos JSON donde buscar el producto (orden por prioridad)
-        const filesToSearch = [
-          "/computadoras.json",
-          "/celulares.json",
-          "/bicicletas.json",
-          "/gadgets.json",
-          "/generales.json",
-          "/damas.json",
-          "/libros-nuevos.json",
-          "/librosusados.json",
-          "/accesoriosDestacados.json",
-          "/accesoriosDestacados.json",
-          "/accesoriosNuevos.json",
-          "/accesorios_generales.json",
-          "/tecnico_sistemas.json",
-          "/peluqueria.json",
-          "/tienda.json",
-          "/presentation.json",
-        ];
+// Generar metadatos dinámicos para SEO
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
 
-        let foundProduct = null;
-        let allProducts = [];
+  try {
+    // Buscar producto en Supabase
+    const { data: productos, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("disponible", true);
 
-        // Buscar en cada archivo hasta encontrar el producto
-        for (const file of filesToSearch) {
-          try {
-            const response = await fetch(file);
-            if (!response.ok) continue;
-
-            const data = await response.json();
-            let productos = [];
-
-            // Manejar diferentes estructuras de datos
-            if (Array.isArray(data)) {
-              productos = data;
-            } else if (data.accesorios && Array.isArray(data.accesorios)) {
-              productos = data.accesorios;
-            }
-
-            // Buscar el producto por slug
-            const producto = findProductBySlug(productos, params.slug);
-
-            if (producto) {
-              console.warn(
-                `GenericProductPage: Producto encontrado en ${file}: ${producto.nombre || producto.title}`,
-              );
-              foundProduct = producto;
-              allProducts = productos;
-              break;
-            }
-          } catch (err) {
-            console.warn(`Error loading ${file}:`, err);
-            continue;
-          }
-        }
-
-        if (!foundProduct) {
-          setError("Producto no encontrado");
-          return;
-        }
-
-        // Configurar datos
-        setProductData(foundProduct);
-
-        // Otros productos (excluyendo el actual)
-        const otrosProductos = allProducts.filter(
-          (p) => p.id !== foundProduct.id,
-        );
-        setOtherProducts(otrosProductos);
-      } catch (err) {
-        console.error("Error cargando producto:", err);
-        setError("Error al cargar el producto");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (params.slug) {
-      loadProductData();
+    if (error) {
+      console.error("Error fetching product for metadata:", error);
+      return {
+        title: "Producto no encontrado | Neurai.dev",
+        description: "El producto que buscas no existe o ha sido eliminado.",
+      };
     }
-  }, [params.slug]);
 
-  if (loading) {
-    return (
-      <main className="py-14">
-        <div className="max-w-6xl mx-auto px-4 flex justify-center items-center min-h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        </div>
-      </main>
-    );
+    const producto = findProductBySlug(productos || [], slug);
+
+    if (!producto) {
+      return {
+        title: "Producto no encontrado | Neurai.dev",
+        description: "El producto que buscas no existe o ha sido eliminado.",
+      };
+    }
+
+    const imagenPrincipal = producto.imagen_principal ||
+      (producto.imagenes && producto.imagenes.length > 0 ? producto.imagenes[0] : null);
+
+    const descripcionLimpia =
+      producto.descripcion?.replace(/[^\w\s\-.,áéíóúñü]/gi, "").slice(0, 160) ||
+      `${producto.nombre} - ${producto.categoria}`;
+
+    const canonicalUrl = `https://www.neurai.dev/accesorios/${producto.categoria}/${slug}`;
+
+    return {
+      title: `${producto.nombre} | Neurai.dev`,
+      description: descripcionLimpia,
+      keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca || "Neurai.dev"}, comprar`,
+      alternates: {
+        canonical: canonicalUrl,
+      },
+      openGraph: {
+        title: `${producto.nombre} | Neurai.dev`,
+        description: descripcionLimpia,
+        type: "website",
+        siteName: "Neurai.dev",
+        locale: "es_ES",
+        url: canonicalUrl,
+        images: imagenPrincipal ? [{
+          url: imagenPrincipal,
+          width: 800,
+          height: 600,
+          alt: producto.nombre,
+        }] : [],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${producto.nombre} | Neurai.dev`,
+        description: descripcionLimpia,
+        images: imagenPrincipal ? [imagenPrincipal] : [],
+      },
+    };
+  } catch (err) {
+    console.error("Error generating metadata:", err);
+    return {
+      title: "Producto | Neurai.dev",
+      description: "Explora nuestro catálogo de productos.",
+    };
   }
+}
 
-  if (error || !productData) {
-    return (
-      <main className="py-14">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <h1 className="text-2xl font-bold mb-4">Producto no encontrado</h1>
-          <p className="text-gray-600 mb-4">
-            El producto que buscas no existe o ha sido eliminado.
-          </p>
-          <Link
-            href="/accesorios/generales"
-            className="bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark transition-colors"
-          >
-            Ver todos los accesorios
-          </Link>
-        </div>
-      </main>
-    );
+export default async function GenericProductPage({ params }) {
+  const { slug } = await params;
+
+  try {
+    // Buscar producto en Supabase
+    const { data: productos, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("disponible", true);
+
+    if (error) {
+      console.error("Error fetching products:", error);
+      notFound();
+    }
+
+    const producto = findProductBySlug(productos || [], slug);
+
+    if (!producto) {
+      notFound();
+    }
+
+    // Si el producto se encuentra, redirigir a la categoría específica
+    // Esto resuelve el problema de URLs duplicadas
+    const categoriaUrl = `/accesorios/${producto.categoria}/${slug}`;
+    redirect(categoriaUrl);
+
+  } catch (err) {
+    console.error("Error in GenericProductPage:", err);
+    notFound();
   }
-
-  return (
-    <main className="py-14">
-      <div className="max-w-6xl mx-auto px-4">
-        <AccesoriosContainer
-          accesorio={productData}
-          otrosAccesorios={otherProducts}
-        />
-      </div>
-    </main>
-  );
 }
