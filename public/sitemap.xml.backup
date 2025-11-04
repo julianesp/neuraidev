@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- ========================================== -->
+  <!-- PÁGINAS PRINCIPALES (Alta prioridad)      -->
+  <!-- ========================================== -->
+
+  <!-- Página Principal -->
+  <url>
+    <loc>https://www.neurai.dev/</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- CATEGORÍAS DE PRODUCTOS (Alta prioridad)  -->
+  <!-- ========================================== -->
+
+  <!-- Página principal de Accesorios -->
+  <url>
+    <loc>https://www.neurai.dev/accesorios</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Accesorios Destacados -->
+  <url>
+    <loc>https://www.neurai.dev/accesorios/destacados</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Accesorios Nuevos -->
+  <url>
+    <loc>https://www.neurai.dev/accesorios/nuevos</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Categorías de Accesorios - Alta prioridad para e-commerce -->
+  <url>
+    <loc>https://www.neurai.dev/accesorios/celulares</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/accesorios/computadoras</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/accesorios/damas</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/accesorios/belleza</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/accesorios/libros-nuevos</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/accesorios/libros-usados</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/accesorios/generales</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Ofertas - Importante para conversiones -->
+  <url>
+    <loc>https://www.neurai.dev/ofertas</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- SERVICIOS                                  -->
+  <!-- ========================================== -->
+
+  <!-- Página principal de Servicios -->
+  <url>
+    <loc>https://www.neurai.dev/servicios</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/servicios/tecnicos</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/servicios/tecnico-sistemas</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/servicios/desarrollador-software</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/servicios/contable</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/servicios/transporte</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- BLOG Y CONTENIDO                           -->
+  <!-- ========================================== -->
+
+  <!-- Blog Principal -->
+  <url>
+    <loc>https://www.neurai.dev/blog</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Artículos del Blog -->
+  <url>
+    <loc>https://www.neurai.dev/blog/como-elegir-celular-2025</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/blog/mantenimiento-computador-guia-completa</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/blog/ssd-vs-hdd-cual-elegir</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/blog/ram-ddr4-vs-ddr5</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/blog/desarrollo-web-pequenos-negocios</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- NOTICIAS                                   -->
+  <!-- ========================================== -->
+
+  <url>
+    <loc>https://www.neurai.dev/noticias</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- PÁGINAS INSTITUCIONALES                    -->
+  <!-- ========================================== -->
+
+  <!-- Sobre Nosotros -->
+  <url>
+    <loc>https://www.neurai.dev/sobre-nosotros</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Clientes -->
+  <url>
+    <loc>https://www.neurai.dev/clientes</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- PÁGINAS DE AYUDA Y SOPORTE                 -->
+  <!-- ========================================== -->
+
+  <url>
+    <loc>https://www.neurai.dev/preguntas-frecuentes</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/politicas</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.40</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/politica-devoluciones</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.50</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- PÁGINAS LEGALES (Baja prioridad)           -->
+  <!-- ========================================== -->
+
+  <url>
+    <loc>https://www.neurai.dev/politica-privacidad</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/terminos-condiciones</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+  </url>
+
+  <url>
+    <loc>https://www.neurai.dev/politica-cookies</loc>
+    <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- NOTA IMPORTANTE: PÁGINAS EXCLUIDAS         -->
+  <!-- ========================================== -->
+  <!--
+    Las siguientes páginas NO se incluyen en el sitemap porque:
+
+    1. PÁGINAS PRIVADAS (requieren autenticación):
+       - /sign-in (página de login)
+       - /sign-up (página de registro)
+       - /dashboard/* (panel administrativo)
+       - /pago-epayco/* (páginas de pago)
+       - /respuesta-pago (confirmación de pago)
+       - /thank-you (página de agradecimiento post-compra)
+
+    2. PÁGINAS DE DESARROLLO/TESTING:
+       - /test-user (página de prueba)
+
+    3. PÁGINAS DINÁMICAS DE PRODUCTOS:
+       - /accesorios/[slug]/[producto-id] (productos individuales)
+       - /business/[id] (páginas de negocios)
+       - /noticias/[id] (artículos de noticias individuales)
+
+    IMPORTANTE: Los productos individuales son MUY importantes para SEO en e-commerce.
+
+    RECOMENDACIÓN: Considera generar un sitemap dinámico que incluya:
+    - Todos los productos activos desde tu base de datos
+    - URLs de noticias/blog con sus fechas de publicación
+    - Esto se puede hacer con Next.js usando:
+      * API Routes para generar sitemap.xml dinámicamente
+      * O scripts que consulten tu base de datos y regeneren el sitemap
+
+    Ejemplo de URL de producto:
+    <url>
+      <loc>https://www.neurai.dev/accesorios/celulares/[slug]</loc>
+      <lastmod>2025-11-04T10:00:00-05:00</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.80</priority>
+      <image:image>
+        <image:loc>https://www.neurai.dev/images/productos/[nombre-imagen].jpg</image:loc>
+        <image:title>Nombre del Producto</image:title>
+      </image:image>
+    </url>
+  -->
+
+</urlset>

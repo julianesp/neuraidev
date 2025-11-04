@@ -1,38 +1,63 @@
 # robots.txt para Neurai.dev
-# Última actualización: 2025-01-20
+# Última actualización: 2025-11-04
 
-# Permitir acceso a todos los bots de búsqueda
+# ============================================
+# CONFIGURACIÓN PRINCIPAL
+# ============================================
+
 User-agent: *
 Allow: /
 
-# Bloquear acceso a archivos y directorios administrativos
+# Permitir acceso a recursos estáticos de Next.js (CRÍTICO para Google)
+Allow: /_next/static/
+Allow: /_next/image
+
+# Bloquear datos internos de Next.js
+Disallow: /_next/data/
+
+# Bloquear directorios administrativos y privados
 Disallow: /api/
 Disallow: /admin/
-Disallow: /_next/
 Disallow: /dashboard/
 
-# Permitir específicamente a Googlebot
-User-agent: Googlebot
+# Bloquear archivos de configuración y privados
+Disallow: /*.json$
+Disallow: /*.env$
+Disallow: /*.config.js$
+Disallow: /vercel.json
+
+# Bloquear parámetros de tracking y URLs temporales
+Disallow: /*?*preview=
+Disallow: /*?*utm_*
+Disallow: /*?*fbclid=
+Disallow: /preview/
+
+# ============================================
+# BOTS ESPECÍFICOS
+# ============================================
+
+# Google AdsBot (importante si usas Google Ads)
+User-agent: AdsBot-Google
 Allow: /
-Allow: /blog/
-Allow: /accesorios/
-Allow: /servicios/
 
 # Googlebot para imágenes
 User-agent: Googlebot-Image
 Allow: /
+Allow: /_next/static/
+Allow: /_next/image
 
-# Configuración específica para AdSense
+# AdSense crawler (importante para monetización)
 User-agent: Mediapartners-Google
 Allow: /
 
 # Bing
 User-agent: Bingbot
 Allow: /
+Allow: /_next/static/
 
-# Sitemap
+# ============================================
+# SITEMAP
+# ============================================
+
 Sitemap: https://www.neurai.dev/sitemap.xml
 Sitemap: https://neurai.dev/sitemap.xml
-
-# Tiempo de rastreo (crawl-delay) - opcional
-# Crawl-delay: 1
