@@ -145,17 +145,23 @@ export async function generateProductMetadata(slug, categoria) {
     })),
   ];
 
+  // URL canónica consistente (con www)
+  const canonicalUrl = `https://www.neurai.dev/accesorios/${producto.categoria}/${slug}`;
+
   return {
     title: `${producto.nombre} | Neurai.dev`,
     description: descripcionLimpia,
     keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca || "Neurai.dev"}, comprar, ${producto.condicion || "nuevo"}`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: `${producto.nombre} | Neurai.dev`,
       description: descripcionLimpia,
       type: "website",
       siteName: "Neurai.dev",
       locale: "es_ES",
-      url: `https://neurai.dev/accesorios/${producto.categoria}/${slug}`,
+      url: canonicalUrl,
       images: imagenesParaMetadata,
     },
     twitter: {

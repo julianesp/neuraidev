@@ -1,9 +1,9 @@
 import React from "react";
 import AccesoriosContainer from "../../../containers/AccesoriosContainer/page";
 import { loadCategoryProducts } from "../../../utils/loadCategoryProducts";
-// import { generateCategoryMetadata } from "../../../utils/categoryMetadata";
+import { generateCategoryMetadata } from "../../../utils/categoryMetadata";
 
-// export const metadata = generateCategoryMetadata('computadoras');
+export const metadata = generateCategoryMetadata('computadoras');
 
 // Forzar renderizado dinámico para evitar errores de prerenderizado
 export const dynamic = "force-dynamic";
