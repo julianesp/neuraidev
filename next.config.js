@@ -72,7 +72,7 @@ const nextConfig = {
           ...securityHeaders,
           {
             key: "Access-Control-Allow-Origin",
-            value: process.env.NEXTAUTH_URL || "http://localhost:3000",
+            value: process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "http://localhost:3000",
           },
           {
             key: "Access-Control-Allow-Methods",

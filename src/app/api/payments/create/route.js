@@ -7,6 +7,19 @@ import { createClient } from "@supabase/supabase-js";
  *
  * Documentación: https://docs.epayco.com/docs/checkout-implementacion
  */
+
+// Manejar solicitudes OPTIONS para CORS
+export async function OPTIONS(request) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Admin-Secret",
+    },
+  });
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();

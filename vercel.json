@@ -4,6 +4,9 @@
   "functions": {
     "src/app/api/**/*.ts": {
       "maxDuration": 30
+    },
+    "src/app/api/**/*.js": {
+      "maxDuration": 30
     }
   }
 }
