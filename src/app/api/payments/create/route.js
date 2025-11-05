@@ -95,32 +95,44 @@ export async function POST(request) {
     const forwarded = request.headers.get("x-forwarded-for");
     const ip = forwarded ? forwarded.split(",")[0] : "186.84.0.0";
 
+    // Validar que el documento no esté vacío
+    const documentNumber = customer.document && customer.document.trim() !== ""
+      ? customer.document.trim()
+      : "000000000";
+
     // Crear sesión de pago con ePayco Smart Checkout v2
     const sessionData = {
+      // Campos requeridos por ePayco
       checkout_version: "2",
       name: "Neurai.dev",
       description: description,
+      invoice: invoice, // ⚠️ Campo requerido
       currency: "COP",
       amount: total.toString(),
       lang: "ES",
       country: "CO",
+      ip: ip,
+      test: process.env.NEXT_PUBLIC_EPAYCO_TEST_MODE === "true",
+
+      // Impuestos (requeridos aunque sean 0)
       taxBase: "0",
       tax: "0",
       taxIco: "0",
-      external: "false",
 
-      // URLs de callback
+      // URLs de callback (requeridas)
       response: `${baseUrl}/respuesta-pago`,
       confirmation: `${baseUrl}/api/payments/confirmation`,
-      methodConfirmation: "GET",
+      methodConfirmation: "GET", // ⚠️ Campo requerido: GET o POST
+      external: "false", // ⚠️ Campo requerido
 
-      // Datos del comprador
+      // Datos del comprador (requeridos)
       billing: {
         name: customer.name,
         email: customer.email,
         address: customer.address || "Calle 1 # 1-1",
         typeDoc: customer.docType || "CC",
-        numberDoc: customer.document || "000000000",
+        numberDoc: documentNumber, // ⚠️ No puede estar vacío
+        callingCode: "+57",
         mobilePhone: customer.phone,
       },
 
@@ -128,13 +140,7 @@ export async function POST(request) {
       extra1: order.id.toString(),
       extra2: customer.email,
       extra3: invoice,
-      invoice: invoice,
-
-      // IP del cliente
-      ip: ip,
-
-      // Modo test
-      test: process.env.NEXT_PUBLIC_EPAYCO_TEST_MODE === "true",
+      extra4: total.toString(),
     };
 
     // Primero obtener el token Bearer de ePayco

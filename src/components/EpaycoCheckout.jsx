@@ -97,15 +97,17 @@ export default function EpaycoCheckout({ onClose }) {
       onClose();
 
       // Verificar que el script de ePayco esté cargado
-      if (typeof window.ePayco === 'undefined') {
-        throw new Error('ePayco SDK no está cargado. Por favor recarga la página.');
+      if (typeof window.ePayco === "undefined") {
+        throw new Error(
+          "ePayco SDK no está cargado. Por favor recarga la página.",
+        );
       }
 
       // Configurar y abrir Smart Checkout v2
       const checkout = window.ePayco.checkout.configure({
         sessionId: data.sessionId,
         type: "onepage",
-        test: process.env.NEXT_PUBLIC_EPAYCO_TEST_MODE === 'true'
+        test: process.env.NEXT_PUBLIC_EPAYCO_TEST_MODE === "true",
       });
 
       // Eventos del checkout
@@ -123,7 +125,6 @@ export default function EpaycoCheckout({ onClose }) {
 
       // Abrir el checkout
       checkout.open();
-
     } catch (error) {
       console.error("❌ Error al procesar el pago:", error);
       toast.error(error.message || "Error al procesar el pago", {
@@ -141,7 +142,10 @@ export default function EpaycoCheckout({ onClose }) {
       {/* Formulario de datos del cliente */}
       <div className="space-y-3">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Nombre Completo *
           </label>
           <input
@@ -158,7 +162,10 @@ export default function EpaycoCheckout({ onClose }) {
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Email *
           </label>
           <input
@@ -175,7 +182,10 @@ export default function EpaycoCheckout({ onClose }) {
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Teléfono *
           </label>
           <input
@@ -193,7 +203,10 @@ export default function EpaycoCheckout({ onClose }) {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label htmlFor="docType" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="docType"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Tipo de Documento
             </label>
             <select
@@ -212,7 +225,10 @@ export default function EpaycoCheckout({ onClose }) {
           </div>
 
           <div>
-            <label htmlFor="document" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="document"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Número de Documento
             </label>
             <input
@@ -229,7 +245,10 @@ export default function EpaycoCheckout({ onClose }) {
         </div>
 
         <div>
-          <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="address"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Dirección (Opcional)
           </label>
           <input

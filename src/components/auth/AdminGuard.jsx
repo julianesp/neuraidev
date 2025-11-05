@@ -16,7 +16,7 @@ export default function AdminGuard({ children }) {
   useEffect(() => {
     if (isLoaded && (!user || !isAdmin(user))) {
       // Redirigir a inicio con mensaje
-      router.push('/?error=unauthorized');
+      router.push("/?error=unauthorized");
     }
   }, [isLoaded, user, router]);
 
