@@ -26,6 +26,7 @@
     "@tsparticles/react": "^3.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@vercel/analytics": "^1.5.0",
+    "aos": "^2.3.4",
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
     "bootstrap": "^5.3.6",

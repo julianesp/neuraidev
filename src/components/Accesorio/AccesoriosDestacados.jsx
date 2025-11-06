@@ -188,7 +188,7 @@ const AccesoriosDestacados = () => {
                     ? accesorio.imagenes[0].url
                     : "/images/placeholder.png")
                 }
-                alt={accesorio.nombre}
+                alt={`${accesorio.nombre} - Producto destacado en Neurai.dev`}
                 fill={true}
                 className="object-contain"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

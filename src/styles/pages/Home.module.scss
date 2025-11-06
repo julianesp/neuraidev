@@ -624,6 +624,10 @@
       width: 100%;
       margin: 20px 0;
       padding: 0 20px;
+
+      // En pantallas grandes, mostrar inmediatamente sin animación de scroll
+      opacity: 1 !important;
+      transform: translateY(0) !important;
     }
 
     & .accesories {

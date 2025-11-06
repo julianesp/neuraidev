@@ -5,10 +5,17 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Neurai.dev",
+    alternateName: "Neurai",
     url: "https://www.neurai.dev",
-    logo: "/images/logo.png",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+      width: 512,
+      height: 512,
+    },
+    image: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
     description:
-      "Tienda online de accesorios tecnológicos, servicios de desarrollo web y soporte técnico en sistemas",
+      "Tienda online de accesorios tecnológicos, servicios de desarrollo web y soporte técnico en sistemas. Venta de accesorios para celulares, computadoras, libros y más.",
     sameAs: [
       "https://www.facebook.com/neuraidev",
       "https://www.instagram.com/neuraidev",
@@ -18,7 +25,14 @@ export default function StructuredData() {
       "@type": "ContactPoint",
       telephone: "+57-317-450-3604",
       contactType: "customer service",
-      availableLanguage: ["Spanish"],
+      availableLanguage: ["es", "Spanish"],
+      areaServed: "CO",
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "CO",
+      addressLocality: "Valle de Sibundoy",
+      addressRegion: "Putumayo",
     },
   };
 
@@ -39,26 +53,66 @@ export default function StructuredData() {
 
   const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": ["Store", "OnlineStore"],
     name: "Neurai.dev",
-    image:
-      "/images/logo.png",
+    image: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
     "@id": "https://www.neurai.dev",
     url: "https://www.neurai.dev",
     telephone: "+57-317-450-3604",
+    priceRange: "$$",
+    paymentAccepted: "Cash, Credit Card, Debit Card, Online Payment",
+    currenciesAccepted: "COP",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Colombia",
+      addressLocality: "Valle de Sibundoy",
+      addressRegion: "Putumayo",
       addressCountry: "CO",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: "1.1333",
+      longitude: "-76.9",
     },
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         opens: "08:00",
         closes: "18:00",
       },
     ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Catálogo de Productos",
+      itemListElement: [
+        {
+          "@type": "OfferCatalog",
+          name: "Accesorios para Celulares",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Product",
+                name: "Accesorios para Celulares",
+              },
+            },
+          ],
+        },
+        {
+          "@type": "OfferCatalog",
+          name: "Accesorios para Computadoras",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Product",
+                name: "Accesorios para Computadoras",
+              },
+            },
+          ],
+        },
+      ],
+    },
   };
 
   const breadcrumbSchema = {

@@ -16,6 +16,8 @@ import ShareButton from "../../components/ShareButton";
 import ProductMetaTags from "../../components/ProductMetaTags";
 import PriceWithDiscount from "../../components/PriceWithDiscount";
 import AddToCartButton from "../../components/AddToCartButton";
+import ProductSchema from "../../components/ProductSchema";
+import Breadcrumbs, { CATEGORY_NAMES } from "../../components/Breadcrumbs";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -571,9 +573,19 @@ const AccesoriosContainer = ({
     <>
       {/* Meta tags para redes sociales */}
       <ProductMetaTags product={accesorio} category={categorySlug} />
+      {/* Schema.org para SEO */}
+      <ProductSchema producto={accesorio} />
       {/* max-w-4xl */}
       <div ref={containerRef} id="accesorios-container" className="w-full">
         <div className="lg:max-w-md mx-auto p-4">
+          {/* Breadcrumbs */}
+          <Breadcrumbs
+            items={[
+              { name: "Accesorios", url: "/accesorios" },
+              { name: CATEGORY_NAMES[categorySlug] || categorySlug, url: `/accesorios/${categorySlug}` },
+              { name: accesorio.nombre, url: buildProductUrl(accesorio, categorySlug) },
+            ]}
+          />
           <h1 className="text-3xl font-bold text-center mb-6">
             {accesorio.nombre}
           </h1>

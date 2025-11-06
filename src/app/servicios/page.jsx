@@ -1,9 +1,25 @@
-"use client";
-
 import React from "react";
 import styles from "./Servicios.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata = {
+  title: "Servicios Profesionales | Neurai.dev",
+  description:
+    "Servicios de desarrollo web, soporte técnico en sistemas y mantenimiento de computadores. Soluciones tecnológicas profesionales en el Valle de Sibundoy.",
+  keywords:
+    "servicios técnicos, desarrollo web, soporte sistemas, mantenimiento computadores, Valle de Sibundoy",
+  openGraph: {
+    title: "Servicios Profesionales | Neurai.dev",
+    description:
+      "Servicios de desarrollo web, soporte técnico en sistemas y mantenimiento de computadores.",
+    url: "https://www.neurai.dev/servicios",
+    type: "website",
+  },
+  alternates: {
+    canonical: "/servicios",
+  },
+};
 
 export default function Servicios() {
   const servicios = [

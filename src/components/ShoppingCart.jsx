@@ -5,7 +5,7 @@ import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import Image from "next/image";
-import EpaycoCheckout from "./EpaycoCheckout";
+// COMENTADO: import EpaycoCheckout from "./EpaycoCheckout";
 
 export default function ShoppingCart() {
   const {
@@ -18,7 +18,7 @@ export default function ShoppingCart() {
     clearCart,
   } = useCart();
   const toast = useToast();
-  const [showCheckout, setShowCheckout] = useState(false);
+  // COMENTADO: const [showCheckout, setShowCheckout] = useState(false);
 
   const handleCheckout = () => {
     if (cart.length === 0) {
@@ -29,21 +29,36 @@ export default function ShoppingCart() {
       return;
     }
 
-    // Construir mensaje para WhatsApp
-    let mensaje = "*Hola! Quiero realizar este pedido:*\n\n";
+    // Construir mensaje para WhatsApp con mejor presentación
+    let mensaje = "🛒 *PEDIDO DESDE NEURAI.DEV*\n";
+    mensaje += "━━━━━━━━━━━━━━━━━━━━\n\n";
+    mensaje += "Hola! Quiero realizar el siguiente pedido:\n\n";
 
+    // Listar productos
     cart.forEach((item, index) => {
-      mensaje += `${index + 1}. *${item.nombre}*\n`;
-      mensaje += `   Cantidad: ${item.cantidad}\n`;
-      mensaje += `   Precio unitario: $${item.precio.toFixed(2)}\n`;
+      mensaje += `📦 *Producto ${index + 1}*\n`;
+      mensaje += `┣ *Nombre:* ${item.nombre}\n`;
+      mensaje += `┣ *Cantidad:* ${item.cantidad} unidad${item.cantidad > 1 ? 'es' : ''}\n`;
+      mensaje += `┣ *Precio unitario:* $${item.precio.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n`;
+
       if (item.variacion) {
-        mensaje += `   Variación: ${item.variacion}\n`;
+        mensaje += `┣ *Variación:* ${item.variacion}\n`;
       }
-      mensaje += `   Subtotal: $${(item.precio * item.cantidad).toFixed(2)}\n\n`;
+
+      const subtotal = item.precio * item.cantidad;
+      mensaje += `┗ *Subtotal:* $${subtotal.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n\n`;
     });
 
-    mensaje += `*TOTAL: $${getTotalPrice().toFixed(2)}*\n\n`;
-    mensaje += "Quisiera coordinar el medio de pago.";
+    // Resumen del pedido
+    mensaje += "━━━━━━━━━━━━━━━━━━━━\n";
+    mensaje += "📋 *RESUMEN DEL PEDIDO*\n\n";
+
+    const cantidadTotal = cart.reduce((sum, item) => sum + item.cantidad, 0);
+    mensaje += `• Total de productos: ${cantidadTotal}\n`;
+    mensaje += `• Total a pagar: *$${getTotalPrice().toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}*\n\n`;
+
+    mensaje += "━━━━━━━━━━━━━━━━━━━━\n\n";
+    mensaje += "Quisiera coordinar el medio de pago y la entrega. ¡Gracias! 😊";
 
     const mensajeCodificado = encodeURIComponent(mensaje);
     const numeroWhatsApp = "573174503604";
@@ -186,8 +201,8 @@ export default function ShoppingCart() {
               </span>
             </div>
 
-            {/* Mostrar checkout o botones de pago */}
-            {showCheckout ? (
+            {/* COMENTADO: Mostrar checkout o botones de pago */}
+            {/* {showCheckout ? (
               <div>
                 <button
                   onClick={() => setShowCheckout(false)}
@@ -197,10 +212,10 @@ export default function ShoppingCart() {
                 </button>
                 <EpaycoCheckout onClose={() => setShowCheckout(false)} />
               </div>
-            ) : (
+            ) : ( */}
               <>
-                {/* Botón de pago con ePayco */}
-                <button
+                {/* COMENTADO: Botón de pago con ePayco */}
+                {/* <button
                   onClick={() => setShowCheckout(true)}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
@@ -212,7 +227,7 @@ export default function ShoppingCart() {
                     <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
                   </svg>
                   Pagar con Tarjeta/PSE
-                </button>
+                </button> */}
 
                 {/* Botón de pago por WhatsApp */}
                 <button
@@ -239,7 +254,7 @@ export default function ShoppingCart() {
                   Vaciar Carrito
                 </button>
               </>
-            )}
+            {/* )} */}
           </div>
         )}
       </div>

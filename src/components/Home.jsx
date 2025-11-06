@@ -247,7 +247,7 @@ export default function Inicio() {
         style={{ margin: 0, padding: 0 }}
       >
         {/* Modal para envio gratis */}
-        <SideModal />
+        {/* <SideModal /> */}
         {/* Sección Hero - contenedor con altura controlada */}
         <div className={`${styles.presentacion}`}>
           <PresentationCarousel />
@@ -314,7 +314,7 @@ export default function Inicio() {
               <div className={`${styles.imageContainer}`}>
                 <Image
                   src="/images/celulares-placeholder.png"
-                  alt="Celulares"
+                  alt="Accesorios para celulares - Fundas, cargadores y más"
                   width={300}
                   height={200}
                   className="mt-4 rounded-md"
@@ -347,7 +347,7 @@ export default function Inicio() {
               <div className={`${styles.imageContainer}`}>
                 <Image
                   src="/images/computadores-placeholder.png"
-                  alt="Computadores"
+                  alt="Accesorios para computadoras - SSD, RAM, teclados y más"
                   width={300}
                   height={200}
                   className="rounded-md object-contain"
@@ -381,7 +381,7 @@ export default function Inicio() {
               <div className={`${styles.imageContainer}`}>
                 <Image
                   src="/images/damas-placeholder.png"
-                  alt="Damas"
+                  alt="Productos de belleza y cuidado personal para damas"
                   width={300}
                   height={200}
                   className="mt-4 rounded-md"
@@ -415,7 +415,7 @@ export default function Inicio() {
               <div className={`${styles.imageContainer}`}>
                 <Image
                   src="/images/libros-nuevos-placeholder.png"
-                  alt="Libros Nuevos"
+                  alt="Libros nuevos - Literatura, desarrollo personal y más"
                   width={300}
                   height={200}
                   className="mt-4 rounded-md"
@@ -449,7 +449,7 @@ export default function Inicio() {
               <div className={`${styles.imageContainer}`}>
                 <Image
                   src="/images/libros-usados-placeholder.png"
-                  alt="Libros Usados"
+                  alt="Libros usados universitarios - Programación, matemáticas y más"
                   width={300}
                   height={200}
                   className="mt-4 rounded-md"

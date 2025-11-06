@@ -1,15 +1,43 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+
+export const metadata = {
+  title: "Accesorios y Productos | Tienda Online Neurai.dev",
+  description:
+    "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos de belleza, libros nuevos y usados. Envíos a toda Colombia.",
+  keywords:
+    "accesorios celulares, accesorios computadoras, productos belleza, libros nuevos, libros usados, gadgets tecnológicos",
+  openGraph: {
+    title: "Accesorios y Productos | Tienda Online Neurai.dev",
+    description:
+      "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos de belleza, libros nuevos y usados.",
+    url: "https://www.neurai.dev/accesorios",
+    type: "website",
+    images: [
+      {
+        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Neurai.dev - Accesorios",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Accesorios y Productos | Neurai.dev",
+    description:
+      "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos de belleza, libros.",
+  },
+  alternates: {
+    canonical: "/accesorios",
+  },
+};
 import {
   Smartphone,
   Monitor,
   Heart,
   BookOpen,
-  Bike,
-  Wrench,
   Package,
   Star,
 } from "lucide-react";
@@ -56,17 +84,17 @@ const categorias = [
     color: "bg-amber-600",
   },
   {
-    id: "bicicletas",
-    nombre: "Accesorios para Bicicletas",
-    descripcion: "Repuestos y accesorios para ciclistas",
-    ruta: "/accesorios/bicicletas",
-    icono: <Bike className="w-8 h-8" />,
-    color: "bg-red-500",
+    id: "belleza",
+    nombre: "Productos de Belleza",
+    descripcion: "Accesorios y productos de belleza y cuidado personal",
+    ruta: "/accesorios/belleza",
+    icono: <Heart className="w-8 h-8" />,
+    color: "bg-rose-500",
   },
   {
     id: "generales",
     nombre: "Accesorios Generales",
-    descripción: "Variedad de productos para diferentes necesidades",
+    descripcion: "Variedad de productos para diferentes necesidades",
     ruta: "/accesorios/generales",
     icono: <Package className="w-8 h-8" />,
     color: "bg-gray-500",

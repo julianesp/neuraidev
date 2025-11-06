@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 // Solo proteger rutas del dashboard
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
-export default clerkMiddleware((auth, request) => {
+export default clerkMiddleware(async (auth, request) => {
   // Bypass completo para rutas de pago - ni siquiera ejecutar Clerk
   if (request.nextUrl.pathname.startsWith("/api/payments")) {
     return NextResponse.next();
@@ -12,7 +12,7 @@ export default clerkMiddleware((auth, request) => {
 
   // Solo proteger dashboard, todo lo demás es público
   if (isProtectedRoute(request)) {
-    auth().protect();
+    await auth.protect();
   }
 });
 

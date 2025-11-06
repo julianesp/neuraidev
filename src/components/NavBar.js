@@ -120,7 +120,7 @@ const NavBar = () => {
           <div className={styles.container__principal}>
             <Image
               alt="Neurai.dev - Logo de la empresa"
-              src="/images/logo.png"
+              src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png"
               width={30}
               height={30}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -136,9 +136,9 @@ const NavBar = () => {
         </Link>
       </div>
 
-      <div className={styles.storeStatusWrapper}>
+      {/* <div className={styles.storeStatusWrapper}>
         <StoreStatus />
-      </div>
+      </div> */}
 
       <div className={styles.themeSwitcher}>
         <ThemeSwitcher />

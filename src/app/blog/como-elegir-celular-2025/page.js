@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import ArticleSchema from "../../../components/ArticleSchema";
 
 export const metadata = {
   title: "Cómo Elegir el Mejor Celular en 2025: Guía Completa | Neurai.dev",
@@ -18,8 +19,19 @@ export const metadata = {
 
 export default function ComoElegirCelular2025() {
   return (
-    <article className="min-h-screen bg-white dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+    <>
+      <ArticleSchema
+        title="Cómo Elegir el Mejor Celular en 2025: Guía Completa"
+        description="Guía completa y actualizada para elegir el celular perfecto en 2025. Aprende sobre procesadores, cámaras, batería, pantallas y más."
+        datePublished="2025-01-15T00:00:00Z"
+        dateModified="2025-01-15T00:00:00Z"
+        author="Equipo Neurai.dev"
+        category="Guías de Compra"
+        url="/blog/como-elegir-celular-2025"
+        readTime="8"
+      />
+      <article className="min-h-screen bg-white dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
         {/* Breadcrumbs */}
         <nav className="mb-8 text-sm">
           <Link href="/" className="text-blue-600 hover:text-blue-800 dark:text-blue-400">Inicio</Link>
@@ -745,5 +757,6 @@ export default function ComoElegirCelular2025() {
         </div>
       </div>
     </article>
+    </>
   );
 }
