@@ -3,24 +3,24 @@
 import React, { useEffect, useState, useRef, Suspense, lazy } from "react";
 import Link from "next/link.js";
 import Head from "next/head";
-import styles from "../styles/pages/Home.module.scss";
-import Advertisement from "../components/Advertisement";
-import AccesoriosDestacados from "../components/Accesorio/AccesoriosDestacados";
-import ProductosRecientes from "../components/Producto/ProductosRecientes";
-import NightSkyHero from "../components/NightSkyHero";
-import BackToTop from "../components/backTop/BackToTop";
-import { CarouselDemo } from "./CarouselDemo";
+import styles from "./Home.module.scss";
+import Advertisement from "@/components/Advertisement";
+import AccesoriosDestacados from "@/components/Accesorio/AccesoriosDestacados";
+import ProductosRecientes from "@/components/Producto/ProductosRecientes";
+import NightSkyHero from "@/components/NightSkyHero";
+import BackToTop from "@/components/backTop/BackToTop";
+import { CarouselDemo } from "@/components/CarouselDemo";
 import Image from "next/image";
-import FAQ from "./FAQ";
+import FAQ from "@/components/FAQ";
 // import ContactForm from "./ContactForm";
-import SideModal from "./SideModal/page";
-import PresentationCarousel from "./PresentationCarousel/PresentationCarousel";
-import TechnicalServicesCarousel from "./TechnicalServicesCarousel";
-import WebDevSection from "./WebDevelopment/WebDevSection";
-import ContactWhatsApp from "./ContactWhatsApp/ContactWhatsApp";
+import SideModal from "@/components/SideModal/page";
+import PresentationCarousel from "@/components/PresentationCarousel/PresentationCarousel";
+import TechnicalServicesCarousel from "@/components/TechnicalServicesCarousel";
+import WebDevSection from "@/components/WebDevelopment/WebDevSection";
+import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
 // import FacebookLogin from "./Auth/FacebookLogin";
 // import "./ContactForm.css";
-import "./SideModal/SideModal.module.scss";
+// import "./SideModal/SideModal.module.scss";
 
 const API_PRESENTATION = "/presentation.json";
 const API_ACCESORIOS = "/accesoriosDestacados.json";
@@ -81,8 +81,8 @@ export default function Inicio() {
     window.scrollTo(0, 0);
 
     // También prevenimos cualquier scroll automático
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
     }
   }, []);
 
@@ -117,8 +117,8 @@ export default function Inicio() {
 
         const position = element.getBoundingClientRect();
 
-        // Si el elemento está visible en la pantalla
-        if (position.top < window.innerHeight * 0.8 && position.bottom >= 0) {
+        // Si el elemento está visible en la pantalla (umbral más amplio para activación)
+        if (position.top < window.innerHeight * 1.2 && position.bottom >= 0) {
           element.classList.add(styles.visible);
         }
       });
@@ -149,7 +149,10 @@ export default function Inicio() {
     };
 
     // Ejecutamos la función una vez para los elementos ya visibles
-    setTimeout(handleScrollAnimation, 300);
+    setTimeout(handleScrollAnimation, 100);
+
+    // Ejecutamos nuevamente después de un delay para asegurar que todo esté cargado
+    setTimeout(handleScrollAnimation, 500);
 
     // Agregamos el evento de scroll
     window.addEventListener("scroll", handleScrollAnimation);
@@ -208,28 +211,32 @@ export default function Inicio() {
       businessName: "Tienda Local",
       description:
         "Abarrotes y productos básicos para tu hogar. Servicio a domicilio disponible.",
-      imageUrl: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+      imageUrl:
+        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
       businessId: "tienda-local",
     },
     {
       businessName: "Panadería El Trigal",
       description:
         "Pan fresco todos los días. Especialistas en productos artesanales.",
-      imageUrl: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+      imageUrl:
+        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
       businessId: "panaderia-el-trigal",
     },
     {
       businessName: "Ferretería Martínez",
       description:
         "Todo para construcción y reparaciones. Más de 20 años de experiencia.",
-      imageUrl: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+      imageUrl:
+        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
       businessId: "ferreteria-martinez",
     },
     {
       businessName: "¿Tienes un negocio?",
       description:
         "Solicita tu espacio publicitario aquí y llega a más clientes en tu zona.",
-      imageUrl: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+      imageUrl:
+        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
       linkUrl:
         "https://wa.me/573174503604?text=Hola,%20me%20interesa%20solicitar%20un%20espacio%20publicitario%20para%20mi%20negocio%20en%20NeuraIdev",
     },
@@ -244,7 +251,7 @@ export default function Inicio() {
       </Head>
       <main
         className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}
-        style={{ margin: 0, padding: 0 }}
+        style={{ margin: 0, padding: 0, overflowX: 'hidden', maxWidth: '100vw' }}
       >
         {/* Modal para envio gratis */}
         {/* <SideModal /> */}
@@ -308,27 +315,11 @@ export default function Inicio() {
             <article
               ref={celularesRef}
               className={`${styles.tipo} ${styles.fadeInLeft} `}
+              style={{
+                backgroundImage: "url('/images/celulares-placeholder.png')",
+              }}
             >
-              <h2 className="text-black dark:text-black">Celulares</h2>
-
-              <div className={`${styles.imageContainer}`}>
-                <Image
-                  src="/images/celulares-placeholder.png"
-                  alt="Accesorios para celulares - Fundas, cargadores y más"
-                  width={300}
-                  height={200}
-                  className="mt-4 rounded-md"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority={false} // Solo true para imágenes above-the-fold
-                  loading="lazy"
-                  quality={85} // Reduce de 100 a 85
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                  onError={() =>
-                    setImageError((prev) => ({ ...prev, [imageId]: true }))
-                  }
-                />
-              </div>
+              <h2 className="text-white dark:text-white">Celulares</h2>
 
               <Link
                 href="/accesorios/celulares"
@@ -342,26 +333,11 @@ export default function Inicio() {
             <article
               ref={computadoresRef}
               className={`${styles.tipo} ${styles.fadeInRight}`}
+              style={{
+                backgroundImage: "url('/images/computadores-placeholder.png')",
+              }}
             >
-              <h2 className="text-black dark:text-black">Computadores</h2>
-              <div className={`${styles.imageContainer}`}>
-                <Image
-                  src="/images/computadores-placeholder.png"
-                  alt="Accesorios para computadoras - SSD, RAM, teclados y más"
-                  width={300}
-                  height={200}
-                  className="rounded-md object-contain"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority={false} // Solo true para imágenes above-the-fold
-                  loading="lazy"
-                  quality={85} // Reduce de 100 a 85
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                  onError={() =>
-                    setImageError((prev) => ({ ...prev, [imageId]: true }))
-                  }
-                />
-              </div>
+              <h2 className="text-white dark:text-white">Computadores</h2>
 
               <Link
                 href="/accesorios/computadoras"
@@ -375,27 +351,11 @@ export default function Inicio() {
             <article
               ref={damasRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
+              style={{
+                backgroundImage: "url('/images/damas-placeholder.png')",
+              }}
             >
-              <h2 className="text-black dark:text-black">Damas</h2>
-
-              <div className={`${styles.imageContainer}`}>
-                <Image
-                  src="/images/damas-placeholder.png"
-                  alt="Productos de belleza y cuidado personal para damas"
-                  width={300}
-                  height={200}
-                  className="mt-4 rounded-md"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority={false} // Solo true para imágenes above-the-fold
-                  loading="lazy"
-                  quality={85} // Reduce de 100 a 85
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                  onError={() =>
-                    setImageError((prev) => ({ ...prev, [imageId]: true }))
-                  }
-                />
-              </div>
+              <h2 className="text-white dark:text-white">Damas</h2>
 
               <Link
                 href="/accesorios/damas"
@@ -409,27 +369,11 @@ export default function Inicio() {
             <article
               ref={librosNuevosRef}
               className={`${styles.tipo} ${styles.fadeInRight}`}
+              style={{
+                backgroundImage: "url('/images/libros-nuevos-placeholder.png')",
+              }}
             >
-              <h2 className="text-black dark:text-black">Libros nuevos</h2>
-
-              <div className={`${styles.imageContainer}`}>
-                <Image
-                  src="/images/libros-nuevos-placeholder.png"
-                  alt="Libros nuevos - Literatura, desarrollo personal y más"
-                  width={300}
-                  height={200}
-                  className="mt-4 rounded-md"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority={false} // Solo true para imágenes above-the-fold
-                  loading="lazy"
-                  quality={85} // Reduce de 100 a 85
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                  onError={() =>
-                    setImageError((prev) => ({ ...prev, [imageId]: true }))
-                  }
-                />
-              </div>
+              <h2 className="text-white dark:text-white">Libros nuevos</h2>
 
               <Link
                 href="/accesorios/libros-nuevos"
@@ -443,27 +387,11 @@ export default function Inicio() {
             <article
               ref={librosUsadosRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
+              style={{
+                backgroundImage: "url('/images/libros-usados-placeholder.png')",
+              }}
             >
-              <h2 className="text-black dark:text-black">Libros usados</h2>
-
-              <div className={`${styles.imageContainer}`}>
-                <Image
-                  src="/images/libros-usados-placeholder.png"
-                  alt="Libros usados universitarios - Programación, matemáticas y más"
-                  width={300}
-                  height={200}
-                  className="mt-4 rounded-md"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority={false} // Solo true para imágenes above-the-fold
-                  loading="lazy"
-                  quality={85} // Reduce de 100 a 85
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                  onError={() =>
-                    setImageError((prev) => ({ ...prev, [imageId]: true }))
-                  }
-                />
-              </div>
+              <h2 className="text-white dark:text-white">Libros usados</h2>
 
               <Link
                 href="/accesorios/libros-usados"
@@ -477,27 +405,11 @@ export default function Inicio() {
             <article
               ref={accesoriosRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
+              style={{
+                backgroundImage: "url('/images/generales-placeholder.png')",
+              }}
             >
-              <h2 className="text-black dark:text-black">Generales</h2>
-
-              <div className={`${styles.imageContainer}`}>
-                <Image
-                  src="/images/generales-placeholder.png"
-                  alt="Accesorios"
-                  width={300}
-                  height={200}
-                  className="mt-4 rounded-md"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority={false} // Solo true para imágenes above-the-fold
-                  loading="lazy"
-                  quality={85} // Reduce de 100 a 85
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                  onError={() =>
-                    setImageError((prev) => ({ ...prev, [imageId]: true }))
-                  }
-                />
-              </div>
+              <h2 className="text-white dark:text-white">Generales</h2>
 
               <Link
                 href="/accesorios/generales"
@@ -547,7 +459,7 @@ export default function Inicio() {
             <ContactForm />
           </div>
         </section> */}
-        
+
         <div className="mb-16 md:mb-0">
           <Suspense fallback={null}>
             <BackToTop />

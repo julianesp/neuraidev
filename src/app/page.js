@@ -1,4 +1,4 @@
-import Home from "../components/Home";
+import Home from "@/components/Home/page";
 
 export const metadata = {
   title: "Neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
