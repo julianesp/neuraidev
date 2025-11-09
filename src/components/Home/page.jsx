@@ -18,6 +18,7 @@ import PresentationCarousel from "@/components/PresentationCarousel/Presentation
 import TechnicalServicesCarousel from "@/components/TechnicalServicesCarousel";
 import WebDevSection from "@/components/WebDevelopment/WebDevSection";
 import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
+import ProductSearch from "@/components/ProductSearch/ProductSearch";
 // import FacebookLogin from "./Auth/FacebookLogin";
 // import "./ContactForm.css";
 // import "./SideModal/SideModal.module.scss";
@@ -310,6 +311,11 @@ export default function Inicio() {
                 Accesorios
               </Link>
             </h1>
+
+            {/* Buscador de productos */}
+            <div className={styles.searchWrapper}>
+              <ProductSearch />
+            </div>
 
             {/* Artículo con animación desde la izquierda */}
             <article

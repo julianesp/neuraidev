@@ -230,6 +230,13 @@
         width: 100%;
       }
 
+      .searchWrapper {
+        grid-column: span 2;
+        width: 100%;
+        margin-bottom: 30px;
+        padding: 0 10px;
+      }
+
       h1 {
         grid-column: span 2;
         position: relative;
@@ -483,6 +490,10 @@
           grid-column: span 3;
         }
 
+        .searchWrapper {
+          grid-column: span 3;
+        }
+
         .tipo {
           max-width: 250px;
         }
@@ -572,6 +583,10 @@
         }
 
         .accesoriesTitle {
+          grid-column: span 4;
+        }
+
+        .searchWrapper {
           grid-column: span 4;
         }
 

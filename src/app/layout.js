@@ -17,6 +17,7 @@ import { ToastContainer } from "../components/Toast";
 import { ClerkProvider } from "@clerk/nextjs";
 import { CartProvider } from "../context/CartContext";
 import ShoppingCart from "../components/ShoppingCart";
+import AIChat from "../components/AIChat/AIChat";
 
 export const metadata = {
   metadataBase: new URL(
@@ -140,6 +141,7 @@ export default function RootLayout({ children }) {
                     {/* <StoreStatus /> */}
                   </div>
                   <ShoppingCart />
+                  {/* <AIChat /> */}
                   <ToastContainer />
                 </CartProvider>
               </ToastProvider>
