@@ -5,7 +5,7 @@ import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import Image from "next/image";
-// COMENTADO: import EpaycoCheckout from "./EpaycoCheckout";
+import EpaycoCheckout from "./EpaycoCheckout";
 
 export default function ShoppingCart() {
   const {
@@ -18,7 +18,7 @@ export default function ShoppingCart() {
     clearCart,
   } = useCart();
   const toast = useToast();
-  // COMENTADO: const [showCheckout, setShowCheckout] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
 
   const handleCheckout = () => {
     if (cart.length === 0) {
@@ -201,8 +201,8 @@ export default function ShoppingCart() {
               </span>
             </div>
 
-            {/* COMENTADO: Mostrar checkout o botones de pago */}
-            {/* {showCheckout ? (
+            {/* Mostrar checkout o botones de pago */}
+            {showCheckout ? (
               <div>
                 <button
                   onClick={() => setShowCheckout(false)}
@@ -212,10 +212,10 @@ export default function ShoppingCart() {
                 </button>
                 <EpaycoCheckout onClose={() => setShowCheckout(false)} />
               </div>
-            ) : ( */}
+            ) : (
               <>
-                {/* COMENTADO: Botón de pago con ePayco */}
-                {/* <button
+                {/* Botón de pago con ePayco */}
+                <button
                   onClick={() => setShowCheckout(true)}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
@@ -227,7 +227,7 @@ export default function ShoppingCart() {
                     <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
                   </svg>
                   Pagar con Tarjeta/PSE
-                </button> */}
+                </button>
 
                 {/* Botón de pago por WhatsApp */}
                 <button
@@ -254,7 +254,7 @@ export default function ShoppingCart() {
                   Vaciar Carrito
                 </button>
               </>
-            {/* )} */}
+            )}
           </div>
         )}
       </div>

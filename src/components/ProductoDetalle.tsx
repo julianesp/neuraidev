@@ -3,6 +3,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useCart } from '@/context/CartContext';
+import { ShoppingCart } from 'lucide-react';
 
 interface Producto {
   id: string;
@@ -44,10 +46,22 @@ interface Props {
 
 export default function ProductoDetalle({ producto }: Props) {
   const [imagenSeleccionada, setImagenSeleccionada] = useState(producto.imagenPrincipal || '');
+  const { addToCart } = useCart();
 
   const precio = parseFloat(producto.precio.toString());
   const precioAnterior = producto.precioAnterior ? parseFloat(producto.precioAnterior.toString()) : null;
   const descuento = precioAnterior ? Math.round(((precioAnterior - precio) / precioAnterior) * 100) : 0;
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: producto.id,
+      nombre: producto.nombre,
+      precio: precio,
+      imagen: producto.imagenPrincipal || '/placeholder.png',
+      cantidad: 1,
+      stock: producto.stock
+    });
+  };
 
   const handleWhatsApp = () => {
     const mensaje = `Hola! Me interesa este producto:\n\n*${producto.nombre}*\nPrecio: $${precio.toLocaleString()} COP\nLink: ${window.location.href}`;
@@ -223,6 +237,16 @@ export default function ProductoDetalle({ producto }: Props) {
 
         {/* Botones de acción */}
         <div className="space-y-3">
+          {/* Botón Agregar al Carrito */}
+          <button
+            onClick={handleAddToCart}
+            disabled={!producto.disponible}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            <ShoppingCart size={20} />
+            {producto.disponible ? 'Agregar al Carrito' : 'No Disponible'}
+          </button>
+
           {producto.tienda?.telefono && (
             <button
               onClick={handleWhatsApp}
