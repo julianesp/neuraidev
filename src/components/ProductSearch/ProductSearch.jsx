@@ -224,7 +224,7 @@ export default function ProductSearch() {
                   />
                 </svg>
               </div>
-              <h4>No encontramos "{searchTerm}"</h4>
+              <h4>No encontramos &quot;{searchTerm}&quot;</h4>
               <p>No se encontró ningún producto con ese nombre o descripción.</p>
               <button
                 onClick={handleRequestProduct}
