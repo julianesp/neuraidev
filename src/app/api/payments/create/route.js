@@ -8,6 +8,10 @@ import { createClient } from "@supabase/supabase-js";
  * Documentación: https://docs.epayco.com/docs/checkout-implementacion
  */
 
+// Configuración de runtime para Next.js
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 // Manejar solicitudes OPTIONS para CORS
 export async function OPTIONS(request) {
   return new NextResponse(null, {
