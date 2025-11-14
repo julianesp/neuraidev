@@ -9,8 +9,8 @@ import { createClient } from "@supabase/supabase-js";
  */
 
 // Configuración de runtime para Next.js
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 // Manejar solicitudes OPTIONS para CORS
 export async function OPTIONS(request) {
@@ -19,7 +19,8 @@ export async function OPTIONS(request) {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Admin-Secret",
+      "Access-Control-Allow-Headers":
+        "Content-Type, Authorization, X-Admin-Secret",
     },
   });
 }
@@ -113,9 +114,10 @@ export async function POST(request) {
     const ip = forwarded ? forwarded.split(",")[0] : "186.84.0.0";
 
     // Validar que el documento no esté vacío
-    const documentNumber = customer.document && customer.document.trim() !== ""
-      ? customer.document.trim()
-      : "000000000";
+    const documentNumber =
+      customer.document && customer.document.trim() !== ""
+        ? customer.document.trim()
+        : "000000000";
 
     // Crear sesión de pago con ePayco Smart Checkout v2
     const sessionData = {
