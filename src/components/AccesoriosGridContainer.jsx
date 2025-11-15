@@ -238,7 +238,7 @@ const ModernProductGrid = (props) => {
                             </div>
                           ) : (
                             <Image
-                              src={img || "/images/placeholder.png"}
+                              src={img || "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
                               alt={accesorio.title || accesorio.nombre || "Producto"}
                               fill
                               className="object-contain p-4 group-hover:scale-110 transition-transform duration-500"
@@ -378,7 +378,7 @@ const ModernProductGrid = (props) => {
 
           <div className="relative w-full h-full max-w-6xl max-h-[90vh] flex items-center justify-center">
             <Image
-              src={expandedImage[expandedImageIndex] || "/images/placeholder.png"}
+              src={expandedImage[expandedImageIndex] || "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
               alt="Imagen expandida"
               fill
               className="object-contain"

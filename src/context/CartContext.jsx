@@ -11,11 +11,45 @@ export function CartProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const toast = useToast();
 
-  // Cargar carrito del localStorage al iniciar
+  // Cargar carrito del localStorage al iniciar y migrar productos si es necesario
   useEffect(() => {
     const savedCart = localStorage.getItem('neuraidev_cart');
     if (savedCart) {
-      setCart(JSON.parse(savedCart));
+      const parsedCart = JSON.parse(savedCart);
+
+      // Migrar productos: actualizar imágenes desde Supabase si están vacías
+      const migrateCartItems = async () => {
+        const supabase = getSupabaseBrowserClient();
+        const updatedCart = await Promise.all(
+          parsedCart.map(async (item) => {
+            // Si el item no tiene imagen válida, intentar obtenerla de la BD
+            if (!item.imagen || item.imagen === '' || item.imagen === 'null' || item.imagen === 'undefined' || !item.imagenes) {
+              try {
+                const { data, error } = await supabase
+                  .from('products')
+                  .select('imagenes, imagen')
+                  .eq('id', item.id)
+                  .single();
+
+                if (!error && data) {
+                  return {
+                    ...item,
+                    imagen: data.imagenes?.[0] || data.imagen || null,
+                    imagenes: data.imagenes || (data.imagen ? [data.imagen] : [])
+                  };
+                }
+              } catch (err) {
+                console.error('Error al migrar imagen del producto:', err);
+              }
+            }
+            return item;
+          })
+        );
+
+        setCart(updatedCart);
+      };
+
+      migrateCartItems();
     }
   }, []);
 
@@ -95,7 +129,8 @@ export function CartProvider({ children }) {
           id: producto.id,
           nombre: producto.nombre,
           precio: producto.precio,
-          imagen: producto.imagen,
+          imagen: producto.imagenes?.[0] || producto.imagen || null,
+          imagenes: producto.imagenes || (producto.imagen ? [producto.imagen] : []),
           cantidad,
           variacion,
           categoria: producto.categoria,

@@ -57,7 +57,7 @@ export default function ProductoDetalle({ producto }: Props) {
       id: producto.id,
       nombre: producto.nombre,
       precio: precio,
-      imagen: producto.imagenPrincipal || '/placeholder.png',
+      imagen: producto.imagenPrincipal || 'https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen',
       cantidad: 1,
       stock: producto.stock
     });

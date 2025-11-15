@@ -5,7 +5,9 @@ import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import Image from "next/image";
-import EpaycoCheckout from "./EpaycoCheckout";
+import { getProductImage } from "@/lib/constants";
+// TEMPORALMENTE DESHABILITADO: ePayco
+// import EpaycoCheckout from "./EpaycoCheckout";
 
 export default function ShoppingCart() {
   const {
@@ -18,7 +20,8 @@ export default function ShoppingCart() {
     clearCart,
   } = useCart();
   const toast = useToast();
-  const [showCheckout, setShowCheckout] = useState(false);
+  // TEMPORALMENTE DESHABILITADO: ePayco
+  // const [showCheckout, setShowCheckout] = useState(false);
 
   const handleCheckout = () => {
     if (cart.length === 0) {
@@ -114,13 +117,20 @@ export default function ShoppingCart() {
                   className="flex gap-3 p-3 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
                 >
                   {/* Imagen del producto */}
-                  <div className="relative w-20 h-20 flex-shrink-0">
-                    <Image
-                      src={item.imagen && typeof item.imagen === 'string' && item.imagen.trim() !== "" ? item.imagen : "/placeholder.png"}
-                      alt={item.nombre}
-                      fill
-                      className="object-cover rounded-md"
-                    />
+                  <div className="relative w-20 h-20 flex-shrink-0 bg-gray-100 rounded-md">
+                    {(() => {
+                      const imageSrc = getProductImage(item);
+                      const isDataUri = imageSrc && typeof imageSrc === 'string' && imageSrc.startsWith('data:');
+                      return (
+                        <Image
+                          src={imageSrc}
+                          alt={item.nombre}
+                          fill
+                          className="object-cover rounded-md"
+                          unoptimized={isDataUri}
+                        />
+                      );
+                    })()}
                   </div>
 
                   {/* Información del producto */}
@@ -201,8 +211,8 @@ export default function ShoppingCart() {
               </span>
             </div>
 
-            {/* Mostrar checkout o botones de pago */}
-            {showCheckout ? (
+            {/* TEMPORALMENTE DESHABILITADO: ePayco checkout */}
+            {/* {showCheckout ? (
               <div>
                 <button
                   onClick={() => setShowCheckout(false)}
@@ -212,10 +222,10 @@ export default function ShoppingCart() {
                 </button>
                 <EpaycoCheckout onClose={() => setShowCheckout(false)} />
               </div>
-            ) : (
+            ) : ( */}
               <>
-                {/* Botón de pago con ePayco */}
-                <button
+                {/* TEMPORALMENTE DESHABILITADO: Botón de pago con ePayco */}
+                {/* <button
                   onClick={() => setShowCheckout(true)}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
@@ -227,7 +237,7 @@ export default function ShoppingCart() {
                     <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
                   </svg>
                   Pagar con Tarjeta/PSE
-                </button>
+                </button> */}
 
                 {/* Botón de pago por WhatsApp */}
                 <button
@@ -254,7 +264,7 @@ export default function ShoppingCart() {
                   Vaciar Carrito
                 </button>
               </>
-            )}
+            {/* )} */}
           </div>
         )}
       </div>

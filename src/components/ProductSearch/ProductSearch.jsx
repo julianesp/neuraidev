@@ -160,7 +160,7 @@ export default function ProductSearch() {
                 <div key={`${product.sourceFile || product.categoria}-${product.id}-${index}`} className={styles.resultItem}>
                   <div className={styles.productImage}>
                     <Image
-                      src={product.imagenPrincipal || product.imagenes?.[0]?.url || '/placeholder.png'}
+                      src={product.imagenPrincipal || product.imagenes?.[0]?.url || 'https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen'}
                       alt={product.nombre}
                       width={80}
                       height={80}

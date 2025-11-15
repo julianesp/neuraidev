@@ -16,7 +16,7 @@ export default function ProductoLista({ productos }) {
             <Image
               src={
                 producto.images?.[0] ||
-                "/images/placeholder.png"
+                "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"
               }
               alt={producto.title}
               className="object-cover rounded"

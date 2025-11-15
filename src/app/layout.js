@@ -108,11 +108,11 @@ export default function RootLayout({ children }) {
           `}
           </Script>
 
-          {/* ePayco Smart Checkout v2 */}
-          <Script
+          {/* TEMPORALMENTE DESHABILITADO: ePayco Smart Checkout v2 */}
+          {/* <Script
             src="https://checkout.epayco.co/checkout-v2.js"
             strategy="lazyOnload"
-          />
+          /> */}
         </head>
 
         <body>

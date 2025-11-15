@@ -252,7 +252,12 @@ export default function Inicio() {
       </Head>
       <main
         className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}
-        style={{ margin: 0, padding: 0, overflowX: 'hidden', maxWidth: '100vw' }}
+        style={{
+          margin: 0,
+          padding: 0,
+          overflowX: "hidden",
+          maxWidth: "100vw",
+        }}
       >
         {/* Modal para envio gratis */}
         {/* <SideModal /> */}
@@ -322,7 +327,10 @@ export default function Inicio() {
               ref={celularesRef}
               className={`${styles.tipo} ${styles.fadeInLeft} `}
               style={{
-                backgroundImage: "url('/images/celulares-placeholder.png')",
+                backgroundImage:
+                  "url('https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/charger%20fast%2020w/1.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             >
               <h2 className="text-white dark:text-white">Celulares</h2>
@@ -340,7 +348,10 @@ export default function Inicio() {
               ref={computadoresRef}
               className={`${styles.tipo} ${styles.fadeInRight}`}
               style={{
-                backgroundImage: "url('/images/computadores-placeholder.png')",
+                backgroundImage:
+                  "url('https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/mouse%20usb%20-%20blutu/1.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             >
               <h2 className="text-white dark:text-white">Computadores</h2>
@@ -358,7 +369,10 @@ export default function Inicio() {
               ref={damasRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
               style={{
-                backgroundImage: "url('/images/damas-placeholder.png')",
+                backgroundImage:
+                  "url('https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/damas/brochas/2.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             >
               <h2 className="text-white dark:text-white">Damas</h2>
@@ -376,7 +390,10 @@ export default function Inicio() {
               ref={librosNuevosRef}
               className={`${styles.tipo} ${styles.fadeInRight}`}
               style={{
-                backgroundImage: "url('/images/libros-nuevos-placeholder.png')",
+                backgroundImage:
+                  "url('https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/elon/480668319_122204420066083804_3713515218081717544_n.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             >
               <h2 className="text-white dark:text-white">Libros nuevos</h2>
@@ -394,7 +411,10 @@ export default function Inicio() {
               ref={librosUsadosRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
               style={{
-                backgroundImage: "url('/images/libros-usados-placeholder.png')",
+                backgroundImage:
+                  "url(https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/1.jpg)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             >
               <h2 className="text-white dark:text-white">Libros usados</h2>
@@ -412,7 +432,10 @@ export default function Inicio() {
               ref={accesoriosRef}
               className={`${styles.tipo} ${styles.fadeInLeft}`}
               style={{
-                backgroundImage: "url('/images/generales-placeholder.png')",
+                backgroundImage:
+                  "url(https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/dron/1.jpg)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             >
               <h2 className="text-white dark:text-white">Generales</h2>

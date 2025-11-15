@@ -119,7 +119,7 @@ export default function AccesoriosDestacadosPage() {
                       accesorio.imagenPrincipal ||
                       (accesorio.imagenes && accesorio.imagenes.length > 0
                         ? accesorio.imagenes[0].url
-                        : "/images/placeholder.png")
+                        : "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen")
                     }
                     alt={accesorio.nombre}
                     fill={true}

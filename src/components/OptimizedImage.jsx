@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { PLACEHOLDER_IMAGE, getProductImage } from "@/lib/constants";
 
 /**
  * Componente de imagen optimizado con configuración SEO y performance
@@ -50,12 +51,7 @@ export default function OptimizedImage({
  * Componente de imagen para productos con configuración específica
  */
 export function ProductImage({ producto, alt, className = "", ...props }) {
-  const imageSrc =
-    producto.imagen_principal ||
-    producto.imagenPrincipal ||
-    (producto.imagenes && producto.imagenes.length > 0
-      ? producto.imagenes[0]
-      : "/images/placeholder.png");
+  const imageSrc = getProductImage(producto);
 
   const altText =
     alt || `${producto.nombre} - ${producto.categoria} en Neurai.dev`;
@@ -67,6 +63,7 @@ export function ProductImage({ producto, alt, className = "", ...props }) {
       width={800}
       height={600}
       className={className}
+      unoptimized={imageSrc.startsWith('data:')}
       {...props}
     />
   );
@@ -85,11 +82,12 @@ export function CategoryImage({
 
   return (
     <OptimizedImage
-      src={`/images/${category}-placeholder.png`}
+      src={PLACEHOLDER_IMAGE}
       alt={altText}
       width={300}
       height={200}
       className={className}
+      unoptimized
       {...props}
     />
   );
