@@ -20,13 +20,13 @@ export const metadata = {
 export default function Blog() {
   const articles = [
     {
-      slug: "como-elegir-celular-2025",
-      title: "Cómo Elegir el Mejor Celular en 2025: Guía Completa",
-      excerpt: "Descubre los factores clave para elegir el smartphone perfecto según tu presupuesto y necesidades. Aprende sobre procesadores, cámaras, batería y más.",
+      slug: "como-elegir-computador-2025",
+      title: "Cómo Elegir el Mejor Computador en 2025: Guía Completa",
+      excerpt: "Descubre los factores clave para elegir el computador perfecto según tu presupuesto y necesidades. Aprende sobre procesadores, tarjetas gráficas, almacenamiento, RAM y más.",
       category: "Guías de Compra",
       date: "2025-01-15",
-      readTime: "8 min",
-      image: "/images/blog/celular-2025.jpg",
+      readTime: "14 min",
+      image: "/images/blog/como-elegir-computador-2025.jpg",
     },
     {
       slug: "mantenimiento-computador-guia-completa",

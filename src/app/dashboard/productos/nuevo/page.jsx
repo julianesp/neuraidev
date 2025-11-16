@@ -18,7 +18,6 @@ export default function NuevoProductoPage() {
     marca: "",
     stock: 0,
     sku: "",
-    activo: true,
     disponible: true,
     destacado: false,
     garantia: 1,
@@ -333,17 +332,6 @@ export default function NuevoProductoPage() {
                 Estados
               </h2>
               <div className="space-y-3">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    name="activo"
-                    checked={formData.activo}
-                    onChange={handleChange}
-                    className="w-4 h-4 text-blue-600 rounded"
-                  />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Activo</span>
-                </label>
-
                 <label className="flex items-center gap-2">
                   <input
                     type="checkbox"
