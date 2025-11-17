@@ -3,44 +3,26 @@ import Head from 'next/head';
 const ProductMetaTags = ({ product, category }) => {
   if (!product) return null;
 
-  // Generar URL de imagen OG dinámica
+  // Obtener imagen del producto o logo por defecto
   const getOGImageUrl = () => {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://neuraidev.vercel.app';
-    const ogParams = new URLSearchParams();
-    
-    // Parámetros para la imagen OG
-    ogParams.set('title', product.nombre || 'Producto');
-    
-    if (product.precio) {
-      const priceStr = typeof product.precio === 'number' 
-        ? product.precio.toLocaleString('es-CO')
-        : product.precio.toString();
-      ogParams.set('price', priceStr);
-    }
-    
-    if (product.descripcion) {
-      // Limpiar descripción de emojis para la imagen
-      const cleanDescription = product.descripcion
-        .replace(/[^\w\s\-.,áéíóúñü]/gi, '')
-        .trim();
-      ogParams.set('description', cleanDescription);
-    }
-    
-    if (category) {
-      ogParams.set('category', category);
-    }
-    
-    // Incluir imagen del producto si existe
+    // Logo por defecto del sitio
+    const defaultLogo = 'https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png';
+
+    // Si hay imagen principal del producto, usarla
     if (product.imagenPrincipal) {
-      ogParams.set('image', product.imagenPrincipal);
-    } else if (product.imagenes && product.imagenes.length > 0) {
+      return product.imagenPrincipal;
+    }
+
+    // Si hay imágenes en el array, usar la primera
+    if (product.imagenes && product.imagenes.length > 0) {
       const firstImage = typeof product.imagenes[0] === 'object' && product.imagenes[0].url
         ? product.imagenes[0].url
         : product.imagenes[0];
-      ogParams.set('image', firstImage);
+      return firstImage;
     }
-    
-    return `${baseUrl}/api/og?${ogParams.toString()}`;
+
+    // Si no hay imagen del producto, usar el logo del sitio
+    return defaultLogo;
   };
 
   // Generar descripción optimizada
@@ -77,16 +59,18 @@ const ProductMetaTags = ({ product, category }) => {
 
   // Obtener URL actual
   const getCurrentUrl = () => {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.neurai.dev';
     if (typeof window !== 'undefined') {
       return window.location.href;
     }
-    return `${process.env.NEXT_PUBLIC_SITE_URL || 'https://neuraidev.vercel.app'}`;
+    // Si no hay window, construir URL manualmente
+    return baseUrl;
   };
 
   const ogImageUrl = getOGImageUrl();
   const productDescription = getProductDescription();
   const currentUrl = getCurrentUrl();
-  const siteName = "NeuraIdev";
+  const siteName = "neurai.dev";
   const productTitle = `${product.nombre} | ${siteName}`;
 
   return (
@@ -97,16 +81,18 @@ const ProductMetaTags = ({ product, category }) => {
       <meta name="keywords" content={`${product.nombre}, ${category || 'accesorios'}, ${product.marca || ''}, productos, tecnología`} />
       
       {/* Open Graph Meta Tags (Facebook, WhatsApp, etc.) */}
+      <meta property="og:url" content={currentUrl} />
+      <meta property="og:type" content="product" />
       <meta property="og:title" content={product.nombre} />
       <meta property="og:description" content={productDescription} />
+      <meta property="og:site_name" content={siteName} />
+      <meta property="og:locale" content="es_CO" />
       <meta property="og:image" content={ogImageUrl} />
+      <meta property="og:image:secure_url" content={ogImageUrl} />
+      <meta property="og:image:type" content="image/png" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={product.nombre} />
-      <meta property="og:url" content={currentUrl} />
-      <meta property="og:type" content="product" />
-      <meta property="og:site_name" content={siteName} />
-      <meta property="og:locale" content="es_ES" />
       
       {/* Información adicional del producto */}
       {product.precio && (
@@ -129,9 +115,6 @@ const ProductMetaTags = ({ product, category }) => {
       <meta name="twitter:description" content={productDescription} />
       <meta name="twitter:image" content={ogImageUrl} />
       <meta name="twitter:image:alt" content={product.nombre} />
-      
-      {/* WhatsApp específico (usa Open Graph) */}
-      <meta property="og:image:type" content="image/jpeg" />
       
       {/* Schema.org structured data para mejor SEO */}
       <script
