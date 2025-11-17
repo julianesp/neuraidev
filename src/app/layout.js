@@ -24,11 +24,11 @@ export const metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev",
   ),
   title: {
-    default: "neurai.dev - Tienda de Accesorios y Servicios",
+    default: "neurai.dev - Tienda de Accesorios y Servicios Profesionales",
     template: "%s | neurai.dev",
   },
   description:
-    "Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales en desarrollo de software y técnico en sistemas.",
+    "Tienda de accesorios y servicios profesionales en desarrollo de software y técnico en sistemas.",
   keywords: [
     "accesorios",
     "Valle de Sibundoy",
@@ -43,15 +43,26 @@ export const metadata = {
     locale: "es_CO",
     url: "https://neurai.dev",
     siteName: "neurai.dev",
-    title: "neurai.dev - Tienda de Accesorios y Servicios",
+    title: "neurai.dev - Tienda de Accesorios y Servicios Profesionales",
     description:
-      "Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales.",
+      "Tienda de accesorios y servicios profesionales.",
+    images: [
+      {
+        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "neurai.dev - Tienda Online",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "neurai.dev - Tienda de Accesorios y Servicios",
+    title: "neurai.dev - Tienda de Accesorios y Servicios Profesionales",
     description:
-      "Tienda de accesorios, noticias del Valle de Sibundoy y servicios profesionales.",
+      "Tienda de accesorios y servicios profesionales.",
+    images: [
+      "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+    ],
   },
   robots: {
     index: true,

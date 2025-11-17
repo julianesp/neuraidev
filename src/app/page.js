@@ -3,12 +3,12 @@ import Home from "@/components/Home/page";
 export const metadata = {
   title: "Neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
   description:
-    "Compra celulares, computadoras, accesorios y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas. Envíos a toda Colombia.",
+    "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
   keywords:
     "tienda online, celulares, computadoras, accesorios tecnológicos, desarrollo web, soporte técnico, Colombia, libros, damas, belleza, generales",
-  authors: [{ name: "Neurai.dev" }],
-  creator: "Neurai.dev",
-  publisher: "Neurai.dev",
+  authors: [{ name: "neurai.dev" }],
+  creator: "neurai.dev",
+  publisher: "neurai.dev",
   formatDetection: {
     email: false,
     address: false,
@@ -19,11 +19,11 @@ export const metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
+    title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
-      "Compra celulares, computadoras, accesorios y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
+      "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
     url: "https://www.neurai.dev",
-    siteName: "Neurai.dev",
+    siteName: "neurai.dev",
     locale: "es_CO",
     type: "website",
     images: [
@@ -31,13 +31,13 @@ export const metadata = {
         url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
         width: 1200,
         height: 630,
-        alt: "Neurai.dev - Tienda Online",
+        alt: "neurai.dev - Tienda Online",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Neurai.dev | Tienda Online de Tecnología",
+    title: "neurai.dev | Tienda Online de Tecnología",
     description:
       "Compra celulares, computadoras, accesorios y más. Servicios profesionales de desarrollo web y soporte técnico.",
     images: [

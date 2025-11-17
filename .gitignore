@@ -58,3 +58,6 @@ cookies.txt
 #vercel
 .env.vercel
 .env.vercel.*
+
+#hidding files od guide
+*.md
