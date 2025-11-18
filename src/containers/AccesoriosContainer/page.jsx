@@ -5,7 +5,6 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, MessageCircle, Eye } from "lucide-react";
-import Head from "next/head"; // Importar Head para SEO
 import styles from "./AccesoriosContainer.module.scss"; // Importamos estilos SCSS
 import {
   generateProductSlug,
@@ -13,7 +12,7 @@ import {
   getCategorySlug,
 } from "../../utils/slugify";
 import ShareButton from "../../components/ShareButton";
-import ProductMetaTags from "../../components/ProductMetaTags";
+// import ProductMetaTags from "../../components/ProductMetaTags"; // REMOVIDO: Causa conflictos con generateMetadata
 import PriceWithDiscount from "../../components/PriceWithDiscount";
 import AddToCartButton from "../../components/AddToCartButton";
 import ProductSchema from "../../components/ProductSchema";
@@ -571,8 +570,7 @@ const AccesoriosContainer = ({
 
   return (
     <>
-      {/* Meta tags para redes sociales */}
-      <ProductMetaTags product={accesorio} category={categorySlug} />
+      {/* Meta tags ahora se manejan en generateMetadata() de las páginas */}
       {/* Schema.org para SEO */}
       <ProductSchema producto={accesorio} />
       {/* max-w-4xl */}

@@ -126,22 +126,24 @@ export async function generateProductMetadata(slug, categoria) {
   const imagenPrincipal = producto.imagen_principal ||
     (producto.imagenes && producto.imagenes.length > 0 ? producto.imagenes[0] : null);
 
+  // Si no hay imagen del producto, usar el logo del sitio
+  const logoSitio = 'https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png';
+  const imagenFinal = imagenPrincipal || logoSitio;
+
   const imagenesParaMetadata = [
-    ...(imagenPrincipal
-      ? [
-          {
-            url: imagenPrincipal,
-            width: 800,
-            height: 600,
-            alt: producto.nombre,
-          },
-        ]
-      : []),
-    ...imagenesAdicionales.slice(0, 3).map((img) => ({
+    {
+      url: imagenFinal,
+      width: 1200,
+      height: 630,
+      alt: producto.nombre,
+      type: 'image/png',
+    },
+    ...imagenesAdicionales.slice(0, 2).map((img) => ({
       url: img.url,
-      width: 800,
-      height: 600,
+      width: 1200,
+      height: 630,
       alt: img.alt || producto.nombre,
+      type: 'image/png',
     })),
   ];
 
@@ -149,33 +151,37 @@ export async function generateProductMetadata(slug, categoria) {
   const canonicalUrl = `https://www.neurai.dev/accesorios/${producto.categoria}/${slug}`;
 
   return {
-    title: `${producto.nombre} | Neurai.dev`,
+    title: `${producto.nombre} | neurai.dev`,
     description: descripcionLimpia,
-    keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca || "Neurai.dev"}, comprar, ${producto.condicion || "nuevo"}`,
+    keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca || "neurai.dev"}, comprar, ${producto.condicion || "nuevo"}`,
+    authors: [{ name: "neurai.dev" }],
+    creator: "neurai.dev",
+    publisher: "neurai.dev",
+    metadataBase: new URL("https://www.neurai.dev"),
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `${producto.nombre} | Neurai.dev`,
+      title: producto.nombre,
       description: descripcionLimpia,
-      type: "website",
-      siteName: "Neurai.dev",
-      locale: "es_ES",
+      type: "product",
+      siteName: "neurai.dev",
+      locale: "es_CO",
       url: canonicalUrl,
       images: imagenesParaMetadata,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${producto.nombre} | Neurai.dev`,
+      title: producto.nombre,
       description: descripcionLimpia,
-      images: imagenPrincipal ? [imagenPrincipal] : [],
+      images: [imagenFinal],
     },
     other: {
       "product:price:amount": precio.toString(),
       "product:price:currency": "COP",
       "product:availability": producto.disponible ? "in stock" : "out of stock",
       "product:condition": producto.condicion || "nuevo",
-      "product:brand": producto.marca || "Neurai.dev",
+      "product:brand": producto.marca || "neurai.dev",
       "product:category": producto.categoria,
     },
   };
