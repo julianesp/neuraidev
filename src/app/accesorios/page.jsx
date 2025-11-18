@@ -13,7 +13,7 @@ export const metadata = {
     title: "Accesorios y Productos | Tienda Online Neurai.dev",
     description:
       "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos de belleza, libros nuevos y usados.",
-    url: "https://www.neurai.dev/accesorios",
+    url: "https://neurai.dev/accesorios",
     type: "website",
     images: [
       {

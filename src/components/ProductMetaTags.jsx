@@ -59,7 +59,7 @@ const ProductMetaTags = ({ product, category }) => {
 
   // Obtener URL actual
   const getCurrentUrl = () => {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.neurai.dev';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://neurai.dev';
     if (typeof window !== 'undefined') {
       return window.location.href;
     }

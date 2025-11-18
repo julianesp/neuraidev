@@ -25,7 +25,7 @@ export default function Breadcrumbs({ items = [] }) {
       "@type": "ListItem",
       "position": index + 1,
       "name": item.name,
-      "item": `https://www.neurai.dev${item.url}`
+      "item": `https://neurai.dev${item.url}`
     }))
   };
 

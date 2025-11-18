@@ -49,7 +49,7 @@ export function generateCategoryMetadata(categoria) {
     keywords: `${categoria}, accesorios, Valle de Sibundoy, Putumayo`,
   };
 
-  const canonicalUrl = `https://www.neurai.dev/accesorios/${categoria}`;
+  const canonicalUrl = `https://neurai.dev/accesorios/${categoria}`;
 
   return {
     title: `${info.title} | Neurai.dev`,
@@ -67,7 +67,7 @@ export function generateCategoryMetadata(categoria) {
       url: canonicalUrl,
       images: [
         {
-          url: "https://www.neurai.dev/images/og-image.jpg",
+          url: "https://neurai.dev/images/og-image.jpg",
           width: 1200,
           height: 630,
           alt: `${info.title} - Neurai.dev`,

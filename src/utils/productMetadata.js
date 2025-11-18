@@ -148,7 +148,7 @@ export async function generateProductMetadata(slug, categoria) {
   ];
 
   // URL canónica consistente (con www)
-  const canonicalUrl = `https://www.neurai.dev/accesorios/${producto.categoria}/${slug}`;
+  const canonicalUrl = `https://neurai.dev/accesorios/${producto.categoria}/${slug}`;
 
   return {
     title: `${producto.nombre} | neurai.dev`,
@@ -157,7 +157,7 @@ export async function generateProductMetadata(slug, categoria) {
     authors: [{ name: "neurai.dev" }],
     creator: "neurai.dev",
     publisher: "neurai.dev",
-    metadataBase: new URL("https://www.neurai.dev"),
+    metadataBase: new URL("https://neurai.dev"),
     alternates: {
       canonical: canonicalUrl,
     },

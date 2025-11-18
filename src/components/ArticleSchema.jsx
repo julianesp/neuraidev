@@ -22,13 +22,13 @@ export default function ArticleSchema({
     "@type": "BlogPosting",
     "headline": title,
     "description": description || title,
-    "image": image || "https://www.neurai.dev/images/logo.png",
+    "image": image || "https://neurai.dev/images/logo.png",
     "datePublished": datePublished || new Date().toISOString(),
     "dateModified": dateModified || datePublished || new Date().toISOString(),
     "author": {
       "@type": "Person",
       "name": author,
-      "url": "https://www.neurai.dev/sobre-nosotros",
+      "url": "https://neurai.dev/sobre-nosotros",
     },
     "publisher": {
       "@type": "Organization",
@@ -42,7 +42,7 @@ export default function ArticleSchema({
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://www.neurai.dev${url}`,
+      "@id": `https://neurai.dev${url}`,
     },
     ...(category && { "articleSection": category }),
     ...(readTime && { "timeRequired": `PT${readTime}M` }),

@@ -31,10 +31,10 @@ export default function ProductSchema({ producto }) {
       "@type": "Brand",
       name: producto.marca || "Neurai.dev",
     },
-    image: imagenPrincipal || "https://www.neurai.dev/images/logo.png",
+    image: imagenPrincipal || "https://neurai.dev/images/logo.png",
     offers: {
       "@type": "Offer",
-      url: `https://www.neurai.dev/accesorios/${producto.categoria}/${generateSlug(producto.nombre)}`,
+      url: `https://neurai.dev/accesorios/${producto.categoria}/${generateSlug(producto.nombre)}`,
       priceCurrency: "COP",
       price: precio.toFixed(2),
       availability: producto.disponible
@@ -48,7 +48,7 @@ export default function ProductSchema({ producto }) {
       seller: {
         "@type": "Organization",
         name: "Neurai.dev",
-        url: "https://www.neurai.dev",
+        url: "https://neurai.dev",
       },
     },
     ...(producto.caracteristicas && {

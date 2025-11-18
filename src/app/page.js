@@ -14,7 +14,7 @@ export const metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://www.neurai.dev"),
+  metadataBase: new URL("https://neurai.dev"),
   alternates: {
     canonical: "/",
   },
@@ -22,7 +22,7 @@ export const metadata = {
     title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
       "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
-    url: "https://www.neurai.dev",
+    url: "https://neurai.dev",
     siteName: "neurai.dev",
     locale: "es_CO",
     type: "website",
