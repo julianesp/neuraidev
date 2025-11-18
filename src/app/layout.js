@@ -20,15 +20,13 @@ import ShoppingCart from "../components/ShoppingCart";
 import AIChat from "../components/AIChat/AIChat";
 
 export const metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev",
-  ),
+  metadataBase: new URL("https://neurai.dev"),
   title: {
-    default: "neurai.dev - Tienda de Accesorios y Servicios Profesionales",
+    default: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     template: "%s | neurai.dev",
   },
   description:
-    "Tienda de accesorios y servicios profesionales en desarrollo de software y técnico en sistemas.",
+    "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
   keywords: [
     "accesorios",
     "Valle de Sibundoy",
@@ -36,40 +34,126 @@ export const metadata = {
     "desarrollo software",
     "técnico sistemas",
     "Putumayo",
+    "tienda tecnología",
+    "Colombia",
+    "neurai.dev",
+    "servicios profesionales",
+    "tienda online",
+    "accesorios tecnológicos",
+    "soporte técnico",
+    "computadores",
+    "celulares",
+    "periféricos",
+    "hardware",
+    "software",
+    "libros",
+    "ofertas tecnología",
   ],
   authors: [{ name: "neurai.dev" }],
-  openGraph: {
-    type: "website",
-    locale: "es_CO",
-    url: "https://neurai.dev",
-    siteName: "neurai.dev",
-    title: "neurai.dev - Tienda de Accesorios y Servicios Profesionales",
-    description:
-      "Tienda de accesorios y servicios profesionales.",
-    images: [
+  creator: "neurai.dev",
+  publisher: "neurai.dev",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
       {
-        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
-        secureUrl: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "neurai.dev - Tienda Online",
+        url: "/web-app-manifest-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: "/web-app-manifest-512x512.png",
+        sizes: "512x512",
         type: "image/png",
       },
     ],
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "neurai.dev",
+  },
+  openGraph: {
+    title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
+    description:
+      "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
+    url: "https://neurai.dev/",
+    siteName: "neurai.dev",
+    images: [
+      {
+        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+        secureUrl:
+          "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
+        type: "image/png",
+      },
+    ],
+    type: "website",
+    locale: "es_CO",
+  },
+  facebook: {
+    appId: "1523421535545212",
+  },
   twitter: {
     card: "summary_large_image",
-    title: "neurai.dev - Tienda de Accesorios y Servicios Profesionales",
+    title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
-      "Tienda de accesorios y servicios profesionales.",
+      "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
     images: [
-      "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+      {
+        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+        alt: "neurai.dev",
+      },
     ],
+    creator: "@neuraidev",
+    site: "@neuraidev",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
+  other: {
+    "apple-mobile-web-app-title": "neurai.dev",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "twitter:domain": "neurai.dev",
+    "twitter:url": "https://neurai.dev/",
+    "geo.region": "CO-PUT",
+    "geo.placename": "Valle de Sibundoy, Putumayo",
+    "geo.position": "1.1333;-76.9",
+    ICBM: "1.1333, -76.9",
+  },
+  manifest: "/manifest.json",
+};
+
+export const viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({ children }) {
