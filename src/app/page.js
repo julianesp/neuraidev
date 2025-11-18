@@ -29,9 +29,11 @@ export const metadata = {
     images: [
       {
         url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+        secureUrl: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
         width: 1200,
         height: 630,
         alt: "neurai.dev - Tienda Online",
+        type: "image/png",
       },
     ],
   },
