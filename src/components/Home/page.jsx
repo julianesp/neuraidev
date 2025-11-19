@@ -306,19 +306,23 @@ export default function Inicio() {
           className={`${styles.accesories} ${styles.fadeInUp}`}
         >
           <section className={styles.varios}>
-            <h1 id="accesories" className={`${styles.accesoriesTitle} `}>
+            <h1
+              id="accesories"
+              className={`${styles.accesoriesTitle} `}
+              data-aos="fade-up"
+            >
               <Link
                 href="/accesorios/"
                 className="text-black border-solid border-black border-2 rounded-xl p-2  dark:text-white dark:bg-dark dark:border-white"
                 title="Ver página de accesorios"
-                target="_blankw"
+                target="_blank"
               >
                 Accesorios
               </Link>
             </h1>
 
             {/* Buscador de productos */}
-            <div className={styles.searchWrapper}>
+            <div className={styles.searchWrapper} data-aos="fade-up">
               <ProductSearch />
             </div>
 

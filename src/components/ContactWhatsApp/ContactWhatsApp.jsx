@@ -94,7 +94,10 @@ Hola, me gustaría obtener información sobre este producto:
     <section
       className={`${styles.contactSection} ${styles.fadeInUp} dark:bg-gray-900 dark:backdrop `}
     >
-      <div className={`${styles.container} dark:bg-gray-900 dark:backdrop`}>
+      <div
+        className={`${styles.container} dark:bg-gray-900 dark:backdrop`}
+        data-aos="fade-up"
+      >
         <div className={styles.header}>
           <h2 className={`${styles.title} dark:text-white`}>
             ¿Falta el producto que buscabas?
@@ -108,13 +111,18 @@ Hola, me gustaría obtener información sobre este producto:
           <div className={styles.formGrid}>
             {/* Campo Nombre */}
             <div className={styles.formGroup}>
-              <label htmlFor="nombre" className={styles.label}>
+              <label
+                htmlFor="nombre"
+                className={styles.label}
+                data-aos="fade-right"
+              >
                 Nombre completo <span className={styles.required}>*</span>
               </label>
               <input
                 type="text"
                 id="nombre"
                 name="nombre"
+                data-aos="fade-right"
                 value={formData.nombre}
                 onChange={handleChange}
                 className={`${styles.input} ${
@@ -129,13 +137,14 @@ Hola, me gustaría obtener información sobre este producto:
 
             {/* Campo Teléfono */}
             <div className={styles.formGroup}>
-              <label htmlFor="telefono" className={styles.label}>
+              <label htmlFor="telefono" className={styles.label} data-aos="fade-left">
                 Teléfono / WhatsApp <span className={styles.required}>*</span>
               </label>
               <input
                 type="tel"
                 id="telefono"
                 name="telefono"
+                data-aos="fade-left"
                 value={formData.telefono}
                 onChange={handleChange}
                 className={`${styles.input} ${
@@ -151,7 +160,7 @@ Hola, me gustaría obtener información sobre este producto:
 
           {/* Campo Producto */}
           <div className={styles.formGroup}>
-            <label htmlFor="producto" className={styles.label}>
+            <label htmlFor="producto" className={styles.label} data-aos="fade-up">
               Producto de interés <span className={styles.required}>*</span>
             </label>
             <select
@@ -159,6 +168,7 @@ Hola, me gustaría obtener información sobre este producto:
               name="producto"
               value={formData.producto}
               onChange={handleChange}
+              data-aos="fade-up"
               className={`${styles.select} ${
                 errors.producto ? styles.inputError : ""
               }`}
@@ -183,14 +193,16 @@ Hola, me gustaría obtener información sobre este producto:
 
           {/* Campo Mensaje Adicional */}
           <div className={styles.formGroup}>
-            <label htmlFor="mensaje" className={styles.label}>
-              Cuéntame acerca de tu producto <span className={styles.required}>*</span>
+            <label htmlFor="mensaje" className={styles.label} data-aos="fade-up">
+              Cuéntame acerca de tu producto{" "}
+              <span className={styles.required}>*</span>
             </label>
             <textarea
               id="mensaje"
               name="mensaje"
               value={formData.mensaje}
               onChange={handleChange}
+              data-aos="fade-up"
               className={`${styles.textarea} ${
                 errors.mensaje ? styles.inputError : ""
               }`}
@@ -203,7 +215,7 @@ Hola, me gustaría obtener información sobre este producto:
           </div>
 
           {/* Botón de envío */}
-          <button type="submit" className={styles.submitButton}>
+          <button type="submit" className={styles.submitButton} data-aos="zoom-in">
             <svg
               className={styles.whatsappIcon}
               viewBox="0 0 24 24"

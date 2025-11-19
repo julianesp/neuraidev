@@ -7,7 +7,14 @@ import "aos/dist/aos.css";
 /**
  * AOSInit - Componente que inicializa las animaciones AOS (Animate On Scroll)
  * Este componente debe ser incluido en el layout principal para habilitar
- * las animaciones parallax en todo el sitio
+ * las animaciones en todo el sitio
+ *
+ * Uso en componentes:
+ * <div data-aos="fade-up">Contenido</div>
+ * <div data-aos="fade-down">Contenido</div>
+ * <div data-aos="zoom-in">Contenido</div>
+ *
+ * Más efectos disponibles en: https://michalsnik.github.io/aos/
  */
 export default function AOSInit() {
   useEffect(() => {

@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar";
 import Footer from "../containers/Footer";
 import SplashScreen from "../components/SplashScreen";
 import StructuredData from "../components/StructuredData";
+import AOSInit from "../components/AOSInit";
 import "./globals.css";
 // import "@/styles/darkMode.scss";
 // import "../styles/components/pages/darkMode.scss";
@@ -22,7 +23,8 @@ import AIChat from "../components/AIChat/AIChat";
 export const metadata = {
   metadataBase: new URL("https://neurai.dev"),
   title: {
-    default: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
+    default:
+      "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     template: "%s | neurai.dev",
   },
   description:
@@ -214,8 +216,10 @@ export default function RootLayout({ children }) {
 
         <body>
           <StructuredData />
+          <AOSInit />
           <ClerkProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <AOSInit />
               <ToastProvider>
                 <CartProvider>
                   {/*
