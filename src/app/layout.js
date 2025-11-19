@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar/page";
 import Footer from "../containers/Footer";
 import SplashScreen from "../components/SplashScreen";
 import StructuredData from "../components/StructuredData";
@@ -44,8 +44,7 @@ export const metadata = {
     url: "https://neurai.dev",
     siteName: "neurai.dev",
     title: "neurai.dev - Tienda de Accesorios y Servicios Profesionales",
-    description:
-      "Tienda de accesorios y servicios profesionales.",
+    description: "Tienda de accesorios y servicios profesionales.",
     images: [
       {
         url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
@@ -58,8 +57,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "neurai.dev - Tienda de Accesorios y Servicios Profesionales",
-    description:
-      "Tienda de accesorios y servicios profesionales.",
+    description: "Tienda de accesorios y servicios profesionales.",
     images: [
       "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
     ],
