@@ -2,9 +2,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import styles from "../styles/components/NavBar.module.scss";
-import ThemeSwitcher from "./ThemeSwitcher";
-import StoreStatus from "./StoreStatus";
+import styles from "@/components/NavBar/NavBar.module.scss";
+import ThemeSwitcher from "../ThemeSwitcher";
+import StoreStatus from "../StoreStatus";
 import {
   SignInButton,
   SignedIn,
@@ -12,8 +12,8 @@ import {
   UserButton,
   useUser,
 } from "@clerk/nextjs";
-import { isAdmin } from "../lib/auth/roles";
-import CartIcon from "./CartIcon";
+import { isAdmin } from "../../lib/auth/roles";
+import CartIcon from "../CartIcon";
 
 const NavBar = () => {
   const { user } = useUser();
@@ -196,18 +196,18 @@ const NavBar = () => {
                 }
               }}
             >
-              Tienda ▾
+              Productos ▾
             </Link>
             {dropdownOpen && (
               <ul className={styles.dropdown}>
-                <li>
+                {/* <li>
                   <Link href="/accesorios/destacados" onClick={handleLinkClick}>
                     Destacados
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link href="/accesorios/celulares" onClick={handleLinkClick}>
-                    Celulares
+                    Accesorios Celulares
                   </Link>
                 </li>
                 <li>
@@ -215,7 +215,7 @@ const NavBar = () => {
                     href="/accesorios/computadoras"
                     onClick={handleLinkClick}
                   >
-                    Computadoras
+                    Accesorios computadoras
                   </Link>
                 </li>
                 <li>
@@ -328,7 +328,10 @@ const NavBar = () => {
           <li role="none" className={styles.mobileAuthItem}>
             <SignedOut>
               <SignInButton mode="modal">
-                <button className={styles.mobileSignInBtn} onClick={handleLinkClick}>
+                <button
+                  className={styles.mobileSignInBtn}
+                  onClick={handleLinkClick}
+                >
                   Iniciar Sesión
                 </button>
               </SignInButton>

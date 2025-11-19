@@ -62,6 +62,7 @@ export function CartProvider({ children }) {
   const checkStock = async (productId) => {
     try {
       const supabase = getSupabaseBrowserClient();
+
       const { data, error } = await supabase
         .from('products')
         .select('stock')
@@ -69,12 +70,31 @@ export function CartProvider({ children }) {
         .single();
 
       if (error) {
-        console.error('Error al verificar stock en Supabase:', error);
+        console.error('[CartContext] Error al verificar stock en Supabase:', {
+          error,
+          errorCode: error?.code,
+          errorMessage: error?.message,
+          errorDetails: error?.details,
+          errorHint: error?.hint,
+          productId
+        });
+
+        // Si el producto no existe (error PGRST116), retornar 0
+        if (error.code === 'PGRST116') {
+          console.warn('[CartContext] Producto no encontrado en la base de datos:', productId);
+        }
+
         return 0;
       }
+
       return data?.stock || 0;
     } catch (error) {
-      console.error('Error al verificar stock:', error);
+      console.error('[CartContext] Error en catch al verificar stock:', {
+        error,
+        message: error?.message,
+        stack: error?.stack,
+        productId
+      });
       return 0;
     }
   };

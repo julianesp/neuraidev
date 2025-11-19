@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar/page";
 import Footer from "../containers/Footer";
 import SplashScreen from "../components/SplashScreen";
 import StructuredData from "../components/StructuredData";

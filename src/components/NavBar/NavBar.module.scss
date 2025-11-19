@@ -1,4 +1,4 @@
-@use "../mixins.scss" as *;
+@use "@/styles/mixins.scss" as *;
 
 .container {
   z-index: 2000;
@@ -208,7 +208,8 @@
     list-style: none;
     padding: 5px 0;
     margin: 5px 0 0 0;
-    width: 100%;
+    // width: 100%;
+    width: 220px;
 
     li {
       margin-bottom: 8px;

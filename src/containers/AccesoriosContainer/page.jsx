@@ -4,6 +4,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, MessageCircle, Eye } from "lucide-react";
 import styles from "./AccesoriosContainer.module.scss"; // Importamos estilos SCSS
 import {
@@ -27,6 +28,9 @@ const AccesoriosContainer = ({
 }) => {
   // Referencia para el scrolling
   const containerRef = useRef(null);
+
+  // Router de Next.js para actualizar URL
+  const router = useRouter();
 
   const [todosAccesorios, setTodosAccesorios] = useState([]);
   const [accesorio, setAccesorio] = useState(null);
@@ -308,6 +312,20 @@ const AccesoriosContainer = ({
       // 3. Actualizar otros accesorios...
       // [resto del código para actualizar accesorios]
 
+      // 4. Actualizar la URL del navegador para reflejar el producto actual
+      try {
+        const productSlug = generateProductSlug(nuevoAccesorio);
+        const nuevaUrl = buildProductUrl(
+          nuevoAccesorio.categoria || categorySlug,
+          productSlug,
+          nuevoAccesorio
+        );
+        // Usar router.push para actualizar URL sin recargar la página
+        router.push(nuevaUrl, { scroll: false });
+      } catch (error) {
+        console.error("Error al actualizar URL del producto:", error);
+      }
+
       // Hacer scroll con un pequeño offset para que el contenido sea visible
       if (containerRef.current) {
         // Calculamos la posición del elemento
@@ -319,7 +337,7 @@ const AccesoriosContainer = ({
         });
       }
     },
-    [accesorio],
+    [accesorio, categorySlug, router],
   );
 
   // Cargar datos desde API
