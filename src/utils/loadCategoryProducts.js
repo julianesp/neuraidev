@@ -84,11 +84,28 @@ export async function loadProductBySlug(categoria, slug) {
         : [];
     } else {
       // Formatear las imágenes del array JSON
-      producto.imagenes = producto.imagenes.map((url, index) => ({
-        url: url,
-        alt: producto.nombre,
-        orden: index,
-      }));
+      // Verificar si los elementos ya son objetos o son URLs
+      producto.imagenes = producto.imagenes.map((imagen, index) => {
+        // Si ya es un objeto con propiedad 'url', devolverlo tal cual
+        if (typeof imagen === 'object' && imagen !== null && imagen.url) {
+          return {
+            ...imagen,
+            alt: imagen.alt || producto.nombre,
+            orden: imagen.orden !== undefined ? imagen.orden : index,
+          };
+        }
+        // Si es una URL (string), crear el objeto
+        if (typeof imagen === 'string') {
+          return {
+            url: imagen,
+            alt: producto.nombre,
+            orden: index,
+          };
+        }
+        // Si no es ni objeto ni string, devolver null (se filtrará después)
+        console.warn('Imagen con formato inesperado:', imagen);
+        return null;
+      }).filter(Boolean); // Filtrar elementos nulos
     }
 
     // Filtrar otros productos (excluyendo el actual)

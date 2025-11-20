@@ -104,11 +104,25 @@ export async function generateProductMetadata(slug, categoria) {
   // Las imágenes ya vienen en el array 'imagenes' del producto (JSON)
   let imagenesAdicionales = [];
   if (producto.imagenes && Array.isArray(producto.imagenes)) {
-    imagenesAdicionales = producto.imagenes.map((url, index) => ({
-      url: url,
-      alt: producto.nombre,
-      orden: index
-    }));
+    imagenesAdicionales = producto.imagenes.map((imagen, index) => {
+      // Si ya es un objeto con propiedad 'url', usarlo
+      if (typeof imagen === 'object' && imagen !== null && imagen.url) {
+        return {
+          url: imagen.url,
+          alt: imagen.alt || producto.nombre,
+          orden: imagen.orden !== undefined ? imagen.orden : index
+        };
+      }
+      // Si es una URL (string), crear el objeto
+      if (typeof imagen === 'string') {
+        return {
+          url: imagen,
+          alt: producto.nombre,
+          orden: index
+        };
+      }
+      return null;
+    }).filter(Boolean);
   }
 
   // Limpiar descripción para meta tags
