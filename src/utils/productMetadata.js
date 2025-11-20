@@ -178,7 +178,7 @@ export async function generateProductMetadata(slug, categoria) {
     openGraph: {
       title: producto.nombre,
       description: descripcionLimpia,
-      type: "product",
+      type: "website",
       siteName: "neurai.dev",
       locale: "es_CO",
       url: canonicalUrl,
