@@ -6,6 +6,7 @@ import { useToast } from "@/contexts/ToastContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { getProductImage } from "@/lib/constants";
+import EpaycoCheckout from "./EpaycoCheckout";
 
 export default function ShoppingCart() {
   const {
@@ -18,6 +19,7 @@ export default function ShoppingCart() {
     clearCart,
   } = useCart();
   const toast = useToast();
+  const [showCheckout, setShowCheckout] = useState(false);
 
   const handleCheckout = () => {
     if (cart.length === 0) {
@@ -207,7 +209,34 @@ export default function ShoppingCart() {
               </span>
             </div>
 
-            {/* Botón de pago por WhatsApp */}
+            {showCheckout ? (
+              <div>
+                <button
+                  onClick={() => setShowCheckout(false)}
+                  className="mb-3 text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                >
+                  ← Volver a opciones de pago
+                </button>
+                <EpaycoCheckout onClose={() => setShowCheckout(false)} />
+              </div>
+            ) : (
+              <>
+                {/* Botón de pago con Tarjeta/PSE */}
+                <button
+                  onClick={() => setShowCheckout(true)}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                  </svg>
+                  Pagar con Tarjeta/PSE
+                </button>
+
+                {/* Botón de pago por WhatsApp */}
                 <button
                   onClick={handleCheckout}
                   className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
@@ -231,6 +260,8 @@ export default function ShoppingCart() {
                 >
                   Vaciar Carrito
                 </button>
+              </>
+            )}
           </div>
         )}
       </div>
