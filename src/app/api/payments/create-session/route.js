@@ -225,3 +225,12 @@ export async function POST(request) {
     );
   }
 }
+
+// GET para verificar que la API está funcionando
+export async function GET() {
+  return NextResponse.json({
+    status: "ok",
+    message: "API de pagos activa",
+    timestamp: new Date().toISOString(),
+  });
+}
