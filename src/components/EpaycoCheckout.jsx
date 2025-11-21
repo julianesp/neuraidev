@@ -88,7 +88,6 @@ export default function EpaycoCheckout({ onClose }) {
         : `${cart.length} productos de Neurai.dev`;
 
       // Crear sesión de pago en el backend
-      console.log("🔄 Creando sesión de pago...");
 
       const response = await fetch("/api/payments/create-session", {
         method: "POST",
@@ -117,9 +116,6 @@ export default function EpaycoCheckout({ onClose }) {
 
       const { sessionId, test } = await response.json();
 
-      console.log("✅ Sesión creada:", sessionId);
-      console.log("Modo de prueba:", test);
-
       // Configurar checkout de ePayco
       const checkout = window.ePayco.checkout.configure({
         sessionId: sessionId,
@@ -129,7 +125,6 @@ export default function EpaycoCheckout({ onClose }) {
 
       // Definir callbacks
       checkout.onCreated = () => {
-        console.log("✅ Transacción creada exitosamente");
         toast.success("¡Pago completado exitosamente!");
 
         // Limpiar carrito después de pago exitoso
@@ -139,23 +134,19 @@ export default function EpaycoCheckout({ onClose }) {
         }, 2000);
       };
 
-      checkout.onErrors = (errors) => {
-        console.error("❌ Errores en el pago:", errors);
+      checkout.onErrors = () => {
         toast.error("Hubo un error con el pago. Por favor intenta nuevamente.");
         setLoading(false);
       };
 
       checkout.onClosed = () => {
-        console.log("👋 Checkout cerrado por el usuario");
         setLoading(false);
       };
 
       // Abrir checkout
-      console.log("🚀 Abriendo checkout de ePayco...");
       checkout.open();
 
     } catch (error) {
-      console.error("❌ Error al procesar pago:", error);
       toast.error(error.message || "Error al procesar el pago");
       setLoading(false);
     }
@@ -170,10 +161,11 @@ export default function EpaycoCheckout({ onClose }) {
       <div className="space-y-4">
         {/* Nombre */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label htmlFor="customer-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Nombre completo *
           </label>
           <input
+            id="customer-name"
             type="text"
             name="name"
             value={customerData.name}
@@ -186,10 +178,11 @@ export default function EpaycoCheckout({ onClose }) {
 
         {/* Email */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label htmlFor="customer-email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Correo electrónico *
           </label>
           <input
+            id="customer-email"
             type="email"
             name="email"
             value={customerData.email}
@@ -202,10 +195,11 @@ export default function EpaycoCheckout({ onClose }) {
 
         {/* Teléfono */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label htmlFor="customer-phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Teléfono *
           </label>
           <input
+            id="customer-phone"
             type="tel"
             name="phone"
             value={customerData.phone}

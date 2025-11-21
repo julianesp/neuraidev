@@ -76,7 +76,7 @@ const TechnicalServicesCarousel = () => {
         "Recuperación Datos",
         "Asesoría Especializada",
       ],
-      price: "Desde $40.000",
+      // price: "Desde $40.000",
       icon: "🛠️",
     },
   ];

@@ -7,6 +7,7 @@ import { createClient } from './client';
 
 /**
  * Obtiene todos los productos disponibles
+ * Por defecto solo muestra productos con stock > 0 y disponible = true
  */
 export async function obtenerProductos(filtros = {}) {
   try {
@@ -14,6 +15,13 @@ export async function obtenerProductos(filtros = {}) {
     let query = supabase
       .from('products')
       .select('*');
+
+    // Por defecto, solo mostrar productos disponibles (con stock)
+    // A menos que se especifique explícitamente mostrar todos
+    if (filtros.mostrarTodos !== true) {
+      query = query.eq('disponible', true);
+      query = query.gt('stock', 0);
+    }
 
     // Aplicar filtros opcionales
     if (filtros.categoria) {
@@ -117,15 +125,22 @@ export async function obtenerProductoPorSKU(sku) {
 
 /**
  * Busca productos por nombre o descripción
+ * Solo muestra productos disponibles con stock
  */
-export async function buscarProductos(termino) {
+export async function buscarProductos(termino, mostrarTodos = false) {
   try {
     const supabase = createClient();
-    const { data, error} = await supabase
+    let query = supabase
       .from('products')
       .select('*')
-      .or(`nombre.ilike.%${termino}%,descripcion.ilike.%${termino}%`)
-      .order('created_at', { ascending: false });
+      .or(`nombre.ilike.%${termino}%,descripcion.ilike.%${termino}%`);
+
+    // Solo mostrar disponibles a menos que se especifique lo contrario
+    if (!mostrarTodos) {
+      query = query.eq('disponible', true).gt('stock', 0);
+    }
+
+    const { data, error } = await query.order('created_at', { ascending: false });
 
     if (error) {
       console.error('Error buscando productos:', error);

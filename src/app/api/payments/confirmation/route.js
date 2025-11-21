@@ -2,28 +2,21 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { getSupabaseClient } from "@/lib/db";
 
+// Solo loguear en desarrollo usando console.warn (permitido por el linter)
+const isDev = process.env.NODE_ENV === "development";
+// eslint-disable-next-line no-console
+const log = (...args) => isDev && console.warn("[DEV]", ...args);
+const logError = (...args) => console.error(...args);
+
 /**
  * Webhook de confirmación de ePayco
  * POST /api/payments/confirmation
- *
- * ePayco envía la confirmación del pago a esta URL
- * Cuando el pago es exitoso, se reduce el stock de los productos
  */
 export async function POST(request) {
   try {
     const body = await request.json();
 
-    console.log("🔔 Webhook de confirmación recibido:", {
-      ref_payco: body.x_ref_payco,
-      transaction_id: body.x_transaction_id,
-      amount: body.x_amount,
-      currency: body.x_currency_code,
-      signature: body.x_signature,
-      approval_code: body.x_approval_code,
-      transaction_state: body.x_transaction_state,
-      response: body.x_response,
-      invoice: body.x_id_invoice,
-    });
+    log("🔔 Webhook de confirmación recibido");
 
     // Validar que sea de ePayco verificando la firma
     const signature = body.x_signature;
@@ -40,13 +33,11 @@ export async function POST(request) {
       .digest("hex");
 
     if (signature !== calculatedSignature) {
-      console.error("❌ Firma inválida. Posible intento de fraude.");
-      console.error("Firma recibida:", signature);
-      console.error("Firma calculada:", calculatedSignature);
+      logError("❌ Firma inválida en webhook");
       // No bloquear por firma en desarrollo - solo loguear
       // return NextResponse.json({ error: "Firma inválida" }, { status: 403 });
     } else {
-      console.log("✅ Firma válida");
+      log("✅ Firma válida");
     }
 
     // Estados de transacción de ePayco:
@@ -58,19 +49,13 @@ export async function POST(request) {
     const transactionState = body.x_transaction_state;
     const transactionId = body.x_transaction_id;
     const refPayco = body.x_ref_payco;
-    const amount = body.x_amount;
     // El invoice viene del campo que enviamos a ePayco
     const invoice = body.x_id_invoice || body.x_extra1;
 
     const supabase = getSupabaseClient();
 
     if (transactionState === "Aceptada" || transactionState === "1") {
-      console.log("✅ Pago aceptado:", {
-        transactionId,
-        refPayco,
-        amount,
-        invoice,
-      });
+      log("✅ Pago aceptado");
 
       // 1. Buscar la orden por invoice
       const { data: order, error: orderError } = await supabase
@@ -80,10 +65,10 @@ export async function POST(request) {
         .single();
 
       if (orderError || !order) {
-        console.error("⚠️ Orden no encontrada:", invoice, orderError);
+        logError("⚠️ Orden no encontrada");
         // Continuar de todas formas para no bloquear el webhook
       } else {
-        console.log("📦 Orden encontrada:", order.id);
+        log("📦 Orden encontrada");
 
         // 2. Reducir el stock de cada producto
         if (order.items && Array.isArray(order.items)) {
@@ -97,7 +82,7 @@ export async function POST(request) {
                 .single();
 
               if (prodError || !producto) {
-                console.error(`⚠️ Producto no encontrado: ${item.id}`, prodError);
+                logError("⚠️ Producto no encontrado para actualizar stock");
                 continue;
               }
 
@@ -116,12 +101,12 @@ export async function POST(request) {
                 .eq('id', item.id);
 
               if (updateError) {
-                console.error(`❌ Error actualizando stock de ${producto.nombre}:`, updateError);
+                logError("❌ Error actualizando stock");
               } else {
-                console.log(`✅ Stock actualizado: ${producto.nombre} | ${producto.stock} → ${nuevoStock}`);
+                log("✅ Stock actualizado");
               }
             } catch (itemError) {
-              console.error(`❌ Error procesando item ${item.id}:`, itemError);
+              logError("❌ Error procesando item");
             }
           }
         }
@@ -141,18 +126,14 @@ export async function POST(request) {
           .eq('invoice', invoice);
 
         if (updateOrderError) {
-          console.error("❌ Error actualizando orden:", updateOrderError);
+          logError("❌ Error actualizando orden");
         } else {
-          console.log("✅ Orden marcada como pagada:", invoice);
+          log("✅ Orden marcada como pagada");
         }
       }
 
     } else if (transactionState === "Rechazada" || transactionState === "2") {
-      console.log("❌ Pago rechazado:", {
-        transactionId,
-        refPayco,
-        reason: body.x_response_reason_text,
-      });
+      log("❌ Pago rechazado");
 
       // Actualizar orden como fallida
       await supabase
@@ -166,10 +147,7 @@ export async function POST(request) {
         .eq('invoice', invoice);
 
     } else if (transactionState === "Pendiente" || transactionState === "3") {
-      console.log("⏳ Pago pendiente:", {
-        transactionId,
-        refPayco,
-      });
+      log("⏳ Pago pendiente");
 
       // Actualizar orden como pendiente
       await supabase
@@ -183,10 +161,7 @@ export async function POST(request) {
         .eq('invoice', invoice);
 
     } else if (transactionState === "Fallida" || transactionState === "4") {
-      console.log("💥 Pago fallido:", {
-        transactionId,
-        refPayco,
-      });
+      log("💥 Pago fallido");
 
       // Actualizar orden como fallida
       await supabase
@@ -207,7 +182,7 @@ export async function POST(request) {
     });
 
   } catch (error) {
-    console.error("❌ Error procesando confirmación:", error);
+    logError("❌ Error procesando confirmación");
     return NextResponse.json(
       { error: "Error procesando confirmación" },
       { status: 500 }

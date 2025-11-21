@@ -4,30 +4,21 @@ import { useEffect, useState } from 'react';
 import { useToast } from '../contexts/ToastContext';
 
 const ToastItem = ({ toast, onRemove }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isLeaving, setIsLeaving] = useState(false);
+  const [animationState, setAnimationState] = useState('entering'); // 'entering', 'visible', 'leaving'
 
   useEffect(() => {
-    // Animate in
-    setTimeout(() => setIsVisible(true), 10);
+    // Animate in desde la izquierda
+    const enterTimer = setTimeout(() => setAnimationState('visible'), 50);
+
+    return () => clearTimeout(enterTimer);
   }, []);
 
   const handleRemove = () => {
-    setIsLeaving(true);
-    setTimeout(() => onRemove(toast.id), 300);
+    setAnimationState('leaving');
+    setTimeout(() => onRemove(toast.id), 400);
   };
 
   const getToastStyles = () => {
-    const baseStyles = "mb-4 p-4 rounded-lg shadow-lg border-l-4 flex items-center justify-between transition-all duration-300 transform";
-
-    if (isLeaving) {
-      return `${baseStyles} translate-x-full opacity-0`;
-    }
-
-    if (!isVisible) {
-      return `${baseStyles} translate-x-full opacity-0`;
-    }
-
     const typeStyles = {
       success: "bg-green-50 border-green-400 text-green-800",
       error: "bg-red-50 border-red-400 text-red-800",
@@ -35,7 +26,21 @@ const ToastItem = ({ toast, onRemove }) => {
       info: "bg-blue-50 border-blue-400 text-blue-800",
     };
 
-    return `${baseStyles} translate-x-0 opacity-100 ${typeStyles[toast.type] || typeStyles.info}`;
+    const baseStyles = `mb-4 p-4 rounded-lg shadow-lg border-l-4 flex items-center justify-between transform ${typeStyles[toast.type] || typeStyles.info}`;
+
+    switch (animationState) {
+      case 'entering':
+        // Empieza fuera de la pantalla a la izquierda
+        return `${baseStyles} -translate-x-full opacity-0 transition-all duration-400 ease-in`;
+      case 'visible':
+        // Posición central visible
+        return `${baseStyles} translate-x-0 opacity-100 transition-all duration-400 ease-in`;
+      case 'leaving':
+        // Sale hacia la derecha
+        return `${baseStyles} translate-x-[120%] opacity-0 transition-all duration-400 ease-out`;
+      default:
+        return baseStyles;
+    }
   };
 
   const getIcon = () => {
@@ -98,7 +103,7 @@ export const ToastContainer = () => {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed top-4 right-4 z-50 w-96 max-w-full">
+    <div className="fixed top-20 left-4 right-4 md:left-auto md:right-4 z-[9999] w-auto md:w-96 max-w-full overflow-hidden">
       {toasts.map(toast => (
         <ToastItem
           key={toast.id}

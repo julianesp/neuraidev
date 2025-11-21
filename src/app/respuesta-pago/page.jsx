@@ -43,7 +43,11 @@ function RespuestaPagoContent() {
       responseText,
     };
 
-    console.log("Datos de respuesta de ePayco:", data);
+    // Log solo en desarrollo
+    if (process.env.NODE_ENV === "development") {
+      // eslint-disable-next-line no-console
+      console.warn("[DEV] Datos de respuesta de ePayco recibidos");
+    }
 
     setPaymentData(data);
     setLoading(false);

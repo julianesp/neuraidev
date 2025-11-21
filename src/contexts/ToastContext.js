@@ -28,7 +28,7 @@ export const ToastProvider = ({ children }) => {
     const newToast = {
       id,
       type: 'info',
-      duration: 5000,
+      duration: 2500, // 2.5 segundos para dar tiempo de leer
       ...toast,
     };
 

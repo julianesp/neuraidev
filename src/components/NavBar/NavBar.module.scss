@@ -1029,7 +1029,13 @@
   }
 
   @media (max-width: 768px) {
-    display: none;
+    // Solo ocultar el botón de sign in, pero mantener el carrito visible
+    gap: 10px;
+    margin-right: 60px;
+
+    .signInBtn {
+      display: none;
+    }
   }
 }
 
