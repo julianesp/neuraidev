@@ -107,8 +107,8 @@ export const metadata = {
       },
     ],
     type: "website",
-    locale: "es_CO",
   },
+  locale: "es_CO",
   facebook: {
     appId: "1523421535545212",
   },

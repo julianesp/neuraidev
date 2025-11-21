@@ -73,21 +73,21 @@ export default function DashboardLayout({ children }) {
       {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          sidebarOpen ? "translate-x-0" : "-translate-x-full dark:bg-gray-900"
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="flex items-center justify-between h-16 px-6 border-b flex-shrink-0">
+          <div className="flex items-center justify-between h-16 px-6 border-b flex-shrink-0 mt-12">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold text-blue-600">
-                Neurai.dev
+              <span className="text-2xl font-bold text-blue-600 dark:text-white">
+                Home
               </span>
             </Link>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+          <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto mt-0">
             {navigation.map((item) => {
               const Icon = item.icon;
               return (
@@ -132,7 +132,7 @@ export default function DashboardLayout({ children }) {
       </aside>
 
       {/* Main content */}
-      <div className="lg:pl-64 min-h-screen">
+      <div className="lg:pl-64 min-h-screen dark:bg-gray-700">
         <main className="p-6 lg:p-8 pb-24">{children}</main>
       </div>
 

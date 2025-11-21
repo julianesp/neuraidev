@@ -606,7 +606,7 @@ const AccesoriosContainer = ({
             {accesorio.nombre}
           </h1>
           <div
-            className={`grid grid-cols-1 md:grid-cols-2 gap-8 mb-32 ${styles.accesorioContainer}`}
+            className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-32 ${styles.accesorioContainer}`}
           >
             {/* Carrusel principal - SECCIÓN MEJORADA */}
             <div
@@ -757,43 +757,47 @@ const AccesoriosContainer = ({
               </div>
             </div>
 
-            <div className="flex flex-col justify-between">
+            {/* Columna 2: Descripción y Características */}
+            <div>
+              <h2 className="text-sm font-semibold mb-3 text-black dark:text-white">
+                Descripción
+              </h2>
+              <div className="text-black dark:text-white mb-2 leading-relaxed">
+                {formatearDescripcion(accesorio.descripcion)
+                  .split("\n\n")
+                  .map((parrafo, index) => (
+                    <p key={index} className=" text-sm md:text-base">
+                      {parrafo}
+                    </p>
+                  ))}
+              </div>
+
+              {/* Características */}
+              {accesorio.caracteristicas &&
+                accesorio.caracteristicas.length > 0 && (
+                  <div className="mb-4">
+                    <h3 className="text-lg font-medium mb-2 text-black dark:text-black">
+                      Características
+                    </h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      {accesorio.caracteristicas.map(
+                        (caracteristica, index) => (
+                          <li
+                            key={index}
+                            className="text-gray-800 dark:text-gray-200"
+                          >
+                            {caracteristica}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
+            </div>
+
+            {/* Columna 3: Stock, Precio y Botones de Acción */}
+            <div className="flex flex-col">
               <div>
-                <h2 className="text-sm font-semibold mb-3 text-black dark:text-white">
-                  Descripción
-                </h2>
-                <div className="text-black dark:text-white mb-2 leading-relaxed">
-                  {formatearDescripcion(accesorio.descripcion)
-                    .split("\n\n")
-                    .map((parrafo, index) => (
-                      <p key={index} className=" text-sm md:text-base">
-                        {parrafo}
-                      </p>
-                    ))}
-                </div>
-
-                {/* Características */}
-                {accesorio.caracteristicas &&
-                  accesorio.caracteristicas.length > 0 && (
-                    <div className="mb-4">
-                      <h3 className="text-lg font-medium mb-2 text-black dark:text-black">
-                        Características
-                      </h3>
-                      <ul className="list-disc pl-5 space-y-1">
-                        {accesorio.caracteristicas.map(
-                          (caracteristica, index) => (
-                            <li
-                              key={index}
-                              className="text-gray-800 dark:text-gray-200"
-                            >
-                              {caracteristica}
-                            </li>
-                          ),
-                        )}
-                      </ul>
-                    </div>
-                  )}
-
                 {/* Información adicional del producto */}
                 <div className="mt-4 space-y-3">
                   {/* Stock y disponibilidad */}

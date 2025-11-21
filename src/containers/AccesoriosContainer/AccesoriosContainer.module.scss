@@ -46,14 +46,6 @@
 
 // modificacion para imagenes de productos mas grandes
 .accesorioContainer {
-  @media screen and (min-width: 1024px) {
-    display: grid;
-    grid-template-columns: 1fr 600px;
-    height: 450px;
-
-    margin-bottom: 1c00px;
-  }
-
   .mainImageContainer {
     @media screen and (min-width: 1024px) {
       height: 450px;
