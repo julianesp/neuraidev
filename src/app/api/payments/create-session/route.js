@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getSupabaseClient } from "@/lib/db";
 
 /**
  * API Route para crear sesión de pago con ePayco
@@ -36,6 +37,37 @@ export async function POST(request) {
         },
         { status: 400 },
       );
+    }
+
+    // Generar número de factura único
+    const invoiceNumber = invoice || `NRD-${Date.now()}${Math.random().toString(36).substr(2, 9)}`;
+
+    // Guardar la orden en Supabase ANTES de crear la sesión de pago
+    // Esto permite rastrear los items para reducir stock después
+    try {
+      const supabase = getSupabaseClient();
+
+      const { error: orderError } = await supabase
+        .from('orders')
+        .insert({
+          invoice: invoiceNumber,
+          status: 'pending',
+          customer_name: customerName || 'Cliente',
+          customer_email: customerEmail,
+          customer_phone: customerPhone || '',
+          items: items, // Array de productos con id, cantidad, precio, etc.
+          total: amount,
+          created_at: new Date().toISOString(),
+        });
+
+      if (orderError) {
+        console.error("⚠️ Error guardando orden (continuando):", orderError);
+        // No fallar si no se puede guardar, pero loguear
+      } else {
+        console.log("📦 Orden guardada:", invoiceNumber);
+      }
+    } catch (dbError) {
+      console.error("⚠️ Error de BD (continuando):", dbError.message);
     }
 
     // Obtener credenciales de ePayco desde variables de entorno
@@ -132,7 +164,7 @@ export async function POST(request) {
       ip: ip,
       country: "CO", // Colombia
       test: testMode,
-      invoice: invoice || `INV-${Date.now()}`,
+      invoice: invoiceNumber,
 
       // Impuestos (obligatorios en snake_case)
       taxBase: "0",

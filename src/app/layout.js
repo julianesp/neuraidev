@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "../components/NavBar/page";
 import Footer from "../containers/Footer";
-import SplashScreen from "../components/SplashScreen";
+// import SplashScreen from "../components/SplashScreen";
 import StructuredData from "../components/StructuredData";
 import AOSInit from "../components/AOSInit";
 import "./globals.css";
@@ -206,6 +206,12 @@ export default function RootLayout({ children }) {
             });
           `}
           </Script>
+
+          {/* ePayco Smart Checkout v2 */}
+          <Script
+            src="https://checkout.epayco.co/checkout-v2.js"
+            strategy="lazyOnload"
+          />
         </head>
 
         <body>
