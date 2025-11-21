@@ -109,12 +109,13 @@ export default function EpaycoCheckout({ onClose }) {
         }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Error al crear sesión de pago");
+        throw new Error(data.error || "Error al crear sesión de pago");
       }
 
-      const { sessionId, test } = await response.json();
+      const { sessionId, test } = data;
 
       // Configurar checkout de ePayco
       const checkout = window.ePayco.checkout.configure({
