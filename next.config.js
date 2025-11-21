@@ -30,18 +30,14 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      // TEMPORALMENTE DESHABILITADO: ePayco - se eliminaron las referencias a checkout.epayco.co y *.epayco.co
       "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://www.googletagmanager.com https://vercel.live https://va.vercel-scripts.com https://connect.facebook.net https://*.clerk.accounts.dev https://www.google.com https://www.gstatic.com https://challenges.cloudflare.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' https: data: blob:",
       "font-src 'self' https://fonts.gstatic.com",
-      // TEMPORALMENTE DESHABILITADO: ePayco - se eliminaron las referencias a checkout.epayco.co, *.epayco.co y secure.epayco.co
       "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://*.clerk.accounts.dev https://api.clerk.com https://www.google.com https://www.gstatic.com https://challenges.cloudflare.com https://yfglwidanlpqsmbnound.supabase.co https://*.supabase.co",
-      // TEMPORALMENTE DESHABILITADO: ePayco - se eliminaron las referencias a checkout.epayco.co y *.epayco.co
       "frame-src 'self' https://www.youtube.com https://youtube.com https://www.facebook.com https://*.clerk.accounts.dev https://www.google.com https://www.recaptcha.net https://recaptcha.google.com https://challenges.cloudflare.com",
       "object-src 'none'",
       "base-uri 'self'",
-      // TEMPORALMENTE DESHABILITADO: ePayco - se eliminaron las referencias a checkout.epayco.co, *.epayco.co y secure.epayco.co
       "form-action 'self'",
       "frame-ancestors 'none'",
       "upgrade-insecure-requests",

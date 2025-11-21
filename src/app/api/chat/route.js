@@ -140,7 +140,7 @@ const knowledgeBase = {
   },
   pago: {
     keywords: ["pago", "pagar", "precio", "costo", "cuanto", "cuánto", "tarjeta", "efectivo", "transferencia", "método"],
-    response: "💳 **Métodos de pago aceptados:**\n\n✅ Tarjetas de crédito y débito\n✅ Transferencia bancaria\n✅ Efectivo (contra entrega en algunas zonas)\n✅ Pago seguro mediante ePayco\n\nTodos nuestros pagos son seguros y encriptados."
+    response: "💳 **Métodos de pago aceptados:**\n\n✅ Tarjetas de crédito y débito\n✅ Transferencia bancaria\n✅ Efectivo (contra entrega en algunas zonas)\n✅ Pago por WhatsApp\n\nTodos nuestros pagos son seguros y confiables."
   },
   garantia: {
     keywords: ["garantía", "garantia", "devolución", "devolucion", "cambio", "defecto", "reclamo"],
