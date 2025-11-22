@@ -3,7 +3,19 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 // Solo proteger rutas del dashboard
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
+// Rutas públicas que no deben pasar por Clerk (APIs de pago, webhooks, etc.)
+const isPublicApiRoute = createRouteMatcher([
+  "/api/payments/(.*)",
+  "/api/webhooks/(.*)",
+  "/api/test(.*)",
+]);
+
 export default clerkMiddleware(async (auth, request) => {
+  // Permitir rutas de API públicas sin ninguna verificación de Clerk
+  if (isPublicApiRoute(request)) {
+    return;
+  }
+
   // Solo proteger dashboard, todo lo demás es público
   if (isProtectedRoute(request)) {
     await auth.protect();
