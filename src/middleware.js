@@ -5,23 +5,28 @@ import { NextResponse } from "next/server";
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
 // Rutas públicas de API que NO deben pasar por Clerk
-const isPublicApiRoute = createRouteMatcher([
-  "/api/payments/(.*)",
-  "/api/webhooks/(.*)",
-  "/api/test(.*)",
-]);
+const isPublicApiRoute = (pathname) => {
+  return pathname.startsWith("/api/payments") ||
+         pathname.startsWith("/api/webhooks") ||
+         pathname.startsWith("/api/test");
+};
 
-export default clerkMiddleware(async (auth, request) => {
-  // Permitir rutas de API públicas sin verificación de Clerk
-  if (isPublicApiRoute(request)) {
+// Middleware principal que decide si usar Clerk o no
+export default async function middleware(request) {
+  const { pathname } = request.nextUrl;
+
+  // Para rutas públicas de API, NO usar Clerk - pasar directamente
+  if (isPublicApiRoute(pathname)) {
     return NextResponse.next();
   }
 
-  // Solo proteger dashboard
-  if (isProtectedRoute(request)) {
-    await auth.protect();
-  }
-});
+  // Para todas las demás rutas, usar Clerk
+  return clerkMiddleware(async (auth, req) => {
+    if (isProtectedRoute(req)) {
+      await auth.protect();
+    }
+  })(request);
+}
 
 export const config = {
   matcher: [
