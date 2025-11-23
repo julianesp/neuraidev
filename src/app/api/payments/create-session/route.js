@@ -35,25 +35,24 @@ export async function POST(request) {
     }
 
     // Generar número de factura único
-    const invoiceNumber = invoice || `NRD-${Date.now()}${Math.random().toString(36).substr(2, 9)}`;
+    const invoiceNumber =
+      invoice || `NRD-${Date.now()}${Math.random().toString(36).substr(2, 9)}`;
 
     // Guardar la orden en Supabase ANTES de crear la sesión de pago
     // Esto permite rastrear los items para reducir stock después
     try {
       const supabase = getSupabaseClient();
 
-      const { error: orderError } = await supabase
-        .from('orders')
-        .insert({
-          invoice: invoiceNumber,
-          status: 'pending',
-          customer_name: customerName || 'Cliente',
-          customer_email: customerEmail,
-          customer_phone: customerPhone || '',
-          items: items, // Array de productos con id, cantidad, precio, etc.
-          total: amount,
-          created_at: new Date().toISOString(),
-        });
+      const { error: orderError } = await supabase.from("orders").insert({
+        invoice: invoiceNumber,
+        status: "pending",
+        customer_name: customerName || "Cliente",
+        customer_email: customerEmail,
+        customer_phone: customerPhone || "",
+        items: items, // Array de productos con id, cantidad, precio, etc.
+        total: amount,
+        created_at: new Date().toISOString(),
+      });
 
       if (orderError) {
         logError("⚠️ Error guardando orden");
