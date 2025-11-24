@@ -235,6 +235,8 @@
         width: 100%;
         margin-bottom: 30px;
         padding: 0 10px;
+        position: relative;
+        z-index: 9999;
       }
 
       h1 {
@@ -492,6 +494,8 @@
 
         .searchWrapper {
           grid-column: span 3;
+          position: relative;
+          z-index: 9999;
         }
 
         .tipo {
@@ -588,6 +592,8 @@
 
         .searchWrapper {
           grid-column: span 4;
+          position: relative;
+          z-index: 9999;
         }
 
         .tipo {

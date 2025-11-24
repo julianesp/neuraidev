@@ -7,6 +7,10 @@ const isDev = process.env.NODE_ENV === "development";
 const log = (...args) => isDev && console.warn("[DEV]", ...args);
 const logError = (...args) => console.error(...args);
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const runtime = "nodejs";
+
 /**
  * API Route para crear sesión de pago con ePayco
  * POST /api/payments/create-session

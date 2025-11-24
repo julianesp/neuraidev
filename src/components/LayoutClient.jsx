@@ -2,7 +2,7 @@
 
 import React from "react";
 import NavBar from "./NavBar/page";
-import Footer from "../containers/Footer";
+import Footer from "../containers/Footer/page";
 import styles from "../styles/components/Layout.module.scss";
 import ThemeSwitcher from "./ThemeSwitcher";
 

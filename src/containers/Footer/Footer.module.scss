@@ -1,10 +1,11 @@
-@use "../mixins.scss" as m;
-@use "../_variables.scss" as v;
+@use "@/styles/mixins.scss" as m;
+@use "@/styles/_variables.scss" as v;
 
 .footer {
   position: relative;
   width: 100%;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  // background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background-color: v.$color-primario-oscuro;
   color: #fff;
   border-top: 3px solid #0070f3;
   z-index: 200;
@@ -83,9 +84,9 @@
 .footerTop {
   display: flex;
   justify-content: center;
-  padding-bottom: 50px;
+  padding-bottom: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 40px;
+  // margin-bottom: 40px;
 }
 
 .brandSection {
@@ -95,7 +96,7 @@
 
 .logoLink {
   display: inline-block;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
   transition: transform 0.3s ease;
 
   &:hover {
@@ -104,16 +105,18 @@
 }
 
 .logo {
+  width: 120px;
+  height: 120px;
+
   border-radius: 50%;
-  border: 3px solid #0070f3;
-  box-shadow: 0 4px 20px rgba(0, 112, 243, 0.3);
+
 }
 
 .brandName {
   font-size: 2rem;
   font-weight: 700;
   margin: 15px 0;
-  background: linear-gradient(135deg, #0070f3 0%, #0059c9 100%);
+  background: linear-gradient(135deg, #eeeeee 50%, #0059c9 80%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -121,7 +124,7 @@
 
 .brandTagline {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: white;
   line-height: 1.6;
   margin-bottom: 25px;
 }
@@ -166,9 +169,11 @@
 // Sección de enlaces en columnas
 .footerLinks {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 40px;
   margin-bottom: 50px;
+  // justify-content: center;
+  // align-items: center;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -181,6 +186,7 @@
 }
 
 .linkColumn {
+
   h4 {
     margin: 0 0 20px 0;
   }
@@ -330,6 +336,7 @@
   padding-top: 30px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
+  margin-bottom: 30px;
 }
 
 .legalLinks {

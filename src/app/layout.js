@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../components/NavBar/page";
-import Footer from "../containers/Footer";
+import Footer from "../containers/Footer/page";
 // import SplashScreen from "../components/SplashScreen";
 import StructuredData from "../components/StructuredData";
 import AOSInit from "../components/AOSInit";
