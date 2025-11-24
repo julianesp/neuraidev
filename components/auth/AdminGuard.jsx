@@ -3,7 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { isAdmin } from "../../lib/auth/roles";
+import { isAdmin } from "@/lib/auth/roles";
 
 /**
  * Componente que protege rutas de administración

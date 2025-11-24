@@ -11,13 +11,13 @@ import {
   generateProductSlug,
   buildProductUrl,
   getCategorySlug,
-} from "../../utils/slugify";
-import ShareButton from "../../components/ShareButton";
-// import ProductMetaTags from "../../components/ProductMetaTags"; // REMOVIDO: Causa conflictos con generateMetadata
-import PriceWithDiscount from "../../components/PriceWithDiscount";
-import AddToCartButton from "../../components/AddToCartButton";
-import ProductSchema from "../../components/ProductSchema";
-import Breadcrumbs, { CATEGORY_NAMES } from "../../components/Breadcrumbs";
+} from "@/utils/slugify";
+import ShareButton from "@/components/ShareButton";
+// import ProductMetaTags from "@/components/ProductMetaTags"; // REMOVIDO: Causa conflictos con generateMetadata
+import PriceWithDiscount from "@/components/PriceWithDiscount";
+import AddToCartButton from "@/components/AddToCartButton";
+import ProductSchema from "@/components/ProductSchema";
+import Breadcrumbs, { CATEGORY_NAMES } from "@/components/Breadcrumbs";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({

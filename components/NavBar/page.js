@@ -12,7 +12,7 @@ import {
   UserButton,
   useUser,
 } from "@clerk/nextjs";
-import { isAdmin } from "../../lib/auth/roles";
+import { isAdmin } from "@/lib/auth/roles";
 import CartIcon from "../CartIcon";
 
 const NavBar = () => {

@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { obtenerProductosDestacados } from "../../lib/supabase/productos";
+import { obtenerProductosDestacados } from "@/lib/supabase/productos";
 import Image from "next/image";
 // import styles from "@/styles/components/AccesoriosDestacados.module.scss";
-import styles from "../../styles/components/AccesoriosDestacados.module.scss";
+import styles from "@/styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
 
 const AccesoriosDestacados = () => {

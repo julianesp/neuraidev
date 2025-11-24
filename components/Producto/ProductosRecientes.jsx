@@ -2,9 +2,9 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import styles from "../../styles/components/AccesoriosDestacados.module.scss";
+import styles from "@/styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
-import { obtenerProductosRecientes } from "../../lib/supabase/productos";
+import { obtenerProductosRecientes } from "@/lib/supabase/productos";
 
 const ProductosRecientes = () => {
   // Estado para almacenar los productos recientes

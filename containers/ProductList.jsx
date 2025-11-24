@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProductItem from "@/components/ProductItem";
-import styles from "../styles/components/ProductList.module.scss";
+import styles from "@/styles/components/ProductList.module.scss";
 import axios from "axios";
 
 const API = "/accesoriosDestacados.json";
