@@ -100,6 +100,8 @@ export async function POST(request) {
     );
 
     log("🔐 Autenticando en ePayco...");
+    log("Public Key:", publicKey?.substring(0, 10) + "...");
+
     const authResponse = await fetch("https://apify.epayco.co/login", {
       method: "POST",
       headers: {
@@ -109,21 +111,33 @@ export async function POST(request) {
     });
 
     if (!authResponse.ok) {
-      logError("❌ Error de autenticación con ePayco");
+      const errorText = await authResponse.text();
+      logError("❌ Error de autenticación con ePayco:", authResponse.status, errorText);
       return NextResponse.json(
-        { error: "Error de autenticación con ePayco" },
-        { status: 401 },
+        {
+          error: "Error de autenticación con ePayco",
+          status: authResponse.status,
+          details: errorText,
+          hint: "Verifica tus credenciales EPAYCO_PUBLIC_KEY y EPAYCO_PRIVATE_KEY"
+        },
+        { status: 401, headers: corsHeaders },
       );
     }
 
     const authData = await authResponse.json();
+    log("Auth response:", authData);
+
     const bearerToken = authData.token;
 
     if (!bearerToken) {
-      logError("❌ No se recibió token de autenticación");
+      logError("❌ No se recibió token de autenticación. Response:", authData);
       return NextResponse.json(
-        { error: "No se pudo obtener token de autenticación" },
-        { status: 500 },
+        {
+          error: "No se pudo obtener token de autenticación",
+          response: authData,
+          hint: "El servidor de ePayco no devolvió un token. Verifica tus credenciales."
+        },
+        { status: 500, headers: corsHeaders },
       );
     }
 
