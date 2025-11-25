@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getFeaturedProducts } from "@/lib/productService";
 
 export default function AccesoriosDestacadosPage() {
   const [accesorios, setAccesorios] = useState([]);
@@ -13,14 +14,15 @@ export default function AccesoriosDestacadosPage() {
     const cargarAccesorios = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/accesoriosDestacados.json");
-        
-        if (!response.ok) {
-          throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+
+        // Cargar productos destacados desde Supabase
+        const productosDestacados = await getFeaturedProducts(20);
+
+        if (!productosDestacados || productosDestacados.length === 0) {
+          console.warn('[AccesoriosDestacados] No se encontraron productos destacados');
         }
-        
-        const data = await response.json();
-        setAccesorios(data.accesorios || []);
+
+        setAccesorios(productosDestacados);
         setError(null);
       } catch (err) {
         console.error("Error al cargar accesorios destacados:", err);

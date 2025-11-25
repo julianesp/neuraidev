@@ -1,9 +1,12 @@
+'use client';
+
 import Image from "next/image";
+import { useState } from "react";
 import { PLACEHOLDER_IMAGE, getProductImage } from "@/lib/constants";
 
 /**
  * Componente de imagen optimizado con configuración SEO y performance
- * Wrapper sobre Next.js Image con mejores defaults
+ * Wrapper sobre Next.js Image con mejores defaults y manejo de errores
  */
 export default function OptimizedImage({
   src,
@@ -11,13 +14,16 @@ export default function OptimizedImage({
   width,
   height,
   priority = false,
-  quality = 85,
+  quality = 75,
   fill = false,
   className = "",
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
   onError,
   ...props
 }) {
+  const [imgSrc, setImgSrc] = useState(src || PLACEHOLDER_IMAGE);
+  const [hasError, setHasError] = useState(false);
+
   // Validar que alt siempre esté presente y sea descriptivo
   if (!alt || alt.trim() === "") {
     console.warn(`OptimizedImage: Imagen sin alt descriptivo - ${src}`);
@@ -27,9 +33,30 @@ export default function OptimizedImage({
   const defaultBlurDataURL =
     "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg=";
 
+  const handleError = () => {
+    console.warn(`Error cargando imagen: ${src}`);
+    setHasError(true);
+    setImgSrc(PLACEHOLDER_IMAGE);
+    if (onError) {
+      onError();
+    }
+  };
+
+  // Si la imagen está vacía, usar placeholder directamente
+  if (!src) {
+    return (
+      <div
+        className={`bg-gray-200 flex items-center justify-center ${className}`}
+        style={{ width: fill ? '100%' : width, height: fill ? '100%' : height }}
+      >
+        <span className="text-gray-500 text-sm">Sin imagen</span>
+      </div>
+    );
+  }
+
   return (
     <Image
-      src={src}
+      src={imgSrc}
       alt={alt}
       width={width}
       height={height}
@@ -41,7 +68,8 @@ export default function OptimizedImage({
       placeholder="blur"
       blurDataURL={defaultBlurDataURL}
       className={className}
-      onError={onError}
+      onError={handleError}
+      unoptimized={hasError || imgSrc === PLACEHOLDER_IMAGE}
       {...props}
     />
   );

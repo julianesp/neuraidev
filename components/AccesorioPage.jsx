@@ -4,55 +4,48 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 import Link from "next/link";
+import { getProductById, getRelatedProducts } from "@/lib/productService";
 
 export default function AccesorioPage() {
-  // const [imageError, setImageError] = useState({});
-  // const [imageId, setImageId] = useState({});
   const params = useParams();
   const [accesorio, setAccesorio] = useState(null);
   const [otrosAccesorios, setOtrosAccesorios] = useState([]);
-  const [telefono, setTelefono] = useState("1234567890");
+  const [telefono] = useState("573174503604");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Función para cargar los datos
+    // Función para cargar los datos desde Supabase usando el servicio centralizado
     const cargarDatos = async () => {
       try {
-        // En un caso real, esto sería una llamada a una API
-        const response = await fetch("/accesorios_generales.json");
-        const data = await response.json();
-
         // Obtener el ID del accesorio de la URL
         const accesorioId = params.id;
 
-        if (!accesorioId || !data.accesorios) {
-          throw new Error("Accesorio no encontrado");
+        if (!accesorioId) {
+          throw new Error("ID de accesorio no encontrado");
         }
 
-        // Encontrar el accesorio específico
-        const accesorioEncontrado = data.accesorios.find(
-          (acc) => acc.id === accesorioId,
+        // Buscar el accesorio específico usando el servicio
+        const producto = await getProductById(accesorioId);
+
+        if (!producto) {
+          throw new Error("Accesorio no encontrado en la base de datos");
+        }
+
+        // Verificar que el producto tiene stock disponible
+        if (producto.stock <= 0) {
+          console.warn("[AccesorioPage] Producto sin stock:", producto.nombre);
+        }
+
+        // Obtener productos relacionados usando el servicio
+        const productosRelacionados = await getRelatedProducts(
+          accesorioId,
+          producto.categoria || "generales",
+          8,
         );
 
-        if (!accesorioEncontrado) {
-          throw new Error("Accesorio no encontrado");
-        }
-
-        // Obtener otros accesorios (excluyendo el actual)
-        const accesoriosRelacionados = data.accesorios
-          .filter((acc) => acc.id !== accesorioId)
-          // Opcional: Puedes filtrar para mostrar primero los de la misma categoría
-          .sort((a) => (a.categoria === accesorioEncontrado.categoria ? -1 : 1))
-          .slice(0, 8); // Limitamos a 8 accesorios relacionados
-
         // Asignar datos
-        setAccesorio(accesorioEncontrado);
-        setOtrosAccesorios(accesoriosRelacionados);
-
-        // Obtener el teléfono de la configuración
-        if (data.configuracion && data.configuracion.telefono) {
-          setTelefono(data.configuracion.telefono);
-        }
+        setAccesorio(producto);
+        setOtrosAccesorios(productosRelacionados);
       } catch (error) {
         console.error("Error al cargar los datos:", error);
         // Aquí podrías mostrar un mensaje de error al usuario

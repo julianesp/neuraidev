@@ -5,6 +5,35 @@ import { getSupabaseClient } from "../lib/db";
 // Ahora se obtienen directamente desde Supabase
 
 /**
+ * Función auxiliar para reintentar operaciones con backoff exponencial
+ * @param {Function} fn - Función a ejecutar
+ * @param {number} maxRetries - Número máximo de reintentos
+ * @param {number} delay - Delay inicial en ms
+ * @returns {Promise<any>} - Resultado de la función
+ */
+async function retryWithBackoff(fn, maxRetries = 3, delay = 1000) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      const isLastAttempt = i === maxRetries - 1;
+      const isTimeoutError = error.name === 'AbortError' ||
+                             error.message?.includes('timeout') ||
+                             error.message?.includes('fetch failed');
+
+      if (isLastAttempt || !isTimeoutError) {
+        throw error;
+      }
+
+      // Backoff exponencial: 1s, 2s, 4s
+      const waitTime = delay * Math.pow(2, i);
+      console.log(`[retryWithBackoff] Reintento ${i + 1}/${maxRetries} después de ${waitTime}ms...`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+  }
+}
+
+/**
  * Carga los productos de una categoría desde Supabase
  * @param {string} categoria - El nombre de la categoría
  * @returns {Promise<Array>} - Array de productos disponibles
@@ -13,12 +42,20 @@ export async function loadCategoryProducts(categoria) {
   try {
     const supabase = getSupabaseClient();
 
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("categoria", categoria)
-      .eq("disponible", true)
-      .order("created_at", { ascending: false });
+    const { data, error } = await retryWithBackoff(async () => {
+      const result = await supabase
+        .from("products")
+        .select("*")
+        .eq("categoria", categoria)
+        .eq("disponible", true)
+        .order("created_at", { ascending: false });
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      return result;
+    });
 
     if (error) {
       console.error(`[loadCategoryProducts] Error de Supabase:`, error);
@@ -41,7 +78,8 @@ export async function loadCategoryProducts(categoria) {
     return productos;
   } catch (error) {
     console.error(`[loadCategoryProducts] Error fatal loading ${categoria} products:`, error);
-    throw error; // Re-lanzar el error para que la página lo capture
+    // En lugar de lanzar el error, devolver array vacío para evitar que la página crashee
+    return [];
   }
 }
 

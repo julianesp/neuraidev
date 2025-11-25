@@ -165,18 +165,28 @@ export default function Inicio() {
 
   useEffect(() => {
     setIsLoaded(true);
-    fetch("/accesoriosDestacados.json")
-      .then((response) => response.json())
-      .then((data) => {
-        const products = data.accesorios || [];
-        const normalizedData = products.map((product) => ({
+
+    // Cargar productos destacados desde Supabase
+    const cargarProductosDestacados = async () => {
+      try {
+        const { getFeaturedProducts } = await import("@/lib/productService");
+        const productosDestacados = await getFeaturedProducts(10);
+
+        const normalizedData = productosDestacados.map((product) => ({
           ...product,
-          images: Array.isArray(product.images)
-            ? product.images
-            : [product.images],
+          images: Array.isArray(product.imagenes)
+            ? product.imagenes
+            : product.imagenes ? [product.imagenes] : [],
         }));
+
         setData(normalizedData);
-      });
+      } catch (error) {
+        console.error('[Home] Error al cargar productos destacados:', error);
+        setData([]);
+      }
+    };
+
+    cargarProductosDestacados();
 
     // Usar la URL directamente como imagen
     setPresentationImages([API_PRESENTATION]);

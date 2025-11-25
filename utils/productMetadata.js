@@ -1,21 +1,66 @@
 import { findProductBySlug } from "./slugify";
 import { createClient } from "@supabase/supabase-js";
 
-// Cliente de Supabase para server-side
+// Cliente de Supabase para server-side con timeout
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  {
+    global: {
+      fetch: (url, options = {}) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+        return fetch(url, {
+          ...options,
+          signal: controller.signal,
+        }).finally(() => clearTimeout(timeoutId));
+      },
+    },
+  }
 );
+
+/**
+ * Función auxiliar para reintentar operaciones con backoff exponencial
+ */
+async function retryWithBackoff(fn, maxRetries = 3, delay = 1000) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      const isLastAttempt = i === maxRetries - 1;
+      const isTimeoutError = error.name === 'AbortError' ||
+                             error.message?.includes('timeout') ||
+                             error.message?.includes('fetch failed');
+
+      if (isLastAttempt || !isTimeoutError) {
+        throw error;
+      }
+
+      const waitTime = delay * Math.pow(2, i);
+      console.log(`[retryWithBackoff] Reintento ${i + 1}/${maxRetries} después de ${waitTime}ms...`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+  }
+}
 
 // Función para obtener productos de una categoría específica desde Supabase
 async function getCategoryProducts(categoria) {
   try {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("categoria", categoria)
-      .eq("disponible", true)
-      .order("created_at", { ascending: false });
+    const { data, error } = await retryWithBackoff(async () => {
+      const result = await supabase
+        .from("products")
+        .select("*")
+        .eq("categoria", categoria)
+        .eq("disponible", true)
+        .order("created_at", { ascending: false });
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      return result;
+    });
 
     if (error) {
       console.error(`Error fetching ${categoria} products:`, error);
@@ -42,10 +87,18 @@ async function getCategoryProducts(categoria) {
 async function findProductInAllCategories(slug) {
   try {
     // Intentar buscar directamente por slug en todas las categorías
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("disponible", true);
+    const { data, error } = await retryWithBackoff(async () => {
+      const result = await supabase
+        .from("products")
+        .select("*")
+        .eq("disponible", true);
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      return result;
+    });
 
     if (error) {
       console.error("Error searching product in all categories:", error);
@@ -64,12 +117,20 @@ async function findProductInAllCategories(slug) {
 // Función para buscar producto por ID en todas las categorías
 export async function findProductById(id) {
   try {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("id", id)
-      .eq("disponible", true)
-      .single();
+    const { data, error } = await retryWithBackoff(async () => {
+      const result = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", id)
+        .eq("disponible", true)
+        .single();
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      return result;
+    });
 
     if (error) {
       console.error("Error finding product by ID:", error);

@@ -16,9 +16,9 @@ import { Analytics } from "@vercel/analytics/next";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { ToastContainer } from "@/components/Toast";
 import { ClerkProvider } from "@clerk/nextjs";
+import AIChat from "@/components/AIChat/AIChat";
 import { CartProvider } from "@/context/CartContext";
 import ShoppingCart from "@/components/ShoppingCart";
-import AIChat from "@/components/AIChat/AIChat";
 
 export const metadata = {
   metadataBase: new URL("https://neurai.dev"),
@@ -224,7 +224,7 @@ export default function RootLayout({ children }) {
                 <CartProvider>
                   {/*
                   presentacion de mi logo
-                   <SplashScreen /> 
+                   <SplashScreen />
                    */}
                   <div className={styles.layoutContainer}>
                     <NavBar />

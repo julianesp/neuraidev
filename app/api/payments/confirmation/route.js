@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { getSupabaseClient } from "@/lib/db";
+import { decrementMultipleProductsStock } from "@/lib/productService";
 
 // Solo loguear en desarrollo usando console.warn (permitido por el linter)
 const isDev = process.env.NODE_ENV === "development";
@@ -68,47 +69,48 @@ export async function POST(request) {
         logError("⚠️ Orden no encontrada");
         // Continuar de todas formas para no bloquear el webhook
       } else {
-        log("📦 Orden encontrada");
+        log("📦 Orden encontrada:", order.invoice);
 
-        // 2. Reducir el stock de cada producto
+        // 2. Reducir el stock de cada producto usando el servicio centralizado
         if (order.items && Array.isArray(order.items)) {
-          for (const item of order.items) {
-            try {
-              // Obtener el producto actual
-              const { data: producto, error: prodError } = await supabase
-                .from('products')
-                .select('id, stock, nombre')
-                .eq('id', item.id)
-                .single();
+          log(`📦 Procesando ${order.items.length} productos para descuento de stock`);
 
-              if (prodError || !producto) {
-                logError("⚠️ Producto no encontrado para actualizar stock");
-                continue;
-              }
+          // Usar el servicio centralizado para descontar stock
+          const stockResult = await decrementMultipleProductsStock(order.items);
 
-              // Calcular nuevo stock
-              const cantidadComprada = item.cantidad || item.quantity || 1;
-              const nuevoStock = Math.max(0, producto.stock - cantidadComprada);
+          if (stockResult.success) {
+            log("✅ Stock descontado exitosamente para todos los productos");
 
-              // Actualizar stock y disponibilidad
-              const { error: updateError } = await supabase
-                .from('products')
-                .update({
-                  stock: nuevoStock,
-                  disponible: nuevoStock > 0,
-                  updated_at: new Date().toISOString(),
-                })
-                .eq('id', item.id);
-
-              if (updateError) {
-                logError("❌ Error actualizando stock");
+            // Registrar detalles de cada producto
+            stockResult.results.forEach((result) => {
+              if (result.success) {
+                log(`  ✅ Producto ${result.productId}: ${result.previousStock} → ${result.newStock}`);
               } else {
-                log("✅ Stock actualizado");
+                logError(`  ❌ Producto ${result.productId}: ${result.error}`);
               }
-            } catch (itemError) {
-              logError("❌ Error procesando item");
-            }
+            });
+          } else {
+            logError("⚠️ Hubo errores al descontar el stock de algunos productos");
+
+            // Loguear errores específicos
+            stockResult.results.forEach((result) => {
+              if (!result.success) {
+                logError(`  ❌ Error en producto ${result.productId}:`, result.error);
+              }
+            });
+
+            // Registrar en la orden que hubo problemas con el stock
+            await supabase
+              .from('orders')
+              .update({
+                notes: `ATENCIÓN: Algunos productos no pudieron actualizar su stock. Revisar manualmente.`,
+                stock_update_errors: stockResult.results.filter(r => !r.success),
+                updated_at: new Date().toISOString(),
+              })
+              .eq('invoice', invoice);
           }
+        } else {
+          logError("⚠️ La orden no tiene items o no está en formato array");
         }
 
         // 3. Actualizar estado de la orden
