@@ -11,6 +11,20 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const runtime = "nodejs";
 
+// Configuración de CORS
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+/**
+ * Manejo de preflight requests (OPTIONS)
+ */
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 /**
  * API Route para crear sesión de pago con ePayco
  * POST /api/payments/create-session
@@ -212,28 +226,36 @@ export async function POST(request) {
 
     log("✅ Sesión de pago creada exitosamente");
 
-    // Retornar sessionId al cliente
-    return NextResponse.json({
-      success: true,
-      sessionId: sessionData.data.sessionId,
-      invoice: sessionPayload.invoice,
-      amount: sessionPayload.amount,
-      test: testMode,
-    });
-  } catch (error) {
-    logError("❌ Error en create-session");
+    // Retornar sessionId al cliente con headers CORS
     return NextResponse.json(
-      { error: "Error interno del servidor" },
-      { status: 500 },
+      {
+        success: true,
+        sessionId: sessionData.data.sessionId,
+        invoice: sessionPayload.invoice,
+        amount: sessionPayload.amount,
+        test: testMode,
+      },
+      { headers: corsHeaders }
+    );
+  } catch (error) {
+    logError("❌ Error en create-session:", error);
+    return NextResponse.json(
+      { error: "Error interno del servidor", details: error.message },
+      { status: 500, headers: corsHeaders },
     );
   }
 }
 
 // GET para verificar que la API está funcionando
 export async function GET() {
-  return NextResponse.json({
-    status: "ok",
-    message: "API de pagos activa",
-    timestamp: new Date().toISOString(),
-  });
+  return NextResponse.json(
+    {
+      status: "ok",
+      message: "API de pagos activa",
+      endpoint: "/api/payments/create-session",
+      methods: ["GET", "POST", "OPTIONS"],
+      timestamp: new Date().toISOString(),
+    },
+    { headers: corsHeaders }
+  );
 }
