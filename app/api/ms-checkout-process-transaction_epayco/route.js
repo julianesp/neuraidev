@@ -26,14 +26,14 @@ export async function POST(request) {
     return NextResponse.json(
       {
         success: true,
-        message: "OK"
+        message: "OK",
       },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   } catch (error) {
     return NextResponse.json(
       { success: true, message: "OK" },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   }
 }
@@ -42,8 +42,8 @@ export async function GET() {
   return NextResponse.json(
     {
       message: "Endpoint de comunicación interna de ePayco",
-      status: "active"
+      status: "active",
     },
-    { headers: corsHeaders }
+    { headers: corsHeaders },
   );
 }
