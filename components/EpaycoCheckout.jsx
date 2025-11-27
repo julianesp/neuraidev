@@ -102,6 +102,7 @@ export default function EpaycoCheckout({ onClose }) {
           customerPhone: customerData.phone,
           invoice: invoice,
           items: cart.map((item) => ({
+            id: item.id, // IMPORTANTE: Incluir el ID del producto
             name: item.nombre,
             quantity: item.quantity,
             price: item.precio,

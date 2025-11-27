@@ -61,21 +61,29 @@ export async function POST(request) {
     try {
       const supabase = getSupabaseClient();
 
+      // Normalizar items para asegurar que tengan el formato correcto
+      const normalizedItems = items.map((item) => ({
+        id: item.id || item.productId,
+        name: item.name || item.nombre,
+        quantity: item.quantity || item.cantidad || 1,
+        price: item.price || item.precio || 0,
+      }));
+
       const { error: orderError } = await supabase.from("orders").insert({
         invoice: invoiceNumber,
         status: "pending",
         customer_name: customerName || "Cliente",
         customer_email: customerEmail,
         customer_phone: customerPhone || "",
-        items: items, // Array de productos con id, cantidad, precio, etc.
+        items: normalizedItems, // Array de productos con id, cantidad, precio, etc.
         total: amount,
         created_at: new Date().toISOString(),
       });
 
       if (orderError) {
-        logError("⚠️ Error guardando orden");
+        logError("⚠️ Error guardando orden", orderError);
       } else {
-        log("📦 Orden guardada");
+        log("📦 Orden guardada con", normalizedItems.length, "items");
       }
     } catch (dbError) {
       logError("⚠️ Error de BD");

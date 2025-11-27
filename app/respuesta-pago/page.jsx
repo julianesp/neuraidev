@@ -24,6 +24,7 @@ function RespuestaPagoContent() {
     const transactionState = searchParams.get("x_transaction_state");
     const response = searchParams.get("x_response");
     const responseText = searchParams.get("x_response_reason_text");
+    const invoice = searchParams.get("x_id_invoice") || searchParams.get("x_extra1");
 
     // Códigos de estado de ePayco:
     // 1 o "Aceptada" = Transacción aprobada
@@ -41,6 +42,7 @@ function RespuestaPagoContent() {
       transactionState,
       response,
       responseText,
+      invoice,
     };
 
     // Log solo en desarrollo
@@ -50,6 +52,37 @@ function RespuestaPagoContent() {
     }
 
     setPaymentData(data);
+
+    // Procesar el pago exitoso (no solo mostrarlo)
+    if (transactionState === "Aceptada" || transactionState === "1") {
+      // Llamar al mismo endpoint que el webhook para procesar el pago
+      fetch("/api/payments/confirmation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          x_ref_payco: refPayco,
+          x_transaction_id: transactionId,
+          x_amount: amount,
+          x_currency_code: currency,
+          x_signature: signature,
+          x_approval_code: approvalCode,
+          x_transaction_state: transactionState,
+          x_response: response,
+          x_response_reason_text: responseText,
+          x_id_invoice: invoice,
+          x_extra1: invoice,
+        }),
+      }).catch((error) => {
+        // Silenciar errores porque el webhook también puede procesar esto
+        if (process.env.NODE_ENV === "development") {
+          // eslint-disable-next-line no-console
+          console.warn("[DEV] Error procesando confirmación desde respuesta:", error);
+        }
+      });
+    }
+
     setLoading(false);
   }, [searchParams]);
 

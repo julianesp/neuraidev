@@ -71,6 +71,15 @@ export async function POST(request) {
       } else {
         log("📦 Orden encontrada:", order.invoice);
 
+        // IMPORTANTE: Verificar si ya fue procesada para evitar duplicados
+        if (order.status === 'paid' || order.payment_status === 'completed') {
+          log("⚠️ Esta orden ya fue procesada anteriormente. Evitando duplicado.");
+          return NextResponse.json({
+            success: true,
+            message: "Orden ya procesada anteriormente",
+          });
+        }
+
         // 2. Reducir el stock de cada producto usando el servicio centralizado
         if (order.items && Array.isArray(order.items)) {
           log(`📦 Procesando ${order.items.length} productos para descuento de stock`);
