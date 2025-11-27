@@ -21,6 +21,52 @@ function createAdminClient() {
 }
 
 /**
+ * GET /api/productos/[id] - Obtener un producto por ID
+ */
+export async function GET(request, { params }) {
+  try {
+    // Verificar autenticación con Clerk
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'No autenticado' },
+        { status: 401 }
+      );
+    }
+
+    const { id } = await params;
+
+    // Crear cliente admin que bypasea RLS
+    const supabase = createAdminClient();
+
+    // Obtener producto por ID
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error('❌ [API] Error obteniendo producto:', error);
+      return NextResponse.json(
+        { error: error.message },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(data);
+
+  } catch (error) {
+    console.error('❌ [API] Error inesperado:', error);
+    return NextResponse.json(
+      { error: 'Error interno del servidor' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
  * PUT /api/productos/[id] - Actualizar producto
  */
 export async function PUT(request, { params }) {

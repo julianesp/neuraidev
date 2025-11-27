@@ -3,11 +3,6 @@
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, Search, Filter, X } from "lucide-react";
-import {
-  obtenerProductos,
-  eliminarProducto,
-  actualizarStock,
-} from "@/lib/supabase/productos";
 
 export default function ProductosPage() {
   const { user } = useUser();
@@ -26,10 +21,18 @@ export default function ProductosPage() {
   async function cargarProductos() {
     try {
       setLoading(true);
-      const data = await obtenerProductos();
+      // Usar la API route que bypasea RLS con SERVICE_ROLE_KEY
+      const response = await fetch("/api/productos");
+
+      if (!response.ok) {
+        throw new Error("Error cargando productos");
+      }
+
+      const data = await response.json();
       setProductos(data);
     } catch (error) {
       console.error("Error cargando productos:", error);
+      alert("Error cargando productos: " + error.message);
     } finally {
       setLoading(false);
     }
@@ -39,9 +42,21 @@ export default function ProductosPage() {
     if (!confirm("¿Estás seguro de eliminar este producto?")) return;
 
     try {
-      await eliminarProducto(id);
+      // Usar la API route que bypasea RLS con SERVICE_ROLE_KEY
+      const response = await fetch(`/api/productos/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Error eliminando producto");
+      }
+
+      // Actualizar el estado local para reflejar la eliminación
       setProductos(productos.filter((p) => p.id !== id));
+      alert("Producto eliminado exitosamente");
     } catch (error) {
+      console.error("Error eliminando producto:", error);
       alert("Error eliminando producto: " + error.message);
     }
   }

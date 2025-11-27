@@ -3,10 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft, Save } from "lucide-react";
-import {
-  obtenerProductoPorId,
-  actualizarProducto,
-} from "@/lib/supabase/productos";
 import ImageUploader from "@/components/ImageUploader";
 
 export default function EditarProductoPage() {
@@ -43,13 +39,15 @@ export default function EditarProductoPage() {
   const cargarProducto = useCallback(async () => {
     try {
       setLoading(true);
-      const producto = await obtenerProductoPorId(params.id);
 
-      if (!producto) {
-        alert("Producto no encontrado");
-        router.push("/dashboard/productos");
-        return;
+      // Usar la API route que bypasea RLS con SERVICE_ROLE_KEY
+      const response = await fetch(`/api/productos/${params.id}`);
+
+      if (!response.ok) {
+        throw new Error("Producto no encontrado");
       }
+
+      const producto = await response.json();
 
       setFormData({
         nombre: producto.nombre || "",
