@@ -222,10 +222,10 @@ const ModernProductGrid = (props) => {
                 }`}
                 onClick={() => setSelectedProduct(accesorio)}
               >
-                {/* Badge de VENDIDO */}
-                {accesorio.vendido && (
+                {/* Badge de VENDIDO o AGOTADO */}
+                {(accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0) && (
                   <div className="absolute top-4 right-4 z-20 bg-red-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg transform rotate-12">
-                    VENDIDO
+                    {accesorio.vendido ? "VENDIDO" : "AGOTADO"}
                   </div>
                 )}
 
@@ -280,7 +280,8 @@ const ModernProductGrid = (props) => {
                     onClick={async (e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      if (accesorio.vendido) return;
+                      const isOutOfStock = accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0;
+                      if (isOutOfStock) return;
 
                       const success = await addToCart(accesorio, 1);
                       if (success) {
@@ -291,13 +292,13 @@ const ModernProductGrid = (props) => {
                       }
                     }}
                     className={`absolute top-3 right-3 backdrop-blur-sm p-3 rounded-full transition-all shadow-lg z-30 ${
-                      accesorio.vendido
-                        ? "bg-gray-300/90 text-gray-500 cursor-not-allowed"
+                      accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0
+                        ? "bg-gray-300/90 text-gray-500 cursor-not-allowed opacity-70"
                         : "bg-blue-600 hover:bg-blue-700 text-white hover:scale-110"
                     }`}
-                    disabled={accesorio.vendido}
+                    disabled={accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0}
                     aria-label="Agregar al carrito"
-                    title={accesorio.vendido ? "Producto agotado" : "Agregar al carrito"}
+                    title={accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0 ? "Producto agotado" : "Agregar al carrito"}
                   >
                     <ShoppingCart size={20} />
                   </button>
@@ -383,13 +384,14 @@ const ModernProductGrid = (props) => {
 
                     <button
                       className={`p-3 rounded-xl transition-colors ${
-                        accesorio.vendido
+                        accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0
                           ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                           : "bg-green-600 hover:bg-green-700 text-white"
                       }`}
-                      disabled={accesorio.vendido}
+                      disabled={accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0}
                       onClick={(e) => e.stopPropagation()}
-                      aria-label="Comprar"
+                      aria-label={accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0 ? "Producto agotado" : "Comprar"}
+                      title={accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0 ? "Producto agotado" : "Comprar"}
                     >
                       <ShoppingCart size={20} />
                     </button>

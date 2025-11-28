@@ -136,3 +136,44 @@ textarea:focus-visible {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* ============================================
+   Estilos personalizados para ePayco Checkout
+   ============================================ */
+
+/* Overlay de fondo con blur */
+#epayco-modal-overlay,
+.epayco-overlay {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Container del modal */
+#epayco-modal,
+.epayco-modal {
+  background: transparent !important;
+}
+
+/* Asegurar que el modal sea visible y centrado */
+.epayco-modal-content {
+  max-width: 500px !important;
+  margin: 0 auto !important;
+  background: #fff !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Modo oscuro para el modal */
+@media (prefers-color-scheme: dark) {
+  .epayco-modal-content {
+    background: #1f2937 !important;
+    color: #fff !important;
+  }
+}
+
+/* Asegurar que los lados sean transparentes/borrosos */
+.epayco-iframe-container {
+  background: transparent !important;
+}

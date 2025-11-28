@@ -124,7 +124,7 @@ export default function EpaycoCheckout({ onClose }) {
       // Configurar checkout de ePayco
       const checkout = window.ePayco.checkout.configure({
         sessionId: sessionId,
-        type: "onepage", // Puede ser: onepage, standard, component
+        type: "standard", // standard = modal de pantalla completa, onepage = iframe embebido
         test: test,
       });
 
@@ -234,6 +234,91 @@ export default function EpaycoCheckout({ onClose }) {
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
             {cart.length} {cart.length === 1 ? "producto" : "productos"}
           </p>
+        </div>
+
+        {/* Información de Envíos */}
+        <div className="mt-4 border-2 border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+          <div className="flex items-start gap-3">
+            <svg
+              className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <div className="flex-1">
+              <h3 className="font-bold text-blue-900 dark:text-blue-100 text-sm mb-2 flex items-center gap-2">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                  />
+                </svg>
+                Política de Envíos
+              </h3>
+
+              {/* Envío gratis */}
+              <div className="mb-3 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-md p-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <svg
+                    className="w-5 h-5 text-green-600 dark:text-green-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span className="font-semibold text-green-800 dark:text-green-200 text-sm">
+                    ✓ Envío GRATIS
+                  </span>
+                </div>
+                <p className="text-xs text-green-700 dark:text-green-300 ml-7">
+                  Para <strong>Valle de Sibundoy - Alto Putumayo</strong>
+                </p>
+              </div>
+
+              {/* Otros destinos */}
+              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-md p-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <svg
+                    className="w-5 h-5 text-amber-600 dark:text-amber-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                  <span className="font-semibold text-amber-800 dark:text-amber-200 text-sm">
+                    Otros destinos
+                  </span>
+                </div>
+                <p className="text-xs text-amber-700 dark:text-amber-300 ml-7">
+                  El costo y método de envío se coordinará por WhatsApp después del pago
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Botones */}

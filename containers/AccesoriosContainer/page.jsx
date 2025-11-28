@@ -1006,6 +1006,14 @@ const AccesoriosContainer = ({
                           onClick={async (e) => {
                             e.preventDefault();
                             e.stopPropagation();
+                            const isOutOfStock = item.stock === 0 || item.cantidad === 0;
+                            if (isOutOfStock) {
+                              toast.warning(`"${item.nombre}" no está disponible`, {
+                                title: "⚠️ Producto Agotado",
+                                duration: 3000,
+                              });
+                              return;
+                            }
                             const success = await addToCart(item, 1);
                             if (success) {
                               toast.success(`"${item.nombre}" agregado al carrito`, {
@@ -1014,9 +1022,14 @@ const AccesoriosContainer = ({
                               });
                             }
                           }}
-                          className="absolute top-2 right-2 z-10 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                          className={`absolute top-2 right-2 z-10 p-2 rounded-full shadow-lg transition-all duration-200 ${
+                            item.stock === 0 || item.cantidad === 0
+                              ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-70"
+                              : "bg-blue-600 hover:bg-blue-700 text-white hover:scale-110"
+                          }`}
+                          disabled={item.stock === 0 || item.cantidad === 0}
                           aria-label={`Agregar ${item.nombre} al carrito`}
-                          title="Agregar al carrito"
+                          title={item.stock === 0 || item.cantidad === 0 ? "Producto agotado" : "Agregar al carrito"}
                         >
                           <ShoppingCart size={20} />
                         </button>
