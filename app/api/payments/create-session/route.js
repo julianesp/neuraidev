@@ -176,25 +176,23 @@ export async function POST(request) {
     // Paso 2: Crear sesión de pago
     const sessionPayload = {
       // Campos obligatorios versión 2
-
       checkout_version: "2",
       name: "Neurai.dev",
       description: description,
       currency: "COP",
-      // amount: amount.toString(),
-      amount: amount,
+      amount: String(amount), // IMPORTANTE: ePayco requiere string
       lang: "es",
       ip: ip,
       country: "CO", // Colombia
       test: testMode,
       invoice: invoiceNumber,
 
-      // Impuestos (obligatorios en snake_case)
-      taxBase: "0",
+      // Impuestos (obligatorios en snake_case con guión bajo)
+      tax_base: "0",
       tax: "0",
-      taxIco: "0",
+      tax_ico: "0",
 
-      // URLs de respuesta
+      // URLs de respuesta (HTTPS requerido en producción)
       response: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/respuesta-pago`,
       confirmation: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/api/payments/confirmation`,
 
@@ -227,10 +225,25 @@ export async function POST(request) {
     );
 
     if (!sessionResponse.ok) {
-      logError("❌ Error al crear sesión de pago");
+      const errorText = await sessionResponse.text();
+      let errorData;
+      try {
+        errorData = JSON.parse(errorText);
+      } catch {
+        errorData = { message: errorText };
+      }
+
+      logError("❌ Error al crear sesión de pago:", sessionResponse.status);
+      logError("Detalles del error:", errorData);
+
       return NextResponse.json(
-        { error: "Error al crear sesión de pago" },
-        { status: 500 },
+        {
+          error: "Error al crear sesión de pago",
+          status: sessionResponse.status,
+          details: errorData,
+          hint: "Verifica los datos enviados a ePayco"
+        },
+        { status: 500, headers: corsHeaders },
       );
     }
 
