@@ -34,6 +34,42 @@ export default function StructuredData() {
       addressLocality: "Valle de Sibundoy",
       addressRegion: "Putumayo",
     },
+    makesOffer: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Desarrollo Web",
+          description: "Desarrollo de sitios web, tiendas online y aplicaciones",
+          url: "https://neurai.dev/servicios/desarrollador-software",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Soporte Técnico",
+          description: "Mantenimiento y reparación de computadoras",
+          url: "https://neurai.dev/servicios/tecnico-sistemas",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Product",
+          name: "Accesorios para Celulares",
+          url: "https://neurai.dev/accesorios/celulares",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Product",
+          name: "Accesorios para Computadoras",
+          url: "https://neurai.dev/accesorios/computadoras",
+        },
+      },
+    ],
   };
 
   const websiteSchema = {
@@ -188,6 +224,145 @@ export default function StructuredData() {
     ],
   };
 
+  // Schema para servicios profesionales
+  const servicesSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Servicios Profesionales",
+    description: "Servicios de desarrollo web, soporte técnico en sistemas y más",
+    url: "https://neurai.dev/servicios",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@type": "Service",
+          "@id": "https://neurai.dev/servicios/desarrollador-software",
+          name: "Desarrollo Web",
+          description: "Desarrollo de páginas web, aplicaciones web, tiendas online y sistemas a medida",
+          url: "https://neurai.dev/servicios/desarrollador-software",
+          provider: {
+            "@type": "Organization",
+            name: "Neurai.dev",
+          },
+          areaServed: "CO",
+          availableChannel: {
+            "@type": "ServiceChannel",
+            serviceUrl: "https://neurai.dev/servicios/desarrollador-software",
+          },
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        item: {
+          "@type": "Service",
+          "@id": "https://neurai.dev/servicios/tecnico-sistemas",
+          name: "Soporte Técnico en Sistemas",
+          description: "Mantenimiento y reparación de computadoras, instalación de software, soporte técnico",
+          url: "https://neurai.dev/servicios/tecnico-sistemas",
+          provider: {
+            "@type": "Organization",
+            name: "Neurai.dev",
+          },
+          areaServed: "CO",
+          availableChannel: {
+            "@type": "ServiceChannel",
+            serviceUrl: "https://neurai.dev/servicios/tecnico-sistemas",
+          },
+        },
+      },
+    ],
+  };
+
+  // Schema para categorías de productos
+  const productCategoriesSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Categorías de Productos",
+    description: "Accesorios tecnológicos, celulares, computadoras, libros y más",
+    url: "https://neurai.dev/accesorios",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@type": "CollectionPage",
+          "@id": "https://neurai.dev/accesorios/celulares",
+          name: "Accesorios para Celulares",
+          description: "Fundas, protectores, cargadores y accesorios para celulares",
+          url: "https://neurai.dev/accesorios/celulares",
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        item: {
+          "@type": "CollectionPage",
+          "@id": "https://neurai.dev/accesorios/computadoras",
+          name: "Accesorios para Computadoras",
+          description: "Teclados, mouse, memorias RAM, discos duros y más accesorios para computadoras",
+          url: "https://neurai.dev/accesorios/computadoras",
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        item: {
+          "@type": "CollectionPage",
+          "@id": "https://neurai.dev/accesorios/libros-nuevos",
+          name: "Libros Nuevos",
+          description: "Libros nuevos de diversas categorías y temáticas",
+          url: "https://neurai.dev/accesorios/libros-nuevos",
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        item: {
+          "@type": "CollectionPage",
+          "@id": "https://neurai.dev/accesorios/libros-usados",
+          name: "Libros Usados",
+          description: "Libros usados en buen estado, diversas categorías",
+          url: "https://neurai.dev/accesorios/libros-usados",
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 5,
+        item: {
+          "@type": "CollectionPage",
+          "@id": "https://neurai.dev/accesorios/generales",
+          name: "Productos Generales",
+          description: "Productos varios y accesorios generales",
+          url: "https://neurai.dev/accesorios/generales",
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 6,
+        item: {
+          "@type": "CollectionPage",
+          "@id": "https://neurai.dev/accesorios/damas",
+          name: "Accesorios para Damas",
+          description: "Accesorios y productos para damas",
+          url: "https://neurai.dev/accesorios/damas",
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 7,
+        item: {
+          "@type": "CollectionPage",
+          "@id": "https://neurai.dev/accesorios/belleza",
+          name: "Productos de Belleza",
+          description: "Productos de belleza y cuidado personal",
+          url: "https://neurai.dev/accesorios/belleza",
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <script
@@ -205,6 +380,14 @@ export default function StructuredData() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productCategoriesSchema) }}
       />
     </>
   );
