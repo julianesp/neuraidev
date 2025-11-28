@@ -120,13 +120,17 @@ export async function POST(request) {
 
     if (!authResponse.ok) {
       const errorText = await authResponse.text();
-      logError("❌ Error de autenticación con ePayco:", authResponse.status, errorText);
+      logError(
+        "❌ Error de autenticación con ePayco:",
+        authResponse.status,
+        errorText,
+      );
       return NextResponse.json(
         {
           error: "Error de autenticación con ePayco",
           status: authResponse.status,
           details: errorText,
-          hint: "Verifica tus credenciales EPAYCO_PUBLIC_KEY y EPAYCO_PRIVATE_KEY"
+          hint: "Verifica tus credenciales EPAYCO_PUBLIC_KEY y EPAYCO_PRIVATE_KEY",
         },
         { status: 401, headers: corsHeaders },
       );
@@ -141,7 +145,7 @@ export async function POST(request) {
       return NextResponse.json(
         {
           error: "No se pudo obtener token de autenticación",
-          hint: "El servidor de ePayco no devolvió un token. Verifica tus credenciales."
+          hint: "El servidor de ePayco no devolvió un token. Verifica tus credenciales.",
         },
         { status: 500, headers: corsHeaders },
       );
@@ -158,20 +162,27 @@ export async function POST(request) {
       headers.get("cf-connecting-ip"),
     ];
 
-    // Regex para validar IPv4
+    // Regex para validar IPv4 (sin puertos)
     const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
 
     // Buscar la primera IP válida (IPv4) de los headers
     let clientIp = null;
     for (const possibleIp of possibleIpHeaders) {
-      if (possibleIp && ipv4Regex.test(possibleIp)) {
-        clientIp = possibleIp;
-        break;
+      if (possibleIp) {
+        // Remover puerto si existe (formato: IP:PUERTO)
+        const cleanIp = possibleIp.split(':')[0].trim();
+
+        if (ipv4Regex.test(cleanIp)) {
+          clientIp = cleanIp;
+          break;
+        }
       }
     }
 
-    // Si no se encontró IP válida, usar una IP pública genérica (requerido por ePayco)
+    // Si no se encontró IP válida, usar una IP pública genérica de Colombia (requerido por ePayco)
     const ip = clientIp || "181.57.0.1";
+
+    log("🌐 IP del cliente:", ip);
 
     // Paso 2: Crear sesión de pago
     const sessionPayload = {
@@ -241,7 +252,7 @@ export async function POST(request) {
           error: "Error al crear sesión de pago",
           status: sessionResponse.status,
           details: errorData,
-          hint: "Verifica los datos enviados a ePayco"
+          hint: "Verifica los datos enviados a ePayco",
         },
         { status: 500, headers: corsHeaders },
       );
@@ -268,7 +279,7 @@ export async function POST(request) {
         amount: sessionPayload.amount,
         test: testMode,
       },
-      { headers: corsHeaders }
+      { headers: corsHeaders },
     );
   } catch (error) {
     logError("❌ Error en create-session:", error);
@@ -289,6 +300,6 @@ export async function GET() {
       methods: ["GET", "POST", "OPTIONS"],
       timestamp: new Date().toISOString(),
     },
-    { headers: corsHeaders }
+    { headers: corsHeaders },
   );
 }
