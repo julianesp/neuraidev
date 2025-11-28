@@ -133,16 +133,14 @@ export async function POST(request) {
     }
 
     const authData = await authResponse.json();
-    log("Auth response:", authData);
 
     const bearerToken = authData.token;
 
     if (!bearerToken) {
-      logError("❌ No se recibió token de autenticación. Response:", authData);
+      logError("❌ No se recibió token de autenticación");
       return NextResponse.json(
         {
           error: "No se pudo obtener token de autenticación",
-          response: authData,
           hint: "El servidor de ePayco no devolvió un token. Verifica tus credenciales."
         },
         { status: 500, headers: corsHeaders },
