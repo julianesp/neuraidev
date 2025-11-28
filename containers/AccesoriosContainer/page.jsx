@@ -5,7 +5,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, MessageCircle, Eye } from "lucide-react";
+import { ChevronLeft, ChevronRight, MessageCircle, Eye, ShoppingCart } from "lucide-react";
 import styles from "./AccesoriosContainer.module.scss"; // Importamos estilos SCSS
 import {
   generateProductSlug,
@@ -18,6 +18,8 @@ import PriceWithDiscount from "@/components/PriceWithDiscount";
 import AddToCartButton from "@/components/AddToCartButton";
 import ProductSchema from "@/components/ProductSchema";
 import Breadcrumbs, { CATEGORY_NAMES } from "@/components/Breadcrumbs";
+import { useCart } from "@/context/CartContext";
+import { useToast } from "@/contexts/ToastContext";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -31,6 +33,10 @@ const AccesoriosContainer = ({
 
   // Router de Next.js para actualizar URL
   const router = useRouter();
+
+  // Hooks para el carrito
+  const { addToCart } = useCart();
+  const toast = useToast();
 
   const [todosAccesorios, setTodosAccesorios] = useState([]);
   const [accesorio, setAccesorio] = useState(null);
@@ -993,8 +999,28 @@ const AccesoriosContainer = ({
                     return (
                       <div
                         key={itemIndex}
-                        className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-2 flex flex-col justify-between hover:scale-105 transition-transform`}
+                        className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-2 flex flex-col justify-between hover:scale-105 transition-transform relative`}
                       >
+                        {/* Botón flotante para agregar al carrito */}
+                        <button
+                          onClick={async (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const success = await addToCart(item, 1);
+                            if (success) {
+                              toast.success(`"${item.nombre}" agregado al carrito`, {
+                                title: "✅ Producto Agregado",
+                                duration: 3000,
+                              });
+                            }
+                          }}
+                          className="absolute top-2 right-2 z-10 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                          aria-label={`Agregar ${item.nombre} al carrito`}
+                          title="Agregar al carrito"
+                        >
+                          <ShoppingCart size={20} />
+                        </button>
+
                         <div className="relative h-40 mb-2 overflow-hidden rounded">
                           {!imageError[`related-${itemIndex}`] &&
                           itemImageUrl ? (

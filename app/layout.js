@@ -18,7 +18,7 @@ import { ToastContainer } from "@/components/Toast";
 import { ClerkProvider } from "@clerk/nextjs";
 import AIChat from "@/components/AIChat/AIChat";
 import { CartProvider } from "@/context/CartContext";
-import ShoppingCart from "@/components/ShoppingCart";
+import ShoppingCart from "@/components/ShoppingCart/page";
 
 export const metadata = {
   metadataBase: new URL("https://neurai.dev"),

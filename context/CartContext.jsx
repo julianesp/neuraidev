@@ -212,13 +212,33 @@ export function CartProvider({ children }) {
           i.id === itemId &&
           JSON.stringify(i.variacion) === JSON.stringify(variacion),
       );
-      toast.warning(
-        `Solo hay ${stockDisponible} unidades disponibles de "${item?.nombre}"`,
-        {
-          title: "Stock Insuficiente",
-          duration: 5000,
-        },
-      );
+
+      // Mensaje personalizado según el stock disponible
+      if (stockDisponible === 0) {
+        toast.error(
+          `"${item?.nombre}" está agotado. No hay unidades disponibles.`,
+          {
+            title: "⚠️ Producto Agotado",
+            duration: 6000,
+          },
+        );
+      } else if (stockDisponible === 1) {
+        toast.warning(
+          `Solo queda 1 unidad disponible de "${item?.nombre}"`,
+          {
+            title: "⚠️ Última Unidad",
+            duration: 6000,
+          },
+        );
+      } else {
+        toast.warning(
+          `Solo hay ${stockDisponible} unidades disponibles de "${item?.nombre}"`,
+          {
+            title: "⚠️ Stock Limitado",
+            duration: 6000,
+          },
+        );
+      }
 
       // Actualizar al máximo disponible
       if (stockDisponible > 0) {
@@ -230,6 +250,9 @@ export function CartProvider({ children }) {
               : item,
           ),
         );
+      } else {
+        // Si no hay stock, remover del carrito
+        removeFromCart(itemId, variacion);
       }
       return false;
     }

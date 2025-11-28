@@ -6,7 +6,8 @@ import { useToast } from "@/contexts/ToastContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { getProductImage } from "@/lib/constants";
-import EpaycoCheckout from "./EpaycoCheckout";
+import EpaycoCheckout from "../EpaycoCheckout";
+import styles from "./ShoppingCart.module.scss";
 
 export default function ShoppingCart() {
   const {
@@ -95,47 +96,65 @@ export default function ShoppingCart() {
       {/* Panel del carrito - SIMPLIFICADO PARA DEBUG */}
       <div
         style={{
-          position: 'fixed',
+          position: "fixed",
           top: 0,
           right: 0,
-          height: '100vh',
-          width: '420px',
-          backgroundColor: 'white',
+          height: "100vh",
+          width: "420px",
+          // backgroundColor: "white",
           zIndex: 9999,
-          boxShadow: '-4px 0 20px rgba(0,0,0,0.3)',
-          display: 'flex',
-          flexDirection: 'column'
+          boxShadow: "-4px 0 20px rgba(0,0,0,0.3)",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         {/* Header */}
-        <div style={{
-          padding: '16px',
-          borderBottom: '1px solid #e5e7eb',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-          <h2 style={{ fontSize: '20px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <ShoppingBag size={24} />
+        <div
+          style={{
+            padding: "16px",
+            borderBottom: "1px solid #e5e7eb",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            darkMode: "bg-gray-900 border-gray-700",
+          }}
+          className="dark:bg-gray-700"
+        >
+          <h2
+            style={{
+              fontSize: "20px",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <ShoppingBag size={24} className="dark:bg-gray-700" />
             Carrito de Compras ({cart.length} items)
           </h2>
           <button
             onClick={toggleCart}
             style={{
-              padding: '8px',
-              borderRadius: '50%',
-              border: 'none',
-              background: '#f3f4f6',
-              cursor: 'pointer'
+              padding: "8px",
+              borderRadius: "50%",
+              border: "none",
+              // background: "#f3f4f6",
+              cursor: "pointer",
+              dark: "bg-gray-600",
             }}
             aria-label="Cerrar carrito"
+            title="Cerrar carrito"
+            // className="dark:bg-gray-700"
           >
             <X size={24} />
           </button>
         </div>
 
         {/* Contenido del carrito */}
-        <div className="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-800">
+        <div
+          className={`flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-800 ${styles.productosListados} `}
+          data-aos="fade-down"
+        >
           {cart.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-gray-500">
               <ShoppingBag size={64} className="mb-4" />
@@ -161,6 +180,7 @@ export default function ShoppingCart() {
                           src={imageSrc}
                           alt={item.nombre}
                           fill
+                          sizes="60px"
                           className="object-cover rounded-md"
                           unoptimized={isDataUri}
                         />
@@ -239,20 +259,23 @@ export default function ShoppingCart() {
 
         {/* Footer con total y botones */}
         {cart.length > 0 && (
-          <div className="border-t border-gray-200 dark:border-gray-700 p-2 space-y-3 bg-white dark:bg-gray-900">
+          <div
+            className={`border-gray-200 dark:border-gray-700 p-4 space-y-3 bg-white dark:bg-gray-900  ${styles.carrito}`}
+            data-aos="fade-up"
+          >
             {/* Total */}
             <div className="flex items-center justify-between text-lg font-bold">
-              <span className="text-gray-900 dark:text-white">Total:</span>
-              <span className="text-blue-600 dark:text-blue-400">
+              <span className="text-gray-900 dark:text-white ">Total:</span>
+              <span className="text-blue-600 dark:text-white">
                 ${getTotalPrice().toLocaleString("es-CO")}
               </span>
             </div>
 
             {showCheckout ? (
-              <div>
+              <div className="max-h-[60vh] overflow-y-auto pr-2">
                 <button
                   onClick={() => setShowCheckout(false)}
-                  className="mb-3 text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                  className="mb-3 text-sm text-blue-600 dark:text-white flex items-center gap-1 sticky top-0 bg-white dark:bg-gray-900 py-2 z-10 -ml-2 pl-2"
                 >
                   ← Volver a opciones de pago
                 </button>

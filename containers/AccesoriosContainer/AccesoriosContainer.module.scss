@@ -130,8 +130,8 @@
     // Ajustar altura para mantener proporciones en móvil
     height: auto;
 
-    // Contenedor de imagen
-    & > div:first-child {
+    // Contenedor de imagen - usar clase específica para evitar conflictos con botones
+    .relative.h-40 {
       height: 120px;
     }
 
@@ -160,8 +160,8 @@
   }
 
   @media screen and (min-width: 641px) {
-    // Contenedor de imagen para tablet y desktop
-    & > div:first-child {
+    // Contenedor de imagen para tablet y desktop - selectores específicos
+    :global(.relative.h-40) {
       height: 160px;
     }
   }

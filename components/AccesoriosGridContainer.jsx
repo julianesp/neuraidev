@@ -20,6 +20,8 @@ import {
   buildProductUrl,
   getCategorySlug,
 } from "../utils/slugify";
+import { useCart } from "../context/CartContext";
+import { useToast } from "../contexts/ToastContext";
 
 const ModernProductGrid = (props) => {
   const [accesorios, setAccesorios] = useState([]);
@@ -31,6 +33,8 @@ const ModernProductGrid = (props) => {
 
   const { applySoldStatus, toggleSoldStatus } = useSoldProducts();
   const categorySlug = props.categorySlug || "generales";
+  const { addToCart } = useCart();
+  const toast = useToast();
 
   useEffect(() => {
     if (props.accesorios && Array.isArray(props.accesorios)) {
@@ -136,7 +140,15 @@ const ModernProductGrid = (props) => {
   const normalizeImages = (images) => {
     if (!images) return ["/placeholder.jpg"];
     if (typeof images === "string") return [images];
-    return images;
+    if (Array.isArray(images)) {
+      return images.map(img => {
+        if (typeof img === "object" && img.url) {
+          return img.url;
+        }
+        return img;
+      });
+    }
+    return ["/placeholder.jpg"];
   };
 
   const formatPrice = (price) => {
@@ -261,6 +273,33 @@ const ModernProductGrid = (props) => {
                     aria-label="Expandir imagen"
                   >
                     <Maximize2 size={18} className="text-gray-700" />
+                  </button>
+
+                  {/* Botón de agregar al carrito - flotante */}
+                  <button
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (accesorio.vendido) return;
+
+                      const success = await addToCart(accesorio, 1);
+                      if (success) {
+                        toast.success(`"${accesorio.nombre || accesorio.title}" agregado al carrito`, {
+                          title: "✅ Producto Agregado",
+                          duration: 3000,
+                        });
+                      }
+                    }}
+                    className={`absolute top-3 right-3 backdrop-blur-sm p-3 rounded-full transition-all shadow-lg z-30 ${
+                      accesorio.vendido
+                        ? "bg-gray-300/90 text-gray-500 cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700 text-white hover:scale-110"
+                    }`}
+                    disabled={accesorio.vendido}
+                    aria-label="Agregar al carrito"
+                    title={accesorio.vendido ? "Producto agotado" : "Agregar al carrito"}
+                  >
+                    <ShoppingCart size={20} />
                   </button>
 
                   {/* Controles de navegación */}
