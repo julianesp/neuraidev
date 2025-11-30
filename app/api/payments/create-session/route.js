@@ -207,13 +207,13 @@ export async function POST(request) {
       description: description,
       currency: "COP",
       amount: String(amount), // IMPORTANTE: ePayco requiere string
-      lang: "es",
+      lang: "ES", // ES o EN según documentación oficial
       ip: ip,
       country: "CO", // Colombia
       test: testMode,
       invoice: invoiceNumber,
 
-      // Impuestos (obligatorios en snake_case con guión bajo)
+      // Impuestos obligatorios
       taxBase: "0",
       tax: "0",
       taxIco: "0",
@@ -227,13 +227,15 @@ export async function POST(request) {
       extra2: customerEmail || "",
       extra3: customerPhone || "",
 
-      // Información de facturación (todos en snake_case)
-      name_billing: customerName || "Cliente",
-      address_billing: "Dirección de localidad",
-      type_doc_billing: "CC",
-      number_doc_billing: "1234567890",
-      mobilephone_billing: customerPhone || "3000000000",
-      email_billing: customerEmail,
+      // Información de facturación (objeto anidado según documentación oficial)
+      billing: {
+        name: customerName || "Cliente",
+        email: customerEmail,
+        address: "Dirección de localidad",
+        typeDoc: "CC",
+        numberDoc: "1234567890",
+        mobilePhone: customerPhone || "3000000000",
+      },
     };
 
     log("📤 Creando sesión de pago...");
