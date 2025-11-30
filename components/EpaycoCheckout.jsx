@@ -91,7 +91,6 @@ export default function EpaycoCheckout({ onClose }) {
           : `${cart.length} productos de Neurai.dev`;
 
       // Crear sesión de pago en el backend
-
       const response = await fetch("/api/payments/create-session", {
         method: "POST",
         headers: {
@@ -124,7 +123,7 @@ export default function EpaycoCheckout({ onClose }) {
       // Configurar checkout de ePayco
       const checkout = window.ePayco.checkout.configure({
         sessionId: sessionId,
-        type: "standard", // standard = modal de pantalla completa, onepage = iframe embebido
+        type: "standard",
         test: test,
       });
 
@@ -314,7 +313,8 @@ export default function EpaycoCheckout({ onClose }) {
                   </span>
                 </div>
                 <p className="text-xs text-amber-700 dark:text-amber-300 ml-7">
-                  El costo y método de envío se coordinará por WhatsApp después del pago
+                  El costo y método de envío se coordinará por WhatsApp después
+                  del pago
                 </p>
               </div>
             </div>
@@ -337,8 +337,20 @@ export default function EpaycoCheckout({ onClose }) {
             {loading ? (
               <>
                 <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
                 Procesando...
               </>

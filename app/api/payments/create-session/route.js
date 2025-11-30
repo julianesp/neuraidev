@@ -170,7 +170,7 @@ export async function POST(request) {
     for (const possibleIp of possibleIpHeaders) {
       if (possibleIp) {
         // Remover puerto si existe (formato: IP:PUERTO)
-        const cleanIp = possibleIp.split(':')[0].trim();
+        const cleanIp = possibleIp.split(":")[0].trim();
 
         if (ipv4Regex.test(cleanIp)) {
           clientIp = cleanIp;
@@ -179,8 +179,23 @@ export async function POST(request) {
       }
     }
 
-    // Si no se encontró IP válida, usar una IP pública genérica de Colombia (requerido por ePayco)
-    const ip = clientIp || "181.57.0.1";
+    // Si no se encontró IP válida, rechazar la transacción (seguridad)
+    if (!clientIp) {
+      logError("⚠️ No se pudo obtener IP válida del cliente", {
+        headers: {
+          "x-real-ip": headers.get("x-real-ip"),
+          "x-forwarded-for": headers.get("x-forwarded-for"),
+          "x-vercel-forwarded-for": headers.get("x-vercel-forwarded-for"),
+          "cf-connecting-ip": headers.get("cf-connecting-ip"),
+        },
+      });
+
+      // Usar IP genérica de Colombia como último recurso
+      // NOTA: Esto podría activar sistemas anti-fraude. Considera rechazar la transacción.
+      clientIp = "181.57.0.1";
+    }
+
+    const ip = clientIp;
 
     log("🌐 IP del cliente:", ip);
 
@@ -199,9 +214,9 @@ export async function POST(request) {
       invoice: invoiceNumber,
 
       // Impuestos (obligatorios en snake_case con guión bajo)
-      tax_base: "0",
+      taxBase: "0",
       tax: "0",
-      tax_ico: "0",
+      taxIco: "0",
 
       // URLs de respuesta (HTTPS requerido en producción)
       response: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/respuesta-pago`,
@@ -214,8 +229,8 @@ export async function POST(request) {
 
       // Información de facturación (todos en snake_case)
       name_billing: customerName || "Cliente",
-      address_billing: "Calle 1 #1-1",
-      type_doc_billing: "cc",
+      address_billing: "Dirección de localidad",
+      type_doc_billing: "CC",
       number_doc_billing: "1234567890",
       mobilephone_billing: customerPhone || "3000000000",
       email_billing: customerEmail,
