@@ -17,6 +17,9 @@ export default function EpaycoCheckout({ onClose }) {
     name: "",
     email: "",
     phone: "",
+    typeDoc: "CC",
+    numberDoc: "",
+    address: "",
   });
 
   // Validar que ePayco esté cargado
@@ -51,6 +54,16 @@ export default function EpaycoCheckout({ onClose }) {
       return false;
     }
 
+    if (!customerData.numberDoc || customerData.numberDoc.trim().length < 6) {
+      toast.error("Por favor ingresa un número de documento válido");
+      return false;
+    }
+
+    if (!customerData.address || customerData.address.trim().length < 5) {
+      toast.error("Por favor ingresa una dirección válida");
+      return false;
+    }
+
     return true;
   };
 
@@ -82,7 +95,7 @@ export default function EpaycoCheckout({ onClose }) {
       const total = getTotalPrice();
 
       // Generar factura única
-      const invoice = `NRD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const invoice = `NRD-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 
       // Preparar descripción
       const description =
@@ -102,11 +115,14 @@ export default function EpaycoCheckout({ onClose }) {
           customerName: customerData.name,
           customerEmail: customerData.email,
           customerPhone: customerData.phone,
+          customerAddress: customerData.address,
+          customerTypeDoc: customerData.typeDoc,
+          customerNumberDoc: customerData.numberDoc,
           invoice: invoice,
           items: cart.map((item) => ({
             id: item.id, // IMPORTANTE: Incluir el ID del producto
             name: item.nombre,
-            quantity: item.quantity,
+            quantity: item.cantidad, // FIX: Corregido de item.quantity a item.cantidad
             price: item.precio,
           })),
         }),
@@ -127,25 +143,54 @@ export default function EpaycoCheckout({ onClose }) {
         test: test,
       });
 
-      // Definir callbacks
-      checkout.onCreated = () => {
-        toast.success("¡Pago completado exitosamente!");
+      // Definir callbacks según la API de ePayco
+      // onResponse: Se ejecuta cuando hay una respuesta del pago
+      if (checkout.onResponse) {
+        checkout.onResponse = function (response) {
+          if (response && response.x_response === "Aceptada") {
+            toast.success("¡Pago completado exitosamente!");
+            setTimeout(() => {
+              clearCart();
+              if (onClose) onClose();
+            }, 2000);
+          } else if (response && response.x_response === "Rechazada") {
+            toast.error("El pago fue rechazado. Por favor intenta nuevamente.");
+            setLoading(false);
+          } else if (response && response.x_response === "Pendiente") {
+            toast.info("El pago está pendiente de confirmación.");
+            setLoading(false);
+          }
+        };
+      }
 
-        // Limpiar carrito después de pago exitoso
-        setTimeout(() => {
-          clearCart();
-          if (onClose) onClose();
-        }, 2000);
-      };
+      // onCreated: Se ejecuta cuando el checkout se crea/abre (NO cuando se completa)
+      if (checkout.onCreated) {
+        checkout.onCreated = function () {
+          console.warn("Checkout abierto");
+        };
+      }
 
-      checkout.onErrors = () => {
-        toast.error("Hubo un error con el pago. Por favor intenta nuevamente.");
-        setLoading(false);
-      };
+      // onCloseModal o onClosed: Se ejecuta cuando se cierra el checkout
+      if (checkout.onCloseModal) {
+        checkout.onCloseModal = function () {
+          setLoading(false);
+        };
+      } else if (checkout.onClosed) {
+        checkout.onClosed = function () {
+          setLoading(false);
+        };
+      }
 
-      checkout.onClosed = () => {
-        setLoading(false);
-      };
+      // onErrors: Manejo de errores
+      if (checkout.onErrors) {
+        checkout.onErrors = function (error) {
+          console.error("Error en ePayco:", error);
+          toast.error(
+            "Hubo un error con el sistema de pagos. Por favor intenta nuevamente.",
+          );
+          setLoading(false);
+        };
+      }
 
       // Abrir checkout
       checkout.open();
@@ -217,6 +262,70 @@ export default function EpaycoCheckout({ onClose }) {
             value={customerData.phone}
             onChange={handleChange}
             placeholder="000-000-0000"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            required
+          />
+        </div>
+
+        {/* Tipo de documento */}
+        <div>
+          <label
+            htmlFor="customer-type-doc"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
+            Tipo de documento *
+          </label>
+          <select
+            id="customer-type-doc"
+            name="typeDoc"
+            value={customerData.typeDoc}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            required
+          >
+            <option value="CC">Cédula de Ciudadanía</option>
+            <option value="CE">Cédula de Extranjería</option>
+            <option value="NIT">NIT</option>
+            <option value="TI">Tarjeta de Identidad</option>
+            <option value="PP">Pasaporte</option>
+          </select>
+        </div>
+
+        {/* Número de documento */}
+        <div>
+          <label
+            htmlFor="customer-number-doc"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
+            Número de documento *
+          </label>
+          <input
+            id="customer-number-doc"
+            type="text"
+            name="numberDoc"
+            value={customerData.numberDoc}
+            onChange={handleChange}
+            placeholder="Ingrese su número de documento"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            required
+          />
+        </div>
+
+        {/* Dirección */}
+        <div>
+          <label
+            htmlFor="customer-address"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
+            Dirección *
+          </label>
+          <input
+            id="customer-address"
+            type="text"
+            name="address"
+            value={customerData.address}
+            onChange={handleChange}
+            placeholder="Ingrese su dirección"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             required
           />

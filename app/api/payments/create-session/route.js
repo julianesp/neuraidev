@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseClient } from "@/lib/db";
+import { getValidToken, getTokenInfo } from "@/lib/epayco-token-manager";
 
 // Solo loguear en desarrollo usando console.warn (permitido por el linter)
 const isDev = process.env.NODE_ENV === "development";
@@ -38,6 +39,9 @@ export async function POST(request) {
       customerName,
       customerEmail,
       customerPhone,
+      customerAddress,
+      customerTypeDoc,
+      customerNumberDoc,
       invoice,
       items = [],
     } = body;
@@ -52,9 +56,21 @@ export async function POST(request) {
       );
     }
 
+    // Validar datos de facturación para PSE
+    if (!customerNumberDoc || !customerAddress) {
+      return NextResponse.json(
+        {
+          error:
+            "Faltan datos de facturación requeridos: customerNumberDoc, customerAddress",
+        },
+        { status: 400 },
+      );
+    }
+
     // Generar número de factura único
     const invoiceNumber =
-      invoice || `NRD-${Date.now()}${Math.random().toString(36).substr(2, 9)}`;
+      invoice ||
+      `NRD-${Date.now()}${Math.random().toString(36).substring(2, 11)}`;
 
     // Guardar la orden en Supabase ANTES de crear la sesión de pago
     // Esto permite rastrear los items para reducir stock después
@@ -102,56 +118,25 @@ export async function POST(request) {
       );
     }
 
-    // Paso 1: Autenticarse en Apify
-    const authString = Buffer.from(`${publicKey}:${privateKey}`).toString(
-      "base64",
-    );
-
-    log("🔐 Autenticando en ePayco...");
+    // Paso 1: Obtener token NUEVO (siempre renovado para evitar problemas)
+    log("🔐 Obteniendo token NUEVO de ePayco...");
     log("Public Key:", publicKey?.substring(0, 10) + "...");
 
-    const authResponse = await fetch("https://apify.epayco.co/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${authString}`,
-      },
-    });
-
-    if (!authResponse.ok) {
-      const errorText = await authResponse.text();
-      logError(
-        "❌ Error de autenticación con ePayco:",
-        authResponse.status,
-        errorText,
-      );
+    let bearerToken;
+    try {
+      bearerToken = await getValidToken(publicKey, privateKey, true); // Forzar renovación
+      log("✅ Token obtenido exitosamente");
+    } catch (error) {
+      logError("❌ Error al obtener token:", error.message);
       return NextResponse.json(
         {
           error: "Error de autenticación con ePayco",
-          status: authResponse.status,
-          details: errorText,
+          details: error.message,
           hint: "Verifica tus credenciales EPAYCO_PUBLIC_KEY y EPAYCO_PRIVATE_KEY",
         },
         { status: 401, headers: corsHeaders },
       );
     }
-
-    const authData = await authResponse.json();
-
-    const bearerToken = authData.token;
-
-    if (!bearerToken) {
-      logError("❌ No se recibió token de autenticación");
-      return NextResponse.json(
-        {
-          error: "No se pudo obtener token de autenticación",
-          hint: "El servidor de ePayco no devolvió un token. Verifica tus credenciales.",
-        },
-        { status: 500, headers: corsHeaders },
-      );
-    }
-
-    log("✅ Autenticación exitosa");
 
     // Obtener IP del cliente desde múltiples headers (Vercel, Cloudflare, etc.)
     const headers = request.headers;
@@ -179,20 +164,24 @@ export async function POST(request) {
       }
     }
 
-    // Si no se encontró IP válida, rechazar la transacción (seguridad)
+    // Si no se encontró IP válida
     if (!clientIp) {
-      logError("⚠️ No se pudo obtener IP válida del cliente", {
-        headers: {
-          "x-real-ip": headers.get("x-real-ip"),
-          "x-forwarded-for": headers.get("x-forwarded-for"),
-          "x-vercel-forwarded-for": headers.get("x-vercel-forwarded-for"),
-          "cf-connecting-ip": headers.get("cf-connecting-ip"),
-        },
-      });
-
-      // Usar IP genérica de Colombia como último recurso
-      // NOTA: Esto podría activar sistemas anti-fraude. Considera rechazar la transacción.
-      clientIp = "181.57.0.1";
+      // En modo test/desarrollo, usar IP de prueba válida
+      if (testMode || isDev) {
+        clientIp = "181.57.0.1"; // IP genérica de Colombia para pruebas
+        log("⚠️ Modo desarrollo/test: usando IP de prueba", clientIp);
+      } else {
+        // En producción, loguear el problema pero continuar
+        logError("⚠️ No se pudo obtener IP válida del cliente", {
+          headers: {
+            "x-real-ip": headers.get("x-real-ip"),
+            "x-forwarded-for": headers.get("x-forwarded-for"),
+            "x-vercel-forwarded-for": headers.get("x-vercel-forwarded-for"),
+            "cf-connecting-ip": headers.get("cf-connecting-ip"),
+          },
+        });
+        clientIp = "181.57.0.1"; // Fallback
+      }
     }
 
     const ip = clientIp;
@@ -206,17 +195,17 @@ export async function POST(request) {
       name: "Neurai.dev",
       description: description,
       currency: "COP",
-      amount: String(amount), // IMPORTANTE: ePayco requiere string
+      amount: Number(amount), // Debe ser número, no string
       lang: "ES", // ES o EN según documentación oficial
       ip: ip,
       country: "CO", // Colombia
       test: testMode,
       invoice: invoiceNumber,
 
-      // Impuestos obligatorios
-      taxBase: "0",
-      tax: "0",
-      taxIco: "0",
+      // Impuestos obligatorios (números, no strings)
+      taxBase: 0,
+      tax: 0,
+      taxIco: 0,
 
       // URLs de respuesta (HTTPS requerido en producción)
       response: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/respuesta-pago`,
@@ -231,9 +220,9 @@ export async function POST(request) {
       billing: {
         name: customerName || "Cliente",
         email: customerEmail,
-        address: "Dirección de localidad",
-        typeDoc: "CC",
-        numberDoc: "1234567890",
+        address: customerAddress || "Dirección Colombia",
+        typeDoc: customerTypeDoc || "CC",
+        numberDoc: customerNumberDoc || "1234567890",
         mobilePhone: customerPhone || "3000000000",
       },
     };
@@ -277,10 +266,21 @@ export async function POST(request) {
 
     const sessionData = await sessionResponse.json();
 
+    // Log completo de la respuesta para debugging
+    log(
+      "📦 Respuesta completa de ePayco:",
+      JSON.stringify(sessionData, null, 2),
+    );
+
     if (!sessionData.data?.sessionId) {
       logError("❌ No se recibió sessionId de ePayco");
+      logError("📦 Respuesta de ePayco:", sessionData);
       return NextResponse.json(
-        { error: "No se pudo crear sesión de pago" },
+        {
+          error: "No se pudo crear sesión de pago",
+          epaycoResponse: sessionData,
+          hint: "ePayco no devolvió un sessionId válido",
+        },
         { status: 500 },
       );
     }

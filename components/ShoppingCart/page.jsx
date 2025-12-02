@@ -21,6 +21,7 @@ export default function ShoppingCart() {
   } = useCart();
   const toast = useToast();
   const [showCheckout, setShowCheckout] = useState(false);
+  const [loadingPaymentLink, setLoadingPaymentLink] = useState(false);
 
   // Debug: Log cart state
   // console.log(
@@ -78,6 +79,75 @@ export default function ShoppingCart() {
     // Abrir WhatsApp
     const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensajeCodificado}`;
     window.open(urlWhatsApp, "_blank");
+  };
+
+  // Generar link de cobro de ePayco
+  const handleGeneratePaymentLink = async () => {
+    if (cart.length === 0) {
+      toast.warning("Tu carrito está vacío", {
+        title: "Carrito Vacío",
+        duration: 3000,
+      });
+      return;
+    }
+
+    setLoadingPaymentLink(true);
+
+    try {
+      // Calcular total
+      const total = getTotalPrice();
+
+      // Preparar descripción
+      const description =
+        cart.length === 1
+          ? cart[0].nombre
+          : `Compra de ${cart.length} productos`;
+
+      // Generar factura única
+      const invoice = `NRD-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+
+      // Llamar al endpoint para generar link de cobro
+      const response = await fetch("/api/payments/create-link", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: total,
+          description: description,
+          customerName: "Cliente Neurai.dev",
+          customerEmail: "cliente@neurai.dev",
+          customerPhone: "3000000000",
+          invoice: invoice,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Error al generar link de pago");
+      }
+
+      if (!data.success || !data.paymentLink) {
+        throw new Error("No se recibió el link de pago");
+      }
+
+      // Abrir el link de pago en una nueva pestaña
+      window.open(data.paymentLink, "_blank");
+
+      toast.success("Link de pago generado exitosamente", {
+        title: "¡Link Generado!",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("Error al generar link de pago:", error);
+      toast.error(error.message || "Error al generar link de pago", {
+        title: "Error",
+        duration: 5000,
+      });
+    } finally {
+      setLoadingPaymentLink(false);
+    }
   };
 
   if (!isOpen) {
@@ -326,6 +396,50 @@ export default function ShoppingCart() {
                     <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
                   </svg>
                   Pagar con Tarjeta/PSE
+                </button>
+
+                {/* Botón para generar link de pago */}
+                <button
+                  onClick={handleGeneratePaymentLink}
+                  disabled={loadingPaymentLink}
+                  className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                  {loadingPaymentLink ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Generando link...
+                    </>
+                  ) : (
+                    <>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
+                      </svg>
+                      Generar Link de Pago
+                    </>
+                  )}
                 </button>
 
                 {/* Botón limpiar carrito */}
