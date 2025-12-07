@@ -94,10 +94,41 @@ export default async function ProductoPage({ params }: Props) {
     notFound();
   }
 
+  // Normalizar el producto para asegurar que todos los campos necesarios estén presentes
+  const imagenesNormalizadas = (producto.imagenes || []).map((img: string | { id?: string; url: string; alt?: string; orden?: number }, index: number) => {
+    // Si ya es un objeto con url, usarlo
+    if (typeof img === 'object' && img.url) {
+      return {
+        id: img.id || `img-${index}`,
+        url: img.url,
+        alt: img.alt || producto.nombre,
+        orden: img.orden || index,
+      };
+    }
+    // Si es un string (URL), crear el objeto
+    if (typeof img === 'string') {
+      return {
+        id: `img-${index}`,
+        url: img,
+        alt: producto.nombre,
+        orden: index,
+      };
+    }
+    return null;
+  }).filter(Boolean);
+
+  const productoNormalizado = {
+    ...producto,
+    metadata: producto.metadata || {},
+    imagenes: imagenesNormalizadas,
+    tags: producto.tags || [],
+    condicion: producto.estado || producto.condicion || 'nuevo',
+  };
+
   return (
     <main className="py-8">
       <div className="max-w-6xl mx-auto px-4">
-        <ProductoDetalle producto={producto} />
+        <ProductoDetalle producto={productoNormalizado} />
       </div>
     </main>
   );

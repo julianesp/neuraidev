@@ -3,7 +3,14 @@
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Package, ShoppingCart, TrendingUp, Plus, Star } from "lucide-react";
+import {
+  Package,
+  ShoppingCart,
+  TrendingUp,
+  Plus,
+  Star,
+  Link as LinkIcon,
+} from "lucide-react";
 import { obtenerEstadisticasProductos } from "@/lib/supabase/productos";
 
 export default function DashboardPage() {
@@ -90,7 +97,7 @@ export default function DashboardPage() {
         <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-4">
           Acciones rápidas
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           <QuickAction
             title="Agregar producto"
             description="Agrega un nuevo producto al catálogo"
@@ -102,6 +109,12 @@ export default function DashboardPage() {
             description="Gestiona tu catálogo de productos"
             href="/dashboard/productos"
             icon={Package}
+          />
+          <QuickAction
+            title="Payment Links"
+            description="Configura enlaces de pago Nequi/Wompi"
+            href="/dashboard/payment-links"
+            icon={LinkIcon}
           />
           <QuickAction
             title="Ver tienda"

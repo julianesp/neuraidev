@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useCart } from '@/context/CartContext';
-import { useToast } from '@/contexts/ToastContext';
-import { ShoppingCart, Plus, Minus, AlertTriangle, X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { useCart } from "@/context/CartContext";
+import { useToast } from "@/contexts/ToastContext";
+import { ShoppingCart, Plus, Minus, AlertTriangle, X } from "lucide-react";
 
 export default function AddToCartButton({ producto }) {
   const { addToCart, checkStock, cart } = useCart();
@@ -18,16 +18,18 @@ export default function AddToCartButton({ producto }) {
   // Normalizar datos del producto para manejar diferentes formatos
   const productData = {
     id: producto.id,
-    nombre: producto.title || producto.nombre || 'Producto',
+    nombre: producto.title || producto.nombre || "Producto",
     precio: parseFloat(
-      (producto.price || producto.precio || 0).toString().replace(/[^\d.-]/g, '')
+      (producto.price || producto.precio || 0)
+        .toString()
+        .replace(/[^\d.-]/g, ""),
     ),
     imagen: Array.isArray(producto.images)
       ? producto.images[0]
       : Array.isArray(producto.imagenes)
-      ? producto.imagenes[0]
-      : producto.imagen || '/placeholder.jpg',
-    categoria: producto.categoria || 'general'
+        ? producto.imagenes[0]
+        : producto.imagen || "/placeholder.jpg",
+    categoria: producto.categoria || "general",
   };
 
   // Cargar stock disponible al montar el componente
@@ -37,7 +39,7 @@ export default function AddToCartButton({ producto }) {
         const stock = await checkStock(producto.id);
         setStockDisponible(stock);
       } catch (error) {
-        console.error('Error al cargar stock:', error);
+        console.error("Error al cargar stock:", error);
         setStockDisponible(0);
       } finally {
         setLoading(false);
@@ -51,32 +53,33 @@ export default function AddToCartButton({ producto }) {
   useEffect(() => {
     if (showNoStockModal) {
       // Prevenir scroll del body
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
 
       // Cerrar con tecla Escape
       const handleEscape = (e) => {
-        if (e.key === 'Escape') {
+        if (e.key === "Escape") {
           setShowNoStockModal(false);
         }
       };
 
-      document.addEventListener('keydown', handleEscape);
+      document.addEventListener("keydown", handleEscape);
 
       return () => {
-        document.body.style.overflow = 'unset';
-        document.removeEventListener('keydown', handleEscape);
+        document.body.style.overflow = "unset";
+        document.removeEventListener("keydown", handleEscape);
       };
     }
   }, [showNoStockModal]);
 
   // Detectar si el producto tiene variaciones (por ejemplo, color)
-  const tieneVariaciones = producto.variaciones && producto.variaciones.length > 0;
+  const tieneVariaciones =
+    producto.variaciones && producto.variaciones.length > 0;
 
   const handleAddToCart = async () => {
     if (tieneVariaciones && !variacionSeleccionada) {
-      toast.warning('Por favor selecciona una variación', {
-        title: 'Variación Requerida',
-        duration: 4000
+      toast.warning("Por favor selecciona una variación", {
+        title: "Variación Requerida",
+        duration: 4000,
       });
       return;
     }
@@ -86,7 +89,10 @@ export default function AddToCartButton({ producto }) {
 
     // Calcular cuántos productos de este tipo ya están en el carrito
     const cantidadEnCarrito = cart.reduce((total, item) => {
-      if (item.id === producto.id && JSON.stringify(item.variacion) === JSON.stringify(variacionSeleccionada)) {
+      if (
+        item.id === producto.id &&
+        JSON.stringify(item.variacion) === JSON.stringify(variacionSeleccionada)
+      ) {
         return total + item.cantidad;
       }
       return total;
@@ -106,7 +112,11 @@ export default function AddToCartButton({ producto }) {
       return;
     }
 
-    const success = await addToCart(productData, cantidad, variacionSeleccionada);
+    const success = await addToCart(
+      productData,
+      cantidad,
+      variacionSeleccionada,
+    );
 
     if (!success) {
       // Si addToCart falla, también mostrar el modal
@@ -118,10 +128,13 @@ export default function AddToCartButton({ producto }) {
     setStockDisponible(stockActual - cantidad);
 
     // Mostrar mensaje de éxito
-    toast.success(`${cantidad} ${cantidad > 1 ? 'unidades agregadas' : 'unidad agregada'} al carrito`, {
-      title: '¡Producto Agregado!',
-      duration: 3000
-    });
+    toast.success(
+      `${cantidad} ${cantidad > 1 ? "unidades agregadas" : "unidad agregada"} al carrito`,
+      {
+        title: "¡Producto Agregado!",
+        duration: 3000,
+      },
+    );
 
     setShowSuccess(true);
     setTimeout(() => {
@@ -134,15 +147,15 @@ export default function AddToCartButton({ producto }) {
   const incrementar = () => {
     if (stockDisponible !== null && cantidad >= stockDisponible) {
       toast.warning(`Solo hay ${stockDisponible} unidades disponibles`, {
-        title: 'Stock Limitado',
-        duration: 3000
+        title: "Stock Limitado",
+        duration: 3000,
       });
       return;
     }
-    setCantidad(prev => prev + 1);
+    setCantidad((prev) => prev + 1);
   };
 
-  const decrementar = () => setCantidad(prev => (prev > 1 ? prev - 1 : 1));
+  const decrementar = () => setCantidad((prev) => (prev > 1 ? prev - 1 : 1));
 
   // Si aún está cargando el stock
   if (loading) {
@@ -181,8 +194,8 @@ export default function AddToCartButton({ producto }) {
                 onClick={() => setVariacionSeleccionada(variacion)}
                 className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
                   variacionSeleccionada === variacion
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
                 {variacion}
@@ -194,8 +207,12 @@ export default function AddToCartButton({ producto }) {
 
       {/* Indicador de stock */}
       <div className="text-sm text-gray-600">
-        <span className={stockDisponible <= 5 ? 'text-orange-600 font-semibold' : ''}>
-          {stockDisponible <= 5 ? '¡Últimas unidades! ' : ''}
+        <span
+          className={
+            stockDisponible <= 5 ? "text-orange-600 font-semibold" : ""
+          }
+        >
+          {stockDisponible <= 5 ? "¡Últimas unidades! " : ""}
           Stock disponible: <strong>{stockDisponible}</strong>
         </span>
       </div>
@@ -230,8 +247,8 @@ export default function AddToCartButton({ producto }) {
         disabled={showSuccess}
         className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
           showSuccess
-            ? 'bg-green-500 text-white'
-            : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-95'
+            ? "bg-green-500 text-white"
+            : "bg-blue-600 text-white hover:bg-blue-700 active:scale-95"
         }`}
       >
         {showSuccess ? (
@@ -269,7 +286,10 @@ export default function AddToCartButton({ producto }) {
             {/* Icono de alerta */}
             <div className="flex justify-center mb-4">
               <div className="bg-orange-100 dark:bg-orange-900/30 rounded-full p-4">
-                <AlertTriangle size={48} className="text-orange-600 dark:text-orange-400" />
+                <AlertTriangle
+                  size={48}
+                  className="text-orange-600 dark:text-orange-400"
+                />
               </div>
             </div>
 
@@ -280,26 +300,29 @@ export default function AddToCartButton({ producto }) {
 
             {/* Mensaje */}
             <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
-              Lo sentimos, ya no hay más unidades disponibles de{' '}
+              Lo sentimos, ya no hay más unidades disponibles de{" "}
               <span className="font-semibold text-gray-900 dark:text-white">
                 &ldquo;{productData.nombre}&rdquo;
-              </span>
-              {' '}en este momento.
+              </span>{" "}
+              en este momento.
             </p>
 
             {/* Información adicional */}
             <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4 mb-6">
               <p className="text-sm text-center text-orange-800 dark:text-orange-300">
-                📦 Stock actual: <strong>{stockDisponible || 0}</strong> unidades
+                📦 Stock actual: <strong>{stockDisponible || 0}</strong>{" "}
+                unidades
                 <br />
-                🛒 En tu carrito: <strong>
+                🛒 En tu carrito:{" "}
+                <strong>
                   {cart.reduce((total, item) => {
                     if (item.id === producto.id) {
                       return total + item.cantidad;
                     }
                     return total;
                   }, 0)}
-                </strong> unidades
+                </strong>{" "}
+                unidades
               </p>
             </div>
 
@@ -314,14 +337,18 @@ export default function AddToCartButton({ producto }) {
 
               <a
                 href={`https://wa.me/573174503604?text=${encodeURIComponent(
-                  `Hola! 👋\n\nQuiero más unidades de este producto:\n\n📦 ${productData.nombre}\n💰 Precio: $${productData.precio.toLocaleString('es-CO')}\n\n¿Cuándo tendrán disponibilidad?`
+                  `Hola! 👋\n\nQuiero más unidades de este producto:\n\n📦 ${productData.nombre}\n💰 Precio: $${productData.precio.toLocaleString("es-CO")}\n\n¿Cuándo tendrán disponibilidad?`,
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                 </svg>
                 Consultar disponibilidad
               </a>

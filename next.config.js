@@ -136,6 +136,12 @@ const nextConfig = {
     formats: ['image/webp'],
   },
 
+  // Configuración de Turbopack (habilitado por defecto en Next.js 16)
+  turbopack: {
+    // Configuración vacía - la mayoría de aplicaciones funcionan bien sin configuración adicional
+    // Si necesitas configurar loaders o resolver aliases, puedes hacerlo aquí
+  },
+
   // Configuración de compilación optimizada para seguridad
   webpack: (config, { isServer }) => {
     // Configuraciones adicionales de seguridad para webpack

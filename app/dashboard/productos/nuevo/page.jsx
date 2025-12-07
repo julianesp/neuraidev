@@ -24,6 +24,7 @@ export default function NuevoProductoPage() {
     estado: "nuevo",
     imagen_principal: "",
     imagenes: [""],
+    payment_link: "",
   });
 
   const categorias = [
@@ -69,6 +70,11 @@ export default function NuevoProductoPage() {
 
     try {
       // Limpiar y preparar datos para la tabla products de Supabase
+      const metadata = {};
+      if (formData.payment_link.trim()) {
+        metadata.payment_link = formData.payment_link.trim();
+      }
+
       const productoData = {
         nombre: formData.nombre,
         descripcion: formData.descripcion,
@@ -83,6 +89,7 @@ export default function NuevoProductoPage() {
         imagenes: Array.isArray(formData.imagenes)
           ? formData.imagenes.filter((img) => img && img.trim() !== "")
           : [],
+        metadata: Object.keys(metadata).length > 0 ? metadata : null,
       };
 
       // Usar API route en lugar de llamada directa a Supabase
@@ -362,6 +369,49 @@ export default function NuevoProductoPage() {
                   label="Imágenes Adicionales"
                   multiple
                 />
+              </div>
+            </div>
+
+            {/* Payment Link Nequi/Wompi */}
+            <div>
+              <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+                Pago con Nequi Negocios
+              </h2>
+              <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4 mb-4">
+                <p className="text-sm text-purple-800 dark:text-purple-300 mb-2">
+                  💡 <strong>Configura el enlace de pago de Nequi/Wompi</strong>
+                </p>
+                <p className="text-xs text-purple-700 dark:text-purple-400">
+                  Crea un enlace de pago en tu panel de Wompi/Nequi Negocios y pégalo aquí.
+                  Los clientes podrán pagar con Nequi directamente desde el carrito.
+                </p>
+              </div>
+              <div>
+                <label
+                  htmlFor="payment_link"
+                  className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                >
+                  Payment Link (Nequi/Wompi)
+                </label>
+                <input
+                  id="payment_link"
+                  type="url"
+                  name="payment_link"
+                  placeholder="https://checkout.nequi.wompi.co/l/..."
+                  value={formData.payment_link}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+                />
+                {formData.payment_link && (
+                  <a
+                    href={formData.payment_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-blue-600 hover:underline dark:text-blue-400 mt-1 inline-block"
+                  >
+                    🔗 Probar enlace →
+                  </a>
+                )}
               </div>
             </div>
 

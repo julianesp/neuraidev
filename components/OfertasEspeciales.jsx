@@ -7,70 +7,70 @@ import styles from "./OfertasEspeciales.module.scss";
 
 // Configuración de temas para diferentes fechas especiales (movido fuera del componente)
 const specialDates = {
-    september: {
-      name: "Amor y Amistad",
-      period: "Septiembre",
-      colors: {
-        primary: "#b5e9ff",
-        secondary: "#87ceeb",
-        accent: "#ffd93d",
-        gradient:
-          // "linear-gradient(135deg, #b5e9ff 0%, #87ceeb 50%, #ffd93d 100%)",
-          "linear-gradient(135deg, #0070f3 0%, #4682b4 40%, #ffa500 80%, #e6b800 100%),",
-      },
-      emoji: "🎁",
-      description: "Celebra el amor y la amistad con ofertas especiales",
+  september: {
+    name: "Amor y Amistad",
+    period: "Septiembre",
+    colors: {
+      primary: "#b5e9ff",
+      secondary: "#87ceeb",
+      accent: "#ffd93d",
+      gradient:
+        // "linear-gradient(135deg, #b5e9ff 0%, #87ceeb 50%, #ffd93d 100%)",
+        "linear-gradient(135deg, #0070f3 0%, #4682b4 40%, #ffa500 80%, #e6b800 100%),",
     },
-    mothers: {
-      name: "Día de la Madre",
-      period: "Mayo",
-      colors: {
-        primary: "#e91e63",
-        secondary: "#f8bbd9",
-        accent: "#fff",
-        gradient: "linear-gradient(135deg, #e91e63 0%, #f8bbd9 50%, #fff 100%)",
-      },
-      emoji: "👩‍❤️‍👨",
-      description: "Honra a mamá con regalos tecnológicos especiales",
+    emoji: "🎁",
+    description: "Celebra el amor y la amistad con ofertas especiales",
+  },
+  mothers: {
+    name: "Día de la Madre",
+    period: "Mayo",
+    colors: {
+      primary: "#e91e63",
+      secondary: "#f8bbd9",
+      accent: "#fff",
+      gradient: "linear-gradient(135deg, #e91e63 0%, #f8bbd9 50%, #fff 100%)",
     },
-    fathers: {
-      name: "Día del Padre",
-      period: "Junio",
-      colors: {
-        primary: "#2196f3",
-        secondary: "#64b5f6",
-        accent: "#fff",
-        gradient: "linear-gradient(135deg, #2196f3 0%, #64b5f6 50%, #fff 100%)",
-      },
-      emoji: "👨‍👩‍👧‍👦",
-      description: "Sorprende a papá con tecnología de última generación",
+    emoji: "👩‍❤️‍👨",
+    description: "Honra a mamá con regalos tecnológicos especiales",
+  },
+  fathers: {
+    name: "Día del Padre",
+    period: "Junio",
+    colors: {
+      primary: "#2196f3",
+      secondary: "#64b5f6",
+      accent: "#fff",
+      gradient: "linear-gradient(135deg, #2196f3 0%, #64b5f6 50%, #fff 100%)",
     },
-    christmas: {
-      name: "Navidad",
-      period: "Diciembre",
-      colors: {
-        primary: "#d32f2f",
-        secondary: "#4caf50",
-        accent: "#ffd700",
-        gradient:
-          "linear-gradient(135deg, #d32f2f 0%, #4caf50 50%, #ffd700 100%)",
-      },
-      emoji: "🎄",
-      description: "Regalos tecnológicos perfectos para esta Navidad",
+    emoji: "👨‍👩‍👧‍👦",
+    description: "Sorprende a papá con tecnología de última generación",
+  },
+  christmas: {
+    name: "Navidad",
+    period: "Diciembre",
+    colors: {
+      primary: "#d32f2f",
+      secondary: "#4caf50",
+      accent: "#ffd700",
+      gradient:
+        "linear-gradient(135deg, #d32f2f 0%, #4caf50 50%, #ffd700 100%)",
     },
-    valentine: {
-      name: "San Valentín",
-      period: "Febrero",
-      colors: {
-        primary: "#e91e63",
-        secondary: "#ff4081",
-        accent: "#fff",
-        gradient: "linear-gradient(135deg, #e91e63 0%, #ff4081 50%, #fff 100%)",
-      },
-      emoji: "❤️",
-      description: "Demuestra tu amor con tecnología de corazón",
+    emoji: "🎄",
+    description: "Regalos tecnológicos perfectos para esta Navidad",
+  },
+  valentine: {
+    name: "San Valentín",
+    period: "Febrero",
+    colors: {
+      primary: "#e91e63",
+      secondary: "#ff4081",
+      accent: "#fff",
+      gradient: "linear-gradient(135deg, #e91e63 0%, #ff4081 50%, #fff 100%)",
     },
-  };
+    emoji: "❤️",
+    description: "Demuestra tu amor con tecnología de corazón",
+  },
+};
 
 const OfertasEspeciales = () => {
   const [currentTheme, setCurrentTheme] = useState(null);
@@ -144,7 +144,6 @@ const OfertasEspeciales = () => {
   }
 
   return (
-    
     <div
       className={styles.ofertasContainer}
       style={{

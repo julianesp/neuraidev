@@ -1,0 +1,181 @@
+.favoriteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover:not(:disabled) {
+    border-color: #ef4444;
+    background: #fef2f2;
+    transform: scale(1.1);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.active {
+    background: #ef4444;
+    border-color: #ef4444;
+
+    .icon {
+      color: white;
+    }
+
+    &:hover:not(:disabled) {
+      background: #dc2626;
+      border-color: #dc2626;
+    }
+  }
+
+  // Efecto de pulsación
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+}
+
+.icon {
+  color: #6b7280;
+  transition: all 0.3s ease;
+
+  &.loading {
+    animation: pulse 1s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.label {
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+// Tamaños
+.small {
+  width: 32px;
+  height: 32px;
+  padding: 0.25rem;
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  &.active .icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .label {
+    font-size: 0.75rem;
+  }
+}
+
+.medium {
+  width: 40px;
+  height: 40px;
+  padding: 0.5rem;
+
+  .icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  &.active .icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.large {
+  width: 48px;
+  height: 48px;
+  padding: 0.75rem;
+
+  .icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  &.active .icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+// Cuando tiene label, cambia a rectangular
+.favoriteButton:has(.label) {
+  border-radius: 24px;
+  width: auto;
+  padding: 0.5rem 1rem;
+
+  &.small {
+    padding: 0.375rem 0.75rem;
+  }
+
+  &.large {
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+// Dark mode
+@media (prefers-color-scheme: dark) {
+  .favoriteButton {
+    background: #1f2937;
+    border-color: #374151;
+
+    &:hover:not(:disabled) {
+      background: #1f2937;
+      border-color: #ef4444;
+    }
+
+    &.active {
+      background: #ef4444;
+      border-color: #ef4444;
+    }
+  }
+
+  .icon {
+    color: #9ca3af;
+  }
+
+  .label {
+    color: #d1d5db;
+  }
+
+  .active .label {
+    color: white;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .favoriteButton {
+    &.medium {
+      width: 36px;
+      height: 36px;
+    }
+
+    &.large {
+      width: 44px;
+      height: 44px;
+    }
+  }
+}

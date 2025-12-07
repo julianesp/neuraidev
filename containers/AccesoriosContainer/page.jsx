@@ -5,7 +5,13 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, MessageCircle, Eye, ShoppingCart } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  MessageCircle,
+  Eye,
+  ShoppingCart,
+} from "lucide-react";
 import styles from "./AccesoriosContainer.module.scss"; // Importamos estilos SCSS
 import {
   generateProductSlug,
@@ -20,6 +26,7 @@ import ProductSchema from "@/components/ProductSchema";
 import Breadcrumbs, { CATEGORY_NAMES } from "@/components/Breadcrumbs";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
+import FavoriteButton from "@/components/FavoriteButton";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -283,6 +290,15 @@ const AccesoriosContainer = ({
   // Obtener el slug de categoría desde apiUrl
   const categorySlug = apiUrl ? getCategorySlug(apiUrl) : "generales";
 
+  // Validar que accesorio exista antes de continuar
+  if (!accesorio) {
+    return (
+      <div className="w-full flex items-center justify-center py-12">
+        <div className="text-center text-gray-500">Cargando producto...</div>
+      </div>
+    );
+  }
+
   // Efecto para detectar si estamos en móvil
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -324,7 +340,7 @@ const AccesoriosContainer = ({
         const nuevaUrl = buildProductUrl(
           nuevoAccesorio.categoria || categorySlug,
           productSlug,
-          nuevoAccesorio
+          nuevoAccesorio,
         );
         // Usar router.push para actualizar URL sin recargar la página
         router.push(nuevaUrl, { scroll: false });
@@ -571,18 +587,18 @@ const AccesoriosContainer = ({
   };
 
   // Formatear correctamente el mensaje para WhatsApp
-  const mensajeBase = `Hola, estoy interesado en el accesorio: ${accesorio.nombre || ""}`;
+  const mensajeBase = `Hola, estoy interesado en el accesorio: ${accesorio?.nombre || ""}`;
   const urlActual = obtenerUrlActual();
   const whatsappUrl = `https://wa.me/${telefono}?text=${encodeURIComponent(mensajeBase)}%0A%0A${encodeURIComponent("Puedes verlo aquí: ")}${encodeURIComponent(urlActual)}`;
 
   // Determinar si hay imágenes para mostrar
   const tieneImagenes =
-    accesorio.imagenes &&
+    accesorio?.imagenes &&
     Array.isArray(accesorio.imagenes) &&
     accesorio.imagenes.length > 0;
 
   // Obtener la imagen principal - PRIORIZA imagenPrincipal como fuente principal
-  let imagenPrincipal = accesorio.imagenPrincipal || null;
+  let imagenPrincipal = accesorio?.imagenPrincipal || null;
 
   // Solo si no hay imagenPrincipal, intentar usar la primera de imagenes
   if (!imagenPrincipal && tieneImagenes) {
@@ -604,13 +620,22 @@ const AccesoriosContainer = ({
           <Breadcrumbs
             items={[
               { name: "Accesorios", url: "/accesorios" },
-              { name: CATEGORY_NAMES[categorySlug] || categorySlug, url: `/accesorios/${categorySlug}` },
-              { name: accesorio.nombre, url: buildProductUrl(accesorio, categorySlug) },
+              {
+                name: CATEGORY_NAMES[categorySlug] || categorySlug,
+                url: `/accesorios/${categorySlug}`,
+              },
+              {
+                name: accesorio?.nombre || "Producto",
+                url: accesorio ? buildProductUrl(accesorio, categorySlug) : "#",
+              },
             ]}
           />
-          <h1 className="text-3xl font-bold text-center mb-6">
-            {accesorio.nombre}
-          </h1>
+          <div className="flex items-start justify-between gap-4 mb-6">
+            <h1 className="text-3xl font-bold text-center flex-1">
+              {accesorio.nombre}
+            </h1>
+            <FavoriteButton producto={accesorio} size="large" />
+          </div>
           <div
             className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-32 ${styles.accesorioContainer}`}
           >
@@ -932,16 +957,41 @@ const AccesoriosContainer = ({
                 </div>
               ) : (
                 <div className="space-y-3 mt-6">
+                  {/* Botón de pago directo con Wompi/Nequi si está configurado */}
+                  {accesorio.metadata?.payment_link && (
+                    <Link
+                      href={accesorio.metadata.payment_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`border border-black dark:border-white text-white font-bold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-4 dark:bg-gray-700 ${styles.botonPago}`}
+                    >
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                        />
+                      </svg>
+                      Pagar con Nequi/Wompi
+                    </Link>
+                  )}
+
                   {/* Componente de agregar al carrito */}
                   <AddToCartButton producto={accesorio} />
 
                   {/* Enlace de pago específico para el libro de Cálculo */}
-                  {accesorio.id === "cmfew2nv3000rs0jpmwvzv6ue" && (
+                  {accesorio?.id === "cmfew2nv3000rs0jpmwvzv6ue" && (
                     <Link
                       href="https://payco.link/a2bf14cd-759a-4717-a500-baf869523a61"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-blue-600 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors font-semibold"
+                      className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg flex items-center justify-center font-semibold transition-colors"
                     >
                       <svg
                         className="mr-2 w-5 h-5"
@@ -960,7 +1010,7 @@ const AccesoriosContainer = ({
                     </Link>
                   )}
 
-                  <Link
+                  {/* <Link
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -968,7 +1018,7 @@ const AccesoriosContainer = ({
                   >
                     <MessageCircle className="mr-2 text-black dark:text-white" />
                     Consultar por WhatsApp
-                  </Link>
+                  </Link> */}
                 </div>
               )}
             </div>
@@ -1006,20 +1056,27 @@ const AccesoriosContainer = ({
                           onClick={async (e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            const isOutOfStock = item.stock === 0 || item.cantidad === 0;
+                            const isOutOfStock =
+                              item.stock === 0 || item.cantidad === 0;
                             if (isOutOfStock) {
-                              toast.warning(`"${item.nombre}" no está disponible`, {
-                                title: "⚠️ Producto Agotado",
-                                duration: 3000,
-                              });
+                              toast.warning(
+                                `"${item.nombre}" no está disponible`,
+                                {
+                                  title: "⚠️ Producto Agotado",
+                                  duration: 3000,
+                                },
+                              );
                               return;
                             }
                             const success = await addToCart(item, 1);
                             if (success) {
-                              toast.success(`"${item.nombre}" agregado al carrito`, {
-                                title: "✅ Producto Agregado",
-                                duration: 3000,
-                              });
+                              toast.success(
+                                `"${item.nombre}" agregado al carrito`,
+                                {
+                                  title: "✅ Producto Agregado",
+                                  duration: 3000,
+                                },
+                              );
                             }
                           }}
                           className={`absolute top-2 right-2 z-10 p-2 rounded-full shadow-lg transition-all duration-200 ${
@@ -1029,7 +1086,11 @@ const AccesoriosContainer = ({
                           }`}
                           disabled={item.stock === 0 || item.cantidad === 0}
                           aria-label={`Agregar ${item.nombre} al carrito`}
-                          title={item.stock === 0 || item.cantidad === 0 ? "Producto agotado" : "Agregar al carrito"}
+                          title={
+                            item.stock === 0 || item.cantidad === 0
+                              ? "Producto agotado"
+                              : "Agregar al carrito"
+                          }
                         >
                           <ShoppingCart size={20} />
                         </button>

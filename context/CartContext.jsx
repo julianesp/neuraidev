@@ -33,7 +33,7 @@ export function CartProvider({ children }) {
               try {
                 const { data, error } = await supabase
                   .from("products")
-                  .select("imagenes, imagen")
+                  .select("imagenes, imagen, metadata")
                   .eq("id", item.id)
                   .single();
 
@@ -43,6 +43,7 @@ export function CartProvider({ children }) {
                     imagen: data.imagenes?.[0] || data.imagen || null,
                     imagenes:
                       data.imagenes || (data.imagen ? [data.imagen] : []),
+                    metadata: data.metadata || {},
                   };
                 }
               } catch (err) {
@@ -173,6 +174,7 @@ export function CartProvider({ children }) {
           variacion,
           categoria: producto.categoria,
           stock: stockDisponible,
+          metadata: producto.metadata || {}, // Incluir metadata con payment_link
         };
         newCart = [...prevCart, newItem];
       }

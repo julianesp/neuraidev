@@ -1,5 +1,8 @@
 "use client";
 
+// Esta página NO se prerrenderiza porque requiere parámetros dinámicos
+// export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import AccesoriosContainer from "./AccesoriosContainer";

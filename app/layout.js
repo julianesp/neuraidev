@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "@/components/NavBar/page";
-import Footer from "@/containers/Footer/page";
+import ConditionalFooter from "@/components/ConditionalFooter";
 // import SplashScreen from "../components/SplashScreen";
 import StructuredData from "@/components/StructuredData";
 import AOSInit from "@/components/AOSInit";
@@ -256,7 +256,7 @@ export default function RootLayout({ children }) {
                       {/* <NotificationManager /> */}
                       <Analytics />
                     </main>
-                    <Footer />
+                    <ConditionalFooter />
                     {/* <StoreStatus /> */}
                   </div>
                   <ShoppingCart />

@@ -4,26 +4,23 @@ import { NextResponse } from "next/server";
 // Solo proteger rutas del dashboard
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
-// Rutas de pago que deben ser completamente públicas
-const isPaymentRoute = (pathname) => {
-  return pathname.startsWith("/api/payments") || pathname.startsWith("/api/webhooks");
-};
+// Rutas de pago que deben ser completamente públicas (bypass completo)
+const isPaymentRoute = createRouteMatcher([
+  "/api/payments(.*)",
+  "/api/webhooks(.*)"
+]);
 
-export default function middleware(request) {
-  const { pathname } = request.nextUrl;
-
+export default clerkMiddleware(async (auth, request) => {
   // Bypass completo para rutas de pago - no pasar por Clerk
-  if (isPaymentRoute(pathname)) {
+  if (isPaymentRoute(request)) {
     return NextResponse.next();
   }
 
-  // Para todas las demás rutas, usar Clerk
-  return clerkMiddleware(async (auth, req) => {
-    if (isProtectedRoute(req)) {
-      await auth.protect();
-    }
-  })(request);
-}
+  // Proteger rutas del dashboard
+  if (isProtectedRoute(request)) {
+    await auth.protect();
+  }
+})
 
 export const config = {
   matcher: [

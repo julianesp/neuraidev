@@ -223,11 +223,7 @@ const NavBar = () => {
                     Damas
                   </Link>
                 </li>
-                <li>
-                  <Link href="/accesorios/belleza" onClick={handleLinkClick}>
-                    Belleza
-                  </Link>
-                </li>
+
                 <li>
                   <Link
                     href="/accesorios/libros-nuevos"
@@ -309,6 +305,19 @@ const NavBar = () => {
               Sobre nosotros
             </Link>
           </li>
+
+          {/* Enlace a Mi Cuenta solo para usuarios autenticados */}
+          <SignedIn>
+            <li role="none">
+              <Link
+                href="/perfil"
+                title="Ir a mi cuenta"
+                onClick={handleLinkClick}
+              >
+                Mi Cuenta
+              </Link>
+            </li>
+          </SignedIn>
 
           {/* Botón de Dashboard solo para admins */}
           {userIsAdmin && (

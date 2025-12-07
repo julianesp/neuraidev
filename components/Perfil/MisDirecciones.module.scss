@@ -1,0 +1,484 @@
+.misDirecciones {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.btnAdd {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 2px dashed #d1d5db;
+}
+
+.emptyIcon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem;
+  color: #9ca3af;
+}
+
+.empty p {
+  color: #6b7280;
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Grid de direcciones */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  position: relative;
+  padding: 1.5rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  }
+
+  &.default {
+    border-color: #667eea;
+    background: linear-gradient(to bottom, rgba(102, 126, 234, 0.05), white);
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  background: #667eea;
+  color: white;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badgeIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.cardHeader {
+  margin-bottom: 1rem;
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+  }
+}
+
+.tipo {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: #f3f4f6;
+  color: #6b7280;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.cardBody {
+  margin-bottom: 1rem;
+  color: #4b5563;
+  line-height: 1.6;
+
+  .address {
+    margin: 0 0 0.5rem 0;
+    font-weight: 500;
+  }
+
+  .city {
+    margin: 0 0 0.5rem 0;
+    color: #6b7280;
+  }
+
+  .phone {
+    margin: 0 0 0.5rem 0;
+    color: #6b7280;
+  }
+
+  .notes {
+    margin: 0.75rem 0 0 0;
+    padding: 0.75rem;
+    background: #f9fafb;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: #6b7280;
+  }
+}
+
+.cardActions {
+  display: flex;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btnEdit,
+.btnDelete {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  color: #6b7280;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+  }
+}
+
+.btnDelete:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: #fef2f2;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.modalContent {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modalTitle {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.875rem;
+  }
+
+  input,
+  textarea,
+  select {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    font-family: inherit;
+  }
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #f3f4f6;
+  }
+
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  span {
+    font-weight: 500;
+    color: #374151;
+  }
+}
+
+.modalActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btnPrimary,
+.btnSecondary {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.btnSecondary {
+  background: white;
+  border: 1px solid #d1d5db;
+  color: #6b7280;
+
+  &:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: white;
+  }
+
+  .empty {
+    background: #111827;
+    border-color: #374151;
+  }
+
+  .card {
+    background: #1f2937;
+    border-color: #374151;
+
+    &.default {
+      background: linear-gradient(to bottom, rgba(129, 140, 248, 0.1), #1f2937);
+      border-color: #818cf8;
+    }
+  }
+
+  .cardHeader h3 {
+    color: white;
+  }
+
+  .tipo {
+    background: #111827;
+    color: #9ca3af;
+  }
+
+  .cardBody {
+    color: #d1d5db;
+  }
+
+  .cardActions {
+    border-top-color: #374151;
+  }
+
+  .btnEdit,
+  .btnDelete {
+    background: #111827;
+    border-color: #374151;
+    color: #9ca3af;
+
+    &:hover {
+      background: #1f2937;
+      border-color: #4b5563;
+    }
+  }
+
+  .modalContent {
+    background: #1f2937;
+  }
+
+  .modalTitle {
+    color: white;
+  }
+
+  .formGroup {
+    label {
+      color: #d1d5db;
+    }
+
+    input,
+    textarea,
+    select {
+      background: #111827;
+      border-color: #374151;
+      color: white;
+
+      &:focus {
+        border-color: #818cf8;
+      }
+    }
+  }
+
+  .checkboxLabel {
+    background: #111827;
+
+    &:hover {
+      background: #1f2937;
+    }
+
+    span {
+      color: #d1d5db;
+    }
+  }
+
+  .modalActions {
+    border-top-color: #374151;
+  }
+
+  .btnSecondary {
+    background: #111827;
+    border-color: #374151;
+    color: #9ca3af;
+
+    &:hover {
+      background: #1f2937;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .btnAdd {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modalContent {
+    padding: 1.5rem;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .modalActions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}
