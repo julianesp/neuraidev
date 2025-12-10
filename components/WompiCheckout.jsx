@@ -111,7 +111,10 @@ export default function WompiCheckout({ onClose }) {
       const description =
         cart.length === 1
           ? `${cart[0].nombre} - Neurai.dev`
-          : `Compra de ${cart.length} productos: ${cart.map(item => item.nombre).join(", ").substring(0, 100)}...`;
+          : `Compra de ${cart.length} productos: ${cart
+              .map((item) => item.nombre)
+              .join(", ")
+              .substring(0, 100)}...`;
 
       // Crear transacción en el backend y obtener la firma de integridad
       const response = await fetch("/api/payments/create-session", {
@@ -155,6 +158,7 @@ export default function WompiCheckout({ onClose }) {
         amountInCents: amountInCents,
         reference: reference,
         publicKey: publicKey,
+        signature: integritySignature, // Firma de integridad requerida
         redirectUrl: redirectUrl || `${window.location.origin}/respuesta-pago`,
         customerData: {
           email: customerData.email,
@@ -217,7 +221,10 @@ export default function WompiCheckout({ onClose }) {
         </h4>
         <div className="space-y-2 max-h-32 overflow-y-auto">
           {cart.map((item, index) => (
-            <div key={index} className="flex items-center gap-2 bg-white dark:bg-gray-800 rounded p-2">
+            <div
+              key={index}
+              className="flex items-center gap-2 bg-white dark:bg-gray-800 rounded p-2"
+            >
               {/* Imagen del producto */}
               <div className="relative w-12 h-12 flex-shrink-0 bg-gray-100 dark:bg-gray-600 rounded overflow-hidden">
                 {(() => {
