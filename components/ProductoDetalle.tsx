@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import FavoriteButton from '@/components/FavoriteButton';
+import ProductVideo from '@/components/ProductVideo';
 
 interface Producto {
   id: string;
@@ -20,6 +21,8 @@ interface Producto {
   condicion: string;
   sku?: string | null;
   tags: string[];
+  video_url?: string | null;
+  video_type?: 'youtube' | 'vimeo' | 'direct' | null;
   metadata?: {
     payment_link?: string;
     [key: string]: unknown;
@@ -49,6 +52,10 @@ interface Props {
 }
 
 export default function ProductoDetalle({ producto }: Props) {
+  // Si hay video, el primer elemento será el video, sino la imagen principal
+  const [tipoMediaSeleccionado, setTipoMediaSeleccionado] = useState<'video' | 'image'>(
+    producto.video_url ? 'video' : 'image'
+  );
   const [imagenSeleccionada, setImagenSeleccionada] = useState(producto.imagenPrincipal || '');
 
   const precio = parseFloat(producto.precio.toString());
@@ -82,10 +89,20 @@ export default function ProductoDetalle({ producto }: Props) {
   return (
     <div className="container px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-        {/* Galería de imágenes */}
+        {/* Galería de imágenes y video */}
         <div className="space-y-3">
           <div className="w-full h-64 sm:h-80 md:h-96 lg:h-[400px] bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
-            {imagenSeleccionada ? (
+            {/* Mostrar video o imagen según selección */}
+            {tipoMediaSeleccionado === 'video' && producto.video_url ? (
+              <ProductVideo
+                videoUrl={producto.video_url}
+                videoType={producto.video_type || 'direct'}
+                productName={producto.nombre}
+                className="w-full h-full"
+                autoPlay={false}
+                controls={true}
+              />
+            ) : imagenSeleccionada ? (
               <Image
                 src={imagenSeleccionada}
                 alt={producto.nombre}
@@ -101,39 +118,77 @@ export default function ProductoDetalle({ producto }: Props) {
           </div>
 
           {/* Miniaturas */}
-          {producto.imagenes && producto.imagenes.length > 0 && (
-            <div className="flex gap-2 overflow-x-auto pb-2">
-              {producto.imagenPrincipal && (
-                <button
-                  onClick={() => setImagenSeleccionada(producto.imagenPrincipal!)}
-                  className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 ${
-                    imagenSeleccionada === producto.imagenPrincipal ? 'border-blue-500 dark:border-blue-400' : 'border-gray-200 dark:border-gray-600'
-                  }`}
-                >
-                  <img
-                    src={producto.imagenPrincipal}
-                    alt={producto.nombre}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              )}
-              {producto.imagenes.map((imagen) => (
-                <button
-                  key={imagen.id}
-                  onClick={() => setImagenSeleccionada(imagen.url)}
-                  className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 ${
-                    imagenSeleccionada === imagen.url ? 'border-blue-500 dark:border-blue-400' : 'border-gray-200 dark:border-gray-600'
-                  }`}
-                >
-                  <img
-                    src={imagen.url}
-                    alt={imagen.alt || producto.nombre}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          )}
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {/* Miniatura del video (si existe) - Siempre primero */}
+            {producto.video_url && (
+              <button
+                onClick={() => setTipoMediaSeleccionado('video')}
+                className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 ${
+                  tipoMediaSeleccionado === 'video' ? 'border-blue-500 dark:border-blue-400' : 'border-gray-200 dark:border-gray-600'
+                } relative`}
+                title="Ver video del producto"
+              >
+                {/* Fondo con degradado */}
+                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                  {/* Icono de play */}
+                  <svg
+                    className="w-8 h-8 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+                {/* Badge de VIDEO */}
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white text-[8px] sm:text-[10px] font-bold text-center py-0.5">
+                  VIDEO
+                </div>
+              </button>
+            )}
+
+            {/* Miniatura de imagen principal */}
+            {producto.imagenPrincipal && (
+              <button
+                onClick={() => {
+                  setTipoMediaSeleccionado('image');
+                  setImagenSeleccionada(producto.imagenPrincipal!);
+                }}
+                className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 ${
+                  tipoMediaSeleccionado === 'image' && imagenSeleccionada === producto.imagenPrincipal
+                    ? 'border-blue-500 dark:border-blue-400'
+                    : 'border-gray-200 dark:border-gray-600'
+                }`}
+              >
+                <img
+                  src={producto.imagenPrincipal}
+                  alt={producto.nombre}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            )}
+
+            {/* Miniaturas de imágenes adicionales */}
+            {producto.imagenes && producto.imagenes.map((imagen) => (
+              <button
+                key={imagen.id}
+                onClick={() => {
+                  setTipoMediaSeleccionado('image');
+                  setImagenSeleccionada(imagen.url);
+                }}
+                className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 ${
+                  tipoMediaSeleccionado === 'image' && imagenSeleccionada === imagen.url
+                    ? 'border-blue-500 dark:border-blue-400'
+                    : 'border-gray-200 dark:border-gray-600'
+                }`}
+              >
+                <img
+                  src={imagen.url}
+                  alt={imagen.alt || producto.nombre}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Información del producto */}

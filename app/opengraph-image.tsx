@@ -130,7 +130,8 @@ export default async function Image() {
               >
                 🛒 Tienda Online
               </div>
-              <div
+
+              {/* <div
                 style={{
                   background: "#dcfce7",
                   padding: "10px 20px",
@@ -142,7 +143,7 @@ export default async function Image() {
                 }}
               >
                 🚚 Envíos GRATIS*
-              </div>
+              </div> */}
             </div>
 
             {/* Footer info */}
