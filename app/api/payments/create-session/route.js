@@ -26,7 +26,7 @@ export async function OPTIONS() {
 }
 
 /**
- * API Route para crear Payment Link con Wompi
+ * API Route para crear sesión de pago con Wompi
  * POST /api/payments/create-session
  */
 export async function POST(request) {
@@ -59,53 +59,28 @@ export async function POST(request) {
     }
 
     // Obtener credenciales de Wompi desde variables de entorno
-    const privateKey = process.env.WOMPI_PRIVATE_KEY;
+    const publicKey = process.env.NEXT_PUBLIC_WOMPI_PUBLIC_KEY;
+    const integritySecret = process.env.WOMPI_INTEGRITY_SECRET;
 
-    if (!privateKey) {
-      logError("❌ Falta la llave privada de Wompi");
+    if (!publicKey || !integritySecret) {
+      logError("❌ Faltan credenciales de Wompi");
       return NextResponse.json(
         { error: "Error de configuración del servidor" },
         { status: 500 },
       );
     }
 
-    log("🔗 Creando Payment Link en Wompi...");
+    log("🔐 Generando firma de integridad...");
 
-    // Crear Payment Link en Wompi
-    const wompiResponse = await fetch(
-      "https://production.wompi.co/v1/payment_links",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${privateKey}`,
-        },
-        body: JSON.stringify({
-          name: `Orden ${reference}`,
-          description: description || "Compra en Neurai.dev",
-          single_use: true, // Link de un solo uso
-          collect_shipping: false, // No recolectar info de envío (ya la tenemos)
-          currency: "COP",
-          amount_in_cents: amountInCents,
-          redirect_url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/respuesta-pago`,
-        }),
-      },
-    );
+    // Generar firma de integridad según documentación de Wompi
+    // Formato: "<Reference><AmountInCents><Currency><IntegritySecret>"
+    const signatureString = `${reference}${amountInCents}COP${integritySecret}`;
+    const integritySignature = crypto
+      .createHash("sha256")
+      .update(signatureString)
+      .digest("hex");
 
-    const wompiData = await wompiResponse.json();
-
-    if (!wompiResponse.ok) {
-      logError("❌ Error creando Payment Link:", wompiData);
-      return NextResponse.json(
-        {
-          error: "Error creando link de pago",
-          details: wompiData.error?.messages || wompiData,
-        },
-        { status: wompiResponse.status },
-      );
-    }
-
-    log("✅ Payment Link creado exitosamente:", wompiData.data.id);
+    log("✅ Firma generada exitosamente");
 
     // Guardar la orden en Supabase ANTES de procesar el pago
     try {
@@ -139,15 +114,20 @@ export async function POST(request) {
       logError("⚠️ Error de BD", dbError);
     }
 
-    log("✅ Payment Link creado exitosamente");
+    // URL de redirección después del pago
+    const redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/respuesta-pago`;
 
-    // Retornar el permalink del Payment Link para redirigir al usuario
+    log("✅ Sesión de pago creada exitosamente");
+
+    // Retornar datos necesarios para el frontend
     return NextResponse.json(
       {
         success: true,
-        paymentUrl: wompiData.data.permalink, // URL del Payment Link de Wompi
-        paymentLinkId: wompiData.data.id,
+        publicKey: publicKey,
+        integritySignature: integritySignature,
         reference: reference,
+        amountInCents: amountInCents,
+        redirectUrl: redirectUrl,
       },
       { headers: corsHeaders },
     );

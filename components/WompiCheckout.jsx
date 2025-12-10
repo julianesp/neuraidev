@@ -3,15 +3,13 @@
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
-import Image from "next/image";
-import { getProductImage } from "@/lib/constants";
 
 /**
- * Componente de Checkout con Wompi Payment Links
+ * Componente de Checkout con Wompi
  * Maneja el flujo completo de pago integrado con el carrito
  */
 export default function WompiCheckout({ onClose }) {
-  const { cart, getTotalPrice } = useCart();
+  const { cart, getTotalPrice, clearCart } = useCart();
   const toast = useToast();
 
   const [loading, setLoading] = useState(false);
@@ -25,6 +23,11 @@ export default function WompiCheckout({ onClose }) {
     city: "",
     region: "",
   });
+
+  // Validar que Wompi esté cargado
+  const isWompiLoaded = () => {
+    return typeof window !== "undefined" && window.WidgetCheckout;
+  };
 
   // Manejar cambios en el formulario
   const handleChange = (e) => {
@@ -84,6 +87,14 @@ export default function WompiCheckout({ onClose }) {
       return;
     }
 
+    // Validar que Wompi esté cargado
+    if (!isWompiLoaded()) {
+      toast.error(
+        "El sistema de pagos no está disponible. Por favor recarga la página.",
+      );
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -94,16 +105,13 @@ export default function WompiCheckout({ onClose }) {
       // Generar referencia única
       const reference = `NRD-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 
-      // Preparar descripción detallada para Wompi
+      // Preparar descripción
       const description =
         cart.length === 1
-          ? `${cart[0].nombre} - Neurai.dev`
-          : `Compra de ${cart.length} productos: ${cart
-              .map((item) => item.nombre)
-              .join(", ")
-              .substring(0, 100)}...`;
+          ? cart[0].nombre
+          : `${cart.length} productos de Neurai.dev`;
 
-      // Crear Payment Link en el backend
+      // Crear transacción en el backend y obtener la firma de integridad
       const response = await fetch("/api/payments/create-session", {
         method: "POST",
         headers: {
@@ -134,22 +142,60 @@ export default function WompiCheckout({ onClose }) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Error al crear link de pago");
+        throw new Error(data.error || "Error al crear sesión de pago");
       }
 
-      const { paymentUrl } = data;
+      const { publicKey, integritySignature, redirectUrl } = data;
 
-      if (!paymentUrl) {
-        throw new Error("No se recibió la URL de pago");
-      }
+      // Configurar checkout de Wompi
+      const checkout = new window.WidgetCheckout({
+        currency: "COP",
+        amountInCents: amountInCents,
+        reference: reference,
+        publicKey: publicKey,
+        redirectUrl: redirectUrl || `${window.location.origin}/respuesta-pago`,
+        customerData: {
+          email: customerData.email,
+          fullName: customerData.name,
+          phoneNumber: customerData.phone,
+          phoneNumberPrefix: "+57",
+          legalId: customerData.numberDoc,
+          legalIdType: customerData.typeDoc,
+        },
+        shippingAddress: {
+          addressLine1: customerData.address,
+          city: customerData.city,
+          phoneNumber: customerData.phone,
+          region: customerData.region || "Colombia",
+          country: "CO",
+        },
+      });
 
-      // Redirigir al usuario al Payment Link de Wompi
-      toast.success("Redirigiendo a la pasarela de pago...");
+      // Abrir checkout y manejar respuesta
+      checkout.open(function (result) {
+        const transaction = result.transaction;
 
-      // Pequeño delay para que el usuario vea el mensaje
-      setTimeout(() => {
-        window.location.href = paymentUrl;
-      }, 1000);
+        if (transaction.status === "APPROVED") {
+          toast.success("¡Pago completado exitosamente!");
+          setTimeout(() => {
+            clearCart();
+            if (onClose) onClose();
+          }, 2000);
+        } else if (transaction.status === "DECLINED") {
+          toast.error("El pago fue rechazado. Por favor intenta nuevamente.");
+          setLoading(false);
+        } else if (transaction.status === "PENDING") {
+          toast.info("El pago está pendiente de confirmación.");
+          setLoading(false);
+        } else if (transaction.status === "ERROR") {
+          toast.error("Hubo un error procesando el pago.");
+          setLoading(false);
+        } else {
+          // Para cualquier otro estado, mostrar mensaje informativo
+          toast.info(`Estado del pago: ${transaction.status}`);
+          setLoading(false);
+        }
+      });
     } catch (error) {
       toast.error(error.message || "Error al procesar el pago");
       setLoading(false);
@@ -161,54 +207,6 @@ export default function WompiCheckout({ onClose }) {
       <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
         Datos para el pago
       </h3>
-
-      {/* Vista previa de productos */}
-      <div className="mb-4 bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
-        <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-          Productos a pagar:
-        </h4>
-        <div className="space-y-2 max-h-32 overflow-y-auto">
-          {cart.map((item, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-2 bg-white dark:bg-gray-800 rounded p-2"
-            >
-              {/* Imagen del producto */}
-              <div className="relative w-12 h-12 flex-shrink-0 bg-gray-100 dark:bg-gray-600 rounded overflow-hidden">
-                {(() => {
-                  const imageSrc = getProductImage(item);
-                  const isDataUri =
-                    imageSrc &&
-                    typeof imageSrc === "string" &&
-                    imageSrc.startsWith("data:");
-                  return (
-                    <Image
-                      src={imageSrc}
-                      alt={item.nombre}
-                      fill
-                      sizes="48px"
-                      className="object-cover"
-                      unoptimized={isDataUri}
-                    />
-                  );
-                })()}
-              </div>
-              {/* Info del producto */}
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-gray-900 dark:text-white truncate">
-                  {item.nombre}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  ${item.precio.toLocaleString()} × {item.cantidad}
-                </p>
-              </div>
-              <div className="text-xs font-bold text-blue-600 dark:text-blue-400">
-                ${(item.precio * item.cantidad).toLocaleString()}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       <div className="space-y-4">
         {/* Nombre */}
