@@ -5,10 +5,10 @@ import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 
 /**
- * Componente de Checkout con ePayco
+ * Componente de Checkout con Wompi
  * Maneja el flujo completo de pago integrado con el carrito
  */
-export default function EpaycoCheckout({ onClose }) {
+export default function WompiCheckout({ onClose }) {
   const { cart, getTotalPrice, clearCart } = useCart();
   const toast = useToast();
 
@@ -20,11 +20,13 @@ export default function EpaycoCheckout({ onClose }) {
     typeDoc: "CC",
     numberDoc: "",
     address: "",
+    city: "",
+    region: "",
   });
 
-  // Validar que ePayco esté cargado
-  const isEpaycoLoaded = () => {
-    return typeof window !== "undefined" && window.ePayco;
+  // Validar que Wompi esté cargado
+  const isWompiLoaded = () => {
+    return typeof window !== "undefined" && window.WidgetCheckout;
   };
 
   // Manejar cambios en el formulario
@@ -64,6 +66,11 @@ export default function EpaycoCheckout({ onClose }) {
       return false;
     }
 
+    if (!customerData.city || customerData.city.trim().length < 3) {
+      toast.error("Por favor ingresa tu ciudad");
+      return false;
+    }
+
     return true;
   };
 
@@ -80,8 +87,8 @@ export default function EpaycoCheckout({ onClose }) {
       return;
     }
 
-    // Validar que ePayco esté cargado
-    if (!isEpaycoLoaded()) {
+    // Validar que Wompi esté cargado
+    if (!isWompiLoaded()) {
       toast.error(
         "El sistema de pagos no está disponible. Por favor recarga la página.",
       );
@@ -91,11 +98,12 @@ export default function EpaycoCheckout({ onClose }) {
     setLoading(true);
 
     try {
-      // Calcular total
+      // Calcular total en centavos (Wompi requiere el monto en centavos)
       const total = getTotalPrice();
+      const amountInCents = Math.round(total * 100);
 
-      // Generar factura única
-      const invoice = `NRD-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+      // Generar referencia única
+      const reference = `NRD-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 
       // Preparar descripción
       const description =
@@ -103,7 +111,7 @@ export default function EpaycoCheckout({ onClose }) {
           ? cart[0].nombre
           : `${cart.length} productos de Neurai.dev`;
 
-      // Crear sesión de pago en el backend
+      // Crear transacción en el backend y obtener la firma de integridad
       const response = await fetch("/api/payments/create-session", {
         method: "POST",
         headers: {
@@ -111,18 +119,21 @@ export default function EpaycoCheckout({ onClose }) {
         },
         body: JSON.stringify({
           amount: total,
+          amountInCents: amountInCents,
           description: description,
+          reference: reference,
           customerName: customerData.name,
           customerEmail: customerData.email,
           customerPhone: customerData.phone,
           customerAddress: customerData.address,
+          customerCity: customerData.city,
+          customerRegion: customerData.region || "Colombia",
           customerTypeDoc: customerData.typeDoc,
           customerNumberDoc: customerData.numberDoc,
-          invoice: invoice,
           items: cart.map((item) => ({
-            id: item.id, // IMPORTANTE: Incluir el ID del producto
+            id: item.id,
             name: item.nombre,
-            quantity: item.cantidad, // FIX: Corregido de item.quantity a item.cantidad
+            quantity: item.cantidad,
             price: item.precio,
           })),
         }),
@@ -134,66 +145,57 @@ export default function EpaycoCheckout({ onClose }) {
         throw new Error(data.error || "Error al crear sesión de pago");
       }
 
-      const { sessionId, test } = data;
+      const { publicKey, integritySignature, redirectUrl } = data;
 
-      // Configurar checkout de ePayco
-      const checkout = window.ePayco.checkout.configure({
-        sessionId: sessionId,
-        type: "standard",
-        test: test,
+      // Configurar checkout de Wompi
+      const checkout = new window.WidgetCheckout({
+        currency: "COP",
+        amountInCents: amountInCents,
+        reference: reference,
+        publicKey: publicKey,
+        redirectUrl: redirectUrl || `${window.location.origin}/respuesta-pago`,
+        customerData: {
+          email: customerData.email,
+          fullName: customerData.name,
+          phoneNumber: customerData.phone,
+          phoneNumberPrefix: "+57",
+          legalId: customerData.numberDoc,
+          legalIdType: customerData.typeDoc,
+        },
+        shippingAddress: {
+          addressLine1: customerData.address,
+          city: customerData.city,
+          phoneNumber: customerData.phone,
+          region: customerData.region || "Colombia",
+          country: "CO",
+        },
       });
 
-      // Definir callbacks según la API de ePayco
-      // onResponse: Se ejecuta cuando hay una respuesta del pago
-      if (checkout.onResponse) {
-        checkout.onResponse = function (response) {
-          if (response && response.x_response === "Aceptada") {
-            toast.success("¡Pago completado exitosamente!");
-            setTimeout(() => {
-              clearCart();
-              if (onClose) onClose();
-            }, 2000);
-          } else if (response && response.x_response === "Rechazada") {
-            toast.error("El pago fue rechazado. Por favor intenta nuevamente.");
-            setLoading(false);
-          } else if (response && response.x_response === "Pendiente") {
-            toast.info("El pago está pendiente de confirmación.");
-            setLoading(false);
-          }
-        };
-      }
+      // Abrir checkout y manejar respuesta
+      checkout.open(function (result) {
+        const transaction = result.transaction;
 
-      // onCreated: Se ejecuta cuando el checkout se crea/abre (NO cuando se completa)
-      if (checkout.onCreated) {
-        checkout.onCreated = function () {
-          console.warn("Checkout abierto");
-        };
-      }
-
-      // onCloseModal o onClosed: Se ejecuta cuando se cierra el checkout
-      if (checkout.onCloseModal) {
-        checkout.onCloseModal = function () {
+        if (transaction.status === "APPROVED") {
+          toast.success("¡Pago completado exitosamente!");
+          setTimeout(() => {
+            clearCart();
+            if (onClose) onClose();
+          }, 2000);
+        } else if (transaction.status === "DECLINED") {
+          toast.error("El pago fue rechazado. Por favor intenta nuevamente.");
           setLoading(false);
-        };
-      } else if (checkout.onClosed) {
-        checkout.onClosed = function () {
+        } else if (transaction.status === "PENDING") {
+          toast.info("El pago está pendiente de confirmación.");
           setLoading(false);
-        };
-      }
-
-      // onErrors: Manejo de errores
-      if (checkout.onErrors) {
-        checkout.onErrors = function (error) {
-          console.error("Error en ePayco:", error);
-          toast.error(
-            "Hubo un error con el sistema de pagos. Por favor intenta nuevamente.",
-          );
+        } else if (transaction.status === "ERROR") {
+          toast.error("Hubo un error procesando el pago.");
           setLoading(false);
-        };
-      }
-
-      // Abrir checkout
-      checkout.open();
+        } else {
+          // Para cualquier otro estado, mostrar mensaje informativo
+          toast.info(`Estado del pago: ${transaction.status}`);
+          setLoading(false);
+        }
+      });
     } catch (error) {
       toast.error(error.message || "Error al procesar el pago");
       setLoading(false);
@@ -201,7 +203,7 @@ export default function EpaycoCheckout({ onClose }) {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg p-2 ">
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-2">
       <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
         Datos para el pago
       </h3>
@@ -261,7 +263,7 @@ export default function EpaycoCheckout({ onClose }) {
             name="phone"
             value={customerData.phone}
             onChange={handleChange}
-            placeholder="000-000-0000"
+            placeholder="3001234567"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             required
           />
@@ -331,6 +333,45 @@ export default function EpaycoCheckout({ onClose }) {
           />
         </div>
 
+        {/* Ciudad */}
+        <div>
+          <label
+            htmlFor="customer-city"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
+            Ciudad *
+          </label>
+          <input
+            id="customer-city"
+            type="text"
+            name="city"
+            value={customerData.city}
+            onChange={handleChange}
+            placeholder="Ingrese su ciudad"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            required
+          />
+        </div>
+
+        {/* Región (opcional) */}
+        <div>
+          <label
+            htmlFor="customer-region"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
+            Departamento/Región
+          </label>
+          <input
+            id="customer-region"
+            type="text"
+            name="region"
+            value={customerData.region}
+            onChange={handleChange}
+            placeholder="Ej: Putumayo (opcional)"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+          />
+        </div>
+
         {/* Resumen */}
         <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mt-4">
           <div className="flex justify-between items-center text-lg font-bold text-gray-900 dark:text-white">
@@ -393,7 +434,7 @@ export default function EpaycoCheckout({ onClose }) {
                     />
                   </svg>
                   <span className="font-semibold text-green-800 dark:text-green-200 text-sm">
-                    ✓ Envío GRATIS
+                    Envío GRATIS
                   </span>
                 </div>
                 <p className="text-xs text-green-700 dark:text-green-300 ml-7">
@@ -472,7 +513,7 @@ export default function EpaycoCheckout({ onClose }) {
                 >
                   <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
                 </svg>
-                Pagar con Tarjeta/PSE
+                Pagar con Wompi
               </>
             )}
           </button>

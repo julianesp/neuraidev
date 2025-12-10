@@ -38,10 +38,11 @@ while IFS='=' read -r key value; do
     value=$(echo "$value" | xargs)
 
     # Solo agregar variables importantes
-    if [[ "$key" == *"EPAYCO"* ]] || \
+    if [[ "$key" == *"WOMPI"* ]] || \
        [[ "$key" == *"SUPABASE"* ]] || \
        [[ "$key" == *"CLERK"* ]] || \
-       [[ "$key" == "NEXT_PUBLIC_SITE_URL" ]]; then
+       [[ "$key" == "NEXT_PUBLIC_SITE_URL" ]] || \
+       [[ "$key" == "ADMIN_EMAILS" ]]; then
 
         echo "✅ Agregando: $key"
 

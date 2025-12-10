@@ -225,9 +225,9 @@ export default function RootLayout({ children }) {
           `}
           </Script>
 
-          {/* ePayco Smart Checkout v2 */}
+          {/* Wompi Widget para procesamiento de pagos */}
           <Script
-            src="https://checkout.epayco.co/checkout-v2.js"
+            src="https://checkout.wompi.co/widget.js"
             strategy="lazyOnload"
           />
         </head>

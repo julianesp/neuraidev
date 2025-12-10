@@ -80,18 +80,18 @@ export default function ProductoDetalle({ producto }: Props) {
   };
 
   return (
-    <div className="container  px-56 py-8 max-w-7xl">
+    <div className="container px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         {/* Galería de imágenes */}
-        <div className="space-y-4">
-          <div className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
+        <div className="space-y-3">
+          <div className="w-full h-64 sm:h-80 md:h-96 lg:h-[400px] bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
             {imagenSeleccionada ? (
               <Image
                 src={imagenSeleccionada}
                 alt={producto.nombre}
                 className="w-full h-full object-contain"
-                width={320}
-                height={320}
+                width={400}
+                height={400}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
@@ -137,7 +137,7 @@ export default function ProductoDetalle({ producto }: Props) {
         </div>
 
         {/* Información del producto */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           {/* Breadcrumb */}
           <nav className="text-sm text-gray-600 dark:text-gray-400">
             <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400">Inicio</Link>
@@ -232,35 +232,24 @@ export default function ProductoDetalle({ producto }: Props) {
             </div>
           )}
 
+          {/* Garantía */}
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-4 rounded-lg">
+            <div className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              <div>
+                <h3 className="text-lg font-semibold mb-1 text-blue-900 dark:text-blue-200">Garantía de 1 mes</h3>
+                <p className="text-sm text-blue-800 dark:text-blue-300">
+                  Todos nuestros productos cuentan con garantía de 1 mes contra defectos de fabricación.
+                  Compra con confianza y seguridad.
+                </p>
+              </div>
+            </div>
+          </div>
 
           {/* Botones de acción */}
           <div className="space-y-3">
-            {/* Botón de pago directo con Wompi/Nequi */}
-            {producto.metadata?.payment_link && producto.disponible && (
-              <a
-                href={producto.metadata.payment_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-sm sm:text-base"
-                style={{
-                  background: 'linear-gradient(to right, #9333ea, #ec4899)',
-                  color: 'white',
-                  textDecoration: 'none',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'linear-gradient(to right, #7e22ce, #db2777)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'linear-gradient(to right, #9333ea, #ec4899)';
-                }}
-              >
-                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'white' }}>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                </svg>
-                <span style={{ color: 'white' }}>Pagar Ahora con Nequi/Wompi</span>
-              </a>
-            )}
-
             {producto.tienda?.telefono && (
               <button
                 onClick={handleWhatsApp}

@@ -14,52 +14,62 @@ function RespuestaPagoContent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Obtener parámetros de la URL enviados por ePayco
-    const refPayco = searchParams.get("ref_payco") || searchParams.get("x_ref_payco");
-    const transactionId = searchParams.get("x_transaction_id");
-    const amount = searchParams.get("x_amount");
-    const currency = searchParams.get("x_currency_code");
-    const signature = searchParams.get("x_signature");
-    const approvalCode = searchParams.get("x_approval_code");
-    const transactionState = searchParams.get("x_transaction_state");
-    const response = searchParams.get("x_response");
-    const responseText = searchParams.get("x_response_reason_text");
+    // Obtener parámetros de la URL enviados por Wompi
+    // Wompi redirige con el ID de la transacción en la URL
+    const transactionId = searchParams.get("id");
 
-    // Códigos de estado de ePayco:
-    // 1 o "Aceptada" = Transacción aprobada
-    // 2 o "Rechazada" = Transacción rechazada
-    // 3 o "Pendiente" = Transacción pendiente
-    // 4 o "Fallida" = Transacción fallida
+    // Si tenemos un ID de transacción, consultamos su estado
+    if (transactionId) {
+      // Consultar el estado de la transacción desde la API de Wompi
+      fetch(`https://production.wompi.co/v1/transactions/${transactionId}`)
+        .then((res) => res.json())
+        .then((transaction) => {
+          const data = {
+            transactionId: transaction.data.id,
+            reference: transaction.data.reference,
+            amount: transaction.data.amount_in_cents / 100, // Convertir de centavos a pesos
+            currency: transaction.data.currency,
+            status: transaction.data.status,
+            statusMessage: transaction.data.status_message,
+            paymentMethod: transaction.data.payment_method_type,
+            createdAt: transaction.data.created_at,
+          };
 
-    const data = {
-      refPayco,
-      transactionId,
-      amount,
-      currency,
-      signature,
-      approvalCode,
-      transactionState,
-      response,
-      responseText,
-    };
+          // Log solo en desarrollo
+          if (process.env.NODE_ENV === "development") {
+            // eslint-disable-next-line no-console
+            console.warn("[DEV] Datos de respuesta de Wompi recibidos", data);
+          }
 
-    // Log solo en desarrollo
-    if (process.env.NODE_ENV === "development") {
-      // eslint-disable-next-line no-console
-      console.warn("[DEV] Datos de respuesta de ePayco recibidos");
+          setPaymentData(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error consultando transacción:", error);
+          setPaymentData(null);
+          setLoading(false);
+        });
+    } else {
+      // Si no hay ID, marcar como sin datos
+      setPaymentData(null);
+      setLoading(false);
     }
-
-    setPaymentData(data);
-    setLoading(false);
   }, [searchParams]);
 
   // Determinar el estado del pago
   const getPaymentStatus = () => {
     if (!paymentData) return null;
 
-    const state = paymentData.transactionState;
+    const state = paymentData.status;
 
-    if (state === "Aceptada" || state === "1") {
+    // Estados de Wompi:
+    // APPROVED = Transacción aprobada
+    // DECLINED = Transacción rechazada
+    // PENDING = Transacción pendiente
+    // VOIDED = Transacción anulada
+    // ERROR = Error en la transacción
+
+    if (state === "APPROVED") {
       return {
         type: "success",
         icon: "✅",
@@ -67,15 +77,15 @@ function RespuestaPagoContent() {
         message: "Tu transacción ha sido procesada correctamente.",
         color: "green",
       };
-    } else if (state === "Rechazada" || state === "2") {
+    } else if (state === "DECLINED") {
       return {
         type: "error",
         icon: "❌",
         title: "Pago rechazado",
-        message: paymentData.responseText || "La transacción fue rechazada.",
+        message: paymentData.statusMessage || "La transacción fue rechazada.",
         color: "red",
       };
-    } else if (state === "Pendiente" || state === "3") {
+    } else if (state === "PENDING") {
       return {
         type: "warning",
         icon: "⏳",
@@ -83,11 +93,19 @@ function RespuestaPagoContent() {
         message: "Tu pago está en proceso de verificación. Te notificaremos cuando se confirme.",
         color: "yellow",
       };
+    } else if (state === "VOIDED") {
+      return {
+        type: "error",
+        icon: "🚫",
+        title: "Pago anulado",
+        message: "La transacción fue anulada.",
+        color: "red",
+      };
     } else {
       return {
         type: "error",
         icon: "⚠️",
-        title: "Pago fallido",
+        title: "Error en el pago",
         message: "Hubo un error al procesar tu pago.",
         color: "red",
       };
@@ -149,11 +167,11 @@ function RespuestaPagoContent() {
             Detalles de la transacción
           </h2>
           <div className="space-y-3">
-            {paymentData.refPayco && (
+            {paymentData.reference && (
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">Referencia:</span>
                 <span className="font-mono text-sm text-gray-900 dark:text-white">
-                  {paymentData.refPayco}
+                  {paymentData.reference}
                 </span>
               </div>
             )}
@@ -173,11 +191,11 @@ function RespuestaPagoContent() {
                 </span>
               </div>
             )}
-            {paymentData.approvalCode && (
+            {paymentData.paymentMethod && (
               <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Código de aprobación:</span>
-                <span className="font-mono text-sm text-gray-900 dark:text-white">
-                  {paymentData.approvalCode}
+                <span className="text-gray-600 dark:text-gray-400">Método de pago:</span>
+                <span className="font-mono text-sm text-gray-900 dark:text-white uppercase">
+                  {paymentData.paymentMethod}
                 </span>
               </div>
             )}
@@ -288,10 +306,10 @@ function LoadingFallback() {
 }
 
 /**
- * Página de respuesta después del pago con ePayco
+ * Página de respuesta después del pago con Wompi
  * URL: /respuesta-pago
  *
- * ePayco redirige aquí con parámetros en la URL después del pago
+ * Wompi redirige aquí con el ID de transacción en la URL después del pago
  */
 export default function RespuestaPago() {
   return (

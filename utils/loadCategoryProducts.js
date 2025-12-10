@@ -17,9 +17,10 @@ async function retryWithBackoff(fn, maxRetries = 3, delay = 1000) {
       return await fn();
     } catch (error) {
       const isLastAttempt = i === maxRetries - 1;
-      const isTimeoutError = error.name === 'AbortError' ||
-                             error.message?.includes('timeout') ||
-                             error.message?.includes('fetch failed');
+      const isTimeoutError =
+        error.name === "AbortError" ||
+        error.message?.includes("timeout") ||
+        error.message?.includes("fetch failed");
 
       if (isLastAttempt || !isTimeoutError) {
         throw error;
@@ -27,8 +28,10 @@ async function retryWithBackoff(fn, maxRetries = 3, delay = 1000) {
 
       // Backoff exponencial: 1s, 2s, 4s
       const waitTime = delay * Math.pow(2, i);
-      console.log(`[retryWithBackoff] Reintento ${i + 1}/${maxRetries} después de ${waitTime}ms...`);
-      await new Promise(resolve => setTimeout(resolve, waitTime));
+      console.log(
+        `[retryWithBackoff] Reintento ${i + 1}/${maxRetries} después de ${waitTime}ms...`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
     }
   }
 }
@@ -46,7 +49,7 @@ export async function loadCategoryProducts(categoria) {
       const result = await supabase
         .from("products")
         .select("*")
-        .eq("categoria", categoria)
+        .ilike("categoria", `%${categoria}%`) // Búsqueda case-insensitive
         .eq("disponible", true)
         .order("created_at", { ascending: false });
 
@@ -70,14 +73,46 @@ export async function loadCategoryProducts(categoria) {
       precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
       precio: parseFloat(p.precio),
       cantidad: p.stock || 0,
-      disponible: p.disponible && (p.stock > 0),
+      disponible: p.disponible && p.stock > 0,
       createdAt: p.created_at,
       updatedAt: p.updated_at,
     }));
 
+    if (productos.length === 0) {
+      // Fallback: obtener los primeros productos disponibles
+      const { data: fallbackData, error: fallbackError } = await supabase
+        .from("products")
+        .select("*")
+        .eq("disponible", true)
+        .limit(10)
+        .order("created_at", { ascending: false });
+
+      if (fallbackError) {
+        console.error(
+          `[loadCategoryProducts] Error en fallback:`,
+          fallbackError,
+        );
+        return [];
+      }
+
+      return (fallbackData || []).map((p) => ({
+        ...p,
+        imagenPrincipal: p.imagen_principal,
+        precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
+        precio: parseFloat(p.precio),
+        cantidad: p.stock || 0,
+        disponible: p.disponible && p.stock > 0,
+        createdAt: p.created_at,
+        updatedAt: p.updated_at,
+      }));
+    }
+
     return productos;
   } catch (error) {
-    console.error(`[loadCategoryProducts] Error fatal loading ${categoria} products:`, error);
+    console.error(
+      `[loadCategoryProducts] Error fatal loading ${categoria} products:`,
+      error,
+    );
     // En lugar de lanzar el error, devolver array vacío para evitar que la página crashee
     return [];
   }
@@ -123,27 +158,29 @@ export async function loadProductBySlug(categoria, slug) {
     } else {
       // Formatear las imágenes del array JSON
       // Verificar si los elementos ya son objetos o son URLs
-      producto.imagenes = producto.imagenes.map((imagen, index) => {
-        // Si ya es un objeto con propiedad 'url', devolverlo tal cual
-        if (typeof imagen === 'object' && imagen !== null && imagen.url) {
-          return {
-            ...imagen,
-            alt: imagen.alt || producto.nombre,
-            orden: imagen.orden !== undefined ? imagen.orden : index,
-          };
-        }
-        // Si es una URL (string), crear el objeto
-        if (typeof imagen === 'string') {
-          return {
-            url: imagen,
-            alt: producto.nombre,
-            orden: index,
-          };
-        }
-        // Si no es ni objeto ni string, devolver null (se filtrará después)
-        console.warn('Imagen con formato inesperado:', imagen);
-        return null;
-      }).filter(Boolean); // Filtrar elementos nulos
+      producto.imagenes = producto.imagenes
+        .map((imagen, index) => {
+          // Si ya es un objeto con propiedad 'url', devolverlo tal cual
+          if (typeof imagen === "object" && imagen !== null && imagen.url) {
+            return {
+              ...imagen,
+              alt: imagen.alt || producto.nombre,
+              orden: imagen.orden !== undefined ? imagen.orden : index,
+            };
+          }
+          // Si es una URL (string), crear el objeto
+          if (typeof imagen === "string") {
+            return {
+              url: imagen,
+              alt: producto.nombre,
+              orden: index,
+            };
+          }
+          // Si no es ni objeto ni string, devolver null (se filtrará después)
+          console.warn("Imagen con formato inesperado:", imagen);
+          return null;
+        })
+        .filter(Boolean); // Filtrar elementos nulos
     }
 
     // Filtrar otros productos (excluyendo el actual)

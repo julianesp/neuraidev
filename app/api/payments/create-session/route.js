@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 import { getSupabaseClient } from "@/lib/db";
-import { getValidToken, getTokenInfo } from "@/lib/epayco-token-manager";
 
-// Solo loguear en desarrollo usando console.warn (permitido por el linter)
+// Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
-// eslint-disable-next-line no-console
 const log = (...args) => isDev && console.warn("[DEV]", ...args);
 const logError = (...args) => console.error(...args);
 
@@ -27,7 +26,7 @@ export async function OPTIONS() {
 }
 
 /**
- * API Route para crear sesión de pago con ePayco
+ * API Route para crear sesión de pago con Wompi
  * POST /api/payments/create-session
  */
 export async function POST(request) {
@@ -35,45 +34,55 @@ export async function POST(request) {
     const body = await request.json();
     const {
       amount,
+      amountInCents,
       description,
+      reference,
       customerName,
       customerEmail,
       customerPhone,
       customerAddress,
+      customerCity,
+      customerRegion,
       customerTypeDoc,
       customerNumberDoc,
-      invoice,
       items = [],
     } = body;
 
     // Validar datos requeridos
-    if (!amount || !description || !customerEmail) {
+    if (!amountInCents || !reference || !customerEmail) {
       return NextResponse.json(
         {
-          error: "Faltan datos requeridos: amount, description, customerEmail",
+          error: "Faltan datos requeridos: amountInCents, reference, customerEmail",
         },
         { status: 400 },
       );
     }
 
-    // Validar datos de facturación para PSE
-    if (!customerNumberDoc || !customerAddress) {
+    // Obtener credenciales de Wompi desde variables de entorno
+    const publicKey = process.env.NEXT_PUBLIC_WOMPI_PUBLIC_KEY;
+    const integritySecret = process.env.WOMPI_INTEGRITY_SECRET;
+
+    if (!publicKey || !integritySecret) {
+      logError("❌ Faltan credenciales de Wompi");
       return NextResponse.json(
-        {
-          error:
-            "Faltan datos de facturación requeridos: customerNumberDoc, customerAddress",
-        },
-        { status: 400 },
+        { error: "Error de configuración del servidor" },
+        { status: 500 },
       );
     }
 
-    // Generar número de factura único
-    const invoiceNumber =
-      invoice ||
-      `NRD-${Date.now()}${Math.random().toString(36).substring(2, 11)}`;
+    log("🔐 Generando firma de integridad...");
 
-    // Guardar la orden en Supabase ANTES de crear la sesión de pago
-    // Esto permite rastrear los items para reducir stock después
+    // Generar firma de integridad según documentación de Wompi
+    // Formato: "<Reference><AmountInCents><Currency><IntegritySecret>"
+    const signatureString = `${reference}${amountInCents}COP${integritySecret}`;
+    const integritySignature = crypto
+      .createHash("sha256")
+      .update(signatureString)
+      .digest("hex");
+
+    log("✅ Firma generada exitosamente");
+
+    // Guardar la orden en Supabase ANTES de procesar el pago
     try {
       const supabase = getSupabaseClient();
 
@@ -86,12 +95,12 @@ export async function POST(request) {
       }));
 
       const { error: orderError } = await supabase.from("orders").insert({
-        invoice: invoiceNumber,
+        invoice: reference,
         status: "pending",
         customer_name: customerName || "Cliente",
         customer_email: customerEmail,
         customer_phone: customerPhone || "",
-        items: normalizedItems, // Array de productos con id, cantidad, precio, etc.
+        items: normalizedItems,
         total: amount,
         created_at: new Date().toISOString(),
       });
@@ -102,199 +111,23 @@ export async function POST(request) {
         log("📦 Orden guardada con", normalizedItems.length, "items");
       }
     } catch (dbError) {
-      logError("⚠️ Error de BD");
+      logError("⚠️ Error de BD", dbError);
     }
 
-    // Obtener credenciales de ePayco desde variables de entorno
-    const publicKey = process.env.NEXT_PUBLIC_EPAYCO_PUBLIC_KEY;
-    const privateKey = process.env.EPAYCO_PRIVATE_KEY;
-    const testMode = process.env.NEXT_PUBLIC_EPAYCO_TEST_MODE === "true";
-
-    if (!publicKey || !privateKey) {
-      logError("❌ Faltan credenciales de ePayco");
-      return NextResponse.json(
-        { error: "Error de configuración del servidor" },
-        { status: 500 },
-      );
-    }
-
-    // Paso 1: Obtener token NUEVO (siempre renovado para evitar problemas)
-    log("🔐 Obteniendo token NUEVO de ePayco...");
-    log("Public Key:", publicKey?.substring(0, 10) + "...");
-
-    let bearerToken;
-    try {
-      bearerToken = await getValidToken(publicKey, privateKey, true); // Forzar renovación
-      log("✅ Token obtenido exitosamente");
-    } catch (error) {
-      logError("❌ Error al obtener token:", error.message);
-      return NextResponse.json(
-        {
-          error: "Error de autenticación con ePayco",
-          details: error.message,
-          hint: "Verifica tus credenciales EPAYCO_PUBLIC_KEY y EPAYCO_PRIVATE_KEY",
-        },
-        { status: 401, headers: corsHeaders },
-      );
-    }
-
-    // Obtener IP del cliente desde múltiples headers (Vercel, Cloudflare, etc.)
-    const headers = request.headers;
-    const possibleIpHeaders = [
-      headers.get("x-real-ip"),
-      headers.get("x-forwarded-for")?.split(",")[0]?.trim(),
-      headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim(),
-      headers.get("cf-connecting-ip"),
-    ];
-
-    // Regex para validar IPv4 (sin puertos)
-    const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
-
-    // Buscar la primera IP válida (IPv4) de los headers
-    let clientIp = null;
-    for (const possibleIp of possibleIpHeaders) {
-      if (possibleIp) {
-        // Remover puerto si existe (formato: IP:PUERTO)
-        const cleanIp = possibleIp.split(":")[0].trim();
-
-        if (ipv4Regex.test(cleanIp)) {
-          clientIp = cleanIp;
-          break;
-        }
-      }
-    }
-
-    // Si no se encontró IP válida
-    if (!clientIp) {
-      // En modo test/desarrollo, usar IP de prueba válida
-      if (testMode || isDev) {
-        clientIp = "181.57.0.1"; // IP genérica de Colombia para pruebas
-        log("⚠️ Modo desarrollo/test: usando IP de prueba", clientIp);
-      } else {
-        // En producción, loguear el problema pero continuar
-        logError("⚠️ No se pudo obtener IP válida del cliente", {
-          headers: {
-            "x-real-ip": headers.get("x-real-ip"),
-            "x-forwarded-for": headers.get("x-forwarded-for"),
-            "x-vercel-forwarded-for": headers.get("x-vercel-forwarded-for"),
-            "cf-connecting-ip": headers.get("cf-connecting-ip"),
-          },
-        });
-        clientIp = "181.57.0.1"; // Fallback
-      }
-    }
-
-    const ip = clientIp;
-
-    log("🌐 IP del cliente:", ip);
-
-    // Paso 2: Crear sesión de pago
-    const sessionPayload = {
-      // Campos obligatorios versión 2
-      checkout_version: "2",
-      name: "Neurai.dev",
-      description: description,
-      currency: "COP",
-      amount: Number(amount), // Debe ser número, no string
-      lang: "ES", // ES o EN según documentación oficial
-      ip: ip,
-      country: "CO", // Colombia
-      test: testMode,
-      invoice: invoiceNumber,
-
-      // Impuestos obligatorios (números, no strings)
-      taxBase: 0,
-      tax: 0,
-      taxIco: 0,
-
-      // URLs de respuesta (HTTPS requerido en producción)
-      response: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/respuesta-pago`,
-      confirmation: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/api/payments/confirmation`,
-
-      // Información del cliente en extras
-      extra1: customerName || "",
-      extra2: customerEmail || "",
-      extra3: customerPhone || "",
-
-      // Información de facturación (objeto anidado según documentación oficial)
-      billing: {
-        name: customerName || "Cliente",
-        email: customerEmail,
-        address: customerAddress || "Dirección Colombia",
-        typeDoc: customerTypeDoc || "CC",
-        numberDoc: customerNumberDoc || "1234567890",
-        mobilePhone: customerPhone || "3000000000",
-      },
-    };
-
-    log("📤 Creando sesión de pago...");
-
-    const sessionResponse = await fetch(
-      "https://apify.epayco.co/payment/session/create",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${bearerToken}`,
-        },
-        body: JSON.stringify(sessionPayload),
-      },
-    );
-
-    if (!sessionResponse.ok) {
-      const errorText = await sessionResponse.text();
-      let errorData;
-      try {
-        errorData = JSON.parse(errorText);
-      } catch {
-        errorData = { message: errorText };
-      }
-
-      logError("❌ Error al crear sesión de pago:", sessionResponse.status);
-      logError("Detalles del error:", errorData);
-
-      return NextResponse.json(
-        {
-          error: "Error al crear sesión de pago",
-          status: sessionResponse.status,
-          details: errorData,
-          hint: "Verifica los datos enviados a ePayco",
-        },
-        { status: 500, headers: corsHeaders },
-      );
-    }
-
-    const sessionData = await sessionResponse.json();
-
-    // Log completo de la respuesta para debugging
-    log(
-      "📦 Respuesta completa de ePayco:",
-      JSON.stringify(sessionData, null, 2),
-    );
-
-    if (!sessionData.data?.sessionId) {
-      logError("❌ No se recibió sessionId de ePayco");
-      logError("📦 Respuesta de ePayco:", sessionData);
-      return NextResponse.json(
-        {
-          error: "No se pudo crear sesión de pago",
-          epaycoResponse: sessionData,
-          hint: "ePayco no devolvió un sessionId válido",
-        },
-        { status: 500 },
-      );
-    }
+    // URL de redirección después del pago
+    const redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/respuesta-pago`;
 
     log("✅ Sesión de pago creada exitosamente");
 
-    // Retornar sessionId al cliente con headers CORS
+    // Retornar datos necesarios para el frontend
     return NextResponse.json(
       {
         success: true,
-        sessionId: sessionData.data.sessionId,
-        invoice: sessionPayload.invoice,
-        amount: sessionPayload.amount,
-        test: testMode,
+        publicKey: publicKey,
+        integritySignature: integritySignature,
+        reference: reference,
+        amountInCents: amountInCents,
+        redirectUrl: redirectUrl,
       },
       { headers: corsHeaders },
     );
@@ -312,7 +145,7 @@ export async function GET() {
   return NextResponse.json(
     {
       status: "ok",
-      message: "API de pagos activa",
+      message: "API de pagos Wompi activa",
       endpoint: "/api/payments/create-session",
       methods: ["GET", "POST", "OPTIONS"],
       timestamp: new Date().toISOString(),

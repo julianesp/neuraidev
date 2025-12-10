@@ -37,14 +37,12 @@ export async function GET() {
 
     // Obtener información de los productos
     const productIds = favoritos.map((f) => f.producto_id);
-    console.log("🔍 Buscando productos con IDs:", productIds);
 
     const { data: productos, error: prodError } = await supabase
       .from("products")
       .select("*")
       .in("id", productIds);
 
-    console.log("📦 Productos encontrados:", productos);
     if (prodError) {
       console.error("❌ Error al obtener productos:", prodError);
       // Devolver favoritos sin información de productos
@@ -57,7 +55,6 @@ export async function GET() {
       producto: productos.find((p) => p.id === fav.producto_id) || null,
     }));
 
-    console.log("✅ Favoritos con productos:", favoritosConProductos);
     return NextResponse.json(favoritosConProductos);
   } catch (error) {
     console.error("Error en GET /api/perfil/favoritos:", error);

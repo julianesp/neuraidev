@@ -6,7 +6,7 @@ import { useToast } from "@/contexts/ToastContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { getProductImage } from "@/lib/constants";
-import EpaycoCheckout from "../EpaycoCheckout";
+import WompiCheckout from "../WompiCheckout";
 import styles from "./ShoppingCart.module.scss";
 
 export default function ShoppingCart() {
@@ -21,30 +21,6 @@ export default function ShoppingCart() {
   } = useCart();
   const toast = useToast();
   const [showCheckout, setShowCheckout] = useState(false);
-  const [loadingPaymentLink, setLoadingPaymentLink] = useState(false);
-
-  // Verificar si todos los productos tienen el mismo payment_link
-  const getCartPaymentLink = () => {
-    if (cart.length === 0) return null;
-
-    // Obtener todos los payment_links del carrito
-    const paymentLinks = cart
-      .map((item) => item.metadata?.payment_link)
-      .filter(Boolean);
-
-    // Si no todos los productos tienen payment_link, retornar null
-    if (paymentLinks.length !== cart.length) {
-      return null;
-    }
-
-    // Verificar que todos sean iguales
-    const firstLink = paymentLinks[0];
-    const allSame = paymentLinks.every((link) => link === firstLink);
-
-    return allSame ? firstLink : null;
-  };
-
-  const cartPaymentLink = getCartPaymentLink();
 
   // Debug: Log cart state
   // console.log(
@@ -102,75 +78,6 @@ export default function ShoppingCart() {
     // Abrir WhatsApp
     const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensajeCodificado}`;
     window.open(urlWhatsApp, "_blank");
-  };
-
-  // Generar link de cobro de ePayco
-  const handleGeneratePaymentLink = async () => {
-    if (cart.length === 0) {
-      toast.warning("Tu carrito está vacío", {
-        title: "Carrito Vacío",
-        duration: 3000,
-      });
-      return;
-    }
-
-    setLoadingPaymentLink(true);
-
-    try {
-      // Calcular total
-      const total = getTotalPrice();
-
-      // Preparar descripción
-      const description =
-        cart.length === 1
-          ? cart[0].nombre
-          : `Compra de ${cart.length} productos`;
-
-      // Generar factura única
-      const invoice = `NRD-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
-
-      // Llamar al endpoint para generar link de cobro
-      const response = await fetch("/api/payments/create-link", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          amount: total,
-          description: description,
-          customerName: "Cliente Neurai.dev",
-          customerEmail: "cliente@neurai.dev",
-          customerPhone: "3000000000",
-          invoice: invoice,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Error al generar link de pago");
-      }
-
-      if (!data.success || !data.paymentLink) {
-        throw new Error("No se recibió el link de pago");
-      }
-
-      // Abrir el link de pago en una nueva pestaña
-      window.open(data.paymentLink, "_blank");
-
-      toast.success("Link de pago generado exitosamente", {
-        title: "¡Link Generado!",
-        duration: 3000,
-      });
-    } catch (error) {
-      console.error("Error al generar link de pago:", error);
-      toast.error(error.message || "Error al generar link de pago", {
-        title: "Error",
-        duration: 5000,
-      });
-    } finally {
-      setLoadingPaymentLink(false);
-    }
   };
 
   if (!isOpen) {
@@ -402,89 +309,11 @@ export default function ShoppingCart() {
                 >
                   ← Volver a opciones de pago
                 </button>
-                <EpaycoCheckout onClose={() => setShowCheckout(false)} />
+                <WompiCheckout onClose={() => setShowCheckout(false)} />
               </div>
             ) : (
               <>
-                {/* Caso 1: Solo hay 1 producto - Mostrar botón para ir al detalle */}
-                {cart.length === 1 && cart[0]?.id ? (
-                  <a
-                    href={`/producto/${cart[0].id}`}
-                    className="w-full font-bold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                    style={{
-                      background: 'linear-gradient(to right, #9333ea, #ec4899)',
-                      color: 'white',
-                      textDecoration: 'none',
-                      display: 'flex',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'linear-gradient(to right, #7e22ce, #db2777)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'linear-gradient(to right, #9333ea, #ec4899)';
-                    }}
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'white' }}>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                    </svg>
-                    <span style={{ color: 'white' }}>Pagar Ahora con Nequi</span>
-                  </a>
-                ) : /* Caso 2: Múltiples productos - Solo mostrar botón si todos tienen el mismo link */
-                cartPaymentLink ? (
-                  <a
-                    href={cartPaymentLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full font-bold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                    style={{
-                      background: 'linear-gradient(to right, #9333ea, #ec4899)',
-                      color: 'white',
-                      textDecoration: 'none',
-                      display: 'flex',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'linear-gradient(to right, #7e22ce, #db2777)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'linear-gradient(to right, #9333ea, #ec4899)';
-                    }}
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'white' }}>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                    </svg>
-                    <span style={{ color: 'white' }}>Pagar Ahora con Nequi</span>
-                  </a>
-                ) : (
-                  /* Caso 3: Múltiples productos sin links - Mostrar mensaje de advertencia */
-                  <div className="bg-amber-50 dark:bg-amber-900/30 border-2 border-amber-300 dark:border-amber-700 rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <svg
-                        className="w-6 h-6 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                        />
-                      </svg>
-                      <div className="flex-1">
-                        <p className="font-semibold text-amber-900 dark:text-amber-100 text-sm mb-1">
-                          Pago por producto individual
-                        </p>
-                        <p className="text-xs text-amber-700 dark:text-amber-300">
-                          Para realizar el pago, por favor accede a cada producto desde su página de detalle. También puedes contactarnos por WhatsApp para coordinar tu pedido.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* BOTONES TEMPORALMENTE OCULTOS */}
-                {/*
+                {/* Botón para pagar con Wompi */}
                 <button
                   onClick={() => setShowCheckout(true)}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
@@ -498,50 +327,6 @@ export default function ShoppingCart() {
                   </svg>
                   Pagar con Tarjeta/PSE
                 </button>
-
-                <button
-                  onClick={handleGeneratePaymentLink}
-                  disabled={loadingPaymentLink}
-                  className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
-                >
-                  {loadingPaymentLink ? (
-                    <>
-                      <svg
-                        className="animate-spin h-5 w-5 text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
-                      </svg>
-                      Generando link...
-                    </>
-                  ) : (
-                    <>
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-5 h-5"
-                      >
-                        <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" />
-                      </svg>
-                      Generar Link de Pago
-                    </>
-                  )}
-                </button>
-                */}
 
                 {/* Botón limpiar carrito */}
                 <button

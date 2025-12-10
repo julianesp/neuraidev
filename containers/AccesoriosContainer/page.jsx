@@ -45,14 +45,18 @@ const AccesoriosContainer = ({
   const { addToCart } = useCart();
   const toast = useToast();
 
-  const [todosAccesorios, setTodosAccesorios] = useState([]);
-  const [accesorio, setAccesorio] = useState(null);
-  const [otrosAccesorios, setOtrosAccesorios] = useState([]);
+  const [todosAccesorios, setTodosAccesorios] = useState(
+    [accesorioProps, ...(otrosAccesoriosProps || [])].filter(Boolean),
+  );
+  const [accesorio, setAccesorio] = useState(accesorioProps || null);
+  const [otrosAccesorios, setOtrosAccesorios] = useState(
+    otrosAccesoriosProps || [],
+  );
   const [telefono, setTelefono] = useState(telefonoProps);
   const [mainSlideIndex, setMainSlideIndex] = useState(0);
   const [relatedSlideIndex, setRelatedSlideIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [dataLoaded, setDataLoaded] = useState(false); // Bandera para evitar cargas múltiples
+  const [loading, setLoading] = useState(!accesorioProps);
+  const [dataLoaded, setDataLoaded] = useState(!!accesorioProps); // Bandera para evitar cargas múltiples
   const [isMobile, setIsMobile] = useState(false);
   const [imageError, setImageError] = useState({}); // Controlar errores de carga de imágenes
   const [imageRetries, setImageRetries] = useState({}); // Controlar reintentos de carga
@@ -293,8 +297,14 @@ const AccesoriosContainer = ({
   // Validar que accesorio exista antes de continuar
   if (!accesorio) {
     return (
-      <div className="w-full flex items-center justify-center py-12">
-        <div className="text-center text-gray-500">Cargando producto...</div>
+      <div className="w-full flex flex-col items-center justify-center py-12 gap-4">
+        <div className="text-center">
+          <div className="text-gray-500 mb-2">⏳ Cargando producto...</div>
+          <div className="text-xs text-gray-400">
+            Si ves este mensaje después de unos segundos, verifica que los datos
+            estén disponibles.
+          </div>
+        </div>
       </div>
     );
   }
@@ -824,6 +834,21 @@ const AccesoriosContainer = ({
                     </ul>
                   </div>
                 )}
+
+              {/* Garantía */}
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-4 rounded-lg mt-4">
+                <div className="flex items-start gap-3">
+                  <svg className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  <div>
+                    <h3 className="text-base font-semibold mb-1 text-blue-900 dark:text-blue-200">Garantía de 1 mes</h3>
+                    <p className="text-sm text-blue-800 dark:text-blue-300">
+                      Todos nuestros productos cuentan con garantía de 1 mes contra defectos de fabricación.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Columna 3: Stock, Precio y Botones de Acción */}
@@ -957,31 +982,6 @@ const AccesoriosContainer = ({
                 </div>
               ) : (
                 <div className="space-y-3 mt-6">
-                  {/* Botón de pago directo con Wompi/Nequi si está configurado */}
-                  {accesorio.metadata?.payment_link && (
-                    <Link
-                      href={accesorio.metadata.payment_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`border border-black dark:border-white text-white font-bold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-4 dark:bg-gray-700 ${styles.botonPago}`}
-                    >
-                      <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                        />
-                      </svg>
-                      Pagar con Nequi/Wompi
-                    </Link>
-                  )}
-
                   {/* Componente de agregar al carrito */}
                   <AddToCartButton producto={accesorio} />
 
