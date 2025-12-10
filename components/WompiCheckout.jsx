@@ -153,6 +153,9 @@ export default function WompiCheckout({ onClose }) {
         amountInCents: amountInCents,
         reference: reference,
         publicKey: publicKey,
+        signature: {
+          integrity: integritySignature,
+        },
         redirectUrl: redirectUrl || `${window.location.origin}/respuesta-pago`,
         customerData: {
           email: customerData.email,
