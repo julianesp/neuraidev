@@ -7,11 +7,11 @@ import Image from "next/image";
 import { getProductImage } from "@/lib/constants";
 
 /**
- * Componente de Checkout con Wompi
+ * Componente de Checkout con Wompi Payment Links
  * Maneja el flujo completo de pago integrado con el carrito
  */
 export default function WompiCheckout({ onClose }) {
-  const { cart, getTotalPrice, clearCart } = useCart();
+  const { cart, getTotalPrice } = useCart();
   const toast = useToast();
 
   const [loading, setLoading] = useState(false);
@@ -25,11 +25,6 @@ export default function WompiCheckout({ onClose }) {
     city: "",
     region: "",
   });
-
-  // Validar que Wompi esté cargado
-  const isWompiLoaded = () => {
-    return typeof window !== "undefined" && window.WidgetCheckout;
-  };
 
   // Manejar cambios en el formulario
   const handleChange = (e) => {
@@ -89,14 +84,6 @@ export default function WompiCheckout({ onClose }) {
       return;
     }
 
-    // Validar que Wompi esté cargado
-    if (!isWompiLoaded()) {
-      toast.error(
-        "El sistema de pagos no está disponible. Por favor recarga la página.",
-      );
-      return;
-    }
-
     setLoading(true);
 
     try {
@@ -116,7 +103,7 @@ export default function WompiCheckout({ onClose }) {
               .join(", ")
               .substring(0, 100)}...`;
 
-      // Crear transacción en el backend y obtener la firma de integridad
+      // Crear Payment Link en el backend
       const response = await fetch("/api/payments/create-session", {
         method: "POST",
         headers: {
@@ -147,61 +134,22 @@ export default function WompiCheckout({ onClose }) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Error al crear sesión de pago");
+        throw new Error(data.error || "Error al crear link de pago");
       }
 
-      const { publicKey, integritySignature, redirectUrl } = data;
+      const { paymentUrl } = data;
 
-      // Configurar checkout de Wompi
-      const checkout = new window.WidgetCheckout({
-        currency: "COP",
-        amountInCents: amountInCents,
-        reference: reference,
-        publicKey: publicKey,
-        signature: integritySignature, // Firma de integridad requerida
-        redirectUrl: redirectUrl || `${window.location.origin}/respuesta-pago`,
-        customerData: {
-          email: customerData.email,
-          fullName: customerData.name,
-          phoneNumber: customerData.phone,
-          phoneNumberPrefix: "+57",
-          legalId: customerData.numberDoc,
-          legalIdType: customerData.typeDoc,
-        },
-        shippingAddress: {
-          addressLine1: customerData.address,
-          city: customerData.city,
-          phoneNumber: customerData.phone,
-          region: customerData.region || "Colombia",
-          country: "CO",
-        },
-      });
+      if (!paymentUrl) {
+        throw new Error("No se recibió la URL de pago");
+      }
 
-      // Abrir checkout y manejar respuesta
-      checkout.open(function (result) {
-        const transaction = result.transaction;
+      // Redirigir al usuario al Payment Link de Wompi
+      toast.success("Redirigiendo a la pasarela de pago...");
 
-        if (transaction.status === "APPROVED") {
-          toast.success("¡Pago completado exitosamente!");
-          setTimeout(() => {
-            clearCart();
-            if (onClose) onClose();
-          }, 2000);
-        } else if (transaction.status === "DECLINED") {
-          toast.error("El pago fue rechazado. Por favor intenta nuevamente.");
-          setLoading(false);
-        } else if (transaction.status === "PENDING") {
-          toast.info("El pago está pendiente de confirmación.");
-          setLoading(false);
-        } else if (transaction.status === "ERROR") {
-          toast.error("Hubo un error procesando el pago.");
-          setLoading(false);
-        } else {
-          // Para cualquier otro estado, mostrar mensaje informativo
-          toast.info(`Estado del pago: ${transaction.status}`);
-          setLoading(false);
-        }
-      });
+      // Pequeño delay para que el usuario vea el mensaje
+      setTimeout(() => {
+        window.location.href = paymentUrl;
+      }, 1000);
     } catch (error) {
       toast.error(error.message || "Error al procesar el pago");
       setLoading(false);
