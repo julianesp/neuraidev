@@ -166,7 +166,6 @@ export const metadata = {
     "geo.position": "1.1333;-76.9",
     ICBM: "1.1333, -76.9",
   },
-  manifest: "/manifest.json",
 };
 
 export const viewport = {
@@ -195,7 +194,6 @@ export default function RootLayout({ children }) {
             href="/apple-touch-icon.png"
           />
           <meta name="apple-mobile-web-app-title" content="neurai.dev" />
-          <link rel="manifest" href="/manifest.json" />
 
           {/* Google Analytics con variable de entorno */}
           <Script

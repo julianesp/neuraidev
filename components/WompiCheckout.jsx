@@ -73,6 +73,11 @@ export default function WompiCheckout({ onClose }) {
       return false;
     }
 
+    if (!customerData.region || customerData.region.trim().length < 3) {
+      toast.error("Por favor ingresa tu departamento o región");
+      return false;
+    }
+
     return true;
   };
 
@@ -129,7 +134,7 @@ export default function WompiCheckout({ onClose }) {
           customerPhone: customerData.phone,
           customerAddress: customerData.address,
           customerCity: customerData.city,
-          customerRegion: customerData.region || "Colombia",
+          customerRegion: customerData.region,
           customerTypeDoc: customerData.typeDoc,
           customerNumberDoc: customerData.numberDoc,
           items: cart.map((item) => ({
@@ -168,7 +173,7 @@ export default function WompiCheckout({ onClose }) {
           addressLine1: customerData.address,
           city: customerData.city,
           phoneNumber: customerData.phone,
-          region: customerData.region || "Colombia",
+          region: customerData.region,
           country: "CO",
         },
       });
@@ -400,13 +405,13 @@ export default function WompiCheckout({ onClose }) {
           />
         </div>
 
-        {/* Región (opcional) */}
+        {/* Departamento/Región */}
         <div>
           <label
             htmlFor="customer-region"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
           >
-            Departamento/Región
+            Departamento/Región *
           </label>
           <input
             id="customer-region"
@@ -414,8 +419,9 @@ export default function WompiCheckout({ onClose }) {
             name="region"
             value={customerData.region}
             onChange={handleChange}
-            placeholder="Ej: Putumayo (opcional)"
+            placeholder="Ej: Putumayo"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            required
           />
         </div>
 
