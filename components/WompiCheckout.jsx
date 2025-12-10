@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
+import Image from "next/image";
+import { getProductImage } from "@/lib/constants";
 
 /**
  * Componente de Checkout con Wompi
@@ -105,11 +107,11 @@ export default function WompiCheckout({ onClose }) {
       // Generar referencia única
       const reference = `NRD-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 
-      // Preparar descripción
+      // Preparar descripción detallada para Wompi
       const description =
         cart.length === 1
-          ? cart[0].nombre
-          : `${cart.length} productos de Neurai.dev`;
+          ? `${cart[0].nombre} - Neurai.dev`
+          : `Compra de ${cart.length} productos: ${cart.map(item => item.nombre).join(", ").substring(0, 100)}...`;
 
       // Crear transacción en el backend y obtener la firma de integridad
       const response = await fetch("/api/payments/create-session", {
@@ -207,6 +209,51 @@ export default function WompiCheckout({ onClose }) {
       <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
         Datos para el pago
       </h3>
+
+      {/* Vista previa de productos */}
+      <div className="mb-4 bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+        <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Productos a pagar:
+        </h4>
+        <div className="space-y-2 max-h-32 overflow-y-auto">
+          {cart.map((item, index) => (
+            <div key={index} className="flex items-center gap-2 bg-white dark:bg-gray-800 rounded p-2">
+              {/* Imagen del producto */}
+              <div className="relative w-12 h-12 flex-shrink-0 bg-gray-100 dark:bg-gray-600 rounded overflow-hidden">
+                {(() => {
+                  const imageSrc = getProductImage(item);
+                  const isDataUri =
+                    imageSrc &&
+                    typeof imageSrc === "string" &&
+                    imageSrc.startsWith("data:");
+                  return (
+                    <Image
+                      src={imageSrc}
+                      alt={item.nombre}
+                      fill
+                      sizes="48px"
+                      className="object-cover"
+                      unoptimized={isDataUri}
+                    />
+                  );
+                })()}
+              </div>
+              {/* Info del producto */}
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-gray-900 dark:text-white truncate">
+                  {item.nombre}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  ${item.precio.toLocaleString()} × {item.cantidad}
+                </p>
+              </div>
+              <div className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                ${(item.precio * item.cantidad).toLocaleString()}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="space-y-4">
         {/* Nombre */}
