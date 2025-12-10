@@ -1,21 +1,22 @@
 .carrito {
-    height: 40%;
+  height: 40%;
+  
 
-    overflow-y: scroll;
+  overflow-y: scroll;
 
-    border-top-left-radius: 30px;
+  border-top-left-radius: 30px;
+}
 
-    
+.carrito_title {
+  font-size: 14px;
+  font-weight: 700;
 
 }
 
 .productosListados {
-    height: 60%;
+//   height: 60%;
 
-    overflow-y: scroll;
+  overflow-y: scroll;
 
-    border-bottom-left-radius: 30px;
-
-    
-
+  border-bottom-left-radius: 30px;
 }
