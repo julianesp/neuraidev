@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, Save } from "lucide-react";
 import { crearProducto } from "@/lib/supabase/productos";
 import ImageUploader from "@/components/ImageUploader";
+import VideoUploader from "@/components/VideoUploader";
 
 export default function NuevoProductoPage() {
   const router = useRouter();
@@ -24,6 +25,8 @@ export default function NuevoProductoPage() {
     estado: "nuevo",
     imagen_principal: "",
     imagenes: [""],
+    video_url: "",
+    video_type: "direct",
     payment_link: "",
   });
 
@@ -89,6 +92,8 @@ export default function NuevoProductoPage() {
         imagenes: Array.isArray(formData.imagenes)
           ? formData.imagenes.filter((img) => img && img.trim() !== "")
           : [],
+        video_url: formData.video_url || null,
+        video_type: formData.video_type || null,
         metadata: Object.keys(metadata).length > 0 ? metadata : null,
       };
 
@@ -370,6 +375,49 @@ export default function NuevoProductoPage() {
                   multiple
                 />
               </div>
+            </div>
+
+            {/* Video del Producto */}
+            <div>
+              <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+                Video del Producto
+              </h2>
+              <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4 mb-4">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
+                      <svg
+                        className="w-6 h-6 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-purple-900 dark:text-purple-100 mb-1">
+                      ✨ El video se mostrará como primer elemento en la galería
+                    </p>
+                    <p className="text-xs text-purple-700 dark:text-purple-300">
+                      Puedes subir un video directamente (MP4) o pegar un enlace de YouTube/Vimeo.
+                      El video aparecerá automáticamente en la presentación del producto.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <VideoUploader
+                value={formData.video_url}
+                onChange={(url, type) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    video_url: url,
+                    video_type: type,
+                  }))
+                }
+                label="Video de Presentación"
+              />
             </div>
 
             {/* Payment Link Nequi/Wompi */}

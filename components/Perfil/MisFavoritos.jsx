@@ -187,8 +187,9 @@ export default function MisFavoritos() {
                       Agregar al Carrito
                     </button>
                     <button
-                      onClick={() => handleRemove(item.id)}
+                      onClick={() => handleRemove(item.producto_id)}
                       className={styles.btnRemove}
+                      title="Eliminar de favoritos"
                     >
                       <TrashIcon className={styles.icon} />
                     </button>

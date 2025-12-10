@@ -60,9 +60,15 @@ export default function ProductVideo({
 
   const handleLoadComplete = () => {
     setIsLoading(false);
+    setHasError(false);
   };
 
-  const handleError = () => {
+  const handleError = (e: any) => {
+    console.error('Error cargando video:', {
+      url: videoUrl,
+      type: actualVideoType,
+      error: e,
+    });
     setIsLoading(false);
     setHasError(true);
   };
@@ -135,19 +141,20 @@ export default function ProductVideo({
       {/* Video Directo (MP4, WebM, etc.) */}
       {actualVideoType === 'direct' && (
         <video
-          src={videoUrl}
-          className="w-full h-full object-contain"
+          className="w-full h-full object-contain bg-black"
           controls={controls}
           autoPlay={autoPlay}
           loop
           muted={autoPlay}
           playsInline
+          preload="metadata"
           onLoadStart={handleLoadStart}
           onLoadedData={handleLoadComplete}
+          onLoadedMetadata={handleLoadComplete}
+          onCanPlay={handleLoadComplete}
           onError={handleError}
         >
           <source src={videoUrl} type="video/mp4" />
-          <source src={videoUrl} type="video/webm" />
           Tu navegador no soporta la reproducción de video.
         </video>
       )}
