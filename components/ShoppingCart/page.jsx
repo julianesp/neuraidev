@@ -95,6 +95,7 @@ export default function ShoppingCart() {
 
       {/* Panel del carrito */}
       <div
+        className={styles.carrito_panel}
         style={{
           position: "fixed",
           top: 0,
@@ -159,7 +160,7 @@ export default function ShoppingCart() {
               <p className="text-lg">Tu carrito está vacío</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr,400px] h-full">
+            <div className={`grid grid-cols-1 lg:grid-cols-[1fr,400px] h-full ${styles.grid_container}`}>
               {/* Columna izquierda: Lista de productos */}
               <div
                 className={`overflow-y-auto p-4 border-r border-gray-200 dark:border-gray-700 ${styles.productosListados}`}
@@ -285,7 +286,7 @@ export default function ShoppingCart() {
                 </div>
               </div>
 
-              {/* Resumen: lo posicionamos fijo al lado izquierdo del viewport */}
+              {/* Resumen: lo posicionamos fijo al lado izquierdo del viewport en desktop, relativo en móvil */}
               <div
                 className={`bg-white dark:bg-gray-900 ${styles.carrito}`}
                 style={{
@@ -302,7 +303,7 @@ export default function ShoppingCart() {
                 <div className="space-y-4">
                   {/* Resumen del pedido */}
                   <div>
-                    <h3 className="text-lg font-bold mb-3 text-gray-900 dark:text-white absolute">
+                    <h3 className="text-lg font-bold mb-3 text-gray-900 dark:text-white md:absolute">
                       Resumen del Pedido
                     </h3>
 

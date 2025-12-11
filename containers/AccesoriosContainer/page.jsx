@@ -625,7 +625,7 @@ const AccesoriosContainer = ({
       <ProductSchema producto={accesorio} />
       {/* max-w-4xl */}
       <div ref={containerRef} id="accesorios-container" className="w-full">
-        <div className="lg:max-w-md mx-auto p-4">
+        <div className="lg:max-w-md mx-auto px-2 py-4 md:p-4">
           {/* Breadcrumbs */}
           <Breadcrumbs
             items={[
@@ -653,26 +653,28 @@ const AccesoriosContainer = ({
             <div
               className={`${styles.mainImageContainer} relative h-96 md:h-[450px] lg:h-[500px] group`}
             >
-              {/* Botón de expansión - visible en hover */}
-              <button
-                onClick={openImageModal}
-                className="absolute top-4 right-4 z-9 bg-black hover:bg-black/90 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm shadow-lg border border-black  group-hover:opacity-100"
-                aria-label="Ver imagen en pantalla completa"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              {/* Botón de expansión - visible solo cuando el modal NO está abierto */}
+              {!isImageModalOpen && (
+                <button
+                  onClick={openImageModal}
+                  className="absolute top-2 right-2 z-10 bg-white/90 hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800 text-gray-900 dark:text-white p-2.5 md:p-3 rounded-full transition-all duration-200 shadow-xl border-2 border-gray-300 dark:border-gray-600 hover:scale-110 "
+                  aria-label="Ver imagen en pantalla completa"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="w-10 h-10 md:w-6 md:h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                    />
+                  </svg>
+                </button>
+              )}
 
               <div className="h-full w-full relative overflow-hidden rounded-lg">
                 {tieneImagenes ? (
@@ -757,44 +759,46 @@ const AccesoriosContainer = ({
                   </div>
                 )}
 
-                {/* Controles del carrusel principal - solo si hay múltiples imágenes */}
-                {tieneImagenes && accesorio.imagenes.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevMainSlide}
-                      className={`${styles.navButton} bg-black text-white  absolute left-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md  transition-all     dark:border-solid `}
-                      aria-label="Imagen anterior"
-                    >
-                      <ChevronLeft size={24} />
-                    </button>
-                    <button
-                      onClick={nextMainSlide}
-                      className={`${styles.navButton} bg-black text-white dark:bg-white dark:text-black absolute right-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
-                      aria-label="Imagen siguiente"
-                    >
-                      <ChevronRight size={24} />
-                    </button>
+                {/* Controles del carrusel principal - solo si hay múltiples imágenes Y el modal NO está abierto */}
+                {tieneImagenes &&
+                  accesorio.imagenes.length > 1 &&
+                  !isImageModalOpen && (
+                    <>
+                      <button
+                        onClick={prevMainSlide}
+                        className={`${styles.navButton} bg-black text-white  absolute left-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md  transition-all     dark:border-solid `}
+                        aria-label="Imagen anterior"
+                      >
+                        <ChevronLeft size={24} />
+                      </button>
+                      <button
+                        onClick={nextMainSlide}
+                        className={`${styles.navButton} bg-black text-white dark:bg-white dark:text-black absolute right-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
+                        aria-label="Imagen siguiente"
+                      >
+                        <ChevronRight size={24} />
+                      </button>
 
-                    {/* Indicadores de posición */}
-                    <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950">
-                      {accesorio.imagenes.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setMainSlideIndex(index);
-                          }}
-                          className={`w-3 h-3 rounded-full ${
-                            index === mainSlideIndex
-                              ? "bg-primary"
-                              : "bg-gray-300"
-                          }`}
-                          aria-label={`Ir a imagen ${index + 1}`}
-                        />
-                      ))}
-                    </div>
-                  </>
-                )}
+                      {/* Indicadores de posición */}
+                      <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950">
+                        {accesorio.imagenes.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setMainSlideIndex(index);
+                            }}
+                            className={`w-3 h-3 rounded-full ${
+                              index === mainSlideIndex
+                                ? "bg-primary"
+                                : "bg-gray-300"
+                            }`}
+                            aria-label={`Ir a imagen ${index + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
               </div>
             </div>
 
@@ -838,13 +842,26 @@ const AccesoriosContainer = ({
               {/* Garantía */}
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-4 rounded-lg mt-4">
                 <div className="flex items-start gap-3">
-                  <svg className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  <svg
+                    className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
                   </svg>
                   <div>
-                    <h3 className="text-base font-semibold mb-1 text-blue-900 dark:text-blue-200">Garantía de 1 mes</h3>
+                    <h3 className="text-base font-semibold mb-1 text-blue-900 dark:text-blue-200">
+                      Garantía de 1 mes
+                    </h3>
                     <p className="text-sm text-blue-800 dark:text-blue-300">
-                      Todos nuestros productos cuentan con garantía de 1 mes contra defectos de fabricación.
+                      Todos nuestros productos cuentan con garantía de 1 mes
+                      contra defectos de fabricación.
                     </p>
                   </div>
                 </div>
@@ -1025,16 +1042,14 @@ const AccesoriosContainer = ({
           </div>
 
           {otrosAccesorios && otrosAccesorios.length > 0 && (
-            <div className="mt-12">
-              <h2 className="text-2xl font-bold mb-6 text-center">
+            <div className="mt-8 md:mt-12">
+              <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">
                 Otros accesorios
               </h2>
 
               <div className="relative">
                 {/* IMPORTANTE: Solo usar la clase SCSS, NO mezclar con Tailwind grid */}
-                <div
-                  className={`${styles.otrosAccesoriosGrid} dark:bg-gray-800 `}
-                >
+                <div className={`${styles.otrosAccesoriosGrid}  `}>
                   {otrosAccesorios.map((item, itemIndex) => {
                     // Obtener URL de imagen de manera segura
                     const itemImageUrl =
@@ -1079,7 +1094,7 @@ const AccesoriosContainer = ({
                               );
                             }
                           }}
-                          className={`absolute top-2 right-2 z-10 p-2 rounded-full shadow-lg transition-all duration-200 ${
+                          className={` absolute top-2 right-2 z-10 p-2 rounded-full shadow-lg transition-all duration-200 ${
                             item.stock === 0 || item.cantidad === 0
                               ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-70"
                               : "bg-blue-600 hover:bg-blue-700 text-white hover:scale-110"
@@ -1092,7 +1107,7 @@ const AccesoriosContainer = ({
                               : "Agregar al carrito"
                           }
                         >
-                          <ShoppingCart size={20} />
+                          <ShoppingCart size={30} />
                         </button>
 
                         <div className="relative h-40 mb-2 overflow-hidden rounded">
@@ -1131,7 +1146,7 @@ const AccesoriosContainer = ({
 
                         {/* Botones de acción */}
                         <div
-                          className={`mt-3 space-y-2   ${styles.relatedItemButtons}`}
+                          className={`mt-2 flex justify-center ${styles.relatedItemButtons}`}
                         >
                           <Link
                             href={buildProductUrl(
@@ -1139,11 +1154,11 @@ const AccesoriosContainer = ({
                               generateProductSlug(item),
                               item,
                             )}
-                            className="py-2 px-4 rounded flex items-center justify-center w-1/2 transition-colors text-sm bg-blue-600 text-white hover:bg-blue-700"
+                            className="py-2 px-4 rounded flex items-center justify-center w-full md:w-auto transition-colors text-sm bg-blue-600 text-white hover:bg-blue-700"
                             aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
                           >
-                            <Eye size={16} className="mr-1 text-xs" />
-                            <h6>Ver detalles</h6>
+                            <Eye size={16} className="mr-1" />
+                            <h6 className="text-xs md:text-sm">Ver detalles</h6>
                           </Link>
 
                           {/* Botón Agregar al Carrito - DESHABILITADO */}
@@ -1161,22 +1176,22 @@ const AccesoriosContainer = ({
       {/* Modal de imagen expandida - FUERA del contenedor principal */}
       {isImageModalOpen && (
         <div
-          className="fixed top-0 left-0 right-0 bottom-0 z-[99999] bg-black/95 backdrop-blur-md overflow-hidden"
+          className="fixed inset-0 z-[99999] bg-black/95 dark:bg-black/98 backdrop-blur-md overflow-hidden"
           onClick={closeImageModal}
         >
           <div className="absolute inset-0 flex items-center justify-center">
-            {/* Botón cerrar - Esquina superior derecha */}
+            {/* Botón cerrar - Esquina superior derecha - MEJORADO */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 closeImageModal();
               }}
-              className={`fixed top-6 right-2 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-all duration-200 shadow-2xl border-2 border-white hover:scale-110 cursor-pointer z-50 ${styles.buttonCloseModal}`}
+              className={`fixed   md:top-6 md:right-6 bg-red-600 hover:bg-red-700 text-white p-3 md:p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white hover:scale-110 cursor-pointer z-[100000] ${styles.buttonCloseModal}`}
               aria-label="Cerrar imagen expandida"
               type="button"
             >
               <svg
-                className="w-8 h-8"
+                className="w-6 h-6 md:w-8 md:h-8"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -1189,6 +1204,11 @@ const AccesoriosContainer = ({
                 />
               </svg>
             </button>
+
+            {/* Indicador para cerrar - visible en móviles */}
+            <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black/60 text-white px-4 py-2 rounded-full text-sm md:hidden backdrop-blur-sm border border-white/30 z-[100000]">
+              Toca para cerrar
+            </div>
 
             {/* Contenedor de la imagen - centrado en el viewport */}
             <div
@@ -1224,11 +1244,11 @@ const AccesoriosContainer = ({
                                 handleImageError(`modal-${index}`, imagenUrl)
                               }
                               style={{
-                                maxWidth: "85vw",
-                                maxHeight: "80vh",
+                                maxWidth: "95vw",
+                                maxHeight: "85vh",
                                 width: "auto",
                                 height: "auto",
-                                minHeight: "400px",
+                                minHeight: "300px",
                               }}
                               unoptimized={
                                 imagenUrl &&
@@ -1264,12 +1284,15 @@ const AccesoriosContainer = ({
                               : prevIndex - 1,
                           );
                         }}
-                        className="fixed left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white/30 cursor-pointer hover:scale-110"
+                        className="fixed left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-2 md:p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white/30 cursor-pointer hover:scale-110 dark:bg-gray-700"
                         aria-label="Imagen anterior"
                         type="button"
                         style={{ zIndex: 9999999, pointerEvents: "auto" }}
                       >
-                        <ChevronLeft size={48} strokeWidth={2.5} />
+                        <ChevronLeft
+                          className="w-8 h-8 md:w-12 md:h-12"
+                          strokeWidth={2.5}
+                        />
                       </button>
                       <button
                         onMouseDown={(e) => {
@@ -1281,12 +1304,15 @@ const AccesoriosContainer = ({
                               : prevIndex + 1,
                           );
                         }}
-                        className="fixed right-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white/30 cursor-pointer hover:scale-110"
+                        className="fixed right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-2 md:p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white/30 cursor-pointer hover:scale-110 dark:bg-gray-700"
                         aria-label="Imagen siguiente"
                         type="button"
                         style={{ zIndex: 9999999, pointerEvents: "auto" }}
                       >
-                        <ChevronRight size={48} strokeWidth={2.5} />
+                        <ChevronRight
+                          className="w-8 h-8 md:w-12 md:h-12"
+                          strokeWidth={2.5}
+                        />
                       </button>
 
                       {/* Indicadores en modal */}
@@ -1321,11 +1347,11 @@ const AccesoriosContainer = ({
                       className="object-contain rounded-xl shadow-2xl"
                       onError={() => handleImageError("modal-principal")}
                       style={{
-                        maxWidth: "85vw",
-                        maxHeight: "80vh",
+                        maxWidth: "95vw",
+                        maxHeight: "85vh",
                         width: "auto",
                         height: "auto",
-                        minHeight: "400px",
+                        minHeight: "300px",
                       }}
                       priority
                     />

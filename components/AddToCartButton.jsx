@@ -180,9 +180,28 @@ export default function AddToCartButton({ producto }) {
   }
 
   return (
-    <div className="space-y-3">
-      {/* Selector de variaciones si existen */}
-      {tieneVariaciones && (
+    <>
+      <style jsx>{`
+        @keyframes buzzInterval {
+          0% { transform: translateX(0); }
+          2% { transform: translateX(-3px); }
+          4% { transform: translateX(3px); }
+          6% { transform: translateX(-3px); }
+          8% { transform: translateX(3px); }
+          10% { transform: translateX(-3px); }
+          12% { transform: translateX(3px); }
+          14% { transform: translateX(0); }
+          100% { transform: translateX(0); }
+        }
+
+        .buzz-interval {
+          animation: buzzInterval 2s ease-in-out infinite;
+        }
+      `}</style>
+
+      <div className="space-y-3">
+        {/* Selector de variaciones si existen */}
+        {tieneVariaciones && (
         <div className="space-y-2">
           <div className="text-sm font-medium text-gray-700">
             Selecciona una opción:
@@ -245,7 +264,7 @@ export default function AddToCartButton({ producto }) {
       <button
         onClick={handleAddToCart}
         disabled={showSuccess}
-        className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
+        className={`w-full flex items-center justify-center gap-2 px-4 py-4 rounded-lg font-medium transition-all buzz-interval ${
           showSuccess
             ? "bg-green-500 text-white"
             : "bg-blue-600 text-white hover:bg-blue-700 active:scale-95"
@@ -356,6 +375,7 @@ export default function AddToCartButton({ producto }) {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
