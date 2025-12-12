@@ -16,27 +16,30 @@ export default function TecnicoSistemas() {
     {
       id: 2,
       titulo: "Instalación de Software",
-      descripcion: "Instalación y configuración de sistemas operativos y programas.",
+      descripcion:
+        "Instalación y configuración de sistemas operativos y programas.",
       icono: "💿",
     },
     {
       id: 3,
       titulo: "Reparación de Hardware",
-      descripcion: "Diagnóstico y reparación de componentes físicos del equipo.",
+      descripcion:
+        "Diagnóstico y reparación de componentes físicos del equipo.",
       icono: "🔧",
     },
-    {
-      id: 4,
-      titulo: "Redes y Conectividad",
-      descripcion: "Configuración de redes domésticas y empresariales.",
-      icono: "🌐",
-    },
-    {
-      id: 5,
-      titulo: "Recuperación de Datos",
-      descripcion: "Recuperación de información de discos duros y dispositivos.",
-      icono: "💾",
-    },
+    // {
+    //   id: 4,
+    //   titulo: "Redes y Conectividad",
+    //   descripcion: "Configuración de redes domésticas y empresariales.",
+    //   icono: "🌐",
+    // },
+    // {
+    //   id: 5,
+    //   titulo: "Recuperación de Datos",
+    //   descripcion:
+    //     "Recuperación de información de discos duros y dispositivos.",
+    //   icono: "💾",
+    // },
     {
       id: 6,
       titulo: "Actualización de Equipos",
@@ -76,7 +79,7 @@ export default function TecnicoSistemas() {
           </div>
           <div className={styles.aboutImage}>
             <Image
-              src="/images/tecnico-sistemas.png"
+              src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/me.jpg"
               alt="Técnico en Sistemas"
               width={500}
               height={400}
@@ -93,7 +96,9 @@ export default function TecnicoSistemas() {
             <div key={servicio.id} className={styles.serviceCard}>
               <div className={styles.serviceIcon}>{servicio.icono}</div>
               <h3 className={styles.serviceTitle}>{servicio.titulo}</h3>
-              <p className={styles.serviceDescription}>{servicio.descripcion}</p>
+              <p className={styles.serviceDescription}>
+                {servicio.descripcion}
+              </p>
             </div>
           ))}
         </div>
@@ -103,7 +108,8 @@ export default function TecnicoSistemas() {
         <div className={styles.contactContent}>
           <h2>¿Necesitas Ayuda Técnica?</h2>
           <p>
-            Contáctame ahora y resolveré tu problema de manera rápida y profesional
+            Contáctame ahora y resolveré tu problema de manera rápida y
+            profesional
           </p>
           <Link
             href="https://wa.me/573174503604?text=Hola,%20necesito%20servicios%20de%20técnico%20en%20sistemas"
