@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { getSupabaseClient } from "@/lib/db";
 import { decrementMultipleProductsStock } from "@/lib/productService";
+import { createInvoiceRecord } from "@/lib/invoiceGenerator";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -186,6 +187,29 @@ export async function POST(request) {
           logError("❌ Error actualizando orden", updateOrderError);
         } else {
           log("✅ Orden marcada como pagada");
+        }
+
+        // 4. Generar factura electrónica automáticamente
+        try {
+          log("📄 Generando factura electrónica...");
+
+          // Verificar si ya existe una factura para esta orden
+          const { data: existingInvoice } = await supabase
+            .from('invoices')
+            .select('invoice_number')
+            .eq('order_reference', reference)
+            .single();
+
+          if (existingInvoice) {
+            log("⚠️ La factura ya existe:", existingInvoice.invoice_number);
+          } else {
+            // Crear la factura
+            const invoice = await createInvoiceRecord(supabase, order, transaction);
+            log("✅ Factura electrónica generada:", invoice.invoice_number);
+          }
+        } catch (invoiceError) {
+          // No bloqueamos el proceso si falla la factura, solo registramos el error
+          logError("⚠️ Error generando factura electrónica:", invoiceError);
         }
       }
 
