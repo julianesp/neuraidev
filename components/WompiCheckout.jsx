@@ -180,11 +180,32 @@ export default function WompiCheckout({ onClose }) {
       });
 
       // Abrir checkout y manejar respuesta
-      checkout.open(function (result) {
+      checkout.open(async function (result) {
         const transaction = result.transaction;
 
         if (transaction.status === "APPROVED") {
-          toast.success("¡Pago completado exitosamente! Redirigiendo...");
+          toast.success("¡Pago completado exitosamente! Procesando...");
+
+          // IMPORTANTE: Procesar el pago inmediatamente para descontar stock
+          try {
+            const processResponse = await fetch("/api/payments/process-approved", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                transactionId: transaction.id,
+                reference: reference,
+              }),
+            });
+
+            if (!processResponse.ok) {
+              console.error("Error al procesar pago aprobado");
+            }
+          } catch (error) {
+            console.error("Error al procesar pago:", error);
+          }
+
           clearCart();
           // Redirigir a la página de confirmación
           setTimeout(() => {

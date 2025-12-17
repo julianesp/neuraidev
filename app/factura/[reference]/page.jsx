@@ -284,22 +284,28 @@ export default function FacturaPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {invoice.items.map((item, index) => (
-                      <tr key={index}>
-                        <td className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                          {item.name}
-                        </td>
-                        <td className="px-4 py-3 text-sm text-center text-gray-600 dark:text-gray-400">
-                          {item.quantity}
-                        </td>
-                        <td className="px-4 py-3 text-sm text-right text-gray-600 dark:text-gray-400">
-                          {formatCurrency(item.price)}
-                        </td>
-                        <td className="px-4 py-3 text-sm text-right font-medium text-gray-900 dark:text-white">
-                          {formatCurrency(item.price * item.quantity)}
-                        </td>
-                      </tr>
-                    ))}
+                    {invoice.items.map((item, index) => {
+                      const itemName = item.name || item.nombre || 'Producto';
+                      const itemQuantity = item.quantity || item.cantidad || 1;
+                      const itemPrice = item.price || item.precio || 0;
+
+                      return (
+                        <tr key={index}>
+                          <td className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                            {itemName}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-center text-gray-600 dark:text-gray-400">
+                            {itemQuantity}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-right text-gray-600 dark:text-gray-400">
+                            {formatCurrency(itemPrice)}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-right font-medium text-gray-900 dark:text-white">
+                            {formatCurrency(itemPrice * itemQuantity)}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
