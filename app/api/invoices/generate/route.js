@@ -37,7 +37,7 @@ export async function POST(request) {
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .select('*')
-      .eq('invoice', orderReference)
+      .eq('numero_orden', orderReference)
       .single();
 
     if (orderError || !order) {
@@ -49,8 +49,8 @@ export async function POST(request) {
     }
 
     // 2. Verificar que la orden esté pagada
-    if (order.status !== 'paid' && order.payment_status !== 'completed') {
-      log('⚠️ La orden no está pagada aún');
+    if (order.estado_pago !== 'completado' && order.estado !== 'completado' && order.estado !== 'pagado') {
+      log('⚠️ La orden no está pagada aún. Estado:', order.estado, '| Estado de pago:', order.estado_pago);
       return NextResponse.json(
         { error: 'La orden aún no ha sido pagada' },
         { status: 400 }

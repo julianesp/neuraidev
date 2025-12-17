@@ -95,14 +95,16 @@ export async function POST(request) {
       }));
 
       const { error: orderError } = await supabase.from("orders").insert({
-        invoice: reference,
-        status: "pending",
-        customer_name: customerName || "Cliente",
-        customer_email: customerEmail,
-        customer_phone: customerPhone || "",
-        items: normalizedItems,
+        numero_orden: reference,
+        estado: "pendiente",
+        nombre_cliente: customerName || "Cliente",
+        correo_cliente: customerEmail,
+        telefono_cliente: customerPhone || "",
+        productos: normalizedItems,
         total: amount,
-        created_at: new Date().toISOString(),
+        subtotal: amount,
+        impuestos: 0,
+        estado_pago: "pendiente",
       });
 
       if (orderError) {

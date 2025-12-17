@@ -109,17 +109,17 @@ export async function POST(request) {
       const { data: order, error: orderError } = await supabase
         .from('orders')
         .select('*')
-        .eq('invoice', reference)
+        .eq('numero_orden', reference)
         .single();
 
       if (orderError || !order) {
         logError("⚠️ Orden no encontrada para referencia:", reference);
         // Continuar de todas formas para no bloquear el webhook
       } else {
-        log("📦 Orden encontrada:", order.invoice);
+        log("📦 Orden encontrada:", order.numero_orden);
 
         // IMPORTANTE: Verificar si ya fue procesada para evitar duplicados
-        if (order.status === 'paid' || order.payment_status === 'completed') {
+        if (order.estado === 'completado' || order.estado === 'pagado' || order.estado_pago === 'completado') {
           log("⚠️ Esta orden ya fue procesada anteriormente. Evitando duplicado.");
           return NextResponse.json({
             success: true,
@@ -128,11 +128,12 @@ export async function POST(request) {
         }
 
         // 2. Reducir el stock de cada producto
-        if (order.items && Array.isArray(order.items)) {
-          log(`📦 Procesando ${order.items.length} productos para descuento de stock`);
+        const orderItems = order.productos || order.items;
+        if (orderItems && Array.isArray(orderItems)) {
+          log(`📦 Procesando ${orderItems.length} productos para descuento de stock`);
 
           // Usar el servicio centralizado para descontar stock
-          const stockResult = await decrementMultipleProductsStock(order.items);
+          const stockResult = await decrementMultipleProductsStock(orderItems);
 
           if (stockResult.success) {
             log("✅ Stock descontado exitosamente para todos los productos");
@@ -173,15 +174,13 @@ export async function POST(request) {
         const { error: updateOrderError } = await supabase
           .from('orders')
           .update({
-            status: 'paid',
-            payment_status: 'completed',
-            estado: 'procesando',
+            estado: 'completado',
+            estado_pago: 'completado',
             transaction_id: transactionId,
-            payment_response: transaction,
-            paid_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
+            informacion_pago: transaction,
+            fecha_pago: new Date().toISOString(),
           })
-          .eq('invoice', reference);
+          .eq('numero_orden', reference);
 
         if (updateOrderError) {
           logError("❌ Error actualizando orden", updateOrderError);
@@ -220,13 +219,12 @@ export async function POST(request) {
       await supabase
         .from('orders')
         .update({
-          status: 'failed',
-          payment_status: 'rejected',
           estado: 'cancelado',
-          payment_response: transaction,
-          updated_at: new Date().toISOString(),
+          estado_pago: 'rechazado',
+          transaction_id: transactionId,
+          informacion_pago: transaction,
         })
-        .eq('invoice', reference);
+        .eq('numero_orden', reference);
 
     } else if (transactionStatus === "PENDING") {
       log("⏳ Pago pendiente");
@@ -235,13 +233,12 @@ export async function POST(request) {
       await supabase
         .from('orders')
         .update({
-          status: 'pending',
-          payment_status: 'pending',
           estado: 'pendiente',
-          payment_response: transaction,
-          updated_at: new Date().toISOString(),
+          estado_pago: 'pendiente',
+          transaction_id: transactionId,
+          informacion_pago: transaction,
         })
-        .eq('invoice', reference);
+        .eq('numero_orden', reference);
 
     } else if (transactionStatus === "VOIDED") {
       log("🚫 Pago anulado");
@@ -250,13 +247,12 @@ export async function POST(request) {
       await supabase
         .from('orders')
         .update({
-          status: 'cancelled',
-          payment_status: 'voided',
           estado: 'cancelado',
-          payment_response: transaction,
-          updated_at: new Date().toISOString(),
+          estado_pago: 'anulado',
+          transaction_id: transactionId,
+          informacion_pago: transaction,
         })
-        .eq('invoice', reference);
+        .eq('numero_orden', reference);
 
     } else if (transactionStatus === "ERROR") {
       log("💥 Error en pago");
@@ -265,13 +261,12 @@ export async function POST(request) {
       await supabase
         .from('orders')
         .update({
-          status: 'failed',
-          payment_status: 'error',
           estado: 'cancelado',
-          payment_response: transaction,
-          updated_at: new Date().toISOString(),
+          estado_pago: 'error',
+          transaction_id: transactionId,
+          informacion_pago: transaction,
         })
-        .eq('invoice', reference);
+        .eq('numero_orden', reference);
     }
 
     // Responder a Wompi que recibimos la confirmación

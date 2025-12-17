@@ -202,27 +202,27 @@ function RespuestaPagoContent() {
               Información del Cliente
             </h2>
             <div className="space-y-3">
-              {orderData.customer_name && (
+              {(orderData.nombre_cliente || orderData.customer_name) && (
                 <div className="flex justify-between items-center">
                   <span className="text-blue-700 dark:text-blue-300 font-medium">Nombre:</span>
                   <span className="text-blue-900 dark:text-blue-100 font-semibold">
-                    {orderData.customer_name}
+                    {orderData.nombre_cliente || orderData.customer_name}
                   </span>
                 </div>
               )}
-              {orderData.customer_email && (
+              {(orderData.correo_cliente || orderData.customer_email) && (
                 <div className="flex justify-between items-center">
                   <span className="text-blue-700 dark:text-blue-300 font-medium">Email:</span>
                   <span className="text-blue-900 dark:text-blue-100 font-mono text-sm">
-                    {orderData.customer_email}
+                    {orderData.correo_cliente || orderData.customer_email}
                   </span>
                 </div>
               )}
-              {orderData.customer_phone && (
+              {(orderData.telefono_cliente || orderData.customer_phone) && (
                 <div className="flex justify-between items-center">
                   <span className="text-blue-700 dark:text-blue-300 font-medium">Teléfono:</span>
                   <span className="text-blue-900 dark:text-blue-100 font-mono text-sm">
-                    {orderData.customer_phone}
+                    {orderData.telefono_cliente || orderData.customer_phone}
                   </span>
                 </div>
               )}
@@ -231,7 +231,7 @@ function RespuestaPagoContent() {
         )}
 
         {/* Productos comprados */}
-        {orderData && orderData.items && orderData.items.length > 0 && (
+        {orderData && (orderData.productos || orderData.items) && (orderData.productos || orderData.items).length > 0 && (
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
             <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
               <svg
@@ -250,7 +250,7 @@ function RespuestaPagoContent() {
               Productos Comprados
             </h2>
             <div className="space-y-3">
-              {orderData.items.map((item, index) => (
+              {(orderData.productos || orderData.items).map((item, index) => (
                 <div
                   key={index}
                   className="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg"

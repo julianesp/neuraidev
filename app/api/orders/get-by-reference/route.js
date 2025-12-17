@@ -22,11 +22,11 @@ export async function GET(request) {
 
     const supabase = getSupabaseClient();
 
-    // Buscar la orden por referencia (invoice)
+    // Buscar la orden por referencia (numero_orden)
     const { data: order, error } = await supabase
       .from("orders")
       .select("*")
-      .eq("invoice", reference)
+      .eq("numero_orden", reference)
       .single();
 
     if (error) {
