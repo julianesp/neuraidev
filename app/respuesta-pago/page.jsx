@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 /**
@@ -10,6 +11,7 @@ import Link from "next/link";
 function RespuestaPagoContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { isSignedIn, isLoaded } = useUser();
   const [paymentData, setPaymentData] = useState(null);
   const [orderData, setOrderData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -323,29 +325,137 @@ function RespuestaPagoContent() {
           </div>
         </div>
 
+        {/* Invitación a crear cuenta (solo para usuarios no registrados) */}
+        {isLoaded && !isSignedIn && status.type === "success" && (
+          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 mb-6 text-white shadow-lg">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-7 h-7"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-bold mb-2">
+                  ¿Te gustaría crear una cuenta en este sitio?
+                </h3>
+                <p className="text-blue-100 mb-4">
+                  Así podrás llevar registro de tus futuras compras, además de ser uno de los primeros en saber sobre los días de promociones o descuentos especiales.
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="w-5 h-5 text-green-300"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="text-sm">Historial completo de tus compras</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="w-5 h-5 text-green-300"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="text-sm">Notificaciones sobre promociones exclusivas</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="w-5 h-5 text-green-300"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="text-sm">Acceso anticipado a nuevos productos</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="w-5 h-5 text-green-300"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="text-sm">Gestión fácil de direcciones de envío</span>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link
+                    href="/sign-up"
+                    className="bg-white text-blue-600 hover:bg-blue-50 font-bold py-3 px-6 rounded-lg transition-colors text-center shadow-md"
+                  >
+                    Crear cuenta gratis
+                  </Link>
+                  <Link
+                    href="/sign-in"
+                    className="bg-white/10 hover:bg-white/20 border-2 border-white font-medium py-3 px-6 rounded-lg transition-colors text-center"
+                  >
+                    Ya tengo cuenta
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Acciones */}
         <div className="flex flex-col sm:flex-row gap-4">
           {status.type === "success" && (
             <>
-              <Link
-                href={`/factura/${paymentData.reference}`}
-                className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              {/* Solo mostrar botón de factura si la orden existe y está completada */}
+              {orderData && (orderData.estado === 'completado' || orderData.estado_pago === 'completado') && (
+                <Link
+                  href={`/factura/${paymentData.reference}`}
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-                Ver Factura
-              </Link>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  Ver Factura
+                </Link>
+              )}
               <Link
                 href="/"
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center"
@@ -406,10 +516,17 @@ function RespuestaPagoContent() {
             </svg>
             <div className="text-sm text-blue-800 dark:text-blue-200">
               {status.type === "success" && (
-                <p>
-                  Recibirás un correo electrónico con los detalles de tu compra. Si tienes
-                  alguna pregunta, no dudes en contactarnos.
-                </p>
+                <>
+                  {orderData && (orderData.estado === 'completado' || orderData.estado_pago === 'completado') ? (
+                    <p>
+                      Recibirás un correo electrónico con los detalles de tu compra. Puedes descargar tu factura en cualquier momento haciendo clic en el botón "Ver Factura".
+                    </p>
+                  ) : (
+                    <p>
+                      Tu pago ha sido procesado exitosamente. La factura se generará automáticamente en los próximos minutos. Si tienes alguna pregunta, contáctanos en contacto@neurai.dev
+                    </p>
+                  )}
+                </>
               )}
               {status.type === "error" && (
                 <p>
