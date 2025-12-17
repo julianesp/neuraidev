@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import FavoriteButton from '@/components/FavoriteButton';
 import ProductVideo from '@/components/ProductVideo';
+import ProductLikes from '@/components/ProductSocial/ProductLikes';
+import ProductComments from '@/components/ProductSocial/ProductComments';
 
 interface Producto {
   id: string;
@@ -163,6 +165,7 @@ export default function ProductoDetalle({ producto }: Props) {
                   src={producto.imagenPrincipal}
                   alt={producto.nombre}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </button>
             )}
@@ -185,6 +188,7 @@ export default function ProductoDetalle({ producto }: Props) {
                   src={imagen.url}
                   alt={imagen.alt || producto.nombre}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </button>
             ))}
@@ -340,6 +344,19 @@ export default function ProductoDetalle({ producto }: Props) {
               <p className="text-sm text-gray-600 dark:text-gray-400">{producto.tienda.telefono || 'No disponible'}</p>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Sección de Likes y Comentarios */}
+      <div className="mt-8 space-y-8">
+        {/* Botón de likes */}
+        <div className="flex justify-center sm:justify-start">
+          <ProductLikes productoId={producto.id} />
+        </div>
+
+        {/* Sección de comentarios */}
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
+          <ProductComments productoId={producto.id} />
         </div>
       </div>
     </div>

@@ -27,6 +27,8 @@ import Breadcrumbs, { CATEGORY_NAMES } from "@/components/Breadcrumbs";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import FavoriteButton from "@/components/FavoriteButton";
+import ProductLikes from "@/components/ProductSocial/ProductLikes";
+import ProductComments from "@/components/ProductSocial/ProductComments";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -1170,6 +1172,19 @@ const AccesoriosContainer = ({
               </div>
             </div>
           )}
+
+          {/* Sección de Likes y Comentarios */}
+          <div className="mt-12 space-y-8">
+            {/* Botón de likes */}
+            <div className="flex justify-center sm:justify-start">
+              <ProductLikes productoId={accesorio.id} />
+            </div>
+
+            {/* Sección de comentarios */}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
+              <ProductComments productoId={accesorio.id} />
+            </div>
+          </div>
         </div>
       </div>
 

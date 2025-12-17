@@ -138,6 +138,7 @@ export default function MisFavoritos() {
                       src={imagen}
                       alt={producto.nombre}
                       className={styles.image}
+                      loading="lazy"
                       onError={(e) => {
                         console.error("Error cargando imagen:", imagen);
                         e.target.style.display = "none";

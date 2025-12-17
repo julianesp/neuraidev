@@ -59,5 +59,6 @@ cookies.txt
 .env.vercel
 .env.vercel.*
 
-#hidding files od guide
+# Ignorar archivos markdown de guías/documentación excepto README.md
 *.md
+!README.md

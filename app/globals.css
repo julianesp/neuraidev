@@ -162,3 +162,255 @@ textarea:focus-visible {
     color: #fff !important;
   }
 }
+
+/* ============================================
+   COMPATIBILIDAD CON FIREFOX
+   ============================================ */
+
+/* Normalizar renderizado de fuentes entre navegadores */
+* {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Asegurar que box-sizing funcione igual en todos los navegadores */
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* Normalizar apariencia de inputs y selects en Firefox */
+input,
+select,
+textarea,
+button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Normalizar botones en Firefox */
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -moz-appearance: button;
+  -webkit-appearance: button;
+  appearance: button;
+}
+
+/* Scrollbar styling para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.7) transparent;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.7) transparent;
+}
+
+/* Normalizar flexbox en Firefox */
+.flex,
+[class*="flex"],
+[style*="display: flex"],
+[style*="display:flex"] {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -moz-box-orient: horizontal;
+  -moz-box-direction: normal;
+}
+
+/* Asegurar que las transiciones funcionen igual */
+* {
+  -webkit-transition-property: all;
+  -moz-transition-property: all;
+  -o-transition-property: all;
+  transition-property: all;
+}
+
+/* Normalizar transforms */
+[style*="transform"],
+[class*="transform"] {
+  -webkit-transform-origin: center center;
+  -moz-transform-origin: center center;
+  -ms-transform-origin: center center;
+  transform-origin: center center;
+}
+
+/* Normalizar backdrop-filter para Firefox */
+[style*="backdrop-filter"],
+.backdrop-blur,
+[class*="backdrop"] {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* Asegurar que el text selection tenga el mismo color */
+::selection {
+  background-color: rgba(74, 144, 226, 0.3);
+  color: inherit;
+}
+
+::-moz-selection {
+  background-color: rgba(74, 144, 226, 0.3);
+  color: inherit;
+}
+
+/* Normalizar placeholders en Firefox */
+::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+::-moz-placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+/* Normalizar número de inputs en Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Asegurar que border-radius funcione igual */
+* {
+  -webkit-border-radius: inherit;
+  -moz-border-radius: inherit;
+  border-radius: inherit;
+}
+
+/* Normalizar focus outline en Firefox */
+:focus {
+  outline-color: -webkit-focus-ring-color;
+  outline-style: auto;
+  outline-width: 1px;
+}
+
+::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* Normalizar images para que mantengan aspect ratio */
+img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  user-drag: none;
+}
+
+/* Asegurar que los SVG se rendericen correctamente */
+svg {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  fill: currentColor;
+}
+
+/* Normalizar el comportamiento de overflow en Firefox */
+html {
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Asegurar que grid funcione igual */
+[style*="display: grid"],
+[style*="display:grid"],
+.grid {
+  display: -ms-grid;
+  display: grid;
+}
+
+/* Normalizar línea de altura para mejor consistencia */
+body {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Mejorar el rendering de texto en Firefox */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Asegurar que object-fit funcione igual */
+img,
+video {
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+/* Normalizar cursor para elementos interactivos */
+button,
+[type="button"],
+[type="submit"],
+[type="reset"],
+a[href],
+label[for],
+select,
+[role="button"] {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Asegurar que las animaciones funcionen igual */
+@-webkit-keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@-moz-keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Normalizar will-change para mejor performance */
+[style*="transform"],
+[style*="opacity"],
+.animate,
+[class*="animate"] {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+/* Asegurar que position: sticky funcione en Firefox */
+[style*="position: sticky"],
+[style*="position:sticky"],
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}

@@ -78,6 +78,7 @@ export default function PerfilPage() {
             src={user?.imageUrl || "/default-avatar.png"}
             alt={user?.fullName || "Usuario"}
             className={styles.avatar}
+            loading="eager"
           />
           <div className={styles.userDetails}>
             <h1>

@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { getSupabaseClient } from "@/lib/db";
 import { decrementMultipleProductsStock } from "@/lib/productService";
 import { createInvoiceRecord } from "@/lib/invoiceGenerator";
+import { notifyNewSale } from "@/lib/notificationService";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -128,7 +129,7 @@ export async function POST(request) {
         }
 
         // 2. Reducir el stock de cada producto
-        const orderItems = order.productos || order.items;
+        const orderItems = order.metadata?.productos || order.productos || order.items;
         if (orderItems && Array.isArray(orderItems)) {
           log(`📦 Procesando ${orderItems.length} productos para descuento de stock`);
 
@@ -209,6 +210,18 @@ export async function POST(request) {
         } catch (invoiceError) {
           // No bloqueamos el proceso si falla la factura, solo registramos el error
           logError("⚠️ Error generando factura electrónica:", invoiceError);
+        }
+
+        // 5. Enviar notificación al administrador vía Telegram
+        try {
+          log("📱 Enviando notificación de venta al administrador...");
+          const notificationSent = await notifyNewSale(order, transaction);
+          if (notificationSent) {
+            log("✅ Notificación enviada exitosamente");
+          }
+        } catch (notificationError) {
+          // No bloqueamos el proceso si falla la notificación
+          logError("⚠️ Error enviando notificación:", notificationError);
         }
       }
 

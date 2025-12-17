@@ -248,8 +248,8 @@ function RespuestaPagoContent() {
 
         {/* Productos comprados */}
         {orderData &&
-          (orderData.productos || orderData.items) &&
-          (orderData.productos || orderData.items).length > 0 && (
+          (orderData.metadata?.productos || orderData.productos || orderData.items) &&
+          (orderData.metadata?.productos || orderData.productos || orderData.items).length > 0 && (
             <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
               <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
                 <svg
@@ -268,7 +268,7 @@ function RespuestaPagoContent() {
                 Productos Comprados
               </h2>
               <div className="space-y-3">
-                {(orderData.productos || orderData.items).map((item, index) => (
+                {(orderData.metadata?.productos || orderData.productos || orderData.items).map((item, index) => (
                   <div
                     key={index}
                     className="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg"

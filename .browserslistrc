@@ -1,0 +1,34 @@
+# Navegadores soportados para autoprefixer
+# Este archivo asegura que CSS tenga prefijos para máxima compatibilidad
+
+# Producción: navegadores usados por >0.5% de usuarios globales
+> 0.5%
+
+# Últimas 2 versiones de cada navegador principal
+last 2 versions
+
+# Firefox ESR (Extended Support Release)
+Firefox ESR
+
+# Soporte explícito para Firefox moderno
+Firefox >= 78
+
+# Soporte para Chrome y navegadores basados en Chromium
+Chrome >= 90
+
+# Soporte para Safari y navegadores de iOS
+Safari >= 13
+iOS >= 13
+
+# Soporte para Edge moderno
+Edge >= 90
+
+# No incluir navegadores muertos o sin mantenimiento
+not dead
+
+# No incluir Internet Explorer
+not IE 11
+not IE_Mob 11
+
+# No incluir Opera Mini (no soporta muchas características modernas)
+not op_mini all

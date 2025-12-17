@@ -54,7 +54,7 @@ export default function FacebookLogin() {
     return (
       <div className={styles.userProfile}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={user.picture} alt={user.name} className={styles.avatar} />
+        <img src={user.picture} alt={user.name} className={styles.avatar} loading="eager" />
         <div className={styles.userInfo}>
           <p className={styles.userName}>¡Hola, {user.name}!</p>
           <p className={styles.userEmail}>{user.email}</p>

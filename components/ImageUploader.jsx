@@ -124,6 +124,7 @@ export default function ImageUploader({
                     src={url}
                     alt={`Preview ${index + 1}`}
                     className="w-full h-full object-cover"
+                    loading="eager"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">

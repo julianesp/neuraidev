@@ -92,6 +92,53 @@ export default function PoliticasPage() {
 
           <section>
             <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+              Sus derechos sobre sus datos
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              De acuerdo con las regulaciones de protección de datos, usted tiene
+              los siguientes derechos:
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
+              <li>
+                <strong>Derecho de acceso:</strong> Puede solicitar una copia de
+                los datos personales que tenemos sobre usted
+              </li>
+              <li>
+                <strong>Derecho de rectificación:</strong> Puede solicitar que
+                corrijamos datos inexactos o incompletos
+              </li>
+              <li>
+                <strong>Derecho de eliminación:</strong> Puede solicitar que
+                eliminemos sus datos personales
+              </li>
+              <li>
+                <strong>Derecho de portabilidad:</strong> Puede solicitar una
+                copia de sus datos en formato estructurado
+              </li>
+              <li>
+                <strong>Derecho de oposición:</strong> Puede oponerse al
+                procesamiento de sus datos para ciertos fines
+              </li>
+            </ul>
+            <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <p className="text-blue-900 dark:text-blue-100 mb-2">
+                <strong>¿Desea eliminar sus datos?</strong>
+              </p>
+              <p className="text-blue-800 dark:text-blue-200 text-sm mb-3">
+                Si desea ejercer su derecho de eliminación, puede hacerlo a
+                través de nuestro formulario oficial:
+              </p>
+              <a
+                href="/eliminar-datos"
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-200"
+              >
+                Solicitar eliminación de datos
+              </a>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
               Contacto
             </h2>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">

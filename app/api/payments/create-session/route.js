@@ -95,16 +95,25 @@ export async function POST(request) {
       }));
 
       const { error: orderError } = await supabase.from("orders").insert({
+        clerk_user_id: null, // NULL para usuarios no autenticados (compras como invitado)
         numero_orden: reference,
         estado: "pendiente",
-        nombre_cliente: customerName || "Cliente",
-        correo_cliente: customerEmail,
-        telefono_cliente: customerPhone || "",
-        productos: normalizedItems,
+        customer_name: customerName || "Cliente",
+        customer_email: customerEmail,
+        customer_phone: customerPhone || "",
+        direccion_envio: "Pendiente de confirmar", // Campo requerido - se actualizará con la dirección real
+        metodo_pago: "wompi",
+        referencia_pago: reference,
         total: amount,
         subtotal: amount,
         impuestos: 0,
+        costo_envio: 0,
+        descuentos: 0,
         estado_pago: "pendiente",
+        metadata: {
+          productos: normalizedItems, // Guardar productos en metadata
+          source: "wompi_checkout"
+        },
       });
 
       if (orderError) {
