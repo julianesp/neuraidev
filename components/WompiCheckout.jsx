@@ -184,24 +184,30 @@ export default function WompiCheckout({ onClose }) {
         const transaction = result.transaction;
 
         if (transaction.status === "APPROVED") {
-          toast.success("¡Pago completado exitosamente!");
+          toast.success("¡Pago completado exitosamente! Redirigiendo...");
+          clearCart();
+          // Redirigir a la página de confirmación
           setTimeout(() => {
-            clearCart();
-            if (onClose) onClose();
-          }, 2000);
+            window.location.href = `/respuesta-pago?id=${transaction.id}`;
+          }, 1500);
         } else if (transaction.status === "DECLINED") {
           toast.error("El pago fue rechazado. Por favor intenta nuevamente.");
           setLoading(false);
         } else if (transaction.status === "PENDING") {
-          toast.info("El pago está pendiente de confirmación.");
-          setLoading(false);
+          toast.info("Pago pendiente. Redirigiendo para ver detalles...");
+          // Para pagos pendientes (Nequi, PSE, etc) también redirigir
+          setTimeout(() => {
+            window.location.href = `/respuesta-pago?id=${transaction.id}`;
+          }, 1500);
         } else if (transaction.status === "ERROR") {
           toast.error("Hubo un error procesando el pago.");
           setLoading(false);
         } else {
-          // Para cualquier otro estado, mostrar mensaje informativo
-          toast.info(`Estado del pago: ${transaction.status}`);
-          setLoading(false);
+          // Para cualquier otro estado, redirigir a la página de respuesta
+          toast.info(`Redirigiendo a la página de confirmación...`);
+          setTimeout(() => {
+            window.location.href = `/respuesta-pago?id=${transaction.id}`;
+          }, 1500);
         }
       });
     } catch (error) {

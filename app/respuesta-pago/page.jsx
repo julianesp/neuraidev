@@ -11,6 +11,7 @@ function RespuestaPagoContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [paymentData, setPaymentData] = useState(null);
+  const [orderData, setOrderData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +24,7 @@ function RespuestaPagoContent() {
       // Consultar el estado de la transacción desde la API de Wompi
       fetch(`https://production.wompi.co/v1/transactions/${transactionId}`)
         .then((res) => res.json())
-        .then((transaction) => {
+        .then(async (transaction) => {
           const data = {
             transactionId: transaction.data.id,
             reference: transaction.data.reference,
@@ -33,6 +34,7 @@ function RespuestaPagoContent() {
             statusMessage: transaction.data.status_message,
             paymentMethod: transaction.data.payment_method_type,
             createdAt: transaction.data.created_at,
+            customerEmail: transaction.data.customer_email || "",
           };
 
           // Log solo en desarrollo
@@ -42,6 +44,25 @@ function RespuestaPagoContent() {
           }
 
           setPaymentData(data);
+
+          // Consultar la orden desde nuestra base de datos usando la referencia
+          try {
+            const orderResponse = await fetch(
+              `/api/orders/get-by-reference?reference=${data.reference}`
+            );
+            if (orderResponse.ok) {
+              const orderInfo = await orderResponse.json();
+              setOrderData(orderInfo.order);
+
+              if (process.env.NODE_ENV === "development") {
+                // eslint-disable-next-line no-console
+                console.warn("[DEV] Datos de la orden recibidos", orderInfo.order);
+              }
+            }
+          } catch (error) {
+            console.error("Error consultando orden:", error);
+          }
+
           setLoading(false);
         })
         .catch((error) => {
@@ -160,6 +181,106 @@ function RespuestaPagoContent() {
           </h1>
           <p className="text-gray-600 dark:text-gray-400">{status.message}</p>
         </div>
+
+        {/* Detalles del cliente */}
+        {orderData && (
+          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 border-2 border-blue-200 dark:border-blue-800">
+            <h2 className="text-lg font-semibold mb-4 text-blue-900 dark:text-blue-100 flex items-center gap-2">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              Información del Cliente
+            </h2>
+            <div className="space-y-3">
+              {orderData.customer_name && (
+                <div className="flex justify-between items-center">
+                  <span className="text-blue-700 dark:text-blue-300 font-medium">Nombre:</span>
+                  <span className="text-blue-900 dark:text-blue-100 font-semibold">
+                    {orderData.customer_name}
+                  </span>
+                </div>
+              )}
+              {orderData.customer_email && (
+                <div className="flex justify-between items-center">
+                  <span className="text-blue-700 dark:text-blue-300 font-medium">Email:</span>
+                  <span className="text-blue-900 dark:text-blue-100 font-mono text-sm">
+                    {orderData.customer_email}
+                  </span>
+                </div>
+              )}
+              {orderData.customer_phone && (
+                <div className="flex justify-between items-center">
+                  <span className="text-blue-700 dark:text-blue-300 font-medium">Teléfono:</span>
+                  <span className="text-blue-900 dark:text-blue-100 font-mono text-sm">
+                    {orderData.customer_phone}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Productos comprados */}
+        {orderData && orderData.items && orderData.items.length > 0 && (
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
+            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                />
+              </svg>
+              Productos Comprados
+            </h2>
+            <div className="space-y-3">
+              {orderData.items.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg"
+                >
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      {item.name || item.nombre}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Cantidad: {item.quantity || item.cantidad || 1}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-gray-900 dark:text-white">
+                      ${parseFloat(item.price || item.precio || 0).toLocaleString("es-CO")}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              <div className="border-t-2 border-gray-300 dark:border-gray-600 pt-3 mt-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-bold text-gray-900 dark:text-white">Total:</span>
+                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                    ${parseFloat(orderData.total || 0).toLocaleString("es-CO")}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Detalles de la transacción */}
         <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
