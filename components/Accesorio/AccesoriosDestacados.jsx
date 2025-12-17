@@ -6,19 +6,15 @@ import Image from "next/image";
 // import styles from "@/styles/components/AccesoriosDestacados.module.scss";
 import styles from "@/styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
+import AddToCartButton from "@/components/AddToCartButton";
+import FavoriteButton from "@/components/FavoriteButton";
 
 const AccesoriosDestacados = () => {
   // Estado para almacenar los accesorios destacados
   const [destacados, setDestacados] = useState([]);
 
-  // Estado para controlar la carga
-  const [cargando, setCargando] = useState(true);
-
   // Estado para manejar posibles errores
   const [error, setError] = useState(null);
-
-  // Estado para controlar errores de imágenes
-  const [imageError, setImageError] = useState({});
 
   // Estado para controlar el índice del accesorio actual en vista móvil
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -30,15 +26,12 @@ const AccesoriosDestacados = () => {
   useEffect(() => {
     const cargarAccesorios = async () => {
       try {
-        setCargando(true);
         const accesoriosData = await obtenerProductosDestacados();
         setDestacados(accesoriosData);
         setError(null);
       } catch (err) {
         console.error("Error al cargar accesorios destacados:", err);
         setError("No se pudieron cargar los accesorios");
-      } finally {
-        setCargando(false);
       }
     };
 
@@ -100,7 +93,7 @@ const AccesoriosDestacados = () => {
   // Renderizar el componente con los accesorios cargados
   return (
     <div
-      className={`${styles.container} bg-yellow-50 p-6 rounded-lg border  dark:border-white`}
+      className={`${styles.container} bg-yellow-50 p-2 rounded-lg border  dark:border-gray-500`}
     >
       <h2 className="text-2xl font-bold mb-6">Accesorios destacados</h2>
 
@@ -168,10 +161,9 @@ const AccesoriosDestacados = () => {
         }}
       >
         {destacados.map((accesorio, index) => (
-          <Link
+          <div
             key={`${accesorio.categoria}-${accesorio.id}-${index}`}
-            href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}
-            className="accesorio-card border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 snap-start mx-2 flex flex-col"
+            className="accesorio-card border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 snap-start mx-2 flex flex-col bg-white dark:bg-gray-800"
             style={{
               minWidth: "calc(100% - 1rem)",
               width: "calc(100% - 1rem)",
@@ -181,38 +173,50 @@ const AccesoriosDestacados = () => {
           >
             {/* Contenedor de imagen con posición relativa y tamaño fijo */}
             <div className="w-full h-48 relative">
-              <Image
-                src={
-                  accesorio.imagen_principal ||
-                  (accesorio.imagenes && accesorio.imagenes.length > 0
-                    ? accesorio.imagenes[0].url
-                    : "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen")
-                }
-                alt={`${accesorio.nombre} - Producto destacado en Neurai.dev`}
-                fill={true}
-                className="object-contain"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                priority={false} // Solo true para imágenes above-the-fold
-                loading="lazy"
-                quality={85} // Reduce de 100 a 85
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                onError={() =>
-                  setImageError((prev) => ({
-                    ...prev,
-                    [`destacado-${accesorio.id}`]: true,
-                  }))
-                }
-              />
+              <Link href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}>
+                <Image
+                  src={
+                    accesorio.imagen_principal ||
+                    (accesorio.imagenes && accesorio.imagenes.length > 0
+                      ? accesorio.imagenes[0].url
+                      : "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen")
+                  }
+                  alt={`${accesorio.nombre} - Producto destacado en Neurai.dev`}
+                  fill={true}
+                  className="object-contain cursor-pointer"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  priority={false}
+                  loading="lazy"
+                  quality={85}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
+                />
+              </Link>
+
+              {/* Botón de favoritos en la esquina superior derecha */}
+              <div className="absolute top-2 right-2 z-10" onClick={(e) => e.stopPropagation()}>
+                <FavoriteButton producto={accesorio} size="small" />
+              </div>
+
+              {/* Badge de stock si está bajo */}
+              {accesorio.stock && accesorio.stock <= 5 && accesorio.stock > 0 && (
+                <div className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  ¡{accesorio.stock} unidades!
+                </div>
+              )}
             </div>
 
-            <div className="p-4 w-full">
-              <h3 className="font-semibold text-lg">{accesorio.nombre}</h3>
-              <p className="text-black mt-1 text-sm line-clamp-2 dark:text-white">
+            <div className="p-4 w-full flex flex-col flex-grow">
+              <Link href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}>
+                <h3 className="font-semibold text-lg hover:text-yellow-600 transition-colors cursor-pointer">
+                  {accesorio.nombre}
+                </h3>
+              </Link>
+              <p className="text-gray-600 dark:text-gray-300 mt-1 text-sm line-clamp-2">
                 {accesorio.descripcion}
               </p>
-              <div className="mt-2 flex items-center">
-                <span className="font-bold text-lg">
+              <div className="mt-2 flex items-center mb-3">
+                <span className="font-bold text-lg text-green-600">
                   $
                   {typeof accesorio.precio === "number"
                     ? accesorio.precio.toLocaleString("es-CL")
@@ -227,8 +231,13 @@ const AccesoriosDestacados = () => {
                   </span>
                 )}
               </div>
+
+              {/* Botón de agregar al carrito - al final */}
+              <div className="mt-auto" onClick={(e) => e.stopPropagation()}>
+                <AddToCartButton producto={accesorio} />
+              </div>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
 

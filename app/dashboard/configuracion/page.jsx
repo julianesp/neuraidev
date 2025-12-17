@@ -2,9 +2,83 @@
 
 import { useUser } from "@clerk/nextjs";
 import { Settings, User, Bell, Shield, Palette, Database } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useToast } from "@/contexts/ToastContext";
 
 export default function ConfiguracionPage() {
   const { user } = useUser();
+  const toast = useToast();
+  const [notifyOrders, setNotifyOrders] = useState(true);
+  const [notifyStock, setNotifyStock] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  // Cargar preferencias al montar el componente
+  useEffect(() => {
+    if (user) {
+      fetchPreferences();
+    }
+  }, [user]);
+
+  const fetchPreferences = async () => {
+    try {
+      const response = await fetch('/api/notifications/preferences');
+      const data = await response.json();
+
+      if (response.ok) {
+        setNotifyOrders(data.notify_new_orders ?? true);
+        setNotifyStock(data.notify_low_stock ?? true);
+      }
+    } catch (error) {
+      console.error('Error cargando preferencias:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updatePreference = async (key, value) => {
+    setSaving(true);
+    try {
+      const response = await fetch('/api/notifications/preferences', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ [key]: value }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast?.success('Preferencias actualizadas');
+      } else {
+        toast?.error(data.error || 'Error al actualizar preferencias');
+        // Revertir el cambio
+        if (key === 'notify_new_orders') setNotifyOrders(!value);
+        if (key === 'notify_low_stock') setNotifyStock(!value);
+      }
+    } catch (error) {
+      console.error('Error actualizando preferencias:', error);
+      toast?.error('Error al actualizar preferencias');
+      // Revertir el cambio
+      if (key === 'notify_new_orders') setNotifyOrders(!value);
+      if (key === 'notify_low_stock') setNotifyStock(!value);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleOrdersToggle = () => {
+    const newValue = !notifyOrders;
+    setNotifyOrders(newValue);
+    updatePreference('notify_new_orders', newValue);
+  };
+
+  const handleStockToggle = () => {
+    const newValue = !notifyStock;
+    setNotifyStock(newValue);
+    updatePreference('notify_low_stock', newValue);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -76,8 +150,15 @@ export default function ConfiguracionPage() {
                 </div>
                 <label htmlFor="notify-orders" className="relative inline-flex items-center cursor-pointer">
                   <span className="sr-only">Activar notificaciones de nuevos pedidos</span>
-                  <input id="notify-orders" type="checkbox" className="sr-only peer" disabled />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 opacity-50"></div>
+                  <input
+                    id="notify-orders"
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={notifyOrders}
+                    onChange={handleOrdersToggle}
+                    disabled={loading || saving}
+                  />
+                  <div className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 ${(loading || saving) ? 'opacity-50 cursor-not-allowed' : ''}`}></div>
                 </label>
               </div>
               <div className="flex items-center justify-between">
@@ -87,13 +168,27 @@ export default function ConfiguracionPage() {
                 </div>
                 <label htmlFor="notify-stock" className="relative inline-flex items-center cursor-pointer">
                   <span className="sr-only">Activar alertas de stock bajo</span>
-                  <input id="notify-stock" type="checkbox" className="sr-only peer" disabled />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 opacity-50"></div>
+                  <input
+                    id="notify-stock"
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={notifyStock}
+                    onChange={handleStockToggle}
+                    disabled={loading || saving}
+                  />
+                  <div className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 ${(loading || saving) ? 'opacity-50 cursor-not-allowed' : ''}`}></div>
                 </label>
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                (Próximamente)
-              </p>
+              {loading && (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Cargando preferencias...
+                </p>
+              )}
+              {saving && (
+                <p className="text-sm text-blue-600 dark:text-blue-400">
+                  Guardando...
+                </p>
+              )}
             </div>
           </div>
 

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getFeaturedProducts } from "@/lib/productService";
+import AddToCartButton from "@/components/AddToCartButton";
+import FavoriteButton from "@/components/FavoriteButton";
 
 export default function AccesoriosDestacadosPage() {
   const [accesorios, setAccesorios] = useState([]);
@@ -112,33 +114,56 @@ export default function AccesoriosDestacadosPage() {
             {accesorios.map((accesorio) => (
               <div
                 key={accesorio.id}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group flex flex-col"
               >
-                {/* Imagen del producto */}
+                {/* Imagen del producto con botón de favoritos */}
                 <div className="relative h-48 bg-gray-100 dark:bg-gray-700">
-                  <Image
-                    src={
-                      accesorio.imagenPrincipal ||
-                      (accesorio.imagenes && accesorio.imagenes.length > 0
-                        ? accesorio.imagenes[0].url
-                        : "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen")
-                    }
-                    alt={accesorio.nombre}
-                    fill={true}
-                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    loading="lazy"
-                    quality={85}
-                  />
+                  <Link href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}>
+                    <Image
+                      src={
+                        accesorio.imagenPrincipal ||
+                        (accesorio.imagenes && accesorio.imagenes.length > 0
+                          ? accesorio.imagenes[0].url
+                          : "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen")
+                      }
+                      alt={accesorio.nombre}
+                      fill={true}
+                      className="object-contain p-4 group-hover:scale-105 transition-transform duration-300 cursor-pointer"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      loading="lazy"
+                      quality={85}
+                    />
+                  </Link>
+
+                  {/* Botón de favoritos en la esquina superior derecha */}
+                  <div className="absolute top-2 right-2 z-10">
+                    <FavoriteButton producto={accesorio} size="medium" />
+                  </div>
+
+                  {/* Badge de stock si está bajo */}
+                  {accesorio.stock && accesorio.stock <= 5 && accesorio.stock > 0 && (
+                    <div className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                      ¡Últimas {accesorio.stock}!
+                    </div>
+                  )}
+
+                  {/* Badge de sin stock */}
+                  {accesorio.stock === 0 && (
+                    <div className="absolute top-2 left-2 bg-gray-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                      Sin stock
+                    </div>
+                  )}
                 </div>
 
                 {/* Información del producto */}
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-yellow-600 transition-colors text-gray-900 dark:text-white">
-                    {accesorio.nombre}
-                  </h3>
-                  
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-3">
+                <div className="p-4 flex flex-col flex-grow">
+                  <Link href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}>
+                    <h3 className="font-semibold text-lg mb-2 line-clamp-2 hover:text-yellow-600 transition-colors text-gray-900 dark:text-white cursor-pointer">
+                      {accesorio.nombre}
+                    </h3>
+                  </Link>
+
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">
                     {accesorio.descripcion}
                   </p>
 
@@ -159,15 +184,10 @@ export default function AccesoriosDestacadosPage() {
                     </span>
                   </div>
 
-                  {/* Botón de contacto */}
-                  <a
-                    href={`https://wa.me/573174503604?text=Hola,%20estoy%20interesad@%20en%20este%20accesorio:%20${encodeURIComponent(accesorio.nombre)}%20-%20$${accesorio.precio}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors text-sm font-medium inline-flex items-center justify-center"
-                  >
-                    📱 Contactar por WhatsApp
-                  </a>
+                  {/* Botón de agregar al carrito */}
+                  <div className="mt-auto">
+                    <AddToCartButton producto={accesorio} />
+                  </div>
                 </div>
               </div>
             ))}
@@ -181,24 +201,14 @@ export default function AccesoriosDestacadosPage() {
               ¿No encontraste lo que buscabas?
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Explora toda nuestra colección de accesorios o contáctanos directamente
+              Explora toda nuestra colección de accesorios y productos
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/accesorios"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-md transition-colors font-medium"
-              >
-                Ver todos los accesorios
-              </Link>
-              <a
-                href="https://wa.me/573174503604?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20sus%20productos"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md transition-colors font-medium"
-              >
-                📱 Contactar por WhatsApp
-              </a>
-            </div>
+            <Link
+              href="/accesorios"
+              className="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-md transition-colors font-medium"
+            >
+              Ver todos los accesorios
+            </Link>
           </div>
         </div>
       </div>

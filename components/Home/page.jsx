@@ -176,12 +176,14 @@ export default function Inicio() {
           ...product,
           images: Array.isArray(product.imagenes)
             ? product.imagenes
-            : product.imagenes ? [product.imagenes] : [],
+            : product.imagenes
+              ? [product.imagenes]
+              : [],
         }));
 
         setData(normalizedData);
       } catch (error) {
-        console.error('[Home] Error al cargar productos destacados:', error);
+        console.error("[Home] Error al cargar productos destacados:", error);
         setData([]);
       }
     };

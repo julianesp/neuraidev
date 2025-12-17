@@ -135,9 +135,9 @@ const ProductosRecientes = () => {
     <div
       className={`${styles.container} bg-blue-50 p-6 rounded-lg border  dark:border-white`}
     >
-      <h2 className="text-2xl font-bold mb-6">
+      <h2 className="text-2xl font-bold mb-2">
         🆕 Productos Recientes
-        <span className="text-sm font-normal text-gray-600 ml-2">
+        <span className="absolute flex text-sm font-normal text-black dark:text-white ml-2">
           (Últimos 30 días)
         </span>
       </h2>
