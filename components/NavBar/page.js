@@ -12,6 +12,7 @@ import {
   UserButton,
   useUser,
 } from "@clerk/nextjs";
+import { esES } from "@clerk/localizations";
 import { isAdmin } from "@/lib/auth/roles";
 import CartIcon from "../CartIcon";
 
@@ -348,6 +349,7 @@ const NavBar = () => {
             <SignedIn>
               <div className={styles.mobileUserSection}>
                 <UserButton
+                  localization={esES}
                   fallbackRedirectUrl="/"
                   appearance={{
                     elements: {
@@ -371,6 +373,7 @@ const NavBar = () => {
         </SignedOut>
         <SignedIn>
           <UserButton
+            localization={esES}
             fallbackRedirectUrl="/"
             appearance={{
               elements: {

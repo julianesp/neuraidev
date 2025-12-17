@@ -1,6 +1,7 @@
 "use client";
 
 import { SignIn } from "@clerk/nextjs";
+import { esES } from "@clerk/localizations";
 import Link from "next/link";
 
 export default function SignInPage() {
@@ -17,6 +18,7 @@ export default function SignInPage() {
         </div>
 
         <SignIn
+          localization={esES}
           appearance={{
             elements: {
               rootBox: "mx-auto",

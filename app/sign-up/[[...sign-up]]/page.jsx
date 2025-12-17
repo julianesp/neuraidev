@@ -1,6 +1,7 @@
 "use client";
 
 import { SignUp } from "@clerk/nextjs";
+import { esES } from "@clerk/localizations";
 import Link from "next/link";
 
 export default function SignUpPage() {
@@ -17,6 +18,7 @@ export default function SignUpPage() {
         </div>
 
         <SignUp
+          localization={esES}
           appearance={{
             elements: {
               rootBox: "mx-auto",
