@@ -50,7 +50,7 @@ function RespuestaPagoContent() {
           // Consultar la orden desde nuestra base de datos usando la referencia
           try {
             const orderResponse = await fetch(
-              `/api/orders/get-by-reference?reference=${data.reference}`
+              `/api/orders/get-by-reference?reference=${data.reference}`,
             );
             if (orderResponse.ok) {
               const orderInfo = await orderResponse.json();
@@ -58,7 +58,10 @@ function RespuestaPagoContent() {
 
               if (process.env.NODE_ENV === "development") {
                 // eslint-disable-next-line no-console
-                console.warn("[DEV] Datos de la orden recibidos", orderInfo.order);
+                console.warn(
+                  "[DEV] Datos de la orden recibidos",
+                  orderInfo.order,
+                );
               }
             }
           } catch (error) {
@@ -113,7 +116,8 @@ function RespuestaPagoContent() {
         type: "warning",
         icon: "⏳",
         title: "Pago pendiente",
-        message: "Tu pago está en proceso de verificación. Te notificaremos cuando se confirme.",
+        message:
+          "Tu pago está en proceso de verificación. Te notificaremos cuando se confirme.",
         color: "yellow",
       };
     } else if (state === "VOIDED") {
@@ -142,7 +146,9 @@ function RespuestaPagoContent() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Procesando respuesta...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">
+            Procesando respuesta...
+          </p>
         </div>
       </div>
     );
@@ -152,7 +158,9 @@ function RespuestaPagoContent() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
         <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 text-center">
-          <p className="text-gray-600 dark:text-gray-400">No se recibió información de pago.</p>
+          <p className="text-gray-600 dark:text-gray-400">
+            No se recibió información de pago.
+          </p>
           <Link
             href="/"
             className="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
@@ -165,7 +173,7 @@ function RespuestaPagoContent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4 mt-14 ">
       <div className="max-w-2xl w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8">
         {/* Icono y título */}
         <div className="text-center mb-6">
@@ -175,8 +183,8 @@ function RespuestaPagoContent() {
               status.color === "green"
                 ? "text-green-600 dark:text-green-400"
                 : status.color === "red"
-                ? "text-red-600 dark:text-red-400"
-                : "text-yellow-600 dark:text-yellow-400"
+                  ? "text-red-600 dark:text-red-400"
+                  : "text-yellow-600 dark:text-yellow-400"
             }`}
           >
             {status.title}
@@ -206,7 +214,9 @@ function RespuestaPagoContent() {
             <div className="space-y-3">
               {(orderData.nombre_cliente || orderData.customer_name) && (
                 <div className="flex justify-between items-center">
-                  <span className="text-blue-700 dark:text-blue-300 font-medium">Nombre:</span>
+                  <span className="text-blue-700 dark:text-blue-300 font-medium">
+                    Nombre:
+                  </span>
                   <span className="text-blue-900 dark:text-blue-100 font-semibold">
                     {orderData.nombre_cliente || orderData.customer_name}
                   </span>
@@ -214,7 +224,9 @@ function RespuestaPagoContent() {
               )}
               {(orderData.correo_cliente || orderData.customer_email) && (
                 <div className="flex justify-between items-center">
-                  <span className="text-blue-700 dark:text-blue-300 font-medium">Email:</span>
+                  <span className="text-blue-700 dark:text-blue-300 font-medium">
+                    Email:
+                  </span>
                   <span className="text-blue-900 dark:text-blue-100 font-mono text-sm">
                     {orderData.correo_cliente || orderData.customer_email}
                   </span>
@@ -222,7 +234,9 @@ function RespuestaPagoContent() {
               )}
               {(orderData.telefono_cliente || orderData.customer_phone) && (
                 <div className="flex justify-between items-center">
-                  <span className="text-blue-700 dark:text-blue-300 font-medium">Teléfono:</span>
+                  <span className="text-blue-700 dark:text-blue-300 font-medium">
+                    Teléfono:
+                  </span>
                   <span className="text-blue-900 dark:text-blue-100 font-mono text-sm">
                     {orderData.telefono_cliente || orderData.customer_phone}
                   </span>
@@ -233,56 +247,64 @@ function RespuestaPagoContent() {
         )}
 
         {/* Productos comprados */}
-        {orderData && (orderData.productos || orderData.items) && (orderData.productos || orderData.items).length > 0 && (
-          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                />
-              </svg>
-              Productos Comprados
-            </h2>
-            <div className="space-y-3">
-              {(orderData.productos || orderData.items).map((item, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg"
+        {orderData &&
+          (orderData.productos || orderData.items) &&
+          (orderData.productos || orderData.items).length > 0 && (
+            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
+              <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      {item.name || item.nombre}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Cantidad: {item.quantity || item.cantidad || 1}
-                    </p>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                  />
+                </svg>
+                Productos Comprados
+              </h2>
+              <div className="space-y-3">
+                {(orderData.productos || orderData.items).map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center p-3 bg-white dark:bg-gray-800 rounded-lg"
+                  >
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {item.name || item.nombre}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Cantidad: {item.quantity || item.cantidad || 1}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold text-gray-900 dark:text-white">
+                        $
+                        {parseFloat(
+                          item.price || item.precio || 0,
+                        ).toLocaleString("es-CO")}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-bold text-gray-900 dark:text-white">
-                      ${parseFloat(item.price || item.precio || 0).toLocaleString("es-CO")}
-                    </p>
+                ))}
+                <div className="border-t-2 border-gray-300 dark:border-gray-600 pt-3 mt-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-bold text-gray-900 dark:text-white">
+                      Total:
+                    </span>
+                    <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                      $
+                      {parseFloat(orderData.total || 0).toLocaleString("es-CO")}
+                    </span>
                   </div>
-                </div>
-              ))}
-              <div className="border-t-2 border-gray-300 dark:border-gray-600 pt-3 mt-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold text-gray-900 dark:text-white">Total:</span>
-                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                    ${parseFloat(orderData.total || 0).toLocaleString("es-CO")}
-                  </span>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* Detalles de la transacción */}
         <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
@@ -292,7 +314,9 @@ function RespuestaPagoContent() {
           <div className="space-y-3">
             {paymentData.reference && (
               <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Referencia:</span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  Referencia:
+                </span>
                 <span className="font-mono text-sm text-gray-900 dark:text-white">
                   {paymentData.reference}
                 </span>
@@ -300,7 +324,9 @@ function RespuestaPagoContent() {
             )}
             {paymentData.transactionId && (
               <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">ID de transacción:</span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  ID de transacción:
+                </span>
                 <span className="font-mono text-sm text-gray-900 dark:text-white">
                   {paymentData.transactionId}
                 </span>
@@ -310,13 +336,16 @@ function RespuestaPagoContent() {
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">Monto:</span>
                 <span className="font-bold text-lg text-gray-900 dark:text-white">
-                  ${parseFloat(paymentData.amount).toFixed(2)} {paymentData.currency || "COP"}
+                  ${parseFloat(paymentData.amount).toFixed(2)}{" "}
+                  {paymentData.currency || "COP"}
                 </span>
               </div>
             )}
             {paymentData.paymentMethod && (
               <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Método de pago:</span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  Método de pago:
+                </span>
                 <span className="font-mono text-sm text-gray-900 dark:text-white uppercase">
                   {paymentData.paymentMethod}
                 </span>
@@ -351,7 +380,9 @@ function RespuestaPagoContent() {
                   ¿Te gustaría crear una cuenta en este sitio?
                 </h3>
                 <p className="text-blue-100 mb-4">
-                  Así podrás llevar registro de tus futuras compras, además de ser uno de los primeros en saber sobre los días de promociones o descuentos especiales.
+                  Así podrás llevar registro de tus futuras compras, además de
+                  ser uno de los primeros en saber sobre los días de promociones
+                  o descuentos especiales.
                 </p>
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center gap-2">
@@ -366,7 +397,9 @@ function RespuestaPagoContent() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <span className="text-sm">Historial completo de tus compras</span>
+                    <span className="text-sm">
+                      Historial completo de tus compras
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <svg
@@ -380,7 +413,9 @@ function RespuestaPagoContent() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <span className="text-sm">Notificaciones sobre promociones exclusivas</span>
+                    <span className="text-sm">
+                      Notificaciones sobre promociones exclusivas
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <svg
@@ -394,7 +429,9 @@ function RespuestaPagoContent() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <span className="text-sm">Acceso anticipado a nuevos productos</span>
+                    <span className="text-sm">
+                      Acceso anticipado a nuevos productos
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <svg
@@ -408,7 +445,9 @@ function RespuestaPagoContent() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <span className="text-sm">Gestión fácil de direcciones de envío</span>
+                    <span className="text-sm">
+                      Gestión fácil de direcciones de envío
+                    </span>
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3">
@@ -435,27 +474,29 @@ function RespuestaPagoContent() {
           {status.type === "success" && (
             <>
               {/* Solo mostrar botón de factura si la orden existe y está completada */}
-              {orderData && (orderData.estado === 'completado' || orderData.estado_pago === 'completado') && (
-                <Link
-                  href={`/factura/${paymentData.reference}`}
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+              {orderData &&
+                (orderData.estado === "completado" ||
+                  orderData.estado_pago === "completado") && (
+                  <Link
+                    href={`/factura/${paymentData.reference}`}
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                  Ver Factura
-                </Link>
-              )}
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                    Ver Factura
+                  </Link>
+                )}
               <Link
                 href="/"
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center"
@@ -517,27 +558,33 @@ function RespuestaPagoContent() {
             <div className="text-sm text-blue-800 dark:text-blue-200">
               {status.type === "success" && (
                 <>
-                  {orderData && (orderData.estado === 'completado' || orderData.estado_pago === 'completado') ? (
+                  {orderData &&
+                  (orderData.estado === "completado" ||
+                    orderData.estado_pago === "completado") ? (
                     <p>
-                      Recibirás un correo electrónico con los detalles de tu compra. Puedes descargar tu factura en cualquier momento haciendo clic en el botón "Ver Factura".
+                      Recibirás un correo electrónico con los detalles de tu
+                      compra. Puedes descargar tu factura en cualquier momento
+                      haciendo clic en el botón "Ver Factura".
                     </p>
                   ) : (
                     <p>
-                      Tu pago ha sido procesado exitosamente. La factura se generará automáticamente en los próximos minutos. Si tienes alguna pregunta, contáctanos en contacto@neurai.dev
+                      Tu pago ha sido procesado exitosamente. La factura se
+                      generará automáticamente en los próximos minutos. Si
+                      tienes alguna pregunta, contáctanos en contacto@neurai.dev
                     </p>
                   )}
                 </>
               )}
               {status.type === "error" && (
                 <p>
-                  Si crees que esto es un error, por favor contacta con nosotros a través de
-                  WhatsApp o correo electrónico.
+                  Si crees que esto es un error, por favor contacta con nosotros
+                  a través de WhatsApp o correo electrónico.
                 </p>
               )}
               {status.type === "warning" && (
                 <p>
-                  Los pagos pendientes pueden tardar hasta 24 horas en confirmarse. Te
-                  notificaremos por correo cuando se confirme.
+                  Los pagos pendientes pueden tardar hasta 24 horas en
+                  confirmarse. Te notificaremos por correo cuando se confirme.
                 </p>
               )}
             </div>
