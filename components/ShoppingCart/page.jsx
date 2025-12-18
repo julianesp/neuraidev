@@ -350,12 +350,33 @@ export default function ShoppingCart() {
                         <p className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
                           📦 Envíos
                         </p>
-                        <p className="text-xs text-blue-700 dark:text-blue-300">
-                          <span className="font-semibold text-green-600 dark:text-green-400">
-                            ✓ GRATIS
-                          </span>{" "}
-                          en Valle de Sibundoy - Alto Putumayo
-                        </p>
+                        {getTotalPrice() >= 50000 ? (
+                          <>
+                            <p className="text-xs text-blue-700 dark:text-blue-300">
+                              <span className="font-semibold text-green-600 dark:text-green-400">
+                                ✓ GRATIS
+                              </span>{" "}
+                              en Valle de Sibundoy - Alto Putumayo
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              ¡Tu compra supera los $50.000!
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="text-xs text-amber-700 dark:text-amber-400">
+                              Envío gratis al Alto Putumayo en compras desde{" "}
+                              <span className="font-bold">$50.000</span>
+                            </p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                              Te faltan{" "}
+                              <span className="font-semibold text-blue-600 dark:text-blue-400">
+                                ${(50000 - getTotalPrice()).toLocaleString("es-CO")}
+                              </span>{" "}
+                              para envío gratis
+                            </p>
+                          </>
+                        )}
                         <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
                           Otros destinos: se coordina por WhatsApp
                         </p>

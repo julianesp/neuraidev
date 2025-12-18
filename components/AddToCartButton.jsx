@@ -29,6 +29,13 @@ export default function AddToCartButton({ producto }) {
       : Array.isArray(producto.imagenes)
         ? producto.imagenes[0]
         : producto.imagen || "/placeholder.jpg",
+    imagenes: Array.isArray(producto.images)
+      ? producto.images
+      : Array.isArray(producto.imagenes)
+        ? producto.imagenes
+        : producto.imagen
+          ? [producto.imagen]
+          : [],
     categoria: producto.categoria || "general",
   };
 

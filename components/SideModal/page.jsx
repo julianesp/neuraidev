@@ -109,7 +109,8 @@ const SideModal = () => {
               transition={{ duration: 0.15, delay: isOpen ? 0.2 : 0.1 }}
             >
               <h4 className="">¡Envío gratis!</h4>
-              <p>Solo para el Valle de Sibundoy</p>
+              <p>Compras desde $50.000</p>
+              <p className="text-xs opacity-80 mt-1">Valle de Sibundoy - Alto Putumayo</p>
             </motion.div>
 
             <motion.div

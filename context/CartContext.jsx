@@ -33,16 +33,15 @@ export function CartProvider({ children }) {
               try {
                 const { data, error } = await supabase
                   .from("products")
-                  .select("imagenes, imagen, metadata")
+                  .select("imagenes, metadata")
                   .eq("id", item.id)
                   .single();
 
                 if (!error && data) {
                   return {
                     ...item,
-                    imagen: data.imagenes?.[0] || data.imagen || null,
-                    imagenes:
-                      data.imagenes || (data.imagen ? [data.imagen] : []),
+                    imagen: data.imagenes?.[0] || null,
+                    imagenes: data.imagenes || [],
                     metadata: data.metadata || {},
                   };
                 }

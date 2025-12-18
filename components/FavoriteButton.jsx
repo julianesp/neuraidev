@@ -28,15 +28,8 @@ export default function FavoriteButton({
   const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Debug log - buscar el ID en diferentes propiedades
+  // Buscar el ID en diferentes propiedades
   const productoId = producto?.id || producto?._id || producto?.producto_id;
-  console.log("🔍 FavoriteButton renderizado", {
-    productoId,
-    productName: producto?.nombre,
-    size,
-    hasId: !!productoId,
-    allKeys: Object.keys(producto || {}).slice(0, 10),
-  });
 
   useEffect(() => {
     if (isSignedIn && productoId) {
@@ -53,7 +46,7 @@ export default function FavoriteButton({
         setIsFavorite(exists);
       }
     } catch (error) {
-      console.error("Error al verificar favorito:", error);
+      // Error silencioso al verificar favorito
     }
   };
 
@@ -63,7 +56,6 @@ export default function FavoriteButton({
 
     // Validar que el producto tenga ID
     if (!productoId) {
-      console.error("❌ Producto sin ID válido:", { producto, productoId });
       toast.error("Error: Producto sin ID válido", { title: "Error" });
       return;
     }
@@ -82,13 +74,11 @@ export default function FavoriteButton({
     try {
       if (isFavorite) {
         // Eliminar de favoritos
-        console.log(`🗑️ Eliminando favorito del producto: ${productoId}`);
         const response = await fetch(`/api/perfil/favoritos/${productoId}`, {
           method: "DELETE",
         });
 
         const data = await response.json();
-        console.log("📤 Respuesta DELETE:", data);
 
         if (response.ok) {
           setIsFavorite(false);
@@ -98,7 +88,6 @@ export default function FavoriteButton({
         }
       } else {
         // Agregar a favoritos
-        console.log(`❤️ Agregando favorito del producto: ${productoId}`);
         const response = await fetch("/api/perfil/favoritos", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -109,7 +98,6 @@ export default function FavoriteButton({
         });
 
         const data = await response.json();
-        console.log("📤 Respuesta POST:", data);
 
         if (response.ok) {
           setIsFavorite(true);
@@ -125,7 +113,6 @@ export default function FavoriteButton({
         }
       }
     } catch (error) {
-      console.error("❌ Error en toggleFavorite:", error);
       toast.error(
         isFavorite
           ? "No se pudo eliminar de favoritos"

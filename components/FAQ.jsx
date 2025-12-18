@@ -15,7 +15,7 @@ const faqData = [
   {
     question: "¿Realizan envíos a todo el país?",
     answer:
-      "Sí, se realiza envíos a todos los lugares del país, sin embargo, tú asumes los costos de envío. Los tiempos de entrega varían según la ubicación.",
+      "Sí, realizamos envíos a todo el país. ENVÍO GRATIS en Valle de Sibundoy - Alto Putumayo para compras desde $50.000. Para otros destinos, los costos de envío se coordinan por WhatsApp. Los tiempos de entrega varían según la ubicación.",
   },
   {
     question: "¿Tienen garantía los productos?",

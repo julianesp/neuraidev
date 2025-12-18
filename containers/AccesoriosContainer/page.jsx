@@ -63,10 +63,18 @@ const AccesoriosContainer = ({
   const [imageError, setImageError] = useState({}); // Controlar errores de carga de imágenes
   const [imageRetries, setImageRetries] = useState({}); // Controlar reintentos de carga
   const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Modal de imagen expandida
+  const [currentUrl, setCurrentUrl] = useState(''); // URL actual para evitar problemas de hidratación
 
   // Funciones para el modal de imagen
   const openImageModal = () => setIsImageModalOpen(true);
   const closeImageModal = () => setIsImageModalOpen(false);
+
+  // Establecer URL actual solo en el cliente para evitar problemas de hidratación
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setCurrentUrl(window.location.href);
+    }
+  }, []);
 
   // Función para asignar emoji según el contenido
   const asignarEmoji = (texto) => {
@@ -590,18 +598,11 @@ const AccesoriosContainer = ({
     );
   }
 
-  // URL para WhatsApp con mensaje predefinido que incluye enlace clickeable a la página
-  const obtenerUrlActual = () => {
-    if (typeof window !== "undefined") {
-      return window.location.href;
-    }
-    return "";
-  };
-
   // Formatear correctamente el mensaje para WhatsApp
   const mensajeBase = `Hola, estoy interesado en el accesorio: ${accesorio?.nombre || ""}`;
-  const urlActual = obtenerUrlActual();
-  const whatsappUrl = `https://wa.me/${telefono}?text=${encodeURIComponent(mensajeBase)}%0A%0A${encodeURIComponent("Puedes verlo aquí: ")}${encodeURIComponent(urlActual)}`;
+  const whatsappUrl = currentUrl
+    ? `https://wa.me/${telefono}?text=${encodeURIComponent(mensajeBase)}%0A%0A${encodeURIComponent("Puedes verlo aquí: ")}${encodeURIComponent(currentUrl)}`
+    : '#';
 
   // Determinar si hay imágenes para mostrar
   const tieneImagenes =
@@ -976,9 +977,9 @@ const AccesoriosContainer = ({
 
                   {/* Botón Solicitarlo */}
                   <Link
-                    href={`https://wa.me/573174503604?text=${encodeURIComponent(
-                      `¡Hola! 👋\n\nQuiero más de este producto:\n\n📦 ${accesorio.nombre}\n\n🔗 Puedes verlo aquí: ${typeof window !== "undefined" ? window.location.href : ""}\n\n¡Espero tu respuesta! 😊`,
-                    )}`}
+                    href={currentUrl ? `https://wa.me/573174503604?text=${encodeURIComponent(
+                      `¡Hola! 👋\n\nQuiero más de este producto:\n\n📦 ${accesorio.nombre}\n\n🔗 Puedes verlo aquí: ${currentUrl}\n\n¡Espero tu respuesta! 😊`,
+                    )}` : '#'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-orange-500 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-orange-600 transition-colors font-medium"

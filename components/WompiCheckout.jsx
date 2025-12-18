@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 
@@ -24,6 +24,35 @@ export default function WompiCheckout({ onClose }) {
     region: "",
   });
 
+  // Cargar datos guardados del usuario al montar el componente
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedData = localStorage.getItem('neuraidev_customer_data');
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          setCustomerData(prev => ({
+            ...prev,
+            ...parsed,
+          }));
+        } catch (error) {
+          console.error('Error al cargar datos del cliente:', error);
+        }
+      }
+    }
+  }, []);
+
+  // Guardar datos del cliente cuando cambien (después de un pago exitoso)
+  const saveCustomerData = () => {
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('neuraidev_customer_data', JSON.stringify(customerData));
+      } catch (error) {
+        console.error('Error al guardar datos del cliente:', error);
+      }
+    }
+  };
+
   // Validar que Wompi esté cargado
   const isWompiLoaded = () => {
     return typeof window !== "undefined" && window.WidgetCheckout;
@@ -40,39 +69,45 @@ export default function WompiCheckout({ onClose }) {
 
   // Validar datos del cliente
   const validateCustomerData = () => {
+    const missingFields = [];
+
     if (!customerData.name || customerData.name.trim().length < 3) {
-      toast.error("Por favor ingresa tu nombre completo");
-      return false;
+      missingFields.push("Nombre completo");
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!customerData.email || !emailRegex.test(customerData.email)) {
-      toast.error("Por favor ingresa un email válido");
-      return false;
+      missingFields.push("Correo electrónico válido");
     }
 
     if (!customerData.phone || customerData.phone.length < 7) {
-      toast.error("Por favor ingresa un teléfono válido");
-      return false;
-    }
-
-    if (!customerData.numberDoc || customerData.numberDoc.trim().length < 6) {
-      toast.error("Por favor ingresa un número de documento válido");
-      return false;
+      missingFields.push("Teléfono");
     }
 
     if (!customerData.address || customerData.address.trim().length < 5) {
-      toast.error("Por favor ingresa una dirección válida");
-      return false;
+      missingFields.push("Dirección");
     }
 
     if (!customerData.city || customerData.city.trim().length < 3) {
-      toast.error("Por favor ingresa tu ciudad");
-      return false;
+      missingFields.push("Ciudad");
     }
 
     if (!customerData.region || customerData.region.trim().length < 3) {
-      toast.error("Por favor ingresa tu departamento o región");
+      missingFields.push("Departamento/Región");
+    }
+
+    if (!customerData.numberDoc || customerData.numberDoc.trim().length < 6) {
+      missingFields.push("Número de documento");
+    }
+
+    if (missingFields.length > 0) {
+      toast.warning(
+        `Faltan los siguientes campos obligatorios: ${missingFields.join(", ")}`,
+        {
+          title: "Completa el formulario",
+          duration: 5000,
+        }
+      );
       return false;
     }
 
@@ -186,6 +221,9 @@ export default function WompiCheckout({ onClose }) {
         if (transaction.status === "APPROVED") {
           toast.success("¡Pago completado exitosamente! Procesando...");
 
+          // Guardar datos del cliente para futuros usos
+          saveCustomerData();
+
           // IMPORTANTE: Procesar el pago inmediatamente para descontar stock
           try {
             const processResponse = await fetch("/api/payments/process-approved", {
@@ -260,7 +298,6 @@ export default function WompiCheckout({ onClose }) {
             onChange={handleChange}
             placeholder="Ingrese su nombre"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            required
           />
         </div>
 
@@ -280,7 +317,6 @@ export default function WompiCheckout({ onClose }) {
             onChange={handleChange}
             placeholder="Ingrese su correo electrónico"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            required
           />
         </div>
 
@@ -300,7 +336,6 @@ export default function WompiCheckout({ onClose }) {
             onChange={handleChange}
             placeholder="3001234567"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            required
           />
         </div>
 
@@ -318,7 +353,6 @@ export default function WompiCheckout({ onClose }) {
             value={customerData.typeDoc}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            required
           >
             <option value="CC">Cédula de Ciudadanía</option>
             <option value="CE">Cédula de Extranjería</option>
@@ -344,7 +378,6 @@ export default function WompiCheckout({ onClose }) {
             onChange={handleChange}
             placeholder="Ingrese su número de documento"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            required
           />
         </div>
 
@@ -364,7 +397,6 @@ export default function WompiCheckout({ onClose }) {
             onChange={handleChange}
             placeholder="Ingrese su dirección"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            required
           />
         </div>
 
@@ -384,7 +416,6 @@ export default function WompiCheckout({ onClose }) {
             onChange={handleChange}
             placeholder="Ingrese su ciudad"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            required
           />
         </div>
 
@@ -404,7 +435,6 @@ export default function WompiCheckout({ onClose }) {
             onChange={handleChange}
             placeholder="Ej: Putumayo"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            required
           />
         </div>
 
@@ -470,12 +500,21 @@ export default function WompiCheckout({ onClose }) {
                     />
                   </svg>
                   <span className="font-semibold text-green-800 dark:text-green-200 text-sm">
-                    Envío GRATIS
+                    {getTotalPrice() >= 50000 ? "✓ Envío GRATIS" : "Envío gratis desde $50.000"}
                   </span>
                 </div>
                 <p className="text-xs text-green-700 dark:text-green-300 ml-7">
-                  Para <strong>Valle de Sibundoy - Alto Putumayo</strong>
+                  Para <strong>Valle de Sibundoy - Alto Putumayo</strong> en compras desde <strong>$50.000</strong>
                 </p>
+                {getTotalPrice() >= 50000 ? (
+                  <p className="text-xs text-green-600 dark:text-green-400 ml-7 mt-1 font-medium">
+                    ¡Tu compra califica para envío gratis!
+                  </p>
+                ) : (
+                  <p className="text-xs text-amber-600 dark:text-amber-400 ml-7 mt-1">
+                    Te faltan ${(50000 - getTotalPrice()).toLocaleString("es-CO")} para envío gratis
+                  </p>
+                )}
               </div>
 
               {/* Otros destinos */}

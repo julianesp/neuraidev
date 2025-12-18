@@ -21,7 +21,7 @@ export async function GET() {
 
     const { data: productos, error } = await supabase
       .from("products")
-      .select("id, nombre, precio, categoria, metadata, imagen_url")
+      .select("id, nombre, precio, categoria, metadata, imagenes")
       .order("nombre");
 
     if (error) throw error;

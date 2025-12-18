@@ -14,7 +14,15 @@ export default function ProductComments({ productoId }) {
   const [rating, setRating] = useState(0);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editText, setEditText] = useState('');
+  const [currentPathname, setCurrentPathname] = useState(''); // Para evitar problemas de hidratación
   const toast = useToast();
+
+  // Establecer pathname actual solo en el cliente
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setCurrentPathname(window.location.pathname);
+    }
+  }, []);
 
   useEffect(() => {
     fetchComments();
@@ -41,7 +49,9 @@ export default function ProductComments({ productoId }) {
 
     if (!isLoaded || !user) {
       toast?.warning('Debes iniciar sesión para comentar');
-      window.location.href = '/sign-in?redirect_url=' + encodeURIComponent(window.location.pathname);
+      if (currentPathname) {
+        window.location.href = '/sign-in?redirect_url=' + encodeURIComponent(currentPathname);
+      }
       return;
     }
 
@@ -247,7 +257,7 @@ export default function ProductComments({ productoId }) {
             Inicia sesión para dejar un comentario
           </p>
           <a
-            href={'/sign-in?redirect_url=' + encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname : '')}
+            href={currentPathname ? '/sign-in?redirect_url=' + encodeURIComponent(currentPathname) : '/sign-in'}
             className="inline-block px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
           >
             Iniciar sesión
