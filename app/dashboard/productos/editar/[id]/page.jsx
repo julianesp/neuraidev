@@ -3,8 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft, Save } from "lucide-react";
-import ImageUploader from "@/components/ImageUploader";
+import SortableImageUploader from "@/components/SortableImageUploader";
 import VideoUploader from "@/components/VideoUploader";
+import RichTextEditor from "@/components/RichTextEditor";
 
 export default function EditarProductoPage() {
   const router = useRouter();
@@ -256,19 +257,12 @@ export default function EditarProductoPage() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label
-                    htmlFor="descripcion"
-                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
-                  >
-                    Descripción
-                  </label>
-                  <textarea
-                    id="descripcion"
-                    name="descripcion"
-                    rows={4}
+                  <RichTextEditor
                     value={formData.descripcion}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    onChange={(html) =>
+                      setFormData((prev) => ({ ...prev, descripcion: html }))
+                    }
+                    label="Descripción"
                   />
                 </div>
 
@@ -439,20 +433,21 @@ export default function EditarProductoPage() {
                 Imágenes
               </h2>
               <div className="space-y-4">
-                <ImageUploader
+                <SortableImageUploader
                   value={formData.imagen_principal}
                   onChange={(url) =>
                     setFormData((prev) => ({ ...prev, imagen_principal: url }))
                   }
                   label="Imagen Principal"
+                  compact={true}
                 />
 
-                <ImageUploader
+                <SortableImageUploader
                   value={formData.imagenes.filter((img) => img)}
                   onChange={(urls) =>
                     setFormData((prev) => ({ ...prev, imagenes: urls }))
                   }
-                  label="Imágenes Adicionales"
+                  label="Imágenes Adicionales (Arrastra para reordenar)"
                   multiple
                 />
               </div>

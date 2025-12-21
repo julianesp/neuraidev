@@ -29,6 +29,9 @@ import { useToast } from "@/contexts/ToastContext";
 import FavoriteButton from "@/components/FavoriteButton";
 import ProductLikes from "@/components/ProductSocial/ProductLikes";
 import ProductComments from "@/components/ProductSocial/ProductComments";
+import { useUser } from "@clerk/nextjs";
+import { isAdmin } from "@/lib/auth/roles";
+import SafeHtmlRenderer from "@/components/SafeHtmlRenderer";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -46,6 +49,10 @@ const AccesoriosContainer = ({
   // Hooks para el carrito
   const { addToCart } = useCart();
   const toast = useToast();
+
+  // Hook para obtener el usuario actual (para verificar si es admin)
+  const { user } = useUser();
+  const userIsAdmin = user ? isAdmin(user) : false;
 
   const [todosAccesorios, setTodosAccesorios] = useState(
     [accesorioProps, ...(otrosAccesoriosProps || [])].filter(Boolean),
@@ -647,7 +654,31 @@ const AccesoriosContainer = ({
             <h1 className="text-3xl font-bold text-center flex-1">
               {accesorio.nombre}
             </h1>
-            <FavoriteButton producto={accesorio} size="large" />
+            <div className="flex items-center gap-2">
+              {userIsAdmin && (
+                <Link
+                  href={`/dashboard/productos/editar/${accesorio.id}`}
+                  className="flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium shadow-md"
+                  title="Editar producto"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    />
+                  </svg>
+                  Editar
+                </Link>
+              )}
+              <FavoriteButton producto={accesorio} size="large" />
+            </div>
           </div>
           <div
             className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-32 ${styles.accesorioContainer}`}
@@ -811,13 +842,26 @@ const AccesoriosContainer = ({
                 Descripción
               </h2>
               <div className="text-black dark:text-white mb-2 leading-relaxed">
-                {formatearDescripcion(accesorio.descripcion)
-                  .split("\n\n")
-                  .map((parrafo, index) => (
-                    <p key={index} className=" text-sm md:text-base">
-                      {parrafo}
-                    </p>
-                  ))}
+                {/* Verificar si la descripción contiene HTML */}
+                {accesorio.descripcion &&
+                (accesorio.descripcion.includes("<p>") ||
+                  accesorio.descripcion.includes("<strong>") ||
+                  accesorio.descripcion.includes("<em>") ||
+                  accesorio.descripcion.includes("<ul>") ||
+                  accesorio.descripcion.includes("<ol>")) ? (
+                  <SafeHtmlRenderer
+                    html={accesorio.descripcion}
+                    className="text-sm md:text-base"
+                  />
+                ) : (
+                  formatearDescripcion(accesorio.descripcion)
+                    .split("\n\n")
+                    .map((parrafo, index) => (
+                      <p key={index} className=" text-sm md:text-base">
+                        {parrafo}
+                      </p>
+                    ))
+                )}
               </div>
 
               {/* Características */}
