@@ -2,7 +2,6 @@
 
 import React from "react";
 import styles from "./TecnicoSistemas.module.scss";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function TecnicoSistemas() {
@@ -33,13 +32,13 @@ export default function TecnicoSistemas() {
     //   descripcion: "Configuración de redes domésticas y empresariales.",
     //   icono: "🌐",
     // },
-    // {
-    //   id: 5,
-    //   titulo: "Recuperación de Datos",
-    //   descripcion:
-    //     "Recuperación de información de discos duros y dispositivos.",
-    //   icono: "💾",
-    // },
+    {
+      id: 5,
+      titulo: "Recuperación de Datos",
+      descripcion:
+        "Recuperación de información de discos duros y dispositivos.",
+      icono: "💾",
+    },
     {
       id: 6,
       titulo: "Actualización de Equipos",
@@ -65,26 +64,18 @@ export default function TecnicoSistemas() {
       <section className={styles.about}>
         <div className={styles.aboutContent}>
           <div className={styles.aboutText}>
-            <h2>Sobre Mí</h2>
+            <h2>Sobre el Servicio</h2>
             <p>
-              Soy técnico en sistemas con amplia experiencia en mantenimiento,
-              reparación y optimización de equipos de cómputo. Me especializo en
-              brindar soluciones rápidas y efectivas para hogares y pequeñas
-              empresas.
+              Servicio técnico en sistemas con amplia experiencia en
+              mantenimiento, reparación y optimización de equipos de cómputo.
+              Nos especializamos en brindar soluciones rápidas y efectivas para
+              hogares y pequeñas empresas.
             </p>
             <p>
-              Mi objetivo es garantizar que tu equipo funcione de manera óptima,
-              brindándote un servicio de calidad y soporte técnico confiable.
+              Nuestro objetivo es garantizar que tu equipo funcione de manera
+              óptima, brindándote un servicio de calidad y soporte técnico
+              confiable.
             </p>
-          </div>
-          <div className={styles.aboutImage}>
-            <Image
-              src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/me.jpg"
-              alt="Técnico en Sistemas"
-              width={500}
-              height={400}
-              className={styles.image}
-            />
           </div>
         </div>
       </section>

@@ -378,29 +378,38 @@
 .beneficiosGrid {
   max-width: 1200px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; // Centra las tarjetas horizontalmente
+  align-items: stretch;
   gap: 30px;
 
-  @media (max-width: 968px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   @media (max-width: 640px) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 }
 
 .beneficioCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding: 40px 20px;
   background: #f7fafc;
   border-radius: 16px;
   transition: all 0.3s ease;
+  flex: 1 1 280px; // Grow, shrink, base width
+  max-width: 350px; // Ancho máximo para cada tarjeta
+  min-width: 250px; // Ancho mínimo
 
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 640px) {
+    max-width: 100%;
   }
 }
 

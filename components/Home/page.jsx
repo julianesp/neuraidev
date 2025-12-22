@@ -315,7 +315,7 @@ export default function Inicio() {
         {/* Accesorios  */}
         <section
           ref={accesoriesRef}
-          className={`${styles.accesories} ${styles.fadeInUp}`}
+          className={`${styles.accesories} ${styles.fadeInUp} mt-16`}
         >
           <section className={styles.varios}>
             <h1

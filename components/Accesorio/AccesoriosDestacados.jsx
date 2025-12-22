@@ -8,6 +8,7 @@ import styles from "@/styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
 import AddToCartButton from "@/components/AddToCartButton";
 import FavoriteButton from "@/components/FavoriteButton";
+import { htmlToPlainText } from "@/utils/htmlToText";
 
 const AccesoriosDestacados = () => {
   // Estado para almacenar los accesorios destacados
@@ -213,7 +214,7 @@ const AccesoriosDestacados = () => {
                 </h3>
               </Link>
               <p className="text-gray-600 dark:text-gray-300 mt-1 text-sm line-clamp-2">
-                {accesorio.descripcion}
+                {htmlToPlainText(accesorio.descripcion, 100)}
               </p>
               <div className="mt-2 flex items-center mb-3">
                 <span className="font-bold text-lg text-green-600">

@@ -88,7 +88,8 @@
   justify-content: center;
   align-items: center;
 
-  padding: 80px 20px;
+  margin: 0 auto;
+  padding: 40px 20px;
 
   background: white;
 }
@@ -103,9 +104,9 @@
 
   // A partir de 768px centrar ambos (texto + imagen) y centrar el contenido de cada columna
   @media (min-width: 768px) {
-    grid-template-columns: 1fr 360px;
+    grid-template-columns: 1fr;
     gap: 40px;
-    justify-items: first center; // centra horizontalmente cada celda
+    justify-items: center; // centra horizontalmente cada celda
     align-items: center;
   }
 

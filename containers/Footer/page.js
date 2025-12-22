@@ -45,7 +45,9 @@ const Footer = () => {
   }, [isClient]);
 
   return (
-    <footer className={`${styles.footer} ${menuOption ? styles.active : ""} dark:bg-gray-900`}>
+    <footer
+      className={`${styles.footer} ${menuOption ? styles.active : ""} dark:bg-gray-900`}
+    >
       {/* Botón flotante de redes sociales */}
       <button ref={flechaRef} className={styles.flecha} onClick={switchOptions}>
         <Image
@@ -60,13 +62,11 @@ const Footer = () => {
 
       {/* Contenedor principal del footer */}
       <div className={styles.footerContent}>
-        
-
         {/* Sección de enlaces */}
         <div className={styles.footerLinks}>
           {/* Columna 1: Navegación */}
           <div className={styles.linkColumn}>
-            <h4 className={styles.columnTitle}>Navegación</h4>
+            <h4 className={`${styles.columnTitle} text-white`}>Navegación</h4>
             <ul className={styles.linkList}>
               <li>
                 <Link href="/">Inicio</Link>
@@ -85,7 +85,7 @@ const Footer = () => {
 
           {/* Columna 2: Tienda */}
           <div className={styles.linkColumn}>
-            <h4 className={styles.columnTitle}>Tienda</h4>
+            <h4 className={`${styles.columnTitle} text-white`}>Tienda</h4>
             <ul className={styles.linkList}>
               <li>
                 <Link href="/accesorios/destacados">Destacados</Link>
@@ -110,7 +110,7 @@ const Footer = () => {
 
           {/* Columna 3: Servicios */}
           <div className={styles.linkColumn}>
-            <h4 className={styles.columnTitle}>Servicios</h4>
+            <h4 className={`${styles.columnTitle} text-white`}>Servicios</h4>
             <ul className={styles.linkList}>
               <li>
                 <Link href="/servicios/tecnico-sistemas">
@@ -130,12 +130,12 @@ const Footer = () => {
 
           {/* Columna 4: Contacto */}
           <div className={styles.linkColumn}>
-            <h4 className={styles.columnTitle}>Contacto</h4>
+            <h4 className={`${styles.columnTitle} text-white`}>Contacto</h4>
             <ul className={styles.linkList}>
               <li>
                 <Link
                   href="mailto:admin@neurai.dev"
-                  className={styles.contactLink}
+                  className={`${styles.contactLink} text-white`}
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -302,7 +302,6 @@ const Footer = () => {
         </div>
       </div>
 
-
       {/* Redes sociales flotantes */}
       {isClient && (
         <div
@@ -373,8 +372,6 @@ const Footer = () => {
           </ul>
         </div>
       )}
-      
-
     </footer>
   );
 };

@@ -45,9 +45,9 @@ export default function AdvertisementToggle({ ads = [] }) {
   }, [isVisible]); // Re-ejecutar cuando cambie isVisible
 
   useEffect(() => {
-    // Comprobar si es dispositivo móvil
+    // Comprobar si es dispositivo móvil o tablet (hasta 1023px)
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth >= 320 && window.innerWidth <= 767);
+      setIsMobile(window.innerWidth >= 320 && window.innerWidth <= 1023);
     };
 
     checkScreenSize();
@@ -83,16 +83,16 @@ export default function AdvertisementToggle({ ads = [] }) {
         <div
           className="fixed z-50"
           style={{
-            bottom: isNearFooter ? "120px" : "5px",
-            right: "10px",
+            bottom: isNearFooter ? "120px" : "70px",
+            left: "10px", // Cambiado a la izquierda
             transition: "bottom 0.3s ease",
           }}
         >
           <button
             ref={buttonRef}
             onClick={() => setIsVisible(!isVisible)}
-            className="p-3 rounded-full shadow-lg flex items-center justify-center w-12 h-12 backdrop-blur-md bg-white/80 border border-gray-200"
-            style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
+            className="p-3 rounded-full shadow-lg flex items-center justify-center w-12 h-12 backdrop-blur-md bg-gradient-to-br from-orange-400 to-orange-600 border border-orange-300 hover:scale-110 transition-transform"
+            style={{ boxShadow: "0 4px 12px rgba(249, 115, 22, 0.4)" }}
           >
             <Image
               src={
@@ -120,14 +120,14 @@ export default function AdvertisementToggle({ ads = [] }) {
           {isVisible && (
             <motion.div
               ref={menuRef}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className={`${styles.motion} fixed z-40 bg-white shadow-md rounded-lg overflow-hidden max-w-sm w-52`}
+              className={`${styles.motion} fixed z-40 bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden max-w-sm w-64`}
               style={{
-                bottom: isNearFooter ? "180px" : "84px",
-                right: "16px",
+                bottom: isNearFooter ? "180px" : "130px",
+                left: "16px", // Cambiado a la izquierda
                 transition: "bottom 0.3s ease",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
               }}

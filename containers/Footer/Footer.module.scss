@@ -226,14 +226,15 @@
   }
 
   a {
-    color: rgba(255, 255, 255, 0.7);
+    // color: rgba(255, 255, 255, 0.7);
+    color: #fff;
     text-decoration: none;
     font-size: 0.95rem;
     transition: all 0.3s ease;
     display: inline-block;
 
     &:hover {
-      color: #0070f3;
+      color: #fbbf24; // Amarillo dorado (mejor contraste sobre fondo azul oscuro)
       transform: translateX(5px);
     }
   }
@@ -244,18 +245,18 @@
   display: flex !important;
   align-items: center;
   gap: 10px;
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: #fff !important; // Blanco puro
   text-decoration: none;
   transition: all 0.3s ease;
 
   svg {
     flex-shrink: 0;
-    opacity: 0.7;
+    opacity: 1; // Iconos completamente visibles
     transition: opacity 0.3s ease;
   }
 
   &:hover {
-    color: #0070f3 !important;
+    color: #fbbf24 !important; // Amarillo dorado en hover (mejor contraste)
     transform: translateX(5px);
 
     svg {
@@ -269,12 +270,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #fff; // Blanco puro
   font-size: 0.95rem;
 
   svg {
     flex-shrink: 0;
-    opacity: 0.7;
+    opacity: 1; // Iconos completamente visibles
   }
 }
 
@@ -466,6 +467,7 @@
 
   .columnTitle {
     font-size: 1rem;
+    color: #fff;
   }
 
   .footerLinks {

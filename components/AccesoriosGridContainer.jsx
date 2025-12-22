@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useSoldProducts } from "../hooks/useSoldProducts";
 import SoldMarker from "./SoldMarker";
+import { htmlToPlainText } from "@/utils/htmlToText";
 import {
   generateProductSlug,
   buildProductUrl,
@@ -350,7 +351,7 @@ const ModernProductGrid = (props) => {
                   </h3>
 
                   <p className="text-gray-600 text-sm mb-4 line-clamp-2 min-h-[2.5rem]">
-                    {accesorio.description || accesorio.descripcion || "Sin descripción"}
+                    {htmlToPlainText(accesorio.description || accesorio.descripcion || "Sin descripción", 100)}
                   </p>
 
                   {/* Precio y stock */}

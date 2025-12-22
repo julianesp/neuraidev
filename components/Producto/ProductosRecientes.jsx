@@ -5,6 +5,7 @@ import Image from "next/image";
 import styles from "@/styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
 import { obtenerProductosRecientes } from "@/lib/supabase/productos";
+import { htmlToPlainText } from "@/utils/htmlToText";
 
 const ProductosRecientes = () => {
   // Estado para almacenar los productos recientes
@@ -257,7 +258,7 @@ const ProductosRecientes = () => {
               <div className="p-4 w-full">
                 <h3 className="font-semibold text-lg">{producto.nombre}</h3>
                 <p className="text-black mt-1 text-sm line-clamp-2 dark:text-white">
-                  {producto.descripcion}
+                  {htmlToPlainText(producto.descripcion, 100)}
                 </p>
                 <p className="text-blue-600 text-xs font-medium mt-1">
                   Categoría: {producto.categoria}

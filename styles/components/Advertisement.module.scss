@@ -70,17 +70,19 @@
   }
 }
 
-/* Para dispositivos móviles */
-@media (max-width: 767px) {
+/* Para dispositivos móviles y tablets */
+@media (max-width: 1023px) {
   .container {
     position: static;
+    display: none; // Ocultar el contenedor estático en móvil
   }
 
   .motion {
     position: fixed;
-    bottom: 75px;
-    right: 16px;
+    bottom: 130px;
+    left: 16px; // Posicionado a la izquierda
     max-height: 60vh;
     overflow-y: auto;
+    width: 256px; // w-64 en Tailwind
   }
 }

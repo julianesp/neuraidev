@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./servicios.module.css";
 
@@ -21,7 +20,6 @@ export default function Servicios() {
         "Upgrade de RAM y SSD disponibles en tienda",
       ],
       icon: "🔧",
-      price: "Desde $50.000",
     },
     {
       id: 2,
@@ -38,7 +36,6 @@ export default function Servicios() {
         "Upgrade a SSD para mayor velocidad",
       ],
       icon: "💻",
-      price: "Desde $80.000",
     },
     {
       id: 5,
@@ -54,7 +51,6 @@ export default function Servicios() {
         "Instalación incluida con el servicio",
       ],
       icon: "💾",
-      price: "Desde $63.900",
     },
     {
       id: 3,
@@ -70,7 +66,6 @@ export default function Servicios() {
         "Hosting y dominio incluido",
       ],
       icon: "🌐",
-      price: "Desde $300.000",
     },
     {
       id: 4,
@@ -86,7 +81,6 @@ export default function Servicios() {
         "Asesoría en compra de equipos",
       ],
       icon: "🛠️",
-      price: "Desde $40.000",
     },
   ];
 
@@ -137,15 +131,6 @@ export default function Servicios() {
             </Link>
           </div>
         </div>
-        <div className={styles.heroImage}>
-          <Image
-            src="/images/services/hero-tech.png"
-            alt="Servicios técnicos profesionales"
-            width={600}
-            height={400}
-            className={styles.heroImg}
-          />
-        </div>
       </section>
 
       {/* Services Section */}
@@ -168,7 +153,6 @@ export default function Servicios() {
                     </li>
                   ))}
                 </ul>
-                <div className={styles.servicePrice}>{service.price}</div>
                 <button className={styles.serviceButton}>
                   Solicitar Servicio
                 </button>
@@ -203,7 +187,6 @@ export default function Servicios() {
               <div className={styles.componentIcon}>💾</div>
               <h3>Memoria RAM DDR4</h3>
               <p>Puskill - 8GB DDR4 para mejorar el rendimiento</p>
-              <div className={styles.componentPrice}>$104.900</div>
               <Link href="/accesorios/computadoras" className={styles.componentButton}>
                 Ver en Tienda
               </Link>
@@ -212,7 +195,6 @@ export default function Servicios() {
               <div className={styles.componentIcon}>⚡</div>
               <h3>Disco SSD mSATA</h3>
               <p>EXRAM 256GB - Velocidad extrema para tu PC</p>
-              <div className={styles.componentPrice}>$124.900</div>
               <Link href="/accesorios/computadoras" className={styles.componentButton}>
                 Ver en Tienda
               </Link>
@@ -221,7 +203,6 @@ export default function Servicios() {
               <div className={styles.componentIcon}>🔌</div>
               <h3>Hub USB C</h3>
               <p>Extensor USB 7 en 1 - Más conectividad</p>
-              <div className={styles.componentPrice}>$63.900</div>
               <Link href="/accesorios/computadoras" className={styles.componentButton}>
                 Ver en Tienda
               </Link>

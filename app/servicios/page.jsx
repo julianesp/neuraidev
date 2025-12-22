@@ -35,7 +35,6 @@ export default function Servicios() {
         "Mantenimiento de Computadores",
         "Instalación de Software",
         "Reparación de Hardware",
-        "Configuración de Redes",
         "Recuperación de Datos",
         "Actualización de Equipos",
       ],
@@ -50,12 +49,9 @@ export default function Servicios() {
         "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/web_develop.png",
       link: "/servicios/desarrollador-software",
       serviciosIncluidos: [
-        "Desarrollo Web",
-        "Aplicaciones Web",
-        "E-Commerce",
-        "APIs y Backend",
-        "Bases de Datos",
-        "Mantenimiento y Soporte",
+        "Desarrollo Web (sitios y aplicaciones)",
+        "E-Commerce (tiendas en línea)",
+        "Landing Pages (páginas de destino)",
       ],
       color: "blue",
     },
@@ -166,24 +162,24 @@ export default function Servicios() {
       </section>
 
       {/* Testimonios o Beneficios */}
-      <section className={styles.beneficios}>
+      <section className={`${styles.beneficios}`}>
         <h2 className={styles.sectionTitle}>¿Por qué elegir mis servicios?</h2>
-        <div className={styles.beneficiosGrid}>
+        <div className={`${styles.beneficiosGrid} ${styles.fadeInUp} flex justify-center items-center`}>
           <div className={styles.beneficioCard}>
             <div className={styles.beneficioIcon}>⚡</div>
             <h3>Respuesta Rápida</h3>
-            <p>Atención inmediata y soluciones eficientes para tus necesidades</p>
+            <p>
+              Atención inmediata y soluciones eficientes para tus necesidades
+            </p>
           </div>
           <div className={styles.beneficioCard}>
             <div className={styles.beneficioIcon}>💯</div>
             <h3>Calidad Garantizada</h3>
             <p>Trabajo profesional con garantía de satisfacción</p>
           </div>
-          <div className={styles.beneficioCard}>
-            <div className={styles.beneficioIcon}>💰</div>
-            <h3>Precios Justos</h3>
-            <p>Tarifas competitivas sin comprometer la calidad</p>
-          </div>
+
+          
+
           <div className={styles.beneficioCard}>
             <div className={styles.beneficioIcon}>🤝</div>
             <h3>Soporte Continuo</h3>

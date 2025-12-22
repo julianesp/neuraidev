@@ -5,27 +5,27 @@ const faqData = [
   {
     question: "¿Cómo puedo realizar una compra?",
     answer:
-      "Para realizar una compra, abre el producto deseado y luego pulsa sobre el botón 'Consultar por WhatsApp' para atenderte de forma personalizada.",
+      "Puedes realizar tu compra de forma directa desde nuestra tienda en línea. Selecciona el producto que deseas, agrégalo al carrito y completa el proceso de pago de manera segura. ¡No necesitas WhatsApp para comprar!",
   },
   {
     question: "¿Cuáles son los métodos de pago aceptados?",
     answer:
-      "Por el momento, se aceptan pagos a través de transferencia a Nequi o Dale! y en efectivo al momento de la entrega.",
+      "Aceptamos todos los métodos de pago disponibles a través de Wompi: tarjetas de crédito, débito, PSE, Nequi, Bancolombia y más. Puedes elegir el que más te convenga al momento de pagar.",
   },
   {
     question: "¿Realizan envíos a todo el país?",
     answer:
-      "Sí, realizamos envíos a todo el país. ENVÍO GRATIS en Valle de Sibundoy - Alto Putumayo para compras desde $50.000. Para otros destinos, los costos de envío se coordinan por WhatsApp. Los tiempos de entrega varían según la ubicación.",
+      "Sí, realizamos envíos a todo el país. Los costos de envío van por cuenta del cliente. ¡IMPORTANTE! Solo aplica ENVÍO GRATIS si tu compra supera los $50.000 COP Y vives en el Valle de Sibundoy. En cualquier otro caso, el envío tiene costo adicional que será calculado según tu ubicación.",
   },
   {
     question: "¿Tienen garantía los productos?",
     answer:
-      "Todos los productos cuentan con garantía. El período de garantía es de un mes. Si el producto presenta algún defecto de fábrica, puedes contactarme para coordinar una solución. Recuerda que la garantía no cubre daños causados por mal uso o accidentes.",
+      "⚠️ IMPORTANTE: Todos nuestros productos tienen garantía de 1 MES contra defectos de fábrica. ⚠️ Después de este periodo, el producto NO TIENE CUBRIMIENTO de garantía. La garantía no cubre daños por mal uso, caídas o accidentes. Asegúrate de verificar tu producto dentro del primer mes.",
   },
   {
     question: "¿Cómo puedo contactar servicio al cliente?",
     answer:
-      "Puedes contactarme a través de las redes sociales que se encuentran en el botón del lado inferior izquierdo de la página o enviando un correo electrónico a través de la sección de contacto al final de la página.",
+      "Puedes contactarnos directamente a través de nuestras redes sociales. Haz clic en el botón con la flecha que se encuentra en el lado izquierdo de la página para acceder a todos nuestros canales de atención.",
   },
 ];
 
@@ -38,31 +38,36 @@ const FAQ = () => {
 
   return (
     <div className={styles.faqContainer}>
-      {faqData.map((item, index) => (
-        <div
-          key={index}
-          className={`${styles.faqItem} ${openItem === index ? styles.active : ""}`}
-        >
-          <button
-            className={`${styles.question}  dark:border-white dark:text-white`}
-            onClick={() => toggleItem(index)}
-            aria-expanded={openItem === index}
-            aria-controls={`faq-answer-${index}`}
-          >
-            <span>{item.question}</span>
-            <span className={styles.arrow}>
-              {openItem === index ? "−" : "+"}
-            </span>
-          </button>
+      {faqData.map((item, index) => {
+        // Identificar la pregunta de garantía (índice 3)
+        const isWarrantyQuestion = index === 3;
+
+        return (
           <div
-            id={`faq-answer-${index}`}
-            className={styles.answer}
-            aria-hidden={openItem !== index}
+            key={index}
+            className={`${styles.faqItem} ${openItem === index ? styles.active : ""} ${isWarrantyQuestion ? styles.warrantyItem : ""}`}
           >
-            {item.answer}
+            <button
+              className={`${styles.question} ${isWarrantyQuestion ? styles.warrantyQuestion : ""} dark:border-white dark:text-white`}
+              onClick={() => toggleItem(index)}
+              aria-expanded={openItem === index}
+              aria-controls={`faq-answer-${index}`}
+            >
+              <span>{item.question}</span>
+              <span className={styles.arrow}>
+                {openItem === index ? "−" : "+"}
+              </span>
+            </button>
+            <div
+              id={`faq-answer-${index}`}
+              className={`${styles.answer} ${isWarrantyQuestion ? styles.warrantyAnswer : ""}`}
+              aria-hidden={openItem !== index}
+            >
+              {item.answer}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

@@ -2,19 +2,13 @@
 
 import React from "react";
 import styles from "./DesarrolladorSoftware.module.scss";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function DesarrolladorSoftware() {
   const tecnologias = [
+    { nombre: "JavaScript", icono: "📜" },
     { nombre: "React", icono: "⚛️" },
     { nombre: "Next.js", icono: "▲" },
-    { nombre: "Node.js", icono: "🟢" },
-    { nombre: "Python", icono: "🐍" },
-    { nombre: "JavaScript", icono: "📜" },
-    { nombre: "TypeScript", icono: "📘" },
-    { nombre: "MongoDB", icono: "🍃" },
-    { nombre: "PostgreSQL", icono: "🐘" },
   ];
 
   const servicios = [
@@ -36,18 +30,18 @@ export default function DesarrolladorSoftware() {
       descripcion: "Tiendas online completas con pasarelas de pago.",
       icono: "🛒",
     },
-    {
-      id: 4,
-      titulo: "APIs y Backend",
-      descripcion: "Desarrollo de APIs RESTful y servicios backend.",
-      icono: "🔌",
-    },
-    {
-      id: 5,
-      titulo: "Bases de Datos",
-      descripcion: "Diseño e implementación de bases de datos eficientes.",
-      icono: "💾",
-    },
+    // {
+    //   id: 4,
+    //   titulo: "APIs y Backend",
+    //   descripcion: "Desarrollo de APIs RESTful y servicios backend.",
+    //   icono: "🔌",
+    // },
+    // {
+    //   id: 5,
+    //   titulo: "Bases de Datos",
+    //   descripcion: "Diseño e implementación de bases de datos eficientes.",
+    //   icono: "💾",
+    // },
     {
       id: 6,
       titulo: "Mantenimiento",
@@ -61,7 +55,7 @@ export default function DesarrolladorSoftware() {
       id: 1,
       titulo: "E-Commerce Multiproducto",
       descripcion: "Plataforma de ventas con múltiples categorías",
-      tecnologias: ["Next.js", "React", "PostgreSQL"],
+      tecnologias: ["Next.js", "Tailwind", "Supabase", "Clerk"],
     },
     {
       id: 2,
@@ -94,26 +88,17 @@ export default function DesarrolladorSoftware() {
       <section className={styles.about}>
         <div className={styles.aboutContent}>
           <div className={styles.aboutText}>
-            <h2>Sobre Mí</h2>
+            <h2>Sobre el Servicio</h2>
             <p>
-              Soy desarrollador web con experiencia en crear aplicaciones
-              web modernas y escalables. Me especializo en React, Next.js y
-              tecnologías del ecosistema JavaScript.
+              Desarrollo web con experiencia en crear aplicaciones web modernas
+              y escalables. Especialización en React, Next.js y tecnologías del
+              ecosistema JavaScript.
             </p>
             <p>
-              Mi enfoque es construir productos digitales que no solo se vean bien,
-              sino que funcionen de manera óptima y generen resultados reales para
-              tu negocio.
+              El enfoque es construir productos digitales que no solo se vean
+              bien, sino que funcionen de manera óptima y generen resultados
+              reales para tu negocio.
             </p>
-          </div>
-          <div className={styles.aboutImage}>
-            <Image
-              src="/images/dev-software.png"
-              alt="Desarrollador Web"
-              width={500}
-              height={400}
-              className={styles.image}
-            />
           </div>
         </div>
       </section>
@@ -137,7 +122,9 @@ export default function DesarrolladorSoftware() {
             <div key={servicio.id} className={styles.serviceCard}>
               <div className={styles.serviceIcon}>{servicio.icono}</div>
               <h3 className={styles.serviceTitle}>{servicio.titulo}</h3>
-              <p className={styles.serviceDescription}>{servicio.descripcion}</p>
+              <p className={styles.serviceDescription}>
+                {servicio.descripcion}
+              </p>
             </div>
           ))}
         </div>
@@ -145,11 +132,17 @@ export default function DesarrolladorSoftware() {
 
       <section className={styles.projects}>
         <h2 className={styles.sectionTitle}>Proyectos Destacados</h2>
-        <div className={styles.projectsGrid}>
+
+        <div className={`${styles.projectsGrid} `}>
           {proyectos.map((proyecto) => (
-            <div key={proyecto.id} className={styles.projectCard}>
+            <div
+              key={proyecto.id}
+              className={`${styles.projectCard}  border border-black `}
+            >
               <h3 className={styles.projectTitle}>{proyecto.titulo}</h3>
-              <p className={styles.projectDescription}>{proyecto.descripcion}</p>
+              <p className={styles.projectDescription}>
+                {proyecto.descripcion}
+              </p>
               <div className={styles.projectTech}>
                 {proyecto.tecnologias.map((tech, index) => (
                   <span key={index} className={styles.techBadge}>

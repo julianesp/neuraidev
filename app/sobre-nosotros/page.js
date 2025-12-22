@@ -52,25 +52,25 @@ export default function SobreNosotros() {
 
   const milestones = [
     {
-      year: "2018",
-      title: "Inicio de Operaciones",
-      description:
-        "Comenzamos como una pequeña tienda de accesorios tecnológicos",
-    },
-    {
       year: "2020",
-      title: "Expansión de Servicios",
-      description: "Agregamos servicios de desarrollo web y soporte técnico",
+      title: "Inicio de formación en desarrollo web",
+      description: "Comienzo del camino en tecnología y desarrollo de software",
     },
     {
-      year: "2022",
-      title: "Plataforma Online",
-      description: "Lanzamiento de nuestra tienda online www.neurai.dev",
+      year: "2021",
+      title: "Tienda Física",
+      description:
+        "Apertura de la tienda física de accesorios tecnológicos para computadores, celulares y soporte técnico en sistemas",
     },
     {
-      year: "2024",
-      title: "Crecimiento Continuo",
-      description: "Más de 1000 clientes satisfechos y servicios ampliados",
+      year: "2023",
+      title: "Legalización de neurai.dev",
+      description: "Constitución legal de la empresa y expansión de servicios",
+    },
+    {
+      year: "2025",
+      title: "Lanzamiento de la Plataforma en Línea",
+      description: "Desarrollo y lanzamiento de la tienda en línea y servicios",
     },
   ];
 
@@ -359,7 +359,7 @@ export default function SobreNosotros() {
                 Mantenimiento, reparación y actualización de equipos
               </p>
               <Link
-                href="/servicios/tecnicos"
+                href="/servicios/tecnico-sistemas"
                 className="text-blue-600 dark:text-white hover:underline"
               >
                 Más información →
@@ -376,8 +376,8 @@ export default function SobreNosotros() {
             ¿Tienes Preguntas?
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-            Nuestro equipo está listo para ayudarte. Contáctanos por cualquiera
-            de nuestros canales.
+            Tendrás toda la atención para ayudarte. Contáctanos por cualquiera
+            de nuestras redes sociales o a través de los siguientes canales.
           </p>
           <div className="grid md:grid-cols-3 gap-6">
             {/* <a
@@ -392,7 +392,6 @@ export default function SobreNosotros() {
                 +57 317 450 3604
               </p>
             </a> */}
-
 
             <Link
               href="https://wa.me/573174503604"
@@ -414,9 +413,7 @@ export default function SobreNosotros() {
               <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
                 Email
               </h3>
-              <p className="text-blue-600 dark:text-white">
-                admin@neurai.dev
-              </p>
+              <p className="text-blue-600 dark:text-white">admin@neurai.dev</p>
             </Link>
           </div>
         </div>

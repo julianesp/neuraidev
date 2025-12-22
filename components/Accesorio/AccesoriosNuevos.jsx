@@ -5,6 +5,7 @@ import { obtenerAccesoriosDestacados } from "../accesoriosService";
 import Image from "next/image";
 import style from "@/styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
+import { htmlToPlainText } from "@/utils/htmlToText";
 
 /**
  * Componente para mostrar accesorios destacados
@@ -257,7 +258,7 @@ const AccesoriosNuevos = () => {
             <div className="p-2 w-56">
               <h3 className="font-semibold text-lg">{accesorio.nombre}</h3>
               <p className="text-black mt-1 text-sm line-clamp-2 dark:text-white">
-                {accesorio.descripcion}
+                {htmlToPlainText(accesorio.descripcion, 100)}
               </p>
               <div className="mt-2 flex items-center">
                 <span className="font-bold text-lg">

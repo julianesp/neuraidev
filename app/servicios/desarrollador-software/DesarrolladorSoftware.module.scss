@@ -84,7 +84,13 @@
 }
 
 .about {
-  padding: 80px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0 auto;
+  padding: 40px 20px;
+
   background: white;
 }
 
@@ -96,13 +102,29 @@
   gap: 60px;
   align-items: center;
 
-  @media (max-width: 968px) {
+  // A partir de 768px centrar ambos (texto + imagen) y centrar el contenido de cada columna
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    justify-items: center; // centra horizontalmente cada celda
+    align-items: center;
+  }
+
+  // En pantallas pequeñas (<= 767px) usar una sola columna
+  @media (max-width: 767px) {
     grid-template-columns: 1fr;
     gap: 40px;
   }
 }
 
 .aboutText {
+  text-align: left;
+
+  @media (min-width: 768px) {
+    /* Centrar el texto horizontalmente en pantallas >=768px */
+    text-align: center;
+    max-width: 640px;
+  }
   h2 {
     font-size: 2.5rem;
     color: #2d3748;
@@ -122,11 +144,21 @@
 }
 
 .aboutImage {
+  width: 300px;
+  height: 300px;
+
+  border-radius: 50%;
+
+  @media (min-width: 768px) {
+    width: 360px;
+    height: 360px;
+  }
+
   .image {
     width: 100%;
     height: auto;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    border-radius: inherit;
+    box-shadow: 0 10px 40px rgba(83, 79, 79, 0.1);
   }
 }
 
@@ -154,13 +186,13 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 
-  @media (max-width: 968px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  // @media (max-width: 968px) {
+  //   grid-template-columns: repeat(3, 1fr);
+  // }
 
-  @media (max-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  // @media (max-width: 640px) {
+  //   grid-template-columns: repeat(2, 1fr);
+  // }
 }
 
 .techCard {
