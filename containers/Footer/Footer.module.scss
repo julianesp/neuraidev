@@ -17,8 +17,12 @@
   padding: 10px;
   bottom: 8px;
   left: 5px;
-  background-color: v.$color-fondo;
-  background: linear-gradient(to bottom, v.$color-fondo, v.$color-fondo);
+  background-color: v.$color-primario;
+  background: linear-gradient(
+    to bottom,
+    v.$color-primario,
+    v.$color-primario-oscuro
+  );
   box-shadow:
     0 6px 0 v.$color-primario,
     /* Sombra base (profundidad) */ 0 8px 10px rgba(0, 0, 0, 0.3); /* Sombra exterior */
@@ -44,11 +48,11 @@
   &:hover {
     background: linear-gradient(
       to bottom,
-      v.$color-secundario,
+      v.$color-primario-oscuro,
       v.$color-primario
     );
     box-shadow:
-      0 6px 0 v.$color-sombra,
+      0 6px 0 v.$color-primario-oscuro,
       0 10px 15px rgba(0, 0, 0, 0.4);
   }
 
@@ -109,7 +113,6 @@
   height: 120px;
 
   border-radius: 50%;
-
 }
 
 .brandName {
@@ -186,7 +189,6 @@
 }
 
 .linkColumn {
-
   h4 {
     margin: 0 0 20px 0;
   }

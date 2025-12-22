@@ -231,8 +231,8 @@
   padding: 16px 24px;
   font-size: 1.1rem;
   font-weight: 600;
-  color: white;
-  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  color: white !important;
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%) !important;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -243,14 +243,27 @@
   gap: 10px;
   box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
   margin-top: 10px;
+  text-decoration: none;
+
+  // Asegurar que el SVG también sea blanco
+  svg {
+    color: white !important;
+    fill: white !important;
+  }
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    color: white !important;
   }
 
   &:active {
     transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   @media (max-width: 480px) {

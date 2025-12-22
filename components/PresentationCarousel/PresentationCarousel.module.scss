@@ -1,3 +1,5 @@
+@use "../../styles/variables";
+
 // PresentationCarousel.module.scss
 .carouselContainer {
   width: 100%;
@@ -107,19 +109,20 @@
 
 .seeMoreButton {
   display: inline-block;
+  
   background: linear-gradient(135deg, #0070f3 0%, #0059c9 100%);
-  color: white;
-  padding: 12px 32px;
+  // color: white;
+  // padding: 12px 32px;
   border-radius: 25px;
-  text-decoration: none;
+  // text-decoration: none;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 112, 243, 0.3);
   position: absolute;
   z-index: 105; // Mayor que el carouselContainer
 
-  bottom: 50px; // 50px desde el bottom
+  // bottom: 5px; // Posicionado entre el texto y los indicadores
   left: 50%;
   transform: translateX(-50%);
 
@@ -136,13 +139,13 @@
   @media (max-width: 768px) {
     padding: 10px 24px;
     font-size: 1rem;
-    bottom: 40px;
+    bottom: 30px;
   }
 
   @media (max-width: 480px) {
     padding: 8px 20px;
     font-size: 0.9rem;
-    bottom: 30px;
+    bottom: 25px;
   }
 }
 
@@ -210,6 +213,64 @@
 
   &:hover {
     background: rgba(255, 255, 255, 0.8);
+  }
+}
+
+// Botón Play/Pause
+.playPauseButton {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 105;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    bottom: 18px;
+    left: 15px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: 35px;
+    height: 35px;
+    bottom: 15px;
+    left: 12px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
 }
 

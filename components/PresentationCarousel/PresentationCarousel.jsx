@@ -8,6 +8,7 @@ import styles from "./PresentationCarousel.module.scss";
 const PresentationCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   // Datos del carrusel con imágenes y enlaces
   const slides = [
@@ -46,14 +47,16 @@ const PresentationCarousel = () => {
     // },
   ];
 
-  // Auto-slide cada 5 segundos
+  // Auto-slide cada 5 segundos (solo si isPlaying es true)
   useEffect(() => {
+    if (!isPlaying) return;
+
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [slides.length]);
+  }, [slides.length, isPlaying]);
 
   // Marcar como cargado después del montaje y asegurar scroll al inicio
   useEffect(() => {
@@ -151,6 +154,36 @@ const PresentationCarousel = () => {
             />
           ))}
         </div>
+
+        {/* Botón Play/Pause */}
+        <button
+          className={styles.playPauseButton}
+          onClick={() => setIsPlaying(!isPlaying)}
+          aria-label={isPlaying ? "Pausar carrusel" : "Reproducir carrusel"}
+          title="Pausar / Reproducir"
+        >
+          {isPlaying ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          )}
+        </button>
       </div>
     </div>
   );

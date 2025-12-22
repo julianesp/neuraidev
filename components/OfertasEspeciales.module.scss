@@ -301,7 +301,7 @@
 .offerCard:hover {
   transform: translateY(-1px);
   // box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-  border-color: var.$color-sombra;
+  border-color: var.$color-primario-oscuro;
 }
 
 .offerCard.popular {
@@ -472,7 +472,7 @@
 .ctaButton {
   display: block;
   width: 100%;
-  background: var.$color-white;
+  background: var.$color-primario-claro;
   color: #000;
   padding: 1rem 2rem;
   border: 1px solid #ccc;
@@ -482,19 +482,19 @@
   cursor: pointer;
   transition: all 0.3s ease;
   // box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
-  box-shadow: 0px 10px 1px var.$color-sombra;
+  box-shadow: 0px 10px 1px var.$color-primario-oscuro;
   text-decoration: none;
   text-align: center;
 }
 
 .ctaButton:hover {
   transform: translateY(3px);
-  box-shadow: 0px 2px 1px var.$color-sombra;
+  box-shadow: 0px 2px 1px var.$color-primario-oscuro;
 }
 
 .ctaButton:active {
   transform: translateY(5px);
-  box-shadow: 0px 1px 0px var.$color-sombra;
+  box-shadow: 0px 1px 0px var.$color-primario-oscuro;
   transition: all 0.1s ease;
 }
 
