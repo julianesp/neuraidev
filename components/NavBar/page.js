@@ -21,10 +21,12 @@ const NavBar = () => {
   const [burgerOpen, setBurgerOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [serviciosDropdownOpen, setServiciosDropdownOpen] = useState(false);
+  const [negociosDropdownOpen, setNegociosDropdownOpen] = useState(false);
   const [imageError, setImageError] = useState({});
   const menuRef = useRef(null);
   const dropdownRef = useRef(null);
   const serviciosDropdownRef = useRef(null);
+  const negociosDropdownRef = useRef(null);
 
   // Define unique ID for the logo image
   const logoImageId = "navbar-logo";
@@ -43,12 +45,21 @@ const NavBar = () => {
     e.preventDefault();
     setDropdownOpen(!dropdownOpen);
     setServiciosDropdownOpen(false); // Close other dropdown
+    setNegociosDropdownOpen(false); // Close other dropdown
   };
 
   const toggleServiciosDropdown = (e) => {
     e.preventDefault();
     setServiciosDropdownOpen(!serviciosDropdownOpen);
     setDropdownOpen(false); // Close other dropdown
+    setNegociosDropdownOpen(false); // Close other dropdown
+  };
+
+  const toggleNegociosDropdown = (e) => {
+    e.preventDefault();
+    setNegociosDropdownOpen(!negociosDropdownOpen);
+    setDropdownOpen(false); // Close other dropdown
+    setServiciosDropdownOpen(false); // Close other dropdown
   };
 
   // Manejadores de hover para desktop
@@ -56,6 +67,7 @@ const NavBar = () => {
     if (window.innerWidth >= 1024) {
       setDropdownOpen(true);
       setServiciosDropdownOpen(false);
+      setNegociosDropdownOpen(false);
     }
   };
 
@@ -67,6 +79,7 @@ const NavBar = () => {
     if (window.innerWidth >= 1024) {
       setServiciosDropdownOpen(true);
       setDropdownOpen(false);
+      setNegociosDropdownOpen(false);
     }
   };
 
@@ -74,10 +87,23 @@ const NavBar = () => {
     // No hacer nada aquí - el dropdown se cerrará solo cuando el mouse salga completamente
   };
 
+  const handleNegociosMouseEnter = () => {
+    if (window.innerWidth >= 1024) {
+      setNegociosDropdownOpen(true);
+      setDropdownOpen(false);
+      setServiciosDropdownOpen(false);
+    }
+  };
+
+  const handleNegociosMouseLeave = () => {
+    // No hacer nada aquí - el dropdown se cerrará solo cuando el mouse salga completamente
+  };
+
   const handleLinkClick = () => {
     setBurgerOpen(false); // Close the menu when a link is clicked
     setDropdownOpen(false); // Close the dropdown when a link is clicked
     setServiciosDropdownOpen(false); // Close the servicios dropdown when a link is clicked
+    setNegociosDropdownOpen(false); // Close the negocios dropdown when a link is clicked
   };
 
   const handleOutsideClick = (event) => {
@@ -96,6 +122,14 @@ const NavBar = () => {
       !serviciosDropdownRef.current.contains(event.target)
     ) {
       setServiciosDropdownOpen(false);
+    }
+
+    // Close negocios dropdown when clicking outside of it
+    if (
+      negociosDropdownRef.current &&
+      !negociosDropdownRef.current.contains(event.target)
+    ) {
+      setNegociosDropdownOpen(false);
     }
   };
 
@@ -293,6 +327,46 @@ const NavBar = () => {
                     Desarrollador Web
                   </Link>
                 </li>
+              </ul>
+            )}
+          </li>
+
+          {/* Dropdown de Negocios Externos */}
+          <li
+            role="none"
+            ref={negociosDropdownRef}
+            className={styles.dropdownContainer}
+            onMouseEnter={handleNegociosMouseEnter}
+            onMouseLeave={() => {
+              if (window.innerWidth >= 1024) {
+                setTimeout(() => setNegociosDropdownOpen(false), 300);
+              }
+            }}
+          >
+            <Link
+              href="#"
+              title="Ver negocios aliados"
+              onClick={(e) => {
+                e.preventDefault();
+                if (window.innerWidth < 1024) {
+                  toggleNegociosDropdown(e);
+                }
+              }}
+            >
+              Del Valle ▾
+            </Link>
+            {negociosDropdownOpen && (
+              <ul className={styles.dropdown}>
+                <li>
+                  <Link
+                    href="/selecta"
+                    onClick={handleLinkClick}
+                    title="Escuchar Selecta FM en vivo"
+                  >
+                    📻 Selecta FM 93.3
+                  </Link>
+                </li>
+                {/* Aquí puedes agregar más negocios externos en el futuro */}
               </ul>
             )}
           </li>
