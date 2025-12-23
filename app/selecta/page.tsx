@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Play, Pause, Volume2, Radio } from "lucide-react";
+import { Play, Pause, Volume2, Radio, Users } from "lucide-react";
+import { createClient } from "@supabase/supabase-js";
 
 interface StreamConfig {
   // Reemplaza estas URLs con las reales de Selecta FM
@@ -35,22 +36,147 @@ const SELECTA_FM: StreamConfig = {
   },
 };
 
+// Inicializar Supabase Client
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
 export default function SelectaFMPage() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(70);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [listeners, setListeners] = useState(1250);
+  const [listeners, setListeners] = useState(0);
+  const sessionIdRef = useRef<string | null>(null);
 
-  // Simular contador de oyentes
+  // Inicializar Media Session API para reproducción en segundo plano
   useEffect(() => {
-    const interval = setInterval(() => {
-      setListeners((prev) =>
-        Math.max(800, prev + Math.floor(Math.random() * 200) - 100),
-      );
-    }, 5000);
-    return () => clearInterval(interval);
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: SELECTA_FM.name,
+        artist: SELECTA_FM.frequency,
+        album: 'En Vivo',
+        artwork: [
+          {
+            src: SELECTA_FM.image,
+            sizes: '512x512',
+            type: 'image/jpeg',
+          },
+        ],
+      });
+
+      // Configurar controles de reproducción
+      navigator.mediaSession.setActionHandler('play', () => {
+        audioRef.current?.play();
+        setIsPlaying(true);
+      });
+
+      navigator.mediaSession.setActionHandler('pause', () => {
+        audioRef.current?.pause();
+        setIsPlaying(false);
+      });
+
+      navigator.mediaSession.setActionHandler('stop', () => {
+        audioRef.current?.pause();
+        setIsPlaying(false);
+      });
+    }
+  }, []);
+
+  // Tracking de oyentes en tiempo real con Supabase
+  useEffect(() => {
+    let listenerInterval: NodeJS.Timeout;
+
+    const initializeSession = async () => {
+      try {
+        // Generar ID de sesión único
+        const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        sessionIdRef.current = sessionId;
+
+        // Registrar nuevo oyente
+        const { error } = await supabase
+          .from('radio_listeners')
+          .insert({
+            session_id: sessionId,
+            station: 'selecta_fm',
+            connected_at: new Date().toISOString(),
+            last_heartbeat: new Date().toISOString(),
+          });
+
+        if (error) {
+          console.error('Error al registrar oyente:', error);
+        }
+
+        // Heartbeat cada 30 segundos para mantener sesión activa
+        listenerInterval = setInterval(async () => {
+          if (sessionIdRef.current) {
+            await supabase
+              .from('radio_listeners')
+              .update({
+                last_heartbeat: new Date().toISOString(),
+              })
+              .eq('session_id', sessionIdRef.current);
+          }
+        }, 30000);
+
+      } catch (err) {
+        console.error('Error inicializando sesión:', err);
+      }
+    };
+
+    // Suscribirse a cambios en tiempo real
+    const channel = supabase
+      .channel('radio_listeners_channel')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'radio_listeners',
+          filter: `station=eq.selecta_fm`,
+        },
+        () => {
+          // Actualizar contador cuando hay cambios
+          fetchListenerCount();
+        }
+      )
+      .subscribe();
+
+    // Obtener conteo inicial
+    const fetchListenerCount = async () => {
+      const { count, error } = await supabase
+        .from('radio_listeners')
+        .select('*', { count: 'exact', head: true })
+        .eq('station', 'selecta_fm')
+        .gte('last_heartbeat', new Date(Date.now() - 120000).toISOString()); // Últimos 2 minutos
+
+      if (!error && count !== null) {
+        setListeners(count);
+      }
+    };
+
+    initializeSession();
+    fetchListenerCount();
+
+    // Cleanup al desmontar
+    return () => {
+      if (listenerInterval) clearInterval(listenerInterval);
+
+      // Eliminar sesión al salir
+      if (sessionIdRef.current) {
+        supabase
+          .from('radio_listeners')
+          .delete()
+          .eq('session_id', sessionIdRef.current)
+          .then(() => {
+            console.log('Sesión de oyente eliminada');
+          });
+      }
+
+      channel.unsubscribe();
+    };
   }, []);
 
   const togglePlay = async () => {
@@ -89,7 +215,7 @@ export default function SelectaFMPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 mt-14">
       {/* Fondo con patrón */}
       <div className="fixed inset-0 opacity-5">
         <div
@@ -116,10 +242,11 @@ export default function SelectaFMPage() {
               </div>
             </div>
             <div className="text-right">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
+              <div className="flex items-center gap-2 bg-black/40 px-4 py-2 rounded-full">
+                <Users className="w-4 h-4 text-green-400" />
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                 <span className="text-sm font-semibold text-white">
-                  {listeners.toLocaleString()} oyentes
+                  {listeners} oyente{listeners !== 1 ? 's' : ''} en vivo
                 </span>
               </div>
             </div>

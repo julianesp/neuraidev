@@ -195,6 +195,14 @@ export default function PedidosPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 flex justify-between items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Pedidos
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
+              Gestiona y rastrea todos los pedidos de tu tienda
+            </p>
+          </div>
           <div className="flex items-center gap-3">
             <button
               onClick={toggleSidebar}
@@ -203,16 +211,6 @@ export default function PedidosPage() {
             >
               <Menu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             </button>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                Pedidos
-              </h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">
-                Gestiona y rastrea todos los pedidos de tu tienda
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
             {selectedOrders.length > 0 && (
               <button
                 onClick={handleBulkDelete}
