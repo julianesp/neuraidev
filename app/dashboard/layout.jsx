@@ -29,7 +29,7 @@ export const useSidebar = () => {
 export default function DashboardLayout({ children }) {
   const { user, isLoaded } = useUser();
   const pathname = usePathname();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Cerrado por defecto, se carga desde localStorage
 
   const navigation = [
     {
@@ -69,6 +69,10 @@ export default function DashboardLayout({ children }) {
     const saved = localStorage.getItem("dashboard-sidebar-open");
     if (saved !== null) {
       setSidebarOpen(saved === "true");
+    } else {
+      // Si no hay estado guardado, abierto en desktop, cerrado en móvil
+      const isDesktop = window.innerWidth >= 1024;
+      setSidebarOpen(isDesktop);
     }
   }, []);
 
@@ -93,16 +97,17 @@ export default function DashboardLayout({ children }) {
     <AdminGuard>
       <SidebarContext.Provider value={{ sidebarOpen, toggleSidebar }}>
         <div className="min-h-screen bg-gray-50 mt-8">
-          {/* Mobile sidebar toggle */}
-          <div className="lg:hidden fixed top-4 left-4 z-50">
+          {/* Mobile sidebar toggle - Posicionado para no interferir con navbar */}
+          <div className="lg:hidden fixed top-20 left-4 z-50">
             <button
               onClick={toggleSidebar}
-              className="p-2 rounded-md bg-white shadow-md"
+              className="p-3 rounded-lg bg-blue-600 hover:bg-blue-700 shadow-lg text-white transition-colors"
+              aria-label={sidebarOpen ? "Cerrar menú" : "Abrir menú"}
             >
               {sidebarOpen ? (
-                <X className="h-6 w-6 text-gray-600" />
+                <X className="h-6 w-6" />
               ) : (
-                <Menu className="h-6 w-6 text-gray-600" />
+                <Menu className="h-6 w-6" />
               )}
             </button>
           </div>
