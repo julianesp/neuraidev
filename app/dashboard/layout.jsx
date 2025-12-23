@@ -9,12 +9,27 @@ import {
   Package,
   ShoppingCart,
   Settings,
+  Menu,
+  X,
 } from "lucide-react";
+import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
+
+// Create context for sidebar state
+const SidebarContext = createContext();
+
+export const useSidebar = () => {
+  const context = useContext(SidebarContext);
+  if (!context) {
+    throw new Error("useSidebar must be used within SidebarProvider");
+  }
+  return context;
+};
 
 export default function DashboardLayout({ children }) {
   const { user, isLoaded } = useUser();
   const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Cerrado por defecto, se carga desde localStorage
 
   const navigation = [
     {
@@ -49,6 +64,27 @@ export default function DashboardLayout({ children }) {
     },
   ];
 
+  // Load sidebar state from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("dashboard-sidebar-open");
+    if (saved !== null) {
+      setSidebarOpen(saved === "true");
+    } else {
+      // Si no hay estado guardado, abierto en desktop, cerrado en móvil
+      const isDesktop = window.innerWidth >= 1024;
+      setSidebarOpen(isDesktop);
+    }
+  }, []);
+
+  // Save sidebar state to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem("dashboard-sidebar-open", sidebarOpen.toString());
+  }, [sidebarOpen]);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   if (!isLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -59,9 +95,29 @@ export default function DashboardLayout({ children }) {
 
   return (
     <AdminGuard>
-      <div className="min-h-screen bg-gray-50 mt-8">
-        {/* Sidebar - Siempre visible */}
-        <aside className="fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-gray-900 shadow-lg">
+      <SidebarContext.Provider value={{ sidebarOpen, toggleSidebar }}>
+        <div className="min-h-screen bg-gray-50 mt-8">
+          {/* Mobile sidebar toggle - Posicionado para no interferir con navbar */}
+          <div className="lg:hidden fixed top-20 left-4 z-50">
+            <button
+              onClick={toggleSidebar}
+              className="p-3 rounded-lg bg-blue-600 hover:bg-blue-700 shadow-lg text-white transition-colors"
+              aria-label={sidebarOpen ? "Cerrar menú" : "Abrir menú"}
+            >
+              {sidebarOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
+
+          {/* Sidebar */}
+          <aside
+            className={`fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-gray-900 shadow-lg transform transition-transform duration-300 ease-in-out ${
+              sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
           <div className="flex flex-col h-full">
             {/* Logo */}
             <div className="flex items-center justify-between h-16 px-6 border-b flex-shrink-0 mt-12">
@@ -118,10 +174,19 @@ export default function DashboardLayout({ children }) {
         </aside>
 
         {/* Main content */}
-        <div className="pl-64 min-h-screen dark:bg-gray-700">
+        <div className={`transition-all duration-300 min-h-screen dark:bg-gray-700 ${sidebarOpen ? 'lg:pl-64' : 'lg:pl-0'}`}>
           <main className="p-6 lg:p-8 pb-24">{children}</main>
         </div>
+
+        {/* Overlay for mobile */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+            onClick={toggleSidebar}
+          />
+        )}
       </div>
+      </SidebarContext.Provider>
     </AdminGuard>
   );
 }

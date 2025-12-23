@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ShoppingCart, Package, Truck, CheckCircle, XCircle, Search, Filter, RefreshCw, Trash2 } from "lucide-react";
+import { ShoppingCart, Package, Truck, CheckCircle, XCircle, Search, Filter, RefreshCw, Menu, Trash2 } from "lucide-react";
+import { useSidebar } from "../layout";
 
 export default function PedidosPage() {
+  const { toggleSidebar } = useSidebar();
   const [filtroEstado, setFiltroEstado] = useState("");
   const [pedidos, setPedidos] = useState([]);
   const [stats, setStats] = useState({
@@ -193,13 +195,22 @@ export default function PedidosPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 flex justify-between items-center gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Pedidos
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
-              Gestiona y rastrea todos los pedidos de tu tienda
-            </p>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggleSidebar}
+              className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              title="Ocultar/Mostrar barra lateral"
+            >
+              <Menu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            </button>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Pedidos
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 mt-1">
+                Gestiona y rastrea todos los pedidos de tu tienda
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-3">
             {selectedOrders.length > 0 && (
