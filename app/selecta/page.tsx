@@ -29,7 +29,7 @@ const SELECTA_FM: StreamConfig = {
   description: "Valle de Sibundoy, Putumayo - Música en vivo 24/7",
   image: "https://selectafm.com/wp-content/uploads/2024/02/selecta-logo.jpg",
   social: {
-    facebook: "https://www.facebook.com/SelectaFMSibundoy",
+    facebook: "https://www.facebook.com/selectaradiotv",
     instagram: "https://www.instagram.com/selectafm933",
     whatsapp: "https://wa.me/573174503604",
     website: "https://selectafm.com",
@@ -345,16 +345,16 @@ export default function SelectaFMPage() {
         </header>
 
         {/* Main Content */}
-        <main className="max-w-4xl mx-auto px-4 py-12">
+        <main className="max-w-4xl mx-auto px-4 py-4">
           {/* Card Principal del Reproductor */}
           <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-12 mb-8 shadow-2xl">
             {/* Albumart / Logo */}
             <div className="flex justify-center mb-10">
-              <div className="w-40 h-40 rounded-2xl bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 shadow-2xl flex items-center justify-center overflow-hidden relative group">
+              <div className="w-auto h-auto rounded-2xl bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 shadow-2xl flex items-center justify-center overflow-hidden relative group">
                 <img
                   src={SELECTA_FM.image}
                   alt={SELECTA_FM.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="w-full h-full object-cover  transition-transform duration-300"
                 />
                 {isPlaying && (
                   <div className="absolute inset-0 bg-black/30 animate-pulse" />
@@ -485,7 +485,7 @@ export default function SelectaFMPage() {
               </button>
 
               {/* Twitter/X */}
-              <button
+              {/* <button
                 onClick={handleShareTwitter}
                 className="px-6 py-3 bg-black hover:bg-gray-900 text-white rounded-lg font-semibold transition-colors flex items-center gap-2 shadow-lg"
               >
@@ -493,7 +493,7 @@ export default function SelectaFMPage() {
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
                 X (Twitter)
-              </button>
+              </button> */}
 
               {/* Copiar Enlace */}
               <button
@@ -580,7 +580,7 @@ export default function SelectaFMPage() {
                   👍 Facebook
                 </a>
               )}
-              {SELECTA_FM.social.instagram && (
+              {/* {SELECTA_FM.social.instagram && (
                 <a
                   href={SELECTA_FM.social.instagram}
                   target="_blank"
@@ -589,7 +589,7 @@ export default function SelectaFMPage() {
                 >
                   📷 Instagram
                 </a>
-              )}
+              )} */}
               {SELECTA_FM.social.whatsapp && (
                 <a
                   href={SELECTA_FM.social.whatsapp}
@@ -600,7 +600,7 @@ export default function SelectaFMPage() {
                   💬 WhatsApp
                 </a>
               )}
-              {SELECTA_FM.social.website && (
+              {/* {SELECTA_FM.social.website && (
                 <a
                   href={SELECTA_FM.social.website}
                   target="_blank"
@@ -609,7 +609,7 @@ export default function SelectaFMPage() {
                 >
                   🌐 Sitio Web
                 </a>
-              )}
+              )} */}
             </div>
           </div>
         </main>
