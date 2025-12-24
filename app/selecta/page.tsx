@@ -89,10 +89,22 @@ export default function SelectaFMPage() {
   useEffect(() => {
     let listenerInterval: NodeJS.Timeout;
 
+    const deleteSession = async (sessionId: string) => {
+      try {
+        await supabase
+          .from('radio_listeners')
+          .delete()
+          .eq('session_id', sessionId);
+        console.log('Sesión eliminada:', sessionId);
+      } catch (err) {
+        console.error('Error eliminando sesión:', err);
+      }
+    };
+
     const initializeSession = async () => {
       try {
         // Generar ID de sesión único
-        const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
         sessionIdRef.current = sessionId;
 
         // Registrar nuevo oyente
@@ -107,17 +119,23 @@ export default function SelectaFMPage() {
 
         if (error) {
           console.error('Error al registrar oyente:', error);
+        } else {
+          console.log('Sesión registrada:', sessionId);
         }
 
         // Heartbeat cada 30 segundos para mantener sesión activa
         listenerInterval = setInterval(async () => {
           if (sessionIdRef.current) {
-            await supabase
+            const { error: updateError } = await supabase
               .from('radio_listeners')
               .update({
                 last_heartbeat: new Date().toISOString(),
               })
               .eq('session_id', sessionIdRef.current);
+
+            if (!updateError) {
+              console.log('Heartbeat enviado');
+            }
           }
         }, 30000);
 
@@ -150,29 +168,50 @@ export default function SelectaFMPage() {
         .from('radio_listeners')
         .select('*', { count: 'exact', head: true })
         .eq('station', 'selecta_fm')
-        .gte('last_heartbeat', new Date(Date.now() - 120000).toISOString()); // Últimos 2 minutos
+        .gte('last_heartbeat', new Date(Date.now() - 45000).toISOString()); // Últimos 45 segundos
 
       if (!error && count !== null) {
         setListeners(count);
       }
     };
 
+    // Listener para detectar cuando se cierra/recarga la página
+    const handleBeforeUnload = () => {
+      if (sessionIdRef.current) {
+        // Usar sendBeacon para asegurar que se envíe incluso al cerrar
+        const data = new FormData();
+        data.append('session_id', sessionIdRef.current);
+
+        // Intentar eliminar usando fetch síncrono
+        navigator.sendBeacon(
+          '/api/radio/remove-listener',
+          JSON.stringify({ session_id: sessionIdRef.current })
+        );
+
+        // También intentar eliminar directamente (backup)
+        deleteSession(sessionIdRef.current);
+      }
+    };
+
+    // Agregar event listener para beforeunload
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
     initializeSession();
     fetchListenerCount();
 
+    // Actualizar contador cada 10 segundos
+    const countInterval = setInterval(fetchListenerCount, 10000);
+
     // Cleanup al desmontar
     return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+
       if (listenerInterval) clearInterval(listenerInterval);
+      if (countInterval) clearInterval(countInterval);
 
       // Eliminar sesión al salir
       if (sessionIdRef.current) {
-        supabase
-          .from('radio_listeners')
-          .delete()
-          .eq('session_id', sessionIdRef.current)
-          .then(() => {
-            console.log('Sesión de oyente eliminada');
-          });
+        deleteSession(sessionIdRef.current);
       }
 
       channel.unsubscribe();
