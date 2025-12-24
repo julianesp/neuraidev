@@ -258,10 +258,9 @@ export default function SelectaFMPage() {
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
 
-  // Función para compartir en Facebook
+  // Función para abrir página de Facebook
   const handleShareFacebook = () => {
-    const url = encodeURIComponent(shareUrl);
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+    window.open('https://www.facebook.com/selectaradiotv', '_blank');
   };
 
   // Función para compartir en Twitter/X
