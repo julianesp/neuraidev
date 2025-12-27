@@ -3,8 +3,10 @@ import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 import { loadProductBySlug } from "@/utils/loadCategoryProducts";
 import { generateProductMetadata } from "@/utils/productMetadata";
 
-// Forzar renderizado dinámico
-export const dynamic = "force-dynamic";
+// Forzar renderizado estático en build time para mejor SEO
+export const dynamic = "force-static";
+export const dynamicParams = true;
+export const revalidate = 3600; // Revalidar cada hora
 
 // Generar metadatos dinámicos
 export async function generateMetadata({ params }) {
