@@ -198,8 +198,18 @@ export async function generateProductMetadata(slug, categoria) {
 
   // Construir array de imágenes para metadatos
   // Usar imagen_principal o la primera del array de imagenes
-  const imagenPrincipal = producto.imagen_principal ||
+  let imagenPrincipal = producto.imagen_principal ||
     (producto.imagenes && producto.imagenes.length > 0 ? producto.imagenes[0] : null);
+
+  // Si la imagen es un objeto con propiedad url, extraerla
+  if (imagenPrincipal && typeof imagenPrincipal === 'object' && imagenPrincipal.url) {
+    imagenPrincipal = imagenPrincipal.url;
+  }
+
+  // Asegurar que la URL esté correctamente codificada (sin espacios)
+  if (imagenPrincipal && typeof imagenPrincipal === 'string') {
+    imagenPrincipal = imagenPrincipal.replace(/ /g, '%20');
+  }
 
   // Si no hay imagen del producto, usar el logo del sitio
   const logoSitio = 'https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png';
@@ -208,18 +218,24 @@ export async function generateProductMetadata(slug, categoria) {
   const imagenesParaMetadata = [
     {
       url: imagenFinal,
+      secureUrl: imagenFinal, // WhatsApp y otras plataformas requieren secureUrl
       width: 1200,
       height: 630,
       alt: producto.nombre,
-      type: 'image/png',
+      type: 'image/jpeg',
     },
-    ...imagenesAdicionales.slice(0, 2).map((img) => ({
-      url: img.url,
-      width: 1200,
-      height: 630,
-      alt: img.alt || producto.nombre,
-      type: 'image/png',
-    })),
+    ...imagenesAdicionales.slice(0, 2).map((img) => {
+      // Asegurar que la URL esté correctamente codificada
+      const urlLimpia = typeof img.url === 'string' ? img.url.replace(/ /g, '%20') : img.url;
+      return {
+        url: urlLimpia,
+        secureUrl: urlLimpia, // WhatsApp y otras plataformas requieren secureUrl
+        width: 1200,
+        height: 630,
+        alt: img.alt || producto.nombre,
+        type: 'image/jpeg',
+      };
+    }),
   ];
 
   // URL canónica consistente (con www)
