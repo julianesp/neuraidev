@@ -3,9 +3,8 @@ import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 import { loadProductBySlug } from "@/utils/loadCategoryProducts";
 import { generateProductMetadata } from "@/utils/productMetadata";
 
-// Forzar renderizado dinámico pero cacheable
+// Forzar renderizado dinámico
 export const dynamic = "force-dynamic";
-export const revalidate = 3600; // Cachear por 1 hora
 
 // Generar metadatos dinámicos
 export async function generateMetadata({ params }) {
@@ -13,12 +12,9 @@ export async function generateMetadata({ params }) {
   return await generateProductMetadata(slug, "damas");
 }
 
-export default async function ProductPage({ params }) {
+export default async function DamasProductPage({ params }) {
   const { slug } = await params;
-  const { producto, otrosProductos } = await loadProductBySlug(
-    "damas",
-    slug,
-  );
+  const { producto, otrosProductos } = await loadProductBySlug("damas", slug);
 
   if (!producto) {
     notFound();

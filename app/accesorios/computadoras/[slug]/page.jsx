@@ -3,9 +3,8 @@ import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 import { loadProductBySlug } from "@/utils/loadCategoryProducts";
 import { generateProductMetadata } from "@/utils/productMetadata";
 
-// Forzar renderizado dinámico pero cacheable
+// Forzar renderizado dinámico
 export const dynamic = "force-dynamic";
-export const revalidate = 3600; // Cachear por 1 hora
 
 // Generar metadatos dinámicos
 export async function generateMetadata({ params }) {
@@ -13,7 +12,7 @@ export async function generateMetadata({ params }) {
   return await generateProductMetadata(slug, "computadoras");
 }
 
-export default async function ProductPage({ params }) {
+export default async function ComputadorasProductPage({ params }) {
   const { slug } = await params;
   const { producto, otrosProductos } = await loadProductBySlug(
     "computadoras",
