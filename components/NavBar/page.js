@@ -332,7 +332,7 @@ const NavBar = () => {
           </li>
 
           {/* Dropdown de Negocios Externos */}
-          <li
+          {/* <li
             role="none"
             ref={negociosDropdownRef}
             className={styles.dropdownContainer}
@@ -366,10 +366,10 @@ const NavBar = () => {
                     📻 Selecta FM 93.3
                   </Link>
                 </li>
-                {/* Aquí puedes agregar más negocios externos en el futuro */}
+                // Aquí puedes agregar más negocios externos en el futuro
               </ul>
             )}
-          </li>
+          </li> */}
 
           <li role="none">
             <Link

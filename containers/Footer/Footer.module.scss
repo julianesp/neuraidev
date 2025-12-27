@@ -17,11 +17,14 @@
   padding: 10px;
   bottom: 8px;
   left: 5px;
+
+  border: v.$white solid 2px;
+
   background-color: v.$color-primario;
   background: linear-gradient(
     to bottom,
     v.$color-primario,
-    v.$color-primario-oscuro
+    /* v.$color-primario-oscuro*/ #fff
   );
   box-shadow:
     0 6px 0 v.$color-primario,
