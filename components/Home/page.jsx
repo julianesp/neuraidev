@@ -7,6 +7,7 @@ import styles from "./Home.module.scss";
 import Advertisement from "@/components/Advertisement";
 import AccesoriosDestacados from "@/components/Accesorio/AccesoriosDestacados";
 import ProductosRecientes from "@/components/Producto/ProductosRecientes";
+import MostVisitedProducts from "@/components/MostVisitedProducts/MostVisitedProducts";
 import NightSkyHero from "@/components/NightSkyHero";
 import BackToTop from "@/components/backTop/BackToTop";
 import { CarouselDemo } from "@/components/CarouselDemo";
@@ -289,8 +290,13 @@ export default function Inicio() {
           </Suspense>
         </section>
 
+        {/* Productos Más Visitados - Diseño Bento Grid */}
+        <Suspense fallback={<LoadingSkeleton />}>
+          <MostVisitedProducts />
+        </Suspense>
+
         {/* Negocios Locales */}
-        <section className="py-16 px-4 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
+        {/* <section className="py-16 px-4 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 flex items-center justify-center gap-3">
@@ -305,7 +311,7 @@ export default function Inicio() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Tienda Local */}
+              
               <Link href="/business/tienda-local" className="group block">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                   <div className="relative h-48 bg-gradient-to-br from-green-400 to-blue-500">
@@ -348,7 +354,7 @@ export default function Inicio() {
                 </div>
               </Link>
 
-              {/* Panadería El Trigal */}
+              
               <Link href="/business/panaderia-el-trigal" className="group block">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                   <div className="relative h-48 bg-gradient-to-br from-orange-400 to-red-500">
@@ -386,7 +392,7 @@ export default function Inicio() {
                 </div>
               </Link>
 
-              {/* Ferretería Martínez */}
+              
               <Link href="/business/ferreteria-martinez" className="group block">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                   <div className="relative h-48 bg-gradient-to-br from-gray-600 to-gray-800">
@@ -427,7 +433,7 @@ export default function Inicio() {
               </Link>
             </div>
 
-            {/* Banner informativo */}
+            
             <div className="mt-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center">
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
                 ¿Tienes un negocio local?
@@ -448,7 +454,7 @@ export default function Inicio() {
               </a>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Sección lateral de anuncios o aside*/}
         <section

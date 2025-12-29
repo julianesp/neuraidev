@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ShoppingCart, Package, Truck, CheckCircle, XCircle, Search, Filter, RefreshCw, Menu, Trash2 } from "lucide-react";
+import { ShoppingCart, Package, Truck, CheckCircle, XCircle, Search, Filter, RefreshCw, Menu, Trash2, CheckCheck } from "lucide-react";
 import { useSidebar } from "../layout";
 
 export default function PedidosPage() {
@@ -20,6 +20,7 @@ export default function PedidosPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [deleting, setDeleting] = useState(false);
+  const [checkingPayments, setCheckingPayments] = useState(false);
 
   // Obtener pedidos de la base de datos
   const fetchOrders = async () => {
@@ -117,6 +118,41 @@ export default function PedidosPage() {
       alert('Error al eliminar los pedidos: ' + err.message);
     } finally {
       setDeleting(false);
+    }
+  };
+
+  // Check pending payments
+  const handleCheckPendingPayments = async () => {
+    try {
+      setCheckingPayments(true);
+      const response = await fetch('/api/dashboard/check-pending-payments');
+
+      if (!response.ok) {
+        throw new Error('Error al verificar pagos pendientes');
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert(
+          `Verificación completada:\n` +
+          `- Pedidos verificados: ${data.checked}\n` +
+          `- Pedidos actualizados: ${data.updated}\n` +
+          `- Aprobados: ${data.approved || 0}\n` +
+          `- Rechazados: ${data.declined || 0}\n` +
+          `${data.errors.length > 0 ? `\n⚠️ Errores: ${data.errors.length}` : ''}`
+        );
+
+        // Reload orders if any were updated
+        if (data.updated > 0) {
+          await fetchOrders();
+        }
+      }
+    } catch (err) {
+      console.error('Error checking payments:', err);
+      alert('Error al verificar pagos: ' + err.message);
+    } finally {
+      setCheckingPayments(false);
     }
   };
 
@@ -219,6 +255,17 @@ export default function PedidosPage() {
               >
                 <Trash2 className="w-4 h-4" />
                 Eliminar ({selectedOrders.length})
+              </button>
+            )}
+            {stats.pendientes > 0 && (
+              <button
+                onClick={handleCheckPendingPayments}
+                disabled={checkingPayments}
+                className="flex items-center gap-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:bg-yellow-400 text-white rounded-lg transition-colors"
+                title="Verificar estado de pagos pendientes en Wompi"
+              >
+                <CheckCheck className={`w-4 h-4 ${checkingPayments ? 'animate-spin' : ''}`} />
+                Verificar Pagos ({stats.pendientes})
               </button>
             )}
             <button

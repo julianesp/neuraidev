@@ -112,6 +112,21 @@ export default function DashboardLayout({ children }) {
             </button>
           </div>
 
+          {/* Desktop sidebar toggle - visible solo en pantallas grandes */}
+          <div className="hidden lg:block fixed top-20 right-4 z-50">
+            <button
+              onClick={toggleSidebar}
+              className="p-2 rounded-lg bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-md transition-colors border border-gray-200 dark:border-gray-700"
+              aria-label={sidebarOpen ? "Cerrar menú" : "Abrir menú"}
+            >
+              {sidebarOpen ? (
+                <X className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+              ) : (
+                <Menu className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+              )}
+            </button>
+          </div>
+
           {/* Sidebar */}
           <aside
             className={`fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-gray-900 shadow-lg transform transition-transform duration-300 ease-in-out ${
