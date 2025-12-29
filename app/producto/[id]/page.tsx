@@ -1,33 +1,34 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import ProductoDetalle from '@/components/ProductoDetalle';
-import { findProductById } from '@/utils/productMetadata';
+import AccesoriosContainer from '@/containers/AccesoriosContainer/page';
+import { createClient } from '@supabase/supabase-js';
+
+// Cliente de Supabase para server-side
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+);
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-// Función para obtener producto desde archivos JSON
-async function getProducto(id: string) {
-  try {
-    const producto = await findProductById(id);
-    return producto;
-  } catch (error) {
-    console.error('Error fetching producto:', error);
-    return null;
-  }
-}
-
 // Generar metadatos dinámicos
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const producto = await getProducto(id);
 
-  if (!producto) {
-    return {
-      title: 'Producto no encontrado | Neurai.dev',
-    };
-  }
+  try {
+    const { data: producto, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error || !producto) {
+      return {
+        title: 'Producto no encontrado | Neurai.dev',
+      };
+    }
 
   // Limpiar descripción para meta tags
   const descripcionLimpia = producto.descripcion
@@ -38,8 +39,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     parseFloat(producto.precio.toString()) :
     parseFloat(producto.precio) || 0;
 
-  const imagenPrincipal = producto.imagenPrincipal ||
-    (producto.imagenes && producto.imagenes[0]?.url) || '';
+  const imagenPrincipal = producto.imagen_principal ||
+    (producto.imagenes && producto.imagenes[0]) || '';
 
   const ogImageUrl = `/api/og?title=${encodeURIComponent(producto.nombre)}&price=${encodeURIComponent(precio.toString())}&description=${encodeURIComponent(descripcionLimpia)}&image=${encodeURIComponent(imagenPrincipal)}&category=${encodeURIComponent(producto.categoria)}`;
 
@@ -84,52 +85,96 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       'product:category': producto.categoria,
     },
   };
+  } catch (err) {
+    console.error('Error generating metadata:', err);
+    return {
+      title: 'Producto | Neurai.dev',
+      description: 'Explora nuestro catálogo de productos.',
+    };
+  }
 }
 
 export default async function ProductoPage({ params }: Props) {
   const { id } = await params;
-  const producto = await getProducto(id);
 
-  if (!producto) {
+  try {
+    // Obtener el producto por ID desde Supabase
+    const { data: producto, error: productoError } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (productoError || !producto) {
+      console.error('Error fetching product:', productoError);
+      notFound();
+    }
+
+    // Normalizar estructura de datos para compatibilidad con AccesoriosContainer
+    const productoNormalizado = {
+      ...producto,
+      imagenPrincipal: producto.imagen_principal,
+      precioAnterior: producto.precio_oferta ? parseFloat(producto.precio_oferta) : null,
+      precio: parseFloat(producto.precio),
+      cantidad: producto.stock || 0,
+      disponible: producto.disponible && producto.stock > 0,
+    };
+
+    // Normalizar imágenes: convertir array de strings a array de objetos con url y alt
+    if (!productoNormalizado.imagenes || productoNormalizado.imagenes.length === 0) {
+      productoNormalizado.imagenes = producto.imagen_principal
+        ? [{ url: producto.imagen_principal, alt: producto.nombre }]
+        : [];
+    } else {
+      productoNormalizado.imagenes = productoNormalizado.imagenes
+        .map((imagen: any, index: number) => {
+          if (typeof imagen === 'object' && imagen !== null && imagen.url) {
+            return { ...imagen, alt: imagen.alt || producto.nombre };
+          }
+          if (typeof imagen === 'string') {
+            return { url: imagen, alt: producto.nombre, orden: index };
+          }
+          return null;
+        })
+        .filter(Boolean);
+    }
+
+    // Obtener otros productos de la misma categoría
+    const { data: otrosProductos, error: otrosError } = await supabase
+      .from('products')
+      .select('*')
+      .eq('categoria', producto.categoria)
+      .eq('disponible', true)
+      .neq('id', id)
+      .limit(4);
+
+    if (otrosError) {
+      console.error('Error fetching related products:', otrosError);
+    }
+
+    // Normalizar otros productos también
+    const otrosProductosNormalizados = (otrosProductos || []).map((p: any) => ({
+      ...p,
+      imagenPrincipal: p.imagen_principal,
+      precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
+      precio: parseFloat(p.precio),
+      cantidad: p.stock || 0,
+      disponible: p.disponible && p.stock > 0,
+    }));
+
+    return (
+      <main className="py-14">
+        <div className="max-w-6xl mx-auto px-4">
+          <AccesoriosContainer
+            apiUrl=""
+            accesorio={productoNormalizado as any}
+            otrosAccesorios={otrosProductosNormalizados as any}
+          />
+        </div>
+      </main>
+    );
+  } catch (error) {
+    console.error('Error in ProductoPage:', error);
     notFound();
   }
-
-  // Normalizar el producto para asegurar que todos los campos necesarios estén presentes
-  const imagenesNormalizadas = (producto.imagenes || []).map((img: string | { id?: string; url: string; alt?: string; orden?: number }, index: number) => {
-    // Si ya es un objeto con url, usarlo
-    if (typeof img === 'object' && img.url) {
-      return {
-        id: img.id || `img-${index}`,
-        url: img.url,
-        alt: img.alt || producto.nombre,
-        orden: img.orden || index,
-      };
-    }
-    // Si es un string (URL), crear el objeto
-    if (typeof img === 'string') {
-      return {
-        id: `img-${index}`,
-        url: img,
-        alt: producto.nombre,
-        orden: index,
-      };
-    }
-    return null;
-  }).filter(Boolean);
-
-  const productoNormalizado = {
-    ...producto,
-    metadata: producto.metadata || {},
-    imagenes: imagenesNormalizadas,
-    tags: producto.tags || [],
-    condicion: producto.estado || producto.condicion || 'nuevo',
-  };
-
-  return (
-    <main className="py-8">
-      <div className="max-w-6xl mx-auto px-4">
-        <ProductoDetalle producto={productoNormalizado} />
-      </div>
-    </main>
-  );
 }

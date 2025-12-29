@@ -194,7 +194,12 @@
     }
 
     @media (min-width: 1024px) {
-      
+
+    }
+
+    // Ajuste específico para resoluciones tipo 1280x800 (tablets/laptops pequeños)
+    @media (min-width: 1024px) and (max-width: 1366px) and (min-height: 768px) and (max-height: 900px) {
+      margin-top: 60px;
     }
   }
 

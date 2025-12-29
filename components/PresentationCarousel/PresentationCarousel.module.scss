@@ -9,6 +9,11 @@
   z-index: 100; // Por encima del aside (z-index: 60)
 
   // Sin restricciones de ancho en todas las resoluciones
+
+  // Ajuste específico para resoluciones tipo 1280x800 (tablets/laptops pequeños)
+  @media (min-width: 1024px) and (max-width: 1366px) and (min-height: 768px) and (max-height: 900px) {
+    margin-top: 80px;
+  }
 }
 
 .carousel {
