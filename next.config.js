@@ -65,7 +65,13 @@ const nextConfig = {
     return [
       {
         source: "/(.*)",
-        headers: securityHeaders,
+        headers: [
+          ...securityHeaders,
+          {
+            key: "X-Robots-Tag",
+            value: "index, follow",
+          },
+        ],
       },
       {
         source: "/api/(.*)",
@@ -82,6 +88,10 @@ const nextConfig = {
           {
             key: "Access-Control-Allow-Headers",
             value: "Content-Type, Authorization, X-Admin-Secret",
+          },
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow",
           },
         ],
       },
