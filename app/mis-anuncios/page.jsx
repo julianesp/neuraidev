@@ -288,10 +288,10 @@ export default function MisAnunciosPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 md:py-8 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
+        {/* Header con padding superior en móvil */}
+        <div className="mb-6 pt-8 md:pt-0">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Mis Anuncios Comunitarios
           </h1>

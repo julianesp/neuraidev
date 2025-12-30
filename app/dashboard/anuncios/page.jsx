@@ -275,40 +275,54 @@ export default function AnunciosPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6 flex justify-between items-center gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Anuncios Comunitarios
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
-              Publica avisos importantes para toda la comunidad
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-4 md:pt-0">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        {/* Header con padding superior en móvil */}
+        <div className="mb-6 pt-8 md:pt-0">
+          {/* Botón hamburguesa - solo móvil/tablet, lado derecho */}
+          <div className="flex justify-end mb-4 md:hidden">
             <button
               onClick={toggleSidebar}
               className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             >
               <Menu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             </button>
-            <button
-              onClick={fetchAnnouncements}
-              disabled={loading}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors"
-            >
-              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-              Actualizar
-            </button>
-            <button
-              onClick={openCreateModal}
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-              Nuevo Anuncio
-            </button>
+          </div>
+
+          {/* Header principal */}
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Anuncios Comunitarios
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 mt-1">
+                Publica avisos importantes para toda la comunidad
+              </p>
+            </div>
+            <div className="flex items-center gap-3 flex-wrap">
+              {/* Botón hamburguesa - solo desktop, integrado con otros botones */}
+              <button
+                onClick={toggleSidebar}
+                className="hidden md:block p-2 rounded-lg bg-white dark:bg-gray-800 shadow hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                <Menu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+              </button>
+              <button
+                onClick={fetchAnnouncements}
+                disabled={loading}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors"
+              >
+                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                <span className="hidden sm:inline">Actualizar</span>
+              </button>
+              <button
+                onClick={openCreateModal}
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+                <span className="hidden sm:inline">Nuevo Anuncio</span>
+              </button>
+            </div>
           </div>
         </div>
 

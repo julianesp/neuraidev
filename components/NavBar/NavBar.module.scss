@@ -37,8 +37,8 @@
 
 .themeSwitcher {
   position: absolute;
-  left: 10px;
-  top: 70px;
+  left: 80px;
+  top: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,7 +85,7 @@
   align-items: center;
   margin-top: 10px;
   padding: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  // border-top: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
   z-index: 1004; /* Mayor que el menú móvil */
 }

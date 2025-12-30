@@ -112,7 +112,7 @@ export default function DashboardLayout({ children }) {
       <SidebarContext.Provider value={{ sidebarOpen, toggleSidebar }}>
         <div className="min-h-screen bg-gray-50 mt-8">
           {/* Mobile sidebar toggle - Posicionado para no interferir con navbar */}
-          <div className="lg:hidden fixed top-20 left-4 z-50">
+          <div className="lg:hidden fixed top-20 right-4 z-50">
             <button
               onClick={toggleSidebar}
               className="p-3 rounded-lg bg-blue-600 hover:bg-blue-700 shadow-lg text-white transition-colors"
@@ -147,74 +147,76 @@ export default function DashboardLayout({ children }) {
               sidebarOpen ? "translate-x-0" : "-translate-x-full"
             }`}
           >
-          <div className="flex flex-col h-full">
-            {/* Logo */}
-            <div className="flex items-center justify-between h-16 px-6 border-b flex-shrink-0 mt-12">
-              <Link href="/" className="flex items-center space-x-2">
-                <span className="text-2xl font-bold text-blue-600 dark:text-white">
-                  Home
-                </span>
-              </Link>
-            </div>
+            <div className="flex flex-col h-full">
+              {/* Logo */}
+              <div className="flex items-center justify-between h-16 px-6 border-b flex-shrink-0 mt-12">
+                <Link href="/" className="flex items-center space-x-2">
+                  <span className="text-2xl font-bold text-blue-600 dark:text-white">
+                    Home
+                  </span>
+                </Link>
+              </div>
 
-            {/* Navigation */}
-            <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto mt-0">
-              {navigation.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setSidebarOpen(false)}
-                    className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                      item.current
-                        ? "bg-blue-50 text-blue-700"
-                        : "text-gray-700 hover:bg-gray-100"
-                    }`}
-                  >
-                    <Icon className="w-5 h-5 mr-3" />
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </nav>
+              {/* Navigation */}
+              <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto mt-0">
+                {navigation.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                        item.current
+                          ? "bg-blue-50 text-blue-700"
+                          : "text-gray-700 hover:bg-gray-100"
+                      }`}
+                    >
+                      <Icon className="w-5 h-5 mr-3" />
+                      {item.name}
+                    </Link>
+                  );
+                })}
+              </nav>
 
-            {/* User section */}
-            <div className="p-4 border-t flex-shrink-0 bg-white">
-              <div className="flex items-center space-x-3">
-                <UserButton
-                  appearance={{
-                    elements: {
-                      avatarBox: "w-10 h-10",
-                    },
-                  }}
-                />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">
-                    {user?.fullName || user?.firstName || "Usuario"}
-                  </p>
-                  <p className="text-xs text-gray-500 truncate">
-                    {user?.primaryEmailAddress?.emailAddress}
-                  </p>
+              {/* User section */}
+              <div className="p-4 border-t flex-shrink-0 bg-white">
+                <div className="flex items-center space-x-3">
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        avatarBox: "w-10 h-10",
+                      },
+                    }}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 truncate">
+                      {user?.fullName || user?.firstName || "Usuario"}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate">
+                      {user?.primaryEmailAddress?.emailAddress}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </aside>
+          </aside>
 
-        {/* Main content */}
-        <div className={`transition-all duration-300 min-h-screen dark:bg-gray-700 ${sidebarOpen ? 'lg:pl-64' : 'lg:pl-0'}`}>
-          <main className="p-6 lg:p-8 pb-24">{children}</main>
-        </div>
-
-        {/* Overlay for mobile */}
-        {sidebarOpen && (
+          {/* Main content */}
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-            onClick={toggleSidebar}
-          />
-        )}
-      </div>
+            className={`transition-all duration-300 min-h-screen dark:bg-gray-700 ${sidebarOpen ? "lg:pl-64" : "lg:pl-0"}`}
+          >
+            <main className="p-6 lg:p-8 pb-24">{children}</main>
+          </div>
+
+          {/* Overlay for mobile */}
+          {sidebarOpen && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+              onClick={toggleSidebar}
+            />
+          )}
+        </div>
       </SidebarContext.Provider>
     </AdminGuard>
   );
