@@ -7,7 +7,7 @@ import { getSupabaseClient } from "@/lib/db";
  * Documentación: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
  */
 export default async function sitemap() {
-  const baseUrl = "https://neurai.dev";
+  const baseUrl = "https://www.neurai.dev";
   const currentDate = new Date().toISOString();
 
   // Páginas estáticas principales

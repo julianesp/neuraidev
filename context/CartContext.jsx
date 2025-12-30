@@ -77,35 +77,30 @@ export function CartProvider({ children }) {
         .single();
 
       if (error) {
-        console.error("[CartContext] Error al verificar stock en Supabase:", {
-          error,
-          errorCode: error?.code,
-          errorMessage: error?.message,
-          errorDetails: error?.details,
-          errorHint: error?.hint,
-          productId,
-        });
+        console.error("[CartContext] Error al verificar stock en Supabase:", error);
 
-        // Si el producto no existe (error PGRST116), retornar 0
+        // Si el producto no existe (error PGRST116), retornar stock ilimitado
         if (error.code === "PGRST116") {
           console.warn(
             "[CartContext] Producto no encontrado en la base de datos:",
             productId,
+            "- Asumiendo stock ilimitado"
           );
+          return 999; // Stock "ilimitado" para productos que no están en Supabase
         }
 
-        return 0;
+        // Para otros errores, también asumir stock disponible para no bloquear compras
+        console.warn("[CartContext] Error desconocido, asumiendo stock disponible");
+        return 999;
       }
 
-      return data?.stock || 0;
+      const stockValue = data?.stock ?? 999;
+      console.log(`[CartContext] Stock verificado para producto ${productId}: ${stockValue}`);
+      return stockValue;
     } catch (error) {
-      console.error("[CartContext] Error en catch al verificar stock:", {
-        error,
-        message: error?.message,
-        stack: error?.stack,
-        productId,
-      });
-      return 0;
+      console.error("[CartContext] Error en catch al verificar stock:", error);
+      // En caso de error de red u otro, asumir stock disponible
+      return 999;
     }
   };
 

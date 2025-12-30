@@ -440,43 +440,46 @@ export default function MisAnunciosPage() {
                         {anuncio.content}
                       </p>
 
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-                          <span className="flex items-center gap-1">
-                            <Eye className="w-4 h-4" />
-                            {anuncio.view_count} vistas
-                          </span>
-                          <span>Prioridad: {anuncio.priority}</span>
-                          {anuncio.end_date && (
-                            <span>Válido hasta: {formatDate(anuncio.end_date)}</span>
-                          )}
+                      {/* Metadata en grid responsive */}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3 text-xs text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center gap-1">
+                          <Eye className="w-3 h-3" />
+                          <span>{anuncio.view_count} vistas</span>
                         </div>
+                        <div>
+                          <span className="font-medium">Prioridad:</span> {anuncio.priority}
+                        </div>
+                        {anuncio.end_date && (
+                          <div className="col-span-2 sm:col-span-1">
+                            <span className="font-medium">Válido:</span> {formatDate(anuncio.end_date)}
+                          </div>
+                        )}
+                      </div>
 
-                        {/* Acciones */}
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => toggleStatus(anuncio)}
-                            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                              anuncio.status === 'active'
-                                ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900 dark:text-yellow-200'
-                                : 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200'
-                            }`}
-                          >
-                            {anuncio.status === 'active' ? 'Archivar' : 'Activar'}
-                          </button>
-                          <button
-                            onClick={() => openEditModal(anuncio)}
-                            className="p-2 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg transition-colors"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(anuncio.id)}
-                            className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900 rounded-lg transition-colors"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
+                      {/* Acciones */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <button
+                          onClick={() => toggleStatus(anuncio)}
+                          className={`flex-1 sm:flex-none px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                            anuncio.status === 'active'
+                              ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900 dark:text-yellow-200'
+                              : 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200'
+                          }`}
+                        >
+                          {anuncio.status === 'active' ? 'Archivar' : 'Activar'}
+                        </button>
+                        <button
+                          onClick={() => openEditModal(anuncio)}
+                          className="p-2 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg transition-colors"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(anuncio.id)}
+                          className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900 rounded-lg transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
                   </div>

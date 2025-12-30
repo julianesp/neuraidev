@@ -275,19 +275,19 @@ export default function AnunciosPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-4 md:pt-0">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-0 md:pt-0">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         {/* Header con padding superior en móvil */}
         <div className="mb-6 pt-8 md:pt-0">
           {/* Botón hamburguesa - solo móvil/tablet, lado derecho */}
-          <div className="flex justify-end mb-4 md:hidden">
+          {/* <div className="flex justify-end mb-4 md:hidden">
             <button
               onClick={toggleSidebar}
               className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             >
               <Menu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             </button>
-          </div>
+          </div> */}
 
           {/* Header principal */}
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
@@ -417,12 +417,12 @@ export default function AnunciosPage() {
               </button>
             </div>
           ) : (
-            <div className="divide-y divide-gray-200 dark:divide-gray-700">
+            <div className="relative divide-y divide-gray-200 dark:divide-gray-700">
               {anuncios.map((anuncio) => (
-                <div key={anuncio.id} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <div key={anuncio.id} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors ">
                   <div className="flex items-start gap-4">
                     {/* Icono/Emoji */}
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 absolute right-6 top-16">
                       {anuncio.icon && anuncio.icon.length <= 2 ? (
                         <span className="text-4xl">{anuncio.icon}</span>
                       ) : (
@@ -437,9 +437,9 @@ export default function AnunciosPage() {
                           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
                             {anuncio.title}
                           </h3>
-                          <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400 mb-2">
+                          <div className="flex flex-col items-center gap-3 text-sm text-gray-600 dark:text-gray-400 mb-2">
                             <span>Por: {anuncio.author_name}</span>
-                            <span>•</span>
+                            {/* <span>•</span> */}
                             <span>{formatDate(anuncio.created_at)}</span>
                           </div>
                         </div>
@@ -463,43 +463,46 @@ export default function AnunciosPage() {
                         {anuncio.content}
                       </p>
 
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-                          <span className="flex items-center gap-1">
-                            <Eye className="w-4 h-4" />
-                            {anuncio.view_count} vistas
-                          </span>
-                          <span>Prioridad: {anuncio.priority}</span>
-                          {anuncio.end_date && (
-                            <span>Válido hasta: {formatDate(anuncio.end_date)}</span>
-                          )}
+                      {/* Metadata en grid responsive */}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3 text-xs text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center gap-1">
+                          <Eye className="w-3 h-3" />
+                          <span>{anuncio.view_count} vistas</span>
                         </div>
+                        <div>
+                          <span className="font-medium">Prioridad:</span> {anuncio.priority}
+                        </div>
+                        {anuncio.end_date && (
+                          <div className="col-span-2 sm:col-span-1">
+                            <span className="font-medium">Válido:</span> {formatDate(anuncio.end_date)}
+                          </div>
+                        )}
+                      </div>
 
-                        {/* Acciones */}
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => toggleStatus(anuncio)}
-                            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                              anuncio.status === 'active'
-                                ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900 dark:text-yellow-200'
-                                : 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200'
-                            }`}
-                          >
-                            {anuncio.status === 'active' ? 'Archivar' : 'Activar'}
-                          </button>
-                          <button
-                            onClick={() => openEditModal(anuncio)}
-                            className="p-2 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg transition-colors"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(anuncio.id)}
-                            className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900 rounded-lg transition-colors"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
+                      {/* Acciones */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <button
+                          onClick={() => toggleStatus(anuncio)}
+                          className={`flex-1 sm:flex-none px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                            anuncio.status === 'active'
+                              ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900 dark:text-yellow-200'
+                              : 'bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200'
+                          }`}
+                        >
+                          {anuncio.status === 'active' ? 'Archivar' : 'Activar'}
+                        </button>
+                        <button
+                          onClick={() => openEditModal(anuncio)}
+                          className="p-2 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900 rounded-lg transition-colors"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(anuncio.id)}
+                          className="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900 rounded-lg transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
                   </div>

@@ -7,7 +7,17 @@ const ToastContext = createContext();
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error('useToast debe usarse dentro de ToastProvider');
+    // En lugar de lanzar error, retornar funciones vacías
+    return {
+      toasts: [],
+      addToast: () => {},
+      removeToast: () => {},
+      removeAllToasts: () => {},
+      success: () => {},
+      error: () => {},
+      warning: () => {},
+      info: () => {},
+    };
   }
   return context;
 };

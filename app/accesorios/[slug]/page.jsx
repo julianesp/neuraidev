@@ -50,7 +50,7 @@ export async function generateMetadata({ params }) {
       producto.descripcion?.replace(/[^\w\s\-.,áéíóúñü]/gi, "").slice(0, 160) ||
       `${producto.nombre} - ${producto.categoria}`;
 
-    const canonicalUrl = `https://neurai.dev/accesorios/${producto.categoria}/${slug}`;
+    const canonicalUrl = `https://www.neurai.dev/accesorios/${producto.categoria}/${slug}`;
 
     return {
       title: `${producto.nombre} | Neurai.dev`,

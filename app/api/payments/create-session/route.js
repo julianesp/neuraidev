@@ -126,7 +126,7 @@ export async function POST(request) {
     }
 
     // URL de redirección después del pago
-    const redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/respuesta-pago`;
+    const redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.neurai.dev"}/respuesta-pago`;
 
     log("✅ Sesión de pago creada exitosamente");
 

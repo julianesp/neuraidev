@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'es_CO',
-    url: 'https://neurai.dev/selecta',
+    url: 'https://www.neurai.dev/selecta',
     siteName: 'Neurai Dev',
     title: 'Selecta FM 93.3 - Escucha en Vivo',
     description: '🎵 Radio en vivo desde Valle de Sibundoy, Putumayo. Funciona con celular bloqueado. ¡Escucha ahora!',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 
   // Canonical URL
   alternates: {
-    canonical: 'https://neurai.dev/selecta',
+    canonical: 'https://www.neurai.dev/selecta',
   },
 
   // Robots

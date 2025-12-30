@@ -26,10 +26,31 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
   const [expandedImage, setExpandedImage] = useState(null);
   const [expandedImageIndex, setExpandedImageIndex] = useState(0);
   const [productosConEstado, setProductosConEstado] = useState([]);
+  const [numColumnas, setNumColumnas] = useState(2);
 
   const { applySoldStatus } = useSoldProducts();
   const { addToCart } = useCart();
   const toast = useToast();
+
+  // Determinar número de columnas basado en el tamaño de pantalla
+  useEffect(() => {
+    const updateColumns = () => {
+      const width = window.innerWidth;
+      if (width < 480) {
+        setNumColumnas(2); // Móvil pequeño: 2 columnas
+      } else if (width < 768) {
+        setNumColumnas(2); // Móvil: 2 columnas
+      } else if (width < 1024) {
+        setNumColumnas(3); // Tablet: 3 columnas
+      } else {
+        setNumColumnas(4); // Desktop: 4 columnas
+      }
+    };
+
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
 
   useEffect(() => {
     if (productos && Array.isArray(productos)) {
@@ -45,10 +66,6 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
       setSlideIndexes(initialIndexes);
     }
   }, [productos, applySoldStatus]);
-
-  if (!productosConEstado || productosConEstado.length === 0) {
-    return <div className="text-center py-8">Cargando productos...</div>;
-  }
 
   const normalizeImages = (images) => {
     if (!images) return ["/placeholder.jpg"];
@@ -141,25 +158,29 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
   };
 
   // Función para distribuir productos en columnas (efecto cascada)
-  const distribuirEnColumnas = (productos) => {
-    const columnas = [[], [], [], []]; // 4 columnas
+  const distribuirEnColumnas = (productos, numColumnas = 4) => {
+    const columnas = Array.from({ length: numColumnas }, () => []);
 
     productos.forEach((producto, index) => {
-      columnas[index % 4].push(producto);
+      columnas[index % numColumnas].push(producto);
     });
 
     return columnas;
   };
 
-  const columnas = distribuirEnColumnas(productosConEstado);
+  if (!productosConEstado || productosConEstado.length === 0) {
+    return <div className="text-center py-8">Cargando productos...</div>;
+  }
+
+  const columnas = distribuirEnColumnas(productosConEstado, numColumnas);
 
   return (
     <>
       <div className="w-full px-4 py-8">
         {/* Vista de cascada - estilo Pinterest/Masonry */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {columnas.map((columna, colIndex) => (
-            <div key={colIndex} className="flex flex-col gap-4 md:gap-6">
+            <div key={colIndex} className="flex flex-col gap-3 sm:gap-4 md:gap-6">
               {columna.map((producto, index) => {
                 if (!producto) return null;
 

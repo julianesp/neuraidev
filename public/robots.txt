@@ -59,4 +59,4 @@ Allow: /_next/static/
 # SITEMAP
 # ============================================
 
-Sitemap: https://neurai.dev/sitemap.xml
+Sitemap: https://www.neurai.dev/sitemap.xml
