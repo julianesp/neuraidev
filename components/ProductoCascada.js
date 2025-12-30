@@ -26,31 +26,10 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
   const [expandedImage, setExpandedImage] = useState(null);
   const [expandedImageIndex, setExpandedImageIndex] = useState(0);
   const [productosConEstado, setProductosConEstado] = useState([]);
-  const [numColumnas, setNumColumnas] = useState(2);
 
   const { applySoldStatus } = useSoldProducts();
   const { addToCart } = useCart();
   const toast = useToast();
-
-  // Determinar número de columnas basado en el tamaño de pantalla
-  useEffect(() => {
-    const updateColumns = () => {
-      const width = window.innerWidth;
-      if (width < 480) {
-        setNumColumnas(2); // Móvil pequeño: 2 columnas
-      } else if (width < 768) {
-        setNumColumnas(2); // Móvil: 2 columnas
-      } else if (width < 1024) {
-        setNumColumnas(3); // Tablet: 3 columnas
-      } else {
-        setNumColumnas(4); // Desktop: 4 columnas
-      }
-    };
-
-    updateColumns();
-    window.addEventListener('resize', updateColumns);
-    return () => window.removeEventListener('resize', updateColumns);
-  }, []);
 
   useEffect(() => {
     if (productos && Array.isArray(productos)) {
@@ -66,6 +45,10 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
       setSlideIndexes(initialIndexes);
     }
   }, [productos, applySoldStatus]);
+
+  if (!productosConEstado || productosConEstado.length === 0) {
+    return <div className="text-center py-8">Cargando productos...</div>;
+  }
 
   const normalizeImages = (images) => {
     if (!images) return ["/placeholder.jpg"];
@@ -157,31 +140,12 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
     );
   };
 
-  // Función para distribuir productos en columnas (efecto cascada)
-  const distribuirEnColumnas = (productos, numColumnas = 4) => {
-    const columnas = Array.from({ length: numColumnas }, () => []);
-
-    productos.forEach((producto, index) => {
-      columnas[index % numColumnas].push(producto);
-    });
-
-    return columnas;
-  };
-
-  if (!productosConEstado || productosConEstado.length === 0) {
-    return <div className="text-center py-8">Cargando productos...</div>;
-  }
-
-  const columnas = distribuirEnColumnas(productosConEstado, numColumnas);
-
   return (
     <>
       <div className="w-full px-4 py-8">
-        {/* Vista de cascada - estilo Pinterest/Masonry */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-          {columnas.map((columna, colIndex) => (
-            <div key={colIndex} className="flex flex-col gap-3 sm:gap-4 md:gap-6">
-              {columna.map((producto, index) => {
+        {/* Grid de productos - tamaño uniforme */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          {productosConEstado.map((producto, index) => {
                 if (!producto) return null;
 
                 const images = normalizeImages(producto.images || producto.imagenes);
@@ -195,16 +159,43 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
                       isOutOfStock ? "opacity-70" : ""
                     }`}
                   >
-                    {/* Badge de VENDIDO o AGOTADO */}
-                    {isOutOfStock && (
-                      <div className="absolute top-3 right-3 z-20 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg transform rotate-12">
-                        {producto.vendido ? "VENDIDO" : "AGOTADO"}
-                      </div>
-                    )}
+                    {/* Galería de imágenes con altura fija */}
+                    <div className="relative w-full h-64 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+                      {/* Botón de carrito superior derecho */}
+                      <button
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          if (isOutOfStock) return;
 
-                    {/* Galería de imágenes con altura variable */}
-                    <div className="relative w-full bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
-                      <div className="relative w-full" style={{ paddingBottom: `${100 + Math.random() * 50}%` }}>
+                          const success = await addToCart(producto, 1);
+                          if (success) {
+                            toast.success(`"${producto.nombre || producto.title}" agregado al carrito`, {
+                              title: "✅ Producto Agregado",
+                              duration: 3000,
+                            });
+                          }
+                        }}
+                        className={`absolute top-3 right-3 z-30 p-2.5 rounded-full shadow-lg transition-all ${
+                          isOutOfStock
+                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            : "bg-green-600 hover:bg-green-700 text-white hover:scale-110"
+                        }`}
+                        disabled={isOutOfStock}
+                        aria-label={isOutOfStock ? "Producto agotado" : "Agregar al carrito"}
+                        title={isOutOfStock ? "Producto agotado" : "Agregar al carrito"}
+                      >
+                        <ShoppingCart size={18} />
+                      </button>
+
+                      {/* Badge de VENDIDO o AGOTADO */}
+                      {isOutOfStock && (
+                        <div className="absolute top-3 left-3 z-20 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                          {producto.vendido ? "VENDIDO" : "AGOTADO"}
+                        </div>
+                      )}
+
+                      <div className="relative w-full h-full">
                         {images.map((img, idx) => {
                           const imageErrorKey = `${producto.id}-${idx}`;
                           const hasImageError = imageErrors[imageErrorKey];
@@ -225,7 +216,7 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
                                   src={img || "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
                                   alt={producto.title || producto.nombre || "Producto"}
                                   fill
-                                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                  className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                   priority={false}
                                   loading="lazy"
@@ -309,53 +300,23 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
                         )}
                       </div>
 
-                      {/* Botones de acción */}
-                      <div className="flex gap-2">
-                        <Link
-                          href={buildProductUrl(
-                            categorySlug,
-                            generateProductSlug(producto),
-                            producto
-                          )}
-                          className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-3 rounded-xl transition-colors text-sm"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <Eye size={16} />
-                          <span>Ver más</span>
-                        </Link>
-
-                        <button
-                          onClick={async (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            if (isOutOfStock) return;
-
-                            const success = await addToCart(producto, 1);
-                            if (success) {
-                              toast.success(`"${producto.nombre || producto.title}" agregado al carrito`, {
-                                title: "✅ Producto Agregado",
-                                duration: 3000,
-                              });
-                            }
-                          }}
-                          className={`p-2.5 rounded-xl transition-colors ${
-                            isOutOfStock
-                              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                              : "bg-green-600 hover:bg-green-700 text-white"
-                          }`}
-                          disabled={isOutOfStock}
-                          aria-label={isOutOfStock ? "Producto agotado" : "Agregar al carrito"}
-                          title={isOutOfStock ? "Producto agotado" : "Agregar al carrito"}
-                        >
-                          <ShoppingCart size={18} />
-                        </button>
-                      </div>
+                      {/* Botón Ver más */}
+                      <Link
+                        href={buildProductUrl(
+                          categorySlug,
+                          generateProductSlug(producto),
+                          producto
+                        )}
+                        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-xl transition-colors text-sm"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Eye size={16} />
+                        <span>Ver más</span>
+                      </Link>
                     </div>
                   </div>
                 );
               })}
-            </div>
-          ))}
         </div>
       </div>
 

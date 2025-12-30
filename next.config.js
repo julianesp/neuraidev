@@ -143,16 +143,25 @@ const nextConfig = {
       },
     ],
     qualities: [75, 85, 90, 95, 100],
-    // Configurar timeouts para imágenes
+    // Configurar timeouts y cache para imágenes
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Aumentar timeout de carga de imágenes externas
     unoptimized: false,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ['image/webp'],
+    // Aumentar límite de tamaño para imágenes
+    domains: [], // Usar remotePatterns en su lugar
+  },
+
+  // Configurar timeouts para el servidor
+  experimental: {
+    // Aumentar timeout de carga de imágenes (30 segundos)
+    proxyTimeout: 30000,
+    // Optimizar prefetch
+    optimisticClientCache: true,
   },
 
   // Configuración de Turbopack (habilitado por defecto en Next.js 16)
