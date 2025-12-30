@@ -8,6 +8,7 @@ import FavoriteButton from '@/components/FavoriteButton';
 import ProductVideo from '@/components/ProductVideo';
 import ProductLikes from '@/components/ProductSocial/ProductLikes';
 import ProductComments from '@/components/ProductSocial/ProductComments';
+import DownloadableImage from '@/components/DownloadableImage';
 
 interface Producto {
   id: string;
@@ -108,9 +109,9 @@ export default function ProductoDetalle({ producto }: Props) {
               <Image
                 src={imagenSeleccionada}
                 alt={producto.nombre}
-                className="w-full h-full object-contain"
-                width={400}
-                height={400}
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400">

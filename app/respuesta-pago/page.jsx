@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import CustomerRegistrationModal from "@/components/CustomerRegistrationModal";
 
 /**
  * Componente interno que usa useSearchParams
@@ -15,6 +16,8 @@ function RespuestaPagoContent() {
   const [paymentData, setPaymentData] = useState(null);
   const [orderData, setOrderData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showCustomerModal, setShowCustomerModal] = useState(false);
+  const [isRegisteredCustomer, setIsRegisteredCustomer] = useState(false);
 
   useEffect(() => {
     // Obtener parámetros de la URL enviados por Wompi
@@ -62,6 +65,29 @@ function RespuestaPagoContent() {
                   "[DEV] Datos de la orden recibidos",
                   orderInfo.order,
                 );
+              }
+
+              // Verificar si el cliente ya está registrado
+              if (data.status === "APPROVED" && data.customerEmail) {
+                try {
+                  const customerCheck = await fetch(
+                    `/api/customers/register?email=${encodeURIComponent(data.customerEmail)}`
+                  );
+                  if (customerCheck.ok) {
+                    const customerData = await customerCheck.json();
+                    setIsRegisteredCustomer(customerData.registered);
+
+                    // Mostrar modal solo si el pago fue exitoso y NO está registrado
+                    if (!customerData.registered) {
+                      // Esperar 2 segundos antes de mostrar el modal
+                      setTimeout(() => {
+                        setShowCustomerModal(true);
+                      }, 2000);
+                    }
+                  }
+                } catch (error) {
+                  console.error("Error verificando cliente:", error);
+                }
               }
             }
           } catch (error) {
@@ -591,6 +617,18 @@ function RespuestaPagoContent() {
           </div>
         </div>
       </div>
+
+      {/* Modal de registro de cliente */}
+      {showCustomerModal && orderData && (
+        <CustomerRegistrationModal
+          orderData={orderData}
+          onClose={() => setShowCustomerModal(false)}
+          onSuccess={() => {
+            setIsRegisteredCustomer(true);
+            setTimeout(() => setShowCustomerModal(false), 3000);
+          }}
+        />
+      )}
     </div>
   );
 }

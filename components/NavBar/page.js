@@ -392,6 +392,15 @@ const NavBar = () => {
                 Mi Cuenta
               </Link>
             </li>
+            <li role="none">
+              <Link
+                href="/mis-anuncios"
+                title="Gestionar mis anuncios"
+                onClick={handleLinkClick}
+              >
+                Mis Anuncios
+              </Link>
+            </li>
           </SignedIn>
 
           {/* Botón de Dashboard solo para admins */}

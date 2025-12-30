@@ -11,8 +11,11 @@ import {
   ShoppingCart,
   Eye,
   Heart,
-  Share2
+  Share2,
+  LayoutGrid,
+  Columns
 } from "lucide-react";
+import ProductoCascada from "@/components/ProductoCascada";
 import { useSoldProducts } from "../hooks/useSoldProducts";
 import SoldMarker from "./SoldMarker";
 import { htmlToPlainText } from "@/utils/htmlToText";
@@ -31,11 +34,26 @@ const ModernProductGrid = (props) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [expandedImage, setExpandedImage] = useState(null);
   const [expandedImageIndex, setExpandedImageIndex] = useState(0);
+  const [viewMode, setViewMode] = useState("grid"); // "grid" o "cascade"
 
   const { applySoldStatus, toggleSoldStatus } = useSoldProducts();
   const categorySlug = props.categorySlug || "generales";
   const { addToCart } = useCart();
   const toast = useToast();
+
+  // Cargar preferencia guardada del localStorage
+  useEffect(() => {
+    const savedViewMode = localStorage.getItem("productViewMode");
+    if (savedViewMode) {
+      setViewMode(savedViewMode);
+    }
+  }, []);
+
+  // Guardar preferencia cuando cambie
+  const handleViewModeChange = (mode) => {
+    setViewMode(mode);
+    localStorage.setItem("productViewMode", mode);
+  };
 
   useEffect(() => {
     if (props.accesorios && Array.isArray(props.accesorios)) {
@@ -196,7 +214,7 @@ const ModernProductGrid = (props) => {
   return (
     <>
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h2 className="text-4xl font-bold text-gray-800 mb-3">
             Nuestros Productos
           </h2>
@@ -204,7 +222,41 @@ const ModernProductGrid = (props) => {
           <p className="text-gray-600 mt-4">Descubre nuestra selección exclusiva</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {/* Toggle de vista */}
+        <div className="flex justify-end items-center mb-6">
+          <div className="bg-gray-100 rounded-lg p-1 flex gap-1">
+            <button
+              onClick={() => handleViewModeChange("grid")}
+              className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all ${
+                viewMode === "grid"
+                  ? "bg-white shadow-sm text-blue-600 font-semibold"
+                  : "text-gray-600 hover:text-gray-800"
+              }`}
+              title="Vista en cuadrícula"
+            >
+              <LayoutGrid size={18} />
+              <span className="hidden sm:inline">Cuadrícula</span>
+            </button>
+            <button
+              onClick={() => handleViewModeChange("cascade")}
+              className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all ${
+                viewMode === "cascade"
+                  ? "bg-white shadow-sm text-blue-600 font-semibold"
+                  : "text-gray-600 hover:text-gray-800"
+              }`}
+              title="Vista en cascada"
+            >
+              <Columns size={18} />
+              <span className="hidden sm:inline">Cascada</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Renderizar vista según la selección */}
+        {viewMode === "cascade" ? (
+          <ProductoCascada productos={accesorios} categorySlug={categorySlug} />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {accesorios.map((accesorio, index) => {
             if (!accesorio) return null;
 
@@ -401,7 +453,8 @@ const ModernProductGrid = (props) => {
               </div>
             );
           })}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Modal de imagen expandida */}

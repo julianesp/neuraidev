@@ -7,11 +7,28 @@ import { getFeaturedProducts } from "@/lib/productService";
 import AddToCartButton from "@/components/AddToCartButton";
 import FavoriteButton from "@/components/FavoriteButton";
 import Advertisement from "@/components/Advertisement";
+import { LayoutGrid, Columns } from "lucide-react";
+import ProductoCascada from "@/components/ProductoCascada";
 
 export default function AccesoriosDestacadosPage() {
   const [accesorios, setAccesorios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [viewMode, setViewMode] = useState("grid"); // "grid" o "cascade"
+
+  // Cargar preferencia guardada del localStorage
+  useEffect(() => {
+    const savedViewMode = localStorage.getItem("productViewMode");
+    if (savedViewMode) {
+      setViewMode(savedViewMode);
+    }
+  }, []);
+
+  // Guardar preferencia cuando cambie
+  const handleViewModeChange = (mode) => {
+    setViewMode(mode);
+    localStorage.setItem("productViewMode", mode);
+  };
 
   // Anuncios de negocios locales
   const ads = [
@@ -145,11 +162,43 @@ export default function AccesoriosDestacadosPage() {
               </ol>
             </nav>
 
+            {/* Toggle de vista */}
+            <div className="flex justify-end items-center mb-6">
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-1 flex gap-1">
+                <button
+                  onClick={() => handleViewModeChange("grid")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all ${
+                    viewMode === "grid"
+                      ? "bg-white dark:bg-gray-800 shadow-sm text-blue-600 dark:text-blue-400 font-semibold"
+                      : "text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100"
+                  }`}
+                  title="Vista en cuadrícula"
+                >
+                  <LayoutGrid size={18} />
+                  <span className="hidden sm:inline">Cuadrícula</span>
+                </button>
+                <button
+                  onClick={() => handleViewModeChange("cascade")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all ${
+                    viewMode === "cascade"
+                      ? "bg-white dark:bg-gray-800 shadow-sm text-blue-600 dark:text-blue-400 font-semibold"
+                      : "text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100"
+                  }`}
+                  title="Vista en cascada"
+                >
+                  <Columns size={18} />
+                  <span className="hidden sm:inline">Cascada</span>
+                </button>
+              </div>
+            </div>
+
             {/* Grid de productos */}
             {accesorios.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-gray-600 dark:text-gray-400 text-lg">No hay accesorios destacados disponibles</p>
               </div>
+            ) : viewMode === "cascade" ? (
+              <ProductoCascada productos={accesorios} categorySlug="destacados" />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {accesorios.map((accesorio) => (

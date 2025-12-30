@@ -5,6 +5,7 @@ import ConditionalFooter from "@/components/ConditionalFooter";
 import StructuredData from "@/components/StructuredData";
 import AOSInit from "@/components/AOSInit";
 import "./globals.css";
+import "../styles/sweetalert2-custom.css";
 // import "@/styles/darkMode.scss";
 // import "../styles/components/pages/darkMode.scss";
 import styles from "../styles/components/Layout.module.scss";
@@ -19,6 +20,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import AIChat from "@/components/AIChat/AIChat";
 import { CartProvider } from "@/context/CartContext";
 import ShoppingCart from "@/components/ShoppingCart/page";
+import AnnouncementsProvider from "@/components/AnnouncementsProvider";
 
 export const metadata = {
   metadataBase: new URL("https://neurai.dev"),
@@ -260,6 +262,7 @@ export default function RootLayout({ children }) {
                   <ShoppingCart />
                   {/* <AIChat /> */}
                   <ToastContainer />
+                  <AnnouncementsProvider />
                 </CartProvider>
               </ToastProvider>
             </ThemeProvider>

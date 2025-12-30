@@ -11,6 +11,8 @@ import {
   Settings,
   Menu,
   X,
+  Users,
+  Megaphone,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -55,6 +57,18 @@ export default function DashboardLayout({ children }) {
       href: "/dashboard/pedidos",
       icon: ShoppingCart,
       current: pathname?.startsWith("/dashboard/pedidos"),
+    },
+    {
+      name: "Clientes",
+      href: "/dashboard/clientes",
+      icon: Users,
+      current: pathname?.startsWith("/dashboard/clientes"),
+    },
+    {
+      name: "Anuncios",
+      href: "/dashboard/anuncios",
+      icon: Megaphone,
+      current: pathname?.startsWith("/dashboard/anuncios"),
     },
     {
       name: "Configuración",

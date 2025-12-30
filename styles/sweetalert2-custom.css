@@ -1,0 +1,59 @@
+/* Estilos personalizados para SweetAlert2 */
+
+/* Tema oscuro */
+.dark .swal2-popup {
+  background-color: #1f2937 !important;
+  color: #f3f4f6 !important;
+}
+
+.dark .swal2-title {
+  color: #f9fafb !important;
+}
+
+.dark .swal2-html-container {
+  color: #d1d5db !important;
+}
+
+.dark .swal2-close {
+  color: #9ca3af !important;
+}
+
+.dark .swal2-close:hover {
+  color: #f3f4f6 !important;
+}
+
+/* Iconos */
+.swal2-icon {
+  border-width: 3px !important;
+}
+
+/* Botones personalizados */
+.swal2-confirm,
+.swal2-cancel {
+  font-weight: 600 !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.875rem !important;
+  transition: all 0.2s !important;
+}
+
+.swal2-confirm:hover,
+.swal2-cancel:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+}
+
+/* Animaciones más suaves */
+.swal2-popup {
+  border-radius: 1rem !important;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+}
+
+/* Timer progress bar */
+.swal2-timer-progress-bar {
+  background: rgba(37, 99, 235, 0.8) !important;
+}
+
+.dark .swal2-timer-progress-bar {
+  background: rgba(59, 130, 246, 0.8) !important;
+}
