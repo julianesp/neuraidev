@@ -10,7 +10,6 @@ import {
   Maximize2,
   X
 } from "lucide-react";
-import ProductSchema from "@/components/ProductSchema";
 import { useSoldProducts } from "../hooks/useSoldProducts";
 import { htmlToPlainText } from "@/utils/htmlToText";
 import {
@@ -165,17 +164,6 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
                       isOutOfStock ? "opacity-70" : ""
                     }`}
                   >
-                    {/* Schema.org structured data para SEO */}
-                    <ProductSchema producto={{
-                      ...producto,
-                      nombre: producto.title || producto.nombre,
-                      precio: producto.price || producto.precio,
-                      descripcion: producto.description || producto.descripcion,
-                      imagen_principal: images[0],
-                      disponible: !isOutOfStock,
-                      categoria: categorySlug
-                    }} />
-
                     {/* Botón de carrito superior derecho - FUERA de la imagen */}
                     <button
                       onClick={async (e) => {
