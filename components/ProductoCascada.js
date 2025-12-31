@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -10,7 +10,7 @@ import {
   Maximize2,
   X
 } from "lucide-react";
-import DownloadableImage from "@/components/DownloadableImage";
+import ProductSchema from "@/components/ProductSchema";
 import { useSoldProducts } from "../hooks/useSoldProducts";
 import { htmlToPlainText } from "@/utils/htmlToText";
 import {
@@ -50,18 +50,24 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
     return <div className="text-center py-8">Cargando productos...</div>;
   }
 
-  const normalizeImages = (images) => {
-    if (!images) return ["/placeholder.jpg"];
+  const normalizeImages = (images, producto) => {
+    // Si hay imagen_principal, úsala como primera opción
+    if (producto?.imagen_principal) {
+      return [producto.imagen_principal];
+    }
+
+    if (!images) return ["https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"];
     if (typeof images === "string") return [images];
     if (Array.isArray(images)) {
-      return images.map(img => {
+      const normalized = images.map(img => {
         if (typeof img === "object" && img.url) {
           return img.url;
         }
         return img;
       });
+      return normalized.length > 0 ? normalized : ["https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"];
     }
-    return ["/placeholder.jpg"];
+    return ["https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"];
   };
 
   const formatPrice = (price) => {
@@ -148,53 +154,71 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
           {productosConEstado.map((producto, index) => {
                 if (!producto) return null;
 
-                const images = normalizeImages(producto.images || producto.imagenes);
+                const images = normalizeImages(producto.images || producto.imagenes, producto);
                 const currentImageIndex = slideIndexes[producto.id] || 0;
                 const isOutOfStock = producto.vendido || producto.stock === 0 || producto.cantidad === 0;
 
                 return (
                   <div
                     key={producto.id || index}
-                    className={`group bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${
+                    className={`group bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 relative ${
                       isOutOfStock ? "opacity-70" : ""
                     }`}
                   >
+                    {/* Schema.org structured data para SEO */}
+                    <ProductSchema producto={{
+                      ...producto,
+                      nombre: producto.title || producto.nombre,
+                      precio: producto.price || producto.precio,
+                      descripcion: producto.description || producto.descripcion,
+                      imagen_principal: images[0],
+                      disponible: !isOutOfStock,
+                      categoria: categorySlug
+                    }} />
+
+                    {/* Botón de carrito superior derecho - FUERA de la imagen */}
+                    <button
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (isOutOfStock) return;
+
+                        const success = await addToCart(producto, 1);
+                        if (success) {
+                          toast.success(`"${producto.nombre || producto.title}" agregado al carrito`, {
+                            title: "✅ Producto Agregado",
+                            duration: 3000,
+                          });
+                        }
+                      }}
+                      className={`absolute top-3 right-3 z-30 p-2.5 rounded-full shadow-lg transition-all ${
+                        isOutOfStock
+                          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                          : "bg-blue-600 hover:bg-blue-700 text-white hover:scale-110"
+                      }`}
+                      disabled={isOutOfStock}
+                      aria-label={isOutOfStock ? "Producto agotado" : "Agregar al carrito"}
+                      title={isOutOfStock ? "Producto agotado" : "Agregar al carrito"}
+                    >
+                      <ShoppingCart size={18} />
+                    </button>
+
+                    {/* Badge de stock bajo */}
+                    {!isOutOfStock && producto.stock && producto.stock <= 5 && (
+                      <div className="absolute top-3 left-3 z-20 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                        ¡Últimas {producto.stock}!
+                      </div>
+                    )}
+
+                    {/* Badge de VENDIDO o AGOTADO */}
+                    {isOutOfStock && (
+                      <div className="absolute top-3 left-3 z-20 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                        {producto.vendido ? "VENDIDO" : "AGOTADO"}
+                      </div>
+                    )}
+
                     {/* Galería de imágenes con altura fija */}
                     <div className="relative w-full h-64 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
-                      {/* Botón de carrito superior derecho */}
-                      <button
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          if (isOutOfStock) return;
-
-                          const success = await addToCart(producto, 1);
-                          if (success) {
-                            toast.success(`"${producto.nombre || producto.title}" agregado al carrito`, {
-                              title: "✅ Producto Agregado",
-                              duration: 3000,
-                            });
-                          }
-                        }}
-                        className={`absolute top-3 right-3 z-30 p-2.5 rounded-full shadow-lg transition-all ${
-                          isOutOfStock
-                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                            : "bg-green-600 hover:bg-green-700 text-white hover:scale-110"
-                        }`}
-                        disabled={isOutOfStock}
-                        aria-label={isOutOfStock ? "Producto agotado" : "Agregar al carrito"}
-                        title={isOutOfStock ? "Producto agotado" : "Agregar al carrito"}
-                      >
-                        <ShoppingCart size={18} />
-                      </button>
-
-                      {/* Badge de VENDIDO o AGOTADO */}
-                      {isOutOfStock && (
-                        <div className="absolute top-3 left-3 z-20 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                          {producto.vendido ? "VENDIDO" : "AGOTADO"}
-                        </div>
-                      )}
-
                       <div className="relative w-full h-full">
                         {images.map((img, idx) => {
                           const imageErrorKey = `${producto.id}-${idx}`;
@@ -213,7 +237,7 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
                                 </div>
                               ) : (
                                 <Image
-                                  src={img || "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
+                                  src={img || "https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
                                   alt={producto.title || producto.nombre || "Producto"}
                                   fill
                                   className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
@@ -300,18 +324,18 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
                         )}
                       </div>
 
-                      {/* Botón Ver más */}
+                      {/* Botón Ver detalles */}
                       <Link
                         href={buildProductUrl(
                           categorySlug,
                           generateProductSlug(producto),
                           producto
                         )}
-                        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-xl transition-colors text-sm"
+                        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors text-sm"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Eye size={16} />
-                        <span>Ver más</span>
+                        <span>Ver detalles</span>
                       </Link>
                     </div>
                   </div>
@@ -336,7 +360,7 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
 
           <div className="relative w-full h-full max-w-6xl max-h-[90vh] flex items-center justify-center">
             <Image
-              src={expandedImage[expandedImageIndex] || "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
+              src={expandedImage[expandedImageIndex] || "https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
               alt="Imagen expandida"
               fill
               className="object-contain"
