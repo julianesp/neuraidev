@@ -52,7 +52,7 @@ export default function SelectaFMPage() {
   const [copied, setCopied] = useState(false);
   const sessionIdRef = useRef<string | null>(null);
 
-  const shareUrl = 'https://www.neurai.dev/selecta';
+  const shareUrl = 'https://neurai.dev/selecta';
   const shareTitle = 'Escucha Selecta FM 93.3 en Vivo';
   const shareText = '🎵 Escucha Selecta FM 93.3 en vivo desde Valle de Sibundoy, Putumayo. ¡Música 24/7!';
 

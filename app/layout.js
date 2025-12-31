@@ -23,7 +23,7 @@ import ShoppingCart from "@/components/ShoppingCart/page";
 import AnnouncementsProvider from "@/components/AnnouncementsProvider";
 
 export const metadata = {
-  metadataBase: new URL("https://www.neurai.dev"),
+  metadataBase: new URL("https://neurai.dev"),
   title: {
     default:
       "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
@@ -113,7 +113,7 @@ export const metadata = {
     title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
       "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
-    url: "https://www.neurai.dev/",
+    url: "https://neurai.dev/",
     siteName: "neurai.dev",
     images: [
       {
@@ -162,7 +162,7 @@ export const metadata = {
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
     "twitter:domain": "neurai.dev",
-    "twitter:url": "https://www.neurai.dev/",
+    "twitter:url": "https://neurai.dev/",
     "geo.region": "CO-PUT",
     "geo.placename": "Valle de Sibundoy, Putumayo",
     "geo.position": "1.1333;-76.9",

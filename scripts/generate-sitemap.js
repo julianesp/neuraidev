@@ -17,7 +17,7 @@ const path = require('path');
 // Cargar variables de entorno
 require('dotenv').config({ path: '.env.local' });
 
-const BASE_URL = 'https://www.neurai.dev';
+const BASE_URL = 'https://neurai.dev';
 
 // Páginas estáticas del sitio
 const staticPages = [
@@ -197,7 +197,7 @@ async function main() {
   console.log('\n💡 Próximos pasos:');
   console.log('   1. Revisar el archivo public/sitemap.xml');
   console.log('   2. Hacer commit y push a producción');
-  console.log('   3. Verificar en: https://www.neurai.dev/sitemap.xml');
+  console.log('   3. Verificar en: https://neurai.dev/sitemap.xml');
   console.log('   4. Enviar a Google Search Console\n');
 }
 

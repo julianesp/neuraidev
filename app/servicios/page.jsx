@@ -13,7 +13,7 @@ export const metadata = {
     title: "Servicios Profesionales | Neurai.dev",
     description:
       "Servicios de desarrollo web, soporte técnico en sistemas y mantenimiento de computadores.",
-    url: "https://www.neurai.dev/servicios",
+    url: "https://neurai.dev/servicios",
     type: "website",
   },
   alternates: {

@@ -5,6 +5,6 @@ export default function robots() {
       allow: "/",
       disallow: ["/api/", "/admin/"],
     },
-    sitemap: "https://www.neurai.dev/sitemap.xml",
+    sitemap: "https://neurai.dev/sitemap.xml",
   };
 }

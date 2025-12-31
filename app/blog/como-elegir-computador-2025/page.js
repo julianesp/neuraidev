@@ -14,14 +14,14 @@ export const metadata = {
     description:
       "Todo lo que necesitas saber para elegir el computador perfecto según tu presupuesto y necesidades. Gaming, trabajo, diseño y más.",
     type: "article",
-    url: "https://www.neurai.dev/blog/como-elegir-computador-2025",
+    url: "https://neurai.dev/blog/como-elegir-computador-2025",
     siteName: "Neurai.dev",
     locale: "es_CO",
     publishedTime: "2025-01-15T00:00:00Z",
     modifiedTime: "2025-01-15T00:00:00Z",
     images: [
       {
-        url: "https://www.neurai.dev/images/blog/como-elegir-computador-2025-og.jpg",
+        url: "https://neurai.dev/images/blog/como-elegir-computador-2025-og.jpg",
         width: 1200,
         height: 630,
         alt: "Guía para elegir el mejor computador en 2025",
@@ -34,7 +34,7 @@ export const metadata = {
     description:
       "Todo lo que necesitas saber para elegir el computador perfecto según tu presupuesto y necesidades",
     images: [
-      "https://www.neurai.dev/images/blog/como-elegir-computador-2025-og.jpg",
+      "https://neurai.dev/images/blog/como-elegir-computador-2025-og.jpg",
     ],
   },
   robots: {
@@ -48,7 +48,7 @@ export const metadata = {
     },
   },
   alternates: {
-    canonical: "https://www.neurai.dev/blog/como-elegir-computador-2025",
+    canonical: "https://neurai.dev/blog/como-elegir-computador-2025",
   },
 };
 
