@@ -117,8 +117,14 @@ export async function POST(request) {
       });
 
       if (orderError) {
-        logError("⚠️ Error guardando orden", orderError);
+        logError("⚠️ Error guardando orden:", orderError);
+        logError("⚠️ Código:", orderError.code);
+        logError("⚠️ Mensaje:", orderError.message);
+        logError("⚠️ Detalles:", orderError.details);
+        logError("⚠️ Hint:", orderError.hint);
+        logError("⚠️ Datos que se intentaron insertar:", { reference, customerEmail, amount });
       } else {
+        log("✅ Orden guardada exitosamente con referencia:", reference);
         log("📦 Orden guardada con", normalizedItems.length, "items");
       }
     } catch (dbError) {

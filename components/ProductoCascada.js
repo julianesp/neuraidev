@@ -3,15 +3,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Eye,
   ShoppingCart,
   ChevronLeft,
-  ChevronRight,
-  Maximize2,
-  X
+  ChevronRight
 } from "lucide-react";
 import { useSoldProducts } from "../hooks/useSoldProducts";
-import { htmlToPlainText } from "@/utils/htmlToText";
 import {
   generateProductSlug,
   buildProductUrl,
@@ -22,8 +18,6 @@ import { useToast } from "../contexts/ToastContext";
 export default function ProductoCascada({ productos, categorySlug = "generales" }) {
   const [slideIndexes, setSlideIndexes] = useState({});
   const [imageErrors, setImageErrors] = useState({});
-  const [expandedImage, setExpandedImage] = useState(null);
-  const [expandedImageIndex, setExpandedImageIndex] = useState(0);
   const [productosConEstado, setProductosConEstado] = useState([]);
 
   const { applySoldStatus } = useSoldProducts();
@@ -119,31 +113,6 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
     }));
   };
 
-  const handleExpandImage = (images, index, e) => {
-    e?.preventDefault();
-    e?.stopPropagation();
-    setExpandedImage(images);
-    setExpandedImageIndex(index);
-  };
-
-  const closeExpandedImage = () => {
-    setExpandedImage(null);
-    setExpandedImageIndex(0);
-  };
-
-  const nextExpandedImage = (e) => {
-    e.stopPropagation();
-    if (!expandedImage) return;
-    setExpandedImageIndex((prev) => (prev + 1) % expandedImage.length);
-  };
-
-  const prevExpandedImage = (e) => {
-    e.stopPropagation();
-    if (!expandedImage) return;
-    setExpandedImageIndex((prev) =>
-      (prev - 1 + expandedImage.length) % expandedImage.length
-    );
-  };
 
   return (
     <>
@@ -158,13 +127,57 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
                 const isOutOfStock = producto.vendido || producto.stock === 0 || producto.cantidad === 0;
 
                 return (
-                  <div
+                  <Link
                     key={producto.id || index}
-                    className={`group bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 relative ${
+                    href={buildProductUrl(
+                      categorySlug,
+                      generateProductSlug(producto),
+                      producto
+                    )}
+                    className={`group relative rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 block ${
                       isOutOfStock ? "opacity-70" : ""
                     }`}
+                    style={{ height: "400px" }}
                   >
-                    {/* Botón de carrito superior derecho - FUERA de la imagen */}
+                    {/* Imagen de fondo con overlay */}
+                    <div className="absolute inset-0 w-full h-full">
+                      {images.map((img, idx) => {
+                        const imageErrorKey = `${producto.id}-${idx}`;
+                        const hasImageError = imageErrors[imageErrorKey];
+
+                        return (
+                          <div
+                            key={idx}
+                            className={`absolute inset-0 transition-opacity duration-500 ${
+                              idx === currentImageIndex ? "opacity-100" : "opacity-0"
+                            }`}
+                          >
+                            {hasImageError ? (
+                              <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                                <span className="text-gray-500 text-sm">Error cargando imagen</span>
+                              </div>
+                            ) : (
+                              <Image
+                                src={img || "https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
+                                alt={producto.title || producto.nombre || "Producto"}
+                                fill
+                                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                priority={false}
+                                loading="lazy"
+                                quality={85}
+                                onError={() => handleImageError(producto.id || index, idx)}
+                              />
+                            )}
+                          </div>
+                        );
+                      })}
+
+                      {/* Overlay gradient para mejor legibilidad del texto */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    </div>
+
+                    {/* Botón de carrito superior derecho */}
                     <button
                       onClick={async (e) => {
                         e.preventDefault();
@@ -205,192 +218,69 @@ export default function ProductoCascada({ productos, categorySlug = "generales" 
                       </div>
                     )}
 
-                    {/* Galería de imágenes con altura fija */}
-                    <div className="relative w-full h-64 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
-                      <div className="relative w-full h-full">
-                        {images.map((img, idx) => {
-                          const imageErrorKey = `${producto.id}-${idx}`;
-                          const hasImageError = imageErrors[imageErrorKey];
+                    {/* Controles de navegación de imágenes */}
+                    {images.length > 1 && (
+                      <>
+                        <button
+                          onClick={(e) => prevSlide(producto.id, e)}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm text-white p-1.5 rounded-full hover:bg-black/70 transition-all z-30 opacity-0 group-hover:opacity-100"
+                          aria-label="Imagen anterior"
+                        >
+                          <ChevronLeft size={18} />
+                        </button>
+                        <button
+                          onClick={(e) => nextSlide(producto.id, e)}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm text-white p-1.5 rounded-full hover:bg-black/70 transition-all z-30 opacity-0 group-hover:opacity-100"
+                          aria-label="Siguiente imagen"
+                        >
+                          <ChevronRight size={18} />
+                        </button>
 
-                          return (
-                            <div
+                        {/* Indicadores */}
+                        <div className="absolute bottom-20 left-0 right-0 flex justify-center gap-1.5 z-20">
+                          {images.map((_, idx) => (
+                            <button
                               key={idx}
-                              className={`absolute inset-0 transition-opacity duration-500 ${
-                                idx === currentImageIndex ? "opacity-100" : "opacity-0"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setSlideIndexes(prev => ({...prev, [producto.id]: idx}));
+                              }}
+                              className={`transition-all rounded-full ${
+                                idx === currentImageIndex
+                                  ? "bg-white w-6 h-1.5"
+                                  : "bg-white/50 w-1.5 h-1.5 hover:bg-white/70"
                               }`}
-                            >
-                              {hasImageError ? (
-                                <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                                  <span className="text-gray-500 text-sm">Error cargando imagen</span>
-                                </div>
-                              ) : (
-                                <Image
-                                  src={img || "https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
-                                  alt={producto.title || producto.nombre || "Producto"}
-                                  fill
-                                  className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
-                                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                                  priority={false}
-                                  loading="lazy"
-                                  quality={85}
-                                  onError={() => handleImageError(producto.id || index, idx)}
-                                />
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
+                              aria-label={`Ir a imagen ${idx + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
 
-                      {/* Botón de expandir */}
-                      <button
-                        onClick={(e) => handleExpandImage(images, currentImageIndex, e)}
-                        className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-all shadow-lg z-30 opacity-0 group-hover:opacity-100"
-                        aria-label="Expandir imagen"
-                      >
-                        <Maximize2 size={16} className="text-gray-700" />
-                      </button>
-
-                      {/* Controles de navegación */}
-                      {images.length > 1 && (
-                        <>
-                          <button
-                            onClick={(e) => prevSlide(producto.id, e)}
-                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm text-white p-1.5 rounded-full hover:bg-black/70 transition-all z-30 opacity-0 group-hover:opacity-100"
-                            aria-label="Imagen anterior"
-                          >
-                            <ChevronLeft size={18} />
-                          </button>
-                          <button
-                            onClick={(e) => nextSlide(producto.id, e)}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm text-white p-1.5 rounded-full hover:bg-black/70 transition-all z-30 opacity-0 group-hover:opacity-100"
-                            aria-label="Siguiente imagen"
-                          >
-                            <ChevronRight size={18} />
-                          </button>
-
-                          {/* Indicadores */}
-                          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 z-20">
-                            {images.map((_, idx) => (
-                              <button
-                                key={idx}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setSlideIndexes(prev => ({...prev, [producto.id]: idx}));
-                                }}
-                                className={`transition-all rounded-full ${
-                                  idx === currentImageIndex
-                                    ? "bg-white w-6 h-1.5"
-                                    : "bg-white/50 w-1.5 h-1.5 hover:bg-white/70"
-                                }`}
-                                aria-label={`Ir a imagen ${idx + 1}`}
-                              />
-                            ))}
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Información del producto */}
-                    <div className="p-4">
-                      <h3 className="text-base font-bold text-gray-800 mb-2 line-clamp-2">
+                    {/* Información del producto - Posicionada en la parte inferior */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
+                      <h3 className="text-lg font-bold text-white mb-2 line-clamp-2 drop-shadow-lg">
                         {producto.title || producto.nombre || "Sin título"}
                       </h3>
 
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-3">
-                        {htmlToPlainText(producto.description || producto.descripcion || "Sin descripción", 120)}
-                      </p>
-
                       {/* Precio */}
-                      <div className="mb-3">
-                        <span className="text-xl font-bold text-green-600">
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl font-bold text-white drop-shadow-lg">
                           {formatPrice(producto.price || producto.precio)}
                         </span>
                         {producto.cantidad && (
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-white/90 bg-black/30 px-2 py-1 rounded-full">
                             Stock: {producto.cantidad}
                           </p>
                         )}
                       </div>
-
-                      {/* Botón Ver detalles */}
-                      <Link
-                        href={buildProductUrl(
-                          categorySlug,
-                          generateProductSlug(producto),
-                          producto
-                        )}
-                        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors text-sm"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Eye size={16} />
-                        <span>Ver detalles</span>
-                      </Link>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
         </div>
       </div>
-
-      {/* Modal de imagen expandida */}
-      {expandedImage && (
-        <div
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 animate-fadeIn"
-          onClick={closeExpandedImage}
-        >
-          <button
-            onClick={closeExpandedImage}
-            className="absolute top-4 right-4 bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-all z-50"
-            aria-label="Cerrar"
-          >
-            <X size={24} />
-          </button>
-
-          <div className="relative w-full h-full max-w-6xl max-h-[90vh] flex items-center justify-center">
-            <Image
-              src={expandedImage[expandedImageIndex] || "https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
-              alt="Imagen expandida"
-              fill
-              className="object-contain"
-              sizes="100vw"
-              quality={100}
-              priority
-            />
-
-            {expandedImage.length > 1 && (
-              <>
-                <button
-                  onClick={prevExpandedImage}
-                  className="absolute left-4 bg-white/10 backdrop-blur-sm text-white p-4 rounded-full hover:bg-white/20 transition-all"
-                  aria-label="Imagen anterior"
-                >
-                  <ChevronLeft size={32} />
-                </button>
-                <button
-                  onClick={nextExpandedImage}
-                  className="absolute right-4 bg-white/10 backdrop-blur-sm text-white p-4 rounded-full hover:bg-white/20 transition-all"
-                  aria-label="Siguiente imagen"
-                >
-                  <ChevronRight size={32} />
-                </button>
-
-                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-                  {expandedImage.map((_, idx) => (
-                    <div
-                      key={idx}
-                      className={`transition-all rounded-full ${
-                        idx === expandedImageIndex
-                          ? "bg-white w-8 h-2"
-                          : "bg-white/50 w-2 h-2"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
 
       <style jsx global>{`
         @keyframes fadeIn {

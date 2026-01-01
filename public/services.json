@@ -1,0 +1,52 @@
+{
+  "services": [
+    {
+      "id": "tecnico-sistemas",
+      "title": "Técnico en Sistemas",
+      "description": "Servicios profesionales de soporte técnico, mantenimiento preventivo y correctivo de computadores, instalación de software, diagnóstico y reparación de hardware.",
+      "category": "Soporte Técnico",
+      "url": "/servicios/tecnico-sistemas",
+      "keywords": "técnico, sistemas, soporte, mantenimiento, reparación, computador, hardware, software, diagnóstico"
+    },
+    {
+      "id": "desarrollador-web",
+      "title": "Desarrollador Web",
+      "description": "Desarrollo de páginas web profesionales, aplicaciones web personalizadas, tiendas online, diseño responsive, optimización SEO y mantenimiento web.",
+      "category": "Desarrollo",
+      "url": "/servicios/desarrollador-software",
+      "keywords": "desarrollo web, página web, aplicación web, tienda online, ecommerce, seo, diseño web, programación"
+    },
+    {
+      "id": "mantenimiento-preventivo",
+      "title": "Mantenimiento Preventivo",
+      "description": "Mantenimiento preventivo de computadores para evitar fallas futuras. Limpieza interna, actualización de software, optimización de sistema operativo.",
+      "category": "Mantenimiento",
+      "url": "/servicios/tecnico-sistemas",
+      "keywords": "mantenimiento, preventivo, limpieza, optimización, actualización, software, sistema operativo"
+    },
+    {
+      "id": "instalacion-software",
+      "title": "Instalación de Software",
+      "description": "Instalación y configuración de sistemas operativos, programas especializados, antivirus, herramientas de productividad y software empresarial.",
+      "category": "Instalación",
+      "url": "/servicios/tecnico-sistemas",
+      "keywords": "instalación, software, sistema operativo, windows, linux, programas, antivirus, configuración"
+    },
+    {
+      "id": "diseño-web-responsive",
+      "title": "Diseño Web Responsive",
+      "description": "Diseño de sitios web que se adaptan perfectamente a cualquier dispositivo: computador, tablet o celular. Mejor experiencia de usuario garantizada.",
+      "category": "Diseño",
+      "url": "/servicios/desarrollador-software",
+      "keywords": "diseño web, responsive, adaptable, móvil, tablet, ux, ui, experiencia usuario"
+    },
+    {
+      "id": "tienda-online",
+      "title": "Tienda Online / E-commerce",
+      "description": "Creación de tiendas virtuales completas con carrito de compras, pasarela de pagos, gestión de inventario y panel administrativo.",
+      "category": "E-commerce",
+      "url": "/servicios/desarrollador-software",
+      "keywords": "tienda online, ecommerce, carrito compras, pagos, inventario, venta online, comercio electrónico"
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import {
   Plus,
   Star,
   Link as LinkIcon,
+  Percent,
 } from "lucide-react";
 import { obtenerEstadisticasProductos } from "@/lib/supabase/productos";
 
@@ -109,6 +110,12 @@ export default function DashboardPage() {
             description="Gestiona tu catálogo de productos"
             href="/dashboard/productos"
             icon={Package}
+          />
+          <QuickAction
+            title="Ofertas"
+            description="Crea descuentos y promociones"
+            href="/dashboard/ofertas"
+            icon={Percent}
           />
           <QuickAction
             title="Payment Links"

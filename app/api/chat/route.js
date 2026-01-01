@@ -1,3 +1,5 @@
+import { openai } from "@ai-sdk/openai";
+import { streamText } from "ai";
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
@@ -31,210 +33,181 @@ async function loadAllProducts() {
   return products;
 }
 
-// Base de conocimiento del chatbot
-const knowledgeBase = {
-  preciosBajos: {
-    keywords: ["barato", "económico", "mas bajo", "más bajo", "menor precio", "economico", "precio bajo", "low price", "cheapest"],
-    async handler(message) {
-      const products = await loadAllProducts();
+// Función para obtener información de productos disponibles
+async function getProductsContext() {
+  const products = await loadAllProducts();
 
-      if (products.length === 0) {
-        return "Lo siento, no pude cargar la información de productos en este momento.";
-      }
+  // Agrupar productos por categoría
+  const categories = {
+    celulares: products.filter(p => p.categoria === 'celulares' && p.disponible),
+    computadoras: products.filter(p => p.categoria === 'computadoras' && p.disponible),
+    damas: products.filter(p => p.categoria === 'damas' && p.disponible),
+    "libros-nuevos": products.filter(p => p.categoria === 'libros-nuevos' && p.disponible),
+    "libros-usados": products.filter(p => p.categoria === 'libros-usados' && p.disponible),
+    generales: products.filter(p => p.categoria === 'generales' && p.disponible),
+  };
 
-      // Ordenar por precio ascendente
-      const sortedProducts = products
-        .filter(p => p.precio && p.disponible)
-        .sort((a, b) => a.precio - b.precio);
+  // Obtener productos más baratos y más caros
+  const availableProducts = products.filter(p => p.precio && p.disponible);
+  const cheapest = availableProducts.sort((a, b) => a.precio - b.precio).slice(0, 5);
+  const expensive = availableProducts.sort((a, b) => b.precio - a.precio).slice(0, 5);
 
-      if (sortedProducts.length === 0) {
-        return "No encontré productos con precios disponibles en este momento.";
-      }
-
-      const cheapest = sortedProducts.slice(0, 3);
-
-      let response = "💰 **Los productos más económicos disponibles son:**\n\n";
-      cheapest.forEach((product, index) => {
-        response += `${index + 1}. **${product.nombre}**\n`;
-        response += `   💵 Precio: $${product.precio.toLocaleString("es-CO")}\n`;
-        response += `   📁 Categoría: ${product.categoria}\n\n`;
-      });
-
-      response += "¿Te interesa alguno de estos productos?";
-      return response;
-    }
-  },
-  preciosAltos: {
-    keywords: ["caro", "costoso", "mas alto", "más alto", "mayor precio", "precio alto", "high price", "expensive", "mas caro", "más caro"],
-    async handler(message) {
-      const products = await loadAllProducts();
-
-      if (products.length === 0) {
-        return "Lo siento, no pude cargar la información de productos en este momento.";
-      }
-
-      // Ordenar por precio descendente
-      const sortedProducts = products
-        .filter(p => p.precio && p.disponible)
-        .sort((a, b) => b.precio - a.precio);
-
-      if (sortedProducts.length === 0) {
-        return "No encontré productos con precios disponibles en este momento.";
-      }
-
-      const expensive = sortedProducts.slice(0, 3);
-
-      let response = "💎 **Los productos con precios más altos disponibles son:**\n\n";
-      expensive.forEach((product, index) => {
-        response += `${index + 1}. **${product.nombre}**\n`;
-        response += `   💵 Precio: $${product.precio.toLocaleString("es-CO")}\n`;
-        response += `   📁 Categoría: ${product.categoria}\n\n`;
-      });
-
-      response += "¿Te interesa alguno de estos productos premium?";
-      return response;
-    }
-  },
-  precios: {
-    keywords: ["precio", "costo", "valor", "cuanto", "cuánto"],
-    response: "💰 **Información sobre precios:**\n\n" +
-      "Puedo ayudarte con:\n" +
-      "• Ver los productos más baratos\n" +
-      "• Ver los productos más caros\n" +
-      "• Buscar productos por precio\n\n" +
-      "¿Qué te gustaría saber específicamente?"
-  },
-  buscarProducto: {
-    keywords: ["buscar producto", "encontrar", "busco", "necesito", "quiero comprar", "me interesa"],
-    async handler(message) {
-      return "🔍 Puedo ayudarte a buscar productos específicos.\n\n¿Qué tipo de producto estás buscando? Por ejemplo:\n• Cables USB\n• Fundas para celular\n• Mouse para PC\n• Libros\n• Productos de belleza\n\nO puedes usar el buscador en la página principal para encontrar lo que necesitas.";
-    }
-  },
-  categorias: {
-    keywords: ["categoría", "categoria", "sección", "seccion", "tipo", "tipos"],
-    response: "📂 **Nuestras categorías de productos:**\n\n" +
-      "1. 📱 **Celulares** - /accesorios/celulares\n" +
-      "2. 💻 **Computadoras** - /accesorios/computadoras\n" +
-      "3. 💄 **Damas** - /accesorios/damas\n" +
-      "4. 📚 **Libros Nuevos** - /accesorios/libros-nuevos\n" +
-      "5. 📖 **Libros Usados** - /accesorios/libros-usados\n" +
-      "6. 🎁 **Generales** - /accesorios/generales\n\n" +
-      "¿Qué categoría te interesa explorar?"
-  },
-  ofertas: {
-    keywords: ["oferta", "descuento", "promoción", "promocion", "rebaja", "especial"],
-    response: "🎉 **¡Ofertas y promociones!**\n\n" +
-      "Te recomiendo visitar nuestra sección de productos destacados donde encontrarás:\n" +
-      "✨ Productos seleccionados\n" +
-      "💰 Mejores precios\n" +
-      "🆕 Novedades\n\n" +
-      "También puedes preguntarme por el producto más económico de una categoría específica."
-  },
-  productos: {
-    keywords: ["producto", "vender", "venden", "tienen", "catalogo", "catálogo", "stock", "disponible", "que venden"],
-    response: "En Neurai.dev vendemos una amplia variedad de productos:\n\n📱 **Accesorios para celulares**: cables, fundas, cargadores\n💻 **Accesorios para computadoras**: teclados, mouse, componentes\n💄 **Productos de belleza**: para el cuidado personal\n📚 **Libros nuevos y usados**: diferentes géneros\n🎁 **Accesorios generales**: variedad de gadgets\n\n¿Te gustaría ver alguna categoría específica?"
-  },
-  envios: {
-    keywords: ["envío", "envio", "enviar", "entrega", "domicilio", "despacho", "shipping"],
-    response: "📦 **Información de envíos:**\n\n✅ Hacemos envíos a toda Colombia\n✅ El costo del envío se calcula según la ubicación\n✅ Tiempo estimado: 2-5 días hábiles\n✅ Puedes hacer seguimiento de tu pedido\n\n¿Necesitas saber el costo de envío a tu ciudad?"
-  },
-  pago: {
-    keywords: ["pago", "pagar", "precio", "costo", "cuanto", "cuánto", "tarjeta", "efectivo", "transferencia", "método"],
-    response: "💳 **Métodos de pago aceptados:**\n\n✅ Tarjetas de crédito y débito\n✅ Transferencia bancaria\n✅ Efectivo (contra entrega en algunas zonas)\n✅ Pago por WhatsApp\n\nTodos nuestros pagos son seguros y confiables."
-  },
-  garantia: {
-    keywords: ["garantía", "garantia", "devolución", "devolucion", "cambio", "defecto", "reclamo"],
-    response: "🛡️ **Política de garantía:**\n\n✅ Todos nuestros productos tienen garantía\n✅ 30 días para devoluciones\n✅ Cambios por defectos de fábrica\n✅ Soporte técnico incluido\n\n¿Tienes algún problema con un producto específico?"
-  },
-  contacto: {
-    keywords: ["contacto", "contactar", "whatsapp", "teléfono", "telefono", "llamar", "escribir", "correo", "email"],
-    response: "📞 **Contáctanos:**\n\n📱 WhatsApp: +57 317 450 3604\n✉️ Email: contacto@neurai.dev\n🌐 Página web: www.neurai.dev\n\n¿Prefieres que te redirija a WhatsApp?"
-  },
-  horario: {
-    keywords: ["horario", "hora", "cuando", "cuándo", "abierto", "cerrado", "atienden"],
-    response: "🕐 **Horario de atención:**\n\nLunes a Viernes: 8:00 AM - 6:00 PM\nSábados: 9:00 AM - 5:00 PM\nDomingos: Cerrado\n\n⚡ El chatbot está disponible 24/7"
-  },
-  ubicacion: {
-    keywords: ["ubicación", "ubicacion", "dirección", "direccion", "donde", "dónde", "local", "tienda"],
-    response: "📍 **Ubicación:**\n\nSomos una tienda online con cobertura nacional en Colombia.\n\n¿Quieres saber si hacemos envíos a tu ciudad?"
-  },
-  ayuda: {
-    keywords: ["ayuda", "help", "asistencia", "soporte", "problema", "no puedo", "error"],
-    response: "🤝 **¿En qué puedo ayudarte?**\n\nPuedo ayudarte con:\n• Información sobre productos\n• Métodos de pago\n• Información de envíos\n• Garantías y devoluciones\n• Contacto directo\n\n¿Sobre qué tema necesitas ayuda?"
-  }
-};
-
-// Función para buscar en la base de conocimiento con puntuación
-async function findBestMatch(userMessage) {
-  const messageLower = userMessage.toLowerCase();
-  let bestMatch = null;
-  let bestScore = 0;
-
-  // Buscar coincidencias en la base de conocimiento
-  for (const [category, data] of Object.entries(knowledgeBase)) {
-    let score = 0;
-
-    // Calcular puntuación basada en keywords
-    for (const keyword of data.keywords) {
-      if (messageLower.includes(keyword.toLowerCase())) {
-        // Dar más puntos si la keyword es más larga (más específica)
-        score += keyword.length;
-      }
-    }
-
-    if (score > bestScore) {
-      bestScore = score;
-      bestMatch = data;
-    }
-  }
-
-  // Si encontramos una coincidencia con puntuación suficiente
-  if (bestMatch && bestScore > 0) {
-    // Si tiene un handler async, ejecutarlo
-    if (bestMatch.handler) {
-      return await bestMatch.handler(userMessage);
-    }
-    // Si solo tiene respuesta estática, devolverla
-    return bestMatch.response;
-  }
-
-  return null;
+  return {
+    totalProducts: products.length,
+    availableProducts: availableProducts.length,
+    categories,
+    cheapestProducts: cheapest,
+    expensiveProducts: expensive,
+    productsList: products.filter(p => p.disponible).slice(0, 20) // Limitar para no saturar el contexto
+  };
 }
 
-// Respuestas por defecto para saludos y despedidas
-const greetings = {
-  keywords: ["hola", "buenas", "buenos", "hey", "hi", "saludos", "qué tal", "que tal"],
-  responses: [
-    "¡Hola! 👋 Bienvenido a Neurai.dev. ¿En qué puedo ayudarte hoy?",
-    "¡Hola! 😊 ¿Buscas algo en particular?",
-    "¡Hola! Estoy aquí para ayudarte. ¿Qué necesitas saber?"
-  ]
-};
+// System prompt para el asistente
+const systemPrompt = `Eres un asistente virtual inteligente y amigable de Neurai.dev, una tienda online colombiana especializada en accesorios tecnológicos y más.
 
-const farewells = {
-  keywords: ["adiós", "adios", "chao", "chau", "bye", "hasta luego", "nos vemos", "gracias"],
-  responses: [
-    "¡Hasta pronto! 👋 Si necesitas algo más, aquí estaré.",
-    "¡Que tengas un excelente día! 😊",
-    "¡Gracias por visitarnos! Vuelve pronto. 🙌"
-  ]
-};
+**INFORMACIÓN DE LA TIENDA:**
+- Nombre: Neurai.dev
+- Ubicación: Colombia (Valle de Sibundoy, Putumayo)
+- Sitio web: https://neurai.dev
+- WhatsApp: +57 317 450 3604
+- Email: contacto@neurai.dev
 
-function isGreeting(message) {
-  const messageLower = message.toLowerCase();
-  return greetings.keywords.some(keyword => messageLower.includes(keyword));
-}
+**CATEGORÍAS DE PRODUCTOS:**
+1. 📱 Accesorios para celulares: fundas, cargadores, cables, protectores de pantalla, manos libres
+2. 💻 Accesorios para computadoras: teclados, mouse, memorias RAM, discos duros, pendrives, cables USB
+3. 💄 Productos de belleza y damas: accesorios y productos para el cuidado personal
+4. 📚 Libros nuevos: diferentes géneros literarios
+5. 📖 Libros usados: a precios más accesibles
+6. 🎁 Productos generales: variedad de gadgets y accesorios
 
-function isFarewell(message) {
-  const messageLower = message.toLowerCase();
-  return farewells.keywords.some(keyword => messageLower.includes(keyword));
-}
+**INFORMACIÓN CLAVE:**
 
-function getRandomResponse(responses) {
-  return responses[Math.floor(Math.random() * responses.length)];
-}
+**Envíos:**
+- Cobertura nacional en Colombia
+- Costo según ubicación
+- Tiempo estimado: 2-5 días hábiles
+- Seguimiento de pedidos disponible
+
+**Métodos de pago:**
+- Tarjetas de crédito y débito
+- Transferencia bancaria
+- Efectivo (contra entrega en algunas zonas)
+- Pago por WhatsApp
+- Todos los pagos son seguros
+
+**Garantías:**
+- Todos los productos tienen garantía
+- 30 días para devoluciones
+- Cambios por defectos de fábrica
+- Soporte técnico incluido
+
+**Horario de atención:**
+- Lunes a Viernes: 8:00 AM - 6:00 PM
+- Sábados: 9:00 AM - 5:00 PM
+- Domingos: Cerrado
+- Chatbot disponible 24/7
+
+**TU FUNCIÓN:**
+1. Ayudar a los clientes a encontrar productos
+2. Responder preguntas sobre precios, envíos, pagos y garantías
+3. Guiar a los usuarios por el sitio web
+4. Ser amigable, profesional y útil
+5. Si no sabes algo específico, ofrece contactar por WhatsApp o email
+
+**ESTILO DE COMUNICACIÓN:**
+- Usa emojis apropiados para ser más amigable
+- Sé conciso pero completo
+- Ofrece opciones y alternativas
+- Si mencionas productos, incluye nombres y precios cuando estén disponibles
+- Usa formato markdown para mejor legibilidad
+
+**IMPORTANTE:**
+- Siempre verifica la información de productos en el contexto proporcionado
+- Si preguntan por un producto específico que no encuentras, sugiere alternativas
+- Anima a los usuarios a explorar las categorías del sitio
+- Ofrece ayuda adicional al final de cada respuesta`;
 
 export async function POST(request) {
+  try {
+    // Verificar que la API key esté configurada
+    if (!process.env.OPENAI_API_KEY) {
+      console.error("OPENAI_API_KEY no está configurada");
+
+      // Fallback al sistema de respuestas básicas
+      return fallbackResponse(request);
+    }
+
+    const { messages } = await request.json();
+
+    if (!messages || messages.length === 0) {
+      return NextResponse.json(
+        { error: "No se proporcionaron mensajes" },
+        { status: 400 }
+      );
+    }
+
+    // Obtener contexto de productos
+    const productsContext = await getProductsContext();
+
+    // Crear mensaje de contexto con información de productos
+    const contextMessage = {
+      role: "system",
+      content: `${systemPrompt}
+
+**PRODUCTOS DISPONIBLES:**
+
+Total de productos disponibles: ${productsContext.availableProducts}
+
+**Productos más económicos:**
+${productsContext.cheapestProducts.map((p, i) =>
+  `${i + 1}. ${p.nombre} - $${p.precio?.toLocaleString("es-CO")} (${p.categoria})`
+).join("\n")}
+
+**Productos premium:**
+${productsContext.expensiveProducts.map((p, i) =>
+  `${i + 1}. ${p.nombre} - $${p.precio?.toLocaleString("es-CO")} (${p.categoria})`
+).join("\n")}
+
+**Productos por categoría:**
+- Celulares: ${productsContext.categories.celulares.length} productos
+- Computadoras: ${productsContext.categories.computadoras.length} productos
+- Damas: ${productsContext.categories.damas.length} productos
+- Libros nuevos: ${productsContext.categories["libros-nuevos"].length} productos
+- Libros usados: ${productsContext.categories["libros-usados"].length} productos
+- Generales: ${productsContext.categories.generales.length} productos
+
+Usa esta información para responder preguntas específicas sobre productos y precios.`
+    };
+
+    // Usar Vercel AI SDK para generar respuesta con streaming
+    const result = await streamText({
+      model: openai("gpt-4o-mini"), // Modelo más económico pero muy capaz
+      messages: [contextMessage, ...messages],
+      temperature: 0.7,
+      maxTokens: 500,
+    });
+
+    // Convertir el stream a una respuesta de texto completa
+    let fullResponse = "";
+    for await (const chunk of result.textStream) {
+      fullResponse += chunk;
+    }
+
+    return NextResponse.json({
+      message: fullResponse,
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error("Error en el chatbot con IA:", error);
+
+    // Intentar fallback
+    return fallbackResponse(request);
+  }
+}
+
+// Fallback al sistema de respuestas básicas si falla la IA
+async function fallbackResponse(request) {
   try {
     const { messages } = await request.json();
 
@@ -245,52 +218,50 @@ export async function POST(request) {
       );
     }
 
-    // Obtener el último mensaje del usuario
     const lastMessage = messages[messages.length - 1];
+    const userMessage = lastMessage.content.toLowerCase();
 
-    if (lastMessage.role !== "user") {
-      return NextResponse.json(
-        { error: "El último mensaje debe ser del usuario" },
-        { status: 400 }
-      );
-    }
+    // Base de conocimiento básica (versión simplificada)
+    const knowledgeBase = {
+      precio: {
+        keywords: ["precio", "costo", "valor", "cuanto", "cuánto", "barato", "económico"],
+        response: "💰 Para ver los precios de nuestros productos, te recomiendo explorar nuestras categorías:\n\n📱 Celulares: /accesorios/celulares\n💻 Computadoras: /accesorios/computadoras\n📚 Libros: /accesorios/libros-nuevos\n\nTambién puedes contactarnos por WhatsApp: +57 317 450 3604"
+      },
+      envio: {
+        keywords: ["envío", "envio", "entrega", "domicilio", "despacho"],
+        response: "📦 **Información de envíos:**\n\n✅ Hacemos envíos a toda Colombia\n✅ Costo según ubicación\n✅ Tiempo estimado: 2-5 días hábiles\n✅ Seguimiento disponible\n\n¿A qué ciudad necesitas el envío?"
+      },
+      pago: {
+        keywords: ["pago", "pagar", "tarjeta", "efectivo", "transferencia"],
+        response: "💳 **Métodos de pago:**\n\n✅ Tarjetas de crédito/débito\n✅ Transferencia bancaria\n✅ Efectivo contra entrega\n✅ Pago por WhatsApp\n\nTodos nuestros pagos son seguros."
+      },
+      contacto: {
+        keywords: ["contacto", "whatsapp", "teléfono", "llamar", "escribir"],
+        response: "📞 **Contáctanos:**\n\n📱 WhatsApp: +57 317 450 3604\n✉️ Email: contacto@neurai.dev\n🌐 Web: neurai.dev\n\n¿Prefieres que te redirija a WhatsApp?"
+      }
+    };
 
-    const userMessage = lastMessage.content;
-    let responseMessage;
-
-    // Verificar saludos
-    if (isGreeting(userMessage)) {
-      responseMessage = getRandomResponse(greetings.responses);
-    }
-    // Verificar despedidas
-    else if (isFarewell(userMessage)) {
-      responseMessage = getRandomResponse(farewells.responses);
-    }
-    // Buscar en la base de conocimiento
-    else {
-      responseMessage = await findBestMatch(userMessage);
-
-      // Si no hay coincidencia, respuesta por defecto
-      if (!responseMessage) {
-        responseMessage = "🤔 No estoy seguro de entender tu pregunta. Puedo ayudarte con:\n\n" +
-          "• Información sobre productos y precios\n" +
-          "• Buscar productos específicos\n" +
-          "• Métodos de pago\n" +
-          "• Información de envíos\n" +
-          "• Garantías y devoluciones\n" +
-          "• Contacto directo\n\n" +
-          "También puedes preguntarme: \"¿Cuál es el producto más barato?\" o \"Busco cables USB\"\n\n" +
-          "O contáctanos por WhatsApp: +57 317 450 3604";
+    // Buscar coincidencia
+    let response = null;
+    for (const [key, data] of Object.entries(knowledgeBase)) {
+      if (data.keywords.some(keyword => userMessage.includes(keyword))) {
+        response = data.response;
+        break;
       }
     }
 
+    // Respuesta por defecto
+    if (!response) {
+      response = "¡Hola! 👋 Soy el asistente de Neurai.dev.\n\n🤖 Actualmente funciono en modo básico. Para mejor asistencia, contáctanos:\n\n📱 WhatsApp: +57 317 450 3604\n✉️ Email: contacto@neurai.dev\n\n¿En qué puedo ayudarte?";
+    }
+
     return NextResponse.json({
-      message: responseMessage,
+      message: response,
       timestamp: new Date().toISOString()
     });
 
   } catch (error) {
-    console.error("Error en el chatbot:", error);
+    console.error("Error en fallback:", error);
     return NextResponse.json(
       { error: "Error al procesar la solicitud" },
       { status: 500 }

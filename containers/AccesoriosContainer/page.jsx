@@ -9,7 +9,6 @@ import {
   ChevronLeft,
   ChevronRight,
   MessageCircle,
-  Eye,
   ShoppingCart,
 } from "lucide-react";
 import styles from "./AccesoriosContainer.module.scss"; // Importamos estilos SCSS
@@ -1108,18 +1107,52 @@ const AccesoriosContainer = ({
                           : item.imagenes[0]
                         : null);
 
+                    const isOutOfStock = item.stock === 0 || item.cantidad === 0;
+
                     return (
-                      <div
+                      <Link
                         key={itemIndex}
-                        className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-lg p-2 flex flex-col justify-between hover:scale-105 transition-transform relative`}
+                        href={buildProductUrl(
+                          item.categoria || categorySlug,
+                          generateProductSlug(item),
+                          item,
+                        )}
+                        className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} relative rounded-lg overflow-hidden hover:scale-105 transition-all duration-300 hover:shadow-xl block ${
+                          isOutOfStock ? "opacity-70" : ""
+                        }`}
+                        style={{ height: "300px" }}
                       >
+                        {/* Imagen de fondo */}
+                        <div className="absolute inset-0 w-full h-full">
+                          {!imageError[`related-${itemIndex}`] && itemImageUrl ? (
+                            <Image
+                              src={itemImageUrl}
+                              alt={item.nombre || ""}
+                              fill={true}
+                              className="object-cover group-hover:scale-110 transition-transform duration-500"
+                              onError={() =>
+                                handleImageError(`related-${itemIndex}`)
+                              }
+                              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                              priority={false}
+                              loading="lazy"
+                              quality={85}
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center h-full bg-gray-200">
+                              <p className="text-gray-500">Sin imagen</p>
+                            </div>
+                          )}
+
+                          {/* Overlay gradient */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        </div>
+
                         {/* Botón flotante para agregar al carrito */}
                         <button
                           onClick={async (e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            const isOutOfStock =
-                              item.stock === 0 || item.cantidad === 0;
                             if (isOutOfStock) {
                               toast.warning(
                                 `"${item.nombre}" no está disponible`,
@@ -1141,76 +1174,41 @@ const AccesoriosContainer = ({
                               );
                             }
                           }}
-                          className={` absolute top-2 right-2 z-10 p-2 rounded-full shadow-lg transition-all duration-200 ${
-                            item.stock === 0 || item.cantidad === 0
+                          className={`absolute top-3 right-3 z-30 p-2.5 rounded-full shadow-lg transition-all ${
+                            isOutOfStock
                               ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-70"
                               : "bg-blue-600 hover:bg-blue-700 text-white hover:scale-110"
                           }`}
-                          disabled={item.stock === 0 || item.cantidad === 0}
+                          disabled={isOutOfStock}
                           aria-label={`Agregar ${item.nombre} al carrito`}
                           title={
-                            item.stock === 0 || item.cantidad === 0
+                            isOutOfStock
                               ? "Producto agotado"
                               : "Agregar al carrito"
                           }
                         >
-                          <ShoppingCart size={30} />
+                          <ShoppingCart size={20} />
                         </button>
 
-                        <div className="relative h-40 mb-2 overflow-hidden rounded">
-                          {!imageError[`related-${itemIndex}`] &&
-                          itemImageUrl ? (
-                            <Image
-                              src={itemImageUrl}
-                              alt={item.nombre || ""}
-                              fill={true}
-                              className="object-contain"
-                              onError={() =>
-                                handleImageError(`related-${itemIndex}`)
-                              }
-                              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                              priority={false}
-                              loading="lazy"
-                              quality={85}
-                              placeholder="blur"
-                              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                            />
-                          ) : (
-                            <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm">
-                              <p className="text-gray-500">Sin imagen</p>
-                            </div>
-                          )}
+                        {/* Badge de stock o agotado */}
+                        {isOutOfStock && (
+                          <div className="absolute top-3 left-3 z-20 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                            AGOTADO
+                          </div>
+                        )}
+
+                        {/* Información del producto en la parte inferior */}
+                        <div className="absolute bottom-0 left-0 right-0 p-3 z-20">
+                          <h3 className="font-bold text-base text-white mb-2 line-clamp-2 drop-shadow-lg">
+                            {item.nombre || ""}
+                          </h3>
+                          <PriceWithDiscount
+                            precio={item.precio}
+                            showBadge={false}
+                            className="text-white text-xl font-bold drop-shadow-lg"
+                          />
                         </div>
-
-                        <h3 className="font-medium text-sm truncate text-black dark:text-white">
-                          {item.nombre || ""}
-                        </h3>
-                        <PriceWithDiscount
-                          precio={item.precio}
-                          showBadge={false}
-                          className="text-black dark:text-white font-bold mt-1"
-                        />
-
-                        {/* Botones de acción */}
-                        <div
-                          className={`mt-2 flex justify-center ${styles.relatedItemButtons}`}
-                        >
-                          <Link
-                            href={buildProductUrl(
-                              item.categoria || categorySlug,
-                              generateProductSlug(item),
-                              item,
-                            )}
-                            className="py-2 px-4 rounded flex items-center justify-center w-full md:w-auto transition-colors text-sm bg-blue-600 text-white hover:bg-blue-700"
-                            aria-label={`Ver detalles de ${item.nombre || "accesorio"}`}
-                          >
-                            <Eye size={16} className="mr-1" />
-                            <h6 className="text-xs md:text-sm">Ver detalles</h6>
-                          </Link>
-
-                          {/* Botón Agregar al Carrito - DESHABILITADO */}
-                        </div>
-                      </div>
+                      </Link>
                     );
                   })}
                 </div>

@@ -48,7 +48,9 @@ export async function GET(request) {
       );
     }
 
-    return NextResponse.json(data || []);
+    console.log(`✅ [API] ${data?.length || 0} productos obtenidos`);
+
+    return NextResponse.json({ productos: data || [] });
 
   } catch (error) {
     console.error('❌ [API] Error inesperado:', error);

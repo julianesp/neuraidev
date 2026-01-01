@@ -21,6 +21,7 @@ import AIChat from "@/components/AIChat/AIChat";
 import { CartProvider } from "@/context/CartContext";
 import ShoppingCart from "@/components/ShoppingCart/page";
 import AnnouncementsProvider from "@/components/AnnouncementsProvider";
+import AccessibilityPanel from "@/components/AccessibilityPanel";
 
 export const metadata = {
   metadataBase: new URL("https://neurai.dev"),
@@ -263,6 +264,7 @@ export default function RootLayout({ children }) {
                   {/* <AIChat /> */}
                   <ToastContainer />
                   <AnnouncementsProvider />
+                  <AccessibilityPanel />
                 </CartProvider>
               </ToastProvider>
             </ThemeProvider>

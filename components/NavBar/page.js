@@ -15,6 +15,7 @@ import {
 import { esES } from "@clerk/localizations";
 import { isAdmin } from "@/lib/auth/roles";
 import CartIcon from "../CartIcon";
+import GlobalSearch from "../GlobalSearch";
 
 const NavBar = () => {
   const { user } = useUser();
@@ -23,6 +24,7 @@ const NavBar = () => {
   const [serviciosDropdownOpen, setServiciosDropdownOpen] = useState(false);
   const [negociosDropdownOpen, setNegociosDropdownOpen] = useState(false);
   const [imageError, setImageError] = useState({});
+  const [showAccessibilityPanel, setShowAccessibilityPanel] = useState(false);
   const menuRef = useRef(null);
   const dropdownRef = useRef(null);
   const serviciosDropdownRef = useRef(null);
@@ -222,7 +224,7 @@ const NavBar = () => {
           >
             <Link
               href="/accesorios"
-              title="Ir a la tienda de accesorios"
+              title="Ir a la tienda de productos"
               onClick={(e) => {
                 // Solo prevenir navegación en móvil para toggle
                 if (window.innerWidth < 1024) {
@@ -241,7 +243,7 @@ const NavBar = () => {
                   </Link>
                 </li> */}
                 <li>
-                  <Link href="/accesorios/celulares" onClick={handleLinkClick}>
+                  <Link href="/accesorios/celulares" onClick={handleLinkClick} title="Accesorios para celulares">
                     Accesorios Celulares
                   </Link>
                 </li>
@@ -315,6 +317,7 @@ const NavBar = () => {
                   <Link
                     href="/servicios/tecnico-sistemas"
                     onClick={handleLinkClick}
+                    title="Técnico en sistemas"
                   >
                     Técnico en Sistemas
                   </Link>
@@ -374,7 +377,7 @@ const NavBar = () => {
           <li role="none">
             <Link
               href="/sobre-nosotros"
-              title="Ir al perfil"
+              title="Sobre nosotros"
               onClick={handleLinkClick}
             >
               Sobre nosotros
@@ -417,6 +420,21 @@ const NavBar = () => {
             </li>
           )}
 
+          {/* Accesibilidad - Solo visible en móvil */}
+          <li role="none" className={styles.mobileAccessibilityItem}>
+            <button
+              onClick={() => {
+                handleLinkClick();
+                // Trigger el evento para abrir el panel de accesibilidad
+                window.dispatchEvent(new CustomEvent('toggleAccessibilityPanel'));
+              }}
+              className={styles.accessibilityLink}
+              title="Opciones de accesibilidad"
+            >
+              ♿ Accesibilidad
+            </button>
+          </li>
+
           {/* Botones de autenticación en móvil */}
           <li role="none" className={styles.mobileAuthItem}>
             <SignedOut>
@@ -446,8 +464,9 @@ const NavBar = () => {
         </ul>
       </nav>
 
-      {/* Botones de autenticación y carrito */}
+      {/* Búsqueda, carrito y autenticación */}
       <div className={styles.authButtons}>
+        <GlobalSearch />
         <CartIcon />
         <SignedOut>
           <SignInButton mode="modal">

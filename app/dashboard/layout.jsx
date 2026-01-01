@@ -13,6 +13,8 @@ import {
   X,
   Users,
   Megaphone,
+  Tag,
+  Percent,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -51,6 +53,12 @@ export default function DashboardLayout({ children }) {
       href: "/dashboard/productos",
       icon: Package,
       current: pathname?.startsWith("/dashboard/productos"),
+    },
+    {
+      name: "Ofertas",
+      href: "/dashboard/ofertas",
+      icon: Percent,
+      current: pathname?.startsWith("/dashboard/ofertas"),
     },
     {
       name: "Pedidos",
