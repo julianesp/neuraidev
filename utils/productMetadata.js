@@ -241,8 +241,13 @@ export async function generateProductMetadata(slug, categoria) {
   // URL canónica consistente (con www)
   const canonicalUrl = `https://neurai.dev/accesorios/${producto.categoria}/${slug}`;
 
+  // Formatear precio de forma segura (sin toLocaleString que puede fallar en server-side)
+  const formatPrecio = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
   // Título más atractivo para compartir
-  const tituloCompartir = `${producto.nombre} - ${precio > 0 ? `$${precio.toLocaleString('es-CO')} COP` : 'Consultar precio'}`;
+  const tituloCompartir = `${producto.nombre} - ${precio > 0 ? `$${formatPrecio(precio)} COP` : 'Consultar precio'}`;
 
   return {
     title: `${producto.nombre} | neurai.dev`,
