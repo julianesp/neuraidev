@@ -50,7 +50,7 @@ export async function GET(request) {
 
     console.log(`✅ [API] ${data?.length || 0} productos obtenidos`);
 
-    return NextResponse.json({ productos: data || [] });
+    return NextResponse.json(data || []);
 
   } catch (error) {
     console.error('❌ [API] Error inesperado:', error);
