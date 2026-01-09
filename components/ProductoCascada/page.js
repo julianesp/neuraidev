@@ -119,7 +119,7 @@ export default function ProductoCascada({
     <>
       <div className={`w-full px-4 py-8 ${styles.productGridContainer}`}>
         {/* Grid de productos - tamaño uniforme */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
           {productosConEstado.map((producto, index) => {
             if (!producto) return null;
 
