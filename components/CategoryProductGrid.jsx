@@ -2,10 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
-import ProductoCascada from "@/components/ProductoCascada";
+import ProductoCascada from "@/components/ProductoCascada/page";
 
-export default function CategoryProductGrid({ productos, categorySlug, categoryName }) {
-
+export default function CategoryProductGrid({
+  productos,
+  categorySlug,
+  categoryName,
+}) {
   if (!productos || productos.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -25,39 +28,67 @@ export default function CategoryProductGrid({ productos, categorySlug, categoryN
   return (
     <div className="w-full">
       {/* Header de la categoría */}
-      <div className="text-center mb-8">
+      {/* <div className="text-center mb-8">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
           {categoryName}
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
           Explora nuestra selección de productos en esta categoría
         </p>
-      </div>
+      </div> */}
 
       {/* Breadcrumb */}
       <nav className="flex mb-8" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-3">
           <li className="inline-flex items-center">
-            <Link href="/" className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            <Link
+              href="/"
+              className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
               Inicio
             </Link>
           </li>
           <li>
             <div className="flex items-center">
-              <svg className="w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
+              <svg
+                className="w-3 h-3 text-gray-400 mx-1"
+                fill="none"
+                viewBox="0 0 6 10"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 9 4-4-4-4"
+                />
               </svg>
-              <Link href="/accesorios" className="ml-1 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 md:ml-2">
+              <Link
+                href="/accesorios"
+                className="ml-1 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 md:ml-2"
+              >
                 Accesorios
               </Link>
             </div>
           </li>
           <li aria-current="page">
             <div className="flex items-center">
-              <svg className="w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
+              <svg
+                className="w-3 h-3 text-gray-400 mx-1"
+                fill="none"
+                viewBox="0 0 6 10"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 9 4-4-4-4"
+                />
               </svg>
-              <span className="ml-1 text-sm font-medium text-gray-500 dark:text-gray-400 md:ml-2">{categoryName}</span>
+              <span className="ml-1 text-sm font-medium text-gray-500 dark:text-gray-400 md:ml-2">
+                {categoryName}
+              </span>
             </div>
           </li>
         </ol>
