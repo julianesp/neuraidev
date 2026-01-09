@@ -1,7 +1,7 @@
 import { findProductBySlug } from "./slugify";
 import { createClient } from "@supabase/supabase-js";
 
-// Cliente de Supabase para server-side con timeout
+// Cliente de Supabase para server-side con timeout aumentado
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -9,13 +9,20 @@ const supabase = createClient(
     global: {
       fetch: (url, options = {}) => {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        // Aumentar timeout a 30 segundos para producción
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
 
         return fetch(url, {
           ...options,
           signal: controller.signal,
         }).finally(() => clearTimeout(timeoutId));
       },
+    },
+    db: {
+      schema: 'public',
+    },
+    auth: {
+      persistSession: false,
     },
   }
 );
@@ -146,21 +153,37 @@ export async function findProductById(id) {
 
 // Función principal para generar metadatos de productos
 export async function generateProductMetadata(slug, categoria) {
-  // Primero buscar en la categoría específica
-  const categoryProducts = await getCategoryProducts(categoria);
-  let producto = findProductBySlug(categoryProducts, slug);
+  try {
+    // Primero buscar en la categoría específica
+    const categoryProducts = await getCategoryProducts(categoria);
+    let producto = findProductBySlug(categoryProducts, slug);
 
-  // Si no se encuentra, buscar en todas las categorías
-  if (!producto) {
-    producto = await findProductInAllCategories(slug);
-  }
+    // Si no se encuentra, buscar en todas las categorías
+    if (!producto) {
+      producto = await findProductInAllCategories(slug);
+    }
 
-  if (!producto) {
+    if (!producto) {
+      return {
+        title: "Producto no encontrado | Neurai.dev",
+        description: "El producto que buscas no existe o ha sido eliminado.",
+      };
+    }
+
+    return buildProductMetadata(producto, slug, categoria);
+  } catch (error) {
+    console.error('[generateProductMetadata] Error:', error);
+    // Fallback: retornar metadatos básicos si hay error
     return {
-      title: "Producto no encontrado | Neurai.dev",
-      description: "El producto que buscas no existe o ha sido eliminado.",
+      title: `Producto - ${categoria} | neurai.dev`,
+      description: "Descubre nuestros productos en neurai.dev",
+      metadataBase: new URL("https://neurai.dev"),
     };
   }
+}
+
+// Función auxiliar para construir metadatos del producto
+function buildProductMetadata(producto, slug, categoria) {
 
   // Las imágenes ya vienen en el array 'imagenes' del producto (JSON)
   let imagenesAdicionales = [];
