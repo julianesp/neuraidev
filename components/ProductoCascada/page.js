@@ -289,23 +289,23 @@ export default function ProductoCascada({
                 {/* Información del producto - Posicionada en la parte inferior */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
                   {/* Título con fondo oscuro difuminado */}
-                  <div className="bg-black/40 backdrop-blur-sm px-3 py-2 rounded-lg mb-2">
+                  <div className="bg-black/40 backdrop-blur-sm px-3 py-2 rounded-lg">
                     <h3 className="text-lg font-bold text-white line-clamp-2">
                       {producto.title || producto.nombre || "Sin título"}
                     </h3>
                   </div>
 
-                  {/* Precio */}
-                  <div className="flex items-center justify-between bg-slate-600">
+                  {/* Precio y Stock - Comentado para vista más limpia */}
+                  {/* <div className="flex items-center justify-between">
                     <span className="text-2xl font-bold text-white drop-shadow-lg">
                       {formatPrice(producto.price || producto.precio)}
                     </span>
                     {producto.cantidad && (
-                      <p className={`text-xs text-white px-2 py-1 rounded-full ${styles.stock}`}>
+                      <p className="text-xs text-white/90 bg-black/30 px-2 py-1 rounded-full">
                         Stock: {producto.cantidad}
                       </p>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               </Link>
             );
