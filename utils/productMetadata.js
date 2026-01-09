@@ -241,6 +241,9 @@ export async function generateProductMetadata(slug, categoria) {
   // URL canónica consistente (con www)
   const canonicalUrl = `https://neurai.dev/accesorios/${producto.categoria}/${slug}`;
 
+  // Título más atractivo para compartir
+  const tituloCompartir = `${producto.nombre} - ${precio > 0 ? `$${precio.toLocaleString('es-CO')} COP` : 'Consultar precio'}`;
+
   return {
     title: `${producto.nombre} | neurai.dev`,
     description: descripcionLimpia,
@@ -253,9 +256,9 @@ export async function generateProductMetadata(slug, categoria) {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: producto.nombre,
+      title: tituloCompartir,
       description: descripcionLimpia,
-      type: "website",
+      type: "product",
       siteName: "neurai.dev",
       locale: "es_CO",
       url: canonicalUrl,
@@ -263,9 +266,11 @@ export async function generateProductMetadata(slug, categoria) {
     },
     twitter: {
       card: "summary_large_image",
-      title: producto.nombre,
+      title: tituloCompartir,
       description: descripcionLimpia,
       images: [imagenFinal],
+      creator: "@neuraidev",
+      site: "@neuraidev",
     },
     other: {
       "product:price:amount": precio.toString(),
@@ -274,6 +279,9 @@ export async function generateProductMetadata(slug, categoria) {
       "product:condition": producto.condicion || "nuevo",
       "product:brand": producto.marca || "neurai.dev",
       "product:category": producto.categoria,
+      // Tags específicos para WhatsApp
+      "og:image:alt": producto.nombre,
+      "og:image:type": "image/jpeg",
     },
   };
 }
