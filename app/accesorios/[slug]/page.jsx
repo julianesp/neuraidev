@@ -16,7 +16,13 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }) {
   const { slug } = await params;
 
-  try {
+  // Temporalmente deshabilitado para debugging
+  return {
+    title: `Producto | neurai.dev`,
+    description: "Descubre nuestros productos en neurai.dev",
+  };
+
+  /* try {
     // Buscar producto en Supabase
     const { data: productos, error } = await supabase
       .from("products")
@@ -90,7 +96,7 @@ export async function generateMetadata({ params }) {
       title: "Producto | Neurai.dev",
       description: "Explora nuestro catálogo de productos.",
     };
-  }
+  } */
 }
 
 export default async function GenericProductPage({ params }) {

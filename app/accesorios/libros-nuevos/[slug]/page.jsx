@@ -10,7 +10,12 @@ export const dynamic = "force-dynamic";
 // Generar metadatos dinámicos
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  return await generateProductMetadata(slug, "libros-nuevos");
+  // Temporalmente deshabilitado para debugging
+  return {
+    title: `Producto - libros-nuevos | neurai.dev`,
+    description: "Productos de libros-nuevos en neurai.dev",
+  };
+  // return await generateProductMetadata(slug, "libros-nuevos");
 }
 
 export default async function LibrosNuevosProductPage({ params }) {

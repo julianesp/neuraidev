@@ -10,7 +10,12 @@ export const dynamic = "force-dynamic";
 // Generar metadatos dinámicos
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  return await generateProductMetadata(slug, "computadoras");
+  // Temporalmente deshabilitado para debugging
+  return {
+    title: `Producto - computadoras | neurai.dev`,
+    description: "Productos de computadoras en neurai.dev",
+  };
+  // return await generateProductMetadata(slug, "computadoras");
 }
 
 export default async function ComputadorasProductPage({ params }) {
