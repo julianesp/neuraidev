@@ -243,11 +243,21 @@ export async function generateProductMetadata(slug, categoria) {
 
   // Formatear precio de forma segura (sin toLocaleString que puede fallar en server-side)
   const formatPrecio = (num) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    if (!num || num <= 0) return null;
+    try {
+      const numString = Math.floor(num).toString();
+      return numString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    } catch (e) {
+      console.error('Error formatting price:', e);
+      return null;
+    }
   };
 
   // Título más atractivo para compartir
-  const tituloCompartir = `${producto.nombre} - ${precio > 0 ? `$${formatPrecio(precio)} COP` : 'Consultar precio'}`;
+  const precioFormateado = formatPrecio(precio);
+  const tituloCompartir = precioFormateado
+    ? `${producto.nombre} - $${precioFormateado} COP`
+    : producto.nombre;
 
   return {
     title: `${producto.nombre} | neurai.dev`,
