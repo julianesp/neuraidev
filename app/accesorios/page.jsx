@@ -173,7 +173,7 @@ export default function AccesoriosPage() {
           ))}
         </div>
 
-        <div className="mt-16 bg-gradient-to-r from-primary/10 to-secondary/10 dark:from-primary/20 dark:to-secondary/20 rounded-2xl p-8 text-center">
+        {/* <div className="mt-16 bg-gradient-to-r from-primary/10 to-secondary/10 dark:from-primary/20 dark:to-secondary/20 rounded-2xl p-8 text-center">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
             ¿No encuentras lo que buscas?
           </h2>
@@ -196,7 +196,7 @@ export default function AccesoriosPage() {
             </svg>
             Contactar por WhatsApp
           </Link>
-        </div>
+        </div> */}
       </div>
     </main>
   );

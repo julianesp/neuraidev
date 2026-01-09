@@ -69,7 +69,7 @@ const AccesoriosContainer = ({
   const [imageError, setImageError] = useState({}); // Controlar errores de carga de imágenes
   const [imageRetries, setImageRetries] = useState({}); // Controlar reintentos de carga
   const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Modal de imagen expandida
-  const [currentUrl, setCurrentUrl] = useState(''); // URL actual para evitar problemas de hidratación
+  const [currentUrl, setCurrentUrl] = useState(""); // URL actual para evitar problemas de hidratación
 
   // Funciones para el modal de imagen
   const openImageModal = () => setIsImageModalOpen(true);
@@ -77,7 +77,7 @@ const AccesoriosContainer = ({
 
   // Establecer URL actual solo en el cliente para evitar problemas de hidratación
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       setCurrentUrl(window.location.href);
     }
   }, []);
@@ -608,7 +608,7 @@ const AccesoriosContainer = ({
   const mensajeBase = `Hola, estoy interesado en el accesorio: ${accesorio?.nombre || ""}`;
   const whatsappUrl = currentUrl
     ? `https://wa.me/${telefono}?text=${encodeURIComponent(mensajeBase)}%0A%0A${encodeURIComponent("Puedes verlo aquí: ")}${encodeURIComponent(currentUrl)}`
-    : '#';
+    : "#";
 
   // Determinar si hay imágenes para mostrar
   const tieneImagenes =
@@ -1020,9 +1020,13 @@ const AccesoriosContainer = ({
 
                   {/* Botón Solicitarlo */}
                   <Link
-                    href={currentUrl ? `https://wa.me/573174503604?text=${encodeURIComponent(
-                      `¡Hola! 👋\n\nQuiero más de este producto:\n\n📦 ${accesorio.nombre}\n\n🔗 Puedes verlo aquí: ${currentUrl}\n\n¡Espero tu respuesta! 😊`,
-                    )}` : '#'}
+                    href={
+                      currentUrl
+                        ? `https://wa.me/573174503604?text=${encodeURIComponent(
+                            `¡Hola! 👋\n\nQuiero más de este producto:\n\n📦 ${accesorio.nombre}\n\n🔗 Puedes verlo aquí: ${currentUrl}\n\n¡Espero tu respuesta! 😊`,
+                          )}`
+                        : "#"
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-orange-500 text-white py-3 px-6 rounded-lg flex items-center justify-center hover:bg-orange-600 transition-colors font-medium"
@@ -1107,7 +1111,8 @@ const AccesoriosContainer = ({
                           : item.imagenes[0]
                         : null);
 
-                    const isOutOfStock = item.stock === 0 || item.cantidad === 0;
+                    const isOutOfStock =
+                      item.stock === 0 || item.cantidad === 0;
 
                     return (
                       <Link
@@ -1124,7 +1129,8 @@ const AccesoriosContainer = ({
                       >
                         {/* Imagen de fondo */}
                         <div className="absolute inset-0 w-full h-full">
-                          {!imageError[`related-${itemIndex}`] && itemImageUrl ? (
+                          {!imageError[`related-${itemIndex}`] &&
+                          itemImageUrl ? (
                             <Image
                               src={itemImageUrl}
                               alt={item.nombre || ""}
@@ -1174,9 +1180,9 @@ const AccesoriosContainer = ({
                               );
                             }
                           }}
-                          className={`absolute top-3 right-3 z-30 p-2.5 rounded-full shadow-lg transition-all ${
+                          className={`absolute top-2 right-2 md:top-4 md:right-4 z-50 p-2.5 md:p-3 rounded-full shadow-lg transition-all backdrop-blur-sm border-2 border-white/30 ${
                             isOutOfStock
-                              ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-70"
+                              ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-90"
                               : "bg-blue-600 hover:bg-blue-700 text-white hover:scale-110"
                           }`}
                           disabled={isOutOfStock}
