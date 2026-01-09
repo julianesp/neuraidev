@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 import ProductSchema from "@/components/ProductSchema";
 import { loadProductBySlug } from "@/utils/loadCategoryProducts";
-import { generateProductMetadata } from "@/utils/productMetadata";
+import { generateStaticProductMetadata } from "@/utils/staticMetadata";
 
 // Forzar renderizado dinámico
 export const dynamic = "force-dynamic";
@@ -10,12 +10,7 @@ export const dynamic = "force-dynamic";
 // Generar metadatos dinámicos
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  // Temporalmente deshabilitado para debugging
-  return {
-    title: `Producto - celulares | neurai.dev`,
-    description: "Productos de celulares en neurai.dev",
-  };
-  // return await generateProductMetadata(slug, "celulares");
+  return generateStaticProductMetadata("celulares", slug);
 }
 
 export default async function CelularesProductPage({ params }) {
