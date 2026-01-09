@@ -29,10 +29,12 @@ export default function ProductosPage() {
       }
 
       const data = await response.json();
-      setProductos(data);
+      // Asegurar que data sea un array
+      setProductos(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error cargando productos:", error);
       alert("Error cargando productos: " + error.message);
+      setProductos([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -61,15 +63,15 @@ export default function ProductosPage() {
     }
   }
 
-  const productosFiltrados = productos.filter((p) => {
+  const productosFiltrados = Array.isArray(productos) ? productos.filter((p) => {
     const matchBusqueda =
-      p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+      p.nombre?.toLowerCase().includes(busqueda.toLowerCase()) ||
       p.descripcion?.toLowerCase().includes(busqueda.toLowerCase());
     const matchCategoria = !categoriaFiltro || p.categoria === categoriaFiltro;
     return matchBusqueda && matchCategoria;
-  });
+  }) : [];
 
-  const categorias = [...new Set(productos.map((p) => p.categoria))];
+  const categorias = Array.isArray(productos) ? [...new Set(productos.map((p) => p.categoria))] : [];
 
   if (loading) {
     return (
@@ -99,7 +101,7 @@ export default function ProductosPage() {
               Total Productos
             </div>
             <div className="text-2xl font-bold text-gray-900 dark:text-white">
-              {productos.length}
+              {Array.isArray(productos) ? productos.length : 0}
             </div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
@@ -107,7 +109,7 @@ export default function ProductosPage() {
               Disponibles
             </div>
             <div className="text-2xl font-bold text-green-600">
-              {productos.filter((p) => p.disponible).length}
+              {Array.isArray(productos) ? productos.filter((p) => p.disponible).length : 0}
             </div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
@@ -115,7 +117,7 @@ export default function ProductosPage() {
               Destacados
             </div>
             <div className="text-2xl font-bold text-blue-600">
-              {productos.filter((p) => p.destacado).length}
+              {Array.isArray(productos) ? productos.filter((p) => p.destacado).length : 0}
             </div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
@@ -123,7 +125,7 @@ export default function ProductosPage() {
               Sin Stock
             </div>
             <div className="text-2xl font-bold text-red-600">
-              {productos.filter((p) => p.stock === 0).length}
+              {Array.isArray(productos) ? productos.filter((p) => p.stock === 0).length : 0}
             </div>
           </div>
         </div>
