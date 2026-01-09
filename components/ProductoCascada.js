@@ -287,9 +287,12 @@ export default function ProductoCascada({
 
                 {/* Información del producto - Posicionada en la parte inferior */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
-                  <h3 className="text-lg font-bold text-white mb-2 line-clamp-2 drop-shadow-lg">
-                    {producto.title || producto.nombre || "Sin título"}
-                  </h3>
+                  {/* Título con fondo oscuro difuminado */}
+                  <div className="bg-black/40 backdrop-blur-sm px-3 py-2 rounded-lg mb-2">
+                    <h3 className="text-lg font-bold text-white line-clamp-2">
+                      {producto.title || producto.nombre || "Sin título"}
+                    </h3>
+                  </div>
 
                   {/* Precio */}
                   <div className="flex items-center justify-between">
