@@ -17,7 +17,7 @@ export default function CategoryProductGrid({
           <p className="text-gray-600 dark:text-gray-300 text-xl font-light">
             No hay productos disponibles
           </p>
-          <p className="text-gray-500 dark:text-gray-400 mt-2">
+          <p className="text-white dark:text-gray-400 mt-2">
             Vuelve más tarde para ver nuestras novedades
           </p>
         </div>
@@ -38,12 +38,12 @@ export default function CategoryProductGrid({
       </div> */}
 
       {/* Breadcrumb */}
-      <nav className="flex mb-8" aria-label="Breadcrumb">
+      <nav className="flex mb-8 pt-6" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-3">
           <li className="inline-flex items-center">
             <Link
               href="/"
-              className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+              className="inline-flex items-center text-xl font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
             >
               Inicio
             </Link>
@@ -65,7 +65,7 @@ export default function CategoryProductGrid({
               </svg>
               <Link
                 href="/accesorios"
-                className="ml-1 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 md:ml-2"
+                className="ml-1 text-xl font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 md:ml-2 "
               >
                 Accesorios
               </Link>
@@ -86,7 +86,7 @@ export default function CategoryProductGrid({
                   d="m1 9 4-4-4-4"
                 />
               </svg>
-              <span className="ml-1 text-sm font-medium text-gray-500 dark:text-gray-400 md:ml-2">
+              <span className="ml-1 text-sm font-medium text-white dark:text-gray-400 md:ml-2">
                 {categoryName}
               </span>
             </div>

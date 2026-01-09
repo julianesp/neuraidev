@@ -23,6 +23,7 @@ export default function EditarProductoPage() {
     sku: "",
     disponible: true,
     destacado: false,
+    vista_horizontal: false,
     garantia: 1,
     estado: "nuevo",
     imagen_principal: "",
@@ -66,6 +67,7 @@ export default function EditarProductoPage() {
         sku: producto.sku || "",
         disponible: producto.disponible ?? true,
         destacado: producto.destacado ?? false,
+        vista_horizontal: producto.vista_horizontal ?? false,
         garantia: producto.garantia || 1,
         estado: "nuevo", // Campo de solo UI, no se guarda en DB
         imagen_principal: producto.imagen_principal || "",
@@ -146,6 +148,7 @@ export default function EditarProductoPage() {
         sku: formData.sku || null,
         disponible: formData.disponible,
         destacado: formData.destacado,
+        vista_horizontal: formData.vista_horizontal,
         imagen_principal: formData.imagen_principal || null,
         imagenes: Array.isArray(formData.imagenes)
           ? formData.imagenes.filter((img) => img && img.trim() !== "")
@@ -568,6 +571,19 @@ export default function EditarProductoPage() {
                   />
                   <span className="text-sm text-gray-700 dark:text-gray-300">
                     Destacado
+                  </span>
+                </label>
+
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    name="vista_horizontal"
+                    checked={formData.vista_horizontal}
+                    onChange={handleChange}
+                    className="w-4 h-4 text-blue-600 rounded"
+                  />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
+                    Vista Horizontal (ocupa 2 columnas)
                   </span>
                 </label>
               </div>

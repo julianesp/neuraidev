@@ -3,9 +3,12 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { LayoutGrid, Columns } from "lucide-react";
 import DownloadableImage from "@/components/DownloadableImage";
-import ProductoCascada from "@/components/ProductoCascada";
+import ProductoCascada from "@/components/ProductoCascada/page";
 
-export default function ProductoLista({ productos, categorySlug = "generales" }) {
+export default function ProductoLista({
+  productos,
+  categorySlug = "generales",
+}) {
   const [imageError, setImageError] = useState({});
   const [viewMode, setViewMode] = useState("grid"); // "grid" o "cascade"
 
@@ -77,7 +80,7 @@ export default function ProductoLista({ productos, categorySlug = "generales" })
                   priority={producto.id <= 4}
                   width={400}
                   height={300}
-                  filename={`${producto.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}.jpg`}
+                  filename={`${producto.title.replace(/[^a-z0-9]/gi, "-").toLowerCase()}.jpg`}
                 />
               </div>
               <h2 className="text-xl font-semibold mb-2">{producto.title}</h2>

@@ -133,6 +133,9 @@ export default function ProductoCascada({
               producto.stock === 0 ||
               producto.cantidad === 0;
 
+            // Determinar si el producto debe ocupar 2 columnas
+            const isHorizontal = producto.vista_horizontal === true;
+
             return (
               <Link
                 key={producto.id || index}
@@ -143,8 +146,10 @@ export default function ProductoCascada({
                 )}
                 className={`group relative rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 block ${
                   isOutOfStock ? "opacity-70" : ""
+                } ${
+                  isHorizontal ? "col-span-2" : "col-span-1"
                 }`}
-                style={{ height: "400px" }}
+                style={{ height: "300px" }}
               >
                 {/* Imagen de fondo con overlay */}
                 <div className="absolute inset-0 w-full h-full">

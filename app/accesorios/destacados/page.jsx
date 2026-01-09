@@ -8,7 +8,7 @@ import AddToCartButton from "@/components/AddToCartButton";
 import FavoriteButton from "@/components/FavoriteButton";
 import Advertisement from "@/components/Advertisement";
 import { LayoutGrid, Columns } from "lucide-react";
-import ProductoCascada from "@/components/ProductoCascada";
+import ProductoCascada from "@/components/ProductoCascada/page";
 
 export default function AccesoriosDestacadosPage() {
   const [accesorios, setAccesorios] = useState([]);
@@ -76,7 +76,9 @@ export default function AccesoriosDestacadosPage() {
         const productosDestacados = await getFeaturedProducts(20);
 
         if (!productosDestacados || productosDestacados.length === 0) {
-          console.warn('[AccesoriosDestacados] No se encontraron productos destacados');
+          console.warn(
+            "[AccesoriosDestacados] No se encontraron productos destacados",
+          );
         }
 
         setAccesorios(productosDestacados);
@@ -98,7 +100,9 @@ export default function AccesoriosDestacadosPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500 mx-auto"></div>
-            <p className="mt-4 text-gray-600 dark:text-gray-400">Cargando accesorios destacados...</p>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">
+              Cargando accesorios destacados...
+            </p>
           </div>
         </div>
       </main>
@@ -129,7 +133,8 @@ export default function AccesoriosDestacadosPage() {
                 🌟 Accesorios Destacados
               </h1>
               <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Descubre nuestra selección especial de productos destacados con la mejor calidad y precios increíbles
+                Descubre nuestra selección especial de productos destacados con
+                la mejor calidad y precios increíbles
               </p>
             </div>
 
@@ -137,26 +142,54 @@ export default function AccesoriosDestacadosPage() {
             <nav className="flex mb-8" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-3">
                 <li className="inline-flex items-center">
-                  <Link href="/" className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-yellow-600">
+                  <Link
+                    href="/"
+                    className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-yellow-600"
+                  >
                     Inicio
                   </Link>
                 </li>
                 <li>
                   <div className="flex items-center">
-                    <svg className="w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
+                    <svg
+                      className="w-3 h-3 text-gray-400 mx-1"
+                      fill="none"
+                      viewBox="0 0 6 10"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 9 4-4-4-4"
+                      />
                     </svg>
-                    <Link href="/accesorios" className="ml-1 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-yellow-600 md:ml-2">
+                    <Link
+                      href="/accesorios"
+                      className="ml-1 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-yellow-600 md:ml-2"
+                    >
                       Accesorios
                     </Link>
                   </div>
                 </li>
                 <li aria-current="page">
                   <div className="flex items-center">
-                    <svg className="w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
+                    <svg
+                      className="w-3 h-3 text-gray-400 mx-1"
+                      fill="none"
+                      viewBox="0 0 6 10"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 9 4-4-4-4"
+                      />
                     </svg>
-                    <span className="ml-1 text-sm font-medium text-gray-500 dark:text-gray-400 md:ml-2">Destacados</span>
+                    <span className="ml-1 text-sm font-medium text-gray-500 dark:text-gray-400 md:ml-2">
+                      Destacados
+                    </span>
                   </div>
                 </li>
               </ol>
@@ -195,10 +228,15 @@ export default function AccesoriosDestacadosPage() {
             {/* Grid de productos */}
             {accesorios.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-600 dark:text-gray-400 text-lg">No hay accesorios destacados disponibles</p>
+                <p className="text-gray-600 dark:text-gray-400 text-lg">
+                  No hay accesorios destacados disponibles
+                </p>
               </div>
             ) : viewMode === "cascade" ? (
-              <ProductoCascada productos={accesorios} categorySlug="destacados" />
+              <ProductoCascada
+                productos={accesorios}
+                categorySlug="destacados"
+              />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {accesorios.map((accesorio) => (
@@ -208,7 +246,9 @@ export default function AccesoriosDestacadosPage() {
                   >
                     {/* Imagen del producto con botón de favoritos */}
                     <div className="relative h-48 bg-gray-100 dark:bg-gray-700">
-                      <Link href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}>
+                      <Link
+                        href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}
+                      >
                         <Image
                           src={
                             accesorio.imagenPrincipal ||
@@ -231,11 +271,13 @@ export default function AccesoriosDestacadosPage() {
                       </div>
 
                       {/* Badge de stock si está bajo */}
-                      {accesorio.stock && accesorio.stock <= 5 && accesorio.stock > 0 && (
-                        <div className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                          ¡Últimas {accesorio.stock}!
-                        </div>
-                      )}
+                      {accesorio.stock &&
+                        accesorio.stock <= 5 &&
+                        accesorio.stock > 0 && (
+                          <div className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            ¡Últimas {accesorio.stock}!
+                          </div>
+                        )}
 
                       {/* Badge de sin stock */}
                       {accesorio.stock === 0 && (
@@ -247,7 +289,9 @@ export default function AccesoriosDestacadosPage() {
 
                     {/* Información del producto */}
                     <div className="p-4 flex flex-col flex-grow">
-                      <Link href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}>
+                      <Link
+                        href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}
+                      >
                         <h3 className="font-semibold text-lg mb-2 line-clamp-2 hover:text-yellow-600 transition-colors text-gray-900 dark:text-white cursor-pointer">
                           {accesorio.nombre}
                         </h3>

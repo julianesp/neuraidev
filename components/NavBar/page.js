@@ -15,7 +15,7 @@ import {
 import { esES } from "@clerk/localizations";
 import { isAdmin } from "@/lib/auth/roles";
 import CartIcon from "../CartIcon";
-import GlobalSearch from "../GlobalSearch";
+import GlobalSearch from "../GlobalSearch/GlobalSearch";
 
 const NavBar = () => {
   const { user } = useUser();

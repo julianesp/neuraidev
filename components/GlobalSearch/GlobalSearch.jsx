@@ -331,8 +331,9 @@ export default function GlobalSearch() {
       {/* Botón de búsqueda con lupa */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={styles.searchButton}
+        className={`${styles.searchButton} dark:bg-black`}
         aria-label="Abrir búsqueda"
+        title="Abrir búsqueda"
       >
         <Search className={`${styles.searchIcon} dark:bg-white`} size={30} />
       </button>

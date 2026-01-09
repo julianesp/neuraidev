@@ -13,9 +13,9 @@ import {
   Heart,
   Share2,
   LayoutGrid,
-  Columns
+  Columns,
 } from "lucide-react";
-import ProductoCascada from "@/components/ProductoCascada";
+import ProductoCascada from "@/components/ProductoCascada/page";
 import { useSoldProducts } from "../hooks/useSoldProducts";
 import SoldMarker from "./SoldMarker";
 import { htmlToPlainText } from "@/utils/htmlToText";
@@ -98,7 +98,9 @@ const ModernProductGrid = (props) => {
       e.stopPropagation();
     }
 
-    const accesorio = accesorios.find((item) => item && item.id === accesorioId);
+    const accesorio = accesorios.find(
+      (item) => item && item.id === accesorioId,
+    );
     if (!accesorio || !Array.isArray(accesorio.images)) return;
 
     const totalSlides = accesorio.images.length;
@@ -116,7 +118,9 @@ const ModernProductGrid = (props) => {
       e.stopPropagation();
     }
 
-    const accesorio = accesorios.find((item) => item && item.id === accesorioId);
+    const accesorio = accesorios.find(
+      (item) => item && item.id === accesorioId,
+    );
     if (!accesorio || !Array.isArray(accesorio.images)) return;
 
     const totalSlides = accesorio.images.length;
@@ -151,8 +155,8 @@ const ModernProductGrid = (props) => {
   const prevExpandedImage = (e) => {
     e.stopPropagation();
     if (!expandedImage) return;
-    setExpandedImageIndex((prev) =>
-      (prev - 1 + expandedImage.length) % expandedImage.length
+    setExpandedImageIndex(
+      (prev) => (prev - 1 + expandedImage.length) % expandedImage.length,
     );
   };
 
@@ -160,7 +164,7 @@ const ModernProductGrid = (props) => {
     if (!images) return ["/placeholder.jpg"];
     if (typeof images === "string") return [images];
     if (Array.isArray(images)) {
-      return images.map(img => {
+      return images.map((img) => {
         if (typeof img === "object" && img.url) {
           return img.url;
         }
@@ -199,7 +203,7 @@ const ModernProductGrid = (props) => {
           };
         }
         return accesorio;
-      })
+      }),
     );
 
     if (selectedProduct && selectedProduct.id === productId) {
@@ -219,7 +223,9 @@ const ModernProductGrid = (props) => {
             Nuestros Productos
           </h2>
           <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
-          <p className="text-gray-600 mt-4">Descubre nuestra selección exclusiva</p>
+          <p className="text-gray-600 mt-4">
+            Descubre nuestra selección exclusiva
+          </p>
         </div>
 
         {/* Toggle de vista */}
@@ -257,202 +263,265 @@ const ModernProductGrid = (props) => {
           <ProductoCascada productos={accesorios} categorySlug={categorySlug} />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {accesorios.map((accesorio, index) => {
-            if (!accesorio) return null;
+            {accesorios.map((accesorio, index) => {
+              if (!accesorio) return null;
 
-            const images = normalizeImages(accesorio.images || accesorio.imagenes);
-            const currentImageIndex = slideIndexes[accesorio.id] || 0;
+              const images = normalizeImages(
+                accesorio.images || accesorio.imagenes,
+              );
+              const currentImageIndex = slideIndexes[accesorio.id] || 0;
 
-            return (
-              <div
-                key={accesorio.id || index}
-                className={`group bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${
-                  accesorio.vendido ? "opacity-70" : ""
-                } ${
-                  selectedProduct && selectedProduct.id === accesorio.id
-                    ? "ring-2 ring-blue-500"
-                    : ""
-                }`}
-                onClick={() => setSelectedProduct(accesorio)}
-              >
-                {/* Badge de VENDIDO o AGOTADO */}
-                {(accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0) && (
-                  <div className="absolute top-4 right-4 z-20 bg-red-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg transform rotate-12">
-                    {accesorio.vendido ? "VENDIDO" : "AGOTADO"}
-                  </div>
-                )}
-
-                {/* Galería de imágenes */}
-                <div className="relative h-72 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                  {/* Imágenes */}
-                  <div className="relative w-full h-full">
-                    {images.map((img, idx) => {
-                      const imageErrorKey = `${accesorio.id}-${idx}`;
-                      const hasImageError = imageErrors[imageErrorKey];
-
-                      return (
-                        <div
-                          key={idx}
-                          className={`absolute inset-0 transition-opacity duration-500 ${
-                            idx === currentImageIndex ? "opacity-100" : "opacity-0"
-                          }`}
-                        >
-                          {hasImageError ? (
-                            <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                              <span className="text-gray-500">Error cargando imagen</span>
-                            </div>
-                          ) : (
-                            <Image
-                              src={img || "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
-                              alt={accesorio.title || accesorio.nombre || "Producto"}
-                              fill
-                              className="object-contain p-4 group-hover:scale-110 transition-transform duration-500"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                              priority={false}
-                              loading="lazy"
-                              quality={85}
-                              onError={() => handleImageError(accesorio.id || index, idx)}
-                            />
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Botón de expandir */}
-                  <button
-                    onClick={(e) => handleExpandImage(images, currentImageIndex, e)}
-                    className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-all shadow-lg z-30 opacity-0 group-hover:opacity-100"
-                    aria-label="Expandir imagen"
-                  >
-                    <Maximize2 size={18} className="text-gray-700" />
-                  </button>
-
-                  {/* Botón de agregar al carrito - flotante */}
-                  <button
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      const isOutOfStock = accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0;
-                      if (isOutOfStock) return;
-
-                      const success = await addToCart(accesorio, 1);
-                      if (success) {
-                        toast.success(`"${accesorio.nombre || accesorio.title}" agregado al carrito`, {
-                          title: "✅ Producto Agregado",
-                          duration: 3000,
-                        });
-                      }
-                    }}
-                    className={`absolute top-3 right-3 backdrop-blur-sm p-3 rounded-full transition-all shadow-lg z-30 ${
-                      accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0
-                        ? "bg-gray-300/90 text-gray-500 cursor-not-allowed opacity-70"
-                        : "bg-blue-600 hover:bg-blue-700 text-white hover:scale-110"
-                    }`}
-                    disabled={accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0}
-                    aria-label="Agregar al carrito"
-                    title={accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0 ? "Producto agotado" : "Agregar al carrito"}
-                  >
-                    <ShoppingCart size={20} />
-                  </button>
-
-                  {/* Controles de navegación */}
-                  {images.length > 1 && (
-                    <>
-                      <button
-                        onClick={(e) => prevSlide(accesorio.id, e)}
-                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/70 transition-all z-30 opacity-0 group-hover:opacity-100"
-                        aria-label="Imagen anterior"
-                      >
-                        <ChevronLeft size={24} />
-                      </button>
-                      <button
-                        onClick={(e) => nextSlide(accesorio.id, e)}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/70 transition-all z-30 opacity-0 group-hover:opacity-100"
-                        aria-label="Siguiente imagen"
-                      >
-                        <ChevronRight size={24} />
-                      </button>
-
-                      {/* Indicadores de posición */}
-                      <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 z-20">
-                        {images.map((_, idx) => (
-                          <button
-                            key={idx}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSlideIndexes(prev => ({...prev, [accesorio.id]: idx}));
-                            }}
-                            className={`transition-all rounded-full ${
-                              idx === currentImageIndex
-                                ? "bg-white w-8 h-2"
-                                : "bg-white/50 w-2 h-2 hover:bg-white/70"
-                            }`}
-                            aria-label={`Ir a imagen ${idx + 1}`}
-                          />
-                        ))}
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                {/* Información del producto */}
-                <div className="p-5">
-                  <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2 min-h-[3.5rem]">
-                    {accesorio.title || accesorio.nombre || "Sin título"}
-                  </h3>
-
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2 min-h-[2.5rem]">
-                    {htmlToPlainText(accesorio.description || accesorio.descripcion || "Sin descripción", 100)}
-                  </p>
-
-                  {/* Precio y stock */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <span className="text-2xl font-bold text-green-600">
-                        {formatPrice(accesorio.price || accesorio.precio)}
-                      </span>
-                      {accesorio.cantidad && (
-                        <p className="text-xs text-gray-500 mt-1">
-                          Stock: {accesorio.cantidad}
-                        </p>
-                      )}
+              return (
+                <div
+                  key={accesorio.id || index}
+                  className={`group bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${
+                    accesorio.vendido ? "opacity-70" : ""
+                  } ${
+                    selectedProduct && selectedProduct.id === accesorio.id
+                      ? "ring-2 ring-blue-500"
+                      : ""
+                  }`}
+                  onClick={() => setSelectedProduct(accesorio)}
+                >
+                  {/* Badge de VENDIDO o AGOTADO */}
+                  {(accesorio.vendido ||
+                    accesorio.stock === 0 ||
+                    accesorio.cantidad === 0) && (
+                    <div className="absolute top-4 right-4 z-20 bg-red-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg transform rotate-12">
+                      {accesorio.vendido ? "VENDIDO" : "AGOTADO"}
                     </div>
-                  </div>
+                  )}
 
-                  {/* Botones de acción */}
-                  <div className="flex gap-2">
-                    <Link
-                      href={buildProductUrl(
-                        categorySlug,
-                        generateProductSlug(accesorio),
-                        accesorio
-                      )}
-                      className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Eye size={18} />
-                      <span>Ver más</span>
-                    </Link>
+                  {/* Galería de imágenes */}
+                  <div className="relative h-72 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                    {/* Imágenes */}
+                    <div className="relative w-full h-full">
+                      {images.map((img, idx) => {
+                        const imageErrorKey = `${accesorio.id}-${idx}`;
+                        const hasImageError = imageErrors[imageErrorKey];
 
+                        return (
+                          <div
+                            key={idx}
+                            className={`absolute inset-0 transition-opacity duration-500 ${
+                              idx === currentImageIndex
+                                ? "opacity-100"
+                                : "opacity-0"
+                            }`}
+                          >
+                            {hasImageError ? (
+                              <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                                <span className="text-gray-500">
+                                  Error cargando imagen
+                                </span>
+                              </div>
+                            ) : (
+                              <Image
+                                src={
+                                  img ||
+                                  "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"
+                                }
+                                alt={
+                                  accesorio.title ||
+                                  accesorio.nombre ||
+                                  "Producto"
+                                }
+                                fill
+                                className="object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                priority={false}
+                                loading="lazy"
+                                quality={85}
+                                onError={() =>
+                                  handleImageError(accesorio.id || index, idx)
+                                }
+                              />
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Botón de expandir */}
                     <button
-                      className={`p-3 rounded-xl transition-colors ${
-                        accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0
-                          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                          : "bg-green-600 hover:bg-green-700 text-white"
+                      onClick={(e) =>
+                        handleExpandImage(images, currentImageIndex, e)
+                      }
+                      className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-all shadow-lg z-30 opacity-0 group-hover:opacity-100"
+                      aria-label="Expandir imagen"
+                    >
+                      <Maximize2 size={18} className="text-gray-700" />
+                    </button>
+
+                    {/* Botón de agregar al carrito - flotante */}
+                    <button
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const isOutOfStock =
+                          accesorio.vendido ||
+                          accesorio.stock === 0 ||
+                          accesorio.cantidad === 0;
+                        if (isOutOfStock) return;
+
+                        const success = await addToCart(accesorio, 1);
+                        if (success) {
+                          toast.success(
+                            `"${accesorio.nombre || accesorio.title}" agregado al carrito`,
+                            {
+                              title: "✅ Producto Agregado",
+                              duration: 3000,
+                            },
+                          );
+                        }
+                      }}
+                      className={`absolute top-3 right-3 backdrop-blur-sm p-3 rounded-full transition-all shadow-lg z-30 ${
+                        accesorio.vendido ||
+                        accesorio.stock === 0 ||
+                        accesorio.cantidad === 0
+                          ? "bg-gray-300/90 text-gray-500 cursor-not-allowed opacity-70"
+                          : "bg-blue-600 hover:bg-blue-700 text-white hover:scale-110"
                       }`}
-                      disabled={accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0}
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label={accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0 ? "Producto agotado" : "Comprar"}
-                      title={accesorio.vendido || accesorio.stock === 0 || accesorio.cantidad === 0 ? "Producto agotado" : "Comprar"}
+                      disabled={
+                        accesorio.vendido ||
+                        accesorio.stock === 0 ||
+                        accesorio.cantidad === 0
+                      }
+                      aria-label="Agregar al carrito"
+                      title={
+                        accesorio.vendido ||
+                        accesorio.stock === 0 ||
+                        accesorio.cantidad === 0
+                          ? "Producto agotado"
+                          : "Agregar al carrito"
+                      }
                     >
                       <ShoppingCart size={20} />
                     </button>
+
+                    {/* Controles de navegación */}
+                    {images.length > 1 && (
+                      <>
+                        <button
+                          onClick={(e) => prevSlide(accesorio.id, e)}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/70 transition-all z-30 opacity-0 group-hover:opacity-100"
+                          aria-label="Imagen anterior"
+                        >
+                          <ChevronLeft size={24} />
+                        </button>
+                        <button
+                          onClick={(e) => nextSlide(accesorio.id, e)}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/70 transition-all z-30 opacity-0 group-hover:opacity-100"
+                          aria-label="Siguiente imagen"
+                        >
+                          <ChevronRight size={24} />
+                        </button>
+
+                        {/* Indicadores de posición */}
+                        <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 z-20">
+                          {images.map((_, idx) => (
+                            <button
+                              key={idx}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSlideIndexes((prev) => ({
+                                  ...prev,
+                                  [accesorio.id]: idx,
+                                }));
+                              }}
+                              className={`transition-all rounded-full ${
+                                idx === currentImageIndex
+                                  ? "bg-white w-8 h-2"
+                                  : "bg-white/50 w-2 h-2 hover:bg-white/70"
+                              }`}
+                              aria-label={`Ir a imagen ${idx + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Información del producto */}
+                  <div className="p-5">
+                    <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2 min-h-[3.5rem]">
+                      {accesorio.title || accesorio.nombre || "Sin título"}
+                    </h3>
+
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2 min-h-[2.5rem]">
+                      {htmlToPlainText(
+                        accesorio.description ||
+                          accesorio.descripcion ||
+                          "Sin descripción",
+                        100,
+                      )}
+                    </p>
+
+                    {/* Precio y stock */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <span className="text-2xl font-bold text-green-600">
+                          {formatPrice(accesorio.price || accesorio.precio)}
+                        </span>
+                        {accesorio.cantidad && (
+                          <p className="text-xs text-gray-500 mt-1">
+                            Stock: {accesorio.cantidad}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Botones de acción */}
+                    <div className="flex gap-2">
+                      <Link
+                        href={buildProductUrl(
+                          categorySlug,
+                          generateProductSlug(accesorio),
+                          accesorio,
+                        )}
+                        className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Eye size={18} />
+                        <span>Ver más</span>
+                      </Link>
+
+                      <button
+                        className={`p-3 rounded-xl transition-colors ${
+                          accesorio.vendido ||
+                          accesorio.stock === 0 ||
+                          accesorio.cantidad === 0
+                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            : "bg-green-600 hover:bg-green-700 text-white"
+                        }`}
+                        disabled={
+                          accesorio.vendido ||
+                          accesorio.stock === 0 ||
+                          accesorio.cantidad === 0
+                        }
+                        onClick={(e) => e.stopPropagation()}
+                        aria-label={
+                          accesorio.vendido ||
+                          accesorio.stock === 0 ||
+                          accesorio.cantidad === 0
+                            ? "Producto agotado"
+                            : "Comprar"
+                        }
+                        title={
+                          accesorio.vendido ||
+                          accesorio.stock === 0 ||
+                          accesorio.cantidad === 0
+                            ? "Producto agotado"
+                            : "Comprar"
+                        }
+                      >
+                        <ShoppingCart size={20} />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
           </div>
         )}
       </div>
@@ -473,7 +542,10 @@ const ModernProductGrid = (props) => {
 
           <div className="relative w-full h-full max-w-6xl max-h-[90vh] flex items-center justify-center">
             <Image
-              src={expandedImage[expandedImageIndex] || "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"}
+              src={
+                expandedImage[expandedImageIndex] ||
+                "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"
+              }
               alt="Imagen expandida"
               fill
               className="object-contain"
