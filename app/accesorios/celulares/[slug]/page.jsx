@@ -10,7 +10,12 @@ export const dynamic = "force-dynamic";
 // Generar metadatos dinámicos
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  return await generateProductMetadata(slug, "celulares");
+  // Temporalmente deshabilitado para debugging
+  return {
+    title: `Producto - celulares | neurai.dev`,
+    description: "Productos de celulares en neurai.dev",
+  };
+  // return await generateProductMetadata(slug, "celulares");
 }
 
 export default async function CelularesProductPage({ params }) {
