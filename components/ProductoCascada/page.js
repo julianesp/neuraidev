@@ -9,7 +9,7 @@ import { useSoldProducts } from "../../hooks/useSoldProducts";
 import { generateProductSlug, buildProductUrl } from "../../utils/slugify";
 import { useCart } from "../../context/CartContext";
 import { useToast } from "../../contexts/ToastContext";
-import styles from './ProductoCascada.module.scss';
+import styles from "./ProductoCascada.module.scss";
 
 export default function ProductoCascada({
   productos,
@@ -119,7 +119,7 @@ export default function ProductoCascada({
     <>
       <div className={`w-full px-4 py-8 ${styles.productGridContainer}`}>
         {/* Grid de productos - tamaño uniforme */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {productosConEstado.map((producto, index) => {
             if (!producto) return null;
 
@@ -146,9 +146,7 @@ export default function ProductoCascada({
                 )}
                 className={`group relative rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 block ${
                   isOutOfStock ? "opacity-70" : ""
-                } ${
-                  isHorizontal ? "col-span-2" : "col-span-1"
-                }`}
+                } ${isHorizontal ? "col-span-2" : "col-span-1"}`}
                 style={{ height: "300px" }}
               >
                 {/* Imagen de fondo con overlay */}
