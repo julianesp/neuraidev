@@ -159,7 +159,7 @@
     align-items: center;
 
     & a {
-      background-color: #FFF;
+      background-color: #fff;
       color: #000;
       z-index: 11;
     }
@@ -194,7 +194,6 @@
     }
 
     @media (min-width: 1024px) {
-
     }
 
     // Ajuste específico para resoluciones tipo 1280x800 (tablets/laptops pequeños)
@@ -719,6 +718,58 @@
 
     & .destacados {
       top: 0;
+    }
+  }
+
+  // Estilos específicos para pantallas grandes (monitores 32" - 2560px)
+  @media (min-width: 1440px) {
+    & .presentacion {
+      height: 500px; // Aumentar altura del hero
+    }
+
+    & .destacados {
+      margin-top: 80px; // Agregar espacio superior
+      margin-bottom: 60px;
+      padding: 0 40px;
+    }
+
+    & .accesories {
+      margin-top: 60px;
+      margin-bottom: 60px;
+      padding: 0 40px;
+
+      .varios {
+        gap: 2.5rem; // Más espaciado entre elementos
+        max-width: 1600px; // Contenedor más ancho
+
+        .tipo {
+          max-width: 350px; // Tarjetas más grandes
+          height: clamp(300px, 40vh, 400px); // Altura mayor
+        }
+
+        .accesoriesTitle {
+          padding-bottom: 80px; // Más espacio en el título
+          font-size: 2.5rem; // Texto más grande
+        }
+
+        .searchWrapper {
+          margin-bottom: 50px; // Más espacio para el buscador
+        }
+      }
+    }
+
+    & .webDevSection,
+    & .blogSection,
+    & .faq,
+    & .technicalServices {
+      margin-top: 60px;
+      margin-bottom: 60px;
+      padding: 0 40px;
+    }
+
+    & .aside {
+      padding: 1rem;
+      max-width: 400px; // Aside más ancho en pantallas grandes
     }
   }
 }

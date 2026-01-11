@@ -11,8 +11,11 @@ import {
   Star,
   Link as LinkIcon,
   Percent,
+  CreditCard,
+  DollarSign,
 } from "lucide-react";
 import { obtenerEstadisticasProductos } from "@/lib/supabase/productos";
+import { obtenerEstadisticasCreditos } from "@/lib/supabase/creditos";
 
 export default function DashboardPage() {
   const { user } = useUser();
@@ -23,6 +26,12 @@ export default function DashboardPage() {
     destacados: 0,
     sinStock: 0,
   });
+  const [statsCreditos, setStatsCreditos] = useState({
+    total: 0,
+    pendientes: 0,
+    vencidos: 0,
+    montoPendiente: 0,
+  });
 
   useEffect(() => {
     if (user) {
@@ -32,8 +41,12 @@ export default function DashboardPage() {
 
   async function loadDashboardStats() {
     try {
-      const estadisticas = await obtenerEstadisticasProductos();
-      setStats(estadisticas);
+      const [estadisticasProductos, estadisticasCreditos] = await Promise.all([
+        obtenerEstadisticasProductos(),
+        obtenerEstadisticasCreditos(),
+      ]);
+      setStats(estadisticasProductos);
+      setStatsCreditos(estadisticasCreditos);
     } catch (error) {
       console.error("Error loading dashboard stats:", error);
     } finally {
@@ -61,36 +74,78 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-8">
-        <StatCard
-          title="Total Productos"
-          value={stats.total}
-          icon={Package}
-          color="blue"
-          href="/dashboard/productos"
-        />
-        <StatCard
-          title="Disponibles"
-          value={stats.disponibles}
-          icon={Package}
-          color="green"
-          href="/dashboard/productos"
-        />
-        <StatCard
-          title="Destacados"
-          value={stats.destacados}
-          icon={Star}
-          color="yellow"
-          href="/dashboard/productos"
-        />
-        <StatCard
-          title="Sin Stock"
-          value={stats.sinStock}
-          icon={Package}
-          color="red"
-          href="/dashboard/productos"
-        />
+      {/* Stats Cards - Productos */}
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+          Productos
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          <StatCard
+            title="Total Productos"
+            value={stats.total}
+            icon={Package}
+            color="blue"
+            href="/dashboard/productos"
+          />
+          <StatCard
+            title="Disponibles"
+            value={stats.disponibles}
+            icon={Package}
+            color="green"
+            href="/dashboard/productos"
+          />
+          <StatCard
+            title="Destacados"
+            value={stats.destacados}
+            icon={Star}
+            color="yellow"
+            href="/dashboard/productos"
+          />
+          <StatCard
+            title="Sin Stock"
+            value={stats.sinStock}
+            icon={Package}
+            color="red"
+            href="/dashboard/productos"
+          />
+        </div>
+      </div>
+
+      {/* Stats Cards - Créditos */}
+      <div className="mb-8">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+          Créditos/Fiados
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          <StatCard
+            title="Total Créditos"
+            value={statsCreditos.total}
+            icon={CreditCard}
+            color="purple"
+            href="/dashboard/creditos"
+          />
+          <StatCard
+            title="Pendientes"
+            value={statsCreditos.pendientes}
+            icon={CreditCard}
+            color="yellow"
+            href="/dashboard/creditos"
+          />
+          <StatCard
+            title="Vencidos"
+            value={statsCreditos.vencidos}
+            icon={CreditCard}
+            color="red"
+            href="/dashboard/creditos"
+          />
+          <StatCard
+            title="Por Cobrar"
+            value={`$${Number(statsCreditos.montoPendiente).toLocaleString('es-CO')}`}
+            icon={DollarSign}
+            color="orange"
+            href="/dashboard/creditos"
+          />
+        </div>
       </div>
 
       {/* Acciones rápidas */}
@@ -122,6 +177,12 @@ export default function DashboardPage() {
             description="Configura enlaces de pago Nequi/Wompi"
             href="/dashboard/payment-links"
             icon={LinkIcon}
+          />
+          <QuickAction
+            title="Créditos"
+            description="Gestiona créditos y fiados a clientes"
+            href="/dashboard/creditos"
+            icon={CreditCard}
           />
           <QuickAction
             title="Ver tienda"
