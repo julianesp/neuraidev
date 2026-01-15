@@ -1,0 +1,154 @@
+/**
+ * Tema personalizado para Video.js
+ * Adaptado al diseño de Neurai.dev
+ */
+
+/* Contenedor principal del reproductor */
+.video-js {
+  font-family: Arial, sans-serif;
+}
+
+/* Botón de play grande centrado */
+.video-js .vjs-big-play-button {
+  background-color: rgba(59, 130, 246, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  font-size: 48px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.video-js .vjs-big-play-button:hover {
+  background-color: rgba(59, 130, 246, 1);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Barra de control */
+.video-js .vjs-control-bar {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  height: 50px;
+}
+
+/* Botones de control */
+.video-js .vjs-control:focus::before,
+.video-js .vjs-control:hover::before,
+.video-js .vjs-control:focus {
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+}
+
+/* Barra de progreso */
+.video-js .vjs-progress-control .vjs-progress-holder {
+  height: 6px;
+  border-radius: 3px;
+}
+
+.video-js .vjs-progress-control .vjs-play-progress {
+  background-color: #3b82f6;
+  border-radius: 3px;
+}
+
+.video-js .vjs-progress-control .vjs-play-progress::before {
+  color: #3b82f6;
+  font-size: 16px;
+  top: -5px;
+}
+
+/* Hover en la barra de progreso */
+.video-js .vjs-progress-control:hover .vjs-progress-holder {
+  font-size: 16px;
+}
+
+/* Slider de volumen */
+.video-js .vjs-volume-level {
+  background-color: #3b82f6;
+}
+
+/* Tiempo */
+.video-js .vjs-time-control {
+  font-size: 14px;
+  line-height: 50px;
+  min-width: 3em;
+}
+
+/* Pantalla completa en móviles */
+@media (max-width: 768px) {
+  .video-js .vjs-big-play-button {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 36px;
+  }
+
+  .video-js .vjs-control-bar {
+    font-size: 12px;
+  }
+}
+
+/* Loading spinner personalizado */
+.video-js .vjs-loading-spinner {
+  border-color: rgba(59, 130, 246, 0.3);
+  border-top-color: #3b82f6;
+}
+
+/* Texto del poster */
+.video-js .vjs-poster {
+  background-size: cover;
+  background-position: center;
+}
+
+/* Error display */
+.video-js .vjs-error-display {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.video-js .vjs-error-display::before {
+  content: 'Error al cargar el video';
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Menú de velocidad de reproducción */
+.video-js .vjs-menu-button-popup .vjs-menu {
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+}
+
+.video-js .vjs-menu li.vjs-selected,
+.video-js .vjs-menu li.vjs-selected:focus,
+.video-js .vjs-menu li.vjs-selected:hover {
+  background-color: #3b82f6;
+}
+
+.video-js .vjs-menu li:focus,
+.video-js .vjs-menu li:hover {
+  background-color: rgba(59, 130, 246, 0.5);
+}
+
+/* Responsive */
+.video-js.vjs-fluid,
+.video-js.vjs-16-9,
+.video-js.vjs-4-3 {
+  width: 100%;
+  max-width: 100%;
+  height: 0;
+}
+
+.video-js.vjs-fluid {
+  padding-top: 56.25%;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .video-js {
+    background-color: #1f2937;
+  }
+
+  .video-js .vjs-control-bar {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+  }
+}

@@ -1,6 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
+
+// Importar VideoJsPlayer dinámicamente para evitar SSR
+const VideoJsPlayer = dynamic(() => import('./VideoJsPlayer'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  ),
+});
 
 interface ProductVideoProps {
   videoUrl: string;
@@ -9,11 +20,13 @@ interface ProductVideoProps {
   className?: string;
   autoPlay?: boolean;
   controls?: boolean;
+  useVideoJs?: boolean; // Nueva prop para usar Video.js
 }
 
 /**
  * Componente para mostrar videos de productos
  * Soporta YouTube, Vimeo y videos directos (MP4, WebM)
+ * Puede usar Video.js o el reproductor nativo
  */
 export default function ProductVideo({
   videoUrl,
@@ -22,9 +35,26 @@ export default function ProductVideo({
   className = '',
   autoPlay = false,
   controls = true,
+  useVideoJs = true, // Por defecto usar Video.js
 }: ProductVideoProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+
+  // Si useVideoJs es true, usar el componente VideoJsPlayer
+  if (useVideoJs) {
+    return (
+      <VideoJsPlayer
+        videoUrl={videoUrl}
+        videoType={videoType}
+        productName={productName}
+        className={className}
+        autoPlay={autoPlay}
+        controls={controls}
+      />
+    );
+  }
+
+  // Si no, usar el reproductor nativo (código existente)
 
   // Detectar el tipo de video automáticamente si no se especifica
   const detectVideoType = (url: string): 'youtube' | 'vimeo' | 'direct' => {
