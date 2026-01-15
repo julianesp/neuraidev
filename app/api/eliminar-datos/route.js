@@ -110,7 +110,7 @@ export async function POST(req) {
     `);
 
     // TODO: Enviar email de confirmación al usuario
-    // Puedes usar un servicio como SendGrid, Resend, AWS SES, etc.
+    // Puedes usar un servicio como SendGrid, AWS SES, etc.
     // Ejemplo:
     /*
     await sendEmail({
