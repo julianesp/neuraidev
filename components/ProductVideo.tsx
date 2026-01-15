@@ -23,7 +23,7 @@ export default function ProductVideo({
   autoPlay = false,
   controls = true,
 }: ProductVideoProps) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   // Detectar el tipo de video automáticamente si no se especifica
@@ -59,6 +59,12 @@ export default function ProductVideo({
   };
 
   const handleLoadComplete = () => {
+    setIsLoading(false);
+    setHasError(false);
+  };
+
+  const handleCanPlay = () => {
+    // Forzar el estado de carga a false cuando el video puede reproducirse
     setIsLoading(false);
     setHasError(false);
   };
@@ -101,8 +107,8 @@ export default function ProductVideo({
 
   return (
     <div className={`relative ${className}`}>
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+      {isLoading && !hasError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800 z-10 pointer-events-none">
           <div className="flex flex-col items-center gap-3">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -151,7 +157,8 @@ export default function ProductVideo({
           onLoadStart={handleLoadStart}
           onLoadedData={handleLoadComplete}
           onLoadedMetadata={handleLoadComplete}
-          onCanPlay={handleLoadComplete}
+          onCanPlay={handleCanPlay}
+          onCanPlayThrough={handleCanPlay}
           onError={handleError}
         >
           <source src={videoUrl} type="video/mp4" />
