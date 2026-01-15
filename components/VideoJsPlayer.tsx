@@ -115,11 +115,19 @@ export default function VideoJsPlayer({
 
     // Crear el reproductor
     const videoElement = document.createElement('video');
-    videoElement.className = 'video-js vjs-big-play-centered';
+    videoElement.className = 'video-js vjs-big-play-centered vjs-16-9';
+    videoElement.style.width = '100%';
+    videoElement.style.height = '100%';
     videoRef.current.appendChild(videoElement);
 
     const player = videojs(videoElement, playerOptions, function onPlayerReady() {
       console.log('Video.js player is ready!');
+
+      // Forzar que los controles sean visibles en móviles
+      if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        player.controls(true);
+        player.userActive(true);
+      }
     });
 
     playerRef.current = player;

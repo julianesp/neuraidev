@@ -35,7 +35,7 @@ export default function ProductVideo({
   className = '',
   autoPlay = false,
   controls = true,
-  useVideoJs = true, // Por defecto usar Video.js
+  useVideoJs = false, // Por defecto usar reproductor nativo
 }: ProductVideoProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -177,21 +177,28 @@ export default function ProductVideo({
       {/* Video Directo (MP4, WebM, etc.) */}
       {actualVideoType === 'direct' && (
         <video
-          className="w-full h-full object-contain bg-black"
+          className="w-full h-full object-contain bg-black rounded-lg"
           controls={controls}
+          controlsList="nodownload"
           autoPlay={autoPlay}
-          loop
-          muted={autoPlay}
+          loop={false}
+          muted={false}
           playsInline
-          preload="metadata"
+          preload="auto"
           onLoadStart={handleLoadStart}
           onLoadedData={handleLoadComplete}
           onLoadedMetadata={handleLoadComplete}
           onCanPlay={handleCanPlay}
           onCanPlayThrough={handleCanPlay}
           onError={handleError}
+          style={{
+            maxHeight: '500px',
+            minHeight: '200px',
+          }}
         >
           <source src={videoUrl} type="video/mp4" />
+          <source src={videoUrl} type="video/webm" />
+          <source src={videoUrl} type="video/ogg" />
           Tu navegador no soporta la reproducción de video.
         </video>
       )}
