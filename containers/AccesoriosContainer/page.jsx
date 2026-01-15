@@ -754,7 +754,10 @@ const AccesoriosContainer = ({
               <div className="h-full w-full relative overflow-hidden rounded-lg">
                 {/* Mostrar video si existe y showVideo es true */}
                 {showVideo && accesorio.video_url && mainSlideIndex === -1 && (
-                  <div className="absolute inset-0 z-[5]">
+                  <div
+                    className="absolute inset-0 z-[5]"
+                    style={{ pointerEvents: 'auto' }}
+                  >
                     <ProductVideo
                       videoUrl={accesorio.video_url}
                       videoType={accesorio.video_type || 'direct'}
@@ -780,6 +783,9 @@ const AccesoriosContainer = ({
                         className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
                           index === mainSlideIndex ? "opacity-100" : "opacity-0"
                         }`}
+                        style={{
+                          pointerEvents: index === mainSlideIndex ? 'auto' : 'none'
+                        }}
                       >
                         <div className="relative w-full h-full z-1">
                           {!imageError[`main-${index}`] ? (
@@ -849,28 +855,27 @@ const AccesoriosContainer = ({
                   </div>
                 ) : null}
 
-                {/* Controles del carrusel principal - solo si hay múltiples imágenes Y el modal NO está abierto */}
-                {tieneImagenes &&
-                  accesorio.imagenes.length > 1 &&
+                {/* Controles del carrusel principal - solo si hay múltiples elementos (video + imágenes O solo imágenes) Y el modal NO está abierto */}
+                {((tieneImagenes && accesorio.imagenes.length > 1) || (accesorio.video_url && tieneImagenes)) &&
                   !isImageModalOpen && (
                     <>
                       <button
                         onClick={prevMainSlide}
-                        className={`${styles.navButton} bg-black text-white  absolute left-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md  transition-all     dark:border-solid `}
+                        className={`${styles.navButton} bg-black text-white  absolute left-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md  transition-all     dark:border-solid z-[6]`}
                         aria-label="Imagen anterior"
                       >
                         <ChevronLeft size={24} />
                       </button>
                       <button
                         onClick={nextMainSlide}
-                        className={`${styles.navButton} bg-black text-white dark:bg-white dark:text-black absolute right-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all`}
+                        className={`${styles.navButton} bg-black text-white dark:bg-white dark:text-black absolute right-2 top-1/2 transform -translate-y-1/2 border-solid border-white p-2 rounded-full shadow-md hover:bg-opacity-75 transition-all z-[6]`}
                         aria-label="Imagen siguiente"
                       >
                         <ChevronRight size={24} />
                       </button>
 
                       {/* Indicadores de posición */}
-                      <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950">
+                      <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950 z-[6]">
                         {/* Indicador para video (si existe) */}
                         {accesorio.video_url && (
                           <button
