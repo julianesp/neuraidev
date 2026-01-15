@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { obtenerCreditoPorId, marcarRecordatorioEnviado } from '@/lib/supabase/creditos';
-import { resend, DEFAULT_FROM_EMAIL } from '@/lib/resend/client';
+import { resend, DEFAULT_FROM_EMAIL, isResendConfigured } from '@/lib/resend/client';
 
 /**
  * Template HTML para el email de recordatorio
