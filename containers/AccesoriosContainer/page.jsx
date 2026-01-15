@@ -31,6 +31,7 @@ import ProductComments from "@/components/ProductSocial/ProductComments";
 import { useUser } from "@clerk/nextjs";
 import { isAdmin } from "@/lib/auth/roles";
 import SafeHtmlRenderer from "@/components/SafeHtmlRenderer";
+import ProductVideo from "@/components/ProductVideo";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -70,6 +71,7 @@ const AccesoriosContainer = ({
   const [imageRetries, setImageRetries] = useState({}); // Controlar reintentos de carga
   const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Modal de imagen expandida
   const [currentUrl, setCurrentUrl] = useState(""); // URL actual para evitar problemas de hidratación
+  const [showVideo, setShowVideo] = useState(false); // Controlar si se muestra video o imagen
 
   // Funciones para el modal de imagen
   const openImageModal = () => setIsImageModalOpen(true);
@@ -81,6 +83,17 @@ const AccesoriosContainer = ({
       setCurrentUrl(window.location.href);
     }
   }, []);
+
+  // Si hay video, mostrarlo por defecto (primero en la galería)
+  useEffect(() => {
+    if (accesorio?.video_url) {
+      setShowVideo(true);
+      setMainSlideIndex(-1); // -1 indica que el video es el elemento activo
+    } else {
+      setShowVideo(false);
+      setMainSlideIndex(0);
+    }
+  }, [accesorio]);
 
   // Función para asignar emoji según el contenido
   const asignarEmoji = (texto) => {
@@ -482,16 +495,29 @@ const AccesoriosContainer = ({
     e.preventDefault(); // Prevenir comportamiento predeterminado
     e.stopPropagation(); // Detener propagación del evento
 
-    if (
-      !accesorio?.imagenes ||
-      !Array.isArray(accesorio.imagenes) ||
-      accesorio.imagenes.length <= 1
-    )
-      return;
+    const hasVideo = !!accesorio?.video_url;
+    const hasImages = accesorio?.imagenes && Array.isArray(accesorio.imagenes) && accesorio.imagenes.length > 0;
+    const totalItems = (hasVideo ? 1 : 0) + (hasImages ? accesorio.imagenes.length : 0);
 
-    setMainSlideIndex((prevIndex) =>
-      prevIndex === accesorio.imagenes.length - 1 ? 0 : prevIndex + 1,
-    );
+    if (totalItems <= 1) return;
+
+    setMainSlideIndex((prevIndex) => {
+      // Si estamos en el video (-1), pasar a la primera imagen
+      if (prevIndex === -1) {
+        setShowVideo(false);
+        return 0;
+      }
+      // Si estamos en la última imagen, volver al video o a la primera imagen
+      if (prevIndex === accesorio.imagenes.length - 1) {
+        if (hasVideo) {
+          setShowVideo(true);
+          return -1;
+        }
+        return 0;
+      }
+      // Avanzar a la siguiente imagen
+      return prevIndex + 1;
+    });
   };
 
   // Función para retroceder en el carrusel principal
@@ -499,16 +525,32 @@ const AccesoriosContainer = ({
     e.preventDefault(); // Prevenir comportamiento predeterminado
     e.stopPropagation(); // Detener propagación del evento
 
-    if (
-      !accesorio?.imagenes ||
-      !Array.isArray(accesorio.imagenes) ||
-      accesorio.imagenes.length <= 1
-    )
-      return;
+    const hasVideo = !!accesorio?.video_url;
+    const hasImages = accesorio?.imagenes && Array.isArray(accesorio.imagenes) && accesorio.imagenes.length > 0;
+    const totalItems = (hasVideo ? 1 : 0) + (hasImages ? accesorio.imagenes.length : 0);
 
-    setMainSlideIndex((prevIndex) =>
-      prevIndex === 0 ? accesorio.imagenes.length - 1 : prevIndex - 1,
-    );
+    if (totalItems <= 1) return;
+
+    setMainSlideIndex((prevIndex) => {
+      // Si estamos en el video (-1), ir a la última imagen
+      if (prevIndex === -1) {
+        if (hasImages) {
+          setShowVideo(false);
+          return accesorio.imagenes.length - 1;
+        }
+        return -1;
+      }
+      // Si estamos en la primera imagen, volver al video o a la última imagen
+      if (prevIndex === 0) {
+        if (hasVideo) {
+          setShowVideo(true);
+          return -1;
+        }
+        return accesorio.imagenes.length - 1;
+      }
+      // Retroceder a la imagen anterior
+      return prevIndex - 1;
+    });
   };
 
   // Función para avanzar en el carrusel de productos relacionados
@@ -710,6 +752,21 @@ const AccesoriosContainer = ({
               )}
 
               <div className="h-full w-full relative overflow-hidden rounded-lg">
+                {/* Mostrar video si existe y showVideo es true */}
+                {showVideo && accesorio.video_url && mainSlideIndex === -1 && (
+                  <div className="absolute inset-0">
+                    <ProductVideo
+                      videoUrl={accesorio.video_url}
+                      videoType={accesorio.video_type || 'direct'}
+                      productName={accesorio.nombre}
+                      className="w-full h-full"
+                      autoPlay={false}
+                      controls={true}
+                    />
+                  </div>
+                )}
+
+                {/* Mostrar imágenes */}
                 {tieneImagenes ? (
                   accesorio.imagenes.map((imagen, index) => {
                     const imagenUrl =
@@ -762,7 +819,7 @@ const AccesoriosContainer = ({
                       </div>
                     );
                   })
-                ) : imagenPrincipal ? (
+                ) : !showVideo && imagenPrincipal ? (
                   <div className="absolute inset-0">
                     <div className="relative w-full h-full">
                       {!imageError["principal"] ? (
@@ -784,13 +841,13 @@ const AccesoriosContainer = ({
                       )}
                     </div>
                   </div>
-                ) : (
+                ) : !showVideo ? (
                   <div className="flex items-center justify-center h-full bg-white/20 backdrop-blur-sm rounded-lg">
                     <p className="text-gray-500 dark:text-gray-300">
                       No hay imágenes disponibles
                     </p>
                   </div>
-                )}
+                ) : null}
 
                 {/* Controles del carrusel principal - solo si hay múltiples imágenes Y el modal NO está abierto */}
                 {tieneImagenes &&
@@ -814,15 +871,33 @@ const AccesoriosContainer = ({
 
                       {/* Indicadores de posición */}
                       <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950">
+                        {/* Indicador para video (si existe) */}
+                        {accesorio.video_url && (
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setMainSlideIndex(-1);
+                              setShowVideo(true);
+                            }}
+                            className={`w-3 h-3 rounded-full ${
+                              mainSlideIndex === -1 && showVideo
+                                ? "bg-primary"
+                                : "bg-gray-300"
+                            }`}
+                            aria-label="Ir al video"
+                          />
+                        )}
+                        {/* Indicadores para imágenes */}
                         {accesorio.imagenes.map((_, index) => (
                           <button
                             key={index}
                             onClick={(e) => {
                               e.preventDefault();
                               setMainSlideIndex(index);
+                              setShowVideo(false);
                             }}
                             className={`w-3 h-3 rounded-full ${
-                              index === mainSlideIndex
+                              index === mainSlideIndex && !showVideo
                                 ? "bg-primary"
                                 : "bg-gray-300"
                             }`}

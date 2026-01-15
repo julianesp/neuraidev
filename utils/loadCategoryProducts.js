@@ -76,6 +76,9 @@ export async function loadCategoryProducts(categoria) {
       disponible: p.disponible && p.stock > 0,
       createdAt: p.created_at,
       updatedAt: p.updated_at,
+      // Incluir campos de video
+      video_url: p.video_url,
+      video_type: p.video_type,
     }));
 
     if (productos.length === 0) {
@@ -104,6 +107,9 @@ export async function loadCategoryProducts(categoria) {
         disponible: p.disponible && p.stock > 0,
         createdAt: p.created_at,
         updatedAt: p.updated_at,
+        // Incluir campos de video
+        video_url: p.video_url,
+        video_type: p.video_type,
       }));
     }
 
