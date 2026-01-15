@@ -728,8 +728,8 @@ const AccesoriosContainer = ({
             <div
               className={`${styles.mainImageContainer} relative h-96 md:h-[450px] lg:h-[500px] group`}
             >
-              {/* Botón de expansión - visible solo cuando el modal NO está abierto */}
-              {!isImageModalOpen && (
+              {/* Botón de expansión - visible solo cuando el modal NO está abierto Y no hay video */}
+              {!isImageModalOpen && !showVideo && (
                 <button
                   onClick={openImageModal}
                   className="absolute top-2 right-2 z-10 bg-white/90 hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800 text-gray-900 dark:text-white p-2.5 md:p-3 rounded-full transition-all duration-200 shadow-xl border-2 border-gray-300 dark:border-gray-600 hover:scale-110 "
@@ -754,12 +754,12 @@ const AccesoriosContainer = ({
               <div className="h-full w-full relative overflow-hidden rounded-lg">
                 {/* Mostrar video si existe y showVideo es true */}
                 {showVideo && accesorio.video_url && mainSlideIndex === -1 && (
-                  <div className="absolute inset-0">
+                  <div className="absolute inset-0 z-[5]">
                     <ProductVideo
                       videoUrl={accesorio.video_url}
                       videoType={accesorio.video_type || 'direct'}
                       productName={accesorio.nombre}
-                      className="w-full h-full"
+                      className="w-full h-full relative z-[5]"
                       autoPlay={false}
                       controls={true}
                     />
