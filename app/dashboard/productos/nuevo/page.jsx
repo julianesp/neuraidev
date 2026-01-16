@@ -6,6 +6,7 @@ import { ArrowLeft, Save } from "lucide-react";
 import { crearProducto } from "@/lib/supabase/productos";
 import ImageUploader from "@/components/ImageUploader";
 import VideoUploader from "@/components/VideoUploader";
+import ColorSelector from "@/components/ColorSelector";
 
 export default function NuevoProductoPage() {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function NuevoProductoPage() {
     video_url: "",
     video_type: "direct",
     payment_link: "",
+    colores_disponibles: [],
   });
 
   const categorias = [
@@ -77,6 +79,9 @@ export default function NuevoProductoPage() {
       const metadata = {};
       if (formData.payment_link.trim()) {
         metadata.payment_link = formData.payment_link.trim();
+      }
+      if (formData.colores_disponibles.length > 0) {
+        metadata.colores_disponibles = formData.colores_disponibles;
       }
 
       const productoData = {
@@ -419,6 +424,28 @@ export default function NuevoProductoPage() {
                   }))
                 }
                 label="Video de Presentación"
+              />
+            </div>
+
+            {/* Colores Disponibles */}
+            <div>
+              <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+                Colores del Producto
+              </h2>
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+                <p className="text-sm text-blue-800 dark:text-blue-300 mb-2">
+                  🎨 <strong>Configura los colores disponibles</strong>
+                </p>
+                <p className="text-xs text-blue-700 dark:text-blue-400">
+                  Los clientes podrán seleccionar el color que desean al agregar el producto al carrito.
+                  Puedes elegir entre colores predefinidos o agregar colores personalizados.
+                </p>
+              </div>
+              <ColorSelector
+                value={formData.colores_disponibles}
+                onChange={(colores) =>
+                  setFormData((prev) => ({ ...prev, colores_disponibles: colores }))
+                }
               />
             </div>
 

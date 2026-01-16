@@ -6,6 +6,7 @@ import { ArrowLeft, Save } from "lucide-react";
 import SortableImageUploader from "@/components/SortableImageUploader";
 import VideoUploader from "@/components/VideoUploader";
 import RichTextEditor from "@/components/RichTextEditor";
+import ColorSelector from "@/components/ColorSelector";
 
 export default function EditarProductoPage() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function EditarProductoPage() {
     video_url: "",
     video_type: "direct",
     payment_link: "",
+    colores_disponibles: [],
     metadata: {}, // Guardar metadata completo para preservarlo
   });
 
@@ -78,6 +80,7 @@ export default function EditarProductoPage() {
         video_url: producto.video_url || "",
         video_type: producto.video_type || "direct",
         payment_link: producto.metadata?.payment_link || "",
+        colores_disponibles: producto.metadata?.colores_disponibles || [],
         metadata: producto.metadata || {}, // Preservar metadata completo
       });
     } catch (error) {
@@ -127,15 +130,21 @@ export default function EditarProductoPage() {
 
     try {
       // Limpiar y preparar datos para la tabla products de Supabase
-      // Preservar metadata existente y solo actualizar payment_link
+      // Preservar metadata existente y actualizar payment_link y colores_disponibles
       const metadataActualizado = {
         ...formData.metadata, // Preservar metadata existente
         payment_link: formData.payment_link.trim() || null,
+        colores_disponibles: formData.colores_disponibles.length > 0 ? formData.colores_disponibles : null,
       };
 
       // Si payment_link es null, eliminarlo del metadata
       if (!formData.payment_link.trim()) {
         delete metadataActualizado.payment_link;
+      }
+
+      // Si no hay colores, eliminar del metadata
+      if (!formData.colores_disponibles.length) {
+        delete metadataActualizado.colores_disponibles;
       }
 
       const productoData = {
@@ -496,6 +505,28 @@ export default function EditarProductoPage() {
                   }))
                 }
                 label="Video de Presentación"
+              />
+            </div>
+
+            {/* Colores Disponibles */}
+            <div>
+              <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+                Colores del Producto
+              </h2>
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+                <p className="text-sm text-blue-800 dark:text-blue-300 mb-2">
+                  🎨 <strong>Configura los colores disponibles</strong>
+                </p>
+                <p className="text-xs text-blue-700 dark:text-blue-400">
+                  Los clientes podrán seleccionar el color que desean al agregar el producto al carrito.
+                  Puedes elegir entre colores predefinidos o agregar colores personalizados.
+                </p>
+              </div>
+              <ColorSelector
+                value={formData.colores_disponibles}
+                onChange={(colores) =>
+                  setFormData((prev) => ({ ...prev, colores_disponibles: colores }))
+                }
               />
             </div>
 
