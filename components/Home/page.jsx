@@ -20,6 +20,7 @@ import TechnicalServicesCarousel from "@/components/TechnicalServicesCarousel";
 import WebDevSection from "@/components/WebDevelopment/WebDevSection";
 import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
 import ProductSearch from "@/components/ProductSearch/ProductSearch";
+import ExternalNews from "@/components/ExternalNews/ExternalNews";
 // import FacebookLogin from "./Auth/FacebookLogin";
 // import "./ContactForm.css";
 // import "./SideModal/SideModal.module.scss";
@@ -293,6 +294,11 @@ export default function Inicio() {
         {/* Productos Más Visitados - Diseño Bento Grid */}
         <Suspense fallback={<LoadingSkeleton />}>
           <MostVisitedProducts />
+        </Suspense>
+
+        {/* Noticias Externas */}
+        <Suspense fallback={<LoadingSkeleton />}>
+          <ExternalNews />
         </Suspense>
 
         {/* Negocios Locales */}

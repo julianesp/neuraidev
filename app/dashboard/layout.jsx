@@ -15,6 +15,10 @@ import {
   Megaphone,
   Tag,
   Percent,
+  DollarSign,
+  TrendingUp,
+  FileText,
+  Newspaper,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -43,6 +47,13 @@ export default function DashboardLayout({ children }) {
       current: pathname === "/dashboard",
     },
     {
+      name: "Ganancias",
+      href: "/dashboard/ganancias",
+      icon: TrendingUp,
+      current: pathname?.startsWith("/dashboard/ganancias") || pathname?.startsWith("/dashboard/ventas"),
+      badge: "Nuevo",
+    },
+    {
       name: "Mi Tienda",
       href: "/dashboard/tienda",
       icon: Store,
@@ -67,10 +78,22 @@ export default function DashboardLayout({ children }) {
       current: pathname?.startsWith("/dashboard/pedidos"),
     },
     {
+      name: "Facturas",
+      href: "/dashboard/facturas",
+      icon: FileText,
+      current: pathname?.startsWith("/dashboard/facturas"),
+    },
+    {
       name: "Clientes",
       href: "/dashboard/clientes",
       icon: Users,
       current: pathname?.startsWith("/dashboard/clientes"),
+    },
+    {
+      name: "Noticias",
+      href: "/dashboard/noticias",
+      icon: Newspaper,
+      current: pathname?.startsWith("/dashboard/noticias"),
     },
     {
       name: "Anuncios",
@@ -174,14 +197,21 @@ export default function DashboardLayout({ children }) {
                       key={item.name}
                       href={item.href}
                       onClick={() => setSidebarOpen(false)}
-                      className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                      className={`flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
                         item.current
-                          ? "bg-blue-50 text-blue-700"
-                          : "text-gray-700 hover:bg-gray-100"
+                          ? "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                       }`}
                     >
-                      <Icon className="w-5 h-5 mr-3" />
-                      {item.name}
+                      <div className="flex items-center">
+                        <Icon className="w-5 h-5 mr-3" />
+                        {item.name}
+                      </div>
+                      {item.badge && (
+                        <span className="px-2 py-1 text-xs font-bold text-white bg-green-500 rounded-full">
+                          {item.badge}
+                        </span>
+                      )}
                     </Link>
                   );
                 })}

@@ -21,6 +21,7 @@ export default function PedidosPage() {
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [deleting, setDeleting] = useState(false);
   const [checkingPayments, setCheckingPayments] = useState(false);
+  const [forcingUpdate, setForcingUpdate] = useState(false);
 
   // Obtener pedidos de la base de datos
   const fetchOrders = async () => {
@@ -156,6 +157,43 @@ export default function PedidosPage() {
     }
   };
 
+  // Force update old pending orders
+  const handleForceUpdateOrders = async () => {
+    if (!confirm('¿Estás seguro de marcar como completados todos los pedidos pendientes antiguos (más de 1 hora)?')) {
+      return;
+    }
+
+    try {
+      setForcingUpdate(true);
+      const response = await fetch('/api/dashboard/force-update-orders');
+
+      if (!response.ok) {
+        throw new Error('Error al forzar actualización');
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert(
+          `✅ Actualización completada:\n` +
+          `- Pedidos actualizados: ${data.updated}\n` +
+          `${data.errors.length > 0 ? `\n⚠️ Errores: ${data.errors.length}` : ''}\n\n` +
+          `Detalles:\n${data.details.map(d => `- ${d.numero_orden}: ${d.customer_name} ($${d.total.toLocaleString('es-CO')})`).join('\n')}`
+        );
+
+        // Reload orders
+        if (data.updated > 0) {
+          await fetchOrders();
+        }
+      }
+    } catch (err) {
+      console.error('Error forcing update:', err);
+      alert('Error al forzar actualización: ' + err.message);
+    } finally {
+      setForcingUpdate(false);
+    }
+  };
+
   // Función para formatear fecha
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -240,6 +278,42 @@ export default function PedidosPage() {
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={handleCheckPendingPayments}
+              disabled={checkingPayments || forcingUpdate}
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg"
+              title="Verificar estados de pago pendientes en Wompi/ePayco"
+            >
+              {checkingPayments ? (
+                <>
+                  <RefreshCw className="w-5 h-5 animate-spin" />
+                  Verificando...
+                </>
+              ) : (
+                <>
+                  <CheckCheck className="w-5 h-5" />
+                  Verificar Pagos
+                </>
+              )}
+            </button>
+            <button
+              onClick={handleForceUpdateOrders}
+              disabled={forcingUpdate || checkingPayments}
+              className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg"
+              title="Forzar actualización de pedidos pendientes antiguos (>1 hora)"
+            >
+              {forcingUpdate ? (
+                <>
+                  <RefreshCw className="w-5 h-5 animate-spin" />
+                  Actualizando...
+                </>
+              ) : (
+                <>
+                  <CheckCircle className="w-5 h-5" />
+                  Aprobar Antiguos
+                </>
+              )}
+            </button>
             <button
               onClick={toggleSidebar}
               className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -404,16 +478,13 @@ export default function PedidosPage() {
                       />
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      ID Pedido
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Cliente
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Email
+                      Contacto
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Items
+                      Productos Comprados
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Total
@@ -441,33 +512,54 @@ export default function PedidosPage() {
                             title="Seleccionar pedido"
                           />
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900 dark:text-white">
-                            {pedido.numero_orden}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900 dark:text-white">
+                        {/* Datos del Cliente */}
+                        <td className="px-6 py-4">
+                          <div className="text-sm font-semibold text-gray-900 dark:text-white">
                             {pedido.customer_name || 'N/A'}
                           </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            CC/NIT: {pedido.customer_phone || 'N/A'}
+                          </div>
+                        </td>
+                        {/* Contacto */}
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-900 dark:text-white">
+                            📧 {pedido.customer_email || 'N/A'}
+                          </div>
                           {pedido.customer_phone && (
-                            <div className="text-xs text-gray-500 dark:text-gray-400">
-                              {pedido.customer_phone}
+                            <div className="text-sm text-gray-900 dark:text-white mt-1">
+                              📱 {pedido.customer_phone}
+                            </div>
+                          )}
+                          {pedido.customer_address && (
+                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              📍 {pedido.customer_address}
                             </div>
                           )}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900 dark:text-white">
-                            {pedido.customer_email}
+                        {/* Productos */}
+                        <td className="px-6 py-4">
+                          <div className="max-w-xs">
+                            {items.length > 0 ? (
+                              <ul className="text-sm space-y-1">
+                                {items.map((item, idx) => (
+                                  <li key={idx} className="text-gray-900 dark:text-white">
+                                    • {item.name || item.nombre} <span className="text-gray-500">x{item.quantity || item.cantidad || 1}</span>
+                                    {item.price && (
+                                      <span className="text-xs text-gray-500 ml-2">
+                                        (${parseInt(item.price).toLocaleString('es-CO')})
+                                      </span>
+                                    )}
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <span className="text-sm text-gray-500">Sin productos</span>
+                            )}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900 dark:text-white">
-                            {itemCount} {itemCount === 1 ? 'item' : 'items'}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900 dark:text-white">
+                          <div className="text-lg font-bold text-gray-900 dark:text-white">
                             ${pedido.total?.toLocaleString('es-CO') || '0'}
                           </div>
                         </td>

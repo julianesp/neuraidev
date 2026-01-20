@@ -46,14 +46,19 @@ export function generateProductSlug(producto) {
     return `${slugBase}-${id}`;
   }
 
-  // Si el ID ya es un string descriptivo, usar solo el nombre
-  if (id && typeof id === "string" && id.includes("-")) {
-    return slugBase || id;
-  }
+  // Si el ID es un UUID (formato: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+  // SIEMPRE agregarlo al final para garantizar URLs únicas
+  if (id && typeof id === "string" && id.length > 0) {
+    // Verificar si parece un UUID (tiene guiones y más de 30 caracteres)
+    const isUUID = id.includes("-") && id.length > 30;
 
-  // Agregar ID si existe
-  if (id) {
-    return `${slugBase}-${slugify(id.toString())}`;
+    if (isUUID) {
+      // Para UUIDs, siempre agregar el ID completo
+      return `${slugBase}-${id}`;
+    } else {
+      // Para IDs cortos, slugificar
+      return `${slugBase}-${slugify(id.toString())}`;
+    }
   }
 
   return slugBase;
