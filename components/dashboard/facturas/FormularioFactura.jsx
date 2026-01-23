@@ -1,13 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { Plus, Trash2, Save, X, Search } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, Trash2, Save, X, Search, Star, Gift } from "lucide-react";
 
 export default function FormularioFactura({ facturaInicial, onGuardar, onCancelar }) {
   const [miContacto, setMiContacto] = useState({
     telefono: facturaInicial?.miContacto?.telefono || "",
     email: facturaInicial?.miContacto?.email || "",
   });
+
+  const [clientes, setClientes] = useState([]);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
+  const [mostrarBusquedaCliente, setMostrarBusquedaCliente] = useState(false);
+  const [busquedaCliente, setBusquedaCliente] = useState("");
 
   const [cliente, setCliente] = useState(facturaInicial?.cliente || {
     nombre: "",
@@ -16,6 +21,8 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
     email: "",
     direccion: "",
   });
+
+  const [descuentoFidelidad, setDescuentoFidelidad] = useState(0);
 
   const [servicios, setServicios] = useState(
     facturaInicial?.servicios.length > 0
@@ -27,6 +34,43 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
 
   const [notas, setNotas] = useState(facturaInicial?.notas || "");
   const [metodoPago, setMetodoPago] = useState(facturaInicial?.metodoPago || "efectivo");
+
+  // Cargar clientes
+  useEffect(() => {
+    async function cargarClientes() {
+      try {
+        const res = await fetch('/api/clientes');
+        if (!res.ok) return;
+        const data = await res.json();
+        setClientes(data.clientes || []);
+      } catch (error) {
+        console.error('Error cargando clientes:', error);
+      }
+    }
+    cargarClientes();
+  }, []);
+
+  // Cuando se selecciona un cliente existente
+  const seleccionarCliente = (clienteObj) => {
+    setClienteSeleccionado(clienteObj);
+    setCliente({
+      nombre: clienteObj.nombre,
+      identificacion: clienteObj.identificacion || "",
+      telefono: clienteObj.telefono || "",
+      email: clienteObj.email || "",
+      direccion: clienteObj.direccion || "",
+    });
+    setDescuentoFidelidad(clienteObj.descuento_fidelidad || 0);
+    setMostrarBusquedaCliente(false);
+    setBusquedaCliente("");
+  };
+
+  // Filtrar clientes por búsqueda
+  const clientesFiltrados = clientes.filter(c =>
+    c.nombre.toLowerCase().includes(busquedaCliente.toLowerCase()) ||
+    (c.telefono && c.telefono.includes(busquedaCliente)) ||
+    (c.identificacion && c.identificacion.includes(busquedaCliente))
+  );
 
   // Generar número de factura
   const generarNumeroFactura = () => {
@@ -76,7 +120,7 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
     ));
   };
 
-  const calcularTotal = () => {
+  const calcularSubtotal = () => {
     const totalServicios = servicios.reduce((sum, s) =>
       sum + (parseFloat(s.precio) || 0) * (parseInt(s.cantidad) || 0), 0
     );
@@ -84,6 +128,15 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
       sum + (parseFloat(p.precio) || 0) * (parseInt(p.cantidad) || 0), 0
     );
     return totalServicios + totalProductos;
+  };
+
+  const calcularDescuentoMonto = () => {
+    const subtotal = calcularSubtotal();
+    return (subtotal * descuentoFidelidad) / 100;
+  };
+
+  const calcularTotal = () => {
+    return calcularSubtotal() - calcularDescuentoMonto();
   };
 
   const handleSubmit = (e) => {
@@ -94,8 +147,11 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
       fecha: facturaInicial?.fecha || new Date().toISOString(),
       miContacto,
       cliente,
+      clienteId: clienteSeleccionado?.id || null,
       servicios: servicios.filter(s => s.descripcion && s.precio > 0),
       productos: productos.filter(p => p.nombre && p.precio > 0),
+      descuentoPorcentaje: descuentoFidelidad,
+      descuentoMonto: calcularDescuentoMonto(),
       total: calcularTotal(),
       metodoPago,
       notas,
@@ -146,9 +202,133 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
 
       {/* Información del Cliente */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-          Información del Cliente
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+            Información del Cliente
+          </h2>
+          <button
+            type="button"
+            onClick={() => setMostrarBusquedaCliente(!mostrarBusquedaCliente)}
+            className="flex items-center gap-2 px-4 py-2 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+          >
+            <Search className="w-4 h-4" />
+            Buscar Cliente Frecuente
+          </button>
+        </div>
+
+        {/* Cliente seleccionado con descuento */}
+        {clienteSeleccionado && (
+          <div className="mb-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-200 dark:border-purple-800 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                  clienteSeleccionado.nivel_fidelidad === 'platino' ? 'bg-gradient-to-br from-gray-700 to-gray-900' :
+                  clienteSeleccionado.nivel_fidelidad === 'oro' ? 'bg-gradient-to-br from-yellow-400 to-yellow-600' :
+                  clienteSeleccionado.nivel_fidelidad === 'plata' ? 'bg-gradient-to-br from-gray-300 to-gray-500' :
+                  'bg-gradient-to-br from-orange-400 to-orange-600'
+                }`}>
+                  <Star className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900 dark:text-white text-lg">{clienteSeleccionado.nombre}</p>
+                  <div className="flex items-center gap-3 text-sm">
+                    <span className="capitalize font-medium text-purple-700 dark:text-purple-400">
+                      Cliente {clienteSeleccionado.nivel_fidelidad}
+                    </span>
+                    <span className="text-gray-600 dark:text-gray-400">
+                      {clienteSeleccionado.total_compras} compras
+                    </span>
+                    <span className="text-gray-600 dark:text-gray-400">
+                      Total: ${parseFloat(clienteSeleccionado.total_gastado || 0).toLocaleString('es-CO')}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="text-right">
+                {descuentoFidelidad > 0 && (
+                  <div className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg">
+                    <Gift className="w-5 h-5" />
+                    <span className="text-xl font-bold">{descuentoFidelidad}% OFF</span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setClienteSeleccionado(null);
+                setDescuentoFidelidad(0);
+                setCliente({
+                  nombre: "",
+                  identificacion: "",
+                  telefono: "",
+                  email: "",
+                  direccion: "",
+                });
+              }}
+              className="mt-2 text-sm text-red-600 hover:text-red-700"
+            >
+              Usar cliente diferente
+            </button>
+          </div>
+        )}
+
+        {/* Búsqueda de clientes */}
+        {mostrarBusquedaCliente && !clienteSeleccionado && (
+          <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-600">
+            <div className="relative mb-3">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Buscar por nombre, teléfono o identificación..."
+                value={busquedaCliente}
+                onChange={(e) => setBusquedaCliente(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            <div className="max-h-60 overflow-y-auto space-y-2">
+              {clientesFiltrados.length === 0 ? (
+                <p className="text-gray-500 dark:text-gray-400 text-center py-4">
+                  No se encontraron clientes
+                </p>
+              ) : (
+                clientesFiltrados.map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => seleccionarCliente(c)}
+                    className="w-full text-left p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-purple-500 dark:hover:border-purple-500 transition-colors"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-semibold text-gray-900 dark:text-white">{c.nombre}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          {c.telefono} {c.identificacion && `• ${c.identificacion}`}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                          c.nivel_fidelidad === 'platino' ? 'bg-gray-700 text-white' :
+                          c.nivel_fidelidad === 'oro' ? 'bg-yellow-500 text-white' :
+                          c.nivel_fidelidad === 'plata' ? 'bg-gray-400 text-white' :
+                          'bg-orange-500 text-white'
+                        }`}>
+                          {c.nivel_fidelidad}
+                        </span>
+                        {c.descuento_fidelidad > 0 && (
+                          <p className="text-sm text-green-600 dark:text-green-400 font-medium mt-1">
+                            {c.descuento_fidelidad}% descuento
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -435,8 +615,25 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
 
         {/* Total */}
         <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-          <div className="space-y-2 max-w-md ml-auto">
-            <div className="flex justify-between text-2xl font-bold text-gray-900 dark:text-white">
+          <div className="space-y-3 max-w-md ml-auto">
+            <div className="flex justify-between text-lg text-gray-700 dark:text-gray-300">
+              <span>Subtotal:</span>
+              <span className="font-semibold">
+                ${calcularSubtotal().toLocaleString('es-CO')}
+              </span>
+            </div>
+            {descuentoFidelidad > 0 && (
+              <div className="flex justify-between text-lg text-green-600 dark:text-green-400">
+                <span className="flex items-center gap-2">
+                  <Gift className="w-5 h-5" />
+                  Descuento por Fidelidad ({descuentoFidelidad}%):
+                </span>
+                <span className="font-semibold">
+                  -${calcularDescuentoMonto().toLocaleString('es-CO')}
+                </span>
+              </div>
+            )}
+            <div className="flex justify-between text-2xl font-bold text-gray-900 dark:text-white pt-3 border-t border-gray-200 dark:border-gray-700">
               <span>Total a Pagar:</span>
               <span className="text-blue-600">
                 ${calcularTotal().toLocaleString('es-CO')}

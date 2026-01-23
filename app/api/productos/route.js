@@ -31,14 +31,25 @@ export async function GET(request) {
       );
     }
 
+    // Obtener parámetros de búsqueda
+    const { searchParams } = new URL(request.url);
+    const disponible = searchParams.get('disponible');
+
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
-    // Obtener todos los productos
-    const { data, error } = await supabase
+    // Construir query
+    let query = supabase
       .from('products')
       .select('*')
       .order('created_at', { ascending: false });
+
+    // Filtrar por disponibilidad si se solicita
+    if (disponible === 'true') {
+      query = query.eq('disponible', true).gt('stock', 0);
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       console.error('❌ [API] Error obteniendo productos:', error);
@@ -50,7 +61,11 @@ export async function GET(request) {
 
     console.log(`✅ [API] ${data?.length || 0} productos obtenidos`);
 
-    return NextResponse.json(data || []);
+    // Devolver en formato esperado por el componente
+    return NextResponse.json({
+      productos: data || [],
+      total: data?.length || 0
+    });
 
   } catch (error) {
     console.error('❌ [API] Error inesperado:', error);

@@ -19,6 +19,7 @@ import {
   TrendingUp,
   FileText,
   Newspaper,
+  Receipt,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -50,8 +51,14 @@ export default function DashboardLayout({ children }) {
       name: "Ganancias",
       href: "/dashboard/ganancias",
       icon: TrendingUp,
-      current: pathname?.startsWith("/dashboard/ganancias") || pathname?.startsWith("/dashboard/ventas"),
+      current: pathname === "/dashboard/ganancias",
       badge: "Nuevo",
+    },
+    {
+      name: "Ventas",
+      href: "/dashboard/ventas",
+      icon: Receipt,
+      current: pathname?.startsWith("/dashboard/ventas"),
     },
     {
       name: "Mi Tienda",

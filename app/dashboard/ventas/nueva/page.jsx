@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Search, Star, Gift, X, Package as PackageIcon } from 'lucide-react';
 
 export default function NuevaVentaPage() {
   const { isLoaded, isSignedIn } = useUser();
@@ -14,6 +15,18 @@ export default function NuevaVentaPage() {
   const [cantidad, setCantidad] = useState(1);
   const [precioVenta, setPrecioVenta] = useState('');
   const [precioCompra, setPrecioCompra] = useState('');
+  const [busquedaProducto, setBusquedaProducto] = useState('');
+  const [mostrarListaProductos, setMostrarListaProductos] = useState(false);
+
+  // Producto manual (no en inventario)
+  const [esProductoManual, setEsProductoManual] = useState(false);
+  const [nombreProductoManual, setNombreProductoManual] = useState('');
+
+  // Clientes frecuentes
+  const [clientes, setClientes] = useState([]);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
+  const [mostrarBusquedaCliente, setMostrarBusquedaCliente] = useState(false);
+  const [busquedaCliente, setBusquedaCliente] = useState("");
 
   const [clienteNombre, setClienteNombre] = useState('');
   const [clienteTelefono, setClienteTelefono] = useState('');
@@ -26,40 +39,82 @@ export default function NuevaVentaPage() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  // Cargar productos
+  // Cargar productos y clientes
   useEffect(() => {
     if (!isLoaded || !isSignedIn) return;
 
-    async function cargarProductos() {
+    async function cargarDatos() {
       try {
-        const res = await fetch('/api/productos?disponible=true');
-        if (!res.ok) throw new Error('Error cargando productos');
-        const data = await res.json();
-        setProductos(data.productos || []);
+        // Cargar productos
+        const resProductos = await fetch('/api/productos?disponible=true');
+        if (resProductos.ok) {
+          const dataProductos = await resProductos.json();
+          setProductos(dataProductos.productos || []);
+        }
+
+        // Cargar clientes frecuentes
+        const resClientes = await fetch('/api/clientes');
+        if (resClientes.ok) {
+          const dataClientes = await resClientes.json();
+          setClientes(dataClientes.clientes || []);
+        }
       } catch (err) {
         console.error('Error:', err);
-        setError('Error cargando productos');
+        setError('Error cargando datos');
       }
     }
 
-    cargarProductos();
+    cargarDatos();
   }, [isLoaded, isSignedIn]);
 
-  // Cuando se selecciona un producto
-  const handleProductoChange = (e) => {
-    const productoId = e.target.value;
-    const producto = productos.find(p => p.id === productoId);
+  // Cerrar dropdown al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.producto-search-container')) {
+        setMostrarListaProductos(false);
+      }
+    };
 
-    if (producto) {
-      setProductoSeleccionado(producto);
-      setPrecioVenta(producto.precio || '');
-      setPrecioCompra(producto.precio_compra || '');
-    } else {
-      setProductoSeleccionado(null);
-      setPrecioVenta('');
-      setPrecioCompra('');
-    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Seleccionar cliente frecuente
+  const seleccionarCliente = (cliente) => {
+    setClienteSeleccionado(cliente);
+    setClienteNombre(cliente.nombre);
+    setClienteTelefono(cliente.telefono || '');
+    setClienteEmail(cliente.email || '');
+    setMostrarBusquedaCliente(false);
+    setBusquedaCliente("");
   };
+
+  // Filtrar clientes
+  const clientesFiltrados = clientes.filter(c =>
+    c.nombre.toLowerCase().includes(busquedaCliente.toLowerCase()) ||
+    (c.telefono && c.telefono.includes(busquedaCliente)) ||
+    (c.identificacion && c.identificacion.includes(busquedaCliente))
+  );
+
+  // Seleccionar producto
+  const seleccionarProducto = (producto) => {
+    setProductoSeleccionado(producto);
+    setPrecioVenta(producto.precio || '');
+    setPrecioCompra(producto.precio_compra || '');
+    setBusquedaProducto(producto.nombre);
+    setMostrarListaProductos(false);
+  };
+
+  // Filtrar productos según búsqueda
+  const productosFiltrados = productos.filter(p => {
+    if (!busquedaProducto) return true;
+    const searchTerm = busquedaProducto.toLowerCase();
+    return (
+      p.nombre.toLowerCase().includes(searchTerm) ||
+      p.categoria?.toLowerCase().includes(searchTerm) ||
+      p.slug?.toLowerCase().includes(searchTerm)
+    );
+  });
 
   // Calcular totales
   const subtotalVenta = (parseFloat(precioVenta) || 0) * cantidad;
@@ -74,8 +129,13 @@ export default function NuevaVentaPage() {
     setError(null);
 
     try {
-      if (!productoSeleccionado) {
-        throw new Error('Debes seleccionar un producto');
+      // Validar producto (del inventario o manual)
+      if (!esProductoManual && !productoSeleccionado) {
+        throw new Error('Debes seleccionar un producto o activar "Producto no en inventario"');
+      }
+
+      if (esProductoManual && !nombreProductoManual.trim()) {
+        throw new Error('Debes ingresar el nombre del producto');
       }
 
       if (cantidad <= 0) {
@@ -96,7 +156,8 @@ export default function NuevaVentaPage() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          producto_id: productoSeleccionado.id,
+          producto_id: esProductoManual ? null : productoSeleccionado.id,
+          producto_nombre_manual: esProductoManual ? nombreProductoManual : null,
           cantidad,
           precio_venta: parseFloat(precioVenta),
           precio_compra: parseFloat(precioCompra),
@@ -165,10 +226,10 @@ export default function NuevaVentaPage() {
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-4">
             <Link
-              href="/dashboard/ganancias"
+              href="/dashboard/ventas"
               className="text-blue-600 hover:text-blue-700 dark:text-blue-400"
             >
-              ← Volver
+              ← Volver a Ventas
             </Link>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -188,30 +249,151 @@ export default function NuevaVentaPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Seleccionar producto */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-              Producto
-            </h2>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Seleccionar producto *
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                Producto
+              </h2>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={esProductoManual}
+                  onChange={(e) => {
+                    setEsProductoManual(e.target.checked);
+                    if (e.target.checked) {
+                      // Limpiar búsqueda de producto
+                      setBusquedaProducto('');
+                      setProductoSeleccionado(null);
+                      setMostrarListaProductos(false);
+                    } else {
+                      // Limpiar producto manual
+                      setNombreProductoManual('');
+                      setPrecioVenta('');
+                      setPrecioCompra('');
+                    }
+                  }}
+                  className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Producto no en inventario
+                </span>
               </label>
-              <select
-                value={productoSeleccionado?.id || ''}
-                onChange={handleProductoChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                required
-              >
-                <option value="">-- Selecciona un producto --</option>
-                {productos.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.nombre} (Stock: {p.stock}) - ${p.precio?.toLocaleString('es-CO')}
-                  </option>
-                ))}
-              </select>
             </div>
 
-            {productoSeleccionado && (
+            {esProductoManual ? (
+              /* Campo manual */
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Nombre del producto/servicio *
+                </label>
+                <input
+                  type="text"
+                  value={nombreProductoManual}
+                  onChange={(e) => setNombreProductoManual(e.target.value)}
+                  placeholder="Ej: Reparación personalizada, Producto especial..."
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  required
+                />
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                  💡 Este producto no se descontará del inventario
+                </p>
+              </div>
+            ) : (
+              /* Búsqueda de producto del inventario */
+              <div className="mb-4 relative producto-search-container">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Buscar producto *
+              </label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  value={busquedaProducto}
+                  onChange={(e) => {
+                    setBusquedaProducto(e.target.value);
+                    setMostrarListaProductos(true);
+                    if (!e.target.value) {
+                      setProductoSeleccionado(null);
+                      setPrecioVenta('');
+                      setPrecioCompra('');
+                    }
+                  }}
+                  onFocus={() => setMostrarListaProductos(true)}
+                  placeholder="Escribe para buscar producto..."
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  autoComplete="off"
+                />
+                {busquedaProducto && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setBusquedaProducto('');
+                      setProductoSeleccionado(null);
+                      setPrecioVenta('');
+                      setPrecioCompra('');
+                      setMostrarListaProductos(false);
+                    }}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                )}
+              </div>
+
+              {/* Lista de productos filtrados */}
+              {mostrarListaProductos && busquedaProducto && (
+                <div className="absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-80 overflow-y-auto">
+                  {productosFiltrados.length === 0 ? (
+                    <div className="p-4 text-center text-gray-500 dark:text-gray-400">
+                      No se encontraron productos
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                      {productosFiltrados.map((producto) => (
+                        <button
+                          key={producto.id}
+                          type="button"
+                          onClick={() => seleccionarProducto(producto)}
+                          className="w-full text-left p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <PackageIcon className="w-4 h-4 text-blue-500" />
+                                <p className="font-semibold text-gray-900 dark:text-white">
+                                  {producto.nombre}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                                <span className={`font-medium ${
+                                  producto.stock > 10 ? 'text-green-600' :
+                                  producto.stock > 0 ? 'text-yellow-600' :
+                                  'text-red-600'
+                                }`}>
+                                  Stock: {producto.stock}
+                                </span>
+                                {producto.categoria && (
+                                  <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs">
+                                    {producto.categoria}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <div className="text-right ml-4">
+                              <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                                ${producto.precio?.toLocaleString('es-CO')}
+                              </p>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+              </div>
+            )}
+
+            {productoSeleccionado && !esProductoManual && (
               <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
                 <p className="font-medium text-gray-900 dark:text-white mb-1">
                   📦 {productoSeleccionado.nombre}
@@ -282,7 +464,7 @@ export default function NuevaVentaPage() {
           </div>
 
           {/* Resumen de ganancia */}
-          {productoSeleccionado && (
+          {(productoSeleccionado || (esProductoManual && nombreProductoManual)) && precioVenta && precioCompra && (
             <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow p-6 text-white">
               <h3 className="text-lg font-bold mb-4">💰 Resumen de Ganancia</h3>
               <div className="space-y-2">
@@ -309,9 +491,110 @@ export default function NuevaVentaPage() {
 
           {/* Cliente (opcional) */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-              Cliente (Opcional)
-            </h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                Cliente (Opcional)
+              </h2>
+              <button
+                type="button"
+                onClick={() => setMostrarBusquedaCliente(!mostrarBusquedaCliente)}
+                className="flex items-center gap-2 px-4 py-2 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                <Search className="w-4 h-4" />
+                Buscar Cliente Frecuente
+              </button>
+            </div>
+
+            {/* Cliente seleccionado */}
+            {clienteSeleccionado && (
+              <div className="mb-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-200 dark:border-purple-800 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                      clienteSeleccionado.nivel_fidelidad === 'platino' ? 'bg-gradient-to-br from-gray-700 to-gray-900' :
+                      clienteSeleccionado.nivel_fidelidad === 'oro' ? 'bg-gradient-to-br from-yellow-400 to-yellow-600' :
+                      clienteSeleccionado.nivel_fidelidad === 'plata' ? 'bg-gradient-to-br from-gray-300 to-gray-500' :
+                      'bg-gradient-to-br from-orange-400 to-orange-600'
+                    }`}>
+                      <Star className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-gray-900 dark:text-white text-lg">{clienteSeleccionado.nombre}</p>
+                      <div className="flex items-center gap-3 text-sm">
+                        <span className="capitalize font-medium text-purple-700 dark:text-purple-400">
+                          Cliente {clienteSeleccionado.nivel_fidelidad}
+                        </span>
+                        <span className="text-gray-600 dark:text-gray-400">
+                          {clienteSeleccionado.total_compras} compras
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setClienteSeleccionado(null);
+                      setClienteNombre('');
+                      setClienteTelefono('');
+                      setClienteEmail('');
+                    }}
+                    className="text-red-600 hover:text-red-700"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Búsqueda de clientes */}
+            {mostrarBusquedaCliente && !clienteSeleccionado && (
+              <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-600">
+                <div className="relative mb-3">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    placeholder="Buscar por nombre, teléfono o identificación..."
+                    value={busquedaCliente}
+                    onChange={(e) => setBusquedaCliente(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+                <div className="max-h-60 overflow-y-auto space-y-2">
+                  {clientesFiltrados.length === 0 ? (
+                    <p className="text-gray-500 dark:text-gray-400 text-center py-4">
+                      No se encontraron clientes
+                    </p>
+                  ) : (
+                    clientesFiltrados.map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onClick={() => seleccionarCliente(c)}
+                        className="w-full text-left p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-purple-500 dark:hover:border-purple-500 transition-colors"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-semibold text-gray-900 dark:text-white">{c.nombre}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                              {c.telefono} {c.identificacion && `• ${c.identificacion}`}
+                            </p>
+                          </div>
+                          <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                            c.nivel_fidelidad === 'platino' ? 'bg-gray-700 text-white' :
+                            c.nivel_fidelidad === 'oro' ? 'bg-yellow-500 text-white' :
+                            c.nivel_fidelidad === 'plata' ? 'bg-gray-400 text-white' :
+                            'bg-orange-500 text-white'
+                          }`}>
+                            {c.nivel_fidelidad}
+                          </span>
+                        </div>
+                      </button>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <input
                 type="text"
@@ -384,14 +667,14 @@ export default function NuevaVentaPage() {
           {/* Botones */}
           <div className="flex gap-4">
             <Link
-              href="/dashboard/ganancias"
+              href="/dashboard/ventas"
               className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-center"
             >
               Cancelar
             </Link>
             <button
               type="submit"
-              disabled={loading || !productoSeleccionado}
+              disabled={loading || (!productoSeleccionado && !esProductoManual) || (esProductoManual && !nombreProductoManual)}
               className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-lg transition-colors font-medium"
             >
               {loading ? 'Registrando...' : '💾 Registrar Venta'}

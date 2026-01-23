@@ -29,8 +29,9 @@ export default function ProductosPage() {
       }
 
       const data = await response.json();
-      // Asegurar que data sea un array
-      setProductos(Array.isArray(data) ? data : []);
+      // El API ahora devuelve { productos: [...] }
+      const productosData = data.productos || data;
+      setProductos(Array.isArray(productosData) ? productosData : []);
     } catch (error) {
       console.error("Error cargando productos:", error);
       alert("Error cargando productos: " + error.message);

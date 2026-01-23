@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { FileText, Plus, Search, Calendar, Download } from "lucide-react";
+import { useState, useEffect } from "react";
+import { FileText, Plus, Search, Calendar, Download, Filter, DollarSign, Users } from "lucide-react";
 import FormularioFactura from "@/components/dashboard/facturas/FormularioFactura";
 import VistaFactura from "@/components/dashboard/facturas/VistaFactura";
 
@@ -10,20 +10,81 @@ export default function FacturasPage() {
   const [facturaPreview, setFacturaPreview] = useState(null);
   const [facturaEditando, setFacturaEditando] = useState(null);
   const [facturas, setFacturas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState(null);
 
-  const handleGuardarFactura = (factura) => {
-    if (facturaEditando) {
-      // Editar factura existente
-      setFacturas(facturas.map(f =>
-        f.numeroFactura === facturaEditando.numeroFactura ? factura : f
-      ));
-    } else {
-      // Agregar nueva factura
-      setFacturas([factura, ...facturas]);
+  // Filtros
+  const [busqueda, setBusqueda] = useState("");
+  const [mes, setMes] = useState("");
+  const [valorMin, setValorMin] = useState("");
+  const [valorMax, setValorMax] = useState("");
+  const [metodoPago, setMetodoPago] = useState("");
+
+  // Cargar facturas
+  const cargarFacturas = async () => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
+      if (busqueda) params.append('busqueda', busqueda);
+      if (mes) params.append('mes', mes);
+      if (valorMin) params.append('valor_min', valorMin);
+      if (valorMax) params.append('valor_max', valorMax);
+      if (metodoPago) params.append('metodo_pago', metodoPago);
+
+      const res = await fetch(`/api/facturas?${params.toString()}`);
+      if (!res.ok) throw new Error('Error cargando facturas');
+
+      const data = await res.json();
+      setFacturas(data.facturas || []);
+      setStats(data.stats || null);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
     }
-    setFacturaPreview(factura);
-    setFacturaEditando(null);
-    setMostrarFormulario(false);
+  };
+
+  useEffect(() => {
+    cargarFacturas();
+  }, [busqueda, mes, valorMin, valorMax, metodoPago]);
+
+  const handleGuardarFactura = async (factura) => {
+    try {
+      const res = await fetch('/api/facturas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          numeroFactura: factura.numeroFactura,
+          cliente: factura.cliente,
+          clienteId: factura.clienteId,
+          miContacto: factura.miContacto,
+          servicios: factura.servicios,
+          productos: factura.productos,
+          total: factura.total,
+          descuentoPorcentaje: factura.descuentoPorcentaje || 0,
+          descuentoMonto: factura.descuentoMonto || 0,
+          metodoPago: factura.metodoPago,
+          notas: factura.notas,
+          fecha: factura.fecha
+        })
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || 'Error guardando factura');
+      }
+
+      const data = await res.json();
+      setFacturaPreview(data.factura);
+      setFacturaEditando(null);
+      setMostrarFormulario(false);
+
+      // Recargar facturas
+      cargarFacturas();
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error al guardar la factura: ' + error.message);
+    }
   };
 
   const handleNuevaFactura = () => {
@@ -85,30 +146,103 @@ export default function FacturasPage() {
         />
       ) : (
         <>
+          {/* Estadísticas */}
+          {stats && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-md p-6 text-white">
+                <div className="flex items-center gap-3 mb-2">
+                  <FileText className="w-8 h-8" />
+                  <h3 className="text-lg font-semibold">Total Facturas</h3>
+                </div>
+                <p className="text-3xl font-bold">{stats.total_facturas}</p>
+              </div>
+              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-md p-6 text-white">
+                <div className="flex items-center gap-3 mb-2">
+                  <DollarSign className="w-8 h-8" />
+                  <h3 className="text-lg font-semibold">Suma Total</h3>
+                </div>
+                <p className="text-3xl font-bold">${stats.suma_total.toLocaleString('es-CO')}</p>
+              </div>
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-md p-6 text-white">
+                <div className="flex items-center gap-3 mb-2">
+                  <Users className="w-8 h-8" />
+                  <h3 className="text-lg font-semibold">Promedio</h3>
+                </div>
+                <p className="text-3xl font-bold">${stats.promedio.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</p>
+              </div>
+            </div>
+          )}
+
           {/* Búsqueda y Filtros */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex items-center gap-2 mb-4">
+              <Filter className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filtros</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type="text"
                   placeholder="Buscar por cliente o número..."
+                  value={busqueda}
+                  onChange={(e) => setBusqueda(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
-                  type="date"
+                  type="month"
+                  value={mes}
+                  onChange={(e) => setMes(e.target.value)}
+                  placeholder="Mes"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
-              <select className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                <option value="">Todas las facturas</option>
-                <option value="servicios">Solo Servicios</option>
-                <option value="productos">Solo Productos</option>
-                <option value="mixtas">Mixtas</option>
+              <select
+                value={metodoPago}
+                onChange={(e) => setMetodoPago(e.target.value)}
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              >
+                <option value="">Todos los métodos de pago</option>
+                <option value="efectivo">Efectivo</option>
+                <option value="nequi">Nequi</option>
+                <option value="transferencia">Transferencia</option>
+                <option value="tarjeta">Tarjeta</option>
               </select>
+              <div>
+                <input
+                  type="number"
+                  placeholder="Valor mínimo"
+                  value={valorMin}
+                  onChange={(e) => setValorMin(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  placeholder="Valor máximo"
+                  value={valorMax}
+                  onChange={(e) => setValorMax(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+              {(busqueda || mes || metodoPago || valorMin || valorMax) && (
+                <button
+                  onClick={() => {
+                    setBusqueda("");
+                    setMes("");
+                    setMetodoPago("");
+                    setValorMin("");
+                    setValorMax("");
+                  }}
+                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  Limpiar Filtros
+                </button>
+              )}
             </div>
           </div>
 
@@ -116,11 +250,16 @@ export default function FacturasPage() {
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md">
             <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                Facturas Recientes
+                {loading ? 'Cargando...' : `Facturas (${facturas.length})`}
               </h2>
             </div>
 
-            {facturas.length === 0 ? (
+            {loading ? (
+              <div className="p-12 text-center">
+                <div className="animate-spin w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+                <p className="text-gray-600 dark:text-gray-400">Cargando facturas...</p>
+              </div>
+            ) : facturas.length === 0 ? (
               <div className="p-12 text-center">
                 <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
@@ -139,46 +278,85 @@ export default function FacturasPage() {
               </div>
             ) : (
               <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                {facturas.map((factura, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleVerFactura(factura)}
-                    className="p-6 hover:bg-gray-50 dark:hover:bg-gray-750 cursor-pointer transition-colors"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="font-mono text-sm font-semibold text-blue-600">
-                            {factura.numeroFactura}
-                          </span>
-                          <span className="text-sm text-gray-500">
-                            {new Date(factura.fecha).toLocaleDateString('es-CO')}
-                          </span>
+                {facturas.map((factura, index) => {
+                  const servicios = typeof factura.servicios === 'string'
+                    ? JSON.parse(factura.servicios)
+                    : factura.servicios || [];
+                  const productos = typeof factura.productos === 'string'
+                    ? JSON.parse(factura.productos)
+                    : factura.productos || [];
+
+                  return (
+                    <div
+                      key={factura.id || index}
+                      onClick={() => handleVerFactura({
+                        ...factura,
+                        numeroFactura: factura.numero_factura,
+                        cliente: {
+                          nombre: factura.cliente_nombre,
+                          identificacion: factura.cliente_identificacion,
+                          telefono: factura.cliente_telefono,
+                          email: factura.cliente_email,
+                          direccion: factura.cliente_direccion
+                        },
+                        miContacto: {
+                          telefono: factura.mi_telefono,
+                          email: factura.mi_email
+                        },
+                        servicios,
+                        productos,
+                        metodoPago: factura.metodo_pago
+                      })}
+                      className="p-6 hover:bg-gray-50 dark:hover:bg-gray-750 cursor-pointer transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="font-mono text-sm font-semibold text-blue-600">
+                              {factura.numero_factura}
+                            </span>
+                            <span className="text-sm text-gray-500">
+                              {new Date(factura.fecha).toLocaleDateString('es-CO')}
+                            </span>
+                            <span className="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 capitalize">
+                              {factura.metodo_pago}
+                            </span>
+                          </div>
+                          <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                            {factura.cliente_nombre}
+                          </h3>
+                          <div className="flex gap-4 text-sm text-gray-600 dark:text-gray-400">
+                            {servicios.length > 0 && (
+                              <span>{servicios.length} servicio(s)</span>
+                            )}
+                            {productos.length > 0 && (
+                              <span>{productos.length} producto(s)</span>
+                            )}
+                            {factura.descuento_porcentaje > 0 && (
+                              <span className="text-green-600 dark:text-green-400 font-medium">
+                                -{factura.descuento_porcentaje}% descuento
+                              </span>
+                            )}
+                          </div>
                         </div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                          {factura.cliente.nombre}
-                        </h3>
-                        <div className="flex gap-4 text-sm text-gray-600 dark:text-gray-400">
-                          {factura.servicios.length > 0 && (
-                            <span>{factura.servicios.length} servicio(s)</span>
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                            ${parseFloat(factura.total).toLocaleString('es-CO')}
+                          </div>
+                          {factura.descuento_monto > 0 && (
+                            <div className="text-sm text-gray-500 line-through">
+                              ${parseFloat(factura.subtotal).toLocaleString('es-CO')}
+                            </div>
                           )}
-                          {factura.productos.length > 0 && (
-                            <span>{factura.productos.length} producto(s)</span>
-                          )}
+                          <button className="mt-2 text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                            <Download className="w-4 h-4" />
+                            Descargar PDF
+                          </button>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                          ${factura.total.toLocaleString('es-CO')}
-                        </div>
-                        <button className="mt-2 text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1">
-                          <Download className="w-4 h-4" />
-                          Descargar PDF
-                        </button>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

@@ -69,6 +69,7 @@ export async function POST(request) {
     const body = await request.json();
     const {
       producto_id,
+      producto_nombre_manual,
       cantidad,
       precio_venta,
       precio_compra,
@@ -81,9 +82,16 @@ export async function POST(request) {
     } = body;
 
     // Validaciones
-    if (!producto_id || !cantidad || !precio_venta || !precio_compra) {
+    if (!cantidad || !precio_venta || precio_compra === undefined) {
       return NextResponse.json({
-        error: 'Faltan campos requeridos: producto_id, cantidad, precio_venta, precio_compra'
+        error: 'Faltan campos requeridos: cantidad, precio_venta, precio_compra'
+      }, { status: 400 });
+    }
+
+    // Debe tener producto_id O producto_nombre_manual
+    if (!producto_id && !producto_nombre_manual) {
+      return NextResponse.json({
+        error: 'Debes proporcionar producto_id o producto_nombre_manual'
       }, { status: 400 });
     }
 
@@ -95,32 +103,40 @@ export async function POST(request) {
 
     const supabase = getSupabaseBrowserClient();
 
-    // Obtener información del producto
-    const { data: producto, error: errorProducto } = await supabase
-      .from('products')
-      .select('nombre, stock, disponible')
-      .eq('id', producto_id)
-      .single();
+    let nombreProducto = producto_nombre_manual;
+    let actualizarStock = false;
 
-    if (errorProducto || !producto) {
-      return NextResponse.json({
-        error: 'Producto no encontrado'
-      }, { status: 404 });
-    }
+    // Si es un producto del inventario, obtener info y validar stock
+    if (producto_id) {
+      const { data: producto, error: errorProducto } = await supabase
+        .from('products')
+        .select('nombre, stock, disponible')
+        .eq('id', producto_id)
+        .single();
 
-    // Verificar stock
-    if (producto.stock < cantidad) {
-      return NextResponse.json({
-        error: `Stock insuficiente. Disponible: ${producto.stock}, solicitado: ${cantidad}`
-      }, { status: 400 });
+      if (errorProducto || !producto) {
+        return NextResponse.json({
+          error: 'Producto no encontrado'
+        }, { status: 404 });
+      }
+
+      // Verificar stock
+      if (producto.stock < cantidad) {
+        return NextResponse.json({
+          error: `Stock insuficiente. Disponible: ${producto.stock}, solicitado: ${cantidad}`
+        }, { status: 400 });
+      }
+
+      nombreProducto = producto.nombre;
+      actualizarStock = true;
     }
 
     // Crear la venta
     const { data: venta, error: errorVenta } = await supabase
       .from('ventas')
       .insert({
-        producto_id,
-        producto_nombre: producto.nombre,
+        producto_id: producto_id || null,
+        producto_nombre: nombreProducto,
         cantidad,
         precio_compra: parseFloat(precio_compra),
         precio_venta: parseFloat(precio_venta),
@@ -143,20 +159,28 @@ export async function POST(request) {
       }, { status: 500 });
     }
 
-    // Actualizar stock del producto
-    const nuevoStock = producto.stock - cantidad;
-    const { error: errorStock } = await supabase
-      .from('products')
-      .update({
-        stock: nuevoStock,
-        disponible: nuevoStock > 0
-      })
-      .eq('id', producto_id);
+    // Actualizar stock del producto SOLO si es del inventario
+    if (actualizarStock && producto_id) {
+      const { data: producto } = await supabase
+        .from('products')
+        .select('stock')
+        .eq('id', producto_id)
+        .single();
 
-    if (errorStock) {
-      console.error('Error actualizando stock:', errorStock);
-      // No retornamos error aquí porque la venta ya se creó
-      // Solo logueamos el error
+      const nuevoStock = producto.stock - cantidad;
+      const { error: errorStock } = await supabase
+        .from('products')
+        .update({
+          stock: nuevoStock,
+          disponible: nuevoStock > 0
+        })
+        .eq('id', producto_id);
+
+      if (errorStock) {
+        console.error('Error actualizando stock:', errorStock);
+        // No retornamos error aquí porque la venta ya se creó
+        // Solo logueamos el error
+      }
     }
 
     return NextResponse.json({
