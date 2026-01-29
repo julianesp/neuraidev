@@ -99,13 +99,45 @@ export async function POST(request) {
       );
     }
 
-    // Validar que sea una imagen
-    if (!file.type.startsWith("image/")) {
+    // Validar que sea una imagen (más flexible para móviles)
+    const fileName = file.name || "";
+    const fileExtension = fileName.split(".").pop()?.toLowerCase() || "";
+    const validExtensions = ["jpg", "jpeg", "png", "gif", "webp", "svg", "bmp"];
+    const validMimeTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+      "image/svg+xml",
+      "image/bmp"
+    ];
+
+    // Verificar por tipo MIME o por extensión (móviles a veces no envían el MIME correcto)
+    const isValidType = file.type.startsWith("image/") || validMimeTypes.includes(file.type);
+    const isValidExtension = validExtensions.includes(fileExtension);
+
+    if (!isValidType && !isValidExtension) {
+      console.log("Archivo rechazado:", {
+        name: fileName,
+        type: file.type,
+        extension: fileExtension,
+        size: file.size
+      });
       return NextResponse.json(
-        { error: "El archivo debe ser una imagen" },
+        {
+          error: `El archivo debe ser una imagen válida. Tipo recibido: ${file.type}, Extensión: ${fileExtension}`
+        },
         { status: 400, headers: jsonHeaders }
       );
     }
+
+    console.log("Archivo aceptado:", {
+      name: fileName,
+      type: file.type,
+      extension: fileExtension,
+      size: file.size
+    });
 
     // Validar tamaño (máximo 4MB)
     if (file.size > 4 * 1024 * 1024) {
@@ -118,19 +150,48 @@ export async function POST(request) {
     // Generar nombre único para el archivo
     const timestamp = Date.now();
     const randomString = Math.random().toString(36).substring(2, 15);
-    const fileExtension = file.name.split(".").pop();
-    const fileName = `productos/${timestamp}-${randomString}.${fileExtension}`;
+
+    // Normalizar extensión (jpg/jpeg)
+    let normalizedExtension = fileExtension;
+    if (fileExtension === "jpg" || fileExtension === "jpeg") {
+      normalizedExtension = "jpg";
+    }
+
+    const storageFileName = `productos/${timestamp}-${randomString}.${normalizedExtension}`;
 
     // Convertir el archivo a buffer
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
+    // Determinar el contentType correcto
+    let contentType = file.type;
+    if (!contentType || contentType === "application/octet-stream") {
+      // Si el móvil no envió el tipo correcto, determinarlo por extensión
+      const mimeMap = {
+        "jpg": "image/jpeg",
+        "jpeg": "image/jpeg",
+        "png": "image/png",
+        "gif": "image/gif",
+        "webp": "image/webp",
+        "svg": "image/svg+xml",
+        "bmp": "image/bmp"
+      };
+      contentType = mimeMap[fileExtension] || "image/jpeg";
+    }
+
+    console.log("Subiendo a Supabase:", {
+      fileName: storageFileName,
+      contentType: contentType,
+      size: buffer.length
+    });
+
     // Subir a Supabase Storage
     const { data, error } = await supabase.storage
       .from("imagenes")
-      .upload(fileName, buffer, {
-        contentType: file.type,
+      .upload(storageFileName, buffer, {
+        contentType: contentType,
         upsert: false,
+        cacheControl: "3600",
       });
 
     if (error) {
@@ -141,16 +202,18 @@ export async function POST(request) {
       );
     }
 
+    console.log("Imagen subida exitosamente a Supabase");
+
     // Obtener URL pública
     const { data: urlData } = supabase.storage
       .from("imagenes")
-      .getPublicUrl(fileName);
+      .getPublicUrl(storageFileName);
 
     return NextResponse.json(
       {
         success: true,
         url: urlData.publicUrl,
-        path: fileName,
+        path: storageFileName,
       },
       { headers: jsonHeaders }
     );

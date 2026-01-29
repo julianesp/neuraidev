@@ -129,7 +129,7 @@ export default function ImageUploader({
           )}
           <input
             type="file"
-            accept="image/*"
+            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp,image/*"
             multiple={multiple}
             onChange={handleFileChange}
             disabled={uploading}
