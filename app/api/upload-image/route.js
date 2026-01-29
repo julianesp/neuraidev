@@ -19,31 +19,55 @@ export async function POST(request) {
     let userId;
     let isAuthenticated = false;
 
-    // Método 1: Intentar auth() estándar
-    try {
-      const authResult = await auth();
-      userId = authResult?.userId;
-      if (userId) {
-        isAuthenticated = true;
+    // Método 1: Verificar token en el header (para móviles)
+    const authHeader = request.headers.get("authorization");
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      const token = authHeader.substring(7);
+      // Verificar el token con Clerk
+      try {
+        const { verifyToken } = await import("@clerk/backend");
+        const decoded = await verifyToken(token, {
+          secretKey: process.env.CLERK_SECRET_KEY,
+        });
+        if (decoded && decoded.sub) {
+          userId = decoded.sub;
+          isAuthenticated = true;
+          console.log("Autenticación exitosa por token para userId:", userId);
+        }
+      } catch (tokenError) {
+        console.log("Token inválido:", tokenError.message);
       }
-    } catch (authError) {
-      console.log("auth() falló, intentando currentUser():", authError.message);
     }
 
-    // Método 2: Intentar currentUser() como respaldo
+    // Método 2: Intentar auth() estándar
+    if (!isAuthenticated) {
+      try {
+        const authResult = await auth();
+        userId = authResult?.userId;
+        if (userId) {
+          isAuthenticated = true;
+          console.log("Autenticación exitosa por auth() para userId:", userId);
+        }
+      } catch (authError) {
+        console.log("auth() falló, intentando currentUser():", authError.message);
+      }
+    }
+
+    // Método 3: Intentar currentUser() como respaldo
     if (!isAuthenticated) {
       try {
         const user = await currentUser();
         if (user) {
           userId = user.id;
           isAuthenticated = true;
+          console.log("Autenticación exitosa por currentUser() para userId:", userId);
         }
       } catch (userError) {
         console.log("currentUser() también falló:", userError.message);
       }
     }
 
-    // Si ningún método funcionó, verificar si viene de dashboard (URL check)
+    // Método 4: Verificar si viene de dashboard (último recurso)
     if (!isAuthenticated) {
       const referer = request.headers.get("referer") || "";
       const isDashboardRequest = referer.includes("/dashboard/");

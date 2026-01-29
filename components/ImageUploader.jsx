@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Upload, X, Image as ImageIcon, Plus } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
 
 export default function ImageUploader({
   value,
@@ -9,6 +10,7 @@ export default function ImageUploader({
   label = "Imagen",
   multiple = false
 }) {
+  const { getToken } = useAuth();
   const [uploading, setUploading] = useState(false);
   const [urlInput, setUrlInput] = useState("");
 
@@ -22,8 +24,16 @@ export default function ImageUploader({
         const formData = new FormData();
         formData.append("file", file);
 
+        // Obtener el token de Clerk para enviarlo en el header
+        const token = await getToken();
+        const headers = {};
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`;
+        }
+
         const response = await fetch("/api/upload-image", {
           method: "POST",
+          headers: headers,
           body: formData,
         });
 
