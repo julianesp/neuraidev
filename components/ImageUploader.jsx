@@ -27,6 +27,12 @@ export default function ImageUploader({
           body: formData,
         });
 
+        // Verificar si la respuesta es JSON
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Error de autenticación. Por favor, recarga la página e inicia sesión nuevamente.");
+        }
+
         if (!response.ok) {
           const error = await response.json();
           throw new Error(error.error || "Error subiendo imagen");
@@ -45,7 +51,22 @@ export default function ImageUploader({
       }
     } catch (error) {
       console.error("Error subiendo imagen:", error);
-      alert("Error subiendo imagen: " + error.message);
+
+      // Mostrar mensaje de error más amigable
+      const errorMessage = error.message || "Error desconocido";
+      if (errorMessage.includes("autenticación") || errorMessage.includes("sesión")) {
+        alert(
+          "⚠️ Error de sesión\n\n" +
+          "No se pudo verificar tu sesión. Esto puede pasar en dispositivos móviles.\n\n" +
+          "Soluciones:\n" +
+          "1. Recarga la página (desliza hacia abajo)\n" +
+          "2. Cierra sesión y vuelve a iniciar\n" +
+          "3. Si persiste, usa una computadora\n" +
+          "4. También puedes agregar la URL de la imagen manualmente abajo"
+        );
+      } else {
+        alert("❌ Error subiendo imagen\n\n" + errorMessage);
+      }
     } finally {
       setUploading(false);
     }

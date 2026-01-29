@@ -99,7 +99,7 @@
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  animation: fadeInTooltip 0.5s ease-out 1s forwards;
+  animation: showAndHideTooltip 4s ease-out forwards;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 
   @media (min-width: 769px) {
@@ -119,16 +119,26 @@
   height: 10px;
   background: #1f2937;
   transform: rotate(45deg);
+  opacity: 0;
+  animation: showAndHideTooltip 4s ease-out forwards;
 }
 
-@keyframes fadeInTooltip {
-  from {
+@keyframes showAndHideTooltip {
+  0% {
     opacity: 0;
     transform: translateY(10px);
   }
-  to {
+  25% {
     opacity: 1;
     transform: translateY(0);
+  }
+  75% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
   }
 }
 

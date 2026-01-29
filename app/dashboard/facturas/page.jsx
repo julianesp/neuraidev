@@ -50,10 +50,15 @@ export default function FacturasPage() {
 
   const handleGuardarFactura = async (factura) => {
     try {
+      // Determinar si es creación o actualización
+      const isUpdate = !!factura.id;
+      const method = isUpdate ? 'PUT' : 'POST';
+
       const res = await fetch('/api/facturas', {
-        method: 'POST',
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          id: factura.id, // Solo se usa en PUT
           numeroFactura: factura.numeroFactura,
           cliente: factura.cliente,
           clienteId: factura.clienteId,
@@ -75,6 +80,10 @@ export default function FacturasPage() {
       }
 
       const data = await res.json();
+
+      // Mostrar mensaje de éxito
+      alert(data.mensaje || (isUpdate ? 'Factura actualizada exitosamente' : 'Factura creada exitosamente'));
+
       setFacturaPreview(data.factura);
       setFacturaEditando(null);
       setMostrarFormulario(false);

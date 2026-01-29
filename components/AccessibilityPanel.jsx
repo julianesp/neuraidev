@@ -26,20 +26,35 @@ export default function AccessibilityPanel() {
   const [highContrast, setHighContrast] = useState(false);
   const [autoRead, setAutoRead] = useState(false);
   const [readingSpeed, setReadingSpeed] = useState(1); // Velocidad de lectura
+  const [showTooltip, setShowTooltip] = useState(false);
   const panelRef = useRef(null);
   const speechSynthRef = useRef(null);
 
-  // Cargar preferencias guardadas
+  // Cargar preferencias guardadas y mostrar tooltip inicial
   useEffect(() => {
     const savedFontSize = localStorage.getItem('accessibility_fontSize');
     const savedHighContrast = localStorage.getItem('accessibility_highContrast');
     const savedAutoRead = localStorage.getItem('accessibility_autoRead');
     const savedReadingSpeed = localStorage.getItem('accessibility_readingSpeed');
+    const tooltipShown = localStorage.getItem('accessibility_tooltipShown');
 
     if (savedFontSize) setFontSize(parseInt(savedFontSize));
     if (savedHighContrast) setHighContrast(savedHighContrast === 'true');
     if (savedAutoRead) setAutoRead(savedAutoRead === 'true');
     if (savedReadingSpeed) setReadingSpeed(parseFloat(savedReadingSpeed));
+
+    // Mostrar tooltip solo la primera vez o después de 7 días
+    if (!tooltipShown || Date.now() - parseInt(tooltipShown) > 7 * 24 * 60 * 60 * 1000) {
+      setShowTooltip(true);
+      localStorage.setItem('accessibility_tooltipShown', Date.now().toString());
+
+      // Ocultar el tooltip después de 4 segundos
+      const timer = setTimeout(() => {
+        setShowTooltip(false);
+      }, 4000);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   // Aplicar tamaño de fuente
@@ -234,8 +249,8 @@ export default function AccessibilityPanel() {
         {/* <span className={styles.badge}>♿</span> */}
       </button>
 
-      {/* Tooltip flotante para móviles */}
-      {!isOpen && (
+      {/* Tooltip flotante para móviles - solo se muestra la primera vez */}
+      {!isOpen && showTooltip && (
         <div className={styles.tooltip}>
           <span>Accesibilidad</span>
           <div className={styles.tooltipArrow}></div>

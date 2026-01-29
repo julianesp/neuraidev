@@ -4,9 +4,18 @@ import { useState, useEffect } from "react";
 import { Plus, Trash2, Save, X, Search, Star, Gift } from "lucide-react";
 
 export default function FormularioFactura({ facturaInicial, onGuardar, onCancelar }) {
-  const [miContacto, setMiContacto] = useState({
-    telefono: facturaInicial?.miContacto?.telefono || "",
-    email: facturaInicial?.miContacto?.email || "",
+  // Función helper para asegurar que los valores no sean null
+  const sanitizeValue = (value) => value === null || value === undefined ? "" : value;
+
+  // Estado para miContacto con valores iniciales correctos
+  const [miContacto, setMiContacto] = useState(() => {
+    if (facturaInicial?.miContacto) {
+      return {
+        telefono: sanitizeValue(facturaInicial.miContacto.telefono),
+        email: sanitizeValue(facturaInicial.miContacto.email),
+      };
+    }
+    return { telefono: "", email: "" };
   });
 
   const [clientes, setClientes] = useState([]);
@@ -14,26 +23,110 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
   const [mostrarBusquedaCliente, setMostrarBusquedaCliente] = useState(false);
   const [busquedaCliente, setBusquedaCliente] = useState("");
 
-  const [cliente, setCliente] = useState(facturaInicial?.cliente || {
-    nombre: "",
-    identificacion: "",
-    telefono: "",
-    email: "",
-    direccion: "",
+  // Estado para cliente con valores iniciales correctos
+  const [cliente, setCliente] = useState(() => {
+    if (facturaInicial?.cliente) {
+      return {
+        nombre: sanitizeValue(facturaInicial.cliente.nombre),
+        identificacion: sanitizeValue(facturaInicial.cliente.identificacion),
+        telefono: sanitizeValue(facturaInicial.cliente.telefono),
+        email: sanitizeValue(facturaInicial.cliente.email),
+        direccion: sanitizeValue(facturaInicial.cliente.direccion),
+      };
+    }
+    return {
+      nombre: "",
+      identificacion: "",
+      telefono: "",
+      email: "",
+      direccion: "",
+    };
   });
 
-  const [descuentoFidelidad, setDescuentoFidelidad] = useState(0);
-
-  const [servicios, setServicios] = useState(
-    facturaInicial?.servicios.length > 0
-      ? facturaInicial.servicios
-      : [{ id: 1, descripcion: "", cantidad: "", precio: "" }]
+  const [descuentoFidelidad, setDescuentoFidelidad] = useState(() =>
+    facturaInicial?.descuentoPorcentaje || 0
   );
 
-  const [productos, setProductos] = useState(facturaInicial?.productos || []);
+  const [servicios, setServicios] = useState(() => {
+    if (facturaInicial?.servicios && facturaInicial.servicios.length > 0) {
+      return facturaInicial.servicios.map(s => ({
+        id: s.id || Date.now() + Math.random(),
+        descripcion: sanitizeValue(s.descripcion),
+        cantidad: sanitizeValue(s.cantidad),
+        precio: sanitizeValue(s.precio)
+      }));
+    }
+    return [{ id: 1, descripcion: "", cantidad: "", precio: "" }];
+  });
 
-  const [notas, setNotas] = useState(facturaInicial?.notas || "");
-  const [metodoPago, setMetodoPago] = useState(facturaInicial?.metodoPago || "efectivo");
+  const [productos, setProductos] = useState(() => {
+    if (facturaInicial?.productos && facturaInicial.productos.length > 0) {
+      return facturaInicial.productos.map(p => ({
+        id: p.id || Date.now() + Math.random(),
+        nombre: sanitizeValue(p.nombre),
+        cantidad: sanitizeValue(p.cantidad),
+        precio: sanitizeValue(p.precio)
+      }));
+    }
+    return [];
+  });
+
+  const [notas, setNotas] = useState(() => sanitizeValue(facturaInicial?.notas));
+  const [metodoPago, setMetodoPago] = useState(() => facturaInicial?.metodoPago || "efectivo");
+
+  // Actualizar estados cuando cambia facturaInicial (al editar)
+  useEffect(() => {
+    if (facturaInicial && facturaInicial.id) {
+      // Solo actualizar si hay una factura real para editar (con ID)
+      console.log('Cargando factura para editar:', facturaInicial);
+
+      // Actualizar miContacto solo si hay datos
+      if (facturaInicial.miContacto) {
+        setMiContacto({
+          telefono: sanitizeValue(facturaInicial.miContacto.telefono),
+          email: sanitizeValue(facturaInicial.miContacto.email),
+        });
+      }
+
+      // Actualizar cliente
+      if (facturaInicial.cliente) {
+        setCliente({
+          nombre: sanitizeValue(facturaInicial.cliente.nombre),
+          identificacion: sanitizeValue(facturaInicial.cliente.identificacion),
+          telefono: sanitizeValue(facturaInicial.cliente.telefono),
+          email: sanitizeValue(facturaInicial.cliente.email),
+          direccion: sanitizeValue(facturaInicial.cliente.direccion),
+        });
+      }
+
+      // Actualizar descuento
+      setDescuentoFidelidad(facturaInicial.descuentoPorcentaje || 0);
+
+      // Actualizar servicios
+      if (facturaInicial.servicios && facturaInicial.servicios.length > 0) {
+        setServicios(facturaInicial.servicios.map(s => ({
+          id: s.id || Date.now() + Math.random(),
+          descripcion: sanitizeValue(s.descripcion),
+          cantidad: sanitizeValue(s.cantidad),
+          precio: sanitizeValue(s.precio)
+        })));
+      }
+
+      // Actualizar productos
+      if (facturaInicial.productos && facturaInicial.productos.length > 0) {
+        setProductos(facturaInicial.productos.map(p => ({
+          id: p.id || Date.now() + Math.random(),
+          nombre: sanitizeValue(p.nombre),
+          cantidad: sanitizeValue(p.cantidad),
+          precio: sanitizeValue(p.precio)
+        })));
+      }
+
+      // Actualizar notas y método de pago
+      setNotas(sanitizeValue(facturaInicial.notas));
+      setMetodoPago(facturaInicial.metodoPago || "efectivo");
+    }
+  }, [facturaInicial]);
 
   // Cargar clientes
   useEffect(() => {
@@ -54,11 +147,11 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
   const seleccionarCliente = (clienteObj) => {
     setClienteSeleccionado(clienteObj);
     setCliente({
-      nombre: clienteObj.nombre,
-      identificacion: clienteObj.identificacion || "",
-      telefono: clienteObj.telefono || "",
-      email: clienteObj.email || "",
-      direccion: clienteObj.direccion || "",
+      nombre: sanitizeValue(clienteObj.nombre),
+      identificacion: sanitizeValue(clienteObj.identificacion),
+      telefono: sanitizeValue(clienteObj.telefono),
+      email: sanitizeValue(clienteObj.email),
+      direccion: sanitizeValue(clienteObj.direccion),
     });
     setDescuentoFidelidad(clienteObj.descuento_fidelidad || 0);
     setMostrarBusquedaCliente(false);
@@ -143,11 +236,13 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
     e.preventDefault();
 
     const factura = {
+      // Incluir ID solo si estamos editando
+      ...(facturaInicial?.id && { id: facturaInicial.id }),
       numeroFactura: generarNumeroFactura(),
       fecha: facturaInicial?.fecha || new Date().toISOString(),
       miContacto,
       cliente,
-      clienteId: clienteSeleccionado?.id || null,
+      clienteId: clienteSeleccionado?.id || facturaInicial?.clienteId || null,
       servicios: servicios.filter(s => s.descripcion && s.precio > 0),
       productos: productos.filter(p => p.nombre && p.precio > 0),
       descuentoPorcentaje: descuentoFidelidad,

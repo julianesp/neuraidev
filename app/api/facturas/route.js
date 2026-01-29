@@ -2,6 +2,51 @@ import { NextResponse } from 'next/server';
 import { getSupabaseBrowserClient } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
 
+// Función para transformar facturas de formato DB a formato Frontend
+function transformarFactura(facturaDB) {
+  return {
+    id: facturaDB.id,
+    numeroFactura: facturaDB.numero_factura,
+    fecha: facturaDB.fecha,
+
+    // Transformar información del cliente
+    cliente: {
+      nombre: facturaDB.cliente_nombre,
+      identificacion: facturaDB.cliente_identificacion,
+      telefono: facturaDB.cliente_telefono,
+      email: facturaDB.cliente_email,
+      direccion: facturaDB.cliente_direccion,
+    },
+    clienteId: facturaDB.cliente_id,
+
+    // Transformar información de contacto
+    miContacto: {
+      telefono: facturaDB.mi_telefono,
+      email: facturaDB.mi_email,
+    },
+
+    // Parsear JSON fields
+    servicios: typeof facturaDB.servicios === 'string'
+      ? JSON.parse(facturaDB.servicios)
+      : facturaDB.servicios || [],
+    productos: typeof facturaDB.productos === 'string'
+      ? JSON.parse(facturaDB.productos)
+      : facturaDB.productos || [],
+
+    // Información financiera
+    subtotal: parseFloat(facturaDB.subtotal),
+    descuentoPorcentaje: facturaDB.descuento_porcentaje,
+    descuentoMonto: parseFloat(facturaDB.descuento_monto),
+    total: parseFloat(facturaDB.total),
+
+    metodoPago: facturaDB.metodo_pago,
+    notas: facturaDB.notas,
+
+    created_at: facturaDB.created_at,
+    updated_at: facturaDB.updated_at,
+  };
+}
+
 // GET /api/facturas - Obtener facturas con filtros
 export async function GET(request) {
   try {
@@ -76,15 +121,18 @@ export async function GET(request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    // Transformar todas las facturas al formato frontend
+    const facturasTransformadas = facturas.map(transformarFactura);
+
     // Calcular estadísticas
     const stats = {
       total_facturas: count,
-      suma_total: facturas.reduce((sum, f) => sum + parseFloat(f.total || 0), 0),
-      promedio: count > 0 ? facturas.reduce((sum, f) => sum + parseFloat(f.total || 0), 0) / count : 0
+      suma_total: facturasTransformadas.reduce((sum, f) => sum + parseFloat(f.total || 0), 0),
+      promedio: count > 0 ? facturasTransformadas.reduce((sum, f) => sum + parseFloat(f.total || 0), 0) / count : 0
     };
 
     return NextResponse.json({
-      facturas,
+      facturas: facturasTransformadas,
       total: count,
       limit,
       offset,
@@ -168,14 +216,157 @@ export async function POST(request) {
       }, { status: 500 });
     }
 
+    // Transformar la factura al formato esperado por el frontend
+    const facturaTransformada = transformarFactura(factura);
+
     return NextResponse.json({
       success: true,
-      factura,
+      factura: facturaTransformada,
       mensaje: 'Factura creada exitosamente'
     }, { status: 201 });
 
   } catch (error) {
     console.error('Error en POST /api/facturas:', error);
+    return NextResponse.json({
+      error: 'Error interno del servidor'
+    }, { status: 500 });
+  }
+}
+
+// PUT /api/facturas - Actualizar factura existente
+export async function PUT(request) {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const {
+      id, // ID de la factura a actualizar
+      numeroFactura,
+      cliente,
+      clienteId,
+      miContacto,
+      servicios,
+      productos,
+      total,
+      descuentoPorcentaje,
+      descuentoMonto,
+      metodoPago,
+      notas,
+      fecha
+    } = body;
+
+    // Validaciones
+    if (!id) {
+      return NextResponse.json({
+        error: 'Se requiere el ID de la factura para actualizar'
+      }, { status: 400 });
+    }
+
+    if (!numeroFactura || !cliente?.nombre) {
+      return NextResponse.json({
+        error: 'Faltan campos requeridos: numeroFactura, cliente.nombre'
+      }, { status: 400 });
+    }
+
+    const supabase = getSupabaseBrowserClient();
+
+    // Calcular subtotal
+    const subtotal = parseFloat(total) + parseFloat(descuentoMonto || 0);
+
+    // Datos actualizados de la factura
+    const facturaData = {
+      numero_factura: numeroFactura,
+      cliente_id: clienteId || null,
+      cliente_nombre: cliente.nombre,
+      cliente_identificacion: cliente.identificacion || null,
+      cliente_telefono: cliente.telefono || null,
+      cliente_email: cliente.email || null,
+      cliente_direccion: cliente.direccion || null,
+      mi_telefono: miContacto?.telefono || null,
+      mi_email: miContacto?.email || null,
+      servicios: JSON.stringify(servicios || []),
+      productos: JSON.stringify(productos || []),
+      subtotal: parseFloat(subtotal),
+      descuento_porcentaje: parseInt(descuentoPorcentaje || 0),
+      descuento_monto: parseFloat(descuentoMonto || 0),
+      total: parseFloat(total),
+      metodo_pago: metodoPago || 'efectivo',
+      notas: notas || null,
+      fecha: fecha || new Date().toISOString()
+    };
+
+    const { data: factura, error: errorFactura } = await supabase
+      .from('facturas')
+      .update(facturaData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (errorFactura) {
+      console.error('Error actualizando factura:', errorFactura);
+      return NextResponse.json({
+        error: 'Error al actualizar la factura: ' + errorFactura.message
+      }, { status: 500 });
+    }
+
+    // Transformar la factura al formato esperado por el frontend
+    const facturaTransformada = transformarFactura(factura);
+
+    return NextResponse.json({
+      success: true,
+      factura: facturaTransformada,
+      mensaje: 'Factura actualizada exitosamente'
+    }, { status: 200 });
+
+  } catch (error) {
+    console.error('Error en PUT /api/facturas:', error);
+    return NextResponse.json({
+      error: 'Error interno del servidor'
+    }, { status: 500 });
+  }
+}
+
+// DELETE /api/facturas - Eliminar factura
+export async function DELETE(request) {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({
+        error: 'Se requiere el ID de la factura para eliminar'
+      }, { status: 400 });
+    }
+
+    const supabase = getSupabaseBrowserClient();
+
+    const { error: errorFactura } = await supabase
+      .from('facturas')
+      .delete()
+      .eq('id', id);
+
+    if (errorFactura) {
+      console.error('Error eliminando factura:', errorFactura);
+      return NextResponse.json({
+        error: 'Error al eliminar la factura: ' + errorFactura.message
+      }, { status: 500 });
+    }
+
+    return NextResponse.json({
+      success: true,
+      mensaje: 'Factura eliminada exitosamente'
+    }, { status: 200 });
+
+  } catch (error) {
+    console.error('Error en DELETE /api/facturas:', error);
     return NextResponse.json({
       error: 'Error interno del servidor'
     }, { status: 500 });
