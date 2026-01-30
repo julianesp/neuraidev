@@ -1,4 +1,4 @@
-import { getSupabaseBrowserClient } from '@/lib/db';
+import { getSupabaseClient } from '@/lib/db';
 
 // Función helper para generar metadata de fallback cuando no se encuentra el producto
 function generateFallbackMetadata(categoria, categoryName, slug) {
@@ -71,7 +71,7 @@ export async function generateStaticProductMetadata(categoria, slug) {
     }
 
     // Obtener datos del producto desde Supabase
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseClient();
     const { data: producto, error } = await supabase
       .from('products')
       .select('*')
