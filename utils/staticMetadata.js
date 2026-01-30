@@ -101,6 +101,9 @@ export async function generateStaticProductMetadata(categoria, slug) {
       title: tituloCompleto,
       description: descripcionCompleta,
       metadataBase: new URL("https://neurai.dev"),
+      alternates: {
+        canonical: `https://neurai.dev/accesorios/${categoria}/${slug}`,
+      },
       keywords: [
         nombre,
         categoryName,
@@ -110,7 +113,7 @@ export async function generateStaticProductMetadata(categoria, slug) {
         'neurai.dev',
       ].filter(Boolean),
       openGraph: {
-        title: tituloCompleto,
+        title: nombre,
         description: descripcionCompleta,
         type: "product",
         siteName: "neurai.dev",
@@ -126,21 +129,35 @@ export async function generateStaticProductMetadata(categoria, slug) {
             type: 'image/jpeg',
           },
         ],
+        product: {
+          price: {
+            amount: producto.precio || '',
+            currency: 'COP',
+          },
+          availability: producto.disponible ? 'in stock' : 'out of stock',
+          condition: 'new',
+        },
       },
       twitter: {
         card: "summary_large_image",
-        title: tituloCompleto,
+        title: nombre,
         description: descripcionCompleta,
         images: [imagenPrincipal],
         creator: "@neuraidev",
         site: "@neuraidev",
       },
-      // Metadata adicional para productos
+      // Metadata adicional para productos y motores de búsqueda
       other: {
         'product:price:amount': producto.precio || '',
         'product:price:currency': 'COP',
         'product:availability': producto.disponible ? 'in stock' : 'out of stock',
         'product:condition': 'new',
+        'product:brand': producto.marca || 'neurai.dev',
+        'og:image': imagenPrincipal,
+        'og:image:secure_url': imagenPrincipal,
+        'og:image:width': '1200',
+        'og:image:height': '630',
+        'og:image:alt': nombre,
       }
     };
   } catch (error) {
