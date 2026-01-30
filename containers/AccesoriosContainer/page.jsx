@@ -1171,6 +1171,19 @@ const AccesoriosContainer = ({
             </div>
           </div>
 
+          {/* Sección de Likes y Comentarios - MOVIDA AQUÍ */}
+          <div className="mt-8 mb-12 space-y-6">
+            {/* Botón de likes */}
+            <div className="flex justify-center sm:justify-start">
+              <ProductLikes productoId={accesorio.id} />
+            </div>
+
+            {/* Sección de comentarios */}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+              <ProductComments productoId={accesorio.id} />
+            </div>
+          </div>
+
           {otrosAccesorios && otrosAccesorios.length > 0 && (
             <div className="mt-8 md:mt-12">
               <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">
@@ -1301,19 +1314,6 @@ const AccesoriosContainer = ({
               </div>
             </div>
           )}
-
-          {/* Sección de Likes y Comentarios */}
-          <div className="mt-12 space-y-8">
-            {/* Botón de likes */}
-            <div className="flex justify-center sm:justify-start">
-              <ProductLikes productoId={accesorio.id} />
-            </div>
-
-            {/* Sección de comentarios */}
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
-              <ProductComments productoId={accesorio.id} />
-            </div>
-          </div>
         </div>
       </div>
 

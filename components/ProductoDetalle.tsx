@@ -337,6 +337,19 @@ export default function ProductoDetalle({ producto }: Props) {
             </div>
           </div>
 
+          {/* Sección de Likes y Comentarios */}
+          <div className="space-y-4">
+            {/* Botón de likes */}
+            <div className="flex justify-center sm:justify-start">
+              <ProductLikes productoId={producto.id} />
+            </div>
+
+            {/* Sección de comentarios */}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+              <ProductComments productoId={producto.id} />
+            </div>
+          </div>
+
           {/* Información de la tienda */}
           {producto.tienda && (
             <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
@@ -345,19 +358,6 @@ export default function ProductoDetalle({ producto }: Props) {
               <p className="text-sm text-gray-600 dark:text-gray-400">{producto.tienda.telefono || 'No disponible'}</p>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Sección de Likes y Comentarios */}
-      <div className="mt-8 space-y-8">
-        {/* Botón de likes */}
-        <div className="flex justify-center sm:justify-start">
-          <ProductLikes productoId={producto.id} />
-        </div>
-
-        {/* Sección de comentarios */}
-        <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
-          <ProductComments productoId={producto.id} />
         </div>
       </div>
     </div>
