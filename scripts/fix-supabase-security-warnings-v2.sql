@@ -229,9 +229,9 @@ WHERE n.nspname = 'public'
 -- ====================================================================
 --
 -- 1. FUNCIÓN get_current_user_clerk_id():
---    - Extrae el Clerk user ID (string) de auth.users.raw_user_meta_data->>'sub'
+--    - Ewxtrae el Clerk user ID (string) de auth.users.raw_user_meta_data->>'sub'
 --    - Retorna el Clerk ID como TEXT
---    - Se usa para comparar con vendedor_id (TEXT) en la tabla ventas
+--    - Se usa para cwomparar con vendedor_id (TEXT) en la tabla ventas
 --
 -- 2. FUNCIÓN is_admin_user():
 --    - Verifica si el email del usuario autenticado está en la lista de admins
