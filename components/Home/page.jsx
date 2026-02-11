@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, Suspense, lazy } from "react";
 import Link from "next/link.js";
 import Head from "next/head";
 import styles from "./Home.module.scss";
-import Advertisement from "@/components/Advertisement";
+import SidebarContent from "@/components/SidebarContent/SidebarContent";
 import AccesoriosDestacados from "@/components/Accesorio/AccesoriosDestacados";
 import ProductosRecientes from "@/components/Producto/ProductosRecientes";
 import MostVisitedProducts from "@/components/MostVisitedProducts/MostVisitedProducts";
@@ -58,7 +58,6 @@ export default function Inicio() {
   // States for toggling product lists visibility
   const [showCelulares, setShowCelulares] = useState(false);
   const [showComputadores, setShowComputadores] = useState(false);
-  const [showDamas, setShowDamas] = useState(false);
   const [showLibrosNuevos, setShowLibrosNuevos] = useState(false);
   const [showLibrosUsados, setShowLibrosUsados] = useState(false);
   const [showAccesorios, setShowAccesorios] = useState(false);
@@ -73,7 +72,6 @@ export default function Inicio() {
   // Referencias para elementos con animaciones laterales
   const celularesRef = useRef(null);
   const computadoresRef = useRef(null);
-  const damasRef = useRef(null);
   const librosNuevosRef = useRef(null);
   const librosUsadosRef = useRef(null);
   const accesoriosRef = useRef(null);
@@ -103,7 +101,6 @@ export default function Inicio() {
       // Elementos que entrarán desde la izquierda
       const fadeInLeftElements = [
         celularesRef.current,
-        damasRef.current,
         librosUsadosRef.current,
         accesoriosRef.current,
       ];
@@ -220,42 +217,6 @@ export default function Inicio() {
   }, []);
 
   if (!isLoaded) return null;
-
-  const ads = [
-    {
-      businessName: "Tienda Local",
-      description:
-        "Abarrotes y productos básicos para tu hogar. Servicio a domicilio disponible.",
-      imageUrl:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
-      businessId: "tienda-local",
-    },
-    {
-      businessName: "Panadería El Trigal",
-      description:
-        "Pan fresco todos los días. Especialistas en productos artesanales.",
-      imageUrl:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
-      businessId: "panaderia-el-trigal",
-    },
-    {
-      businessName: "Ferretería Martínez",
-      description:
-        "Todo para construcción y reparaciones. Más de 20 años de experiencia.",
-      imageUrl:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
-      businessId: "ferreteria-martinez",
-    },
-    {
-      businessName: "¿Tienes un negocio?",
-      description:
-        "Solicita tu espacio publicitario aquí y llega a más clientes en tu zona.",
-      imageUrl:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
-      linkUrl:
-        "https://wa.me/573174503604?text=Hola,%20me%20interesa%20solicitar%20un%20espacio%20publicitario%20para%20mi%20negocio%20en%20NeuraIdev",
-    },
-  ];
 
   return (
     <>
@@ -462,18 +423,17 @@ export default function Inicio() {
           </div>
         </section> */}
 
-        {/* Sección lateral de anuncios o aside*/}
+        {/* Sección lateral - Buscador, Categorías, Publicidad y Enlaces */}
         <section
           className={`${styles.aside} `}
           style={{
             display: "block",
             gridArea: "aside",
             width: "100%",
-            maxWidth: "300px",
+            maxWidth: "320px",
             justifySelf: "end",
             position: "relative",
             marginLeft: "0",
-            // height: "100%",
           }}
         >
           <Suspense
@@ -481,7 +441,7 @@ export default function Inicio() {
               <div className="w-72 h-96 bg-gray-100 animate-pulse rounded"></div>
             }
           >
-            <Advertisement ads={ads} />
+            <SidebarContent />
           </Suspense>
         </section>
 
@@ -547,27 +507,6 @@ export default function Inicio() {
 
               <Link
                 href="/accesorios/computadoras"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
-              >
-                Ver más
-              </Link>
-            </article>
-
-            {/* Artículo con animación desde la izquierda */}
-            <article
-              ref={damasRef}
-              className={`${styles.tipo} ${styles.fadeInLeft}`}
-              style={{
-                backgroundImage:
-                  "url('https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/damas/brochas/2.png')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <h2 className="text-white dark:text-white">Damas</h2>
-
-              <Link
-                href="/accesorios/damas"
                 className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
               >
                 Ver más

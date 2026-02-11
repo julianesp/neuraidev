@@ -61,14 +61,6 @@ const categorias = [
     color: "bg-green-500",
   },
   {
-    id: "damas",
-    nombre: "Accesorios para Damas",
-    descripcion: "Productos de belleza y cuidado personal",
-    ruta: "/accesorios/damas",
-    icono: <Heart className="w-8 h-8" />,
-    color: "bg-pink-500",
-  },
-  {
     id: "libros-nuevos",
     nombre: "Libros Nuevos",
     descripcion: "Colección de libros nuevos de diferentes géneros",

@@ -255,11 +255,6 @@ const NavBar = () => {
                     Accesorios computadoras
                   </Link>
                 </li>
-                <li>
-                  <Link href="/accesorios/damas" onClick={handleLinkClick}>
-                    Damas
-                  </Link>
-                </li>
 
                 <li>
                   <Link

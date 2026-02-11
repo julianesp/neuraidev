@@ -1,0 +1,294 @@
+.container {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.badge {
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.bannersWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bannerCard {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.adLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-bottom: 1px solid #fbbf24;
+  font-size: 11px;
+  font-weight: 600;
+  color: #78350f;
+}
+
+.adIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  background: white;
+  overflow: hidden;
+}
+
+.productImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+
+  .bannerCard:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.discountBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #dc2626;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+
+.content {
+  padding: 12px;
+}
+
+.productName {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 6px 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.productDescription {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.priceSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.oldPrice {
+  font-size: 13px;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.currentPrice {
+  font-size: 18px;
+  font-weight: 700;
+  color: #059669;
+}
+
+.ctaButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: #2563eb;
+  }
+}
+
+.arrowIcon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+
+  .ctaButton:hover & {
+    transform: translateX(3px);
+  }
+}
+
+.contactBanner {
+  margin-top: 16px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.contactContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contactTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.contactDescription {
+  font-size: 13px;
+  color: #d1fae5;
+  margin: 0;
+}
+
+.contactButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: white;
+  color: #059669;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-top: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #f0fdf4;
+    transform: scale(1.05);
+  }
+}
+
+.whatsappIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.skeletonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skeleton {
+  height: 280px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 10px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// Dark mode
+:global(.dark) {
+  .container {
+    background: #1f2937;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .title {
+    color: white;
+  }
+
+  .badge {
+    background: #451a03;
+    color: #fbbf24;
+  }
+
+  .bannerCard {
+    background: #111827;
+    border-color: #374151;
+  }
+
+  .adLabel {
+    background: linear-gradient(135deg, #451a03 0%, #78350f 100%);
+    border-bottom-color: #92400e;
+    color: #fbbf24;
+  }
+
+  .imageWrapper {
+    background: #0f172a;
+  }
+
+  .productName {
+    color: white;
+  }
+
+  .productDescription {
+    color: #9ca3af;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+    background-size: 200% 100%;
+  }
+}

@@ -108,7 +108,6 @@ export function getCategorySlug(apiUrl) {
     celulares: "celulares",
     gadgets: "gadgets",
     generales: "generales",
-    damas: "damas",
     tecnico_sistemas: "generales", // Mapear a generales
     peluqueria: "generales", // Mapear a generales
     tienda: "generales", // Mapear a generales

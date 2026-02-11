@@ -25,16 +25,6 @@ const CATEGORY_INFO = {
     description: "Libros universitarios usados: programación, matemáticas, ingeniería, circuitos electrónicos y más. Ahorra en libros académicos.",
     keywords: "libros usados, libros universitarios, programación, matemáticas, ingeniería, textos académicos",
   },
-  damas: {
-    title: "Accesorios para Damas",
-    description: "Accesorios de belleza y cuidado personal: brochas de maquillaje, rizadores de pestañas, productos de cosmética y más.",
-    keywords: "accesorios damas, belleza, maquillaje, brochas, cosmética, cuidado personal",
-  },
-  belleza: {
-    title: "Productos de Belleza",
-    description: "Productos de belleza y cuidado personal: accesorios de maquillaje, herramientas de belleza y más para tu rutina diaria.",
-    keywords: "productos belleza, cosmética, cuidado personal, maquillaje, belleza Valle de Sibundoy",
-  },
 };
 
 /**
