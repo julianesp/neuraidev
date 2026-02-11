@@ -53,6 +53,67 @@ export default function EpaycoCheckout({ onClose }) {
     }
   };
 
+  // Cargar script de ePayco dinámicamente
+  const loadEpaycoScript = () => {
+    return new Promise((resolve, reject) => {
+      console.log('[ePayco] Verificando disponibilidad...');
+
+      // Si ya está cargado, resolver inmediatamente
+      if (typeof window !== "undefined" && window.ePayco && window.ePayco.checkout) {
+        console.log('[ePayco] Ya está disponible y funcional');
+        resolve(true);
+        return;
+      }
+
+      // Remover cualquier script existente que pueda estar corrupto
+      const existingScripts = document.querySelectorAll('script[src*="checkout.epayco.co"]');
+      existingScripts.forEach(script => {
+        console.log('[ePayco] Removiendo script existente...');
+        script.remove();
+      });
+
+      // Limpiar window.ePayco si existe pero no es funcional
+      if (window.ePayco && !window.ePayco.checkout) {
+        console.log('[ePayco] Limpiando ventana de ePayco corrupta...');
+        delete window.ePayco;
+      }
+
+      // Cargar el script dinámicamente
+      console.log('[ePayco] Cargando script fresco...');
+      const script = document.createElement('script');
+      script.src = 'https://checkout.epayco.co/checkout.js';
+      script.async = false; // Cambiado a false para carga sincrónica
+
+      script.onload = () => {
+        console.log('[ePayco] Script descargado, esperando inicialización...');
+        // Esperar a que ePayco esté disponible
+        let attempts = 0;
+        const checkInterval = setInterval(() => {
+          attempts++;
+          console.log(`[ePayco] Verificando inicialización... Intento ${attempts}/100`);
+
+          if (window.ePayco && window.ePayco.checkout) {
+            console.log('[ePayco] ✅ Inicializado correctamente!');
+            clearInterval(checkInterval);
+            resolve(true);
+          } else if (attempts > 100) { // 10 segundos
+            console.error('[ePayco] ❌ Timeout: No se inicializó en 10 segundos');
+            clearInterval(checkInterval);
+            reject(new Error("El script de ePayco no se inicializó correctamente. Por favor, verifica tu conexión a internet y recarga la página."));
+          }
+        }, 100);
+      };
+
+      script.onerror = (error) => {
+        console.error('[ePayco] ❌ Error descargando script:', error);
+        reject(new Error("No se pudo descargar el script de ePayco. Verifica tu conexión a internet."));
+      };
+
+      document.head.appendChild(script);
+      console.log('[ePayco] Script agregado al DOM');
+    });
+  };
+
   // Validar que ePayco esté cargado
   const isEpaycoLoaded = () => {
     return typeof window !== "undefined" && window.ePayco;
@@ -127,15 +188,32 @@ export default function EpaycoCheckout({ onClose }) {
       return;
     }
 
-    // Validar que ePayco esté cargado
-    if (!isEpaycoLoaded()) {
+    setLoading(true);
+
+    try {
+      // Cargar script de ePayco si no está disponible
+      if (!isEpaycoLoaded()) {
+        console.log('[Checkout] ePayco no disponible, intentando cargar...');
+        toast.info("Cargando sistema de pagos, por favor espera...", {
+          duration: 3000,
+        });
+        await loadEpaycoScript();
+        console.log('[Checkout] Script de ePayco cargado exitosamente');
+      } else {
+        console.log('[Checkout] ePayco ya está disponible');
+      }
+    } catch (scriptError) {
+      console.error("[Checkout] Error cargando script de ePayco:", scriptError);
       toast.error(
-        "El sistema de pagos no está disponible. Por favor recarga la página.",
+        scriptError.message || "No se pudo cargar el sistema de pagos. Por favor recarga la página e intenta de nuevo.",
+        {
+          title: "Error de carga",
+          duration: 7000,
+        }
       );
+      setLoading(false);
       return;
     }
-
-    setLoading(true);
 
     try {
       // Calcular total
@@ -185,14 +263,27 @@ export default function EpaycoCheckout({ onClose }) {
 
       const { config } = data;
 
+      console.log('[Checkout] Configuración recibida:', config);
+
       // Guardar datos del cliente para futuros usos
       saveCustomerData();
+
+      // Verificar una vez más que ePayco esté disponible
+      if (!window.ePayco || !window.ePayco.checkout) {
+        throw new Error("ePayco no está disponible en este momento");
+      }
+
+      console.log('[Checkout] Configurando checkout de ePayco...');
 
       // Crear handler de ePayco
       const handler = window.ePayco.checkout.configure(config);
 
+      console.log('[Checkout] Abriendo checkout...');
+
       // Abrir checkout
       handler.open();
+
+      console.log('[Checkout] Checkout abierto exitosamente');
 
       // Limpiar carrito y redirigir después de un delay
       // (ePayco manejará la redirección automáticamente según su configuración)

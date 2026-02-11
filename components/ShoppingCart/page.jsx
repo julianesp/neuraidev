@@ -6,7 +6,6 @@ import { useToast } from "@/contexts/ToastContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { getProductImage } from "@/lib/constants";
-import WompiCheckout from "../WompiCheckout";
 import EpaycoCheckout from "../EpaycoCheckout";
 import styles from "./ShoppingCart.module.scss";
 
@@ -22,7 +21,6 @@ export default function ShoppingCart() {
   } = useCart();
   const toast = useToast();
   const [showCheckout, setShowCheckout] = useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null); // 'wompi' | 'epayco' | null
 
   // Debug: Log cart state
   // console.log(
@@ -390,62 +388,19 @@ export default function ShoppingCart() {
                   {showCheckout ? (
                     <div>
                       <button
-                        onClick={() => {
-                          setShowCheckout(false);
-                          setSelectedPaymentMethod(null);
-                        }}
-                        className="mb-3 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1"
+                        onClick={() => setShowCheckout(false)}
+                        className="mb-3 text-sm text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 flex items-center gap-1"
                       >
-                        ← Volver a opciones de pago
+                        ← Volver
                       </button>
 
-                      {/* Mostrar checkout según el método seleccionado */}
-                      {selectedPaymentMethod === 'wompi' && (
-                        <WompiCheckout onClose={() => {
-                          setShowCheckout(false);
-                          setSelectedPaymentMethod(null);
-                        }} />
-                      )}
-
-                      {selectedPaymentMethod === 'epayco' && (
-                        <EpaycoCheckout onClose={() => {
-                          setShowCheckout(false);
-                          setSelectedPaymentMethod(null);
-                        }} />
-                      )}
+                      <EpaycoCheckout onClose={() => setShowCheckout(false)} />
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      {/* Título de métodos de pago */}
-                      <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        Selecciona tu método de pago:
-                      </h4>
-
-                      {/* Botón para pagar con Wompi */}
+                      {/* Botón para proceder al pago */}
                       <button
-                        onClick={() => {
-                          setSelectedPaymentMethod('wompi');
-                          setShowCheckout(true);
-                        }}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
-                      >
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          className="w-5 h-5 group-hover:scale-110 transition-transform"
-                        >
-                          <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
-                        </svg>
-                        Pagar con Wompi
-                        <span className="text-xs opacity-80">(Tarjeta/PSE)</span>
-                      </button>
-
-                      {/* Botón para pagar con ePayco */}
-                      <button
-                        onClick={() => {
-                          setSelectedPaymentMethod('epayco');
-                          setShowCheckout(true);
-                        }}
+                        onClick={() => setShowCheckout(true)}
                         className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
                       >
                         <svg
@@ -455,8 +410,8 @@ export default function ShoppingCart() {
                         >
                           <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
                         </svg>
-                        Pagar con ePayco
-                        <span className="text-xs opacity-80">(Todos los métodos)</span>
+                        Proceder al Pago
+                        <span className="text-xs opacity-80">(Todos los métodos de pago)</span>
                       </button>
 
                       {/* Separador */}

@@ -226,16 +226,10 @@ export default function RootLayout({ children }) {
           `}
           </Script>
 
-          {/* Wompi Widget para procesamiento de pagos */}
-          <Script
-            src="https://checkout.wompi.co/widget.js"
-            strategy="lazyOnload"
-          />
-
           {/* ePayco Checkout para procesamiento de pagos */}
           <Script
             src="https://checkout.epayco.co/checkout.js"
-            strategy="lazyOnload"
+            strategy="afterInteractive"
           />
         </head>
 
