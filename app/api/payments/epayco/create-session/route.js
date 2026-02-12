@@ -162,8 +162,8 @@ export async function POST(request) {
       country: "CO",
       lang: "es",
 
-      // Información del cliente
-      external: "false",
+      // Información del cliente - IMPORTANTE: usar "true" para evitar problema con sesión undefined
+      external: "true", // Cambiado a "true" para que ePayco maneje el checkout sin crear sesión previa
       extra1: reference, // Guardar referencia en extra1 para tracking
       extra2: customerCity || "",
       extra3: customerRegion || "",
@@ -172,13 +172,17 @@ export async function POST(request) {
       response: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/respuesta-pago`,
       confirmation: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/api/payments/epayco/confirmation`,
 
-      // Información de facturación
+      // Información de facturación - TODOS LOS CAMPOS OBLIGATORIOS
       name_billing: customerName,
-      address_billing: customerAddress || "N/A",
+      address_billing: customerAddress || "Calle principal",
+      city_billing: customerCity || "Bogotá", // Campo obligatorio que faltaba
       type_doc_billing: customerTypeDoc || "CC",
       mobilephone_billing: customerPhone || "",
       number_doc_billing: customerNumberDoc || "",
       email_billing: customerEmail,
+
+      // IP del cliente (opcional pero recomendado)
+      ip: clientIp,
 
       // Configuración adicional
       autoclick: false,
