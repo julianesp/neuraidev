@@ -33,7 +33,7 @@ function getClientIp(request) {
   const real = request.headers.get("x-real-ip");
 
   if (forwarded) {
-    return forwarded.split(',')[0].trim();
+    return forwarded.split(",")[0].trim();
   }
 
   if (real) {
@@ -70,7 +70,8 @@ export async function POST(request) {
     if (!amount || !reference || !customerEmail || !customerName) {
       return NextResponse.json(
         {
-          error: "Faltan datos requeridos: amount, reference, customerEmail, customerName",
+          error:
+            "Faltan datos requeridos: amount, reference, customerEmail, customerName",
         },
         { status: 400 },
       );
@@ -89,14 +90,34 @@ export async function POST(request) {
     }
 
     log("🔐 Creando sesión de pago ePayco...");
+    log("📦 Datos recibidos:", {
+      amount,
+      reference,
+      customerEmail,
+      customerName,
+    });
+
+    // Validar que todos los datos de cliente sean strings válidos
+    const sanitizeString = (value, defaultValue = "") => {
+      if (!value) return defaultValue.toString();
+      return String(value).trim();
+    };
+
+    const sanitizeEmail = (email) => {
+      return String(email || "")
+        .toLowerCase()
+        .trim();
+    };
 
     // Calcular impuestos (IVA 19% en Colombia)
     const taxRate = 0.19;
-    const taxBase = amount / (1 + taxRate);
-    const tax = amount - taxBase;
+    const taxBase = Number(amount) / (1 + taxRate);
+    const tax = Number(amount) - taxBase;
 
     // Obtener IP del cliente
     const clientIp = getClientIp(request);
+
+    log("💰 Impuestos calculados:", { amount, taxBase, tax });
 
     // Guardar la orden en Supabase ANTES de procesar el pago
     try {
@@ -146,57 +167,85 @@ export async function POST(request) {
     }
 
     // Configuración para ePayco Checkout
-    const epaycoConfig = {
-      // Información básica
-      key: epaycoPublicKey,
-      test: process.env.EPAYCO_TEST_MODE === "true",
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev";
 
-      // Información de la transacción
-      name: description || "Compra en neurai.dev",
-      description: description || `Compra de ${items.length} producto(s)`,
-      invoice: reference,
+    // IMPORTANTE: Sanitizar TODOS los valores para evitar errores de toLowerCase
+    const sanitizedConfig = {
+      // ========== CAMPOS OBLIGATORIOS ==========
+      key: sanitizeString(epaycoPublicKey),
+      test: process.env.EPAYCO_TEST_MODE === "true",
+      p_cust_id_cliente: sanitizeString(
+        process.env.EPAYCO_P_CUST_ID_CLIENTE,
+        "1561203",
+      ),
+
+      // ========== INFORMACIÓN DE LA TRANSACCIÓN ==========
+      name: sanitizeString(description, "Compra en neurai.dev"),
+      description: sanitizeString(
+        description,
+        `Compra de ${items.length} producto(s)`,
+      ),
+      invoice: sanitizeString(reference),
       currency: "COP",
-      amount: amount.toString(),
-      tax_base: taxBase.toFixed(2),
-      tax: tax.toFixed(2),
+      amount: Math.round(Number(amount)).toString(), // Convertir a centavos si es necesario
+      tax_base: Number(taxBase).toFixed(2),
+      tax: Number(tax).toFixed(2),
       country: "CO",
       lang: "es",
 
-      // Información del cliente - IMPORTANTE: usar "true" para evitar problema con sesión undefined
-      external: "true", // Cambiado a "true" para que ePayco maneje el checkout sin crear sesión previa
-      extra1: reference, // Guardar referencia en extra1 para tracking
-      extra2: customerCity || "",
-      extra3: customerRegion || "",
+      // ========== INFORMACIÓN DEL CLIENTE (FACTURACIÓN) ==========
+      name_billing: sanitizeString(customerName, "Cliente"),
+      email_billing: sanitizeEmail(customerEmail),
+      mobilephone_billing: sanitizeString(customerPhone),
+      address_billing: sanitizeString(customerAddress, "Calle sin especificar"),
+      city_billing: sanitizeString(customerCity, "Bogotá"),
+      type_doc_billing: sanitizeString(customerTypeDoc, "CC"),
+      number_doc_billing: sanitizeString(customerNumberDoc),
 
-      // URLs de respuesta
-      response: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/respuesta-pago`,
-      confirmation: `${process.env.NEXT_PUBLIC_SITE_URL || "https://neurai.dev"}/api/payments/epayco/confirmation`,
+      // ========== INFORMACIÓN DE ENVÍO ==========
+      name_shipping: sanitizeString(customerName, "Cliente"),
+      address_shipping: sanitizeString(
+        customerAddress,
+        "Calle sin especificar",
+      ),
+      city_shipping: sanitizeString(customerCity, "Bogotá"),
+      type_doc_shipping: sanitizeString(customerTypeDoc, "CC"),
+      mobilephone_shipping: sanitizeString(customerPhone),
 
-      // Información de facturación - TODOS LOS CAMPOS OBLIGATORIOS
-      name_billing: customerName,
-      address_billing: customerAddress || "Calle principal",
-      city_billing: customerCity || "Bogotá", // Campo obligatorio que faltaba
-      type_doc_billing: customerTypeDoc || "CC",
-      mobilephone_billing: customerPhone || "",
-      number_doc_billing: customerNumberDoc || "",
-      email_billing: customerEmail,
+      // ========== TRACKING Y REFERENCIA ==========
+      extra1: sanitizeString(reference),
+      extra2: sanitizeString(customerCity),
+      extra3: sanitizeString(customerRegion),
 
-      // IP del cliente (opcional pero recomendado)
-      ip: clientIp,
+      // ========== URLs DE RESPUESTA ==========
+      response: sanitizeString(`${baseUrl}/respuesta-pago`),
+      confirmation: sanitizeString(
+        `${baseUrl}/api/payments/epayco/confirmation`,
+      ),
 
-      // Configuración adicional
+      // ========== IP DEL CLIENTE ==========
+      ip: sanitizeString(clientIp),
+
+      // ========== CONFIGURACIÓN AVANZADA ==========
+      external: true,
       autoclick: false,
-      methodsDisable: [], // Habilitar todos los métodos
       method_confirmation: "POST",
+      methodsDisable: [],
     };
 
-    log("✅ Configuración de ePayco creada exitosamente");
+    log("✅ Configuración de ePayco creada:");
+    log("  - key:", sanitizedConfig.key.substring(0, 8) + "...");
+    log("  - invoice:", sanitizedConfig.invoice);
+    log("  - amount:", sanitizedConfig.amount);
+    log("  - name_billing:", sanitizedConfig.name_billing);
+    log("  - email_billing:", sanitizedConfig.email_billing);
+    log("  - Todos los campos sanitizados para evitar errores");
 
     // Retornar configuración para el frontend
     return NextResponse.json(
       {
         success: true,
-        config: epaycoConfig,
+        config: sanitizedConfig,
         reference: reference,
       },
       { headers: corsHeaders },

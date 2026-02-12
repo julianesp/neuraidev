@@ -26,17 +26,17 @@ export default function EpaycoCheckout({ onClose }) {
 
   // Cargar datos guardados del usuario al montar el componente
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedData = localStorage.getItem('neuraidev_customer_data');
+    if (typeof window !== "undefined") {
+      const savedData = localStorage.getItem("neuraidev_customer_data");
       if (savedData) {
         try {
           const parsed = JSON.parse(savedData);
-          setCustomerData(prev => ({
+          setCustomerData((prev) => ({
             ...prev,
             ...parsed,
           }));
         } catch (error) {
-          console.error('Error al cargar datos del cliente:', error);
+          console.error("Error al cargar datos del cliente:", error);
         }
       }
     }
@@ -44,11 +44,14 @@ export default function EpaycoCheckout({ onClose }) {
 
   // Guardar datos del cliente cuando cambien
   const saveCustomerData = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       try {
-        localStorage.setItem('neuraidev_customer_data', JSON.stringify(customerData));
+        localStorage.setItem(
+          "neuraidev_customer_data",
+          JSON.stringify(customerData),
+        );
       } catch (error) {
-        console.error('Error al guardar datos del cliente:', error);
+        console.error("Error al guardar datos del cliente:", error);
       }
     }
   };
@@ -56,61 +59,80 @@ export default function EpaycoCheckout({ onClose }) {
   // Cargar script de ePayco dinámicamente
   const loadEpaycoScript = () => {
     return new Promise((resolve, reject) => {
-      console.log('[ePayco] Verificando disponibilidad...');
+      console.log("[ePayco] Verificando disponibilidad...");
 
       // Si ya está cargado, resolver inmediatamente
-      if (typeof window !== "undefined" && window.ePayco && window.ePayco.checkout) {
-        console.log('[ePayco] Ya está disponible y funcional');
+      if (
+        typeof window !== "undefined" &&
+        window.ePayco &&
+        window.ePayco.checkout
+      ) {
+        console.log("[ePayco] Ya está disponible y funcional");
         resolve(true);
         return;
       }
 
       // Remover cualquier script existente que pueda estar corrupto
-      const existingScripts = document.querySelectorAll('script[src*="checkout.epayco.co"]');
-      existingScripts.forEach(script => {
-        console.log('[ePayco] Removiendo script existente...');
+      const existingScripts = document.querySelectorAll(
+        'script[src*="checkout.epayco.co"]',
+      );
+      existingScripts.forEach((script) => {
+        console.log("[ePayco] Removiendo script existente...");
         script.remove();
       });
 
       // Limpiar window.ePayco si existe pero no es funcional
       if (window.ePayco && !window.ePayco.checkout) {
-        console.log('[ePayco] Limpiando ventana de ePayco corrupta...');
+        console.log("[ePayco] Limpiando ventana de ePayco corrupta...");
         delete window.ePayco;
       }
 
       // Cargar el script dinámicamente
-      console.log('[ePayco] Cargando script fresco...');
-      const script = document.createElement('script');
-      script.src = 'https://checkout.epayco.co/checkout.js';
+      console.log("[ePayco] Cargando script fresco...");
+      const script = document.createElement("script");
+      script.src = "https://checkout.epayco.co/checkout.js";
       script.async = false; // Cambiado a false para carga sincrónica
 
       script.onload = () => {
-        console.log('[ePayco] Script descargado, esperando inicialización...');
+        console.log("[ePayco] Script descargado, esperando inicialización...");
         // Esperar a que ePayco esté disponible
         let attempts = 0;
         const checkInterval = setInterval(() => {
           attempts++;
-          console.log(`[ePayco] Verificando inicialización... Intento ${attempts}/100`);
+          console.log(
+            `[ePayco] Verificando inicialización... Intento ${attempts}/100`,
+          );
 
           if (window.ePayco && window.ePayco.checkout) {
-            console.log('[ePayco] ✅ Inicializado correctamente!');
+            console.log("[ePayco] ✅ Inicializado correctamente!");
             clearInterval(checkInterval);
             resolve(true);
-          } else if (attempts > 100) { // 10 segundos
-            console.error('[ePayco] ❌ Timeout: No se inicializó en 10 segundos');
+          } else if (attempts > 100) {
+            // 10 segundos
+            console.error(
+              "[ePayco] ❌ Timeout: No se inicializó en 10 segundos",
+            );
             clearInterval(checkInterval);
-            reject(new Error("El script de ePayco no se inicializó correctamente. Por favor, verifica tu conexión a internet y recarga la página."));
+            reject(
+              new Error(
+                "El script de ePayco no se inicializó correctamente. Por favor, verifica tu conexión a internet y recarga la página.",
+              ),
+            );
           }
         }, 100);
       };
 
       script.onerror = (error) => {
-        console.error('[ePayco] ❌ Error descargando script:', error);
-        reject(new Error("No se pudo descargar el script de ePayco. Verifica tu conexión a internet."));
+        console.error("[ePayco] ❌ Error descargando script:", error);
+        reject(
+          new Error(
+            "No se pudo descargar el script de ePayco. Verifica tu conexión a internet.",
+          ),
+        );
       };
 
       document.head.appendChild(script);
-      console.log('[ePayco] Script agregado al DOM');
+      console.log("[ePayco] Script agregado al DOM");
     });
   };
 
@@ -167,7 +189,7 @@ export default function EpaycoCheckout({ onClose }) {
         {
           title: "Completa el formulario",
           duration: 5000,
-        }
+        },
       );
       return false;
     }
@@ -193,23 +215,24 @@ export default function EpaycoCheckout({ onClose }) {
     try {
       // Cargar script de ePayco si no está disponible
       if (!isEpaycoLoaded()) {
-        console.log('[Checkout] ePayco no disponible, intentando cargar...');
+        console.log("[Checkout] ePayco no disponible, intentando cargar...");
         toast.info("Cargando sistema de pagos, por favor espera...", {
           duration: 3000,
         });
         await loadEpaycoScript();
-        console.log('[Checkout] Script de ePayco cargado exitosamente');
+        console.log("[Checkout] Script de ePayco cargado exitosamente");
       } else {
-        console.log('[Checkout] ePayco ya está disponible');
+        console.log("[Checkout] ePayco ya está disponible");
       }
     } catch (scriptError) {
       console.error("[Checkout] Error cargando script de ePayco:", scriptError);
       toast.error(
-        scriptError.message || "No se pudo cargar el sistema de pagos. Por favor recarga la página e intenta de nuevo.",
+        scriptError.message ||
+          "No se pudo cargar el sistema de pagos. Por favor recarga la página e intenta de nuevo.",
         {
           title: "Error de carga",
           duration: 7000,
-        }
+        },
       );
       setLoading(false);
       return;
@@ -263,7 +286,41 @@ export default function EpaycoCheckout({ onClose }) {
 
       const { config } = data;
 
-      console.log('[Checkout] Configuración recibida:', config);
+      // Validar que config tenga todos los campos requeridos
+      if (!config) {
+        throw new Error("No se recibió configuración del servidor");
+      }
+
+      console.log("[Checkout] Configuración recibida:", {
+        key: config.key ? config.key.substring(0, 8) + "..." : "FALTA",
+        invoice: config.invoice,
+        amount: config.amount,
+        name_billing: config.name_billing,
+        email_billing: config.email_billing,
+        currency: config.currency,
+        test: config.test,
+      });
+
+      // Validar campos críticos
+      const requiredFields = [
+        "key",
+        "invoice",
+        "amount",
+        "currency",
+        "name_billing",
+        "email_billing",
+      ];
+      const missingFields = requiredFields.filter((field) => !config[field]);
+
+      if (missingFields.length > 0) {
+        console.error(
+          "[Checkout] ❌ Faltan campos en configuración:",
+          missingFields,
+        );
+        throw new Error(
+          `Configuración incompleta. Faltan: ${missingFields.join(", ")}`,
+        );
+      }
 
       // Guardar datos del cliente para futuros usos
       saveCustomerData();
@@ -273,17 +330,25 @@ export default function EpaycoCheckout({ onClose }) {
         throw new Error("ePayco no está disponible en este momento");
       }
 
-      console.log('[Checkout] Configurando checkout de ePayco...');
+      console.log("[Checkout] Configurando checkout de ePayco...");
 
-      // Crear handler de ePayco
-      const handler = window.ePayco.checkout.configure(config);
+      try {
+        // Crear handler de ePayco
+        const handler = window.ePayco.checkout.configure(config);
 
-      console.log('[Checkout] Abriendo checkout...');
+        console.log("[Checkout] ✅ Checkout configurado correctamente");
+        console.log("[Checkout] Abriendo checkout...");
 
-      // Abrir checkout
-      handler.open();
+        // Abrir checkout
+        handler.open();
+      } catch (epaycoError) {
+        console.error("[Checkout] ❌ Error configurando ePayco:", epaycoError);
+        console.error("[Checkout] Error detallado:", epaycoError.message);
+        console.error("[Checkout] Config que se pasó:", config);
+        throw new Error(`Error de ePayco: ${epaycoError.message}`);
+      }
 
-      console.log('[Checkout] Checkout abierto exitosamente');
+      console.log("[Checkout] Checkout abierto exitosamente");
 
       // Limpiar carrito y redirigir después de un delay
       // (ePayco manejará la redirección automáticamente según su configuración)
@@ -291,7 +356,6 @@ export default function EpaycoCheckout({ onClose }) {
         clearCart();
         setLoading(false);
       }, 2000);
-
     } catch (error) {
       toast.error(error.message || "Error al procesar el pago");
       setLoading(false);
@@ -523,11 +587,14 @@ export default function EpaycoCheckout({ onClose }) {
                     />
                   </svg>
                   <span className="font-semibold text-green-800 dark:text-green-200 text-sm">
-                    {getTotalPrice() >= 50000 ? "✓ Envío GRATIS" : "Envío gratis desde $50.000"}
+                    {getTotalPrice() >= 50000
+                      ? "✓ Envío GRATIS"
+                      : "Envío gratis desde $50.000"}
                   </span>
                 </div>
                 <p className="text-xs text-green-700 dark:text-green-300 ml-7">
-                  Para <strong>Valle de Sibundoy - Alto Putumayo</strong> en compras desde <strong>$50.000</strong>
+                  Para <strong>Valle de Sibundoy - Alto Putumayo</strong> en
+                  compras desde <strong>$50.000</strong>
                 </p>
                 {getTotalPrice() >= 50000 ? (
                   <p className="text-xs text-green-600 dark:text-green-400 ml-7 mt-1 font-medium">
@@ -535,7 +602,9 @@ export default function EpaycoCheckout({ onClose }) {
                   </p>
                 ) : (
                   <p className="text-xs text-amber-600 dark:text-amber-400 ml-7 mt-1">
-                    Te faltan ${(50000 - getTotalPrice()).toLocaleString("es-CO")} para envío gratis
+                    Te faltan $
+                    {(50000 - getTotalPrice()).toLocaleString("es-CO")} para
+                    envío gratis
                   </p>
                 )}
               </div>

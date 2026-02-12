@@ -52,7 +52,8 @@ export async function POST(request) {
     if (!amountInCents || !reference || !customerEmail) {
       return NextResponse.json(
         {
-          error: "Faltan datos requeridos: amountInCents, reference, customerEmail",
+          error:
+            "Faltan datos requeridos: amountInCents, reference, customerEmail",
         },
         { status: 400 },
       );
@@ -112,7 +113,7 @@ export async function POST(request) {
         estado_pago: "pendiente",
         metadata: {
           productos: normalizedItems, // Guardar productos en metadata
-          source: "wompi_checkout"
+          source: "wompi_checkout",
         },
       });
 
@@ -122,7 +123,11 @@ export async function POST(request) {
         logError("⚠️ Mensaje:", orderError.message);
         logError("⚠️ Detalles:", orderError.details);
         logError("⚠️ Hint:", orderError.hint);
-        logError("⚠️ Datos que se intentaron insertar:", { reference, customerEmail, amount });
+        logError("⚠️ Datos que se intentaron insertar:", {
+          reference,
+          customerEmail,
+          amount,
+        });
       } else {
         log("✅ Orden guardada exitosamente con referencia:", reference);
         log("📦 Orden guardada con", normalizedItems.length, "items");
