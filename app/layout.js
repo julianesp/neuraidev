@@ -124,8 +124,8 @@ export const metadata = {
     siteName: "neurai.dev",
     images: [
       {
-        url: "https://neurai.dev/og-image.png",
-        secureUrl: "https://neurai.dev/og-image.png",
+        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo_1200_630.png",
+        secureUrl: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo_1200_630.png",
         width: 1200,
         height: 630,
         alt: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
@@ -146,7 +146,7 @@ export const metadata = {
       "Accesorios para celulares y computadoras. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
     images: [
       {
-        url: "https://neurai.dev/og-image.png",
+        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo_1200_630.png",
         alt: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
       },
     ],
