@@ -22,28 +22,25 @@ export const metadata = {
     title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
       "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
-    url: "https://neurai.dev",
     siteName: "neurai.dev",
     locale: "es_CO",
     type: "website",
     images: [
       {
-        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
-        secureUrl: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo_1200_630.png",
         width: 1200,
         height: 630,
-        alt: "neurai.dev - Tienda Online",
-        type: "image/png",
+        alt: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "neurai.dev | Tienda Online de Tecnología",
+    title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
       "Compra celulares, computadoras, accesorios y más. Servicios profesionales de desarrollo web y soporte técnico.",
     images: [
-      "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+      "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo_1200_630.png",
     ],
   },
   robots: {
