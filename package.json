@@ -86,7 +86,7 @@
     "three": "^0.182.0",
     "video.js": "^8.23.4",
     "web-push": "^3.6.7",
-    "zod": "^4.3.4"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.5",

@@ -174,10 +174,6 @@ export async function POST(request) {
       // ========== CAMPOS OBLIGATORIOS ==========
       key: sanitizeString(epaycoPublicKey),
       test: process.env.EPAYCO_TEST_MODE === "true",
-      p_cust_id_cliente: sanitizeString(
-        process.env.EPAYCO_P_CUST_ID_CLIENTE,
-        "1561203",
-      ),
 
       // ========== INFORMACIÓN DE LA TRANSACCIÓN ==========
       name: sanitizeString(description, "Compra en neurai.dev"),
@@ -186,11 +182,11 @@ export async function POST(request) {
         `Compra de ${items.length} producto(s)`,
       ),
       invoice: sanitizeString(reference),
-      currency: "COP",
-      amount: Math.round(Number(amount)).toString(), // Convertir a centavos si es necesario
+      currency: "cop", // Debe estar en minúsculas según documentación oficial
+      amount: Math.round(Number(amount)).toString(),
       tax_base: Number(taxBase).toFixed(2),
       tax: Number(tax).toFixed(2),
-      country: "CO",
+      country: "co", // Debe estar en minúsculas según documentación oficial
       lang: "es",
 
       // ========== INFORMACIÓN DEL CLIENTE (FACTURACIÓN) ==========
@@ -227,7 +223,7 @@ export async function POST(request) {
       ip: sanitizeString(clientIp),
 
       // ========== CONFIGURACIÓN AVANZADA ==========
-      external: true,
+      external: "true", // Debe ser string "true" o "false", NO boolean
       autoclick: false,
       method_confirmation: "POST",
       methodsDisable: [],

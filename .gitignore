@@ -42,7 +42,6 @@ next-env.d.ts
 /.kdev4/
 
 # files created
-
 /generated/prisma
 
 # admin config (sensitive)
@@ -55,10 +54,98 @@ export-data.sql
 # cookies and temporary files
 cookies.txt
 
-#vercel
+# vercel
 .env.vercel
 .env.vercel.*
 
+# ============================================
+# ARCHIVOS DE GUÍAS Y DOCUMENTACIÓN
+# ============================================
 # Ignorar archivos markdown de guías/documentación excepto README.md
 *.md
 !README.md
+
+# Archivos de configuración y guías específicas (desarrollo)
+CONFIGURACION-*.md
+CONFIGURAR-*.md
+DB_SCHEMA_*.md
+EJECUTAR-*.md
+FIX-*.md
+GUIA-*.md
+INFORME-*.md
+INSTRUCCIONES-*.md
+APLICAR-*.md
+AUTOMATIZACION-*.md
+IMPLEMENTACION-*.md
+DEPLOYMENT-*.md
+ESTADISTICAS-*.md
+FACEBOOK-*.md
+FACTURAS-*.md
+MIGRACION-*.md
+MIGRATION-*.md
+DEVELOPMENT-*.md
+DOMAIN-*.md
+GOOGLE-*.md
+BARCODE-*.md
+COMPROBANTE-*.md
+CRON-*.md
+DEBUG-*.md
+EMAIL-*.md
+ENV-*.md
+LANDING-*.md
+MULTIPLES-*.md
+MIGRATION-*.md
+ADMIN-*.md
+CLERK-*.md
+analytics-*.md
+ANALYTICS-*.md
+MONITORING-*.md
+
+# Archivos específicos (cualquier caso)
+CNAME
+SECURITY-INCIDENT-PLAN.md
+extract-og.js
+declarations.d.ts
+lint-critical.js
+test-opengraph.js
+middleware.js.bak
+UserContext.js
+eas.json
+app.config.js
+app.json
+DISCLAIMER-*.txt
+LICENSE
+
+# Sistema de configuración sensible
+jsconfig.json
+tsconfig.json
+*.config.js
+*.config.mjs
+*.config.ts
+eslint.config.*
+tailwind.config.*
+postcss.config.*
+next.config.*
+vercel.json
+.prettierrc*
+.eslintrc*
+
+# Archivos temporales del sistema
+*.bak
+*.tmp
+*.log
+*.sql
+
+# Directorio de build y output
+dist/
+build/
+.next/
+out/
+
+# IDE y editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.env.local.example
