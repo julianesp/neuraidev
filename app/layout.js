@@ -31,7 +31,7 @@ export const metadata = {
     template: "%s | neurai.dev",
   },
   description:
-    "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
+    "Accesorios para celulares y computadoras. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
   keywords: [
     // Servicios principales
     "desarrollo web",
@@ -51,19 +51,25 @@ export const metadata = {
     "teclados",
     "mouse",
     "memorias RAM",
+    "ssd",
+    "m.2",
+    "msata",
+    "teclado gamer",
+    "teclados gamer",
     "discos duros",
     "pendrives",
     "cables USB",
     // Productos - Libros
     "libros nuevos",
     "libros usados",
-    "librería online",
-    // Productos generales
-    "productos belleza",
-    "accesorios damas",
+
     "productos generales",
     // Ubicación
     "Valle de Sibundoy",
+    "Sibundoy",
+    "Colón",
+    "San Francisco",
+    "Santiago",
     "Putumayo",
     "Colombia",
     // Marca y general
@@ -113,14 +119,13 @@ export const metadata = {
   openGraph: {
     title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
-      "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
+      "Accesorios para celulares y computadoras. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
     url: "https://neurai.dev/",
     siteName: "neurai.dev",
     images: [
       {
-        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
-        secureUrl:
-          "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+        url: "https://neurai.dev/og-image.png",
+        secureUrl: "https://neurai.dev/og-image.png",
         width: 1200,
         height: 630,
         alt: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
@@ -128,6 +133,7 @@ export const metadata = {
       },
     ],
     type: "website",
+    locale: "es_CO",
   },
   locale: "es_CO",
   facebook: {
@@ -137,11 +143,11 @@ export const metadata = {
     card: "summary_large_image",
     title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
-      "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
+      "Accesorios para celulares y computadoras. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
     images: [
       {
-        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
-        alt: "neurai.dev",
+        url: "https://neurai.dev/og-image.png",
+        alt: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
       },
     ],
     creator: "@neuraidev",
