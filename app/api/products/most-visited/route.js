@@ -3,98 +3,55 @@ import { getSupabaseClient } from "@/lib/db";
 
 /**
  * GET /api/products/most-visited
- * Obtiene los productos más visitados ordenados por views_count
+ * Devuelve los productos con más visitas reales (metadata.views_count > 0).
+ * - Mínimo 3 productos para devolver resultados.
+ * - Máximo 10 productos.
+ * - Sin fallbacks: si no hay suficientes visitas, devuelve lista vacía.
  */
 export async function GET(request) {
   try {
     const supabase = getSupabaseClient();
 
-    // Obtener parámetros de consulta
-    const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get("limit") || "6");
+    const MAX_PRODUCTS = 10;
+    const MIN_PRODUCTS = 3;
 
-    // Intentar consultar productos ordenados por views_count
-    let { data: products, error } = await supabase
+    // Obtener todos los productos disponibles con su metadata
+    const { data: products, error } = await supabase
       .from("products")
-      .select("*")
-      .order("views_count", { ascending: false, nullsFirst: false })
-      .limit(limit);
+      .select("id, nombre, precio, precio_oferta, imagenes, imagen_principal, stock, disponible, metadata, categoria")
+      .eq("disponible", true)
+      .gt("stock", 0);
 
-    // Si hay error (probablemente porque la columna no existe), usar fallback
     if (error) {
-      console.warn("views_count column might not exist, using fallback:", error.message);
-
-      // Fallback: Obtener productos destacados
-      const { data: featuredProducts, error: featuredError } = await supabase
-        .from("products")
-        .select("*")
-        .eq("destacado", true)
-        .limit(limit);
-
-      if (featuredError) {
-        console.error("Error fetching featured products:", featuredError);
-
-        // Último fallback: obtener cualquier producto
-        const { data: anyProducts } = await supabase
-          .from("products")
-          .select("*")
-          .limit(limit);
-
-        return NextResponse.json({
-          success: true,
-          products: anyProducts || [],
-          fallback: "random",
-        });
-      }
-
-      return NextResponse.json({
-        success: true,
-        products: featuredProducts || [],
-        fallback: "featured",
-      });
+      return NextResponse.json(
+        { success: false, products: [], error: error.message },
+        { status: 500 }
+      );
     }
 
-    // Si no hay productos con views_count, obtener productos destacados como fallback
     if (!products || products.length === 0) {
-      const { data: featuredProducts } = await supabase
-        .from("products")
-        .select("*")
-        .eq("destacado", true)
-        .limit(limit);
+      return NextResponse.json({ success: true, products: [] });
+    }
 
-      return NextResponse.json({
-        success: true,
-        products: featuredProducts || [],
-        fallback: "featured",
-      });
+    // Filtrar solo los que tienen visitas reales (views_count > 0 en metadata)
+    const withViews = products
+      .filter((p) => p.metadata?.views_count > 0)
+      .sort((a, b) => (b.metadata?.views_count || 0) - (a.metadata?.views_count || 0))
+      .slice(0, MAX_PRODUCTS);
+
+    // Si hay menos del mínimo requerido, no mostrar la sección
+    if (withViews.length < MIN_PRODUCTS) {
+      return NextResponse.json({ success: true, products: [] });
     }
 
     return NextResponse.json({
       success: true,
-      products: products,
-      fallback: null,
+      products: withViews,
     });
   } catch (error) {
-    console.error("Error in most-visited endpoint:", error);
-
-    // Intentar devolver al menos algunos productos
-    try {
-      const supabase = getSupabaseClient();
-      const { data: anyProducts } = await supabase
-        .from("products")
-        .select("*")
-        .limit(6);
-
-      return NextResponse.json({
-        success: true,
-        products: anyProducts || [],
-        fallback: "error-recovery",
-      });
-    } catch (recoveryError) {
-      return NextResponse.json(
-        { error: "Error interno del servidor", products: [] },
-        { status: 500 }
-      );
-    }
+    return NextResponse.json(
+      { success: false, products: [], error: "Error interno del servidor" },
+      { status: 500 }
+    );
   }
 }

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import AccesoriosContainer from '@/containers/AccesoriosContainer/page';
+import ViewTracker from '@/components/ViewTracker/ViewTracker';
 import { createClient } from '@supabase/supabase-js';
 
 // Cliente de Supabase para server-side
@@ -164,6 +165,8 @@ export default async function ProductoPage({ params }: Props) {
 
     return (
       <main className="py-14">
+        {/* Registra la visita silenciosamente al cargar la página */}
+        <ViewTracker productId={id} />
         <div className="max-w-6xl mx-auto px-4">
           <AccesoriosContainer
             apiUrl=""

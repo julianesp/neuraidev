@@ -3,11 +3,11 @@ import { getSupabaseClient } from "@/lib/db";
 
 /**
  * POST /api/products/[id]/track-view
- * Incrementa el contador de vistas de un producto
+ * Incrementa el contador de vistas de un producto guardándolo en metadata.views_count
  */
 export async function POST(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
@@ -18,34 +18,31 @@ export async function POST(request, { params }) {
 
     const supabase = getSupabaseClient();
 
-    // Primero, obtener el producto actual para saber su views_count
+    // Obtener el producto para leer metadata actual
     const { data: product, error: fetchError } = await supabase
       .from("products")
-      .select("views_count, id")
+      .select("id, metadata")
       .eq("id", id)
       .single();
 
     if (fetchError || !product) {
-      console.error("Error fetching product:", fetchError);
       return NextResponse.json(
         { error: "Producto no encontrado" },
         { status: 404 }
       );
     }
 
-    // Incrementar el contador de vistas
-    const newViewsCount = (product.views_count || 0) + 1;
+    // Incrementar views_count dentro del JSONB metadata
+    const currentMetadata = product.metadata || {};
+    const newViewsCount = (currentMetadata.views_count || 0) + 1;
+    const newMetadata = { ...currentMetadata, views_count: newViewsCount };
 
     const { error: updateError } = await supabase
       .from("products")
-      .update({
-        views_count: newViewsCount,
-        updated_at: new Date().toISOString(),
-      })
+      .update({ metadata: newMetadata })
       .eq("id", id);
 
     if (updateError) {
-      console.error("Error updating views count:", updateError);
       return NextResponse.json(
         { error: "Error al actualizar contador de vistas" },
         { status: 500 }
@@ -57,7 +54,6 @@ export async function POST(request, { params }) {
       views_count: newViewsCount,
     });
   } catch (error) {
-    console.error("Error in track-view endpoint:", error);
     return NextResponse.json(
       { error: "Error interno del servidor" },
       { status: 500 }
