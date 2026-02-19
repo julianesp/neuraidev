@@ -220,8 +220,19 @@ export async function POST(request) {
             id: transactionId,
             status: 'APPROVED',
             payment_method_type: franchise || 'ePayco',
+            payment_method: { type: franchise || 'ePayco' },
+            amount_in_cents: Math.round(amount * 100),
+            customer_email: body.x_customer_email || order.customer_email,
           };
-          const notificationSent = await notifyNewSale(order, epaycoTransaction);
+          // Enriquecer la orden con los datos del cliente que llegan de ePayco
+          const orderForNotification = {
+            ...order,
+            customer_phone: order.customer_phone || body.x_customer_phone || '',
+            customer_address: order.customer_address || body.x_customer_address || order.direccion_envio || '',
+            customer_city: order.metadata?.customer_city || body.x_customer_city || '',
+            customer_region: order.metadata?.customer_region || '',
+          };
+          const notificationSent = await notifyNewSale(orderForNotification, epaycoTransaction);
           if (notificationSent) {
             log("✅ Notificación enviada exitosamente");
           }

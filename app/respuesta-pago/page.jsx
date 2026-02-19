@@ -20,11 +20,79 @@ function RespuestaPagoContent() {
   const [isRegisteredCustomer, setIsRegisteredCustomer] = useState(false);
 
   useEffect(() => {
-    // Obtener parámetros de la URL enviados por Wompi
-    // Wompi redirige con el ID de la transacción en la URL
+    // Detectar si es redirect de ePayco (tiene x_ref_payco o x_transaction_state)
+    const epaycoRef = searchParams.get("x_ref_payco");
+    const epaycoState = searchParams.get("x_transaction_state");
+
+    // Si es un redirect de ePayco, leer los parámetros directamente de la URL
+    if (epaycoRef || epaycoState) {
+      const stateMap = {
+        "Aceptada": "APPROVED",
+        "Rechazada": "DECLINED",
+        "Pendiente": "PENDING",
+        "Fallida": "ERROR",
+        "Abandonada": "VOIDED",
+      };
+
+      const rawState = epaycoState || "";
+      const reference = searchParams.get("x_id_invoice") || searchParams.get("x_extra1") || "";
+
+      const data = {
+        transactionId: epaycoRef || searchParams.get("x_transaction_id") || "",
+        reference: reference,
+        amount: parseFloat(searchParams.get("x_amount") || searchParams.get("x_amount_ok") || 0),
+        currency: searchParams.get("x_currency_code") || "COP",
+        status: stateMap[rawState] || "ERROR",
+        statusMessage: rawState,
+        paymentMethod: searchParams.get("x_franchise") || "ePayco",
+        customerEmail: searchParams.get("x_customer_email") || "",
+        source: "epayco",
+      };
+
+      if (process.env.NODE_ENV === "development") {
+        // eslint-disable-next-line no-console
+        console.warn("[DEV] Datos de respuesta de ePayco recibidos", data);
+      }
+
+      setPaymentData(data);
+
+      // Consultar la orden desde nuestra base de datos
+      if (reference) {
+        fetch(`/api/orders/get-by-reference?reference=${reference}`)
+          .then((res) => res.ok ? res.json() : null)
+          .then(async (orderInfo) => {
+            if (orderInfo?.order) {
+              setOrderData(orderInfo.order);
+            }
+            // Verificar si el cliente ya está registrado (solo si pago exitoso)
+            if (data.status === "APPROVED" && data.customerEmail) {
+              try {
+                const customerCheck = await fetch(
+                  `/api/customers/register?email=${encodeURIComponent(data.customerEmail)}`
+                );
+                if (customerCheck.ok) {
+                  const customerData = await customerCheck.json();
+                  setIsRegisteredCustomer(customerData.registered);
+                  if (!customerData.registered) {
+                    setTimeout(() => setShowCustomerModal(true), 2000);
+                  }
+                }
+              } catch (error) {
+                console.error("Error verificando cliente:", error);
+              }
+            }
+          })
+          .catch((error) => console.error("Error consultando orden:", error))
+          .finally(() => setLoading(false));
+      } else {
+        setLoading(false);
+      }
+      return;
+    }
+
+    // Flujo Wompi: tiene un ID de transacción en ?id=
     const transactionId = searchParams.get("id");
 
-    // Si tenemos un ID de transacción, consultamos su estado
     if (transactionId) {
       // Consultar el estado de la transacción desde la API de Wompi
       fetch(`https://production.wompi.co/v1/transactions/${transactionId}`)
@@ -33,16 +101,16 @@ function RespuestaPagoContent() {
           const data = {
             transactionId: transaction.data.id,
             reference: transaction.data.reference,
-            amount: transaction.data.amount_in_cents / 100, // Convertir de centavos a pesos
+            amount: transaction.data.amount_in_cents / 100,
             currency: transaction.data.currency,
             status: transaction.data.status,
             statusMessage: transaction.data.status_message,
             paymentMethod: transaction.data.payment_method_type,
             createdAt: transaction.data.created_at,
             customerEmail: transaction.data.customer_email || "",
+            source: "wompi",
           };
 
-          // Log solo en desarrollo
           if (process.env.NODE_ENV === "development") {
             // eslint-disable-next-line no-console
             console.warn("[DEV] Datos de respuesta de Wompi recibidos", data);
@@ -50,7 +118,6 @@ function RespuestaPagoContent() {
 
           setPaymentData(data);
 
-          // Consultar la orden desde nuestra base de datos usando la referencia
           try {
             const orderResponse = await fetch(
               `/api/orders/get-by-reference?reference=${data.reference}`,
@@ -61,13 +128,9 @@ function RespuestaPagoContent() {
 
               if (process.env.NODE_ENV === "development") {
                 // eslint-disable-next-line no-console
-                console.warn(
-                  "[DEV] Datos de la orden recibidos",
-                  orderInfo.order,
-                );
+                console.warn("[DEV] Datos de la orden recibidos", orderInfo.order);
               }
 
-              // Verificar si el cliente ya está registrado
               if (data.status === "APPROVED" && data.customerEmail) {
                 try {
                   const customerCheck = await fetch(
@@ -76,13 +139,8 @@ function RespuestaPagoContent() {
                   if (customerCheck.ok) {
                     const customerData = await customerCheck.json();
                     setIsRegisteredCustomer(customerData.registered);
-
-                    // Mostrar modal solo si el pago fue exitoso y NO está registrado
                     if (!customerData.registered) {
-                      // Esperar 2 segundos antes de mostrar el modal
-                      setTimeout(() => {
-                        setShowCustomerModal(true);
-                      }, 2000);
+                      setTimeout(() => setShowCustomerModal(true), 2000);
                     }
                   }
                 } catch (error) {
@@ -102,7 +160,6 @@ function RespuestaPagoContent() {
           setLoading(false);
         });
     } else {
-      // Si no hay ID, marcar como sin datos
       setPaymentData(null);
       setLoading(false);
     }
@@ -114,12 +171,7 @@ function RespuestaPagoContent() {
 
     const state = paymentData.status;
 
-    // Estados de Wompi:
-    // APPROVED = Transacción aprobada
-    // DECLINED = Transacción rechazada
-    // PENDING = Transacción pendiente
-    // VOIDED = Transacción anulada
-    // ERROR = Error en la transacción
+    // Estados normalizados (ambos gateways usan APPROVED/DECLINED/PENDING/VOIDED/ERROR)
 
     if (state === "APPROVED") {
       return {
