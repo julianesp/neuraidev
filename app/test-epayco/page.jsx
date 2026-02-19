@@ -7,7 +7,10 @@ export default function TestEpayco() {
   const [logs, setLogs] = useState([]);
 
   const addLog = (message) => {
-    setLogs(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`]);
+    setLogs((prev) => [
+      ...prev,
+      `[${new Date().toLocaleTimeString()}] ${message}`,
+    ]);
     console.log(message);
   };
 
@@ -22,11 +25,11 @@ export default function TestEpayco() {
     });
 
     // Verificar todos los scripts en la página
-    const allScripts = document.querySelectorAll('script[src]');
+    const allScripts = document.querySelectorAll("script[src]");
     addLog(`📄 Total de scripts externos: ${allScripts.length}`);
 
     const checkEpayco = () => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         if (window.ePayco) {
           addLog("✅ window.ePayco está disponible");
           setEpaycoStatus("✅ ePayco cargado correctamente");
@@ -70,14 +73,16 @@ export default function TestEpayco() {
     addLog("🔄 Intentando cargar script manualmente...");
 
     // Verificar si ya existe
-    const existing = document.querySelector('script[src*="checkout.epayco.co"]');
+    const existing = document.querySelector(
+      'script[src*="checkout.epayco.co"]',
+    );
     if (existing) {
       addLog("⚠️ Script ya existe en el DOM, removiendo...");
       existing.remove();
     }
 
-    const script = document.createElement('script');
-    script.src = 'https://checkout.epayco.co/checkout.js';
+    const script = document.createElement("script");
+    script.src = "https://checkout.epayco.co/checkout.js";
     script.async = true;
 
     script.onload = () => {
@@ -117,7 +122,7 @@ export default function TestEpayco() {
 
     try {
       const handler = window.ePayco.checkout.configure({
-        key: process.env.NEXT_PUBLIC_EPAYCO_PUBLIC_KEY || 'test-key',
+        key: process.env.NEXT_PUBLIC_EPAYCO_PUBLIC_KEY || "test-key",
         test: true,
         name: "Producto de Prueba",
         description: "Prueba de checkout",
@@ -207,10 +212,18 @@ export default function TestEpayco() {
             Instrucciones
           </h3>
           <ol className="list-decimal list-inside space-y-1 text-blue-800 dark:text-blue-200 text-sm">
-            <li>Esta página verifica automáticamente si el script de ePayco se carga</li>
+            <li>
+              Esta página verifica automáticamente si el script de ePayco se
+              carga
+            </li>
             <li>Revisa los logs para ver el estado de la carga</li>
-            <li>Una vez que ePayco esté disponible, prueba el botón "Probar Checkout"</li>
-            <li>Abre la consola del navegador (F12) para ver logs adicionales</li>
+            <li>
+              Una vez que ePayco esté disponible, prueba el botón "Probar
+              Checkout"
+            </li>
+            <li>
+              Abre la consola del navegador (F12) para ver logs adicionales
+            </li>
           </ol>
         </div>
       </div>
