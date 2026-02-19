@@ -223,7 +223,7 @@ export async function POST(request) {
       ip: sanitizeString(clientIp),
 
       // ========== CONFIGURACIÓN AVANZADA ==========
-      external: "true", // Debe ser string "true" o "false", NO boolean
+      external: "false", // "false" = lightbox modal, "true" = ventana externa
       autoclick: false,
       method_confirmation: "POST",
       methodsDisable: [],

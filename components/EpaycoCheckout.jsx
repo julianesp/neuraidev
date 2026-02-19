@@ -333,14 +333,17 @@ export default function EpaycoCheckout({ onClose }) {
       console.log("[Checkout] Configurando checkout de ePayco...");
 
       try {
-        // Crear handler de ePayco
-        const handler = window.ePayco.checkout.configure(config);
+        // configure() solo recibe credenciales: { key, test }
+        // open() recibe los datos del pago (invoice, amount, etc.)
+        const { key, test, ...paymentData } = config;
+
+        const handler = window.ePayco.checkout.configure({ key, test });
 
         console.log("[Checkout] ✅ Checkout configurado correctamente");
         console.log("[Checkout] Abriendo checkout...");
 
-        // Abrir checkout
-        handler.open();
+        // Abrir checkout con los datos del pago
+        handler.open(paymentData);
       } catch (epaycoError) {
         console.error("[Checkout] ❌ Error configurando ePayco:", epaycoError);
         console.error("[Checkout] Error detallado:", epaycoError.message);
