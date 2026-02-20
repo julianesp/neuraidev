@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { getSupabaseServerClient } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 
 /**
@@ -13,7 +13,7 @@ export async function GET(request) {
     const published = searchParams.get("published");
     const limit = searchParams.get("limit");
 
-    const supabase = await createClient();
+    const supabase = getSupabaseServerClient();
 
     let query = supabase
       .from("blog_posts")
@@ -93,7 +93,7 @@ export async function POST(request) {
       );
     }
 
-    const supabase = await createClient();
+    const supabase = getSupabaseServerClient();
 
     // Verificar que el slug sea único
     const { data: existingPost } = await supabase

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { getSupabaseServerClient } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 
 /**
@@ -9,7 +9,7 @@ import { auth } from "@clerk/nextjs/server";
 export async function GET(request, { params }) {
   try {
     const { id } = params;
-    const supabase = await createClient();
+    const supabase = getSupabaseServerClient();
 
     // Intentar buscar por UUID primero, luego por slug
     let query = supabase.from("blog_posts").select("*");
@@ -61,7 +61,7 @@ export async function PATCH(request, { params }) {
     const { id } = params;
     const body = await request.json();
 
-    const supabase = await createClient();
+    const supabase = getSupabaseServerClient();
 
     // Si se está publicando por primera vez, agregar published_at
     if (body.published && !body.published_at) {
@@ -104,7 +104,7 @@ export async function DELETE(request, { params }) {
     }
 
     const { id } = params;
-    const supabase = await createClient();
+    const supabase = getSupabaseServerClient();
 
     const { error } = await supabase.from("blog_posts").delete().eq("id", id);
 
