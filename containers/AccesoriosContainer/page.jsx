@@ -32,6 +32,7 @@ import { useUser } from "@clerk/nextjs";
 import { isAdmin } from "@/lib/auth/roles";
 import SafeHtmlRenderer from "@/components/SafeHtmlRenderer";
 import ProductVideo from "@/components/ProductVideo";
+import NequiPaymentBadge from "@/components/NequiPaymentBadge";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -1089,6 +1090,13 @@ const AccesoriosContainer = ({
                 </div>
               </div>
 
+              {/* Banner de Descuento Nequi */}
+              {accesorio.stock > 0 && (
+                <div className="mt-6">
+                  <NequiPaymentBadge descuento={5} variant="banner" />
+                </div>
+              )}
+
               {/* Botón de WhatsApp */}
               {accesorio.stock === 0 ? (
                 <div className="mt-6 space-y-3">
@@ -1129,7 +1137,7 @@ const AccesoriosContainer = ({
                 </div>
               ) : (
                 <div className="space-y-3 mt-6">
-                  {/* Componente de agregar al carrito */}
+                  {/* Botón de agregar al carrito con selección de método de pago */}
                   <AddToCartButton producto={accesorio} />
 
                   {/* Enlace de pago específico para el libro de Cálculo */}

@@ -5,6 +5,8 @@ import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { ShoppingCart, Plus, Minus, AlertTriangle, X } from "lucide-react";
 import ProductColorPicker from "./ProductColorPicker";
+import PaymentMethodModal from "./PaymentMethodModal";
+import NequiPaymentModal from "./NequiPaymentModal";
 
 export default function AddToCartButton({ producto }) {
   const { addToCart, checkStock, cart } = useCart();
@@ -16,6 +18,9 @@ export default function AddToCartButton({ producto }) {
   const [stockDisponible, setStockDisponible] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showNoStockModal, setShowNoStockModal] = useState(false);
+  const [showPaymentMethodModal, setShowPaymentMethodModal] = useState(false);
+  const [showNequiModal, setShowNequiModal] = useState(false);
+  const [colorParaNequi, setColorParaNequi] = useState(null);
 
   // Obtener colores disponibles desde metadata
   const coloresDisponibles = producto.metadata?.colores_disponibles || [];
@@ -87,16 +92,48 @@ export default function AddToCartButton({ producto }) {
   const tieneVariaciones =
     producto.variaciones && producto.variaciones.length > 0;
 
-  const handleAddToCart = async () => {
-    // Verificar si hay colores disponibles y si se seleccionó uno
-    if (coloresDisponibles.length > 0 && !colorSeleccionado) {
-      toast.warning("Por favor selecciona un color", {
-        title: "Color Requerido",
-        duration: 4000,
-      });
+  // Abrir modal de selección de método de pago
+  const handleOpenPaymentModal = async () => {
+    // Verificar stock disponible antes de abrir el modal
+    const stockActual = await checkStock(producto.id);
+
+    // Calcular cuántos productos de este tipo ya están en el carrito
+    const cantidadEnCarrito = cart.reduce((total, item) => {
+      if (item.id === producto.id) {
+        return total + item.cantidad;
+      }
+      return total;
+    }, 0);
+
+    const stockRestante = stockActual - cantidadEnCarrito;
+
+    // Si no hay stock disponible, mostrar modal de sin stock
+    if (stockRestante <= 0 || cantidad > stockRestante) {
+      setShowNoStockModal(true);
       return;
     }
 
+    // Abrir modal de selección de método de pago
+    setShowPaymentMethodModal(true);
+  };
+
+  // Manejar selección de Nequi
+  const handleSelectNequi = (color) => {
+    setColorParaNequi(color);
+    setColorSeleccionado(color);
+    setShowPaymentMethodModal(false);
+    setShowNequiModal(true);
+  };
+
+  // Manejar selección de ePayco (flujo normal al carrito)
+  const handleSelectEpayco = async (color) => {
+    if (color) {
+      setColorSeleccionado(color);
+    }
+
+    setShowPaymentMethodModal(false);
+
+    // Verificar si hay variaciones
     if (tieneVariaciones && !variacionSeleccionada) {
       toast.warning("Por favor selecciona una variación", {
         title: "Variación Requerida",
@@ -109,11 +146,10 @@ export default function AddToCartButton({ producto }) {
     const stockActual = await checkStock(producto.id);
 
     // Calcular cuántos productos de este tipo ya están en el carrito
-    // Considerar tanto la variación como el color seleccionado
     const cantidadEnCarrito = cart.reduce((total, item) => {
       if (
         item.id === producto.id &&
-        JSON.stringify(item.variacion) === JSON.stringify(variacionSeleccionada || colorSeleccionado)
+        JSON.stringify(item.variacion) === JSON.stringify(variacionSeleccionada || color)
       ) {
         return total + item.cantidad;
       }
@@ -135,7 +171,7 @@ export default function AddToCartButton({ producto }) {
     }
 
     // Usar color seleccionado como variación si existe, sino usar variación normal
-    const variacionFinal = colorSeleccionado || variacionSeleccionada;
+    const variacionFinal = color || variacionSeleccionada;
 
     const success = await addToCart(
       productData,
@@ -166,7 +202,6 @@ export default function AddToCartButton({ producto }) {
       setShowSuccess(false);
       setCantidad(1);
       setVariacionSeleccionada(null);
-      // No resetear el color seleccionado para facilitar múltiples compras del mismo color
     }, 2000);
   };
 
@@ -226,16 +261,7 @@ export default function AddToCartButton({ producto }) {
       `}</style>
 
       <div className="space-y-3">
-        {/* Selector de colores si hay disponibles */}
-        {coloresDisponibles.length > 0 && (
-          <ProductColorPicker
-            coloresDisponibles={coloresDisponibles}
-            colorSeleccionado={colorSeleccionado}
-            onColorChange={setColorSeleccionado}
-          />
-        )}
-
-        {/* Selector de variaciones si existen */}
+        {/* Selector de variaciones si existen (NO colores, esos van en el modal) */}
         {tieneVariaciones && (
         <div className="space-y-2">
           <div className="text-sm font-medium text-gray-700">
@@ -297,14 +323,12 @@ export default function AddToCartButton({ producto }) {
 
       {/* Botón de agregar al carrito */}
       <button
-        onClick={handleAddToCart}
-        disabled={showSuccess || (coloresDisponibles.length > 0 && !colorSeleccionado)}
+        onClick={handleOpenPaymentModal}
+        disabled={showSuccess}
         className={`w-full flex items-center justify-center gap-2 px-4 py-4 rounded-lg font-medium transition-all buzz-interval ${
           showSuccess
             ? "bg-green-500 text-white"
-            : (coloresDisponibles.length > 0 && !colorSeleccionado)
-              ? "bg-gray-400 text-white cursor-not-allowed"
-              : "bg-blue-600 text-white hover:bg-blue-700 active:scale-95"
+            : "bg-blue-600 text-white hover:bg-blue-700 active:scale-95"
         }`}
       >
         {showSuccess ? (
@@ -412,6 +436,31 @@ export default function AddToCartButton({ producto }) {
           </div>
         </div>
       )}
+
+      {/* Modal de Selección de Método de Pago */}
+      <PaymentMethodModal
+        isOpen={showPaymentMethodModal}
+        onClose={() => setShowPaymentMethodModal(false)}
+        producto={producto}
+        coloresDisponibles={coloresDisponibles}
+        colorInicial={colorSeleccionado}
+        cantidad={cantidad}
+        descuento={5}
+        onSelectNequi={handleSelectNequi}
+        onSelectEpayco={handleSelectEpayco}
+      />
+
+      {/* Modal de Instrucciones Nequi */}
+      <NequiPaymentModal
+        isOpen={showNequiModal}
+        onClose={() => setShowNequiModal(false)}
+        producto={producto}
+        colorSeleccionado={colorParaNequi}
+        cantidad={cantidad}
+        descuento={5}
+        numeroNequi="3174503604"
+        nombreNegocio="Neurai.dev"
+      />
       </div>
     </>
   );

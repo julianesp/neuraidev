@@ -7,6 +7,7 @@ import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { getProductImage } from "@/lib/constants";
 import EpaycoCheckout from "../EpaycoCheckout";
+import CartPaymentMethodModal from "../CartPaymentMethodModal";
 import styles from "./ShoppingCart.module.scss";
 
 export default function ShoppingCart() {
@@ -21,6 +22,7 @@ export default function ShoppingCart() {
   } = useCart();
   const toast = useToast();
   const [showCheckout, setShowCheckout] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   // Debug: Log cart state
   // console.log(
@@ -400,7 +402,7 @@ export default function ShoppingCart() {
                     <div className="space-y-3">
                       {/* Botón para proceder al pago */}
                       <button
-                        onClick={() => setShowCheckout(true)}
+                        onClick={() => setShowPaymentModal(true)}
                         className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
                       >
                         <svg
@@ -411,7 +413,7 @@ export default function ShoppingCart() {
                           <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
                         </svg>
                         Proceder al Pago
-                        <span className="text-xs opacity-80">(Todos los métodos de pago)</span>
+                        <span className="text-xs opacity-80">(Nequi o ePayco)</span>
                       </button>
 
                       {/* Separador */}
@@ -447,6 +449,21 @@ export default function ShoppingCart() {
           )}
         </div>
       </div>
+
+      {/* Modal de Selección de Método de Pago */}
+      <CartPaymentMethodModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        cart={cart}
+        totalPrice={getTotalPrice()}
+        descuento={5}
+        numeroNequi="3174503604"
+        nombreNegocio="Neurai.dev"
+        onSelectEpayco={() => {
+          setShowPaymentModal(false);
+          setShowCheckout(true);
+        }}
+      />
     </>
   );
 }

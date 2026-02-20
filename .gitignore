@@ -136,6 +136,26 @@ vercel.json
 *.log
 *.sql
 
+# ============================================
+# PLANTILLAS Y ARCHIVOS DE IMPORTACIÓN
+# ============================================
+# Plantillas de productos y datos
+PLANTILLA-*.csv
+PLANTILLA-*.xlsx
+plantilla-*.csv
+plantilla-*.xlsx
+*calculo*.xlsx
+*calculo*.csv
+
+# Scripts de importación y utilidades (desarrollo local)
+scripts/check-products-schema.js
+scripts/import-from-calculo-precios.js
+scripts/import-products-from-excel.js
+scripts/list-recent-products.js
+scripts/migrate-static-blog-posts.js
+scripts/setup-blog-cms.js
+scripts/verify-blog-cms.js
+
 # Directorio de build y output
 dist/
 build/

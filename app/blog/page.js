@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getPublishedPosts, getCategories } from "@/lib/supabase/blog";
 
 export const metadata = {
   title: "Blog de Tecnología | Neurai.dev",
@@ -17,56 +18,9 @@ export const metadata = {
   },
 };
 
-export default function Blog() {
-  const articles = [
-    {
-      slug: "como-elegir-computador-2025",
-      title: "Cómo Elegir el Mejor Computador en 2025: Guía Completa",
-      excerpt: "Descubre los factores clave para elegir el computador perfecto según tu presupuesto y necesidades. Aprende sobre procesadores, tarjetas gráficas, almacenamiento, RAM y más.",
-      category: "Guías de Compra",
-      date: "2025-01-15",
-      readTime: "14 min",
-      image: "/images/blog/como-elegir-computador-2025.jpg",
-    },
-    {
-      slug: "mantenimiento-computador-guia-completa",
-      title: "Mantenimiento de Computadores: Guía Completa 2025",
-      excerpt: "Todo lo que necesitas saber sobre el mantenimiento preventivo y correctivo de tu PC. Consejos prácticos para mantener tu equipo funcionando como nuevo.",
-      category: "Tutoriales",
-      date: "2025-01-12",
-      readTime: "10 min",
-      image: "/images/blog/mantenimiento-pc.jpg",
-    },
-    {
-      slug: "ssd-vs-hdd-cual-elegir",
-      title: "SSD vs HDD: ¿Cuál Necesitas Realmente?",
-      excerpt: "Análisis detallado de las diferencias entre discos SSD y HDD. Conoce las ventajas, desventajas y cuál es la mejor opción para tu caso específico.",
-      category: "Hardware",
-      date: "2025-01-10",
-      readTime: "7 min",
-      image: "/images/blog/ssd-hdd.jpg",
-    },
-    {
-      slug: "ram-ddr4-vs-ddr5",
-      title: "RAM DDR4 vs DDR5: ¿Vale la Pena el Upgrade?",
-      excerpt: "Comparativa exhaustiva entre memoria RAM DDR4 y DDR5. Rendimiento, compatibilidad, precios y recomendaciones para diferentes usos.",
-      category: "Hardware",
-      date: "2025-01-08",
-      readTime: "6 min",
-      image: "/images/blog/ram-comparison.jpg",
-    },
-    {
-      slug: "desarrollo-web-pequeños-negocios",
-      title: "Desarrollo Web para Pequeños Negocios: Guía Práctica",
-      excerpt: "¿Tu negocio necesita una página web? Descubre los beneficios, costos y qué considerar antes de crear tu presencia online.",
-      category: "Desarrollo Web",
-      date: "2025-01-05",
-      readTime: "9 min",
-      image: "/images/blog/web-development.jpg",
-    },
-  ];
-
-  const categories = ["Todos", "Guías de Compra", "Tutoriales", "Hardware", "Desarrollo Web", "Noticias"];
+export default async function Blog() {
+  const articles = await getPublishedPosts();
+  const categories = await getCategories();
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -120,7 +74,7 @@ export default function Blog() {
                     {article.category}
                   </span>
                   <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {article.readTime}
+                    {article.read_time ? `${article.read_time} min` : ""}
                   </span>
                 </div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -130,7 +84,7 @@ export default function Blog() {
                   {article.excerpt}
                 </p>
                 <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                  <span>{new Date(article.date).toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                  <span>{new Date(article.published_at || article.created_at).toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                 </div>
               </div>
             </Link>
