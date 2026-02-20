@@ -108,7 +108,7 @@ export default function AnalyticsPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-8 mt-12">
           <Link
             href="/admin"
             className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 mb-4"
