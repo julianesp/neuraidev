@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseBrowserClient } from '@/lib/db';
+import { getSupabaseServerClient } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
 
 // Función para transformar facturas de formato DB a formato Frontend
@@ -64,10 +64,14 @@ export async function GET(request) {
     const valorMax = searchParams.get('valor_max');
     const clienteId = searchParams.get('cliente_id');
     const metodoPago = searchParams.get('metodo_pago');
-    const limit = parseInt(searchParams.get('limit') || '50');
+    const limit = parseInt(searchParams.get('limit') || '1000'); // Aumentado de 50 a 1000
     const offset = parseInt(searchParams.get('offset') || '0');
 
-    const supabase = getSupabaseBrowserClient();
+    console.log('🔍 [API] GET /api/facturas llamado con filtros:', {
+      busqueda, mes, valorMin, valorMax, metodoPago, limit, offset
+    });
+
+    const supabase = getSupabaseServerClient(); // Cambiado a SERVER_ROLE_KEY para evitar RLS
     let query = supabase
       .from('facturas')
       .select('*', { count: 'exact' })
@@ -83,8 +87,9 @@ export async function GET(request) {
     if (mes) {
       const [year, month] = mes.split('-');
       const firstDay = `${year}-${month}-01T00:00:00`;
-      const lastDay = new Date(year, month, 0);
-      const lastDayStr = `${year}-${month}-${lastDay.getDate()}T23:59:59`;
+      // Obtener el último día del mes correctamente
+      const lastDay = new Date(parseInt(year), parseInt(month), 0);
+      const lastDayStr = `${year}-${month}-${String(lastDay.getDate()).padStart(2, '0')}T23:59:59`;
       query = query.gte('fecha', firstDay).lte('fecha', lastDayStr);
     }
 
@@ -117,8 +122,18 @@ export async function GET(request) {
     const { data: facturas, error, count } = await query;
 
     if (error) {
-      console.error('Error obteniendo facturas:', error);
+      console.error('❌ [API] Error obteniendo facturas:', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    console.log(`✅ [API] Facturas encontradas: ${facturas?.length || 0} (total en DB: ${count})`);
+
+    if (facturas && facturas.length > 0) {
+      console.log('📋 [API] Primera factura:', {
+        numero: facturas[0].numero_factura,
+        cliente: facturas[0].cliente_nombre,
+        fecha: facturas[0].fecha
+      });
     }
 
     // Transformar todas las facturas al formato frontend
@@ -176,7 +191,7 @@ export async function POST(request) {
       }, { status: 400 });
     }
 
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseServerClient();
 
     // Calcular subtotal
     const subtotal = parseFloat(total) + parseFloat(descuentoMonto || 0);
@@ -271,7 +286,7 @@ export async function PUT(request) {
       }, { status: 400 });
     }
 
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseServerClient();
 
     // Calcular subtotal
     const subtotal = parseFloat(total) + parseFloat(descuentoMonto || 0);
@@ -346,7 +361,7 @@ export async function DELETE(request) {
       }, { status: 400 });
     }
 
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseServerClient();
 
     const { error: errorFactura } = await supabase
       .from('facturas')

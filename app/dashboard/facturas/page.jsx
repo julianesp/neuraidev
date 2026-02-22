@@ -31,14 +31,44 @@ export default function FacturasPage() {
       if (valorMax) params.append('valor_max', valorMax);
       if (metodoPago) params.append('metodo_pago', metodoPago);
 
-      const res = await fetch(`/api/facturas?${params.toString()}`);
-      if (!res.ok) throw new Error('Error cargando facturas');
+      // Agregar timestamp para evitar caché
+      params.append('_t', Date.now().toString());
+
+      console.log('🔍 Cargando facturas con filtros:', {
+        busqueda,
+        mes,
+        valorMin,
+        valorMax,
+        metodoPago,
+        url: `/api/facturas?${params.toString()}`
+      });
+
+      const res = await fetch(`/api/facturas?${params.toString()}`, {
+        cache: 'no-store', // Forzar sin caché
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error('❌ Error HTTP:', res.status, errorText);
+        throw new Error('Error cargando facturas');
+      }
 
       const data = await res.json();
+      console.log('✅ Facturas recibidas:', data.facturas?.length || 0);
+      console.log('📊 Stats:', data.stats);
+
+      if (data.facturas) {
+        console.log('📋 Primera factura:', data.facturas[0]);
+      }
+
       setFacturas(data.facturas || []);
       setStats(data.stats || null);
     } catch (error) {
-      console.error('Error:', error);
+      console.error('❌ Error cargando facturas:', error);
+      alert('Error al cargar facturas: ' + error.message);
     } finally {
       setLoading(false);
     }

@@ -15,18 +15,34 @@ import {
   XCircle,
   Clock,
   RefreshCw,
-  Eye
+  Eye,
+  Download,
+  DollarSign,
+  TrendingUp,
+  Filter
 } from "lucide-react";
 import Link from "next/link";
+import { jsPDF } from "jspdf";
 
 export default function PedidosNequiPage() {
   const { user, isLoaded } = useUser();
   const [userIsAdmin, setUserIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pedidos, setPedidos] = useState([]);
-  const [filtro, setFiltro] = useState('pendiente');
+  const [filtro, setFiltro] = useState('todos');
+  const [periodoFiltro, setPeriodoFiltro] = useState('todos'); // hoy, semana, mes, personalizado
+  const [mesSeleccionado, setMesSeleccionado] = useState('');
+  const [fechaInicio, setFechaInicio] = useState('');
+  const [fechaFin, setFechaFin] = useState('');
   const [processingOrder, setProcessingOrder] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [estadisticas, setEstadisticas] = useState({
+    totalVentas: 0,
+    totalIngresos: 0,
+    pedidosConfirmados: 0,
+    pedidosPendientes: 0,
+    productosVendidos: 0
+  });
 
   // Verificar permisos de admin
   useEffect(() => {
@@ -46,7 +62,7 @@ export default function PedidosNequiPage() {
     checkAdmin();
   }, [isLoaded, user]);
 
-  // Cargar pedidos
+  // Cargar pedidos con filtros
   const loadPedidos = async () => {
     setLoading(true);
     try {
@@ -57,8 +73,52 @@ export default function PedidosNequiPage() {
         .select('*')
         .order('created_at', { ascending: false });
 
+      // Filtro por estado
       if (filtro !== 'todos') {
         query = query.eq('estado', filtro);
+      }
+
+      // Filtro por período
+      if (periodoFiltro !== 'todos') {
+        const now = new Date();
+        let startDate;
+
+        switch (periodoFiltro) {
+          case 'hoy':
+            startDate = new Date(now.setHours(0, 0, 0, 0));
+            query = query.gte('created_at', startDate.toISOString());
+            break;
+
+          case 'semana':
+            startDate = new Date(now.setDate(now.getDate() - 7));
+            query = query.gte('created_at', startDate.toISOString());
+            break;
+
+          case 'mes':
+            startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+            query = query.gte('created_at', startDate.toISOString());
+            break;
+
+          case 'mes-especifico':
+            if (mesSeleccionado) {
+              const [year, month] = mesSeleccionado.split('-');
+              const start = new Date(parseInt(year), parseInt(month) - 1, 1);
+              const end = new Date(parseInt(year), parseInt(month), 0, 23, 59, 59);
+              query = query.gte('created_at', start.toISOString()).lte('created_at', end.toISOString());
+            }
+            break;
+
+          case 'personalizado':
+            if (fechaInicio) {
+              query = query.gte('created_at', new Date(fechaInicio).toISOString());
+            }
+            if (fechaFin) {
+              const endDate = new Date(fechaFin);
+              endDate.setHours(23, 59, 59);
+              query = query.lte('created_at', endDate.toISOString());
+            }
+            break;
+        }
       }
 
       const { data, error } = await query;
@@ -69,6 +129,7 @@ export default function PedidosNequiPage() {
       }
 
       setPedidos(data || []);
+      calcularEstadisticas(data || []);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -76,12 +137,144 @@ export default function PedidosNequiPage() {
     }
   };
 
-  // Recargar al cambiar filtro
+  // Calcular estadísticas
+  const calcularEstadisticas = (pedidosData) => {
+    const confirmados = pedidosData.filter(p => p.estado === 'confirmado');
+    const pendientes = pedidosData.filter(p => p.estado === 'pendiente');
+
+    const totalIngresos = confirmados.reduce((sum, p) => sum + parseFloat(p.total_con_descuento || 0), 0);
+    const productosVendidos = confirmados.reduce((sum, p) => {
+      return sum + p.productos.reduce((pSum, prod) => pSum + prod.cantidad, 0);
+    }, 0);
+
+    setEstadisticas({
+      totalVentas: confirmados.length,
+      totalIngresos: totalIngresos,
+      pedidosConfirmados: confirmados.length,
+      pedidosPendientes: pendientes.length,
+      productosVendidos: productosVendidos
+    });
+  };
+
+  // Recargar al cambiar filtros
   useEffect(() => {
     if (userIsAdmin) {
       loadPedidos();
     }
-  }, [filtro]);
+  }, [filtro, periodoFiltro, mesSeleccionado, fechaInicio, fechaFin]);
+
+  // Generar y descargar reporte PDF
+  const descargarReportePDF = () => {
+    try {
+      const doc = new jsPDF();
+
+      // Header
+      doc.setFillColor(147, 51, 234);
+      doc.rect(0, 0, 210, 40, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(20);
+      doc.setFont(undefined, 'bold');
+      doc.text('REPORTE DE VENTAS NEQUI', 105, 20, { align: 'center' });
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'normal');
+      doc.text('Neurai.dev', 105, 30, { align: 'center' });
+
+      let y = 50;
+
+      // Período
+      doc.setTextColor(31, 41, 55);
+      doc.setFontSize(10);
+      let periodoTexto = 'Todos los tiempos';
+      if (periodoFiltro === 'mes-especifico' && mesSeleccionado) {
+        const [year, month] = mesSeleccionado.split('-');
+        const fecha = new Date(parseInt(year), parseInt(month) - 1);
+        periodoTexto = fecha.toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
+      } else if (periodoFiltro !== 'todos') {
+        periodoTexto = periodoFiltro.charAt(0).toUpperCase() + periodoFiltro.slice(1);
+      }
+      doc.text(`Periodo: ${periodoTexto}`, 20, y);
+      doc.text(`Generado: ${new Date().toLocaleString('es-CO')}`, 20, y + 7);
+
+      y += 20;
+
+      // Estadísticas
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'bold');
+      doc.text('RESUMEN', 20, y);
+      y += 10;
+
+      doc.setFontSize(10);
+      doc.setFont(undefined, 'normal');
+      doc.text(`Total de ventas confirmadas: ${estadisticas.totalVentas}`, 20, y);
+      y += 7;
+      doc.text(`Ingresos totales: $${estadisticas.totalIngresos.toLocaleString('es-CO')}`, 20, y);
+      y += 7;
+      doc.text(`Productos vendidos: ${estadisticas.productosVendidos}`, 20, y);
+      y += 7;
+      doc.text(`Pedidos pendientes: ${estadisticas.pedidosPendientes}`, 20, y);
+
+      y += 15;
+
+      // Lista de pedidos confirmados
+      const pedidosConfirmados = pedidos.filter(p => p.estado === 'confirmado');
+
+      if (pedidosConfirmados.length > 0) {
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        doc.text('DETALLE DE VENTAS', 20, y);
+        y += 10;
+
+        doc.setFontSize(8);
+        doc.setFont(undefined, 'normal');
+
+        pedidosConfirmados.forEach((pedido, index) => {
+          if (y > 260) {
+            doc.addPage();
+            y = 20;
+          }
+
+          doc.setFont(undefined, 'bold');
+          doc.text(`${index + 1}. ${pedido.numero_factura}`, 20, y);
+          y += 5;
+
+          doc.setFont(undefined, 'normal');
+          doc.text(`Fecha: ${new Date(pedido.confirmed_at || pedido.created_at).toLocaleDateString('es-CO')}`, 25, y);
+          y += 5;
+          doc.text(`Email: ${pedido.email}`, 25, y);
+          y += 5;
+          doc.text(`Total: $${parseFloat(pedido.total_con_descuento).toLocaleString('es-CO')}`, 25, y);
+          y += 5;
+
+          pedido.productos.forEach((prod) => {
+            if (y > 260) {
+              doc.addPage();
+              y = 20;
+            }
+            doc.text(`- ${prod.nombre} (x${prod.cantidad})`, 30, y);
+            y += 4;
+          });
+
+          y += 3;
+        });
+      }
+
+      // Footer
+      doc.setFillColor(109, 40, 217);
+      doc.rect(0, 280, 210, 17, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(8);
+      doc.text('Neurai.dev - Reporte generado automaticamente', 105, 290, { align: 'center' });
+
+      // Guardar
+      const nombreArchivo = `Reporte_Ventas_Nequi_${periodoTexto.replace(/\s/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+      doc.save(nombreArchivo);
+
+      alert('✅ Reporte descargado exitosamente');
+    } catch (error) {
+      console.error('Error generando reporte:', error);
+      alert('Error al generar el reporte');
+    }
+  };
 
   // Confirmar pedido
   const confirmarPedido = async (orderId) => {
@@ -144,6 +337,21 @@ export default function PedidosNequiPage() {
     }
   };
 
+  // Generar opciones de meses (últimos 12 meses)
+  const generarOpcionesMeses = () => {
+    const opciones = [];
+    const now = new Date();
+
+    for (let i = 0; i < 12; i++) {
+      const fecha = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const valor = `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2, '0')}`;
+      const texto = fecha.toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
+      opciones.push({ valor, texto });
+    }
+
+    return opciones;
+  };
+
   if (!isLoaded || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -182,16 +390,160 @@ export default function PedidosNequiPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-            <Package className="w-8 h-8 text-purple-600" />
-            Pedidos Nequi
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Gestiona y confirma los pedidos realizados con pago Nequi
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                <Package className="w-8 h-8 text-purple-600" />
+                Ventas con Nequi
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                Gestiona pedidos y descarga reportes de ventas
+              </p>
+            </div>
+            <button
+              onClick={descargarReportePDF}
+              className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center gap-2 shadow-lg"
+            >
+              <Download className="w-5 h-5" />
+              Descargar Reporte PDF
+            </button>
+          </div>
         </div>
 
-        {/* Filtros */}
+        {/* Filtros de Período */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Filter className="w-5 h-5 text-purple-600" />
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+              Filtrar por Período
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+            {['todos', 'hoy', 'semana', 'mes', 'mes-especifico', 'personalizado'].map((periodo) => (
+              <button
+                key={periodo}
+                onClick={() => setPeriodoFiltro(periodo)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  periodoFiltro === periodo
+                    ? 'bg-purple-600 text-white shadow-md'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                {periodo === 'todos' && 'Todo el historial'}
+                {periodo === 'hoy' && 'Hoy'}
+                {periodo === 'semana' && 'Esta semana'}
+                {periodo === 'mes' && 'Este mes'}
+                {periodo === 'mes-especifico' && 'Mes específico'}
+                {periodo === 'personalizado' && 'Rango personalizado'}
+              </button>
+            ))}
+          </div>
+
+          {/* Selector de mes específico */}
+          {periodoFiltro === 'mes-especifico' && (
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Selecciona el mes:
+              </label>
+              <select
+                value={mesSeleccionado}
+                onChange={(e) => setMesSeleccionado(e.target.value)}
+                className="w-full md:w-auto px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:border-purple-600 focus:outline-none"
+              >
+                <option value="">Selecciona un mes...</option>
+                {generarOpcionesMeses().map(({ valor, texto }) => (
+                  <option key={valor} value={valor}>
+                    {texto.charAt(0).toUpperCase() + texto.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Rango personalizado */}
+          {periodoFiltro === 'personalizado' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Fecha inicial:
+                </label>
+                <input
+                  type="date"
+                  value={fechaInicio}
+                  onChange={(e) => setFechaInicio(e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:border-purple-600 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Fecha final:
+                </label>
+                <input
+                  type="date"
+                  value={fechaFin}
+                  onChange={(e) => setFechaFin(e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:border-purple-600 focus:outline-none"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Estadísticas del período */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+          <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl p-6 text-white">
+            <div className="flex items-center justify-between mb-2">
+              <DollarSign className="w-8 h-8" />
+            </div>
+            <p className="text-sm opacity-90 mb-1">Ingresos Totales</p>
+            <p className="text-3xl font-bold">
+              ${estadisticas.totalIngresos.toLocaleString('es-CO')}
+            </p>
+          </div>
+
+          <div className="bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6">
+            <div className="flex items-center justify-between mb-2">
+              <CheckCircle className="w-8 h-8 text-green-600" />
+            </div>
+            <p className="text-sm text-green-600 dark:text-green-400 mb-1">Ventas Confirmadas</p>
+            <p className="text-3xl font-bold text-green-700 dark:text-green-300">
+              {estadisticas.totalVentas}
+            </p>
+          </div>
+
+          <div className="bg-orange-50 dark:bg-orange-900/20 border-2 border-orange-200 dark:border-orange-800 rounded-xl p-6">
+            <div className="flex items-center justify-between mb-2">
+              <Clock className="w-8 h-8 text-orange-600" />
+            </div>
+            <p className="text-sm text-orange-600 dark:text-orange-400 mb-1">Pendientes</p>
+            <p className="text-3xl font-bold text-orange-700 dark:text-orange-300">
+              {estadisticas.pedidosPendientes}
+            </p>
+          </div>
+
+          <div className="bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl p-6">
+            <div className="flex items-center justify-between mb-2">
+              <Package className="w-8 h-8 text-blue-600" />
+            </div>
+            <p className="text-sm text-blue-600 dark:text-blue-400 mb-1">Productos Vendidos</p>
+            <p className="text-3xl font-bold text-blue-700 dark:text-blue-300">
+              {estadisticas.productosVendidos}
+            </p>
+          </div>
+
+          <div className="bg-purple-50 dark:bg-purple-900/20 border-2 border-purple-200 dark:border-purple-800 rounded-xl p-6">
+            <div className="flex items-center justify-between mb-2">
+              <TrendingUp className="w-8 h-8 text-purple-600" />
+            </div>
+            <p className="text-sm text-purple-600 dark:text-purple-400 mb-1">Ticket Promedio</p>
+            <p className="text-3xl font-bold text-purple-700 dark:text-purple-300">
+              ${estadisticas.totalVentas > 0 ? Math.round(estadisticas.totalIngresos / estadisticas.totalVentas).toLocaleString('es-CO') : '0'}
+            </p>
+          </div>
+        </div>
+
+        {/* Filtros por Estado */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 mb-6">
           <div className="flex flex-wrap gap-2">
             {['todos', 'pendiente', 'confirmado', 'cancelado', 'expirado'].map((estado) => (
@@ -215,63 +567,12 @@ export default function PedidosNequiPage() {
           </div>
         </div>
 
-        {/* Estadísticas rápidas */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-orange-600 dark:text-orange-400 mb-1">Pendientes</p>
-                <p className="text-2xl font-bold text-orange-700 dark:text-orange-300">
-                  {pedidos.filter(p => p.estado === 'pendiente').length}
-                </p>
-              </div>
-              <Clock className="w-8 h-8 text-orange-500" />
-            </div>
-          </div>
-
-          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-green-600 dark:text-green-400 mb-1">Confirmados</p>
-                <p className="text-2xl font-bold text-green-700 dark:text-green-300">
-                  {pedidos.filter(p => p.estado === 'confirmado').length}
-                </p>
-              </div>
-              <CheckCircle className="w-8 h-8 text-green-500" />
-            </div>
-          </div>
-
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-red-600 dark:text-red-400 mb-1">Cancelados</p>
-                <p className="text-2xl font-bold text-red-700 dark:text-red-300">
-                  {pedidos.filter(p => p.estado === 'cancelado').length}
-                </p>
-              </div>
-              <XCircle className="w-8 h-8 text-red-500" />
-            </div>
-          </div>
-
-          <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {pedidos.length}
-                </p>
-              </div>
-              <Package className="w-8 h-8 text-gray-500" />
-            </div>
-          </div>
-        </div>
-
         {/* Lista de pedidos */}
         {pedidos.length === 0 ? (
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-12 text-center">
             <Package className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              No hay pedidos {filtro !== 'todos' ? filtro + 's' : ''}
+              No hay pedidos {filtro !== 'todos' ? filtro + 's' : ''} en este período
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               Los pedidos aparecerán aquí cuando los clientes realicen compras con Nequi
