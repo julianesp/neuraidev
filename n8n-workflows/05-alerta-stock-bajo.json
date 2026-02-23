@@ -1,0 +1,239 @@
+{
+  "name": "05 - Alertas de Stock Bajo",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "product-low-stock",
+        "options": {},
+        "responseMode": "responseNode",
+        "httpMethod": "POST"
+      },
+      "id": "webhook-low-stock",
+      "name": "Webhook: Stock Bajo",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 400],
+      "webhookId": "product-low-stock"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.data.stock }}",
+              "operation": "equal",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "check-if-out-of-stock",
+      "name": "¿Stock = 0?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "Producto",
+        "where": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "keyValue": "={{ $node['Webhook: Stock Bajo'].json.data.productId }}"
+            }
+          ]
+        },
+        "columnsUi": {
+          "columnValues": [
+            {
+              "column": "disponible",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "id": "pause-product",
+      "name": "Pausar Producto",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "1",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{ $env.TELEGRAM_CHAT_ID }}"
+            },
+            {
+              "name": "text",
+              "value": "🚨 *ALERTA: PRODUCTO SIN STOCK*\\n\\n📦 Producto: {{ $node['Webhook: Stock Bajo'].json.data.nombre }}\\nID: {{ $node['Webhook: Stock Bajo'].json.data.productId }}\\nCategoría: {{ $node['Webhook: Stock Bajo'].json.data.categoria }}\\n\\n❌ Stock: 0 unidades\\n⏸️ Producto pausado automáticamente\\n\\n⚠️ Acción requerida: Reabastecer inventario"
+            },
+            {
+              "name": "parse_mode",
+              "value": "Markdown"
+            }
+          ]
+        }
+      },
+      "id": "alert-out-of-stock",
+      "name": "Alerta Crítica: Sin Stock",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{ $env.TELEGRAM_CHAT_ID }}"
+            },
+            {
+              "name": "text",
+              "value": "⚠️ *Alerta: Stock Bajo*\\n\\n📦 Producto: {{ $node['Webhook: Stock Bajo'].json.data.nombre }}\\nID: {{ $node['Webhook: Stock Bajo'].json.data.productId }}\\nCategoría: {{ $node['Webhook: Stock Bajo'].json.data.categoria }}\\n\\n📊 Stock actual: {{ $node['Webhook: Stock Bajo'].json.data.stock }} unidades\\n\\n💡 Considera reabastecer pronto"
+            },
+            {
+              "name": "parse_mode",
+              "value": "Markdown"
+            }
+          ]
+        }
+      },
+      "id": "alert-low-stock",
+      "name": "Alerta: Stock Bajo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [650, 500]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.RESEND_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "from",
+              "value": "Neurai.dev Alerts <noreply@neurai.dev>"
+            },
+            {
+              "name": "to",
+              "value": "={{ $env.ADMIN_EMAILS }}"
+            },
+            {
+              "name": "subject",
+              "value": "🚨 Producto sin stock: {{ $node['Webhook: Stock Bajo'].json.data.nombre }}"
+            },
+            {
+              "name": "html",
+              "value": "<div style='font-family: Arial, sans-serif; max-width: 600px;'><h1 style='color: #d32f2f; border-left: 4px solid #d32f2f; padding-left: 10px;'>⚠️ Producto Sin Stock</h1><div style='background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0;'><h2 style='margin-top: 0;'>{{ $node['Webhook: Stock Bajo'].json.data.nombre }}</h2><p><strong>ID:</strong> {{ $node['Webhook: Stock Bajo'].json.data.productId }}</p><p><strong>Categoría:</strong> {{ $node['Webhook: Stock Bajo'].json.data.categoria }}</p><p style='font-size: 24px; color: #d32f2f; margin: 20px 0;'><strong>Stock: 0 unidades</strong></p></div><div style='background: #f5f5f5; padding: 15px; border-radius: 5px;'><p style='margin: 0;'><strong>✅ Acción tomada:</strong> Producto pausado automáticamente</p><p style='margin: 10px 0 0 0;'><strong>📋 Acción requerida:</strong> Reabastecer inventario</p></div></div>"
+            }
+          ]
+        }
+      },
+      "id": "send-critical-email",
+      "name": "Email Crítico",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, message: 'Alerta procesada', stock: $node['Webhook: Stock Bajo'].json.data.stock } }}"
+      },
+      "id": "webhook-response",
+      "name": "Responder Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [850, 600]
+    }
+  ],
+  "connections": {
+    "Webhook: Stock Bajo": {
+      "main": [
+        [
+          {
+            "node": "¿Stock = 0?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Responder Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Stock = 0?": {
+      "main": [
+        [
+          {
+            "node": "Pausar Producto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Alerta: Stock Bajo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pausar Producto": {
+      "main": [
+        [
+          {
+            "node": "Alerta Crítica: Sin Stock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alerta Crítica: Sin Stock": {
+      "main": [
+        [
+          {
+            "node": "Email Crítico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "tags": ["inventory", "alerts", "automation"]
+}

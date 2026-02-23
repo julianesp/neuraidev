@@ -18,12 +18,12 @@
   visibility: hidden;
   transform: translateY(20px);
   // Separate transitions for better control
-  transition: 
-    opacity 0.3s ease, 
-    visibility 0.3s ease, 
-    transform 0.3s ease, 
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease,
+    transform 0.3s ease,
     background-color 0.3s ease;
-  z-index: 9999; // Increased z-index to ensure it's above other elements
+  z-index: 10001; // Highest z-index - must be above accessibility and theme buttons
 
   &:hover {
     background-color: #374151; // Un tono más oscuro al hacer hover

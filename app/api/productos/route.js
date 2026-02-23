@@ -78,6 +78,7 @@ export async function GET(request) {
 
 /**
  * POST /api/productos - Crear nuevo producto
+ * Opcionalmente envía notificaciones a suscriptores
  */
 export async function POST(request) {
   try {
@@ -92,6 +93,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
+    const { send_notifications = true, ...productoData } = body;
 
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
@@ -99,7 +101,7 @@ export async function POST(request) {
     // Insertar producto
     const { data, error } = await supabase
       .from('products')
-      .insert([body])
+      .insert([productoData])
       .select()
       .single();
 
@@ -111,7 +113,55 @@ export async function POST(request) {
       );
     }
 
-    return NextResponse.json(data, { status: 201 });
+    console.log('✅ [API] Producto creado:', data.id);
+
+    // Enviar notificaciones automáticamente si está habilitado
+    let notificationResult = null;
+    if (send_notifications && data) {
+      try {
+        console.log('📧 [API] Enviando notificaciones para producto:', data.nombre);
+
+        // Llamar al endpoint de notificaciones
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+        const notificationResponse = await fetch(`${baseUrl}/api/notifications/send-new-product`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Pasar el token de autenticación para que la API de notificaciones
+            // pueda verificar que es una llamada interna autorizada
+            'Authorization': `Bearer ${userId}`,
+          },
+          body: JSON.stringify({
+            producto: {
+              id: data.id,
+              nombre: data.nombre,
+              descripcion: data.descripcion,
+              precio: data.precio,
+              categoria: data.categoria,
+              imagenes: data.imagenes,
+            },
+          }),
+        });
+
+        if (notificationResponse.ok) {
+          notificationResult = await notificationResponse.json();
+          console.log('✅ [API] Notificaciones enviadas:', notificationResult.notificaciones_enviadas);
+        } else {
+          console.warn('⚠️ [API] Error enviando notificaciones:', await notificationResponse.text());
+        }
+      } catch (notificationError) {
+        // No fallar la creación del producto si las notificaciones fallan
+        console.error('⚠️ [API] Error al enviar notificaciones (no crítico):', notificationError);
+      }
+    }
+
+    return NextResponse.json({
+      ...data,
+      _notifications: notificationResult ? {
+        enviadas: notificationResult.notificaciones_enviadas || 0,
+        fallidas: notificationResult.notificaciones_fallidas || 0,
+      } : null,
+    }, { status: 201 });
 
   } catch (error) {
     console.error('❌ [API] Error inesperado:', error);

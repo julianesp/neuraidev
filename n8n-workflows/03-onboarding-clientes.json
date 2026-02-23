@@ -1,0 +1,311 @@
+{
+  "name": "03 - Onboarding de Nuevos Clientes",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "user-created",
+        "options": {},
+        "responseMode": "responseNode",
+        "httpMethod": "POST"
+      },
+      "id": "webhook-user-created",
+      "name": "Webhook: Usuario Nuevo",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 400],
+      "webhookId": "user-created"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.RESEND_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "from",
+              "value": "Neurai.dev <noreply@neurai.dev>"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.data.email }}"
+            },
+            {
+              "name": "subject",
+              "value": "¡Bienvenido a Neurai.dev! 🎉"
+            },
+            {
+              "name": "html",
+              "value": "<h1>¡Hola {{ $json.data.firstName }}!</h1><p>Nos alegra tenerte en Neurai.dev.</p><p>Tu cuenta ha sido creada exitosamente.</p><h2>¿Qué puedes hacer ahora?</h2><ul><li>Explorar nuestros productos</li><li>Guardar tus favoritos</li><li>Recibir ofertas exclusivas</li></ul><p>En los próximos días te enviaremos tips para aprovechar al máximo nuestra tienda.</p><a href='https://neurai.dev/accesorios' style='background: #000; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0;'>Explorar productos</a><p>Saludos,<br>Equipo Neurai.dev</p>"
+            }
+          ]
+        }
+      },
+      "id": "send-welcome-email",
+      "name": "Email: Bienvenida",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "days"
+      },
+      "id": "wait-2-days",
+      "name": "Esperar 2 Días",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.RESEND_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "from",
+              "value": "Neurai.dev <noreply@neurai.dev>"
+            },
+            {
+              "name": "to",
+              "value": "={{ $node['Webhook: Usuario Nuevo'].json.data.email }}"
+            },
+            {
+              "name": "subject",
+              "value": "Guía: Cómo comprar en Neurai.dev 📖"
+            },
+            {
+              "name": "html",
+              "value": "<h1>Hola {{ $node['Webhook: Usuario Nuevo'].json.data.firstName }},</h1><p>¿Listo para tu primera compra?</p><h2>Guía rápida:</h2><ol><li>Explora nuestras categorías</li><li>Agrega productos al carrito</li><li>Completa tu compra de forma segura</li><li>Recibe tu pedido en casa</li></ol><p><strong>Tip:</strong> Guarda tus productos favoritos para comprarlos después.</p><a href='https://neurai.dev' style='background: #000; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0;'>Ir a la tienda</a>"
+            }
+          ]
+        }
+      },
+      "id": "send-guide-email",
+      "name": "Email: Guía de Uso",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "days"
+      },
+      "id": "wait-3-days",
+      "name": "Esperar 3 Días",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const code = 'WELCOME' + Math.random().toString(36).substring(2, 8).toUpperCase();\n\nreturn {\n  couponCode: code,\n  discount: 15,\n  expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),\n  email: $node['Webhook: Usuario Nuevo'].json.data.email\n};"
+      },
+      "id": "generate-welcome-coupon",
+      "name": "Generar Cupón de Bienvenida",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "tableId": "discount_codes",
+        "columnsUi": {
+          "columnValues": [
+            {
+              "column": "code",
+              "value": "={{ $json.couponCode }}"
+            },
+            {
+              "column": "discount_percentage",
+              "value": "={{ $json.discount }}"
+            },
+            {
+              "column": "expires_at",
+              "value": "={{ $json.expiresAt }}"
+            },
+            {
+              "column": "max_uses",
+              "value": "1"
+            },
+            {
+              "column": "customer_email",
+              "value": "={{ $json.email }}"
+            },
+            {
+              "column": "created_by",
+              "value": "n8n_onboarding"
+            }
+          ]
+        }
+      },
+      "id": "save-welcome-coupon",
+      "name": "Guardar Cupón",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.RESEND_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "from",
+              "value": "Neurai.dev <noreply@neurai.dev>"
+            },
+            {
+              "name": "to",
+              "value": "={{ $node['Webhook: Usuario Nuevo'].json.data.email }}"
+            },
+            {
+              "name": "subject",
+              "value": "¡Regalo especial! 15% OFF en tu primera compra 🎁"
+            },
+            {
+              "name": "html",
+              "value": "<h1>¡{{ $node['Webhook: Usuario Nuevo'].json.data.firstName }}, tenemos un regalo para ti!</h1><p>Como agradecimiento por unirte a Neurai.dev, queremos regalarte <strong>15% de descuento</strong> en tu primera compra.</p><div style='background: #f5f5f5; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;'><h2 style='margin: 0; font-size: 32px;'>{{ $json.code }}</h2><p style='margin: 10px 0 0 0; color: #666;'>Válido por 14 días</p></div><p>No dejes pasar esta oportunidad. ¡Estrena tu cuenta con tu primera compra!</p><a href='https://neurai.dev/accesorios' style='background: #000; color: #fff; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0; font-weight: bold;'>Comprar ahora</a><p>Saludos,<br>Equipo Neurai.dev</p>"
+            }
+          ]
+        }
+      },
+      "id": "send-coupon-email",
+      "name": "Email: Cupón de Bienvenida",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1650, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, message: 'Onboarding iniciado' } }}"
+      },
+      "id": "webhook-response",
+      "name": "Responder Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [450, 500]
+    }
+  ],
+  "connections": {
+    "Webhook: Usuario Nuevo": {
+      "main": [
+        [
+          {
+            "node": "Email: Bienvenida",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Responder Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email: Bienvenida": {
+      "main": [
+        [
+          {
+            "node": "Esperar 2 Días",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar 2 Días": {
+      "main": [
+        [
+          {
+            "node": "Email: Guía de Uso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email: Guía de Uso": {
+      "main": [
+        [
+          {
+            "node": "Esperar 3 Días",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar 3 Días": {
+      "main": [
+        [
+          {
+            "node": "Generar Cupón de Bienvenida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Cupón de Bienvenida": {
+      "main": [
+        [
+          {
+            "node": "Guardar Cupón",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Cupón": {
+      "main": [
+        [
+          {
+            "node": "Email: Cupón de Bienvenida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "tags": ["onboarding", "email", "cupones"]
+}

@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Zap, CreditCard, Download, MessageCircle, Copy, Check } from "lucide-react";
+import { X, Zap, CreditCard, Download, MessageCircle, Copy, Check, UserPlus, LogIn } from "lucide-react";
 import { generateNequiInvoicePDF } from "@/utils/generateNequiInvoicePDF";
+import { useUser } from "@clerk/nextjs";
 
 /**
  * Modal para seleccionar método de pago desde el carrito
@@ -18,9 +19,11 @@ export default function CartPaymentMethodModal({
   nombreNegocio = "Neurai.dev",
   onSelectEpayco
 }) {
+  const { user, isLoaded } = useUser();
   const [metodoSeleccionado, setMetodoSeleccionado] = useState(null);
   const [showNequiInstructions, setShowNequiInstructions] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
+  const [showRegisterSuggestion, setShowRegisterSuggestion] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [creatingOrder, setCreatingOrder] = useState(false);
@@ -34,6 +37,7 @@ export default function CartPaymentMethodModal({
       setMetodoSeleccionado(null);
       setShowNequiInstructions(false);
       setShowEmailForm(false);
+      setShowRegisterSuggestion(false);
       setEmail('');
       setEmailError('');
       setCreatingOrder(false);
@@ -42,6 +46,13 @@ export default function CartPaymentMethodModal({
       setPdfGenerado(false);
     }
   }, [isOpen]);
+
+  // Auto-completar email si el usuario está logueado
+  useEffect(() => {
+    if (isLoaded && user && user.primaryEmailAddress) {
+      setEmail(user.primaryEmailAddress.emailAddress);
+    }
+  }, [isLoaded, user]);
 
   // Cerrar modal con Escape
   useEffect(() => {
@@ -117,7 +128,7 @@ export default function CartPaymentMethodModal({
           precioOriginal: totalPrice,
           descuentoPorcentaje: descuento,
           totalConDescuento: totalConDescuento,
-          userId: null // TODO: obtener de Clerk si está autenticado
+          userId: user?.id || null // Vincular con el usuario de Clerk si está autenticado
         }),
       });
 
@@ -197,13 +208,120 @@ export default function CartPaymentMethodModal({
 
   const handleContinuar = () => {
     if (metodoSeleccionado === "nequi") {
-      // Mostrar formulario de email
-      setShowEmailForm(true);
+      // Si el usuario no está autenticado, mostrar sugerencia de registro
+      if (!user) {
+        setShowRegisterSuggestion(true);
+      } else {
+        // Si está autenticado, ir directo al formulario de email
+        setShowEmailForm(true);
+      }
     } else if (metodoSeleccionado === "epayco") {
       onSelectEpayco();
       onClose();
     }
   };
+
+  // Vista 0: Sugerencia de registro (si no está autenticado)
+  if (showRegisterSuggestion) {
+    return (
+      <div
+        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+        onClick={() => setShowRegisterSuggestion(false)}
+      >
+        <div
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-6 relative animate-in fade-in zoom-in duration-300"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Botón cerrar */}
+          <button
+            onClick={() => setShowRegisterSuggestion(false)}
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            aria-label="Cerrar"
+          >
+            <X size={24} />
+          </button>
+
+          {/* Header */}
+          <div className="mb-6">
+            <div className="flex items-center justify-center mb-3">
+              <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-3 rounded-full">
+                <UserPlus className="w-8 h-8 text-white" />
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-2">
+              ¿Registrarte antes de comprar?
+            </h2>
+            <p className="text-sm text-center text-gray-600 dark:text-gray-400">
+              Te recomendamos crear una cuenta para una mejor experiencia
+            </p>
+          </div>
+
+          {/* Beneficios */}
+          <div className="bg-purple-50 dark:bg-purple-900/20 border-2 border-purple-300 dark:border-purple-700 rounded-xl p-4 mb-6">
+            <h3 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+              <Check className="w-5 h-5 text-green-600" />
+              Beneficios de registrarte:
+            </h3>
+            <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+              <li className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                <span><strong>Identificación precisa:</strong> Podremos vincular tu compra directamente contigo</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                <span><strong>Historial de compras:</strong> Accede a todas tus órdenes en un solo lugar</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                <span><strong>Seguimiento fácil:</strong> Rastrea el estado de tu pedido en tiempo real</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                <span><strong>Evita confusiones:</strong> Con el descuento de Nequi, es más fácil identificar tu pedido si estás registrado</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Nota importante */}
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-300 dark:border-blue-700 rounded-lg p-3 mb-6">
+            <p className="text-xs text-blue-800 dark:text-blue-200">
+              <strong>💡 ¿Por qué es importante?</strong><br />
+              Al pagar con Nequi, el precio cambia por el descuento. Si dos personas compran el mismo producto a la misma hora, tener una cuenta nos ayuda a identificar correctamente tu pedido.
+            </p>
+          </div>
+
+          {/* Botones */}
+          <div className="space-y-3">
+            <a
+              href="/sign-up?redirect_url=/carrito"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2"
+            >
+              <UserPlus className="w-5 h-5" />
+              Crear cuenta gratis
+            </a>
+
+            <a
+              href="/sign-in?redirect_url=/carrito"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2"
+            >
+              <LogIn className="w-5 h-5" />
+              Ya tengo cuenta
+            </a>
+
+            <button
+              onClick={() => {
+                setShowRegisterSuggestion(false);
+                setShowEmailForm(true);
+              }}
+              className="w-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-3 px-6 rounded-lg transition-colors"
+            >
+              Continuar sin registrarme
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Vista 1: Formulario de email (cuando elige Nequi)
   if (showEmailForm) {

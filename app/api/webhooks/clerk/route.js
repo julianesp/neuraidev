@@ -1,6 +1,8 @@
 import { headers } from "next/headers";
 import { Webhook } from "svix";
 import { createClient } from "@supabase/supabase-js";
+// DESHABILITADO TEMPORALMENTE - n8n integration
+// import { notifyUserCreated } from "@/lib/n8nService";
 
 // Inicializar Supabase con service role key (necesario para bypass RLS)
 const supabase = createClient(
@@ -92,6 +94,20 @@ export async function POST(req) {
 
       // eslint-disable-next-line no-console
       console.log("Profile created successfully:", data);
+
+      // DESHABILITADO TEMPORALMENTE - n8n integration
+      // Notificar a n8n del nuevo usuario (para onboarding automático)
+      // try {
+      //   await notifyUserCreated({
+      //     id: clerkUserId,
+      //     email: primaryEmail?.email_address || "",
+      //     firstName: first_name,
+      //     lastName: last_name,
+      //   });
+      // } catch (n8nError) {
+      //   // No bloqueamos si falla n8n
+      //   console.error("Error notifying n8n:", n8nError);
+      // }
     } catch (error) {
       console.error("Error in user.created handler:", error);
       return new Response(JSON.stringify({ error: "Internal server error" }), {

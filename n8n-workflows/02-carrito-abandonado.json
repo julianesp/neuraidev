@@ -1,0 +1,340 @@
+{
+  "name": "02 - Recuperación de Carrito Abandonado",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "cart-abandoned",
+        "options": {},
+        "responseMode": "responseNode",
+        "httpMethod": "POST"
+      },
+      "id": "webhook-cart-abandoned",
+      "name": "Webhook: Carrito Abandonado",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "cart-abandoned"
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "hours"
+      },
+      "id": "wait-1-hour",
+      "name": "Esperar 1 Hora",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "orders",
+        "returnAll": false,
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email_cliente",
+              "keyValue": "={{ $json.data.email }}"
+            },
+            {
+              "keyName": "estado",
+              "keyValue": "completado"
+            }
+          ]
+        }
+      },
+      "id": "check-if-completed",
+      "name": "Verificar Si Compró",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "1",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.length }}",
+              "operation": "equal",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "if-not-completed",
+      "name": "¿No Completó Compra?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generar código de cupón aleatorio\nconst code = 'CART' + Math.random().toString(36).substring(2, 8).toUpperCase();\n\nreturn {\n  couponCode: code,\n  discount: 10,\n  expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()\n};"
+      },
+      "id": "generate-coupon-code",
+      "name": "Generar Cupón",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 200]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "tableId": "discount_codes",
+        "columnsUi": {
+          "columnValues": [
+            {
+              "column": "code",
+              "value": "={{ $json.couponCode }}"
+            },
+            {
+              "column": "discount_percentage",
+              "value": "={{ $json.discount }}"
+            },
+            {
+              "column": "expires_at",
+              "value": "={{ $json.expiresAt }}"
+            },
+            {
+              "column": "max_uses",
+              "value": "1"
+            },
+            {
+              "column": "customer_email",
+              "value": "={{ $node['Webhook: Carrito Abandonado'].json.data.email }}"
+            },
+            {
+              "column": "created_by",
+              "value": "n8n_cart_recovery"
+            }
+          ]
+        }
+      },
+      "id": "save-coupon",
+      "name": "Guardar Cupón",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1250, 200],
+      "credentials": {
+        "supabaseApi": {
+          "id": "1",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.RESEND_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "from",
+              "value": "Neurai.dev <noreply@neurai.dev>"
+            },
+            {
+              "name": "to",
+              "value": "={{ $node['Webhook: Carrito Abandonado'].json.data.email }}"
+            },
+            {
+              "name": "subject",
+              "value": "¡Olvidaste algo en tu carrito! 🛒 + 10% OFF"
+            },
+            {
+              "name": "html",
+              "value": "<h1>¡Tu carrito te extraña!</h1><p>Hola {{ $node['Webhook: Carrito Abandonado'].json.data.name }},</p><p>Notamos que dejaste algunos productos en tu carrito.</p><p><strong>¡Tenemos un regalo para ti!</strong></p><p>Usa el código <strong>{{ $json.code }}</strong> para obtener <strong>10% de descuento</strong> en tu compra.</p><p>Este cupón es válido por 7 días.</p><a href='https://neurai.dev/carrito' style='background: #000; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0;'>Completar mi compra</a><p>Saludos,<br>Equipo Neurai.dev</p>"
+            }
+          ]
+        }
+      },
+      "id": "send-recovery-email",
+      "name": "Enviar Email de Recuperación",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1450, 200]
+    },
+    {
+      "parameters": {
+        "amount": 24,
+        "unit": "hours"
+      },
+      "id": "wait-24-hours",
+      "name": "Esperar 24 Horas",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1650, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.RESEND_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "from",
+              "value": "Neurai.dev <noreply@neurai.dev>"
+            },
+            {
+              "name": "to",
+              "value": "={{ $node['Webhook: Carrito Abandonado'].json.data.email }}"
+            },
+            {
+              "name": "subject",
+              "value": "Último recordatorio: Tu descuento expira pronto 🔔"
+            },
+            {
+              "name": "html",
+              "value": "<h1>¡Última oportunidad!</h1><p>Hola {{ $node['Webhook: Carrito Abandonado'].json.data.name }},</p><p>Tu cupón de <strong>10% OFF</strong> está por expirar.</p><p>Código: <strong>{{ $node['Guardar Cupón'].json.code }}</strong></p><p>No dejes pasar esta oportunidad.</p><a href='https://neurai.dev/carrito' style='background: #000; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0;'>Completar mi compra ahora</a>"
+            }
+          ]
+        }
+      },
+      "id": "send-final-reminder",
+      "name": "Enviar Recordatorio Final",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1850, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, message: 'Workflow iniciado' } }}"
+      },
+      "id": "webhook-response",
+      "name": "Responder Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1050, 400]
+    }
+  ],
+  "connections": {
+    "Webhook: Carrito Abandonado": {
+      "main": [
+        [
+          {
+            "node": "Esperar 1 Hora",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Responder Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar 1 Hora": {
+      "main": [
+        [
+          {
+            "node": "Verificar Si Compró",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar Si Compró": {
+      "main": [
+        [
+          {
+            "node": "¿No Completó Compra?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿No Completó Compra?": {
+      "main": [
+        [
+          {
+            "node": "Generar Cupón",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Cupón": {
+      "main": [
+        [
+          {
+            "node": "Guardar Cupón",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Cupón": {
+      "main": [
+        [
+          {
+            "node": "Enviar Email de Recuperación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Email de Recuperación": {
+      "main": [
+        [
+          {
+            "node": "Esperar 24 Horas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar 24 Horas": {
+      "main": [
+        [
+          {
+            "node": "Enviar Recordatorio Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "tags": ["carrito-abandonado", "email", "cupones"]
+}

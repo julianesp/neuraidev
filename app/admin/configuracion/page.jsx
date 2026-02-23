@@ -1,10 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Settings, Bell, Shield, Palette, Globe } from "lucide-react";
+import { ArrowLeft, Settings, Bell, Shield, Palette, Globe, Gamepad2 } from "lucide-react";
 
 export default function ConfiguracionPage() {
+  const [minecraftButtonEnabled, setMinecraftButtonEnabled] = useState(false);
+
+  useEffect(() => {
+    // Cargar el estado actual del botón de tema Minecraft
+    const enabled = localStorage.getItem('minecraft_theme_button_enabled');
+    setMinecraftButtonEnabled(enabled === 'true');
+  }, []);
+
+  const handleMinecraftButtonToggle = (checked) => {
+    setMinecraftButtonEnabled(checked);
+    localStorage.setItem('minecraft_theme_button_enabled', checked.toString());
+
+    // Mostrar mensaje de confirmación
+    if (checked) {
+      alert('✅ Botón de tema Minecraft habilitado. Los usuarios ahora podrán ver el botón flotante para cambiar al tema Minecraft.');
+    } else {
+      alert('❌ Botón de tema Minecraft deshabilitado. El botón flotante no será visible para los usuarios.');
+    }
+
+    // Recargar la página para que el cambio tome efecto
+    window.location.reload();
+  };
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
@@ -124,6 +146,64 @@ export default function ConfiguracionPage() {
                   <input type="checkbox" className="sr-only peer" defaultChecked disabled />
                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                 </label>
+              </div>
+            </div>
+          </div>
+
+          {/* Minecraft Theme Settings */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div className="flex items-center mb-4">
+              <Gamepad2 className="mr-3 text-purple-600" size={24} />
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                Tema Minecraft
+              </h2>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg border border-purple-200 dark:border-purple-700">
+                <div className="flex-1">
+                  <p className="font-medium text-gray-900 dark:text-white flex items-center gap-2">
+                    <span className="text-2xl">⛏️</span>
+                    Mostrar Botón de Tema Minecraft
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    Activa o desactiva el botón flotante que permite a los usuarios cambiar al tema Minecraft.
+                    <br />
+                    <span className="text-yellow-600 dark:text-yellow-400 font-medium">
+                      ⚠️ El tema aún está en construcción. Activa esto solo cuando esté listo para producción.
+                    </span>
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer ml-4">
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={minecraftButtonEnabled}
+                    onChange={(e) => handleMinecraftButtonToggle(e.target.checked)}
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-gradient-to-r peer-checked:from-purple-600 peer-checked:to-pink-600"></div>
+                </label>
+              </div>
+
+              {minecraftButtonEnabled && (
+                <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-700">
+                  <p className="text-sm text-green-800 dark:text-green-300">
+                    ✅ <strong>Botón activo:</strong> Los usuarios ahora pueden ver el botón flotante de tema Minecraft debajo del botón de accesibilidad.
+                  </p>
+                </div>
+              )}
+
+              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+                <h4 className="font-medium text-blue-900 dark:text-blue-300 mb-2">
+                  📝 Características del Tema Minecraft:
+                </h4>
+                <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1 list-disc list-inside">
+                  <li>Fuente pixelada estilo retro</li>
+                  <li>Botones con texturas de bloques (piedra, diamante, esmeralda, oro)</li>
+                  <li>Efectos de hover y animaciones únicas</li>
+                  <li>Inputs y formularios con estilo de juego</li>
+                  <li>Scrollbar personalizado</li>
+                  <li>Cards y contenedores con texturas de Minecraft</li>
+                </ul>
               </div>
             </div>
           </div>

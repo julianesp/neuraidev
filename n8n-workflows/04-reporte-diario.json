@@ -1,0 +1,243 @@
+{
+  "name": "04 - Reporte Diario de Ventas",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "cron-trigger",
+      "name": "Trigger: Todos los días 8:00 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 400]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  COUNT(*) as total_orders,\n  SUM(total) as total_revenue,\n  AVG(total) as average_order_value,\n  COUNT(DISTINCT email_cliente) as unique_customers\nFROM orders\nWHERE created_at >= NOW() - INTERVAL '24 hours'\n  AND estado = 'completado'"
+      },
+      "id": "get-sales-metrics",
+      "name": "Obtener Métricas de Ventas",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "1",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  p.nombre,\n  COUNT(DISTINCT o.id) as times_sold,\n  SUM((o.metadata->'productos'->0->>'quantity')::int) as units_sold\nFROM orders o\nCROSS JOIN LATERAL jsonb_array_elements(o.metadata->'productos') as product\nJOIN \"Producto\" p ON p.id = (product->>'id')::int\nWHERE o.created_at >= NOW() - INTERVAL '24 hours'\n  AND o.estado = 'completado'\nGROUP BY p.nombre\nORDER BY units_sold DESC\nLIMIT 5"
+      },
+      "id": "get-top-products",
+      "name": "Productos Más Vendidos",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [450, 500],
+      "credentials": {
+        "supabaseApi": {
+          "id": "1",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "abandoned_carts",
+        "returnAll": false,
+        "limit": 100,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "abandoned_at",
+              "keyValue": ">=",
+              "keyValue2": "NOW() - INTERVAL '24 hours'"
+            },
+            {
+              "keyName": "status",
+              "keyValue": "abandoned"
+            }
+          ]
+        }
+      },
+      "id": "get-abandoned-carts",
+      "name": "Carritos Abandonados",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [450, 700],
+      "credentials": {
+        "supabaseApi": {
+          "id": "1",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const metrics = $node['Obtener Métricas de Ventas'].json[0] || {};\nconst topProducts = $node['Productos Más Vendidos'].json || [];\nconst abandonedCarts = $node['Carritos Abandonados'].json || [];\n\nconst totalOrders = metrics.total_orders || 0;\nconst totalRevenue = parseFloat(metrics.total_revenue || 0).toFixed(2);\nconst avgOrderValue = parseFloat(metrics.average_order_value || 0).toFixed(2);\nconst uniqueCustomers = metrics.unique_customers || 0;\nconst abandonedCount = abandonedCarts.length;\n\n// Generar HTML del reporte\nconst html = `\n  <div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;\">\n    <h1 style=\"color: #333; border-bottom: 3px solid #000; padding-bottom: 10px;\">\n      📊 Reporte Diario - ${new Date().toLocaleDateString('es-ES')}\n    </h1>\n    \n    <h2 style=\"color: #555; margin-top: 30px;\">💰 Resumen de Ventas</h2>\n    <div style=\"background: #f5f5f5; padding: 20px; border-radius: 10px;\">\n      <table style=\"width: 100%; border-collapse: collapse;\">\n        <tr>\n          <td style=\"padding: 10px; border-bottom: 1px solid #ddd;\"><strong>Total de Pedidos:</strong></td>\n          <td style=\"padding: 10px; border-bottom: 1px solid #ddd; text-align: right;\">${totalOrders}</td>\n        </tr>\n        <tr>\n          <td style=\"padding: 10px; border-bottom: 1px solid #ddd;\"><strong>Ingresos Totales:</strong></td>\n          <td style=\"padding: 10px; border-bottom: 1px solid #ddd; text-align: right; color: green; font-size: 18px;\"><strong>$${totalRevenue}</strong></td>\n        </tr>\n        <tr>\n          <td style=\"padding: 10px; border-bottom: 1px solid #ddd;\"><strong>Valor Promedio de Pedido:</strong></td>\n          <td style=\"padding: 10px; border-bottom: 1px solid #ddd; text-align: right;\">$${avgOrderValue}</td>\n        </tr>\n        <tr>\n          <td style=\"padding: 10px;\"><strong>Clientes Únicos:</strong></td>\n          <td style=\"padding: 10px; text-align: right;\">${uniqueCustomers}</td>\n        </tr>\n      </table>\n    </div>\n\n    <h2 style=\"color: #555; margin-top: 30px;\">🏆 Top 5 Productos Más Vendidos</h2>\n    <div style=\"background: #f5f5f5; padding: 20px; border-radius: 10px;\">\n      <ol style=\"margin: 0; padding-left: 20px;\">\n        ${topProducts.map(p => `\n          <li style=\"padding: 8px 0; border-bottom: 1px solid #ddd;\">\n            <strong>${p.nombre}</strong> - ${p.units_sold} unidades vendidas\n          </li>\n        `).join('')}\n      </ol>\n    </div>\n\n    <h2 style=\"color: #555; margin-top: 30px;\">🛒 Carritos Abandonados</h2>\n    <div style=\"background: #fff3cd; padding: 20px; border-radius: 10px; border-left: 4px solid #ffc107;\">\n      <p style=\"margin: 0; font-size: 16px;\">\n        <strong>${abandonedCount}</strong> carritos abandonados en las últimas 24 horas.\n      </p>\n      ${abandonedCount > 0 ? `\n        <p style=\"margin: 10px 0 0 0; color: #666;\">\n          💡 Considera enviar emails de recuperación con descuentos.\n        </p>\n      ` : ''}\n    </div>\n\n    <div style=\"margin-top: 30px; padding: 20px; background: #e8f5e9; border-radius: 10px; text-align: center;\">\n      <p style=\"margin: 0; color: #2e7d32; font-size: 14px;\">\n        Reporte generado automáticamente por n8n\n      </p>\n    </div>\n  </div>\n`;\n\nreturn {\n  html,\n  metrics: {\n    totalOrders,\n    totalRevenue,\n    avgOrderValue,\n    uniqueCustomers,\n    abandonedCount\n  }\n};"
+      },
+      "id": "generate-report",
+      "name": "Generar Reporte HTML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.RESEND_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "from",
+              "value": "Neurai.dev Reports <noreply@neurai.dev>"
+            },
+            {
+              "name": "to",
+              "value": "{{ $env.ADMIN_EMAILS }}"
+            },
+            {
+              "name": "subject",
+              "value": "📊 Reporte Diario - {{ new Date().toLocaleDateString('es-ES') }}"
+            },
+            {
+              "name": "html",
+              "value": "={{ $json.html }}"
+            }
+          ]
+        }
+      },
+      "id": "send-email-report",
+      "name": "Enviar Reporte por Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "method": "POST",
+        "url": "https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{ $env.TELEGRAM_CHAT_ID }}"
+            },
+            {
+              "name": "text",
+              "value": "📊 *Reporte Diario*\\n\\n💰 Ingresos: ${{ $json.metrics.totalRevenue }}\\n📦 Pedidos: {{ $json.metrics.totalOrders }}\\n👥 Clientes: {{ $json.metrics.uniqueCustomers }}\\n🛒 Carritos abandonados: {{ $json.metrics.abandonedCount }}\\n\\n✅ Reporte completo enviado por email"
+            },
+            {
+              "name": "parse_mode",
+              "value": "Markdown"
+            }
+          ]
+        }
+      },
+      "id": "send-telegram-summary",
+      "name": "Enviar Resumen a Telegram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [850, 500]
+    }
+  ],
+  "connections": {
+    "Trigger: Todos los días 8:00 AM": {
+      "main": [
+        [
+          {
+            "node": "Obtener Métricas de Ventas",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Productos Más Vendidos",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Carritos Abandonados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Métricas de Ventas": {
+      "main": [
+        [
+          {
+            "node": "Generar Reporte HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Productos Más Vendidos": {
+      "main": [
+        [
+          {
+            "node": "Generar Reporte HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carritos Abandonados": {
+      "main": [
+        [
+          {
+            "node": "Generar Reporte HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Reporte HTML": {
+      "main": [
+        [
+          {
+            "node": "Enviar Reporte por Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Enviar Resumen a Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "tags": ["reporting", "analytics", "cron"]
+}

@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "@clerk/nextjs";
 import { Mail, Bell, Check, X } from "lucide-react";
 
 export default function ProductNotificationSubscribe({ className = "" }) {
+  const { user, isLoaded } = useUser();
   const [email, setEmail] = useState("");
   const [nombre, setNombre] = useState("");
   const [loading, setLoading] = useState(false);
@@ -11,6 +13,23 @@ export default function ProductNotificationSubscribe({ className = "" }) {
   const [error, setError] = useState("");
   const [notificarTodos, setNotificarTodos] = useState(true);
   const [categoriasInteres, setCategoriasInteres] = useState([]);
+
+  // Pre-llenar datos del usuario si está logueado
+  useEffect(() => {
+    if (isLoaded && user) {
+      // Obtener el email principal del usuario
+      const userEmail = user.emailAddresses?.find(e => e.id === user.primaryEmailAddressId)?.emailAddress;
+      if (userEmail) {
+        setEmail(userEmail);
+      }
+
+      // Obtener el nombre completo o nombre de usuario
+      const userName = user.fullName || user.firstName || user.username || "";
+      if (userName) {
+        setNombre(userName);
+      }
+    }
+  }, [isLoaded, user]);
 
   const categorias = [
     { value: "celulares", label: "Celulares" },
@@ -51,6 +70,7 @@ export default function ProductNotificationSubscribe({ className = "" }) {
           nombre,
           notificar_todos: notificarTodos,
           categorias_interes: notificarTodos ? [] : categoriasInteres,
+          clerk_user_id: user?.id || null, // Asociar con cuenta de Clerk si está logueado
         }),
       });
 
@@ -114,10 +134,18 @@ export default function ProductNotificationSubscribe({ className = "" }) {
             Notificaciones de Productos
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Recibe un email cuando subamos nuevos productos
+            {user ? `¡Hola ${user.firstName || 'amigo'}!` : 'Recibe un email'} cuando subamos nuevos productos
           </p>
         </div>
       </div>
+
+      {user && (
+        <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+          <p className="text-sm text-blue-700 dark:text-blue-300">
+            ✓ Detectamos tu cuenta. Usaremos el email: <strong>{email}</strong>
+          </p>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Email */}
@@ -133,9 +161,15 @@ export default function ProductNotificationSubscribe({ className = "" }) {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="tu@email.com"
               required
-              className="w-full pl-10 pr-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-800 dark:text-white"
+              disabled={user && email} // Deshabilitar si el email viene de Clerk
+              className="w-full pl-10 pr-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-800 dark:text-white disabled:opacity-60 disabled:cursor-not-allowed"
             />
           </div>
+          {user && email && (
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              Email obtenido de tu cuenta de {user.externalAccounts?.[0]?.provider || 'Clerk'}
+            </p>
+          )}
         </div>
 
         {/* Nombre (opcional) */}

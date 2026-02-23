@@ -19,7 +19,9 @@ import {
   Download,
   DollarSign,
   TrendingUp,
-  Filter
+  Filter,
+  Sparkles,
+  Brain
 } from "lucide-react";
 import Link from "next/link";
 import { jsPDF } from "jspdf";
@@ -36,6 +38,9 @@ export default function PedidosNequiPage() {
   const [fechaFin, setFechaFin] = useState('');
   const [processingOrder, setProcessingOrder] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [aiAnalysis, setAiAnalysis] = useState(null);
+  const [showAiModal, setShowAiModal] = useState(false);
+  const [analyzingWithAi, setAnalyzingWithAi] = useState(null);
   const [estadisticas, setEstadisticas] = useState({
     totalVentas: 0,
     totalIngresos: 0,
@@ -273,6 +278,43 @@ export default function PedidosNequiPage() {
     } catch (error) {
       console.error('Error generando reporte:', error);
       alert('Error al generar el reporte');
+    }
+  };
+
+  // Verificar pedido con AI
+  const verificarConAI = async (orderId, montoPagado = null, descripcionCliente = null) => {
+    setAnalyzingWithAi(orderId);
+    try {
+      const response = await fetch('/api/nequi/verify-order-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId,
+          montoPagado,
+          descripcionCliente
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(`Error: ${data.error}`);
+        return;
+      }
+
+      if (data.fallback) {
+        alert('⚠️ ' + data.message);
+        return;
+      }
+
+      setAiAnalysis(data);
+      setShowAiModal(true);
+
+    } catch (error) {
+      console.error('Error verificando con AI:', error);
+      alert('Error al verificar con AI');
+    } finally {
+      setAnalyzingWithAi(null);
     }
   };
 
@@ -586,7 +628,9 @@ export default function PedidosNequiPage() {
                 pedido={pedido}
                 onConfirmar={confirmarPedido}
                 onCancelar={cancelarPedido}
+                onVerificarAI={verificarConAI}
                 processing={processingOrder === pedido.id}
+                analyzingAI={analyzingWithAi === pedido.id}
                 onViewDetails={() => setSelectedOrder(pedido)}
               />
             ))}
@@ -600,13 +644,29 @@ export default function PedidosNequiPage() {
             onClose={() => setSelectedOrder(null)}
           />
         )}
+
+        {/* Modal de análisis AI */}
+        {showAiModal && aiAnalysis && (
+          <AiAnalysisModal
+            analysis={aiAnalysis}
+            onClose={() => {
+              setShowAiModal(false);
+              setAiAnalysis(null);
+            }}
+            onConfirmar={() => {
+              setShowAiModal(false);
+              setAiAnalysis(null);
+              confirmarPedido(aiAnalysis.order.id);
+            }}
+          />
+        )}
       </div>
     </div>
   );
 }
 
 // Componente de tarjeta de pedido
-function PedidoCard({ pedido, onConfirmar, onCancelar, processing, onViewDetails }) {
+function PedidoCard({ pedido, onConfirmar, onCancelar, onVerificarAI, processing, analyzingAI, onViewDetails }) {
   const estadoConfig = {
     pendiente: {
       bg: 'bg-orange-50 dark:bg-orange-900/20',
@@ -698,8 +758,26 @@ function PedidoCard({ pedido, onConfirmar, onCancelar, processing, onViewDetails
           {pedido.estado === 'pendiente' && (
             <>
               <button
+                onClick={() => onVerificarAI(pedido.id)}
+                disabled={processing || analyzingAI}
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Verificar con IA qué producto pagó el cliente"
+              >
+                {analyzingAI ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    Analizando...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    Verificar con AI
+                  </>
+                )}
+              </button>
+              <button
                 onClick={() => onConfirmar(pedido.id)}
-                disabled={processing}
+                disabled={processing || analyzingAI}
                 className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {processing ? (
@@ -713,7 +791,7 @@ function PedidoCard({ pedido, onConfirmar, onCancelar, processing, onViewDetails
               </button>
               <button
                 onClick={() => onCancelar(pedido.id)}
-                disabled={processing}
+                disabled={processing || analyzingAI}
                 className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <X className="w-4 h-4" />
@@ -844,6 +922,220 @@ function PedidoDetailsModal({ pedido, onClose }) {
         >
           Cerrar
         </button>
+      </div>
+    </div>
+  );
+}
+
+// Modal de análisis con AI
+function AiAnalysisModal({ analysis, onClose, onConfirmar }) {
+  if (!analysis || !analysis.aiAnalysis) return null;
+
+  const ai = analysis.aiAnalysis;
+  const order = analysis.order;
+
+  // Determinar color según confianza
+  const getConfianzaColor = (confianza) => {
+    if (confianza >= 80) return 'text-green-600 dark:text-green-400';
+    if (confianza >= 50) return 'text-yellow-600 dark:text-yellow-400';
+    return 'text-red-600 dark:text-red-400';
+  };
+
+  const getConfianzaBg = (confianza) => {
+    if (confianza >= 80) return 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700';
+    if (confianza >= 50) return 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-700';
+    return 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-700';
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 relative"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+        >
+          <X size={24} />
+        </button>
+
+        {/* Header */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-3 rounded-full">
+              <Brain className="w-8 h-8 text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                Análisis con IA
+              </h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Pedido: {order.numero_factura}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Confianza del análisis */}
+        <div className={`${getConfianzaBg(ai.confianza)} border-2 rounded-xl p-4 mb-6`}>
+          <div className="flex items-center justify-between mb-2">
+            <span className="font-bold text-gray-900 dark:text-white">
+              Nivel de Confianza:
+            </span>
+            <span className={`text-2xl font-bold ${getConfianzaColor(ai.confianza)}`}>
+              {ai.confianza}%
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+            <div
+              className={`h-3 rounded-full transition-all ${
+                ai.confianza >= 80
+                  ? 'bg-green-600'
+                  : ai.confianza >= 50
+                  ? 'bg-yellow-600'
+                  : 'bg-red-600'
+              }`}
+              style={{ width: `${ai.confianza}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Coincidencia */}
+        <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 mb-6">
+          <div className="flex items-center gap-2 mb-3">
+            {ai.coincide ? (
+              <CheckCircle className="w-6 h-6 text-green-600" />
+            ) : (
+              <AlertCircle className="w-6 h-6 text-yellow-600" />
+            )}
+            <h3 className="font-bold text-gray-900 dark:text-white">
+              {ai.coincide
+                ? '✓ Los productos coinciden con el monto pagado'
+                : '⚠️ Los productos NO coinciden con el monto pagado'}
+            </h3>
+          </div>
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            Monto pagado: <strong>${analysis.montoPagado.toLocaleString('es-CO')}</strong>
+            {' '}| Descuento aplicado: <strong>{analysis.descuentoAplicado}%</strong>
+          </p>
+        </div>
+
+        {/* Productos identificados */}
+        {ai.productosIdentificados && ai.productosIdentificados.length > 0 && (
+          <div className="mb-6">
+            <h3 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+              <Package className="w-5 h-5 text-purple-600" />
+              Productos Identificados por la IA:
+            </h3>
+            <div className="space-y-2">
+              {ai.productosIdentificados.map((producto, index) => (
+                <div
+                  key={index}
+                  className="bg-purple-50 dark:bg-purple-900/20 border-2 border-purple-300 dark:border-purple-700 rounded-lg p-4"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">
+                        {producto.nombre}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Cantidad: {producto.cantidad} | Precio: ${producto.precio?.toLocaleString('es-CO')}
+                      </p>
+                    </div>
+                  </div>
+                  {producto.razon && (
+                    <p className="text-xs text-gray-700 dark:text-gray-300 mt-2 italic">
+                      "{producto.razon}"
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Alternativas */}
+        {ai.alternativas && ai.alternativas.length > 0 && (
+          <div className="mb-6">
+            <h3 className="font-bold text-gray-900 dark:text-white mb-3">
+              Alternativas Posibles:
+            </h3>
+            <div className="space-y-2">
+              {ai.alternativas.map((alt, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 flex justify-between items-center"
+                >
+                  <div>
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      {alt.nombre}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Cant: {alt.cantidad} | ${alt.precio?.toLocaleString('es-CO')}
+                    </p>
+                  </div>
+                  <span className="bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-3 py-1 rounded-full text-sm font-semibold">
+                    {alt.probabilidad}%
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Análisis */}
+        {ai.analisis && (
+          <div className="bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-300 dark:border-blue-700 rounded-xl p-4 mb-6">
+            <h3 className="font-bold text-blue-900 dark:text-blue-300 mb-2">
+              Análisis Detallado:
+            </h3>
+            <p className="text-sm text-blue-800 dark:text-blue-200 whitespace-pre-line">
+              {ai.analisis}
+            </p>
+          </div>
+        )}
+
+        {/* Recomendación */}
+        {ai.recomendacion && (
+          <div className="bg-purple-50 dark:bg-purple-900/20 border-2 border-purple-300 dark:border-purple-700 rounded-xl p-4 mb-6">
+            <h3 className="font-bold text-purple-900 dark:text-purple-300 mb-2 flex items-center gap-2">
+              <Sparkles className="w-5 h-5" />
+              Recomendación:
+            </h3>
+            <p className="text-sm text-purple-800 dark:text-purple-200">
+              {ai.recomendacion}
+            </p>
+          </div>
+        )}
+
+        {/* Botones de acción */}
+        <div className="flex gap-3">
+          <button
+            onClick={onClose}
+            className="flex-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-3 px-6 rounded-lg transition-colors"
+          >
+            Cerrar
+          </button>
+          {ai.coincide && ai.confianza >= 70 && (
+            <button
+              onClick={onConfirmar}
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+            >
+              <Check className="w-5 h-5" />
+              Confirmar Pedido
+            </button>
+          )}
+        </div>
+
+        {ai.confianza < 70 && (
+          <p className="text-xs text-center text-gray-600 dark:text-gray-400 mt-3">
+            ⚠️ Se recomienda revisar manualmente debido a la baja confianza del análisis
+          </p>
+        )}
       </div>
     </div>
   );

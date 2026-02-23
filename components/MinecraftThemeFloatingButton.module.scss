@@ -1,0 +1,282 @@
+.floatingButtonContainer {
+  position: fixed;
+  bottom: 80px; // Debajo del botón de accesibilidad
+  right: 20px;
+  z-index: 9999; // Below BackToTop (10001) but above accessibility (10000)
+
+  @media (max-width: 768px) {
+    bottom: 80px;
+    right: 10px;
+  }
+}
+
+.floatingButton {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(102, 126, 234, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(102, 126, 234, 0.6);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow:
+      0 4px 15px rgba(0, 0, 0, 0.3),
+      0 0 25px rgba(245, 87, 108, 0.6);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  // Tema oscuro
+  @media (prefers-color-scheme: dark) {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+.buttonContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.buttonLabel {
+  font-size: 24px;
+  position: absolute;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+
+  @media (max-width: 768px) {
+    font-size: 22px;
+  }
+}
+
+// Lever Switch dentro del botón (versión mini)
+.leverSwitch {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 20px;
+  height: 16px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+
+  .floatingButton:hover & {
+    opacity: 1;
+  }
+}
+
+.stoneBlock {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 20px;
+  height: 10px;
+  background: linear-gradient(135deg,
+    #7a7a7a 0%,
+    #6a6a6a 25%,
+    #5a5a5a 50%,
+    #6a6a6a 75%,
+    #7a7a7a 100%
+  );
+  border: 1px solid #4a4a4a;
+  border-radius: 1px;
+  box-shadow:
+    inset 1px 1px 2px rgba(255, 255, 255, 0.3),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.5);
+
+  .leverActive & {
+    background: linear-gradient(135deg,
+      #d4a76a 0%,
+      #c4976a 25%,
+      #b4876a 50%,
+      #c4976a 75%,
+      #d4a76a 100%
+    );
+    border-color: #8b6f47;
+    box-shadow:
+      inset 1px 1px 2px rgba(255, 255, 255, 0.4),
+      inset -1px -1px 2px rgba(139, 111, 71, 0.6),
+      0 0 6px rgba(212, 167, 106, 0.5);
+  }
+}
+
+.pixelPattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.1) 2px,
+      rgba(0, 0, 0, 0.1) 4px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.1) 2px,
+      rgba(0, 0, 0, 0.1) 4px
+    );
+  pointer-events: none;
+}
+
+.leverBase {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -70%);
+  width: 4px;
+  height: 4px;
+  background: #3d3d3d;
+  border-radius: 50%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.leverHandle {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-30deg);
+  transform-origin: bottom center;
+  width: 2px;
+  height: 10px;
+  background: linear-gradient(to right, #8b6f47, #6b5335);
+  border-radius: 1px;
+  box-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, #654321 0%, #4a3217 100%);
+    border-radius: 50%;
+    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.4);
+  }
+
+  .leverActive & {
+    transform: translateX(-50%) rotate(30deg);
+    background: linear-gradient(to right, #a0815a, #8b6f47);
+  }
+}
+
+// Animación de pulso cuando está activo
+@keyframes pulse {
+  0%, 100% {
+    box-shadow:
+      0 4px 15px rgba(0, 0, 0, 0.3),
+      0 0 25px rgba(245, 87, 108, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 4px 15px rgba(0, 0, 0, 0.3),
+      0 0 35px rgba(245, 87, 108, 0.8);
+  }
+}
+
+// Animación de entrada
+@keyframes slideInRight {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.floatingButtonContainer {
+  animation: slideInRight 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+// Tooltip opcional
+.floatingButton::after {
+  content: attr(title);
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.floatingButton:hover::after {
+  opacity: 1;
+}
+
+// Flecha del tooltip
+.floatingButton::before {
+  content: '';
+  position: absolute;
+  right: calc(100% + 2px);
+  top: 50%;
+  transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-left-color: rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.floatingButton:hover::before {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  // Ocultar tooltip en móviles
+  .floatingButton::after,
+  .floatingButton::before {
+    display: none;
+  }
+}

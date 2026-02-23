@@ -6,6 +6,7 @@ import StructuredData from "@/components/StructuredData";
 import AOSInit from "@/components/AOSInit";
 import "./globals.css";
 import "../styles/sweetalert2-custom.css";
+import "../styles/minecraft-theme.css";
 // import "@/styles/darkMode.scss";
 // import "../styles/components/pages/darkMode.scss";
 import styles from "../styles/components/Layout.module.scss";
@@ -22,6 +23,8 @@ import { CartProvider } from "@/context/CartContext";
 import ShoppingCart from "@/components/ShoppingCart/page";
 import AnnouncementsProvider from "@/components/AnnouncementsProvider";
 import AccessibilityPanel from "@/components/AccessibilityPanel";
+import { MinecraftThemeProvider } from "@/contexts/MinecraftThemeContext";
+import MinecraftThemeFloatingButton from "@/components/MinecraftThemeFloatingButton";
 
 export const metadata = {
   metadataBase: new URL("https://neurai.dev"),
@@ -193,6 +196,12 @@ export default function RootLayout({ children }) {
           />
           <meta name="apple-mobile-web-app-title" content="neurai.dev" />
 
+          {/* Fuente pixelada para tema Minecraft */}
+          <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+          />
+
           {/* Google Analytics con variable de entorno */}
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
@@ -233,9 +242,10 @@ export default function RootLayout({ children }) {
           <AOSInit />
           <ClerkProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <AOSInit />
-              <ToastProvider>
-                <CartProvider>
+              <MinecraftThemeProvider>
+                <AOSInit />
+                <ToastProvider>
+                  <CartProvider>
                   {/*
                   presentacion de mi logo
                    <SplashScreen />
@@ -260,8 +270,10 @@ export default function RootLayout({ children }) {
                   <ToastContainer />
                   <AnnouncementsProvider />
                   <AccessibilityPanel />
+                  <MinecraftThemeFloatingButton />
                 </CartProvider>
               </ToastProvider>
+              </MinecraftThemeProvider>
             </ThemeProvider>
           </ClerkProvider>
         </body>

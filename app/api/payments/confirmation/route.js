@@ -4,6 +4,8 @@ import { getSupabaseClient } from "@/lib/db";
 import { decrementMultipleProductsStock } from "@/lib/productService";
 import { createInvoiceRecord } from "@/lib/invoiceGenerator";
 import { notifyNewSale } from "@/lib/notificationService";
+// DESHABILITADO TEMPORALMENTE - n8n integration
+// import { notifyOrderPaid, notifyOrderCancelled } from "@/lib/n8nService";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -223,10 +225,28 @@ export async function POST(request) {
           // No bloqueamos el proceso si falla la notificación
           logError("⚠️ Error enviando notificación:", notificationError);
         }
+
+        // DESHABILITADO TEMPORALMENTE - n8n integration
+        // 6. Enviar evento a n8n para automatizaciones
+        // try {
+        //   log("🤖 Enviando evento de pago aprobado a n8n...");
+        //   await notifyOrderPaid(order, transaction);
+        //   log("✅ Evento enviado a n8n exitosamente");
+        // } catch (n8nError) {
+        //   // No bloqueamos el proceso si falla n8n
+        //   logError("⚠️ Error enviando evento a n8n:", n8nError);
+        // }
       }
 
     } else if (transactionStatus === "DECLINED") {
       log("❌ Pago rechazado");
+
+      // Buscar orden
+      const { data: order } = await supabase
+        .from('orders')
+        .select('*')
+        .eq('numero_orden', reference)
+        .single();
 
       // Actualizar orden como fallida
       await supabase
@@ -238,6 +258,16 @@ export async function POST(request) {
           informacion_pago: transaction,
         })
         .eq('numero_orden', reference);
+
+      // DESHABILITADO TEMPORALMENTE - n8n integration
+      // Notificar a n8n del pago rechazado
+      // if (order) {
+      //   try {
+      //     await notifyOrderCancelled(order, 'payment_declined');
+      //   } catch (n8nError) {
+      //     logError("⚠️ Error enviando evento a n8n:", n8nError);
+      //   }
+      // }
 
     } else if (transactionStatus === "PENDING") {
       log("⏳ Pago pendiente");

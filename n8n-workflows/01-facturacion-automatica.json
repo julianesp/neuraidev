@@ -1,0 +1,208 @@
+{
+  "name": "01 - Facturación Automática",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "order-paid",
+        "options": {},
+        "responseMode": "responseNode",
+        "httpMethod": "POST"
+      },
+      "id": "webhook-order-paid",
+      "name": "Webhook: Pedido Pagado",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "order-paid"
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "seconds"
+      },
+      "id": "wait-for-invoice",
+      "name": "Esperar Generación Factura",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "invoices",
+        "returnAll": false,
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "order_reference",
+              "keyValue": "={{ $json.data.orderNumber }}"
+            }
+          ]
+        }
+      },
+      "id": "supabase-get-invoice",
+      "name": "Buscar Factura",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "1",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.RESEND_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "from",
+              "value": "Neurai.dev <noreply@neurai.dev>"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.data.customerEmail }}"
+            },
+            {
+              "name": "subject",
+              "value": "Factura de tu pedido #={{ $json.data.orderNumber }}"
+            },
+            {
+              "name": "html",
+              "value": "<h1>¡Gracias por tu compra!</h1><p>Hola {{ $json.data.customerName }},</p><p>Tu pedido <strong>#={{ $json.data.orderNumber }}</strong> ha sido confirmado.</p><p>Adjunto encontrarás tu factura electrónica.</p><p>Total: $={{ $json.data.total }}</p><br><p>Saludos,<br>Equipo Neurai.dev</p>"
+            }
+          ]
+        }
+      },
+      "id": "send-invoice-email",
+      "name": "Enviar Factura por Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "tableId": "email_tracking",
+        "columnsUi": {
+          "columnValues": [
+            {
+              "column": "email_type",
+              "value": "invoice"
+            },
+            {
+              "column": "recipient_email",
+              "value": "={{ $json.data.customerEmail }}"
+            },
+            {
+              "column": "subject",
+              "value": "Factura de tu pedido #={{ $json.data.orderNumber }}"
+            },
+            {
+              "column": "metadata",
+              "value": "={{ { orderId: $json.data.orderId, orderNumber: $json.data.orderNumber } }}"
+            }
+          ]
+        }
+      },
+      "id": "track-email",
+      "name": "Registrar Envío",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1050, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "1",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, message: 'Factura enviada' } }}"
+      },
+      "id": "webhook-response",
+      "name": "Responder Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    }
+  ],
+  "connections": {
+    "Webhook: Pedido Pagado": {
+      "main": [
+        [
+          {
+            "node": "Esperar Generación Factura",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar Generación Factura": {
+      "main": [
+        [
+          {
+            "node": "Buscar Factura",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Factura": {
+      "main": [
+        [
+          {
+            "node": "Enviar Factura por Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Factura por Email": {
+      "main": [
+        [
+          {
+            "node": "Registrar Envío",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar Envío": {
+      "main": [
+        [
+          {
+            "node": "Responder Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "tags": ["facturacion", "email", "automatico"]
+}

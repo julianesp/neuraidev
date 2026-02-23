@@ -55,7 +55,7 @@ export default function TecnicoSistemas() {
           <p className={styles.subtitle}>
             Soluciones profesionales para todos tus problemas informáticos
           </p>
-          <Link href="#contacto" className={styles.ctaButton}>
+          <Link href="https://wa.me/573174503604?text=Me%20interesa%20contratar%20tus%20servicios%20como%20técnico%20en%20sistemas" className={styles.ctaButton}>
             Solicitar Servicio
           </Link>
         </div>
@@ -95,6 +95,61 @@ export default function TecnicoSistemas() {
         </div>
       </section>
 
+      <section className={styles.licenses}>
+        <h2 className={styles.sectionTitle}>Licencias de Software</h2>
+        <p className={styles.licensesSubtitle}>
+          Adquiere licencias originales para proteger y potenciar tu equipo
+        </p>
+        <div className={styles.licensesGrid}>
+          <div className={styles.licenseCard}>
+            <div className={styles.licenseIcon}>🛡️</div>
+            <h3 className={styles.licenseTitle}>Licencias de Antivirus</h3>
+            <p className={styles.licenseDescription}>
+              Protege tu equipo con las mejores soluciones antivirus del
+              mercado. Licencias originales con soporte y actualizaciones
+              garantizadas.
+            </p>
+            <ul className={styles.licenseFeatures}>
+              <li>Protección en tiempo real</li>
+              <li>Actualizaciones automáticas</li>
+
+              <li>Licencias originales</li>
+            </ul>
+            <Link
+              href="https://wa.me/573174503604?text=Me%20interesa%20contratar%20tus%20servicios%20como%20técnico%20en%20sistemas"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.licenseButton}
+            >
+              Pedir servicio
+            </Link>
+          </div>
+
+          <div className={styles.licenseCard}>
+            <div className={styles.licenseIcon}>📊</div>
+            <h3 className={styles.licenseTitle}>Licencias de Office</h3>
+            <p className={styles.licenseDescription}>
+              Obtén Microsoft Office original para trabajar con todas las
+              herramientas profesionales que necesitas.
+            </p>
+            <ul className={styles.licenseFeatures}>
+              <li>Word, Excel, PowerPoint</li>
+              <li>Outlook y OneNote</li>
+              <li>Activación por un año</li>
+              <li>Licencias originales</li>
+            </ul>
+            <Link
+              href="https://wa.me/573174503604?text=Me%20interesa%20contratar%20tus%20servicios%20como%20técnico%20en%20sistemas"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.licenseButton}
+            >
+              Pedir servicio
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.contact} id="contacto">
         <div className={styles.contactContent}>
           <h2>¿Necesitas Ayuda Técnica?</h2>
@@ -103,7 +158,7 @@ export default function TecnicoSistemas() {
             profesional
           </p>
           <Link
-            href="https://wa.me/573174503604?text=Hola,%20necesito%20servicios%20de%20técnico%20en%20sistemas"
+            href="https://wa.me/573174503604?text=Me%20interesa%20contratar%20tus%20servicios%20como%20técnico%20en%20sistemas"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.whatsappButton}

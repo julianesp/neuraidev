@@ -225,6 +225,7 @@ const NavBar = () => {
             <Link
               href="/accesorios"
               title="Ir a la tienda de productos"
+              className={styles.dropdown_toggle}
               onClick={(e) => {
                 // Solo prevenir navegación en móvil para toggle
                 if (window.innerWidth < 1024) {
@@ -233,7 +234,7 @@ const NavBar = () => {
                 }
               }}
             >
-              Productos ▾
+              Productos <span className={styles.dropdown_arrow}>▾</span>
             </Link>
             {dropdownOpen && (
               <ul className={styles.dropdown}>
@@ -243,7 +244,11 @@ const NavBar = () => {
                   </Link>
                 </li> */}
                 <li>
-                  <Link href="/accesorios/celulares" onClick={handleLinkClick} title="Accesorios para celulares">
+                  <Link
+                    href="/accesorios/celulares"
+                    onClick={handleLinkClick}
+                    title="Accesorios para celulares"
+                  >
                     Accesorios Celulares
                   </Link>
                 </li>
@@ -296,6 +301,7 @@ const NavBar = () => {
             <Link
               href="/servicios"
               title="Ver servicios profesionales"
+              className={styles.dropdown_toggle}
               onClick={(e) => {
                 // Solo prevenir navegación en móvil para toggle
                 if (window.innerWidth < 1024) {
@@ -304,7 +310,7 @@ const NavBar = () => {
                 }
               }}
             >
-              Servicios ▾
+              Servicios <span className={styles.dropdown_arrow}>▾</span>
             </Link>
             {serviciosDropdownOpen && (
               <ul className={styles.dropdown}>
@@ -421,7 +427,9 @@ const NavBar = () => {
               onClick={() => {
                 handleLinkClick();
                 // Trigger el evento para abrir el panel de accesibilidad
-                window.dispatchEvent(new CustomEvent('toggleAccessibilityPanel'));
+                window.dispatchEvent(
+                  new CustomEvent("toggleAccessibilityPanel"),
+                );
               }}
               className={styles.accessibilityLink}
               title="Opciones de accesibilidad"

@@ -9,7 +9,7 @@ import crypto from 'crypto';
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { email, nombre, notificar_todos = true, categorias_interes = [] } = body;
+    const { email, nombre, notificar_todos = true, categorias_interes = [], clerk_user_id = null } = body;
 
     // Validación
     if (!email) {
@@ -46,6 +46,7 @@ export async function POST(request) {
         .from('product_subscribers')
         .update({
           nombre: nombre || existingSubscriber.nombre,
+          clerk_user_id: clerk_user_id || existingSubscriber.clerk_user_id,
           notificar_todos,
           categorias_interes: notificar_todos ? [] : categorias_interes,
           activo: true,
@@ -81,10 +82,11 @@ export async function POST(request) {
       .insert({
         email: email.toLowerCase(),
         nombre: nombre || null,
+        clerk_user_id: clerk_user_id,
         notificar_todos,
         categorias_interes: notificar_todos ? [] : categorias_interes,
         token_confirmacion: tokenConfirmacion,
-        confirmado: false,
+        confirmado: clerk_user_id ? true : false, // Si tiene Clerk, marcar como confirmado automáticamente
         activo: true,
         ip_registro: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
         user_agent: request.headers.get('user-agent') || 'unknown',

@@ -1,7 +1,6 @@
 import React from "react";
-import Link from "next/link";
-import Image from "next/image";
 import ProductSearch from "@/components/ProductSearch/ProductSearch";
+import CategoryCard from "@/components/CategoryCard";
 
 export const metadata = {
   title: "Accesorios y Productos | Tienda Online Neurai.dev",
@@ -37,7 +36,6 @@ export const metadata = {
 import {
   Smartphone,
   Monitor,
-  Heart,
   BookOpen,
   Package,
   Star,
@@ -76,14 +74,14 @@ const categorias = [
     icono: <BookOpen className="w-8 h-8" />,
     color: "bg-amber-600",
   },
-  {
-    id: "belleza",
-    nombre: "Productos de Belleza",
-    descripcion: "Accesorios y productos de belleza y cuidado personal",
-    ruta: "/accesorios/belleza",
-    icono: <Heart className="w-8 h-8" />,
-    color: "bg-rose-500",
-  },
+  // {
+  //   id: "belleza",
+  //   nombre: "Productos de Belleza",
+  //   descripcion: "Accesorios y productos de belleza y cuidado personal",
+  //   ruta: "/accesorios/belleza",
+  //   icono: <Heart className="w-8 h-8" />,
+  //   color: "bg-rose-500",
+  // },
   {
     id: "generales",
     nombre: "Accesorios Generales",
@@ -124,44 +122,7 @@ export default function AccesoriosPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categorias.map((categoria) => (
-            <Link
-              key={categoria.id}
-              href={categoria.ruta}
-              className="group bg-white/30 backdrop-blur-md dark:bg-black/20 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-white/20"
-            >
-              <div className="flex flex-col items-center text-center">
-                <div
-                  className={`${categoria.color} p-4 rounded-full text-white mb-4 group-hover:scale-110 transition-transform duration-300`}
-                >
-                  {categoria.icono}
-                </div>
-
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
-                  {categoria.nombre}
-                </h2>
-
-                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
-                  {categoria.descripcion}
-                </p>
-
-                <div className="mt-4 inline-flex items-center text-primary font-medium text-sm group-hover:underline">
-                  Ver productos
-                  <svg
-                    className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </Link>
+            <CategoryCard key={categoria.id} categoria={categoria} />
           ))}
         </div>
 

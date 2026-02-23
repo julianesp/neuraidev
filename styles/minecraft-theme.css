@@ -1,0 +1,495 @@
+/* ============================================
+   FUENTE PIXELADA ESTILO MINECRAFT
+   ============================================ */
+
+@font-face {
+  font-family: 'MinecraftFont';
+  src: url('data:font/woff2;base64,') format('woff2');
+  /* Fallback a fuente monospace pixelada */
+  font-display: swap;
+}
+
+/* ============================================
+   VARIABLES DEL TEMA MINECRAFT
+   ============================================ */
+
+:root.minecraft-theme {
+  /* Colores principales de Minecraft */
+  --mc-grass-top: #7cbd6b;
+  --mc-grass-side: #5c8a4d;
+  --mc-dirt: #8b6f47;
+  --mc-stone: #7a7a7a;
+  --mc-stone-dark: #4a4a4a;
+  --mc-cobblestone: #828282;
+  --mc-wood: #9c7f4e;
+  --mc-wood-dark: #6b5335;
+  --mc-planks: #b89862;
+  --mc-diamond: #5deefc;
+  --mc-emerald: #41cd34;
+  --mc-gold: #fcee4b;
+  --mc-redstone: #ff0000;
+  --mc-lapis: #2c4c9e;
+  --mc-brick: #964b4b;
+  --mc-bedrock: #545454;
+  --mc-crafting-table: #8b6f47;
+
+  /* Colores de texto */
+  --mc-text-white: #ffffff;
+  --mc-text-shadow: #3f3f3f;
+  --mc-text-yellow: #ffff55;
+
+  /* Sombras y efectos */
+  --mc-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4);
+  --mc-shadow-sm: 2px 2px 0px rgba(0, 0, 0, 0.3);
+  --mc-inset-light: inset 2px 2px 4px rgba(255, 255, 255, 0.3);
+  --mc-inset-dark: inset -2px -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   ESTILOS GLOBALES DEL TEMA MINECRAFT
+   ============================================ */
+
+.minecraft-theme {
+  /* Aplicar fuente pixelada globalmente */
+  font-family: 'Press Start 2P', 'Courier New', monospace !important;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.minecraft-theme * {
+  /* Bordes pixelados */
+  border-radius: 0 !important;
+}
+
+/* ============================================
+   TEXTURAS DE BLOQUES (Mixins CSS)
+   ============================================ */
+
+/* Textura de Grass Block */
+.minecraft-theme .mc-grass-block {
+  background: linear-gradient(180deg, var(--mc-grass-top) 0%, var(--mc-grass-top) 30%, var(--mc-dirt) 30%, var(--mc-dirt) 100%);
+  border: 3px solid var(--mc-grass-side);
+  box-shadow: var(--mc-shadow), var(--mc-inset-light), var(--mc-inset-dark);
+  position: relative;
+  background-image:
+    repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0,0,0,0.1) 4px, rgba(0,0,0,0.1) 8px),
+    repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0,0,0,0.1) 4px, rgba(0,0,0,0.1) 8px);
+}
+
+/* Textura de Stone */
+.minecraft-theme .mc-stone-block {
+  background: linear-gradient(135deg, #8a8a8a 0%, var(--mc-stone) 25%, #6a6a6a 50%, var(--mc-stone) 75%, #8a8a8a 100%);
+  border: 3px solid var(--mc-stone-dark);
+  box-shadow: var(--mc-shadow), var(--mc-inset-light), var(--mc-inset-dark);
+  background-image:
+    repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.15) 3px, rgba(0,0,0,0.15) 6px),
+    repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,0.1) 5px, rgba(0,0,0,0.1) 10px);
+}
+
+/* Textura de Wood/Oak Planks */
+.minecraft-theme .mc-wood-block {
+  background: linear-gradient(90deg,
+    var(--mc-planks) 0%,
+    #a58556 20%,
+    var(--mc-planks) 40%,
+    #a58556 60%,
+    var(--mc-planks) 80%,
+    #a58556 100%
+  );
+  border: 3px solid var(--mc-wood-dark);
+  box-shadow: var(--mc-shadow), var(--mc-inset-light), var(--mc-inset-dark);
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(101,67,33,0.3) 8px, rgba(101,67,33,0.3) 16px);
+}
+
+/* Textura de Brick */
+.minecraft-theme .mc-brick-block {
+  background:
+    linear-gradient(0deg, transparent 48%, var(--mc-stone-dark) 48%, var(--mc-stone-dark) 52%, transparent 52%),
+    linear-gradient(90deg, transparent 48%, var(--mc-stone-dark) 48%, var(--mc-stone-dark) 52%, transparent 52%),
+    repeating-linear-gradient(0deg, var(--mc-brick) 0px, var(--mc-brick) 16px, #8a4545 16px, #8a4545 17px),
+    repeating-linear-gradient(90deg, var(--mc-brick) 0px, var(--mc-brick) 32px, #8a4545 32px, #8a4545 33px);
+  background-size: 100% 100%, 100% 100%, 100% 32px, 64px 100%;
+  border: 3px solid #7a3838;
+  box-shadow: var(--mc-shadow), var(--mc-inset-light), var(--mc-inset-dark);
+}
+
+/* Textura de Diamond Block */
+.minecraft-theme .mc-diamond-block {
+  background: radial-gradient(circle at 30% 30%, #8ffcff, var(--mc-diamond) 40%, #3db8c4 80%);
+  border: 3px solid #2a8a94;
+  box-shadow:
+    var(--mc-shadow),
+    var(--mc-inset-light),
+    var(--mc-inset-dark),
+    0 0 20px rgba(93, 238, 252, 0.6);
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.2) 10px, rgba(255,255,255,0.2) 20px),
+    repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px);
+}
+
+/* Textura de Emerald Block */
+.minecraft-theme .mc-emerald-block {
+  background: radial-gradient(circle at 30% 30%, #66ff66, var(--mc-emerald) 40%, #2a9625 80%);
+  border: 3px solid #1f7a1a;
+  box-shadow:
+    var(--mc-shadow),
+    var(--mc-inset-light),
+    var(--mc-inset-dark),
+    0 0 20px rgba(65, 205, 52, 0.6);
+  background-image:
+    repeating-linear-gradient(60deg, transparent, transparent 8px, rgba(255,255,255,0.2) 8px, rgba(255,255,255,0.2) 16px);
+}
+
+/* Textura de Gold Block */
+.minecraft-theme .mc-gold-block {
+  background: linear-gradient(135deg, #fff566 0%, var(--mc-gold) 25%, #ddc83d 50%, var(--mc-gold) 75%, #fff566 100%);
+  border: 3px solid #d4b82e;
+  box-shadow:
+    var(--mc-shadow),
+    var(--mc-inset-light),
+    var(--mc-inset-dark),
+    0 0 15px rgba(252, 238, 75, 0.5);
+}
+
+/* Textura de Crafting Table */
+.minecraft-theme .mc-crafting-block {
+  background:
+    linear-gradient(180deg,
+      var(--mc-wood) 0%,
+      var(--mc-wood) 40%,
+      var(--mc-planks) 40%,
+      var(--mc-planks) 100%
+    );
+  border: 3px solid var(--mc-wood-dark);
+  box-shadow: var(--mc-shadow), var(--mc-inset-light), var(--mc-inset-dark);
+  position: relative;
+}
+
+.minecraft-theme .mc-crafting-block::after {
+  content: '';
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  right: 5%;
+  height: 35%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0%, transparent 30%, var(--mc-wood-dark) 30%, var(--mc-wood-dark) 32%, transparent 32%, transparent 48%, var(--mc-wood-dark) 48%, var(--mc-wood-dark) 50%, transparent 50%),
+    repeating-linear-gradient(0deg, transparent 0%, transparent 30%, var(--mc-wood-dark) 30%, var(--mc-wood-dark) 32%, transparent 32%, transparent 48%, var(--mc-wood-dark) 48%, var(--mc-wood-dark) 50%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ============================================
+   BOTONES ESTILO MINECRAFT
+   ============================================ */
+
+.minecraft-theme button,
+.minecraft-theme .btn,
+.minecraft-theme a.button {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 0.7rem !important;
+  padding: 12px 24px !important;
+  border: 3px solid !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.1s ease !important;
+  position: relative;
+  text-shadow: 2px 2px 0px var(--mc-text-shadow) !important;
+  font-weight: normal !important;
+}
+
+/* Botón primario - Stone */
+.minecraft-theme button:not(.mc-diamond):not(.mc-emerald):not(.mc-gold):not(.mc-brick),
+.minecraft-theme .btn-primary {
+  background: linear-gradient(180deg, #9a9a9a 0%, var(--mc-stone) 50%, #6a6a6a 100%) !important;
+  border-color: var(--mc-stone-dark) !important;
+  color: var(--mc-text-white) !important;
+  box-shadow: var(--mc-shadow), var(--mc-inset-light), var(--mc-inset-dark) !important;
+}
+
+.minecraft-theme button:hover:not(.mc-diamond):not(.mc-emerald):not(.mc-gold):not(.mc-brick),
+.minecraft-theme .btn-primary:hover {
+  background: linear-gradient(180deg, #aaa 0%, #8a8a8a 50%, #7a7a7a 100%) !important;
+  transform: translateY(-2px);
+  box-shadow:
+    6px 6px 0px rgba(0, 0, 0, 0.4),
+    var(--mc-inset-light),
+    var(--mc-inset-dark) !important;
+}
+
+.minecraft-theme button:active:not(.mc-diamond):not(.mc-emerald):not(.mc-gold):not(.mc-brick),
+.minecraft-theme .btn-primary:active {
+  transform: translateY(2px);
+  box-shadow:
+    2px 2px 0px rgba(0, 0, 0, 0.4),
+    inset 2px 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Botón Diamond (acciones especiales) */
+.minecraft-theme button.mc-diamond,
+.minecraft-theme .btn-diamond {
+  background: radial-gradient(circle at 30% 30%, #8ffcff, var(--mc-diamond) 60%, #3db8c4) !important;
+  border-color: #2a8a94 !important;
+  color: #003d44 !important;
+  box-shadow:
+    var(--mc-shadow),
+    var(--mc-inset-light),
+    var(--mc-inset-dark),
+    0 0 15px rgba(93, 238, 252, 0.5) !important;
+}
+
+.minecraft-theme button.mc-diamond:hover,
+.minecraft-theme .btn-diamond:hover {
+  box-shadow:
+    6px 6px 0px rgba(0, 0, 0, 0.4),
+    var(--mc-inset-light),
+    var(--mc-inset-dark),
+    0 0 25px rgba(93, 238, 252, 0.8) !important;
+}
+
+/* Botón Emerald (confirmación/éxito) */
+.minecraft-theme button.mc-emerald,
+.minecraft-theme .btn-success {
+  background: radial-gradient(circle at 30% 30%, #66ff66, var(--mc-emerald) 60%, #2a9625) !important;
+  border-color: #1f7a1a !important;
+  color: #003d00 !important;
+  box-shadow:
+    var(--mc-shadow),
+    var(--mc-inset-light),
+    var(--mc-inset-dark),
+    0 0 15px rgba(65, 205, 52, 0.5) !important;
+}
+
+/* Botón Gold (warning/importante) */
+.minecraft-theme button.mc-gold,
+.minecraft-theme .btn-warning {
+  background: linear-gradient(135deg, #fff566 0%, var(--mc-gold) 50%, #ddc83d 100%) !important;
+  border-color: #d4b82e !important;
+  color: #5c4f00 !important;
+  box-shadow:
+    var(--mc-shadow),
+    var(--mc-inset-light),
+    var(--mc-inset-dark),
+    0 0 10px rgba(252, 238, 75, 0.4) !important;
+}
+
+/* Botón Brick/Redstone (peligro/eliminar) */
+.minecraft-theme button.mc-brick,
+.minecraft-theme .btn-danger {
+  background: linear-gradient(180deg, #b45555 0%, var(--mc-brick) 50%, #7a3838 100%) !important;
+  border-color: #5c2828 !important;
+  color: var(--mc-text-white) !important;
+  box-shadow: var(--mc-shadow), var(--mc-inset-light), var(--mc-inset-dark) !important;
+}
+
+/* ============================================
+   INPUTS Y FORMULARIOS
+   ============================================ */
+
+.minecraft-theme input[type="text"],
+.minecraft-theme input[type="email"],
+.minecraft-theme input[type="password"],
+.minecraft-theme input[type="number"],
+.minecraft-theme input[type="search"],
+.minecraft-theme textarea,
+.minecraft-theme select {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 0.7rem !important;
+  padding: 12px !important;
+  background: #2b2b2b !important;
+  border: 3px solid #1a1a1a !important;
+  color: var(--mc-text-white) !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.6),
+    inset -1px -1px 2px rgba(255, 255, 255, 0.1) !important;
+}
+
+.minecraft-theme input:focus,
+.minecraft-theme textarea:focus,
+.minecraft-theme select:focus {
+  outline: none !important;
+  border-color: var(--mc-diamond) !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(93, 238, 252, 0.6) !important;
+}
+
+/* ============================================
+   CARDS Y CONTENEDORES
+   ============================================ */
+
+.minecraft-theme .card,
+.minecraft-theme [class*="card"] {
+  background: linear-gradient(135deg, #8a8a8a 0%, var(--mc-stone) 50%, #6a6a6a 100%) !important;
+  border: 4px solid var(--mc-stone-dark) !important;
+  box-shadow:
+    var(--mc-shadow),
+    var(--mc-inset-light),
+    var(--mc-inset-dark) !important;
+  padding: 16px !important;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+
+.minecraft-theme nav,
+.minecraft-theme [class*="navbar"],
+.minecraft-theme [class*="NavBar"] {
+  background: linear-gradient(180deg, #656565 0%, var(--mc-bedrock) 50%, #3a3a3a 100%) !important;
+  border-bottom: 4px solid #2a2a2a !important;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ============================================
+   ENLACES
+   ============================================ */
+
+.minecraft-theme a {
+  color: var(--mc-diamond) !important;
+  text-decoration: none !important;
+  text-shadow: 1px 1px 0px var(--mc-text-shadow);
+  transition: all 0.1s ease;
+}
+
+.minecraft-theme a:hover {
+  color: var(--mc-gold) !important;
+  text-shadow:
+    1px 1px 0px var(--mc-text-shadow),
+    0 0 8px rgba(252, 238, 75, 0.6);
+}
+
+/* ============================================
+   TÍTULOS
+   ============================================ */
+
+.minecraft-theme h1,
+.minecraft-theme h2,
+.minecraft-theme h3,
+.minecraft-theme h4,
+.minecraft-theme h5,
+.minecraft-theme h6 {
+  font-family: 'Press Start 2P', monospace !important;
+  text-shadow: 3px 3px 0px var(--mc-text-shadow) !important;
+  letter-spacing: 2px;
+}
+
+/* ============================================
+   IMÁGENES - Efecto pixelado
+   ============================================ */
+
+.minecraft-theme img {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* ============================================
+   MODALES Y POPUPS
+   ============================================ */
+
+.minecraft-theme [class*="modal"],
+.minecraft-theme [class*="dialog"] {
+  background: linear-gradient(135deg, var(--mc-wood) 0%, var(--mc-planks) 100%) !important;
+  border: 5px solid var(--mc-wood-dark) !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.8),
+    var(--mc-inset-light),
+    var(--mc-inset-dark) !important;
+}
+
+/* ============================================
+   SCROLLBAR ESTILO MINECRAFT
+   ============================================ */
+
+.minecraft-theme ::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+.minecraft-theme ::-webkit-scrollbar-track {
+  background: #2b2b2b;
+  border: 2px solid #1a1a1a;
+}
+
+.minecraft-theme ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8a8a8a, var(--mc-stone), #6a6a6a);
+  border: 2px solid var(--mc-stone-dark);
+  box-shadow: var(--mc-inset-light), var(--mc-inset-dark);
+}
+
+.minecraft-theme ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9a9a9a, #8a8a8a, #7a7a7a);
+}
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+
+@keyframes mc-pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.minecraft-theme button:active {
+  animation: mc-pop 0.2s ease;
+}
+
+/* ============================================
+   EFECTOS DE HOVER GLOBALES
+   ============================================ */
+
+.minecraft-theme *:hover {
+  transition: all 0.1s ease !important;
+}
+
+/* ============================================
+   TOOLTIPS ESTILO MINECRAFT
+   ============================================ */
+
+.minecraft-theme [title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  font-size: 0.6rem;
+  white-space: nowrap;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  margin-bottom: 8px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* ============================================
+   RESPONSIVE - Ajustes para móviles
+   ============================================ */
+
+@media (max-width: 768px) {
+  .minecraft-theme button,
+  .minecraft-theme .btn {
+    font-size: 0.6rem !important;
+    padding: 10px 16px !important;
+  }
+
+  .minecraft-theme input,
+  .minecraft-theme textarea,
+  .minecraft-theme select {
+    font-size: 0.6rem !important;
+    padding: 10px !important;
+  }
+}

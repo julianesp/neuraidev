@@ -1,0 +1,163 @@
+.minecraftSwitchContainer {
+  margin: 1rem 0;
+  padding: 0.5rem;
+}
+
+.switchLabel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.labelText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary, #333);
+  transition: color 0.3s ease;
+
+  .minecraft-theme & {
+    font-family: 'MinecraftFont', monospace;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.leverSwitch {
+  position: relative;
+  width: 60px;
+  height: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:focus {
+    outline: 2px solid #4a90e2;
+    outline-offset: 2px;
+  }
+}
+
+.stoneBlock {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 24px;
+  background: linear-gradient(135deg,
+    #7a7a7a 0%,
+    #6a6a6a 25%,
+    #5a5a5a 50%,
+    #6a6a6a 75%,
+    #7a7a7a 100%
+  );
+  border: 2px solid #4a4a4a;
+  border-radius: 2px;
+  box-shadow:
+    inset 2px 2px 4px rgba(255, 255, 255, 0.3),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+    2px 2px 4px rgba(0, 0, 0, 0.3);
+
+  // Textura pixelada de piedra
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 4px,
+      rgba(0, 0, 0, 0.1) 4px,
+      rgba(0, 0, 0, 0.1) 8px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 4px,
+      rgba(0, 0, 0, 0.1) 4px,
+      rgba(0, 0, 0, 0.1) 8px
+    );
+}
+
+.leverBase {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  width: 8px;
+  height: 8px;
+  background: #3d3d3d;
+  border-radius: 50%;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.leverHandle {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-30deg);
+  transform-origin: bottom center;
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(to right, #8b6f47, #6b5335);
+  border-radius: 2px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, #654321 0%, #4a3217 100%);
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.leverSwitch.active {
+  .leverHandle {
+    transform: translateX(-50%) rotate(30deg);
+    background: linear-gradient(to right, #a0815a, #8b6f47);
+  }
+
+  .stoneBlock {
+    background: linear-gradient(135deg,
+      #d4a76a 0%,
+      #c4976a 25%,
+      #b4876a 50%,
+      #c4976a 75%,
+      #d4a76a 100%
+    );
+    border-color: #8b6f47;
+    box-shadow:
+      inset 2px 2px 4px rgba(255, 255, 255, 0.4),
+      inset -2px -2px 4px rgba(139, 111, 71, 0.6),
+      0 0 10px rgba(212, 167, 106, 0.5),
+      2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Estilos para tema oscuro
+@media (prefers-color-scheme: dark) {
+  .labelText {
+    color: var(--text-primary, #fff);
+  }
+}
+
+// Animación de activación
+@keyframes leverPull {
+  0%, 100% {
+    transform: translateX(-50%) rotate(-30deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(-35deg) translateY(-2px);
+  }
+}
+
+.leverSwitch:active .leverHandle {
+  animation: leverPull 0.2s ease;
+}

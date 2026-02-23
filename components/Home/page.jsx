@@ -21,12 +21,66 @@ import WebDevSection from "@/components/WebDevelopment/WebDevSection";
 import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
 import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import ExternalNews from "@/components/ExternalNews/ExternalNews";
+import NotificationsBanner from "@/components/NotificationsBanner";
+import CategoryCard from "@/components/CategoryCard";
+import {
+  Smartphone,
+  Monitor,
+  Heart,
+  BookOpen,
+  Package,
+  Star,
+} from "lucide-react";
 // import FacebookLogin from "./Auth/FacebookLogin";
 // import "./ContactForm.css";
 // import "./SideModal/SideModal.module.scss";
 
 const API_PRESENTATION = "/presentation.json";
 const API_ACCESORIOS = "/accesoriosDestacados.json";
+
+// Categorías de accesorios para la página de inicio
+const categorias = [
+  {
+    id: "celulares",
+    nombre: "Celulares",
+    descripcion: "Cables, cargadores, fundas y más para tu smartphone",
+    ruta: "/accesorios/celulares",
+    icono: <Smartphone className="w-8 h-8" />,
+    color: "bg-blue-500",
+  },
+  {
+    id: "computadoras",
+    nombre: "Computadores",
+    descripcion: "Teclados, mouse, cables y componentes para PC",
+    ruta: "/accesorios/computadoras",
+    icono: <Monitor className="w-8 h-8" />,
+    color: "bg-green-500",
+  },
+  {
+    id: "libros-nuevos",
+    nombre: "Libros nuevos",
+    descripcion: "Colección de libros nuevos de diferentes géneros",
+    ruta: "/accesorios/libros-nuevos",
+    icono: <BookOpen className="w-8 h-8" />,
+    color: "bg-orange-500",
+  },
+  {
+    id: "libros-usados",
+    nombre: "Libros usados",
+    descripcion: "Libros de segunda mano en excelente estado",
+    ruta: "/accesorios/libros-usados",
+    icono: <BookOpen className="w-8 h-8" />,
+    color: "bg-amber-600",
+  },
+  {
+    id: "generales",
+    nombre: "Generales",
+    descripcion: "Variedad de productos para diferentes necesidades",
+    ruta: "/accesorios/generales",
+    icono: <Package className="w-8 h-8" />,
+    color: "bg-gray-500",
+  },
+];
 
 function CarouselSkeleton() {
   return (
@@ -241,6 +295,11 @@ export default function Inicio() {
           <PresentationCarousel />
         </div>
 
+        {/* Banner de notificaciones - solo en página de inicio */}
+        <div className="mt-4">
+          <NotificationsBanner />
+        </div>
+
         {/* Accesorios destacados */}
         <section
           ref={destacadosRef}
@@ -450,10 +509,10 @@ export default function Inicio() {
           ref={accesoriesRef}
           className={`${styles.accesories} ${styles.fadeInUp} mt-16`}
         >
-          <section className={styles.varios}>
+          <div className="w-full max-w-7xl mx-auto px-4">
             <h1
               id="accesories"
-              className={`${styles.accesoriesTitle} `}
+              className="text-center mb-8"
               data-aos="fade-up"
             >
               <Link
@@ -467,115 +526,17 @@ export default function Inicio() {
             </h1>
 
             {/* Buscador de productos */}
-            <div className={styles.searchWrapper} data-aos="fade-up">
+            <div className="max-w-3xl mx-auto mb-8" data-aos="fade-up">
               <ProductSearch />
             </div>
 
-            {/* Artículo con animación desde la izquierda */}
-            <article
-              ref={celularesRef}
-              className={`${styles.tipo} ${styles.fadeInLeft} `}
-              style={{
-                backgroundImage:
-                  "url('https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/celulares/charger%20fast%2020w/1.jpg')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <h2 className="text-white dark:text-white">Celulares</h2>
-
-              <Link
-                href="/accesorios/celulares"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
-              >
-                Ver más
-              </Link>
-            </article>
-
-            {/* Artículo con animación desde la derecha */}
-            <article
-              ref={computadoresRef}
-              className={`${styles.tipo} ${styles.fadeInRight}`}
-              style={{
-                backgroundImage:
-                  "url('https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/mouse%20usb%20-%20blutu/1.jpg')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <h2 className="text-white dark:text-white">Computadores</h2>
-
-              <Link
-                href="/accesorios/computadoras"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
-              >
-                Ver más
-              </Link>
-            </article>
-
-            {/* Artículo con animación desde la derecha */}
-            <article
-              ref={librosNuevosRef}
-              className={`${styles.tipo} ${styles.fadeInRight}`}
-              style={{
-                backgroundImage:
-                  "url('https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/new/elon/480668319_122204420066083804_3713515218081717544_n.jpg')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <h2 className="text-white dark:text-white">Libros nuevos</h2>
-
-              <Link
-                href="/accesorios/libros-nuevos"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
-              >
-                Ver más
-              </Link>
-            </article>
-
-            {/* Artículo con animación desde la izquierda */}
-            <article
-              ref={librosUsadosRef}
-              className={`${styles.tipo} ${styles.fadeInLeft}`}
-              style={{
-                backgroundImage:
-                  "url(https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/java%209na%20edicion/1.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <h2 className="text-white dark:text-white">Libros usados</h2>
-
-              <Link
-                href="/accesorios/libros-usados"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
-              >
-                Ver más
-              </Link>
-            </article>
-
-            {/* Artículo de accesorios con animación desde la izquierda */}
-            <article
-              ref={accesoriosRef}
-              className={`${styles.tipo} ${styles.fadeInLeft}`}
-              style={{
-                backgroundImage:
-                  "url(https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/generales/dron/1.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <h2 className="text-white dark:text-white">Generales</h2>
-
-              <Link
-                href="/accesorios/generales"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
-              >
-                Ver más
-              </Link>
-            </article>
-          </section>
+            {/* Grid de categorías con carrusel */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+              {categorias.map((categoria) => (
+                <CategoryCard key={categoria.id} categoria={categoria} />
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* Formulario de contacto por WhatsApp */}

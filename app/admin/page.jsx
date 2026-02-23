@@ -14,6 +14,8 @@ import {
   Eye,
   Calendar,
   ArrowRight,
+  Bell,
+  Send,
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -86,6 +88,15 @@ export default function AdminDashboard() {
       gradient: "from-green-500 to-green-600",
     },
     {
+      title: "Suscriptores",
+      description: "Gestiona suscriptores de notificaciones",
+      icon: Users,
+      href: "/admin/suscriptores",
+      stats: "Ver suscriptores",
+      color: "pink",
+      gradient: "from-pink-500 to-pink-600",
+    },
+    {
       title: "Análiticas",
       description: "Estadísticas y reportes",
       icon: TrendingUp,
@@ -102,6 +113,12 @@ export default function AdminDashboard() {
       icon: FileText,
       href: "/admin/blog/nuevo",
       color: "blue",
+    },
+    {
+      title: "Notificar Producto",
+      icon: Send,
+      href: "/admin/notificar-producto",
+      color: "purple",
     },
     {
       title: "Ver Sitio",
@@ -196,6 +213,8 @@ export default function AdminDashboard() {
                       className={`p-3 rounded-lg ${
                         action.color === "blue"
                           ? "bg-blue-100 dark:bg-blue-900"
+                          : action.color === "purple"
+                          ? "bg-purple-100 dark:bg-purple-900"
                           : "bg-gray-100 dark:bg-gray-700"
                       }`}
                     >
@@ -204,6 +223,8 @@ export default function AdminDashboard() {
                         className={
                           action.color === "blue"
                             ? "text-blue-600 dark:text-blue-400"
+                            : action.color === "purple"
+                            ? "text-purple-600 dark:text-purple-400"
                             : "text-gray-600 dark:text-gray-400"
                         }
                       />
