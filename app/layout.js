@@ -96,12 +96,24 @@ export const metadata = {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
     ],
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
     other: [
+      {
+        url: "/android-chrome-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: "/android-chrome-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
       {
         url: "/web-app-manifest-192x192.png",
         sizes: "192x192",
@@ -114,6 +126,7 @@ export const metadata = {
       },
     ],
   },
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -126,7 +139,7 @@ export const metadata = {
     siteName: "neurai.dev",
     images: [
       {
-        url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo_1200_630.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
@@ -140,9 +153,7 @@ export const metadata = {
     title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
       "Accesorios para celulares y computadoras. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
-    images: [
-      "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo_1200_630.png",
-    ],
+    images: ["/og-image.png"],
     creator: "@neuraidev",
   },
   robots: {
@@ -194,6 +205,7 @@ export default function RootLayout({ children }) {
             sizes="180x180"
             href="/apple-touch-icon.png"
           />
+          <link rel="manifest" href="/manifest.json" />
           <meta name="apple-mobile-web-app-title" content="neurai.dev" />
 
           {/* Fuente pixelada para tema Minecraft */}
