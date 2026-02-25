@@ -9,7 +9,10 @@ import { auth } from "@clerk/nextjs/server";
 export async function GET(request, { params }) {
   try {
     const { id } = params;
+    console.log('[DEBUG] Buscando post con ID:', id);
+
     const supabase = getSupabaseServerClient();
+    console.log('[DEBUG] Cliente Supabase creado');
 
     // Intentar buscar por UUID primero, luego por slug
     let query = supabase.from("blog_posts").select("*");
@@ -20,6 +23,8 @@ export async function GET(request, { params }) {
         id
       );
 
+    console.log('[DEBUG] Es UUID:', isUUID);
+
     if (isUUID) {
       query = query.eq("id", id);
     } else {
@@ -28,9 +33,25 @@ export async function GET(request, { params }) {
 
     const { data, error } = await query.single();
 
+    console.log('[DEBUG] Resultado:', { data: !!data, error: error?.message || error?.code });
+
     if (error || !data) {
+      console.error('[ERROR] No se encontró el artículo:', {
+        id,
+        error: error?.message,
+        code: error?.code,
+        details: error?.details
+      });
       return NextResponse.json(
-        { error: "Artículo no encontrado" },
+        {
+          error: "Artículo no encontrado",
+          debug: {
+            id,
+            isUUID,
+            errorCode: error?.code,
+            errorMessage: error?.message
+          }
+        },
         { status: 404 }
       );
     }
@@ -39,7 +60,7 @@ export async function GET(request, { params }) {
   } catch (error) {
     console.error("Error in GET /api/blog/posts/[id]:", error);
     return NextResponse.json(
-      { error: "Error interno del servidor" },
+      { error: "Error interno del servidor", message: error.message },
       { status: 500 }
     );
   }
