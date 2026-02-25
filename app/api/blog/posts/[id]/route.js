@@ -8,8 +8,8 @@ import { auth } from "@clerk/nextjs/server";
  */
 export async function GET(request, { params }) {
   try {
-    const { id } = params;
-    console.log('[DEBUG] Buscando post con ID:', id);
+    const { id } = await params;
+    console.log('[DEBUG] Buscando post con ID:', id, 'tipo:', typeof id);
 
     const supabase = getSupabaseServerClient();
     console.log('[DEBUG] Cliente Supabase creado');
@@ -23,7 +23,7 @@ export async function GET(request, { params }) {
         id
       );
 
-    console.log('[DEBUG] Es UUID:', isUUID);
+    console.log('[DEBUG] Es UUID:', isUUID, 'ID value:', JSON.stringify(id));
 
     if (isUUID) {
       query = query.eq("id", id);
@@ -79,7 +79,7 @@ export async function PATCH(request, { params }) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     const supabase = getSupabaseServerClient();
@@ -118,13 +118,13 @@ export async function PATCH(request, { params }) {
 export async function DELETE(request, { params }) {
   try {
     // Verificar autenticación
-    const { userId } = await auth();
+    const { userId} = await auth();
 
     if (!userId) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const supabase = getSupabaseServerClient();
 
     const { error } = await supabase.from("blog_posts").delete().eq("id", id);
