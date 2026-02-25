@@ -1,8 +1,11 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-// Solo proteger rutas del dashboard
-const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
+// Proteger rutas del dashboard y admin
+const isProtectedRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/admin(.*)"
+]);
 
 // Rutas de pago que deben ser completamente públicas (bypass completo)
 const isPaymentRoute = createRouteMatcher([
