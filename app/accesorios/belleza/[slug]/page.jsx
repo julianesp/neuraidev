@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 import ProductSchema from "@/components/ProductSchema";
 import { loadProductBySlug } from "@/utils/loadCategoryProducts";
-import { generateStaticProductMetadata } from "@/utils/staticMetadata";
+import { generateProductMetadata } from "@/utils/productMetadata";
 
 // Forzar renderizado dinámico
 export const dynamic = "force-dynamic";
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 // Generar metadatos dinámicos
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  return generateStaticProductMetadata("belleza", slug);
+  return await generateProductMetadata(slug, "belleza");
 }
 
 export default async function BellezaProductPage({ params }) {
