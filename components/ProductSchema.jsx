@@ -12,12 +12,20 @@ export default function ProductSchema({ producto }) {
       ? parseFloat(producto.precio.toString())
       : parseFloat(producto.precio) || 0;
 
-  const imagenPrincipal =
+  // Extraer imagen principal - manejar objeto o string
+  let imagenPrincipal =
     producto.imagen_principal ||
     producto.imagenPrincipal ||
-    (producto.imagenes && producto.imagenes.length > 0
-      ? producto.imagenes[0]
-      : null);
+    null;
+
+  // Si no hay imagen principal, extraer de array
+  if (!imagenPrincipal && producto.imagenes && producto.imagenes.length > 0) {
+    const primeraImg = producto.imagenes[0];
+    // Si es objeto con .url, extraer URL; si es string, usar directamente
+    imagenPrincipal = (typeof primeraImg === 'object' && primeraImg?.url)
+      ? primeraImg.url
+      : (typeof primeraImg === 'string' ? primeraImg : null);
+  }
 
   // Calcular rating y reviews
   const ratingValue = producto.rating || producto.calificacion || 4.5;
