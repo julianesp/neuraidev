@@ -29,6 +29,7 @@ export default function BlogArticle({
   datePublished,
   author = "Equipo Neurai.dev",
   children,
+  htmlContent, // For dynamic posts with HTML content
 }) {
   // Usar fecha actual si no se proporciona
   const articleDate = datePublished || new Date().toISOString();
@@ -120,7 +121,11 @@ export default function BlogArticle({
             itemProp="articleBody"
             role="main"
           >
-            {children}
+            {htmlContent ? (
+              <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+            ) : (
+              children
+            )}
           </div>
 
           {/* Footer metadata for reader mode */}

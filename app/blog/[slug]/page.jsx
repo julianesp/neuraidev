@@ -91,11 +91,7 @@ export default async function BlogPost({ params }) {
       readTime={post.read_time}
       datePublished={post.published_at}
       author={post.author}
-    >
-      <div
-        className="blog-content"
-        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-      />
-    </BlogArticle>
+      htmlContent={sanitizedContent}
+    />
   );
 }
