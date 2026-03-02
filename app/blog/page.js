@@ -3,6 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { getPublishedPosts, getCategories } from "@/lib/supabase/blog";
 
+// Forzar revalidación para evitar caché de posts
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "Blog de Tecnología | Neurai.dev",
   description: "Artículos, guías y consejos sobre tecnología, computadores, celulares, desarrollo web y más. Mantente actualizado con las últimas tendencias tecnológicas.",

@@ -4,6 +4,10 @@ import BlogArticle from "@/components/BlogArticle";
 import { getPostBySlug, incrementPostViews } from "@/lib/supabase/blog";
 import DOMPurify from "isomorphic-dompurify";
 
+// Forzar revalidación para evitar caché de posts
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
+
 /**
  * Generar metadata dinámica para SEO
  */
