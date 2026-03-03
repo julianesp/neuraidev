@@ -149,8 +149,7 @@
     border-radius: 30px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
     height: auto;
-    max-height: calc(100vh - 100px);
-    overflow-y: auto;
+    min-height: 100%;
   }
 
   & .linksDirect {
@@ -427,6 +426,14 @@
     }
   }
 
+  & .contactWhatsApp {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 0 20px;
+  }
+
   & .webDevSection {
     position: relative;
     width: 100%;
@@ -626,6 +633,7 @@
       "presentacion presentacion"
       "destacados aside"
       "accesories aside"
+      "contactWhatsApp aside"
       "webDevSection aside"
       "blogSection aside"
       "faq aside"
@@ -655,6 +663,12 @@
       box-sizing: border-box;
     }
 
+    & .contactWhatsApp {
+      grid-area: contactWhatsApp;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+
     & .webDevSection {
       grid-area: webDevSection;
       padding: 0 10px;
@@ -677,13 +691,11 @@
       grid-area: aside;
       width: 100%;
       max-width: 100%; // Usar todo el espacio del grid
-      top: 20px; // Espacio desde el top para sticky
-      align-self: flex-start;
+      align-self: stretch; // Estirar para ocupar toda la altura del grid
       padding: 0.5rem; // Reducido para que quepa mejor
-      height: calc(100vh - 100px); // Tomar toda la altura disponible del viewport
-      max-height: calc(100vh - 100px); // Limitar altura máxima al viewport
-      overflow-y: auto; // Activar scroll vertical cuando el contenido exceda la altura
-      position: sticky;
+      height: auto; // Altura automática basada en el contenido
+      min-height: 100%; // Mínimo toda la altura disponible
+      position: relative; // Cambiar de sticky a relative para que fluya con el contenido
       z-index: 60; // Debajo del carrusel (z-index: 100)
       box-sizing: border-box; // Incluir padding en el cálculo del ancho
     }
@@ -776,9 +788,8 @@
     & .aside {
       padding: 1rem;
       max-width: 400px; // Aside más ancho en pantallas grandes
-      height: calc(100vh - 120px); // Ajustar altura para pantallas grandes
-      max-height: calc(100vh - 120px);
-      overflow-y: auto;
+      height: auto; // Altura automática basada en el contenido
+      min-height: 100%; // Mínimo toda la altura disponible
     }
   }
 }

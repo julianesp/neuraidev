@@ -485,20 +485,6 @@ export default function Inicio() {
         {/* Sección lateral - Buscador, Categorías, Publicidad y Enlaces */}
         <section
           className={`${styles.aside} `}
-          style={{
-            display: "block",
-            gridArea: "aside",
-            width: "100%",
-            maxWidth: "360px",
-            justifySelf: "end",
-            position: "relative",
-            marginLeft: "0",
-            // minHeight: "100vh",
-            // height: "100vh",
-            // maxHeight: "none",
-            // overflow: "visible",
-            
-          }}
         >
           <Suspense
             fallback={
@@ -541,7 +527,9 @@ export default function Inicio() {
         </section>
 
         {/* Formulario de contacto por WhatsApp */}
-        <ContactWhatsApp />
+        <section className={styles.contactWhatsApp}>
+          <ContactWhatsApp />
+        </section>
 
         {/* Sección de Desarrollo Web */}
         <Suspense
