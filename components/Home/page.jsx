@@ -489,10 +489,15 @@ export default function Inicio() {
             display: "block",
             gridArea: "aside",
             width: "100%",
-            maxWidth: "320px",
+            maxWidth: "360px",
             justifySelf: "end",
             position: "relative",
             marginLeft: "0",
+            // minHeight: "100vh",
+            // height: "100vh",
+            // maxHeight: "none",
+            // overflow: "visible",
+            
           }}
         >
           <Suspense
@@ -510,11 +515,7 @@ export default function Inicio() {
           className={`${styles.accesories} ${styles.fadeInUp} mt-16`}
         >
           <div className="w-full max-w-7xl mx-auto px-4">
-            <h1
-              id="accesories"
-              className="text-center mb-8"
-              data-aos="fade-up"
-            >
+            <h1 id="accesories" className="text-center mb-8" data-aos="fade-up">
               <Link
                 href="/accesorios/"
                 className="text-black border-solid border-black border-2 rounded-xl p-2  dark:text-white dark:bg-dark dark:border-white"

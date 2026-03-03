@@ -145,6 +145,12 @@
 
   & .aside {
     z-index: 60;
+    border: 1px solid #bababa;
+    border-radius: 30px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    height: auto;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
   }
 
   & .linksDirect {
@@ -674,9 +680,9 @@
       top: 20px; // Espacio desde el top para sticky
       align-self: flex-start;
       padding: 0.5rem; // Reducido para que quepa mejor
-      height: auto; // Altura automática basada en el contenido
-      max-height: none; // Sin límite de altura máxima
-      overflow-y: visible; // Mostrar todo el contenido sin scroll interno
+      height: calc(100vh - 100px); // Tomar toda la altura disponible del viewport
+      max-height: calc(100vh - 100px); // Limitar altura máxima al viewport
+      overflow-y: auto; // Activar scroll vertical cuando el contenido exceda la altura
       position: sticky;
       z-index: 60; // Debajo del carrusel (z-index: 100)
       box-sizing: border-box; // Incluir padding en el cálculo del ancho
@@ -770,6 +776,9 @@
     & .aside {
       padding: 1rem;
       max-width: 400px; // Aside más ancho en pantallas grandes
+      height: calc(100vh - 120px); // Ajustar altura para pantallas grandes
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
     }
   }
 }
