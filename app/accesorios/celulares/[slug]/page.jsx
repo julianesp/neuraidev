@@ -15,10 +15,17 @@ export async function generateMetadata({ params }) {
 
 export default async function CelularesProductPage({ params }) {
   const { slug } = await params;
-  const { producto, otrosProductos } = await loadProductBySlug(
-    "celulares",
-    slug,
-  );
+  let producto = null;
+  let otrosProductos = [];
+
+  try {
+    const result = await loadProductBySlug("celulares", slug);
+    producto = result.producto;
+    otrosProductos = result.otrosProductos;
+  } catch (e) {
+    console.error("Error loading product in server page:", e);
+    // for safety show 404 when something goes wrong
+  }
 
   if (!producto) {
     notFound();
@@ -27,14 +34,14 @@ export default async function CelularesProductPage({ params }) {
   return (
     <>
       <ProductSchema producto={producto} />
-    <main className="py-14">
-      <div className="max-w-6xl mx-auto px-4">
-        <AccesoriosContainer
-          accesorio={producto}
-          otrosAccesorios={otrosProductos}
-        />
-      </div>
-    </main>
+      <main className="py-14">
+        <div className="max-w-6xl mx-auto px-4">
+          <AccesoriosContainer
+            accesorio={producto}
+            otrosAccesorios={otrosProductos}
+          />
+        </div>
+      </main>
     </>
   );
 }

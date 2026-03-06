@@ -32,7 +32,7 @@ body {
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 210 100% 48%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -41,15 +41,15 @@ body {
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 100% 48%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 210 100% 48%;
 
     --radius: 0.5rem;
   }
@@ -64,7 +64,7 @@ body {
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
+    --primary: 210 100% 48%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -73,7 +73,7 @@ body {
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 210 100% 48%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -81,7 +81,7 @@ body {
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 210 100% 48%;
   }
 }
 
@@ -106,13 +106,13 @@ body {
 /* Estilos de accesibilidad */
 /* Mejorar el focus visible para navegación por teclado */
 *:focus-visible {
-  outline: 2px solid #4a90e2;
+  outline: 2px solid #0070f3;
   outline-offset: 2px;
 }
 
 /* Asegurar que los links tengan buen contraste */
 a:focus-visible {
-  outline: 2px solid #4a90e2;
+  outline: 2px solid #0070f3;
   outline-offset: 2px;
 }
 
@@ -121,7 +121,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #4a90e2;
+  outline: 2px solid #0070f3;
   outline-offset: 2px;
 }
 
@@ -262,12 +262,12 @@ html {
 
 /* Asegurar que el text selection tenga el mismo color */
 ::selection {
-  background-color: rgba(74, 144, 226, 0.3);
+  background-color: rgba(0, 112, 243, 0.3);
   color: inherit;
 }
 
 ::-moz-selection {
-  background-color: rgba(74, 144, 226, 0.3);
+  background-color: rgba(0, 112, 243, 0.3);
   color: inherit;
 }
 
@@ -529,7 +529,7 @@ select,
 
 /* Mejora citas */
 .article-content blockquote {
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid #0070f3;
   padding-left: 1.5rem;
   margin: 1.5em 0;
   font-style: italic;
@@ -537,7 +537,7 @@ select,
 }
 
 .dark .article-content blockquote {
-  border-left-color: #60a5fa;
+  border-left-color: #0070f3;
   color: #9ca3af;
 }
 
@@ -580,7 +580,7 @@ select,
 
 /* Mejora enlaces en artículos */
 .article-content a {
-  color: #3b82f6;
+  color: #0070f3;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
@@ -588,15 +588,15 @@ select,
 }
 
 .article-content a:hover {
-  color: #2563eb;
+  color: #005ac1;
 }
 
 .dark .article-content a {
-  color: #60a5fa;
+  color: #0070f3;
 }
 
 .dark .article-content a:hover {
-  color: #93c5fd;
+  color: #3291ff;
 }
 
 /* Mejora separadores */

@@ -15,7 +15,7 @@ import {
 
 const ESTADOS = {
   pendiente: { label: "Pendiente", color: "#fbbf24", icon: ClockIcon },
-  procesando: { label: "Procesando", color: "#3b82f6", icon: ClockIcon },
+  procesando: { label: "Procesando", color: "#0070f3", icon: ClockIcon },
   enviado: { label: "Enviado", color: "#8b5cf6", icon: TruckIcon },
   entregado: { label: "Entregado", color: "#10b981", icon: CheckCircleIcon },
   cancelado: { label: "Cancelado", color: "#ef4444", icon: XCircleIcon },

@@ -301,7 +301,7 @@
 .offerCard:hover {
   transform: translateY(-1px);
   // box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-  border-color: var.$color-primario-oscuro;
+  border-color: var.$color-primario;
 }
 
 .offerCard.popular {
@@ -316,14 +316,14 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: var.$color-primario-oscuro;
+  background: var.$color-primario;
 }
 
 .popularBadge {
   position: absolute;
   top: 0px;
   right: 20px;
-  background: var.$color-primario-oscuro;
+  background: var.$color-primario;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0 0 15px 15px;
@@ -472,7 +472,7 @@
 .ctaButton {
   display: block;
   width: 100%;
-  background: var.$color-primario-claro;
+  background: var.$color-primario;
   color: #000;
   padding: 1rem 2rem;
   border: 1px solid #ccc;
@@ -482,19 +482,19 @@
   cursor: pointer;
   transition: all 0.3s ease;
   // box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
-  box-shadow: 0px 10px 1px var.$color-primario-oscuro;
+  box-shadow: 0px 10px 1px var.$color-primario;
   text-decoration: none;
   text-align: center;
 }
 
 .ctaButton:hover {
   transform: translateY(3px);
-  box-shadow: 0px 2px 1px var.$color-primario-oscuro;
+  box-shadow: 0px 2px 1px var.$color-primario;
 }
 
 .ctaButton:active {
   transform: translateY(5px);
-  box-shadow: 0px 1px 0px var.$color-primario-oscuro;
+  box-shadow: 0px 1px 0px var.$color-primario;
   transition: all 0.1s ease;
 }
 
@@ -561,8 +561,8 @@
   box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
 
   :global(.dark) & {
-    background: #667eea;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    background: #0070f3;
+    box-shadow: 0 4px 15px rgba(0, 112, 243, 0.4);
   }
 }
 
@@ -571,7 +571,7 @@
   box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
 
   :global(.dark) & {
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+    box-shadow: 0 8px 25px rgba(0, 112, 243, 0.5);
   }
 }
 

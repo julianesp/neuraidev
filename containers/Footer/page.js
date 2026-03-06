@@ -9,7 +9,6 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 const Footer = () => {
   const [menuOption, setMenuOptions] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [imageError, setImageError] = useState({});
   const menuRef = useRef(null);
   const flechaRef = useRef(null);
 
@@ -49,15 +48,13 @@ const Footer = () => {
       className={`${styles.footer} ${menuOption ? styles.active : ""} dark:bg-gray-900`}
     >
       {/* Botón flotante de redes sociales */}
-      <button ref={flechaRef} className={styles.flecha} onClick={switchOptions}>
-        <Image
-          alt="Redes sociales"
-          src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/icons/arrow.png"
-          priority
-          width={30}
-          height={30}
-          unoptimized
-        />
+      <button
+        ref={flechaRef}
+        className={`${styles.flecha} ${menuOption ? styles.active : ''}`}
+        onClick={switchOptions}
+        aria-label={menuOption ? "Cerrar menú de redes sociales" : "Abrir menú de redes sociales"}
+      >
+        <span className={styles.flechaIcon} />
       </button>
 
       {/* Contenedor principal del footer */}

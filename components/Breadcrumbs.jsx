@@ -51,24 +51,24 @@ export default function Breadcrumbs({ items = [] }) {
               <li key={item.url} className="flex items-center">
                 {index > 0 && (
                   <ChevronRight
-                    className="w-4 h-4 mx-2 text-gray-400"
+                    className="w-4 h-4 mx-2 text-gray-400 flex-shrink-0"
                     aria-hidden="true"
                   />
                 )}
                 {isLast ? (
                   <span
-                    className="text-gray-600 dark:text-gray-400 font-medium"
+                    className="text-gray-600 dark:text-gray-400 font-medium flex items-center"
                     aria-current="page"
                   >
-                    {isHome && <Home className="w-4 h-4 inline mr-1" />}
+                    {isHome && <Home className="w-4 h-4 mr-1 flex-shrink-0" />}
                     {item.name}
                   </span>
                 ) : (
                   <Link
                     href={item.url}
-                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors flex items-center"
                   >
-                    {isHome && <Home className="w-4 h-4 inline mr-1" />}
+                    {isHome && <Home className="w-4 h-4 mr-1 flex-shrink-0" />}
                     {item.name}
                   </Link>
                 )}

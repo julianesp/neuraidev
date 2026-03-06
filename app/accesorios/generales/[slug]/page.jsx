@@ -15,10 +15,15 @@ export async function generateMetadata({ params }) {
 
 export default async function GeneralesProductPage({ params }) {
   const { slug } = await params;
-  const { producto, otrosProductos } = await loadProductBySlug(
-    "generales",
-    slug,
-  );
+  let producto = null;
+  let otrosProductos = [];
+  try {
+    const result = await loadProductBySlug("generales", slug);
+    producto = result.producto;
+    otrosProductos = result.otrosProductos;
+  } catch (e) {
+    console.error("Error loading product in server page:", e);
+  }
 
   if (!producto) {
     notFound();
@@ -27,14 +32,14 @@ export default async function GeneralesProductPage({ params }) {
   return (
     <>
       <ProductSchema producto={producto} />
-    <main className="py-14">
-      <div className="max-w-6xl mx-auto px-4">
-        <AccesoriosContainer
-          accesorio={producto}
-          otrosAccesorios={otrosProductos}
-        />
-      </div>
-    </main>
+      <main className="py-14">
+        <div className="max-w-6xl mx-auto px-4">
+          <AccesoriosContainer
+            accesorio={producto}
+            otrosAccesorios={otrosProductos}
+          />
+        </div>
+      </main>
     </>
   );
 }

@@ -281,7 +281,7 @@ export default function RootLayout({ children }) {
                   {/* <AIChat /> */}
                   <ToastContainer />
                   <AnnouncementsProvider />
-                  <AccessibilityPanel />
+                  {/* <AccessibilityPanel /> */}
                   <MinecraftThemeFloatingButton />
                 </CartProvider>
               </ToastProvider>

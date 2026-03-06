@@ -30,13 +30,13 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://www.googletagmanager.com https://vercel.live https://va.vercel-scripts.com https://connect.facebook.net https://*.clerk.accounts.dev https://www.google.com https://www.gstatic.com https://challenges.cloudflare.com https://checkout.epayco.co https://epayco.co https://*.epayco.co",
+      "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://www.googletagmanager.com https://vercel.live https://va.vercel-scripts.com https://connect.facebook.net https://*.clerk.accounts.dev https://clerk.neurai.dev https://www.google.com https://www.gstatic.com https://challenges.cloudflare.com https://checkout.epayco.co https://epayco.co https://*.epayco.co",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' https: data: blob: https://selectafm.com https://*.epayco.co",
       "font-src 'self' https://fonts.gstatic.com",
       "media-src 'self' blob: data: https://yfglwidanlpqsmbnound.supabase.co https://*.supabase.co https://www.youtube.com https://youtube.com https://player.vimeo.com https://vimeo.com https://radio25.virtualtronics.com",
-      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://*.clerk.accounts.dev https://api.clerk.com https://www.google.com https://www.gstatic.com https://challenges.cloudflare.com https://yfglwidanlpqsmbnound.supabase.co https://*.supabase.co wss://yfglwidanlpqsmbnound.supabase.co wss://*.supabase.co https://epayco.co https://*.epayco.co https://secure.epayco.co https://api.secure.epayco.co https://radio25.virtualtronics.com",
-      "frame-src 'self' https://www.youtube.com https://youtube.com https://www.facebook.com https://*.clerk.accounts.dev https://www.google.com https://www.recaptcha.net https://recaptcha.google.com https://challenges.cloudflare.com https://checkout.epayco.co https://*.epayco.co https://player.vimeo.com",
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://*.clerk.accounts.dev https://clerk.neurai.dev https://api.clerk.com https://www.google.com https://www.gstatic.com https://challenges.cloudflare.com https://yfglwidanlpqsmbnound.supabase.co https://*.supabase.co wss://yfglwidanlpqsmbnound.supabase.co wss://*.supabase.co https://epayco.co https://*.epayco.co https://secure.epayco.co https://api.secure.epayco.co https://radio25.virtualtronics.com",
+      "frame-src 'self' https://www.youtube.com https://youtube.com https://www.facebook.com https://*.clerk.accounts.dev https://clerk.neurai.dev https://www.google.com https://www.recaptcha.net https://recaptcha.google.com https://challenges.cloudflare.com https://checkout.epayco.co https://*.epayco.co https://player.vimeo.com",
       "child-src 'self' blob: https://*.epayco.co https://checkout.epayco.co",
       "object-src 'none'",
       "base-uri 'self'",
@@ -80,7 +80,10 @@ const nextConfig = {
           ...securityHeaders,
           {
             key: "Access-Control-Allow-Origin",
-            value: process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "http://localhost:3000",
+            value:
+              process.env.NEXT_PUBLIC_SITE_URL ||
+              process.env.NEXTAUTH_URL ||
+              "http://localhost:3000",
           },
           {
             key: "Access-Control-Allow-Methods",
@@ -147,12 +150,12 @@ const nextConfig = {
     // Configurar timeouts y cache para imágenes
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
-    contentDispositionType: 'attachment',
+    contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     unoptimized: false,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    formats: ['image/webp'],
+    formats: ["image/webp"],
     // Aumentar límite de tamaño para imágenes
     domains: [], // Usar remotePatterns en su lugar
   },

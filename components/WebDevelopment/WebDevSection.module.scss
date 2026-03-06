@@ -15,7 +15,7 @@
 
     .badge {
       display: inline-block;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0070f3 0%, #005ac1 100%);
       color: white;
       padding: 0.5rem 1.5rem;
       border-radius: 25px;
@@ -116,7 +116,7 @@
       &:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        border-color: #667eea;
+        border-color: #0070f3;
       }
 
       h4 {
@@ -137,7 +137,7 @@
         flex-wrap: wrap;
 
         .tech {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #0070f3 0%, #005ac1 100%);
           color: white;
           padding: 0.25rem 0.75rem;
           border-radius: 15px;
@@ -187,22 +187,22 @@
       }
 
       .primaryBtn {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
         color: white;
 
         &:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 8px 16px rgba(0, 112, 243, 0.3);
         }
       }
 
       .secondaryBtn {
         background: transparent;
-        color: #667eea;
-        border: 2px solid #667eea;
+        color: #0070f3;
+        border: 2px solid #0070f3;
 
         &:hover {
-          background: #667eea;
+          background: #0070f3;
           color: white;
         }
       }

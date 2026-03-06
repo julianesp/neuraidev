@@ -225,7 +225,7 @@ const NavBar = () => {
             <Link
               href="/accesorios"
               title="Ir a la tienda de productos"
-              className={styles.dropdown_toggle}
+              className={`${styles.dropdown_toggle} ${dropdownOpen ? styles.active : ''}`}
               onClick={(e) => {
                 // Solo prevenir navegación en móvil para toggle
                 if (window.innerWidth < 1024) {
@@ -234,7 +234,7 @@ const NavBar = () => {
                 }
               }}
             >
-              Productos <span className={styles.dropdown_arrow}>▾</span>
+              Productos <span className={`${styles.dropdown_arrow} ${dropdownOpen ? styles.rotated : ''}`}>▾</span>
             </Link>
             {dropdownOpen && (
               <ul className={styles.dropdown}>
@@ -301,7 +301,7 @@ const NavBar = () => {
             <Link
               href="/servicios"
               title="Ver servicios profesionales"
-              className={styles.dropdown_toggle}
+              className={`${styles.dropdown_toggle} ${serviciosDropdownOpen ? styles.active : ''}`}
               onClick={(e) => {
                 // Solo prevenir navegación en móvil para toggle
                 if (window.innerWidth < 1024) {
@@ -310,7 +310,7 @@ const NavBar = () => {
                 }
               }}
             >
-              Servicios <span className={styles.dropdown_arrow}>▾</span>
+              Servicios <span className={`${styles.dropdown_arrow} ${serviciosDropdownOpen ? styles.rotated : ''}`}>▾</span>
             </Link>
             {serviciosDropdownOpen && (
               <ul className={styles.dropdown}>
@@ -469,11 +469,20 @@ const NavBar = () => {
 
       {/* Búsqueda, carrito y autenticación */}
       <div className={styles.authButtons}>
-        <GlobalSearch />
+        {/* <GlobalSearch /> */}
         <CartIcon />
         <SignedOut>
           <SignInButton mode="modal">
-            <button className={styles.signInBtn}>Iniciar Sesión</button>
+            <button className={styles.signInBtn} aria-label="Iniciar sesión">
+              {/* user/login icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className={styles.signInIcon}
+              >
+                <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.6c-3.1 0-9.4 1.6-9.4 4.9v2.4h18.8v-2.4c0-3.3-6.3-4.9-9.4-4.9z" />
+              </svg>
+            </button>
           </SignInButton>
         </SignedOut>
         <SignedIn>

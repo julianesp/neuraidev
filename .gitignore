@@ -169,3 +169,6 @@ out/
 *.swo
 *~
 .env.local.example
+
+# clerk configuration (can include secrets)
+/.clerk/

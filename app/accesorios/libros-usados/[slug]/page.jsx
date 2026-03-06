@@ -15,10 +15,15 @@ export async function generateMetadata({ params }) {
 
 export default async function LibrosUsadosProductPage({ params }) {
   const { slug } = await params;
-  const { producto, otrosProductos } = await loadProductBySlug(
-    "libros-usados",
-    slug,
-  );
+  let producto = null;
+  let otrosAccesorios = [];
+  try {
+    const result = await loadProductBySlug("libros-usados", slug);
+    producto = result.producto;
+    otrosAccesorios = result.otrosProductos;
+  } catch (e) {
+    console.error("Error loading product in server page:", e);
+  }
 
   if (!producto) {
     notFound();
@@ -31,7 +36,7 @@ export default async function LibrosUsadosProductPage({ params }) {
         <div className="max-w-6xl mx-auto px-4">
           <AccesoriosContainer
             accesorio={producto}
-            otrosAccesorios={otrosProductos}
+            otrosAccesorios={otrosAccesorios}
           />
         </div>
       </main>

@@ -23,7 +23,7 @@ export default function NotificationsBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-4 relative">
+    <div className="bg-slate-500 text-black py-3 px-4 relative ">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 flex-1">
           <Bell className="w-5 h-5 flex-shrink-0 animate-pulse" />
@@ -34,7 +34,7 @@ export default function NotificationsBanner() {
         <div className="flex items-center gap-2">
           <Link
             href="/notificaciones"
-            className="bg-white text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors"
+            className="bg-[#0070f3] text-[#0070f3] hover:bg-gray-100 px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition-colors"
           >
             Suscribirme
           </Link>

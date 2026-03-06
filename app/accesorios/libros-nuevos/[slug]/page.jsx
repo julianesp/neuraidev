@@ -15,10 +15,15 @@ export async function generateMetadata({ params }) {
 
 export default async function LibrosNuevosProductPage({ params }) {
   const { slug } = await params;
-  const { producto, otrosProductos } = await loadProductBySlug(
-    "libros-nuevos",
-    slug,
-  );
+  let producto = null;
+  let otrosProductos = [];
+  try {
+    const result = await loadProductBySlug("libros-nuevos", slug);
+    producto = result.producto;
+    otrosProductos = result.otrosProductos;
+  } catch (e) {
+    console.error("Error loading product in server page:", e);
+  }
 
   if (!producto) {
     notFound();
@@ -27,14 +32,14 @@ export default async function LibrosNuevosProductPage({ params }) {
   return (
     <>
       <ProductSchema producto={producto} />
-    <main className="py-14">
-      <div className="max-w-6xl mx-auto px-4">
-        <AccesoriosContainer
-          accesorio={producto}
-          otrosAccesorios={otrosProductos}
-        />
-      </div>
-    </main>
+      <main className="py-14">
+        <div className="max-w-6xl mx-auto px-4">
+          <AccesoriosContainer
+            accesorio={producto}
+            otrosAccesorios={otrosProductos}
+          />
+        </div>
+      </main>
     </>
   );
 }

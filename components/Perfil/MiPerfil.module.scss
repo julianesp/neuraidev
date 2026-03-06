@@ -35,7 +35,7 @@
 .iconTitle {
   width: 24px;
   height: 24px;
-  color: #667eea;
+  color: #0070f3;
 }
 
 .sectionSubtitle {
@@ -81,8 +81,8 @@
 
   &:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #0070f3;
+    box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.1);
   }
 }
 
@@ -106,8 +106,8 @@
   transition: all 0.3s ease;
 
   &:hover {
-    border-color: #667eea;
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+    border-color: #0070f3;
+    box-shadow: 0 2px 8px rgba(0, 112, 243, 0.1);
   }
 }
 
@@ -126,7 +126,7 @@
   height: 0;
 
   &:checked + .switchSlider {
-    background-color: #667eea;
+    background-color: #0070f3;
 
     &::before {
       transform: translateX(24px);
@@ -184,7 +184,7 @@
 
 .btnPrimary {
   padding: 0.75rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -192,11 +192,11 @@
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 112, 243, 0.3);
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 112, 243, 0.4);
   }
 
   &:disabled {

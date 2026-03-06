@@ -30,6 +30,21 @@
   letter-spacing: 0.5px;
 }
 
+.subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0070f3;
+  margin: 0 0 16px 0;
+  padding: 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  :global(.dark) & {
+    color: #60a5fa;
+  }
+}
+
 .bannersWrapper {
   display: flex;
   flex-direction: column;
@@ -148,7 +163,7 @@
   justify-content: center;
   gap: 6px;
   padding: 10px 16px;
-  background: #3b82f6;
+  background: #0070f3;
   color: white;
   border: none;
   border-radius: 8px;

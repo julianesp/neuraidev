@@ -92,7 +92,7 @@
   opacity: 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
-  background-color: rgba(v.$color-primario-oscuro, 0.9);
+  background-color: rgba(v.$color-primario, 0.9);
 
   border-end-end-radius: 100px;
   border-top-right-radius: 100px;
@@ -133,6 +133,12 @@
   transition: 0.1s ease-out all;
   left: clamp(-35px, -5vw, -40px);
   cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 112, 243, 0.9);
+    border-color: #0070f3;
+    transform: scale(1.1);
+  }
 }
 
 .taxiImage {

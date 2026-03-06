@@ -180,52 +180,91 @@
 
   a {
     display: block;
-    padding: 10px 15px;
+    padding: 12px 18px;
     color: #ffffff;
-    font-size: 0.5rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
     text-decoration: none;
-    transition: all 0.2s ease;
-    transform-origin: center;
-    border-radius: 5px;
-    margin: 0 15px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background-color: rgba(30, 30, 30, 0.6);
-    text-shadow: 0 0 3px rgba(0, 0, 0, 1);
-
-    // filter: blur(4px);
+    transition: all 0.15s ease;
+    border-radius: 6px;
+    margin: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(30, 30, 30, 0.7);
+    backdrop-filter: blur(8px);
 
     &:hover {
-      // background-color: rgba(60, 60, 60, 0.4);
-      // transform: translateY(-2px) scale(1.05);
-      // color: #ffffff;
-      // border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(45, 45, 45, 0.85);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    &:active {
+      background: rgba(50, 50, 50, 0.9);
     }
   }
 
-  /* Estilos para los dropdowns en mobile */
+  /* Estilos shadcn/ui - Mobile Dropdown */
   .dropdown {
-    list-style: none;
-    padding: 5px 0;
-    margin: 5px 0 0 0;
-    // width: 100%;
-    width: 220px;
+    list-style: none !important;
+    padding: 6px !important;
+    margin: 8px 12px !important;
+    width: calc(100% - 24px) !important;
+    background: hsl(0 0% 3.9%) !important;
+    border-radius: 8px !important;
+    border: 1px solid hsl(0 0% 14.9%) !important;
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.5),
+      0 4px 6px -4px rgb(0 0 0 / 0.3) !important;
+    animation: slideDown 0.2s ease-out;
+    overflow: hidden;
+
+    :global(.dark) & {
+      background: hsl(0 0% 3.9%) !important;
+      border-color: hsl(0 0% 14.9%) !important;
+    }
 
     li {
-      margin-bottom: 8px;
+      margin-bottom: 0 !important;
+      position: relative;
 
       a {
-        font-size: 1rem;
-        padding: 8px 12px;
-        margin: 0 20px;
-        background-color: rgba(60, 60, 60, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 0.95rem !important;
+        padding: 10px 12px !important;
+        margin: 2px !important;
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
+        color: hsl(0 0% 98%) !important;
+        background-color: transparent !important;
+        border: none !important;
+        border-radius: 4px !important;
+        font-weight: 400 !important;
+        cursor: pointer !important;
+        transition: all 0.1s ease !important;
+        outline: none !important;
 
         &:hover {
-          background-color: rgba(80, 80, 80, 0.9);
+          background: hsl(0 0% 14.9%) !important;
+          color: hsl(0 0% 100%) !important;
+          text-decoration: none !important;
+        }
+
+        &:focus-visible {
+          outline: 2px solid hsl(0 0% 98%) !important;
+          outline-offset: 2px !important;
+        }
+
+        &:active {
+          background: hsl(0 0% 18%) !important;
         }
       }
     }
+  }
+
+  /* Separador estilo shadcn/ui */
+  .dropdownSeparator {
+    height: 1px;
+    margin: 6px 0;
+    background: hsl(0 0% 14.9%);
   }
 }
 
@@ -236,16 +275,15 @@
 .enlaces__menu.closed {
   right: -250px;
 
-  & li {
-    & a {
-      border: none;
+  > li > a {
+    border: none;
+    background-color: transparent;
+    transform: none;
+
+    &:hover {
       background-color: transparent;
+      text-decoration: none;
       transform: none;
-      &:hover {
-        background-color: transparent;
-        text-decoration: none;
-        transform: none;
-      }
     }
   }
 }
@@ -253,42 +291,51 @@
 /* Estilos para el dropdown */
 .dropdown {
   position: relative;
-  // width: 100%;
   text-align: center;
+  width: 100%;
 }
 
 .dropdown_toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 2px;
   cursor: pointer;
   color: #ffffff;
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
-  padding: 8px 10px;
+  padding: 8px 5px;
   border-radius: 5px;
-  margin: 0 8px;
+  margin: 0;
   transition: all 0.15s ease;
   transform-origin: center;
   text-shadow: 0 0 3px rgba(0, 0, 0, 1);
   background-color: transparent;
 
   &:hover {
-    // background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px) scale(1.05);
+    background-color: transparent;
+    text-decoration: underline;
+    transform: scale(1.05);
+  }
+
+  &.active {
+    color: #0070f3;
+    text-decoration: underline;
   }
 }
 
 .dropdown_arrow {
-  margin-left: 4px;
-  font-size: 0.9em;
+  font-size: 0.85em;
   line-height: 1;
-  display: inline-block;
-  vertical-align: middle;
-  transform: translateY(-1px);
-  transition: transform 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+  margin-left: -2px;
+  transition: transform 0.3s ease;
+
+  &.rotated {
+    transform: rotate(180deg);
+  }
 }
 
 .dropdown_menu {
@@ -419,59 +466,80 @@
         }
       }
 
-      /* Dropdown en desktop */
+      /* Dropdown Desktop - Estilo shadcn/ui */
       .dropdown {
         display: none;
         position: absolute;
-        top: calc(100% + 5px);
+        top: calc(100% + 4px);
         left: 50%;
         transform: translateX(-50%);
-        padding: 10px 0;
+        padding: 6px;
         margin-top: 0;
-        min-width: 200px;
+        min-width: 220px;
         list-style: none;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+        box-shadow:
+          0 10px 15px -3px rgb(0 0 0 / 0.5),
+          0 4px 6px -4px rgb(0 0 0 / 0.3);
         z-index: 2000;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
 
-        background-color: rgba(30, 30, 30, 0.95);
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-
-        border-radius: 20px;
+        background: hsl(0 0% 3.9%);
+        border: 1px solid hsl(0 0% 14.9%);
+        border-radius: 8px;
 
         transition:
-          opacity 0.2s ease,
-          visibility 0s linear 0s,
-          pointer-events 0s linear 0s;
+          opacity 0.15s ease-out,
+          transform 0.15s ease-out,
+          visibility 0s linear 0.15s,
+          pointer-events 0s linear 0.15s;
+
+        transform: translateX(-50%) translateY(-8px) scale(0.95);
+
+        :global(.dark) & {
+          background: hsl(0 0% 3.9%);
+          border-color: hsl(0 0% 14.9%);
+        }
 
         li {
           margin: 0;
           width: 100%;
+          position: relative;
 
           a {
-            display: block;
-            padding: 10px 20px;
-            margin: 0;
-            font-size: 1rem;
-            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            margin: 2px;
+            font-size: 0.95rem;
+            font-weight: 400;
             text-align: left;
             white-space: nowrap;
             border: none;
+            border-radius: 4px;
             background-color: transparent;
             text-decoration: none;
             cursor: pointer;
             pointer-events: auto;
             position: relative;
             z-index: 2001;
+            transition: background-color 0.1s ease;
+            color: hsl(0 0% 98%);
+            outline: none;
 
             &:hover {
-              background-color: rgba(255, 255, 255, 0.5);
-              transform: scale(1);
-              padding-left: 25px;
+              background: hsl(0 0% 14.9%);
+              color: hsl(0 0% 100%);
+            }
+
+            &:focus-visible {
+              outline: 2px solid hsl(0 0% 98%);
+              outline-offset: 2px;
+            }
+
+            &:active {
+              background: hsl(0 0% 18%);
             }
           }
         }
@@ -484,7 +552,10 @@
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        transition: opacity 0.2s ease;
+        transform: translateX(-50%) translateY(0) scale(1);
+        transition:
+          opacity 0.15s ease-out,
+          transform 0.15s ease-out;
       }
 
       /* Mantener dropdown visible cuando el cursor está sobre él */
@@ -497,19 +568,19 @@
     }
 
     > li > a {
-      font-size: 1.1rem;
-      padding: 8px 5px;
-      color: #ffffff;
-      font-weight: 700;
+      font-size: 1rem;
+      padding: 8px 6px;
+      color: hsl(0 0% 98%);
+      font-weight: 500;
       margin: 0;
-      text-shadow: 0 0 3px rgba(0, 0, 0, 1);
       border: none;
       background-color: transparent;
+      transition: color 0.15s ease;
 
       &:hover {
         background-color: transparent;
-        text-decoration: underline;
-        transform: scale(1.05);
+        color: hsl(0 0% 70%);
+        text-decoration: none;
       }
     }
 
@@ -568,23 +639,27 @@
   }
 
   .dropdown_toggle {
-    width: 70px;
+    width: auto;
     font-size: 1.1rem;
-    // padding: 8px 5px;
-    // font-weight: 500;
+    font-weight: 700;
+    padding: 8px 5px;
     margin: 0;
-    // justify-content: flex-start;
-    position: relative; /* Added for positioning context */
+    gap: 2px;
+    position: relative;
     color: #ffffff;
     text-shadow: 0 0 3px rgba(0, 0, 0, 1);
     background-color: transparent;
 
     &:hover {
-      // background-color: transparent;
-
+      background-color: transparent;
       text-decoration: underline;
       transform: scale(1.05);
       color: #ffffff;
+    }
+
+    &.active {
+      color: #0070f3;
+      text-decoration: underline;
     }
   }
 
@@ -767,7 +842,7 @@
 }
 
 .registerBtn {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #0070f3, #8b5cf6);
   color: #ffffff;
   text-decoration: none;
   padding: 8px 16px;
@@ -827,7 +902,7 @@
 .avatar {
   width: 28px;
   height: 28px;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #0070f3, #8b5cf6);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -864,7 +939,7 @@
 
   &:hover {
     background: #f3f4f6;
-    color: #3b82f6;
+    color: #0070f3;
   }
 
   &:first-child {
@@ -940,7 +1015,7 @@
 
 .registerButton {
   display: block;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #0070f3, #8b5cf6);
   color: #ffffff;
   text-decoration: none;
   padding: 10px 15px;
@@ -989,29 +1064,39 @@
 }
 
 .signInBtn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #005ac1 100%);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 112, 243, 0.4);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 112, 243, 0.6);
   }
+}
+
+.signInIcon {
+  width: 20px;
+  height: 20px;
+  fill: white;
 }
 
 .dashboardLink {
   font-weight: 600 !important;
-  color: #667eea !important;
+  color: #0070f3 !important;
   transition: all 0.3s ease;
 
   &:hover {
-    color: #764ba2 !important;
+    color: #005ac1 !important;
     text-decoration: underline;
   }
 }
@@ -1029,40 +1114,45 @@
   }
 
   @media (max-width: 768px) {
-    // Solo ocultar el botón de sign in, pero mantener el carrito visible
     gap: 10px;
     margin-right: 60px;
-
-    .signInBtn {
-      display: none;
-    }
   }
 }
 
 .signInBtn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #005ac1 100%);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 112, 243, 0.4);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 112, 243, 0.6);
   }
+}
+
+.signInIcon {
+  width: 20px;
+  height: 20px;
+  fill: white;
 }
 
 .dashboardLink {
   font-weight: 600 !important;
-  color: #667eea !important;
+  color: #0070f3 !important;
   transition: all 0.3s ease;
 
   &:hover {
-    color: #764ba2 !important;
+    color: #005ac1 !important;
     text-decoration: underline;
   }
 }
@@ -1141,7 +1231,7 @@
   display: block;
   width: calc(100% - 30px);
   margin: 0 15px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #005ac1 100%);
   color: white;
   border: none;
   padding: 12px 20px;
@@ -1150,12 +1240,12 @@
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 112, 243, 0.4);
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 6px 20px rgba(0, 112, 243, 0.6);
   }
 }
 
@@ -1164,4 +1254,16 @@
   justify-content: center;
   align-items: center;
   padding: 10px 0;
+}
+
+// Animaciones estilo shadcn/ui
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

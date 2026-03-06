@@ -373,7 +373,7 @@
   }
 
   &.reading {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #0070f3 0%, #2563eb 100%);
     animation: pulse-reading 1.5s ease-in-out infinite;
   }
 }
@@ -539,7 +539,7 @@
         content: "•";
         position: absolute;
         left: -15px;
-        color: #3b82f6;
+        color: #0070f3;
       }
     }
   }
@@ -639,7 +639,7 @@
 
   .info {
     background: #1e3a8a;
-    border-color: #3b82f6;
+    border-color: #0070f3;
 
     p {
       color: #93c5fd;
@@ -655,7 +655,7 @@
 
     kbd {
       background: #1e40af;
-      border-color: #3b82f6;
+      border-color: #0070f3;
       color: #bfdbfe;
     }
   }

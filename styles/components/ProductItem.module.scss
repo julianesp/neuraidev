@@ -32,7 +32,7 @@
     left: 0;
     width: 100%;
     height: 54.2%; // Ocupa la mitad del alto del elemento
-    background-color: rgba(64, 191, 241, 0.8); // Mismo color de fondo
+    background-color: rgba(0, 112, 243, 0.8); // Mismo color de fondo
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     z-index: -1; // Coloca el fondo detrás del contenido
@@ -45,7 +45,7 @@
     left: 0;
     width: 100%;
     height: 45px; // Altura de las olas
-    background-color: rgba(64, 191, 241, 0.8); // Color de las olas
+    background-color: rgba(0, 112, 243, 0.8); // Color de las olas
     clip-path: path(
       "M0,30 Q50,60 100,30 T200,30 T300,30 T400,30 V60 H0 Z"
     ); // Olas con curvas cuadráticas

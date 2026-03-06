@@ -296,7 +296,7 @@ function buildProductMetadata(producto, slug, categoria) {
     openGraph: {
       title: tituloCompartir,
       description: descripcionLimpia,
-      type: "product",
+      type: "website",
       siteName: "neurai.dev",
       locale: "es_CO",
       url: canonicalUrl,

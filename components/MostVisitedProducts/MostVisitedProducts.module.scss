@@ -288,7 +288,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
   color: white;
   padding: 1rem 2rem;
   border-radius: 3rem;
@@ -296,11 +296,11 @@
   font-size: 1rem;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 112, 243, 0.4);
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 8px 20px rgba(0, 112, 243, 0.6);
 
     .arrowIcon {
       transform: translateX(5px);

@@ -70,7 +70,7 @@ const AccesoriosDestacados = () => {
   // Renderizar mensaje de error
   if (error) {
     return (
-      <div className="bg-yellow-50 p-6 rounded-lg">
+      <div className="bg-blue-50 p-6 rounded-lg">
         <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           <p>{error}</p>
@@ -82,7 +82,7 @@ const AccesoriosDestacados = () => {
   // Si no hay accesorios destacados
   if (destacados.length === 0) {
     return (
-      <div className="bg-yellow-50 p-6 rounded-lg">
+      <div className="bg-blue-50 p-6 rounded-lg">
         <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
         <p className="text-gray-600 text-center">
           No hay accesorios destacados disponibles
@@ -94,7 +94,7 @@ const AccesoriosDestacados = () => {
   // Renderizar el componente con los accesorios cargados
   return (
     <div
-      className={`${styles.container} bg-yellow-50 p-2 rounded-lg border  dark:border-gray-500`}
+      className={`${styles.container} bg-blue-50 p-2 rounded-lg border  dark:border-gray-500`}
     >
       <h2 className="text-2xl font-bold mb-6">Accesorios destacados</h2>
 
@@ -105,7 +105,7 @@ const AccesoriosDestacados = () => {
         <button
           onClick={scrollLeft}
           disabled={currentIndex === 0}
-          className={`bg-yellow-500 text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${currentIndex === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`bg-blue-500 text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${currentIndex === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
           aria-label="Anterior accesorio"
         >
           <svg
@@ -131,7 +131,7 @@ const AccesoriosDestacados = () => {
         <button
           onClick={scrollRight}
           disabled={currentIndex === destacados.length - 1}
-          className={`bg-yellow-500 text-justify flex justify-center items-center text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${currentIndex === destacados.length - 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`bg-blue-500 text-justify flex justify-center items-center text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${currentIndex === destacados.length - 1 ? "opacity-50 cursor-not-allowed" : ""}`}
           aria-label="Siguiente accesorio"
         >
           <svg
@@ -201,7 +201,7 @@ const AccesoriosDestacados = () => {
 
               {/* Badge de stock si está bajo */}
               {accesorio.stock && accesorio.stock <= 5 && accesorio.stock > 0 && (
-                <div className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                   ¡{accesorio.stock} unidades!
                 </div>
               )}
@@ -209,7 +209,7 @@ const AccesoriosDestacados = () => {
 
             <div className="p-4 w-full flex flex-col flex-grow">
               <Link href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}>
-                <h3 className="font-semibold text-lg hover:text-yellow-600 transition-colors cursor-pointer">
+                <h3 className="font-semibold text-lg hover:text-blue-600 transition-colors cursor-pointer">
                   {accesorio.nombre}
                 </h3>
               </Link>
@@ -261,7 +261,7 @@ const AccesoriosDestacados = () => {
       <div className="mt-6 text-center">
         <Link
           href="/accesorios/destacados"
-          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
           onClick={(e) => e.stopPropagation()}
         >
           Ver todos los destacados

@@ -6,30 +6,48 @@ import Image from "next/image";
 import styles from "./ProductBanners.module.scss";
 
 export default function ProductBanners() {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [visitedProducts, setVisitedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const loadFeaturedProducts = async () => {
+    const loadVisitedProducts = async () => {
       try {
-        const { getFeaturedProducts } = await import("@/lib/productService");
-        const products = await getFeaturedProducts(3);
-        setFeaturedProducts(products);
+        // Cargar productos que han sido visitados por al menos 2 usuarios
+        const response = await fetch("/api/products/visited-by-users");
+
+        if (!response.ok) {
+          console.warn("API response not OK:", response.status);
+          setVisitedProducts([]);
+          setLoading(false);
+          return;
+        }
+
+        const data = await response.json();
+
+        // Si no hay productos con suficientes visitas, dejar vacío
+        if (data.products && data.products.length > 0) {
+          // Tomar máximo 3 productos para mostrar
+          setVisitedProducts(data.products.slice(0, 3));
+        } else {
+          setVisitedProducts([]);
+        }
       } catch (error) {
-        console.error("Error cargando productos destacados:", error);
+        console.error("Error cargando productos visitados:", error);
+        setVisitedProducts([]);
       } finally {
         setLoading(false);
       }
     };
 
-    loadFeaturedProducts();
+    loadVisitedProducts();
   }, []);
 
   const handleProductClick = (product) => {
     router.push(`/accesorios/${product.categoria}/${product.slug}`);
   };
 
+  // Si está cargando, mostrar skeleton
   if (loading) {
     return (
       <div className={styles.container}>
@@ -45,6 +63,11 @@ export default function ProductBanners() {
     );
   }
 
+  // Si no hay productos con suficientes visitas, NO mostrar nada
+  if (!visitedProducts || visitedProducts.length === 0) {
+    return null;
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -52,8 +75,10 @@ export default function ProductBanners() {
         <span className={styles.badge}>ANUNCIO</span>
       </div>
 
+      <p className={styles.subtitle}>Más visitados</p>
+
       <div className={styles.bannersWrapper}>
-        {featuredProducts.map((product, index) => (
+        {visitedProducts.map((product, index) => (
           <div
             key={product.id}
             onClick={() => handleProductClick(product)}

@@ -6,7 +6,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #4b5563; // Color base gris que combina con tu UI existente
+  background-color: #0070f3; // Color base gris que combina con tu UI existente
   color: white;
   display: flex;
   align-items: center;
@@ -75,7 +75,7 @@
 // Media query for smaller screens (mobile)
 @media (min-width: 320px) and (max-width: 767px) {
   .backToTop {
-    bottom: 70px;
+    // bottom: 70px;
     right: 15px;
     
     &.visible {
@@ -88,7 +88,7 @@
 // Media query for tablets and small desktops
 @media (min-width: 768px) and (max-width: 1023px) {
   .backToTop {
-    bottom: 40px;
+    // bottom: 40px;
     right: 20px;
   }
 }

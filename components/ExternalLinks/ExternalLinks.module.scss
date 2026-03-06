@@ -83,7 +83,7 @@
 .linkCategory {
   font-size: 11px;
   font-weight: 600;
-  color: #3b82f6;
+  color: #0070f3;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -115,7 +115,7 @@
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  color: #3b82f6;
+  color: #0070f3;
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
@@ -124,7 +124,7 @@
 
   &:hover {
     background: #eff6ff;
-    border-color: #3b82f6;
+    border-color: #0070f3;
 
     .arrowIcon {
       transform: translateX(4px);
@@ -223,7 +223,7 @@
 
     &:hover {
       background: #1e3a8a;
-      border-color: #3b82f6;
+      border-color: #0070f3;
     }
   }
 

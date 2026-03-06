@@ -5,79 +5,91 @@
   position: relative;
   width: 100%;
   // background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  background-color: v.$color-primario-oscuro;
+  background-color: v.$color-primario;
   color: #fff;
-  border-top: 3px solid #0070f3;
+  // border-top: 3px solid #0070f3;
   z-index: 200;
 }
 
 // Botón flotante de redes sociales (restaurado con animaciones originales)
 .flecha {
   position: fixed;
-  padding: 10px;
-  bottom: 8px;
-  left: 5px;
-
-  border: v.$white solid 2px;
+  width: 50px;
+  height: 50px;
+  bottom: 10px;
+  left: 10px;
 
   background-color: v.$color-primario;
-  background: linear-gradient(
-    to bottom,
-    v.$color-primario,
-    /* v.$color-primario-oscuro*/ #fff
-  );
-  box-shadow:
-    0 6px 0 v.$color-primario,
-    /* Sombra base (profundidad) */ 0 8px 10px rgba(0, 0, 0, 0.3); /* Sombra exterior */
 
-  /* Transiciones */
+  // box-shadow:
+  //   0 6px 0 v.$color-primario,
+  //   0 8px 10px rgba(255, 255, 255, 0.3);
+
   transition:
-    transform 0.1s ease,
-    box-shadow 0.1s ease;
-
-  /* Efecto 3D con pseudo-elementos */
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 45%;
-    border-radius: 12px 12px 0 0;
-    pointer-events: none;
-  }
-
-  /* Efecto hover */
-  &:hover {
-    background: linear-gradient(
-      to bottom,
-      v.$color-primario-oscuro,
-      v.$color-primario
-    );
-    box-shadow:
-      0 6px 0 v.$color-primario-oscuro,
-      0 10px 15px rgba(0, 0, 0, 0.4);
-  }
-
-  /* Efecto activo (presionado) */
-  &:active {
-    transform: translateY(6px); /* Mueve el botón hacia abajo */
-    box-shadow:
-      0 0px 0 #1a5276,
-      /* Elimina la sombra de profundidad */ 0 2px 5px rgba(0, 0, 0, 0.3); /* Reduce la sombra exterior */
-  }
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
 
   cursor: pointer;
   border-radius: 50%;
   z-index: 100;
 
-  img {
-    border-color: 5px solid #000;
-    width: 30px;
-    height: 30px;
-  }
+  border: 1px solid #ffffff; /* explicitly white border */
 
-  animation-name: pulsar;
+  // Ubicacion de la X para cerrar
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Efecto hover */
+  // &:hover {
+  //   background-color: #005ac1;
+  //   box-shadow:
+  //     0 6px 0 #005ac1,
+  //     0 10px 15px rgba(255, 255, 255, 0.4);
+  // }
+
+  /* Efecto hundimiento */
+  // &:active {
+  //   transform: translateY(6px);
+  //   box-shadow:
+  //     0 0px 0 #1a5276,
+  //     0 2px 5px rgba(0, 0, 0, 0.3);
+  // }
+
+  // Animación de pulsación
+  animation: pulsar 2s ease-in-out infinite;
+}
+
+// Icono de flecha creado con CSS (dos líneas que forman una flecha)
+.flechaIcon {
+  /* share-style icon using inline SVG for social networks */
+  width: 24px;
+  height: 24px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M18 16.08c-.76 0-1.44.3-1.96.77l-7.13-4.1a2.5 2.5 0 000-1.5l7.13-4.1A2.5 2.5 0 0018 7.92 2.5 2.5 0 0020.5 5.5 2.5 2.5 0 0018 3a2.5 2.5 0 00-2.45 3.11l-7.13 4.1A2.5 2.5 0 006 10.5a2.5 2.5 0 000 5 2.5 2.5 0 001.96-.77l7.13 4.1A2.5 2.5 0 0018 20.5a2.5 2.5 0 002.5-2.5A2.5 2.5 0 0018 16.08z'/></svg>")
+    center/contain no-repeat;
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+/* default share icon */
+.flecha.active .flechaIcon {
+  /* swap to close/X icon when social links are shown */
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M18.364 5.636a1 1 0 0 0-1.414 0L12 10.586 7.05 5.636a1 1 0 1 0-1.414 1.414L10.586 12l-4.95 4.95a1 1 0 1 0 1.414 1.414L12 13.414l4.95 4.95a1 1 0 0 0 1.414-1.414L13.414 12l4.95-4.95a1 1 0 0 0 0-1.414z'/></svg>")
+    center/contain no-repeat;
+  transform: rotate(90deg) scale(1.1);
+}
+
+// Animación de pulsación
+@keyframes pulsar {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 // Contenedor principal
@@ -92,7 +104,7 @@
   display: flex;
   justify-content: center;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  // border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   // margin-bottom: 40px;
 }
 
@@ -397,21 +409,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 56px;
-        height: 56px;
-        background: #fff;
+        width: 50px;
+        height: 45px;
+        // background: #fff;
         border-radius: 50%;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
         transition: all 0.3s ease;
 
         &:hover {
           transform: scale(1.1);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
         }
 
         img {
-          width: 32px;
-          height: 32px;
+          width: 42px;
+          height: 42px;
         }
       }
     }
@@ -420,8 +432,9 @@
   &.open {
     display: flex;
     position: fixed;
-    bottom: 85px;
-    left: 20px;
+    /* align directly with the blue button */
+    bottom: 70px;
+    left: 10px;
     z-index: 999;
     animation: slideUp 0.3s ease;
   }

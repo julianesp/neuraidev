@@ -18,7 +18,7 @@ export default function WebDevSection() {
       icon: <Code size={40} />,
       titulo: "Desarrollo Web",
       descripcion: "Sitios web modernos, rápidos y optimizados",
-      color: "#667eea",
+      color: "#0070f3",
     },
     {
       icon: <Smartphone size={40} />,
@@ -30,7 +30,7 @@ export default function WebDevSection() {
       icon: <ShoppingCart size={40} />,
       titulo: "Tiendas Online",
       descripcion: "E-commerce completo con pasarelas de pago",
-      color: "#4facfe",
+      color: "#0070f3",
     },
     // {
     //   icon: <Search size={40} />,

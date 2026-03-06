@@ -7,7 +7,7 @@
 .hero {
   width: 100%;
   min-height: 60vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,7 +69,7 @@
   display: inline-block;
   padding: 16px 40px;
   background: white;
-  color: #667eea;
+  color: #0070f3;
   font-size: 1.2rem;
   font-weight: 600;
   border-radius: 50px;
@@ -266,7 +266,7 @@
   &:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
-    border-color: #667eea;
+    border-color: #0070f3;
   }
 }
 
@@ -316,24 +316,24 @@
 .licenseButton {
   display: inline-block;
   padding: 14px 36px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
   color: white;
   font-size: 1.1rem;
   font-weight: 600;
   border-radius: 50px;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 112, 243, 0.3);
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 25px rgba(0, 112, 243, 0.4);
   }
 }
 
 .contact {
   padding: 80px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
   text-align: center;
 }
 
@@ -439,7 +439,7 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 
     &:hover {
-      border-color: #667eea;
+      border-color: #0070f3;
     }
   }
 

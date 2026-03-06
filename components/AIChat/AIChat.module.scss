@@ -8,9 +8,9 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
   border: none;
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 112, 243, 0.4);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -39,7 +39,7 @@
 
   &:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+    box-shadow: 0 6px 25px rgba(0, 112, 243, 0.5);
   }
 
   &:active {
@@ -85,7 +85,7 @@
 
 // Header del chat
 .chatHeader {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
   color: white;
   padding: 16px;
   display: flex;
@@ -235,7 +235,7 @@
     justify-content: flex-end;
 
     .messageContent {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
       color: white;
       border-bottom-right-radius: 4px;
     }
@@ -319,8 +319,8 @@
 
     &:hover {
       background: #e5e7eb;
-      border-color: #667eea;
-      color: #667eea;
+      border-color: #0070f3;
+      color: #0070f3;
     }
   }
 }
@@ -347,7 +347,7 @@
     max-height: 100px;
 
     &:focus {
-      border-color: #667eea;
+      border-color: #0070f3;
     }
 
     &:disabled {
@@ -363,7 +363,7 @@
   .sendButton {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
     border: none;
     border-radius: 8px;
     color: white;
@@ -381,7 +381,7 @@
 
     &:hover:not(:disabled) {
       transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 112, 243, 0.4);
     }
 
     &:active:not(:disabled) {
@@ -447,8 +447,8 @@
 
       &:hover {
         background: #6b7280;
-        border-color: #667eea;
-        color: #667eea;
+        border-color: #0070f3;
+        color: #0070f3;
       }
     }
   }
@@ -463,7 +463,7 @@
       color: #f9fafb;
 
       &:focus {
-        border-color: #667eea;
+        border-color: #0070f3;
       }
 
       &::placeholder {

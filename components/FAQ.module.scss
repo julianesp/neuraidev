@@ -78,58 +78,58 @@
 
 // Estilos especiales para la sección de garantía
 .warrantyItem {
-  border: 2px solid #f59e0b !important; // Borde naranja/amarillo llamativo
-  background: linear-gradient(135deg, #fef3c7 0%, #fef3c7 100%) !important;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important;
+  border: 2px solid #0070f3 !important; // Borde azul llamativo
+  background: linear-gradient(135deg, #e6f2ff 0%, #e6f2ff 100%) !important;
+  box-shadow: 0 4px 12px rgba(0, 112, 243, 0.3) !important;
   animation: pulse-border 2s ease-in-out infinite;
 
   :global(.dark) & {
-    background: linear-gradient(135deg, #78350f 0%, #92400e 100%) !important;
-    border-color: #fbbf24 !important;
+    background: linear-gradient(135deg, #003d82 0%, #005ac1 100%) !important;
+    border-color: #0070f3 !important;
   }
 }
 
 @keyframes pulse-border {
   0%, 100% {
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 112, 243, 0.3);
   }
   50% {
-    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.5);
+    box-shadow: 0 6px 16px rgba(0, 112, 243, 0.5);
   }
 }
 
 .warrantyQuestion {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
-  color: #78350f !important;
+  background: linear-gradient(135deg, #0070f3 0%, #005ac1 100%) !important;
+  color: #ffffff !important;
   font-weight: 700 !important;
   padding: 1.25rem 1rem !important;
 
   &:hover {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    background: linear-gradient(135deg, #005ac1 0%, #004a99 100%) !important;
   }
 
   :global(.dark) & {
-    background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
-    color: #fef3c7 !important;
+    background: linear-gradient(135deg, #005ac1 0%, #004a99 100%) !important;
+    color: #e6f2ff !important;
 
     &:hover {
-      background: linear-gradient(135deg, #b45309 0%, #92400e 100%) !important;
+      background: linear-gradient(135deg, #004a99 0%, #003d82 100%) !important;
     }
   }
 }
 
 .warrantyAnswer {
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
-  color: #78350f !important;
+  background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%) !important;
+  color: #003d82 !important;
   font-weight: 600 !important;
   font-size: 1rem !important;
   line-height: 1.6 !important;
-  border-top: 3px solid #f59e0b;
+  border-top: 3px solid #0070f3;
 
   :global(.dark) & {
-    background: linear-gradient(135deg, #451a03 0%, #78350f 100%) !important;
-    color: #fef3c7 !important;
-    border-top-color: #fbbf24;
+    background: linear-gradient(135deg, #001f40 0%, #003d82 100%) !important;
+    color: #e6f2ff !important;
+    border-top-color: #0070f3;
   }
 }
 

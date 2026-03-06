@@ -3,15 +3,24 @@ import { getSupabaseClient } from "@/lib/db";
 
 /**
  * POST /api/products/[id]/track-view
- * Incrementa el contador de vistas de un producto guardándolo en metadata.views_count
+ * Incrementa el contador de vistas y trackea visitantes únicos por sessionID
  */
 export async function POST(request, { params }) {
   try {
     const { id } = await params;
+    const body = await request.json();
+    const { sessionId } = body;
 
     if (!id) {
       return NextResponse.json(
         { error: "ID de producto requerido" },
+        { status: 400 }
+      );
+    }
+
+    if (!sessionId) {
+      return NextResponse.json(
+        { error: "Session ID requerido" },
         { status: 400 }
       );
     }
@@ -32,10 +41,26 @@ export async function POST(request, { params }) {
       );
     }
 
-    // Incrementar views_count dentro del JSONB metadata
+    // Obtener metadata actual
     const currentMetadata = product.metadata || {};
-    const newViewsCount = (currentMetadata.views_count || 0) + 1;
-    const newMetadata = { ...currentMetadata, views_count: newViewsCount };
+    const visitors = currentMetadata.unique_visitors || [];
+    const totalViews = (currentMetadata.views_count || 0) + 1;
+
+    // Verificar si este visitante ya visitó este producto
+    const isNewVisitor = !visitors.includes(sessionId);
+
+    // Actualizar array de visitantes únicos
+    const newVisitors = isNewVisitor
+      ? [...visitors, sessionId]
+      : visitors;
+
+    // Actualizar metadata
+    const newMetadata = {
+      ...currentMetadata,
+      views_count: totalViews,
+      unique_visitors: newVisitors,
+      unique_visitors_count: newVisitors.length,
+    };
 
     const { error: updateError } = await supabase
       .from("products")
@@ -51,9 +76,12 @@ export async function POST(request, { params }) {
 
     return NextResponse.json({
       success: true,
-      views_count: newViewsCount,
+      views_count: totalViews,
+      unique_visitors_count: newVisitors.length,
+      is_new_visitor: isNewVisitor,
     });
   } catch (error) {
+    console.error("Error en track-view:", error);
     return NextResponse.json(
       { error: "Error interno del servidor" },
       { status: 500 }

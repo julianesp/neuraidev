@@ -113,7 +113,7 @@ export default function OfertaBadge({ productoId, precio, showCountdown = false 
 
       {/* Contador regresivo */}
       {showCountdown && tiempoRestante && (
-        <div className="inline-flex items-center gap-1 bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">
+        <div className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">
           <Clock size={14} />
           <span>Termina en: {tiempoRestante}</span>
         </div>

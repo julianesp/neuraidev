@@ -80,7 +80,7 @@ const AccesoriosNuevos = () => {
   // Renderizar mensaje de carga
   if (cargando) {
     return (
-      <div className="bg-yellow-50 p-1 rounded-lg text-center">
+      <div className="bg-blue-50 p-1 rounded-lg text-center">
         <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
         <div className="animate-pulse flex justify-center items-center h-48">
           <p className="text-gray-500">Cargando accesorios...</p>
@@ -92,7 +92,7 @@ const AccesoriosNuevos = () => {
   // Renderizar mensaje de error
   if (error) {
     return (
-      <div className="bg-yellow-50 p-6 rounded-lg">
+      <div className="bg-blue-50 p-6 rounded-lg">
         <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           <p>{error}</p>
@@ -104,7 +104,7 @@ const AccesoriosNuevos = () => {
   // Si no hay accesorios destacados
   if (destacados.length === 0) {
     return (
-      <div className="bg-yellow-50 p-6 rounded-lg">
+      <div className="bg-blue-50 p-6 rounded-lg">
         <h2 className="text-2xl font-bold mb-6">Accesorios Destacados</h2>
         <p className="text-gray-600 text-center">
           No hay accesorios destacados disponibles
@@ -116,7 +116,7 @@ const AccesoriosNuevos = () => {
   // Renderizar el componente con los accesorios cargados
   return (
     <div
-      className={`${style.container} bg-yellow-50 p-6 rounded-lg border dark:border-white`}
+      className={`${style.container} bg-blue-50 p-6 rounded-lg border dark:border-white`}
     >
       <h2 className="text-2xl font-bold mb-6">Accesorios nuevos</h2>
 
@@ -127,7 +127,7 @@ const AccesoriosNuevos = () => {
         <button
           onClick={scrollLeft}
           disabled={currentIndex === 0}
-          className={`bg-yellow-500 text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${currentIndex === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`bg-blue-500 text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${currentIndex === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
           aria-label="Anterior accesorio"
         >
           <svg
@@ -153,7 +153,7 @@ const AccesoriosNuevos = () => {
         <button
           onClick={scrollRight}
           disabled={currentIndex === destacados.length - 1}
-          className={`bg-yellow-500 text-justify flex justify-center items-center text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${currentIndex === destacados.length - 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`bg-blue-500 text-justify flex justify-center items-center text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${currentIndex === destacados.length - 1 ? "opacity-50 cursor-not-allowed" : ""}`}
           aria-label="Siguiente accesorio"
         >
           <svg
@@ -291,7 +291,7 @@ const AccesoriosNuevos = () => {
               scrollToItem(index);
             }}
             className={`h-2 rounded-full transition-all duration-300 focus:outline-none
-              ${currentIndex === index ? "bg-yellow-500 w-4" : "bg-gray-300 w-2"}`}
+              ${currentIndex === index ? "bg-blue-500 w-4" : "bg-gray-300 w-2"}`}
             aria-label={`Ir al accesorio ${index + 1}`}
           ></button>
         ))}
@@ -303,7 +303,7 @@ const AccesoriosNuevos = () => {
         </p> */}
         <Link
           href="/accesorios/nuevos"
-          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
         >
           Ver todos los nuevos
         </Link>
