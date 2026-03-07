@@ -248,14 +248,28 @@ function buildProductMetadata(producto, slug, categoria) {
   const logoSitio = 'https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png';
   const imagenFinal = imagenPrincipal || logoSitio;
 
+  // Detectar tipo de imagen desde la URL
+  const getImageType = (url) => {
+    if (!url) return 'image/jpeg';
+    const extension = url.toLowerCase().split('.').pop().split('?')[0];
+    const typeMap = {
+      'png': 'image/png',
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg',
+      'webp': 'image/webp',
+      'gif': 'image/gif'
+    };
+    return typeMap[extension] || 'image/jpeg';
+  };
+
   const imagenesParaMetadata = [
     {
       url: imagenFinal,
       secureUrl: imagenFinal, // WhatsApp y otras plataformas requieren secureUrl
-      width: 1200,
-      height: 630,
+      width: 800,
+      height: 800,
       alt: producto.nombre,
-      type: 'image/jpeg',
+      type: getImageType(imagenFinal),
     },
     ...imagenesAdicionales.slice(0, 2).map((img) => {
       // Asegurar que la URL esté correctamente codificada
@@ -263,10 +277,10 @@ function buildProductMetadata(producto, slug, categoria) {
       return {
         url: urlLimpia,
         secureUrl: urlLimpia, // WhatsApp y otras plataformas requieren secureUrl
-        width: 1200,
-        height: 630,
+        width: 800,
+        height: 800,
         alt: img.alt || producto.nombre,
-        type: 'image/jpeg',
+        type: getImageType(urlLimpia),
       };
     }),
   ];
@@ -327,9 +341,12 @@ function buildProductMetadata(producto, slug, categoria) {
       "product:condition": producto.condicion || "nuevo",
       "product:brand": producto.marca || "neurai.dev",
       "product:category": producto.categoria,
-      // Tags específicos para WhatsApp
+      // Tags específicos para WhatsApp y redes sociales
       "og:image:alt": producto.nombre,
-      "og:image:type": "image/jpeg",
+      "og:image:type": getImageType(imagenFinal),
+      "og:image:width": "800",
+      "og:image:height": "800",
+      "og:image:secure_url": imagenFinal,
     },
   };
 }
