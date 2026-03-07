@@ -1,40 +1,29 @@
 @use "../../styles/variables";
 
-// PresentationCarousel.module.scss
+// PresentationCarousel.module.scss - Carrusel 3D Cilíndrico
 .carouselContainer {
   width: 100%;
   height: 60vh;
+  min-height: 500px;
   position: relative;
   overflow: hidden;
-  z-index: 100; // Por encima del aside (z-index: 60)
+  z-index: 100;
+  perspective: 2000px;
+  perspective-origin: 50% 50%;
+  background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
 
-  // Sin restricciones de ancho en todas las resoluciones
-
-  // Ajuste específico para resoluciones tipo 1280x800 (tablets/laptops pequeños)
   @media (min-width: 1024px) and (max-width: 1366px) and (min-height: 768px) and (max-height: 900px) {
     margin-top: 80px;
   }
+
+  @media (max-width: 768px) {
+    height: 50vh;
+    min-height: 400px;
+  }
 }
 
-.carousel {
+.carousel3D {
   width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.slidesWrapper {
-  display: flex;
-  align-items: center;
-  justify-self: center;
-  gap: 20px 0;
-
-  width: 100%;
-  height: 100%;
-  transition: transform 0.5s ease-in-out;
-}
-
-.slide {
-  min-width: 100%;
   height: 100%;
   position: relative;
   display: flex;
@@ -42,19 +31,73 @@
   justify-content: center;
 }
 
-.imageContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
+.cylinderWrapper {
+  position: relative;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  transform-style: preserve-3d;
+}
+
+.card3D {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 350px;
+  height: 450px;
+  margin-left: -175px; // La mitad del ancho
+  margin-top: -225px; // La mitad de la altura
+  transform-style: preserve-3d;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 280px;
+    height: 380px;
+    margin-left: -140px;
+    margin-top: -190px;
+  }
+
+  @media (max-width: 480px) {
+    width: 240px;
+    height: 320px;
+    margin-left: -120px;
+    margin-top: -160px;
+  }
+}
+
+.cardLink {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease;
+  background: variables.$white;
+  border: 3px solid variables.$color-primario;
+
+  &:hover {
+    box-shadow: 0 15px 60px rgba(0, 112, 243, 0.4);
+  }
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 65%;
+  overflow: hidden;
 }
 
 .slideImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+
+  .cardLink:hover & {
+    transform: scale(1.05);
+  }
 }
 
 .overlay {
@@ -63,219 +106,83 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 2;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
 }
 
 .slideContent {
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px 0;
-
-  z-index: 3;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+  color: variables.$white;
   text-align: center;
-  color: white;
-  padding: 2rem;
-  max-width: 600px;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
 }
 
 .slideTitle {
-  font-size: 3rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 8px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  color: variables.$white;
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 1.2rem;
   }
 
   @media (max-width: 480px) {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 }
 
 .slideDescription {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.4;
 
   @media (max-width: 768px) {
-    font-size: 1rem;
+    font-size: 0.85rem;
   }
 
   @media (max-width: 480px) {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
+    margin-bottom: 8px;
   }
 }
 
 .seeMoreButton {
   display: inline-block;
-  
-  background: linear-gradient(135deg, #0070f3 0%, #0059c9 100%);
-  // color: white;
-  // padding: 12px 32px;
+  background: variables.$color-primario;
+  color: variables.$white;
+  padding: 10px 24px;
   border-radius: 25px;
-  // text-decoration: none;
+  text-decoration: none;
   font-weight: 600;
-  font-size: 1.3rem;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 112, 243, 0.3);
-  position: absolute;
-  z-index: 105; // Mayor que el carouselContainer
 
-  // bottom: 5px; // Posicionado entre el texto y los indicadores
-  left: 50%;
-  transform: translateX(-50%);
-
-  &:hover {
-    background: linear-gradient(135deg, #0059c9 0%, #0041a3 100%);
-    transform: translateX(-50%) translateY(-2px);
+  .cardLink:hover & {
+    background: #0059c9;
+    transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 112, 243, 0.4);
   }
 
-  &:active {
-    transform: translateX(-50%) translateY(0);
-  }
-
   @media (max-width: 768px) {
-    padding: 10px 24px;
-    font-size: 1rem;
-    bottom: 30px;
-  }
-
-  @media (max-width: 480px) {
     padding: 8px 20px;
-    font-size: 0.9rem;
-    bottom: 25px;
-  }
-}
-
-// Controles de navegación
-.navButton {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  font-size: 2rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 105; // Mayor que el carouselContainer
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-50%) scale(1.1);
-  }
-
-  @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
-    font-size: 1.5rem;
-  }
-}
-
-.prevButton {
-  left: 20px;
-}
-
-.nextButton {
-  right: 20px;
-}
-
-// Indicadores
-.indicators {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 105; // Mayor que el carouselContainer
-}
-
-.indicator {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &.active {
-    background: white;
-    transform: scale(1.2);
-  }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.8);
-  }
-}
-
-// Botón Play/Pause
-.playPauseButton {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 105;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.1);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
-    bottom: 18px;
-    left: 15px;
-
-    svg {
-      width: 18px;
-      height: 18px;
-    }
+    font-size: 0.85rem;
   }
 
   @media (max-width: 480px) {
-    width: 35px;
-    height: 35px;
-    bottom: 15px;
-    left: 12px;
-
-    svg {
-      width: 16px;
-      height: 16px;
-    }
+    padding: 6px 16px;
+    font-size: 0.75rem;
   }
 }
 
@@ -291,11 +198,12 @@
 }
 
 .skeletonImage {
-  width: 100%;
+  width: 80%;
   height: 70%;
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
   animation: loading 2s infinite;
+  border-radius: 20px;
 }
 
 .skeletonText {
@@ -305,6 +213,7 @@
   background-size: 200% 100%;
   animation: loading 2s infinite;
   margin-top: 20px;
+  border-radius: 10px;
 }
 
 @keyframes loading {
@@ -313,5 +222,49 @@
   }
   100% {
     background-position: -200% 0;
+  }
+}
+
+// Modo oscuro
+:global(.dark) {
+  .carouselContainer {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  }
+
+  .cardLink {
+    background: #2d3748;
+    border-color: #63b3ed;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+
+    &:hover {
+      box-shadow: 0 15px 60px rgba(99, 179, 237, 0.4);
+    }
+  }
+
+  .slideTitle {
+    color: #f7fafc;
+  }
+
+  .slideDescription {
+    color: #cbd5e0;
+  }
+
+  .seeMoreButton {
+    background: #63b3ed;
+    color: #1a202c;
+
+    .cardLink:hover & {
+      background: #4299e1;
+    }
+  }
+
+  .loadingSkeleton {
+    background: #1a202c;
+  }
+
+  .skeletonImage,
+  .skeletonText {
+    background: linear-gradient(90deg, #2d3748 25%, #4a5568 50%, #2d3748 75%);
+    background-size: 200% 100%;
   }
 }
