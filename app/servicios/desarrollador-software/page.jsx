@@ -71,6 +71,33 @@ export default function DesarrolladorSoftware() {
     },
   ];
 
+  const portafolio = [
+    {
+      id: 1,
+      nombre: "posib.dev",
+      url: "https://posib.dev/",
+      descripcion: "Plataforma de desarrollo web y servicios digitales",
+      tecnologias: ["Next.js", "React", "TypeScript"],
+      imagen: "🌐",
+    },
+    {
+      id: 2,
+      nombre: "ipsinka.com",
+      url: "https://ipsinka.com/",
+      descripcion: "Sistema de gestión y servicios administrativos",
+      tecnologias: ["Next.js", "Tailwind", "Supabase"],
+      imagen: "💼",
+    },
+    {
+      id: 3,
+      nombre: "neurai.dev",
+      url: "https://neurai.dev/",
+      descripcion: "E-commerce de tecnología y servicios profesionales",
+      tecnologias: ["Next.js", "Supabase", "Clerk", "ePayco"],
+      imagen: "🛒",
+    },
+  ];
+
   return (
     <main className={styles.container}>
       <section className={styles.hero}>
@@ -126,6 +153,38 @@ export default function DesarrolladorSoftware() {
                 {servicio.descripcion}
               </p>
             </div>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.portfolio}>
+        <h2 className={styles.sectionTitle}>Portafolio de Sitios Web</h2>
+        <p className={styles.portfolioSubtitle}>
+          Sitios web desarrollados con tecnologías modernas y diseño profesional
+        </p>
+        <div className={styles.portfolioGrid}>
+          {portafolio.map((sitio) => (
+            <Link
+              key={sitio.id}
+              href={sitio.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.portfolioCard}
+            >
+              <div className={styles.portfolioIcon}>{sitio.imagen}</div>
+              <h3 className={styles.portfolioName}>{sitio.nombre}</h3>
+              <p className={styles.portfolioDescription}>{sitio.descripcion}</p>
+              <div className={styles.portfolioTech}>
+                {sitio.tecnologias.map((tech, index) => (
+                  <span key={index} className={styles.techBadge}>
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <div className={styles.portfolioLink}>
+                Ver sitio web →
+              </div>
+            </Link>
           ))}
         </div>
       </section>
