@@ -81,9 +81,16 @@ const PresentationCarousel = () => {
 
     // Calcular escala basada en la posición Z (cercanía al centro)
     const distanceFromCenter = Math.abs(normalizedAngle);
-    const scale = distanceFromCenter < 30
-      ? 1.2 - (distanceFromCenter / 30) * 0.2  // Escala 1.2 en centro, 1.0 a 30°
-      : 0.85; // Escala reducida para tarjetas lejanas
+
+    // Escala diferente para X (width) y Y (height)
+    // En el centro: scaleX 1.6 (60% más ancho), scaleY 1.1 (10% más alto)
+    const scaleX = distanceFromCenter < 30
+      ? 1.6 - (distanceFromCenter / 30) * 0.6  // 1.6 en centro, 1.0 a 30°
+      : 0.85;
+
+    const scaleY = distanceFromCenter < 30
+      ? 1.1 - (distanceFromCenter / 30) * 0.1  // 1.1 en centro, 1.0 a 30°
+      : 0.85;
 
     // Calcular opacidad
     const opacity = distanceFromCenter < 60
@@ -94,7 +101,7 @@ const PresentationCarousel = () => {
     const rotateY = -normalizedAngle * 0.6;
 
     return {
-      transform: `translateX(${x}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scale})`,
+      transform: `translateX(${x}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scaleX}, ${scaleY})`,
       opacity: opacity,
       zIndex: Math.round(1000 + z),
     };
