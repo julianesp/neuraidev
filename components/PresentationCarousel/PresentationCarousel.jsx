@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./PresentationCarousel.module.scss";
 
 const PresentationCarousel = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [rotation, setRotation] = useState(0);
-  const animationRef = useRef(null);
-  const rotationRef = useRef(0);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   // Datos del carrusel con imágenes y enlaces
   const slides = [
@@ -38,73 +37,45 @@ const PresentationCarousel = () => {
       description: "Creando soluciones digitales innovadoras para tu negocio",
       link: "/servicios/desarrollador-software",
     },
+    // {
+    //   id: 4,
+    //   image:
+    //     "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/loveFriend.jpg",
+    //   title: "Ofertas Especiales",
+    //   description: "No te pierdas nuestras promociones",
+    //   link: "/ofertas",
+    // },
   ];
 
-  // Duplicar slides para el efecto infinito
-  const infiniteSlides = [...slides, ...slides, ...slides];
+  // Auto-slide cada 5 segundos (solo si isPlaying es true)
+  useEffect(() => {
+    if (!isPlaying) return;
 
-  // Animación continua
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [slides.length, isPlaying]);
+
+  // Marcar como cargado después del montaje y asegurar scroll al inicio
   useEffect(() => {
     setIsLoaded(true);
+
+    // Asegurar que la página inicie en la parte superior
     window.scrollTo(0, 0);
-
-    const animate = () => {
-      rotationRef.current += 0.2; // Velocidad de rotación
-      setRotation(rotationRef.current);
-      animationRef.current = requestAnimationFrame(animate);
-    };
-
-    animationRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
   }, []);
 
-  // Calcular posición y escala de cada tarjeta
-  const getCardStyle = (index) => {
-    const totalSlides = infiniteSlides.length;
-    const anglePerSlide = 360 / slides.length;
-    const radius = 320; // Radio del cilindro (reducido para pegar más las tarjetas)
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
 
-    // Ángulo de la tarjeta actual
-    const angle = (index * anglePerSlide - rotation) % 360;
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
 
-    // Normalizar ángulo entre -180 y 180
-    const normalizedAngle = angle > 180 ? angle - 360 : angle;
-
-    // Calcular posición en el cilindro
-    const x = Math.sin((normalizedAngle * Math.PI) / 180) * radius;
-    const z = Math.cos((normalizedAngle * Math.PI) / 180) * radius - radius;
-
-    // Calcular escala basada en la posición Z (cercanía al centro)
-    const distanceFromCenter = Math.abs(normalizedAngle);
-
-    // Escala diferente para X (width) y Y (height)
-    // En el centro: scaleX 1.6 (60% más ancho), scaleY 1.1 (10% más alto)
-    const scaleX = distanceFromCenter < 30
-      ? 1.6 - (distanceFromCenter / 30) * 0.6  // 1.6 en centro, 1.0 a 30°
-      : 0.85;
-
-    const scaleY = distanceFromCenter < 30
-      ? 1.1 - (distanceFromCenter / 30) * 0.1  // 1.1 en centro, 1.0 a 30°
-      : 0.85;
-
-    // Calcular opacidad
-    const opacity = distanceFromCenter < 60
-      ? 1 - (distanceFromCenter / 120)
-      : 0.3;
-
-    // Calcular rotationY para el efecto cilíndrico
-    const rotateY = -normalizedAngle * 0.6;
-
-    return {
-      transform: `translateX(${x}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scaleX}, ${scaleY})`,
-      opacity: opacity,
-      zIndex: Math.round(1000 + z),
-    };
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
   if (!isLoaded) {
@@ -120,37 +91,99 @@ const PresentationCarousel = () => {
 
   return (
     <div className={styles.carouselContainer}>
-      <div className={styles.carousel3D}>
-        <div className={styles.cylinderWrapper}>
-          {infiniteSlides.map((slide, index) => (
-            <div
-              key={`${slide.id}-${index}`}
-              className={styles.card3D}
-              style={getCardStyle(index)}
-            >
-              <Link href={slide.link} className={styles.cardLink}>
-                <div className={styles.imageContainer}>
-                  <Image
-                    src={slide.image}
-                    alt={slide.title}
-                    fill
-                    className={styles.slideImage}
-                    priority={index === 0}
-                    quality={85}
-                    sizes="(max-width: 768px) 100vw, 400px"
-                  />
-                  <div className={styles.overlay}></div>
-                </div>
+      <div className={styles.carousel}>
+        {/* Slides */}
+        <div
+          className={styles.slidesWrapper}
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
+          {slides.map((slide, index) => (
+            <div key={slide.id} className={styles.slide}>
+              <div className={styles.imageContainer}>
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  fill
+                  className={styles.slideImage}
+                  priority={index === 0}
+                  quality={85}
+                  sizes="100vw"
+                />
+                <div className={styles.overlay}></div>
+              </div>
 
-                <div className={styles.slideContent}>
-                  <h2 className={styles.slideTitle}>{slide.title}</h2>
-                  <p className={styles.slideDescription}>{slide.description}</p>
-                  <span className={styles.seeMoreButton}>Ver más</span>
-                </div>
-              </Link>
+              <div className={styles.slideContent}>
+                <h2 className={styles.slideTitle}>{slide.title}</h2>
+                <p className={styles.slideDescription}>{slide.description}</p>
+
+                <Link href={slide.link} className={styles.seeMoreButton}>
+                  Ver más
+                </Link>
+              </div>
             </div>
           ))}
         </div>
+
+        {/* Controles de navegación */}
+        <button
+          className={`${styles.navButton} ${styles.prevButton}`}
+          onClick={prevSlide}
+          aria-label="Slide anterior"
+        >
+          ‹
+        </button>
+
+        <button
+          className={`${styles.navButton} ${styles.nextButton}`}
+          onClick={nextSlide}
+          aria-label="Siguiente slide"
+        >
+          ›
+        </button>
+
+        {/* Indicadores */}
+        <div className={styles.indicators}>
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              className={`${styles.indicator} ${
+                index === currentSlide ? styles.active : ""
+              }`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Ir al slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Botón Play/Pause */}
+        <button
+          className={styles.playPauseButton}
+          onClick={() => setIsPlaying(!isPlaying)}
+          aria-label={isPlaying ? "Pausar carrusel" : "Reproducir carrusel"}
+          title="Pausar / Reproducir"
+        >
+          {isPlaying ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          )}
+        </button>
       </div>
     </div>
   );
