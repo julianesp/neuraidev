@@ -312,6 +312,7 @@
   transform-origin: center;
   text-shadow: 0 0 3px rgba(0, 0, 0, 1);
   background-color: transparent;
+  border: none; // Sin borde en móvil
 
   &:hover {
     background-color: transparent;
@@ -570,16 +571,17 @@
     > li > a {
       font-size: 1rem;
       padding: 8px 6px;
-      color: hsl(0 0% 98%);
+      color: #000;
       font-weight: 500;
       margin: 0;
-      border: none;
+      border: 1px solid #000;
+      border-radius: 5px;
       background-color: transparent;
-      transition: color 0.15s ease;
+      transition: all 0.15s ease;
 
       &:hover {
-        background-color: transparent;
-        color: hsl(0 0% 70%);
+        background-color: rgba(0, 0, 0, 0.1);
+        color: #000;
         text-decoration: none;
       }
     }
@@ -646,20 +648,23 @@
     margin: 0;
     gap: 2px;
     position: relative;
-    color: #ffffff;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 1);
+    color: #000;
+    text-shadow: none;
     background-color: transparent;
+    border: 1px solid #000;
+    border-radius: 5px;
 
     &:hover {
-      background-color: transparent;
+      background-color: rgba(0, 0, 0, 0.1);
       text-decoration: underline;
       transform: scale(1.05);
-      color: #ffffff;
+      color: #000;
     }
 
     &.active {
       color: #0070f3;
       text-decoration: underline;
+      border-color: #0070f3;
     }
   }
 
