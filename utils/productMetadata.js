@@ -158,9 +158,19 @@ export async function generateProductMetadata(slug, categoria) {
     const categoryProducts = await getCategoryProducts(categoria);
     let producto = findProductBySlug(categoryProducts, slug);
 
-    // Si no se encuentra, buscar en todas las categorías
+    // Si no se encuentra por slug, intentar buscar por ID o SKU directamente
+    if (!producto) {
+      producto = categoryProducts.find((p) => p.id === slug || p.sku === slug);
+    }
+
+    // Si aún no se encuentra, buscar en todas las categorías
     if (!producto) {
       producto = await findProductInAllCategories(slug);
+    }
+
+    // Si todavía no se encuentra, intentar buscar por ID en toda la base de datos
+    if (!producto) {
+      producto = await findProductById(slug);
     }
 
     if (!producto) {
