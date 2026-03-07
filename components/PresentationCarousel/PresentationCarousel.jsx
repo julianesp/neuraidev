@@ -67,7 +67,7 @@ const PresentationCarousel = () => {
   const getCardStyle = (index) => {
     const totalSlides = infiniteSlides.length;
     const anglePerSlide = 360 / slides.length;
-    const radius = 600; // Radio del cilindro
+    const radius = 320; // Radio del cilindro (reducido para pegar más las tarjetas)
 
     // Ángulo de la tarjeta actual
     const angle = (index * anglePerSlide - rotation) % 360;
