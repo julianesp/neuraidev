@@ -10,7 +10,16 @@ import { getSupabaseClient } from "@/lib/db";
  */
 export async function GET(request) {
   try {
-    const supabase = getSupabaseClient();
+    let supabase;
+    try {
+      supabase = getSupabaseClient();
+    } catch (clientError) {
+      console.error('[most-visited] Error al crear cliente Supabase:', clientError);
+      return NextResponse.json(
+        { success: false, products: [], error: 'Error de configuración de base de datos' },
+        { status: 500 }
+      );
+    }
 
     const MAX_PRODUCTS = 10;
     const MIN_PRODUCTS = 3;
@@ -49,8 +58,13 @@ export async function GET(request) {
       products: withViews,
     });
   } catch (error) {
+    console.error('[most-visited] Error inesperado:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
     return NextResponse.json(
-      { success: false, products: [], error: "Error interno del servidor" },
+      { success: false, products: [], error: "Error interno del servidor", details: error.message },
       { status: 500 }
     );
   }

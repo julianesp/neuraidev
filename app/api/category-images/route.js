@@ -19,7 +19,16 @@ export async function GET(request) {
     }
 
     // Obtener cliente de Supabase
-    const supabase = getSupabaseClient();
+    let supabase;
+    try {
+      supabase = getSupabaseClient();
+    } catch (clientError) {
+      console.error('[category-images] Error al crear cliente Supabase:', clientError);
+      return NextResponse.json(
+        { error: 'Error de configuración de base de datos', details: clientError.message },
+        { status: 500 }
+      );
+    }
 
     // Mapeo de IDs de categoría a nombres en la base de datos
     const categoryMap = {
@@ -92,9 +101,17 @@ export async function GET(request) {
     });
 
   } catch (error) {
-    console.error('[category-images] Error inesperado:', error);
+    console.error('[category-images] Error inesperado:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
     return NextResponse.json(
-      { error: 'Error interno del servidor' },
+      {
+        error: 'Error interno del servidor',
+        details: error.message,
+        type: error.name,
+      },
       { status: 500 }
     );
   }

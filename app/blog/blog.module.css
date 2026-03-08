@@ -1,0 +1,481 @@
+/* ===========================
+   NEWSPAPER DESIGN SYSTEM
+   Inspired by classic print newspapers
+   =========================== */
+
+/* Importar fuente Playfair Display desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
+
+.newspaperContainer {
+  background: #f5f1e8;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+.newspaper {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #faf8f3;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  border: 1px solid #d4c5a9;
+}
+
+/* ===========================
+   MASTHEAD (Header del periódico)
+   =========================== */
+
+.masthead {
+  border-bottom: 4px double #000;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  position: relative;
+}
+
+.mastheadTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.mastheadTitle {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 4rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0.5rem 0;
+  color: #000;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.mastheadSubtitle {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.mastheadDate {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #333;
+}
+
+.decorativeLine {
+  width: 100%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #000 0px,
+    #000 10px,
+    transparent 10px,
+    transparent 12px
+  );
+  margin: 0.5rem 0;
+}
+
+/* ===========================
+   GRID LAYOUT - Desktop
+   =========================== */
+
+.articlesGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Artículo principal destacado (arriba, grande) */
+.featuredMain {
+  grid-column: 1 / 9;
+  grid-row: 1 / 3;
+  border: 3px solid #000;
+  padding: 1.5rem;
+  background: #fff;
+  position: relative;
+}
+
+.featuredMain::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border: 1px solid #000;
+  pointer-events: none;
+}
+
+/* Artículos secundarios (columna derecha) */
+.featuredSecondary {
+  grid-column: 9 / 13;
+  border: 2px solid #000;
+  padding: 1rem;
+  background: #fff;
+}
+
+.featuredSecondary:nth-child(2) {
+  grid-row: 1;
+}
+
+.featuredSecondary:nth-child(3) {
+  grid-row: 2;
+}
+
+/* Artículos en 3 columnas (parte media) */
+.articleColumn {
+  grid-column: span 4;
+  border-right: 2px solid #000;
+  padding-right: 1rem;
+}
+
+.articleColumn:last-of-type {
+  border-right: none;
+  padding-right: 0;
+}
+
+/* Artículos pequeños en 2 columnas */
+.articleSmall {
+  grid-column: span 6;
+  border-top: 2px solid #000;
+  padding: 1rem;
+  background: #f9f7f0;
+}
+
+/* ===========================
+   TIPOGRAFÍA DE PERIÓDICO
+   =========================== */
+
+.headline {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 0 0 0.75rem 0;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.headlineLarge {
+  font-size: 2.5rem;
+  border-bottom: 3px solid #000;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.headlineMedium {
+  font-size: 1.75rem;
+  border-bottom: 2px solid #000;
+  padding-bottom: 0.4rem;
+}
+
+.headlineSmall {
+  font-size: 1.25rem;
+  border-bottom: 1px solid #000;
+  padding-bottom: 0.3rem;
+}
+
+.subheadline {
+  font-style: italic;
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.articleMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #666;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 0;
+  margin-bottom: 0.75rem;
+}
+
+.articleBody {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #222;
+  columns: 1;
+  column-gap: 1.5rem;
+  text-align: justify;
+}
+
+.featuredMain .articleBody {
+  columns: 2;
+}
+
+.articleExcerpt {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #333;
+  text-align: justify;
+}
+
+/* ===========================
+   CATEGORÍAS ESTILO PERIÓDICO
+   =========================== */
+
+.category {
+  display: inline-block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  background: #000;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+/* ===========================
+   IMÁGENES ESTILO PERIÓDICO
+   =========================== */
+
+.articleImage {
+  width: 100%;
+  height: auto;
+  border: 2px solid #000;
+  margin-bottom: 0.75rem;
+  filter: grayscale(20%) contrast(1.1);
+}
+
+.imageCaption {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #555;
+  text-align: center;
+  margin-top: 0.5rem;
+  padding: 0 1rem;
+}
+
+/* ===========================
+   ELEMENTOS DECORATIVOS
+   =========================== */
+
+.ornament {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #000;
+  margin: 1.5rem 0;
+}
+
+.verticalDivider {
+  width: 2px;
+  background: #000;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* ===========================
+   LINK STYLING
+   =========================== */
+
+.articleLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: all 0.2s ease;
+}
+
+.articleLink:hover {
+  transform: translateY(-2px);
+}
+
+.articleLink:hover .headline {
+  color: #c41e3a;
+}
+
+/* ===========================
+   RESPONSIVE - MOBILE
+   =========================== */
+
+@media (max-width: 768px) {
+  .newspaper {
+    padding: 1rem;
+  }
+
+  .mastheadTitle {
+    font-size: 2.5rem;
+  }
+
+  /* En móvil: todo en una columna */
+  .articlesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .featuredMain {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .featuredSecondary {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .articleColumn {
+    grid-column: 1;
+    border-right: none;
+    border-bottom: 2px solid #000;
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .articleSmall {
+    grid-column: 1;
+  }
+
+  .featuredMain .articleBody {
+    columns: 1;
+  }
+
+  .headlineLarge {
+    font-size: 1.75rem;
+  }
+
+  .headlineMedium {
+    font-size: 1.4rem;
+  }
+
+  .headlineSmall {
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Tablet: 2 columnas principales */
+  .featuredMain {
+    grid-column: 1 / 8;
+  }
+
+  .featuredSecondary {
+    grid-column: 8 / 13;
+  }
+
+  .articleColumn {
+    grid-column: span 6;
+  }
+}
+
+/* ===========================
+   NEWSLETTER SECTION (estilo periódico)
+   =========================== */
+
+.newsletterBox {
+  border: 4px double #000;
+  padding: 2rem;
+  background: #fff;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.newsletterHeadline {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.newsletterForm {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.newsletterInput {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #000;
+  font-family: 'Georgia', serif;
+  font-size: 0.9rem;
+}
+
+.newsletterButton {
+  padding: 0.75rem 1.5rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-family: 'Georgia', serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.newsletterButton:hover {
+  background: #c41e3a;
+}
+
+/* ===========================
+   EMPTY STATE
+   =========================== */
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 4px double #000;
+  background: #fff;
+  margin: 2rem 0;
+}
+
+.emptyStateIcon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+}
+
+.emptyStateTitle {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.emptyStateText {
+  font-size: 1.1rem;
+  color: #444;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.emptyStateButton {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+}
+
+.emptyStateButton:hover {
+  background: #c41e3a;
+}

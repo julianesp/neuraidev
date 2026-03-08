@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { ShoppingCart, Plus, Minus, AlertTriangle, X } from "lucide-react";
 import ProductColorPicker from "./ProductColorPicker";
 import PaymentMethodModal from "./PaymentMethodModal";
 import NequiPaymentModal from "./NequiPaymentModal";
+import { getSupabaseBrowserClient } from "@/lib/db";
+import { createProductRepository } from "@/lib/repositories/ProductRepository";
+import { InsufficientStockError } from "@/lib/errors/AppErrors";
 
 export default function AddToCartButton({ producto }) {
   const { addToCart, checkStock, cart } = useCart();
@@ -21,6 +24,10 @@ export default function AddToCartButton({ producto }) {
   const [showPaymentMethodModal, setShowPaymentMethodModal] = useState(false);
   const [showNequiModal, setShowNequiModal] = useState(false);
   const [colorParaNequi, setColorParaNequi] = useState(null);
+
+  // Usar la nueva arquitectura (Repository Pattern)
+  const supabase = useMemo(() => getSupabaseBrowserClient(), []);
+  const productRepo = useMemo(() => createProductRepository(supabase), [supabase]);
 
   // Obtener colores disponibles desde metadata
   const coloresDisponibles = producto.metadata?.colores_disponibles || [];
@@ -49,22 +56,30 @@ export default function AddToCartButton({ producto }) {
     categoria: producto.categoria || "general",
   };
 
-  // Cargar stock disponible al montar el componente
+  // Cargar stock disponible al montar el componente usando Repository
   useEffect(() => {
     const fetchStock = async () => {
       try {
-        const stock = await checkStock(producto.id);
+        // Usar ProductRepository en lugar de checkStock directo
+        const stock = await productRepo.checkStock(producto.id);
         setStockDisponible(stock);
       } catch (error) {
         console.error("Error al cargar stock:", error);
-        setStockDisponible(0);
+        // Fallback al método viejo si falla
+        try {
+          const stock = await checkStock(producto.id);
+          setStockDisponible(stock);
+        } catch (fallbackError) {
+          console.error("Error en fallback:", fallbackError);
+          setStockDisponible(0);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchStock();
-  }, [producto.id, checkStock]);
+  }, [producto.id, productRepo, checkStock]);
 
   // Manejar el modal de sin stock (cerrar con Escape y prevenir scroll)
   useEffect(() => {
@@ -94,27 +109,32 @@ export default function AddToCartButton({ producto }) {
 
   // Abrir modal de selección de método de pago
   const handleOpenPaymentModal = async () => {
-    // Verificar stock disponible antes de abrir el modal
-    const stockActual = await checkStock(producto.id);
+    try {
+      // Usar ProductRepository para verificar stock
+      const stockActual = await productRepo.checkStock(producto.id);
 
-    // Calcular cuántos productos de este tipo ya están en el carrito
-    const cantidadEnCarrito = cart.reduce((total, item) => {
-      if (item.id === producto.id) {
-        return total + item.cantidad;
+      // Calcular cuántos productos de este tipo ya están en el carrito
+      const cantidadEnCarrito = cart.reduce((total, item) => {
+        if (item.id === producto.id) {
+          return total + item.cantidad;
+        }
+        return total;
+      }, 0);
+
+      const stockRestante = stockActual - cantidadEnCarrito;
+
+      // Si no hay stock disponible, mostrar modal de sin stock
+      if (stockRestante <= 0 || cantidad > stockRestante) {
+        setShowNoStockModal(true);
+        return;
       }
-      return total;
-    }, 0);
 
-    const stockRestante = stockActual - cantidadEnCarrito;
-
-    // Si no hay stock disponible, mostrar modal de sin stock
-    if (stockRestante <= 0 || cantidad > stockRestante) {
-      setShowNoStockModal(true);
-      return;
+      // Abrir modal de selección de método de pago
+      setShowPaymentMethodModal(true);
+    } catch (error) {
+      console.error("Error al verificar stock:", error);
+      toast.error("Error al verificar disponibilidad");
     }
-
-    // Abrir modal de selección de método de pago
-    setShowPaymentMethodModal(true);
   };
 
   // Manejar selección de Nequi
@@ -142,8 +162,8 @@ export default function AddToCartButton({ producto }) {
       return;
     }
 
-    // Verificar stock disponible en tiempo real antes de agregar
-    const stockActual = await checkStock(producto.id);
+    // Usar ProductRepository para verificar stock en tiempo real
+    const stockActual = await productRepo.checkStock(producto.id);
 
     // Calcular cuántos productos de este tipo ya están en el carrito
     const cantidadEnCarrito = cart.reduce((total, item) => {

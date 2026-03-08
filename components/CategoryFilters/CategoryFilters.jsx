@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./CategoryFilters.module.scss";
 
+// Definición de categorías con todas sus subcategorías posibles
 const categories = [
   {
     name: "Celulares",
@@ -123,10 +124,11 @@ export default function CategoryFilters() {
                 <span className={styles.categoryIcon}>{category.icon}</span>
                 <span className={styles.categoryName}>{category.name}</span>
               </button>
-              {category.subcategories && (
+              {category.subcategories && category.subcategories.length > 0 && (
                 <button
                   onClick={() => toggleCategory(category.slug)}
                   className={styles.expandButton}
+                  aria-label={`Expandir ${category.name}`}
                 >
                   <svg
                     className={`${styles.expandIcon} ${
@@ -149,7 +151,7 @@ export default function CategoryFilters() {
 
             {/* Subcategorías */}
             <AnimatePresence>
-              {expandedCategory === category.slug && category.subcategories && (
+              {expandedCategory === category.slug && category.subcategories && category.subcategories.length > 0 && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
@@ -163,6 +165,7 @@ export default function CategoryFilters() {
                       onClick={() => handleSubcategoryClick(category.slug, subcategory)}
                       className={styles.subcategoryButton}
                     >
+                      <span className={styles.subcategoryIcon}>👉</span>
                       {subcategory}
                     </button>
                   ))}

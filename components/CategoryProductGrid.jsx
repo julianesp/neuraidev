@@ -8,6 +8,7 @@ export default function CategoryProductGrid({
   productos,
   categorySlug,
   categoryName,
+  subcategoria,
 }) {
   if (!productos || productos.length === 0) {
     return (
@@ -91,6 +92,28 @@ export default function CategoryProductGrid({
               </span>
             </div>
           </li>
+          {subcategoria && (
+            <li aria-current="page">
+              <div className="flex items-center">
+                <svg
+                  className="w-3 h-3 text-gray-400 mx-1"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 9 4-4-4-4"
+                  />
+                </svg>
+                <span className="ml-1 text-sm font-medium text-blue-600 dark:text-blue-400 md:ml-2">
+                  {subcategoria}
+                </span>
+              </div>
+            </li>
+          )}
         </ol>
       </nav>
 

@@ -9,7 +9,16 @@ import { getSupabaseClient } from "@/lib/db";
  */
 export async function GET(request) {
   try {
-    const supabase = getSupabaseClient();
+    let supabase;
+    try {
+      supabase = getSupabaseClient();
+    } catch (clientError) {
+      console.error('[visited-by-users] Error al crear cliente Supabase:', clientError);
+      return NextResponse.json(
+        { success: false, products: [], error: 'Error de configuración de base de datos' },
+        { status: 500 }
+      );
+    }
 
     const MIN_UNIQUE_VISITORS = 2;
     const MAX_PRODUCTS = 10;
@@ -18,7 +27,7 @@ export async function GET(request) {
     const { data: products, error } = await supabase
       .from("products")
       .select(
-        "id, nombre, precio, precio_oferta, imagenes, imagen_principal, stock, disponible, metadata, categoria, slug, descripcion, descuento",
+        "id, nombre, precio, precio_oferta, imagenes, imagen_principal, stock, disponible, metadata, categoria, descripcion",
       )
       .eq("disponible", true)
       .gt("stock", 0);
@@ -72,9 +81,13 @@ export async function GET(request) {
       count: withEnoughVisitors.length,
     });
   } catch (error) {
-    console.error("Error en visited-by-users:", error);
+    console.error('[visited-by-users] Error inesperado:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
     return NextResponse.json(
-      { success: false, products: [], error: "Error interno del servidor" },
+      { success: false, products: [], error: "Error interno del servidor", details: error.message },
       { status: 500 },
     );
   }
