@@ -208,9 +208,16 @@ export default function ShoppingCart() {
                             {item.variacion}
                           </p>
                         )}
-                        <p className="text-blue-600 dark:text-blue-400 font-bold mt-1">
-                          ${item.precio.toLocaleString("es-CO")}
-                        </p>
+                        <div className="mt-1">
+                          <p className="text-blue-600 dark:text-blue-400 font-bold">
+                            ${item.precio.toLocaleString("es-CO")}
+                          </p>
+                          {item.precio_original && item.precio_original !== item.precio && (
+                            <p className="text-xs text-black dark:text-gray-400 opacity-60 line-through">
+                              ${item.precio_original.toLocaleString("es-CO")}
+                            </p>
+                          )}
+                        </div>
 
                         {/* Indicador de stock */}
                         {item.stock !== undefined && (

@@ -15,6 +15,24 @@ export const metadata = {
     title: "Blog de Tecnología - Neurai.dev",
     description: "Artículos y guías sobre tecnología, computadores y desarrollo web",
     type: "website",
+    siteName: "neurai.dev",
+    url: "https://neurai.dev/blog",
+    locale: "es_CO",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Neurai.dev - Blog de Tecnología",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog de Tecnología - Neurai.dev",
+    description: "Artículos y guías sobre tecnología, computadores y desarrollo web",
+    images: ["/og-image.png"],
+    creator: "@neuraidev",
   },
   robots: {
     index: true,

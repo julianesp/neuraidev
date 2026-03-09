@@ -15,6 +15,24 @@ export const metadata = {
       "Servicios de desarrollo web, soporte técnico en sistemas y mantenimiento de computadores.",
     url: "https://neurai.dev/servicios",
     type: "website",
+    siteName: "neurai.dev",
+    locale: "es_CO",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Neurai.dev - Servicios Profesionales",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Servicios Profesionales | Neurai.dev",
+    description:
+      "Servicios de desarrollo web, soporte técnico en sistemas y mantenimiento de computadores.",
+    images: ["/og-image.png"],
+    creator: "@neuraidev",
   },
   alternates: {
     canonical: "/servicios",

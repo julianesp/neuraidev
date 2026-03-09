@@ -57,7 +57,7 @@ export function generateCategoryMetadata(categoria) {
       url: canonicalUrl,
       images: [
         {
-          url: "https://neurai.dev/images/og-image.jpg",
+          url: "/og-image.png",
           width: 1200,
           height: 630,
           alt: `${info.title} - Neurai.dev`,
@@ -68,6 +68,8 @@ export function generateCategoryMetadata(categoria) {
       card: "summary_large_image",
       title: `${info.title} | Neurai.dev`,
       description: info.description,
+      images: ["/og-image.png"],
+      creator: "@neuraidev",
     },
     robots: {
       index: true,

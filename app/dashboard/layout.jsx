@@ -79,6 +79,13 @@ export default function DashboardLayout({ children }) {
       current: pathname?.startsWith("/dashboard/ofertas"),
     },
     {
+      name: "Promociones",
+      href: "/dashboard/promociones",
+      icon: Tag,
+      current: pathname?.startsWith("/dashboard/promociones"),
+      badge: "Nuevo",
+    },
+    {
       name: "Pedidos",
       href: "/dashboard/pedidos",
       icon: ShoppingCart,

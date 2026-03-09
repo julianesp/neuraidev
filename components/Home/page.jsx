@@ -23,6 +23,7 @@ import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import ExternalNews from "@/components/ExternalNews/ExternalNews";
 import NotificationsBanner from "@/components/NotificationsBanner";
 import CategoryCard from "@/components/CategoryCard";
+import PromocionesDestacadas from "@/components/PromocionesDestacadas/PromocionesDestacadas";
 import {
   Smartphone,
   Monitor,
@@ -298,6 +299,13 @@ export default function Inicio() {
         {/* Banner de notificaciones - solo en página de inicio */}
         <div className="mt-4">
           <NotificationsBanner />
+        </div>
+
+        {/* Promociones Especiales - Solo se muestra si hay promociones activas */}
+        <div className="mt-6 mb-6">
+          <Suspense fallback={null}>
+            <PromocionesDestacadas />
+          </Suspense>
         </div>
 
         {/* Accesorios destacados */}

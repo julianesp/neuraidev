@@ -1,0 +1,176 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+
+  .icono {
+    font-size: 1.125rem;
+  }
+}
+
+.estado {
+  .estadoBadge {
+    padding: 0.375rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    &.activo {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    &.inactivo {
+      background: #f8d7da;
+      color: #721c24;
+    }
+  }
+}
+
+.cardBody {
+  padding: 1.25rem;
+}
+
+.nombre {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.descripcion {
+  margin: 0 0 1rem 0;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.detalle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .label {
+    color: #666;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .valor {
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .valorFecha {
+    color: #667eea;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+}
+
+.cardActions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+}
+
+.btnEditar,
+.btnEliminar {
+  flex: 1;
+  padding: 0.625rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btnEditar {
+  background: #667eea;
+  color: white;
+
+  &:hover {
+    background: #5568d3;
+  }
+}
+
+.btnEliminar {
+  background: #e53e3e;
+  color: white;
+
+  &:hover {
+    background: #c53030;
+  }
+}
+
+.empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #666;
+
+  .emptyIcon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 0;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}

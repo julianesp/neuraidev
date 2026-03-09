@@ -18,6 +18,7 @@ import {
   BarChart3,
   FileText,
   ArrowRight,
+  Tag,
 } from "lucide-react";
 import { obtenerEstadisticasProductos } from "@/lib/supabase/productos";
 import { obtenerEstadisticasCreditos } from "@/lib/supabase/creditos";
@@ -225,6 +226,12 @@ export default function DashboardPage() {
             description="Crea descuentos y promociones"
             href="/dashboard/ofertas"
             icon={Percent}
+          />
+          <QuickAction
+            title="Promociones"
+            description="Gestiona combos y ofertas especiales"
+            href="/dashboard/promociones"
+            icon={Tag}
           />
           <QuickAction
             title="Payment Links"
