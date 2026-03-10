@@ -76,7 +76,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${producto.nombre} | Neurai.dev`,
       description: metaDescription,
-      type: 'product',
+      type: 'website',
       siteName: 'Neurai.dev',
       locale: 'es_CO',
       url: `https://neurai.dev/producto/${id}`,
