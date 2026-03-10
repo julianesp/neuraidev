@@ -75,7 +75,13 @@ const Footer = () => {
                 <Link href="/blog">Blog</Link>
               </li>
               <li>
+                <Link href="/noticias">Noticias</Link>
+              </li>
+              <li>
                 <Link href="/accesorios">Tienda</Link>
+              </li>
+              <li>
+                <Link href="/ofertas">Ofertas</Link>
               </li>
             </ul>
           </div>
@@ -117,6 +123,11 @@ const Footer = () => {
               <li>
                 <Link href="/servicios/desarrollador-software">
                   Desarrollo Web
+                </Link>
+              </li>
+              <li>
+                <Link href="/servicios/tecnicos">
+                  Servicios Técnicos
                 </Link>
               </li>
               <li>
@@ -286,11 +297,19 @@ const Footer = () => {
         {/* Sección inferior: Legal y Copyright */}
         <div className={styles.footerBottom}>
           <div className={styles.legalLinks}>
+            <Link href="/politicas">Políticas</Link>
+            <span className={styles.separator}>•</span>
             <Link href="/politica-privacidad">Privacidad</Link>
             <span className={styles.separator}>•</span>
             <Link href="/terminos-condiciones">Términos</Link>
             <span className={styles.separator}>•</span>
             <Link href="/politica-cookies">Cookies</Link>
+            <span className={styles.separator}>•</span>
+            <Link href="/politica-devoluciones">Devoluciones</Link>
+            <span className={styles.separator}>•</span>
+            <Link href="/preguntas-frecuentes">FAQ</Link>
+            <span className={styles.separator}>•</span>
+            <Link href="/clientes">Clientes</Link>
           </div>
           <p className={styles.copyright}>
             © 2025 Neurai.dev • NIT: 1124315657-2 • Todos los derechos
