@@ -3,6 +3,7 @@ import NavBar from "@/components/NavBar/page";
 import ConditionalFooter from "@/components/ConditionalFooter";
 // import SplashScreen from "../components/SplashScreen";
 import StructuredData from "@/components/StructuredData";
+import FAQSchema from "@/components/FAQSchema";
 import AOSInit from "@/components/AOSInit";
 import "./globals.css";
 import "../styles/sweetalert2-custom.css";
@@ -36,50 +37,61 @@ export const metadata = {
   description:
     "Accesorios para celulares y computadoras. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
   keywords: [
-    // Servicios principales
-    "desarrollo web",
-    "desarrollador web Colombia",
-    "técnico en sistemas",
-    "soporte técnico computadoras",
-    "mantenimiento computadoras",
-    "reparación computadoras",
-    // Productos - Celulares
-    "accesorios celulares",
-    "fundas celular",
-    "protectores pantalla",
-    "cargadores celular",
-    "manos libres",
-    // Productos - Computadoras
-    "accesorios computadoras",
-    "teclados",
-    "mouse",
-    "memorias RAM",
-    "ssd",
-    "m.2",
-    "msata",
-    "teclado gamer",
-    "teclados gamer",
-    "discos duros",
-    "pendrives",
-    "cables USB",
-    // Productos - Libros
-    "libros nuevos",
-    "libros usados",
+    // Servicios principales (long-tail keywords para mejor posicionamiento)
+    "desarrollo web Colombia",
+    "desarrollador web Putumayo",
+    "crear página web económica",
+    "tienda online para negocio",
+    "técnico en sistemas Valle de Sibundoy",
+    "soporte técnico computadoras Colombia",
+    "mantenimiento PC Putumayo",
+    "reparación computadores Valle de Sibundoy",
 
-    "productos generales",
-    // Ubicación
-    "Valle de Sibundoy",
-    "Sibundoy",
-    "Colón",
-    "San Francisco",
-    "Santiago",
-    "Putumayo",
-    "Colombia",
-    // Marca y general
+    // Productos - Celulares (con intención de compra)
+    "comprar accesorios celulares Colombia",
+    "fundas celular baratas",
+    "protectores pantalla originales",
+    "cargadores rápidos celular",
+    "cargador tipo C original",
+    "auriculares bluetooth económicos",
+    "manos libres para celular",
+    "cables USB tipo C baratos",
+    "fundas Samsung Xiaomi iPhone",
+
+    // Productos - Computadoras (keywords específicos)
+    "comprar memorias RAM DDR3 DDR4",
+    "discos SSD baratos Colombia",
+    "SSD M.2 NVME precio",
+    "SSD SATA 256GB 512GB",
+    "disco duro externo",
+    "teclado gamer económico",
+    "mouse inalámbrico Bluetooth",
+    "mouse gamer barato",
+    "memorias RAM portátil",
+    "HUB USB tipo C",
+    "adaptador SATA USB",
+    "webcam HD 720p",
+
+    // Productos - Libros y otros
+    "libros técnicos programación",
+    "libros usados baratos",
+    "libros universitarios usados",
+
+    // Ubicación geográfica (SEO local)
+    "tienda tecnología Valle de Sibundoy",
+    "accesorios computadoras Putumayo",
+    "tienda online Sibundoy",
+    "envíos Putumayo Colombia",
+    "Colón Putumayo",
+    "San Francisco Putumayo",
+
+    // Marca y términos comerciales
     "neurai.dev",
-    "tienda tecnología",
-    "tienda online",
-    "ofertas tecnología",
+    "tienda tecnología online Colombia",
+    "ofertas accesorios tecnología",
+    "precios bajos accesorios",
+    "envío gratis Colombia",
+    "comprar tecnología online",
   ],
   authors: [{ name: "neurai.dev" }],
   creator: "neurai.dev",
@@ -251,6 +263,7 @@ export default function RootLayout({ children }) {
 
         <body>
           <StructuredData />
+          <FAQSchema />
           <AOSInit />
           <ClerkProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

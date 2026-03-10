@@ -45,16 +45,41 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const ogImageUrl = `/api/og?title=${encodeURIComponent(producto.nombre)}&price=${encodeURIComponent(precio.toString())}&description=${encodeURIComponent(descripcionLimpia)}&image=${encodeURIComponent(imagenPrincipal)}&category=${encodeURIComponent(producto.categoria)}`;
 
+  // Generar keywords estratégicos para SEO
+  const categoriaNombre = producto.categoria?.replace(/-/g, ' ') || '';
+  const seoKeywords = [
+    producto.nombre,
+    `comprar ${producto.nombre.toLowerCase()}`,
+    `${producto.nombre} en Colombia`,
+    `${producto.nombre} Putumayo`,
+    categoriaNombre,
+    `${categoriaNombre} en venta`,
+    producto.marca || 'Neurai.dev',
+    producto.condicion || producto.estado || 'nuevo',
+    'tienda online Colombia',
+    'envío Putumayo',
+    'Valle de Sibundoy'
+  ].filter(Boolean).join(', ');
+
+  // Meta description optimizada con CTA
+  const metaDescription = descripcionLimpia
+    ? `${descripcionLimpia.slice(0, 140)} | Compra en neurai.dev ✓ Envíos a todo Colombia ✓ Precios bajos ✓ Calidad garantizada`
+    : `Compra ${producto.nombre} en neurai.dev. Envíos a todo Colombia. Precios competitivos y calidad garantizada. ¡Visítanos ahora!`;
+
   return {
-    title: `${producto.nombre} | Neurai.dev`,
-    description: descripcionLimpia,
-    keywords: `${producto.nombre}, ${producto.categoria}, ${producto.marca || 'Neurai.dev'}, comprar, ${producto.condicion || producto.estado || 'nuevo'}`,
+    title: `${producto.nombre} | Comprar Online en Neurai.dev`,
+    description: metaDescription,
+    keywords: seoKeywords,
+    alternates: {
+      canonical: `https://neurai.dev/producto/${id}`,
+    },
     openGraph: {
       title: `${producto.nombre} | Neurai.dev`,
-      description: descripcionLimpia,
-      type: 'website',
+      description: metaDescription,
+      type: 'product',
       siteName: 'Neurai.dev',
-      locale: 'es_ES',
+      locale: 'es_CO',
+      url: `https://neurai.dev/producto/${id}`,
       images: [
         {
           url: ogImageUrl,
@@ -74,8 +99,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: `${producto.nombre} | Neurai.dev`,
-      description: descripcionLimpia,
+      description: metaDescription,
       images: [ogImageUrl],
+      creator: '@neuraidev',
     },
     other: {
       'product:price:amount': precio.toString(),
@@ -163,18 +189,61 @@ export default async function ProductoPage({ params }: Props) {
       disponible: p.disponible && p.stock > 0,
     }));
 
+    // Schema.org Product structured data para Google Rich Snippets
+    const productSchema = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: producto.nombre,
+      description: producto.descripcion || '',
+      image: productoNormalizado.imagenes?.map((img: any) => img.url) || [],
+      sku: producto.sku || producto.id,
+      brand: {
+        "@type": "Brand",
+        name: producto.marca || "Neurai.dev"
+      },
+      offers: {
+        "@type": "Offer",
+        url: `https://neurai.dev/producto/${id}`,
+        priceCurrency: "COP",
+        price: parseFloat(producto.precio),
+        priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        itemCondition: producto.condicion === 'usado' ? "https://schema.org/UsedCondition" : "https://schema.org/NewCondition",
+        availability: producto.disponible && producto.stock > 0
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+        seller: {
+          "@type": "Organization",
+          name: "Neurai.dev"
+        }
+      },
+      aggregateRating: producto.calificacion_promedio ? {
+        "@type": "AggregateRating",
+        ratingValue: producto.calificacion_promedio,
+        reviewCount: producto.total_resenas || 1
+      } : undefined,
+      category: producto.categoria
+    };
+
     return (
-      <main className="py-14">
-        {/* Registra la visita silenciosamente al cargar la página */}
-        <ViewTracker productId={id} />
-        <div className="max-w-6xl mx-auto px-4">
-          <AccesoriosContainer
-            apiUrl=""
-            accesorio={productoNormalizado as any}
-            otrosAccesorios={otrosProductosNormalizados as any}
-          />
-        </div>
-      </main>
+      <>
+        {/* Schema.org JSON-LD para el producto */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        />
+
+        <main className="py-14">
+          {/* Registra la visita silenciosamente al cargar la página */}
+          <ViewTracker productId={id} />
+          <div className="max-w-6xl mx-auto px-4">
+            <AccesoriosContainer
+              apiUrl=""
+              accesorio={productoNormalizado as any}
+              otrosAccesorios={otrosProductosNormalizados as any}
+            />
+          </div>
+        </main>
+      </>
     );
   } catch (error) {
     console.error('Error in ProductoPage:', error);
