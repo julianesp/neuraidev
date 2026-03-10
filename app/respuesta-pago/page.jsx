@@ -551,42 +551,67 @@ function RespuestaPagoContent() {
         <div className="flex flex-col sm:flex-row gap-4">
           {status.type === "success" && (
             <>
-              {/* Solo mostrar botón de factura si la orden existe y está completada */}
-              {orderData &&
-                (orderData.estado === "completado" ||
-                  orderData.estado_pago === "completado") && (
-                  <Link
-                    href={`/factura/${paymentData.reference}`}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
+              {/* Botón principal para ir al resumen completo de la compra */}
+              {orderData && paymentData.reference && (
+                <Link
+                  href={`/thank-you?ref=${paymentData.reference}`}
+                  className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-bold py-4 px-6 rounded-lg transition-all duration-200 text-center flex items-center justify-center gap-2 shadow-lg"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  Ver Resumen Completo de tu Compra
+                </Link>
+              )}
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                {/* Solo mostrar botón de factura si la orden existe y está completada */}
+                {orderData &&
+                  (orderData.estado === "completado" ||
+                    orderData.estado_pago === "completado") && (
+                    <Link
+                      href={`/factura/${paymentData.reference}`}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                    Ver Factura
-                  </Link>
-                )}
-              <Link
-                href="/"
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center"
-              >
-                Volver al inicio
-              </Link>
-              <Link
-                href="/accesorios"
-                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors text-center"
-              >
-                Seguir comprando
-              </Link>
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                      Ver Factura
+                    </Link>
+                  )}
+                <Link
+                  href="/"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center"
+                >
+                  Volver al inicio
+                </Link>
+                <Link
+                  href="/accesorios"
+                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors text-center"
+                >
+                  Seguir comprando
+                </Link>
+              </div>
             </>
           )}
 

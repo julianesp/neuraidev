@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   CheckCircle,
   Download,
@@ -10,24 +11,141 @@ import {
   Calendar,
   MessageCircle,
   Home,
+  Share2,
+  Star,
 } from "lucide-react";
 
-export default function ThankYouPage() {
-  const [orderNumber] = useState(
-    () => "ORD-" + Math.random().toString(36).substr(2, 9).toUpperCase(),
-  );
-  const [currentDate] = useState(() =>
-    new Date().toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }),
-  );
+function ThankYouContent() {
+  const searchParams = useSearchParams();
+  const [orderData, setOrderData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
+  const [resendingEmail, setResendingEmail] = useState(false);
+  const [emailResent, setEmailResent] = useState(false);
 
   useEffect(() => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
-  }, []);
+
+    // Obtener referencia de la orden desde los parámetros de URL
+    const reference = searchParams.get("ref");
+
+    if (reference) {
+      // Consultar la orden desde la API
+      fetch(`/api/orders/get-by-reference?reference=${reference}`)
+        .then((res) => res.ok ? res.json() : null)
+        .then((data) => {
+          if (data?.order) {
+            setOrderData(data.order);
+          }
+        })
+        .catch((error) => console.error("Error cargando orden:", error))
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, [searchParams]);
+
+  // Función para descargar factura
+  const handleDownloadInvoice = async () => {
+    if (!orderData?.numero_orden) {
+      alert("No se encontró información de la orden");
+      return;
+    }
+
+    setDownloading(true);
+    try {
+      // Abrir la página de factura en una nueva pestaña
+      window.open(`/factura/${orderData.numero_orden}`, '_blank');
+    } catch (error) {
+      console.error("Error descargando factura:", error);
+      alert("Error al descargar la factura. Por favor, intenta de nuevo.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  // Función para reenviar confirmación
+  const handleResendConfirmation = async () => {
+    if (!orderData?.correo_cliente && !orderData?.customer_email) {
+      alert("No se encontró el correo electrónico");
+      return;
+    }
+
+    setResendingEmail(true);
+    try {
+      const response = await fetch('/api/orders/resend-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reference: orderData.numero_orden
+        })
+      });
+
+      if (response.ok) {
+        setEmailResent(true);
+        setTimeout(() => setEmailResent(false), 3000);
+      } else {
+        alert("Error al reenviar el correo. Por favor, intenta de nuevo.");
+      }
+    } catch (error) {
+      console.error("Error reenviando confirmación:", error);
+      alert("Error al reenviar el correo. Por favor, intenta de nuevo.");
+    } finally {
+      setResendingEmail(false);
+    }
+  };
+
+  // Función para compartir
+  const handleShare = async () => {
+    const shareData = {
+      title: '¡Acabo de comprar en Neurai.dev!',
+      text: 'Encontré productos increíbles en Neurai.dev. ¡Échale un vistazo!',
+      url: 'https://neurai.dev'
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: copiar al portapapeles
+        await navigator.clipboard.writeText(shareData.url);
+        alert('¡Enlace copiado al portapapeles!');
+      }
+    } catch (error) {
+      console.error('Error compartiendo:', error);
+    }
+  };
+
+  // Función para ir a reseñas
+  const handleReview = () => {
+    // Redirigir a la página de contacto o formulario de reseñas
+    window.location.href = `https://wa.me/573174503604?text=Hola,%20me%20gustaría%20dejar%20una%20reseña%20sobre%20mi%20compra%20${orderData?.numero_orden || ''}`;
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Cargando información...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const orderNumber = orderData?.numero_orden || "SIN-ORDEN";
+  const currentDate = orderData?.created_at
+    ? new Date(orderData.created_at).toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : new Date().toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
@@ -97,14 +215,22 @@ export default function ThankYouPage() {
 
                 {/* Botones de acción */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">
+                  <button
+                    onClick={handleDownloadInvoice}
+                    disabled={downloading || !orderData}
+                    className="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <Download className="w-4 h-4 mr-2" />
-                    Descargar Factura
+                    {downloading ? "Descargando..." : "Descargar Factura"}
                   </button>
 
-                  <button className="flex items-center justify-center px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 font-medium">
+                  <button
+                    onClick={handleResendConfirmation}
+                    disabled={resendingEmail || !orderData || emailResent}
+                    className="flex items-center justify-center px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <Mail className="w-4 h-4 mr-2" />
-                    Reenviar Confirmación
+                    {emailResent ? "✓ Enviado" : resendingEmail ? "Enviando..." : "Reenviar Confirmación"}
                   </button>
                 </div>
               </div>
@@ -217,10 +343,18 @@ export default function ThankYouPage() {
                 Ayuda a otros compradores compartiendo tu opinión.
               </p>
               <div className="flex space-x-2">
-                <button className="flex-1 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-medium">
+                <button
+                  onClick={handleReview}
+                  className="flex-1 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-medium flex items-center justify-center gap-1"
+                >
+                  <Star className="w-4 h-4" />
                   Reseña
                 </button>
-                <button className="flex-1 border border-gray-300 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm font-medium">
+                <button
+                  onClick={handleShare}
+                  className="flex-1 border border-gray-300 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm font-medium flex items-center justify-center gap-1"
+                >
+                  <Share2 className="w-4 h-4" />
                   Compartir
                 </button>
               </div>
@@ -241,5 +375,23 @@ export default function ThankYouPage() {
         </div>
       </footer>
     </div>
+  );
+}
+
+// Componente wrapper con Suspense
+export default function ThankYouPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Cargando...</p>
+          </div>
+        </div>
+      }
+    >
+      <ThankYouContent />
+    </Suspense>
   );
 }
