@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 import { findProductBySlug } from "@/utils/slugify";
+import { generateProductMetadata } from "@/utils/productMetadata";
 
 // Cliente de Supabase para server-side
 const supabase = createClient(
@@ -15,12 +16,7 @@ export const dynamic = "force-dynamic";
 // Generar metadatos dinámicos para SEO
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-
-  // Temporalmente deshabilitado para debugging
-  return {
-    title: `Producto | neurai.dev`,
-    description: "Descubre nuestros productos en neurai.dev",
-  };
+  return await generateProductMetadata(slug, null);
 }
 
 export default async function GenericProductPage({ params }) {
