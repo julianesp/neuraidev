@@ -19,12 +19,12 @@ const supabase = createClient(
       },
     },
     db: {
-      schema: 'public',
+      schema: "public",
     },
     auth: {
       persistSession: false,
     },
-  }
+  },
 );
 
 /**
@@ -36,17 +36,20 @@ async function retryWithBackoff(fn, maxRetries = 3, delay = 1000) {
       return await fn();
     } catch (error) {
       const isLastAttempt = i === maxRetries - 1;
-      const isTimeoutError = error.name === 'AbortError' ||
-                             error.message?.includes('timeout') ||
-                             error.message?.includes('fetch failed');
+      const isTimeoutError =
+        error.name === "AbortError" ||
+        error.message?.includes("timeout") ||
+        error.message?.includes("fetch failed");
 
       if (isLastAttempt || !isTimeoutError) {
         throw error;
       }
 
       const waitTime = delay * Math.pow(2, i);
-      console.log(`[retryWithBackoff] Reintento ${i + 1}/${maxRetries} después de ${waitTime}ms...`);
-      await new Promise(resolve => setTimeout(resolve, waitTime));
+      console.log(
+        `[retryWithBackoff] Reintento ${i + 1}/${maxRetries} después de ${waitTime}ms...`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
     }
   }
 }
@@ -182,7 +185,7 @@ export async function generateProductMetadata(slug, categoria) {
 
     return buildProductMetadata(producto, slug, categoria);
   } catch (error) {
-    console.error('[generateProductMetadata] Error:', error);
+    console.error("[generateProductMetadata] Error:", error);
     // Fallback: retornar metadatos básicos si hay error
     return {
       title: `Producto - ${categoria} | neurai.dev`,
@@ -194,29 +197,30 @@ export async function generateProductMetadata(slug, categoria) {
 
 // Función auxiliar para construir metadatos del producto
 function buildProductMetadata(producto, slug, categoria) {
-
   // Las imágenes ya vienen en el array 'imagenes' del producto (JSON)
   let imagenesAdicionales = [];
   if (producto.imagenes && Array.isArray(producto.imagenes)) {
-    imagenesAdicionales = producto.imagenes.map((imagen, index) => {
-      // Si ya es un objeto con propiedad 'url', usarlo
-      if (typeof imagen === 'object' && imagen !== null && imagen.url) {
-        return {
-          url: imagen.url,
-          alt: imagen.alt || producto.nombre,
-          orden: imagen.orden !== undefined ? imagen.orden : index
-        };
-      }
-      // Si es una URL (string), crear el objeto
-      if (typeof imagen === 'string') {
-        return {
-          url: imagen,
-          alt: producto.nombre,
-          orden: index
-        };
-      }
-      return null;
-    }).filter(Boolean);
+    imagenesAdicionales = producto.imagenes
+      .map((imagen, index) => {
+        // Si ya es un objeto con propiedad 'url', usarlo
+        if (typeof imagen === "object" && imagen !== null && imagen.url) {
+          return {
+            url: imagen.url,
+            alt: imagen.alt || producto.nombre,
+            orden: imagen.orden !== undefined ? imagen.orden : index,
+          };
+        }
+        // Si es una URL (string), crear el objeto
+        if (typeof imagen === "string") {
+          return {
+            url: imagen,
+            alt: producto.nombre,
+            orden: index,
+          };
+        }
+        return null;
+      })
+      .filter(Boolean);
   }
 
   // Limpiar descripción para meta tags
@@ -231,35 +235,43 @@ function buildProductMetadata(producto, slug, categoria) {
 
   // Construir array de imágenes para metadatos
   // Usar imagen_principal o la primera del array de imagenes
-  let imagenPrincipal = producto.imagen_principal ||
-    (producto.imagenes && producto.imagenes.length > 0 ? producto.imagenes[0] : null);
+  let imagenPrincipal =
+    producto.imagen_principal ||
+    (producto.imagenes && producto.imagenes.length > 0
+      ? producto.imagenes[0]
+      : null);
 
   // Si la imagen es un objeto con propiedad url, extraerla
-  if (imagenPrincipal && typeof imagenPrincipal === 'object' && imagenPrincipal.url) {
+  if (
+    imagenPrincipal &&
+    typeof imagenPrincipal === "object" &&
+    imagenPrincipal.url
+  ) {
     imagenPrincipal = imagenPrincipal.url;
   }
 
   // Asegurar que la URL esté correctamente codificada (sin espacios)
-  if (imagenPrincipal && typeof imagenPrincipal === 'string') {
-    imagenPrincipal = imagenPrincipal.replace(/ /g, '%20');
+  if (imagenPrincipal && typeof imagenPrincipal === "string") {
+    imagenPrincipal = imagenPrincipal.replace(/ /g, "%20");
   }
 
   // Si no hay imagen del producto, usar el logo del sitio
-  const logoSitio = 'https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png';
+  const logoSitio =
+    "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png";
   const imagenFinal = imagenPrincipal || logoSitio;
 
   // Detectar tipo de imagen desde la URL
   const getImageType = (url) => {
-    if (!url) return 'image/jpeg';
-    const extension = url.toLowerCase().split('.').pop().split('?')[0];
+    if (!url) return "image/jpeg";
+    const extension = url.toLowerCase().split(".").pop().split("?")[0];
     const typeMap = {
-      'png': 'image/png',
-      'jpg': 'image/jpeg',
-      'jpeg': 'image/jpeg',
-      'webp': 'image/webp',
-      'gif': 'image/gif'
+      png: "image/png",
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg",
+      webp: "image/webp",
+      gif: "image/gif",
     };
-    return typeMap[extension] || 'image/jpeg';
+    return typeMap[extension] || "image/jpeg";
   };
 
   const imagenesParaMetadata = [
@@ -273,7 +285,8 @@ function buildProductMetadata(producto, slug, categoria) {
     },
     ...imagenesAdicionales.slice(0, 2).map((img) => {
       // Asegurar que la URL esté correctamente codificada
-      const urlLimpia = typeof img.url === 'string' ? img.url.replace(/ /g, '%20') : img.url;
+      const urlLimpia =
+        typeof img.url === "string" ? img.url.replace(/ /g, "%20") : img.url;
       return {
         url: urlLimpia,
         secureUrl: urlLimpia, // WhatsApp y otras plataformas requieren secureUrl
@@ -295,7 +308,7 @@ function buildProductMetadata(producto, slug, categoria) {
       const numString = Math.floor(num).toString();
       return numString.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     } catch (e) {
-      console.error('Error formatting price:', e);
+      console.error("Error formatting price:", e);
       return null;
     }
   };
@@ -341,12 +354,6 @@ function buildProductMetadata(producto, slug, categoria) {
       "product:condition": producto.condicion || "nuevo",
       "product:brand": producto.marca || "neurai.dev",
       "product:category": producto.categoria,
-      // Tags específicos para WhatsApp y redes sociales
-      "og:image:alt": producto.nombre,
-      "og:image:type": getImageType(imagenFinal),
-      "og:image:width": "800",
-      "og:image:height": "800",
-      "og:image:secure_url": imagenFinal,
     },
   };
 }
