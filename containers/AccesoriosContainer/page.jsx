@@ -497,8 +497,12 @@ const AccesoriosContainer = ({
     e.stopPropagation(); // Detener propagación del evento
 
     const hasVideo = !!accesorio?.video_url;
-    const hasImages = accesorio?.imagenes && Array.isArray(accesorio.imagenes) && accesorio.imagenes.length > 0;
-    const totalItems = (hasVideo ? 1 : 0) + (hasImages ? accesorio.imagenes.length : 0);
+    const hasImages =
+      accesorio?.imagenes &&
+      Array.isArray(accesorio.imagenes) &&
+      accesorio.imagenes.length > 0;
+    const totalItems =
+      (hasVideo ? 1 : 0) + (hasImages ? accesorio.imagenes.length : 0);
 
     if (totalItems <= 1) return;
 
@@ -527,8 +531,12 @@ const AccesoriosContainer = ({
     e.stopPropagation(); // Detener propagación del evento
 
     const hasVideo = !!accesorio?.video_url;
-    const hasImages = accesorio?.imagenes && Array.isArray(accesorio.imagenes) && accesorio.imagenes.length > 0;
-    const totalItems = (hasVideo ? 1 : 0) + (hasImages ? accesorio.imagenes.length : 0);
+    const hasImages =
+      accesorio?.imagenes &&
+      Array.isArray(accesorio.imagenes) &&
+      accesorio.imagenes.length > 0;
+    const totalItems =
+      (hasVideo ? 1 : 0) + (hasImages ? accesorio.imagenes.length : 0);
 
     if (totalItems <= 1) return;
 
@@ -757,11 +765,11 @@ const AccesoriosContainer = ({
                 {showVideo && accesorio.video_url && mainSlideIndex === -1 && (
                   <div
                     className="absolute inset-0 z-[5]"
-                    style={{ pointerEvents: 'auto' }}
+                    style={{ pointerEvents: "auto" }}
                   >
                     <ProductVideo
                       videoUrl={accesorio.video_url}
-                      videoType={accesorio.video_type || 'direct'}
+                      videoType={accesorio.video_type || "direct"}
                       productName={accesorio.nombre}
                       className="w-full h-full relative z-[5]"
                       autoPlay={false}
@@ -785,7 +793,8 @@ const AccesoriosContainer = ({
                           index === mainSlideIndex ? "opacity-100" : "opacity-0"
                         }`}
                         style={{
-                          pointerEvents: index === mainSlideIndex ? 'auto' : 'none'
+                          pointerEvents:
+                            index === mainSlideIndex ? "auto" : "none",
                         }}
                       >
                         <div className="relative w-full h-full z-1">
@@ -857,7 +866,8 @@ const AccesoriosContainer = ({
                 ) : null}
 
                 {/* Controles del carrusel principal - solo si hay múltiples elementos (video + imágenes O solo imágenes) Y el modal NO está abierto */}
-                {((tieneImagenes && accesorio.imagenes.length > 1) || (accesorio.video_url && tieneImagenes)) &&
+                {((tieneImagenes && accesorio.imagenes.length > 1) ||
+                  (accesorio.video_url && tieneImagenes)) &&
                   !isImageModalOpen && (
                     <>
                       <button
@@ -1005,20 +1015,14 @@ const AccesoriosContainer = ({
                     {/* Información de stock/cantidad */}
                     <div className="flex items-center">
                       <span
-                        className={`text-sm px-3 py-1 rounded-full font-medium ${
-                          accesorio.stock > 0
-                            ? accesorio.stock > 10
-                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-                              : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
-                            : ""
-                        }`}
+                        className="text-sm px-3 py-1 rounded-full font-medium text-white"
                         style={
                           accesorio.stock === 0
                             ? {
                                 backgroundColor: "rgba(239, 68, 68, 0.1)",
                                 color: "rgba(185, 28, 28, 0.8)",
                               }
-                            : {}
+                            : { backgroundColor: "#0070f3" }
                         }
                       >
                         {accesorio.stock > 0
@@ -1179,19 +1183,6 @@ const AccesoriosContainer = ({
             </div>
           </div>
 
-          {/* Sección de Likes y Comentarios - MOVIDA AQUÍ */}
-          <div className="mt-8 mb-12 space-y-6">
-            {/* Botón de likes */}
-            <div className="flex justify-center sm:justify-start">
-              <ProductLikes productoId={accesorio.id} />
-            </div>
-
-            {/* Sección de comentarios */}
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-              <ProductComments productoId={accesorio.id} />
-            </div>
-          </div>
-
           {otrosAccesorios && otrosAccesorios.length > 0 && (
             <div className="mt-8 md:mt-12">
               <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">
@@ -1281,7 +1272,7 @@ const AccesoriosContainer = ({
                               );
                             }
                           }}
-                          className={`absolute top-2 right-2 md:top-4 md:right-4 z-50 p-2.5 md:p-3 rounded-full shadow-lg transition-all backdrop-blur-sm border-2 border-white/30 ${
+                          className={`absolute top-2 right-2 md:top-4 md:right-4 z-50 p-4 md:p-3 rounded-full shadow-lg transition-all backdrop-blur-sm border-2 border-white/30 ${
                             isOutOfStock
                               ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-90"
                               : "bg-blue-600 hover:bg-blue-700 text-white hover:scale-110"
@@ -1294,7 +1285,7 @@ const AccesoriosContainer = ({
                               : "Agregar al carrito"
                           }
                         >
-                          <ShoppingCart size={20} />
+                          <ShoppingCart className="w-6 h-6 md:w-5 md:h-5" />
                         </button>
 
                         {/* Badge de stock o agotado */}
@@ -1305,8 +1296,8 @@ const AccesoriosContainer = ({
                         )}
 
                         {/* Información del producto en la parte inferior */}
-                        <div className="absolute bottom-0 left-0 right-0 p-3 z-20">
-                          <h3 className="font-bold text-base text-white mb-2 line-clamp-2 drop-shadow-lg">
+                        <div className="absolute bottom-0 left-0 right-0 p-3 z-20 bg-black/50 backdrop-blur-sm rounded-b-lg">
+                          <h3 className="font-bold text-base text-white mb-2 line-clamp-2">
                             {item.nombre || ""}
                           </h3>
                           <PriceWithDiscount
@@ -1322,6 +1313,19 @@ const AccesoriosContainer = ({
               </div>
             </div>
           )}
+
+          {/* Sección de Likes y Comentarios */}
+          <div className="mt-8 mb-12 space-y-6">
+            {/* Botón de likes */}
+            <div className="flex justify-center sm:justify-start">
+              <ProductLikes productoId={accesorio.id} />
+            </div>
+
+            {/* Sección de comentarios */}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+              <ProductComments productoId={accesorio.id} />
+            </div>
+          </div>
         </div>
       </div>
 

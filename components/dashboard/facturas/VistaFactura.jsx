@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import { ArrowLeft, Download, Printer, Edit2 } from "lucide-react";
+import { ArrowLeft, Download, Printer, Edit2, Phone, Mail } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function VistaFactura({ factura, onVolver, onEditar }) {
   const facturaRef = useRef(null);
@@ -18,10 +19,10 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
   };
 
   const formatearFecha = (fecha) => {
-    return new Date(fecha).toLocaleDateString('es-CO', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+    return new Date(fecha).toLocaleDateString("es-CO", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -66,29 +67,33 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
         id="factura-container"
         ref={facturaRef}
         className="bg-white shadow-2xl rounded-lg overflow-hidden print:shadow-none print:rounded-none"
-        style={{ maxWidth: '210mm', margin: '0 auto' }}
+        style={{ maxWidth: "210mm", margin: "0 auto" }}
       >
         {/* Encabezado con Logo */}
-        <div className="bg-blue-600 text-white p-8 print:p-4">
+        <div className="bg-blue-600 text-white p-2 print:p-4">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <div className="bg-white rounded-lg p-2 print:p-1">
+              <div className="bg-white rounded-lg p-0 print:p-1">
                 <Image
                   src="/images/logo.png"
                   alt="neurai.dev"
-                  width={60}
-                  height={60}
+                  width={70}
+                  height={70}
                   className="object-contain print:w-10 print:h-10"
                 />
               </div>
               <div>
                 <h1 className="text-3xl font-bold print:text-xl">neurai.dev</h1>
-                <p className="text-blue-100 mt-1 print:text-sm print:mt-0">Soluciones Tecnológicas</p>
+                <p className="text-blue-100 mt-1 print:text-sm print:mt-0">
+                  Soluciones Tecnológicas
+                </p>
               </div>
             </div>
             <div className="text-right">
               <div className="text-sm text-blue-100 print:text-xs">Factura</div>
-              <div className="text-2xl font-bold print:text-lg">{factura.numeroFactura}</div>
+              <div className="text-2xl font-bold print:text-lg">
+                {factura.numeroFactura}
+              </div>
               <div className="text-sm text-blue-100 mt-1 print:text-xs print:mt-0">
                 {formatearFecha(factura.fecha)}
               </div>
@@ -100,16 +105,28 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
         <div className="bg-black px-8 py-5 border-b print:px-4 print:py-3">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-white text-lg print:text-sm">
-                Teléfono: {factura.miContacto?.telefono || '+57 XXX XXX XXXX'}
-              </p>
-              <p className="text-white text-lg mt-1 print:text-sm print:mt-0">
-                Email: {factura.miContacto?.email || 'contacto@neurai.dev'}
-              </p>
+              <Link
+                href={`tel:${factura.miContacto?.telefono || "+573174503604"}`}
+                className="flex items-center gap-2 text-white text-lg print:text-sm hover:text-blue-400 transition-colors"
+              >
+                <Phone className="w-5 h-5" />
+                {factura.miContacto?.telefono || "+573174503604"}
+              </Link>
+              <Link
+                href={`mailto:${factura.miContacto?.email || "admin@neurai.dev"}`}
+                className="flex items-center gap-2 text-white text-lg mt-1 print:text-sm print:mt-0 hover:text-blue-400 transition-colors"
+              >
+                <Mail className="w-5 h-5" />
+                {factura.miContacto?.email || "admin@neurai.dev"}
+              </Link>
             </div>
             <div className="text-right">
-              <p className="text-white text-lg print:text-sm">Web: neurai.dev</p>
-              <p className="text-white text-lg mt-1 print:text-sm print:mt-0">Colombia</p>
+              <p className="text-white text-lg print:text-sm">
+                Web: neurai.dev
+              </p>
+              <p className="text-white text-lg mt-1 print:text-sm print:mt-0">
+                Colombia
+              </p>
             </div>
           </div>
         </div>
@@ -125,17 +142,24 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
             </p>
             {factura.cliente.identificacion && (
               <p className="text-gray-600 print:text-xs">
-                {factura.cliente.identificacion.length > 10 ? 'NIT' : 'CC'}: {factura.cliente.identificacion}
+                {factura.cliente.identificacion.length > 10 ? "NIT" : "CC"}:{" "}
+                {factura.cliente.identificacion}
               </p>
             )}
             {factura.cliente.telefono && (
-              <p className="text-gray-600 print:text-xs">Tel: {factura.cliente.telefono}</p>
+              <p className="text-gray-600 print:text-xs">
+                Tel: {factura.cliente.telefono}
+              </p>
             )}
             {factura.cliente.email && (
-              <p className="text-gray-600 print:text-xs">Email: {factura.cliente.email}</p>
+              <p className="text-gray-600 print:text-xs">
+                Email: {factura.cliente.email}
+              </p>
             )}
             {factura.cliente.direccion && (
-              <p className="text-gray-600 print:text-xs">Dir: {factura.cliente.direccion}</p>
+              <p className="text-gray-600 print:text-xs">
+                Dir: {factura.cliente.direccion}
+              </p>
             )}
           </div>
         </div>
@@ -166,15 +190,20 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
               <tbody>
                 {factura.servicios.map((servicio, index) => (
                   <tr key={index} className="border-b border-gray-200">
-                    <td className="py-3 text-gray-800 print:py-1 print:text-xs">{servicio.descripcion}</td>
+                    <td className="py-3 text-gray-800 print:py-1 print:text-xs">
+                      {servicio.descripcion}
+                    </td>
                     <td className="py-3 text-center text-gray-600 print:py-1 print:text-xs">
                       {servicio.cantidad}
                     </td>
                     <td className="py-3 text-right text-gray-600 print:py-1 print:text-xs">
-                      ${parseFloat(servicio.precio).toLocaleString('es-CO')}
+                      ${parseFloat(servicio.precio).toLocaleString("es-CO")}
                     </td>
                     <td className="py-3 text-right font-semibold text-gray-900 print:py-1 print:text-xs">
-                      ${(servicio.cantidad * servicio.precio).toLocaleString('es-CO')}
+                      $
+                      {(servicio.cantidad * servicio.precio).toLocaleString(
+                        "es-CO",
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -209,15 +238,20 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
               <tbody>
                 {factura.productos.map((producto, index) => (
                   <tr key={index} className="border-b border-gray-200">
-                    <td className="py-3 text-gray-800 print:py-1 print:text-xs">{producto.nombre}</td>
+                    <td className="py-3 text-gray-800 print:py-1 print:text-xs">
+                      {producto.nombre}
+                    </td>
                     <td className="py-3 text-center text-gray-600 print:py-1 print:text-xs">
                       {producto.cantidad}
                     </td>
                     <td className="py-3 text-right text-gray-600 print:py-1 print:text-xs">
-                      ${parseFloat(producto.precio).toLocaleString('es-CO')}
+                      ${parseFloat(producto.precio).toLocaleString("es-CO")}
                     </td>
                     <td className="py-3 text-right font-semibold text-gray-900 print:py-1 print:text-xs">
-                      ${(producto.cantidad * producto.precio).toLocaleString('es-CO')}
+                      $
+                      {(producto.cantidad * producto.precio).toLocaleString(
+                        "es-CO",
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -233,7 +267,7 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
               <div className="flex justify-between text-2xl font-bold text-gray-900 print:text-base">
                 <span>Total a Pagar:</span>
                 <span className="text-blue-600">
-                  ${factura.total.toLocaleString('es-CO')} COP
+                  ${factura.total.toLocaleString("es-CO")} COP
                 </span>
               </div>
               <div className="pt-2 text-sm text-gray-600 border-t border-gray-200 mt-3 print:text-xs print:pt-1 print:mt-1">
@@ -246,8 +280,12 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
           {/* Notas */}
           {factura.notas && (
             <div className="mt-6 pt-6 border-t print:mt-3 print:pt-2">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2 print:text-xs print:mb-1">Notas:</h3>
-              <p className="text-gray-600 text-sm print:text-xs">{factura.notas}</p>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2 print:text-xs print:mb-1">
+                Notas:
+              </h3>
+              <p className="text-gray-600 text-sm print:text-xs">
+                {factura.notas}
+              </p>
             </div>
           )}
         </div>
@@ -316,7 +354,8 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
             overflow: hidden;
           }
 
-          html, body {
+          html,
+          body {
             height: auto;
             overflow: hidden;
           }

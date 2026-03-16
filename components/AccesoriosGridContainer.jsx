@@ -375,7 +375,7 @@ const ModernProductGrid = (props) => {
                           );
                         }
                       }}
-                      className={`absolute top-3 right-3 backdrop-blur-sm p-3 rounded-full transition-all shadow-lg z-30 ${
+                      className={`absolute top-3 right-3 backdrop-blur-sm p-4 md:p-3 rounded-full transition-all shadow-lg z-30 ${
                         accesorio.vendido ||
                         accesorio.stock === 0 ||
                         accesorio.cantidad === 0
@@ -396,7 +396,7 @@ const ModernProductGrid = (props) => {
                           : "Agregar al carrito"
                       }
                     >
-                      <ShoppingCart size={20} />
+                      <ShoppingCart className="w-6 h-6 md:w-5 md:h-5" />
                     </button>
 
                     {/* Controles de navegación */}

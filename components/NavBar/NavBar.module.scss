@@ -571,17 +571,18 @@
     > li > a {
       font-size: 1rem;
       padding: 8px 6px;
-      color: #000;
-      font-weight: 500;
+      color: #ffffff;
+      font-weight: 600;
       margin: 0;
-      border: 1px solid #000;
+      border: 1px solid rgba(0, 0, 0, 0.6);
       border-radius: 5px;
-      background-color: transparent;
+      background-color: rgba(0, 0, 0, 0.35);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.9);
       transition: all 0.15s ease;
 
       &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-        color: #000;
+        background-color: rgba(0, 0, 0, 0.55);
+        color: #ffffff;
         text-decoration: none;
       }
     }
@@ -648,17 +649,17 @@
     margin: 0;
     gap: 2px;
     position: relative;
-    color: #000;
-    text-shadow: none;
-    background-color: transparent;
-    border: 1px solid #000;
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(0, 0, 0, 0.6);
     border-radius: 5px;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: rgba(0, 0, 0, 0.55);
       text-decoration: underline;
       transform: scale(1.05);
-      color: #000;
+      color: #ffffff;
     }
 
     &.active {

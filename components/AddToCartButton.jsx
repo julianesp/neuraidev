@@ -308,9 +308,8 @@ export default function AddToCartButton({ producto }) {
       {/* Indicador de stock */}
       <div className="text-sm text-gray-600">
         <span
-          className={
-            stockDisponible <= 5 ? "text-orange-600 font-semibold" : ""
-          }
+          className="font-semibold"
+          style={stockDisponible <= 5 ? { color: "#0070f3" } : {}}
         >
           {stockDisponible <= 5 ? "¡Últimas unidades! " : ""}
           Stock disponible: <strong>{stockDisponible}</strong>

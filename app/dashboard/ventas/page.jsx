@@ -23,8 +23,7 @@ export default function VentasPage() {
       const params = new URLSearchParams();
 
       if (mes) {
-        // Convertir mes (YYYY-MM) a fecha para el filtro
-        params.append('fecha', `${mes}-01`);
+        params.append('mes', mes); // Filtrar por mes completo YYYY-MM
       }
       if (metodoPago) params.append('metodo_pago', metodoPago);
 

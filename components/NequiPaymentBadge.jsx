@@ -16,7 +16,7 @@ export default function NequiPaymentBadge({
 
   if (variant === "banner") {
     return (
-      <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-red-500 rounded-lg p-4 shadow-lg mb-4">
+      <div className="rounded-lg p-4 shadow-lg mb-4" style={{ background: "linear-gradient(to right, #0070f3, #0055c4)" }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="bg-white/20 backdrop-blur-sm p-3 rounded-full mr-4">
@@ -27,7 +27,7 @@ export default function NequiPaymentBadge({
                 <Percent className="w-5 h-5 mr-1" />
                 {descuento}% de Descuento
               </h3>
-              <p className="text-white/90 text-sm">
+              <p className="text-white text-md ">
                 ¡Paga con <span className="font-bold">Nequi</span> y ahorra!
               </p>
             </div>
@@ -45,7 +45,7 @@ export default function NequiPaymentBadge({
 
   if (variant === "badge") {
     return (
-      <div className="inline-flex items-center bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-full shadow-md">
+      <div className="inline-flex items-center text-white px-4 py-2 rounded-full shadow-md" style={{ background: "linear-gradient(to right, #0070f3, #0055c4)" }}>
         <TrendingDown className="w-4 h-4 mr-2" />
         <span className="font-bold text-sm">
           -{descuento}% pagando con Nequi
@@ -56,27 +56,27 @@ export default function NequiPaymentBadge({
 
   if (variant === "card") {
     return (
-      <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-200 dark:border-purple-700 rounded-xl p-6">
+      <div className="border-2 rounded-xl p-6" style={{ background: "linear-gradient(135deg, #eff6ff, #dbeafe)", borderColor: "#0070f3" }}>
         <div className="flex items-start">
-          <div className="bg-gradient-to-br from-purple-600 to-pink-600 p-3 rounded-lg mr-4">
+          <div className="p-3 rounded-lg mr-4" style={{ background: "linear-gradient(135deg, #0070f3, #0055c4)" }}>
             <Zap className="w-8 h-8 text-white" />
           </div>
           <div className="flex-1">
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 flex items-center">
-              <Percent className="w-5 h-5 mr-2 text-purple-600" />
+              <Percent className="w-5 h-5 mr-2" style={{ color: "#0070f3" }} />
               {descuento}% de Descuento Inmediato
             </h3>
             <p className="text-gray-700 dark:text-gray-300 mb-3">
-              Paga con <span className="font-bold text-purple-600 dark:text-purple-400">Nequi</span> y
+              Paga con <span className="font-bold" style={{ color: "#0070f3" }}>Nequi</span> y
               obtén un descuento directo en tu compra
             </p>
             <div className="flex flex-wrap gap-2">
               <span className="inline-flex items-center bg-white dark:bg-gray-800 px-3 py-1 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300">
-                <Gift className="w-3 h-3 mr-1 text-purple-600" />
+                <Gift className="w-3 h-3 mr-1" style={{ color: "#0070f3" }} />
                 Sin comisiones
               </span>
               <span className="inline-flex items-center bg-white dark:bg-gray-800 px-3 py-1 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300">
-                <Zap className="w-3 h-3 mr-1 text-purple-600" />
+                <Zap className="w-3 h-3 mr-1" style={{ color: "#0070f3" }} />
                 Pago instantáneo
               </span>
             </div>
@@ -98,11 +98,11 @@ export function NequiDiscountFloatingBanner({ descuento = 5 }) {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-600 via-pink-600 to-red-500 shadow-2xl animate-pulse-slow">
+    <div className="fixed bottom-0 left-0 right-0 z-50 shadow-2xl animate-pulse-slow" style={{ background: "linear-gradient(to right, #0070f3, #0055c4)" }}>
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center flex-1">
-            <Zap className="w-6 h-6 text-yellow-300 mr-3 animate-bounce" />
+            <Zap className="w-6 h-6 text-white mr-3 animate-bounce" />
             <div>
               <p className="text-white font-bold text-sm md:text-base">
                 🎉 ¡DESCUENTO ESPECIAL! {descuento}% OFF pagando con Nequi
@@ -152,24 +152,24 @@ export function PriceComparison({ precio, descuento = 5 }) {
         </div>
 
         {/* Nequi con descuento */}
-        <div className="flex items-center justify-between p-3 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg border-2 border-purple-300 dark:border-purple-600">
+        <div className="flex items-center justify-between p-3 rounded-lg border-2" style={{ background: "linear-gradient(to right, #eff6ff, #dbeafe)", borderColor: "#0070f3" }}>
           <div>
             <div className="flex items-center mb-1">
-              <p className="text-xs font-semibold text-purple-700 dark:text-purple-300">
+              <p className="text-xs font-semibold" style={{ color: "#0055c4" }}>
                 Nequi
               </p>
-              <span className="ml-2 bg-purple-600 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+              <span className="ml-2 text-white text-xs px-2 py-0.5 rounded-full font-bold" style={{ backgroundColor: "#0070f3" }}>
                 -{descuento}%
               </span>
             </div>
-            <p className="text-lg font-bold text-purple-900 dark:text-purple-100">
+            <p className="text-lg font-bold" style={{ color: "#003d99" }}>
               ${precioConDescuento.toLocaleString('es-CO')}
             </p>
             <p className="text-xs text-green-600 dark:text-green-400 font-medium">
               Ahorras: ${ahorro.toLocaleString('es-CO')}
             </p>
           </div>
-          <Zap className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+          <Zap className="w-6 h-6" style={{ color: "#0070f3" }} />
         </div>
       </div>
     </div>

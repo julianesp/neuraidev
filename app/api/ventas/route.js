@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseBrowserClient } from '@/lib/db';
+import { getSupabaseServerClient } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
 
 // GET /api/ventas - Obtener historial de ventas
@@ -11,13 +11,14 @@ export async function GET(request) {
     }
 
     const { searchParams } = new URL(request.url);
-    const fecha = searchParams.get('fecha'); // YYYY-MM-DD
+    const fecha = searchParams.get('fecha'); // YYYY-MM-DD (día específico)
+    const mes = searchParams.get('mes'); // YYYY-MM (mes completo)
     const productoId = searchParams.get('producto_id');
     const metodoPago = searchParams.get('metodo_pago');
-    const limit = parseInt(searchParams.get('limit') || '50');
+    const limit = parseInt(searchParams.get('limit') || '500');
     const offset = parseInt(searchParams.get('offset') || '0');
 
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseServerClient();
     let query = supabase
       .from('ventas')
       .select('*', { count: 'exact' })
@@ -25,7 +26,15 @@ export async function GET(request) {
       .range(offset, offset + limit - 1);
 
     // Filtros opcionales
-    if (fecha) {
+    if (mes) {
+      // Filtrar por mes completo (YYYY-MM)
+      const [year, month] = mes.split('-').map(Number);
+      const primerDia = `${mes}-01T00:00:00`;
+      const ultimoDia = new Date(year, month, 0); // último día del mes
+      const ultimoDiaStr = `${mes}-${String(ultimoDia.getDate()).padStart(2, '0')}T23:59:59`;
+      query = query.gte('fecha_venta', primerDia).lte('fecha_venta', ultimoDiaStr);
+    } else if (fecha) {
+      // Filtrar por día específico (legado)
       query = query.gte('fecha_venta', `${fecha}T00:00:00`)
                    .lte('fecha_venta', `${fecha}T23:59:59`);
     }
@@ -101,7 +110,7 @@ export async function POST(request) {
       }, { status: 400 });
     }
 
-    const supabase = getSupabaseBrowserClient();
+    const supabase = getSupabaseServerClient();
 
     let nombreProducto = producto_nombre_manual;
     let actualizarStock = false;
