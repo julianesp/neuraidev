@@ -17,6 +17,7 @@ import {
   Bell,
   Send,
   Store,
+  Wrench,
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -114,6 +115,15 @@ export default function AdminDashboard() {
       stats: "Gestionar tiendas",
       color: "teal",
       gradient: "from-teal-500 to-teal-600",
+    },
+    {
+      title: "Galería Técnico",
+      description: "Ordena las fotos de trabajos realizados",
+      icon: Wrench,
+      href: "/admin/tecnico-sistemas",
+      stats: "3 secciones · 47 fotos",
+      color: "indigo",
+      gradient: "from-indigo-500 to-indigo-600",
     },
   ];
 

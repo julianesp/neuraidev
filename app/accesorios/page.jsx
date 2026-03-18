@@ -1,6 +1,8 @@
 import React from "react";
 import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import CategoryCard from "@/components/CategoryCard";
+import CategoryProductGrid from "@/components/CategoryProductGrid";
+import { getSupabaseClient } from "@/lib/db";
 
 export const metadata = {
   title: "Accesorios y Productos | Tienda Online Neurai.dev",
@@ -100,7 +102,93 @@ const categorias = [
   },
 ];
 
-export default function AccesoriosPage() {
+async function loadFilteredProducts({ filters, min, max }) {
+  try {
+    const supabase = getSupabaseClient();
+    let query = supabase.from("products").select("*").order("created_at", { ascending: false });
+
+    const hasDescuento = filters.includes("descuento");
+    const hasDestacado = filters.includes("destacado");
+
+    // Siempre filtrar productos disponibles
+    query = query.eq("disponible", true);
+    if (hasDescuento) {
+      query = query.not("precio_oferta", "is", null);
+    }
+    if (hasDestacado) {
+      query = query.eq("destacado", true);
+    }
+    if (min !== null && max !== null && max !== Infinity) {
+      query = query.gte("precio", min).lte("precio", max);
+    } else if (min !== null && max === Infinity) {
+      query = query.gte("precio", min);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+
+    return (data || []).map((p) => ({
+      ...p,
+      imagenPrincipal: p.imagen_principal,
+      precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
+      precio: parseFloat(p.precio),
+      cantidad: p.stock || 0,
+      disponible: p.disponible && p.stock > 0,
+    }));
+  } catch (e) {
+    console.error("[loadFilteredProducts]", e);
+    return [];
+  }
+}
+
+export const dynamic = "force-dynamic";
+
+export default async function AccesoriosPage({ searchParams }) {
+  const params = await searchParams;
+  const filterParam = params?.filter;
+  const minParam = params?.min;
+  const maxParam = params?.max;
+
+  const hasFilters = filterParam || minParam || maxParam;
+
+  if (hasFilters) {
+    const filters = Array.isArray(filterParam)
+      ? filterParam
+      : filterParam
+      ? [filterParam]
+      : [];
+    const min = minParam !== undefined ? parseFloat(minParam) : null;
+    const max = maxParam !== undefined ? (maxParam === "Infinity" ? Infinity : parseFloat(maxParam)) : null;
+
+    const productos = await loadFilteredProducts({ filters, min, max });
+
+    const filterLabels = {
+      disponibilidad: "Solo disponibles",
+      "envio-gratis": "Envío gratis",
+      descuento: "Con descuento",
+      destacado: "Destacados",
+    };
+    const activeFilterNames = filters.map((f) => filterLabels[f] || f).join(", ");
+    const priceLabel = min !== null && max !== null
+      ? max === Infinity
+        ? ` · Más de $${min.toLocaleString("es-CO")}`
+        : ` · $${min.toLocaleString("es-CO")} - $${max.toLocaleString("es-CO")}`
+      : "";
+    const categoryName = (activeFilterNames || "Filtros aplicados") + priceLabel;
+
+    return (
+      <main className="min-h-screen py-14 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4">
+          <CategoryProductGrid
+            productos={productos}
+            categorySlug="accesorios"
+            categoryName={categoryName}
+          />
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen py-14">
       <div className="max-w-7xl mx-auto px-4">

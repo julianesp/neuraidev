@@ -111,6 +111,7 @@ export default function Inicio() {
   const [loading, setLoading] = useState(true);
 
   // States for toggling product lists visibility
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showCelulares, setShowCelulares] = useState(false);
   const [showComputadores, setShowComputadores] = useState(false);
   const [showLibrosNuevos, setShowLibrosNuevos] = useState(false);
@@ -490,9 +491,33 @@ export default function Inicio() {
           </div>
         </section> */}
 
+        {/* Botón flotante para abrir aside en móvil */}
+        <button
+          className={styles.sidebarToggle}
+          onClick={() => setSidebarOpen((v) => !v)}
+          aria-label={sidebarOpen ? "Cerrar panel lateral" : "Abrir panel lateral"}
+        >
+          <svg
+            className={`${styles.sidebarToggleIcon} ${sidebarOpen ? styles.sidebarToggleIconOpen : ""}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        {/* Overlay al abrir sidebar en móvil */}
+        {sidebarOpen && (
+          <div
+            className={styles.sidebarOverlay}
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
         {/* Sección lateral - Buscador, Categorías, Publicidad y Enlaces */}
         <section
-          className={`${styles.aside} `}
+          className={`${styles.aside} ${sidebarOpen ? styles.asideOpen : ""}`}
         >
           <Suspense
             fallback={

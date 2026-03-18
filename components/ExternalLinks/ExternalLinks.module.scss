@@ -94,6 +94,14 @@
   font-weight: 500;
 }
 
+.linkDomain {
+  font-size: 10px;
+  color: #9ca3af;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .linkTitle {
   font-size: 14px;
   font-weight: 600;
@@ -143,10 +151,10 @@
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  background: #fef3c7;
+  background: #eff6ff;
   border-radius: 6px;
   font-size: 11px;
-  color: #78350f;
+  color: #0070f3;
   font-weight: 500;
 }
 
@@ -212,6 +220,10 @@
     color: #9ca3af;
   }
 
+  .linkDomain {
+    color: #6b7280;
+  }
+
   .linkTitle {
     color: white;
   }
@@ -228,8 +240,8 @@
   }
 
   .disclaimer {
-    background: #451a03;
-    color: #fbbf24;
+    background: #1e3a5f;
+    color: #60a5fa;
   }
 
   .legalNote {

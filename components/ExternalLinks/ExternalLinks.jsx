@@ -1,49 +1,64 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import styles from "./ExternalLinks.module.scss";
 
 // Enlaces curados de sitios externos relevantes
 const externalLinks = [
   {
     id: 1,
-    title: "Las mejores ofertas en tecnología esta semana",
-    site: "TechCrunch",
-    url: "https://techcrunch.com/",
+    title: "Noticias, análisis y reviews de tecnología en español",
+    site: "Xataka",
+    url: "https://www.xataka.com/",
+    domain: "xataka.com",
     category: "Tecnología",
-    icon: "💻",
+    favicon: "https://www.xataka.com/favicon.ico",
   },
   {
     id: 2,
-    title: "Tendencias en gadgets para 2025",
-    site: "The Verge",
-    url: "https://www.theverge.com/tech",
-    category: "Gadgets",
-    icon: "📱",
+    title: "Tutoriales de programación y desarrollo web en español",
+    site: "Midudev",
+    url: "https://www.youtube.com/@midudev/videos",
+    domain: "youtube.com/@midudev",
+    category: "Programación",
+    favicon: "https://www.youtube.com/favicon.ico",
   },
   {
     id: 3,
-    title: "Guía de compra: Los mejores libros del mes",
-    site: "Goodreads",
-    url: "https://www.goodreads.com/",
-    category: "Libros",
-    icon: "📚",
+    title: "Cursos y proyectos de desarrollo web fullstack",
+    site: "Fazt Tech",
+    url: "https://www.youtube.com/@FaztTech",
+    domain: "youtube.com/@FaztTech",
+    category: "Desarrollo",
+    favicon: "https://www.youtube.com/favicon.ico",
   },
   {
     id: 4,
-    title: "Análisis y reviews de productos tecnológicos",
-    site: "CNET",
-    url: "https://www.cnet.com/",
-    category: "Reviews",
-    icon: "⭐",
+    title: "Noticias de tecnología, hardware y software para el día a día",
+    site: "Computer Hoy",
+    url: "https://computerhoy.20minutos.es/",
+    domain: "computerhoy.20minutos.es",
+    category: "Noticias Tech",
+    favicon: "https://computerhoy.20minutos.es/favicon.ico",
   },
   {
     id: 5,
-    title: "Noticias de e-commerce y retail",
-    site: "Retail Dive",
-    url: "https://www.retaildive.com/",
-    category: "E-commerce",
-    icon: "🛒",
+    title: "Aplicaciones, gadgets y tendencias en tecnología de consumo",
+    site: "Genbeta",
+    url: "https://www.genbeta.com/",
+    domain: "genbeta.com",
+    category: "Apps & Gadgets",
+    favicon: "https://www.genbeta.com/favicon.ico",
+  },
+  {
+    id: 6,
+    title: "Noticias y guías sobre Linux, open source y software libre",
+    site: "Muy Linux",
+    url: "https://www.muylinux.com/",
+    domain: "muylinux.com",
+    category: "Linux",
+    favicon: "https://www.muylinux.com/favicon.ico",
   },
 ];
 
@@ -81,10 +96,20 @@ export default function ExternalLinks() {
         {externalLinks.map((link) => (
           <div key={link.id} className={styles.linkCard}>
             <div className={styles.linkHeader}>
-              <div className={styles.linkIcon}>{link.icon}</div>
+              <div className={styles.linkIcon}>
+                <Image
+                  src={link.favicon}
+                  alt={`Logo de ${link.site}`}
+                  width={24}
+                  height={24}
+                  unoptimized
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                />
+              </div>
               <div className={styles.linkMeta}>
                 <span className={styles.linkCategory}>{link.category}</span>
                 <span className={styles.linkSite}>{link.site}</span>
+                <span className={styles.linkDomain}>{link.domain}</span>
               </div>
             </div>
 

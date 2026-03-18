@@ -140,7 +140,7 @@ export default function ProductoCascada({
               <Link
                 key={producto.id || index}
                 href={buildProductUrl(
-                  categorySlug,
+                  categorySlug === "accesorios" ? (producto.categoria || "generales") : categorySlug,
                   generateProductSlug(producto),
                   producto,
                 )}

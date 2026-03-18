@@ -1,6 +1,10 @@
 // @use "@/mixins.scss" as *;
+@use "sass:color";
 @use "@/styles/mixins" as *;
 @use "@/styles/variables" as *;
+
+// Color primario del sitio
+$primary: $color-primario;
 
 /* styles to presentation of start page */
 .container {
@@ -354,7 +358,7 @@
           border-bottom-right-radius: 22px;
 
           text-align: center;
-          background: #0070f3;
+          background: $primary;
 
           color: white;
           font-weight: 500;
@@ -364,7 +368,7 @@
           margin-bottom: 4px;
 
           &:hover {
-            background: #0051cc;
+            background: color.adjust($primary, $lightness: -10%);
           }
         }
       }
@@ -731,11 +735,81 @@
     }
 
     & .aside {
-      display: none !important; // Ocultar completamente en móviles y tablets
+      display: block !important;
+      position: fixed !important;
+      top: 0;
+      right: 0;
+      width: min(320px, 88vw);
+      height: 100dvh;
+      background: white;
+      z-index: 200;
+      overflow-y: auto;
+      padding: 1rem;
+      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.18);
+      border-radius: 0;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &.asideOpen {
+        transform: translateX(0);
+      }
     }
 
     & .destacados {
       top: 0;
+    }
+  }
+
+  // Botón flotante toggle sidebar (solo móvil)
+  .sidebarToggle {
+    display: none;
+
+    @media (max-width: 1023px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      right: 0;
+      top: 50vh;
+      transform: translateY(-50%);
+      z-index: 210;
+      width: 36px;
+      height: 52px;
+      background: $primary;
+      color: white;
+      border: none;
+      border-radius: 10px 0 0 10px;
+      cursor: pointer;
+      box-shadow: -2px 2px 12px rgba(0, 112, 243, 0.4);
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: color.adjust($primary, $lightness: -10%);
+      }
+    }
+  }
+
+  .sidebarToggleIcon {
+    width: 20px;
+    height: 20px;
+    transform: rotate(180deg);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebarToggleIconOpen {
+    transform: rotate(0deg);
+  }
+
+  .sidebarOverlay {
+    display: none;
+
+    @media (max-width: 1023px) {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 199;
+      backdrop-filter: blur(2px);
     }
   }
 
@@ -791,5 +865,12 @@
       height: auto; // Altura automática basada en el contenido
       min-height: 100%; // Mínimo toda la altura disponible
     }
+  }
+}
+
+// Dark mode: aside móvil con fondo oscuro
+:global(.dark) .container .aside {
+  @media (max-width: 1023px) {
+    background: #1f2937 !important;
   }
 }
