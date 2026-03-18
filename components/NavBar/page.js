@@ -316,6 +316,15 @@ const NavBar = () => {
               <ul className={styles.dropdown}>
                 <li>
                   <Link
+                    href="/servicios"
+                    onClick={handleLinkClick}
+                    title="Ver todos los servicios profesionales"
+                  >
+                    Ver servicios profesionales
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/servicios/tecnico-sistemas"
                     onClick={handleLinkClick}
                     title="Técnico en sistemas"
@@ -329,6 +338,15 @@ const NavBar = () => {
                     onClick={handleLinkClick}
                   >
                     Desarrollador Web
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/para-tiendas"
+                    onClick={handleLinkClick}
+                    title="Crea tu tienda en Neurai"
+                  >
+                    🏪 Vende en Neurai
                   </Link>
                 </li>
               </ul>

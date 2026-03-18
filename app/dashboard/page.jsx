@@ -202,13 +202,15 @@ export default function DashboardPage() {
           Acciones rápidas
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-          <QuickAction
-            title="Panel Admin"
-            description="Blog, analytics y configuración"
-            href="/admin"
-            icon={LayoutDashboard}
-            featured
-          />
+          {!esTiendaSolo && (
+            <QuickAction
+              title="Panel Admin"
+              description="Blog, analytics y configuración"
+              href="/admin"
+              icon={LayoutDashboard}
+              featured
+            />
+          )}
           <QuickAction
             title="Agregar producto"
             description="Agrega un nuevo producto al catálogo"

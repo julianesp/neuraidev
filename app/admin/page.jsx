@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Bell,
   Send,
+  Store,
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -104,6 +105,15 @@ export default function AdminDashboard() {
       stats: "Ver reportes",
       color: "orange",
       gradient: "from-orange-500 to-orange-600",
+    },
+    {
+      title: "Tiendas",
+      description: "Gestiona accesos y perfiles de tiendas",
+      icon: Store,
+      href: "/admin/tiendas",
+      stats: "Gestionar tiendas",
+      color: "teal",
+      gradient: "from-teal-500 to-teal-600",
     },
   ];
 

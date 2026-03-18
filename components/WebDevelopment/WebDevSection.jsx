@@ -1,143 +1,95 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Code,
-  Smartphone,
-  Zap,
-  Search,
-  ShoppingCart,
-  Palette,
-  MessageCircle,
-} from "lucide-react";
+import { Store, Package, ShoppingCart, TrendingUp, CheckCircle, ArrowRight } from "lucide-react";
 import styles from "./WebDevSection.module.scss";
 
 export default function WebDevSection() {
-  const servicios = [
+  const beneficios = [
     {
-      icon: <Code size={40} />,
-      titulo: "Desarrollo Web",
-      descripcion: "Sitios web modernos, rápidos y optimizados",
+      icon: <Store size={36} />,
+      titulo: "Perfil listo",
+      descripcion: "Tu tienda configurada y activa desde el primer día",
       color: "#0070f3",
     },
     {
-      icon: <Smartphone size={40} />,
-      titulo: "Diseño Responsive",
-      descripcion: "Tu sitio se verá perfecto en todos los dispositivos",
-      color: "#f093fb",
+      icon: <Package size={36} />,
+      titulo: "Publica fácil",
+      descripcion: "Tus productos aparecen visibles al instante para todos",
+      color: "#764ba2",
     },
     {
-      icon: <ShoppingCart size={40} />,
-      titulo: "Tiendas Online",
-      descripcion: "E-commerce completo con pasarelas de pago",
+      icon: <ShoppingCart size={36} />,
+      titulo: "Recibe pedidos",
+      descripcion: "Gestiona pedidos y clientes en tiempo real",
       color: "#0070f3",
     },
-    // {
-    //   icon: <Search size={40} />,
-    //   titulo: "Posicionamiento SEO",
-    //   descripcion: "Aparece en las primeras posiciones de Google",
-    //   color: "#43e97b",
-    // },
     {
-      icon: <Zap size={40} />,
-      titulo: "Optimización de Rendimiento",
-      descripcion: "Sitios ultra rápidos que convierten visitantes en clientes",
-      color: "#fa709a",
-    },
-    {
-      icon: <Palette size={40} />,
-      titulo: "Diseño Personalizado",
-      descripcion: "Cada proyecto es único y refleja la identidad de tu marca",
-      color: "#fee140",
+      icon: <TrendingUp size={36} />,
+      titulo: "Ve tus ganancias",
+      descripcion: "Dashboard con estadísticas de ventas actualizado",
+      color: "#43e97b",
     },
   ];
 
-  // const proyectos = [
-  //   {
-  //     nombre: "NeuraIStore",
-  //     descripcion: "Tienda online de accesorios tecnológicos",
-  //     tecnologias: ["Next.js", "Prisma", "PostgreSQL"],
-  //     url: "/accesorios",
-  //   },
-  //   {
-  //     nombre: "Sistema de Gestión",
-  //     descripcion: "Panel administrativo para control de inventario",
-  //     tecnologias: ["React", "Node.js", "MongoDB"],
-  //     url: "/admin",
-  //   },
-  // ];
+  const pasos = [
+    "Regístrate — menos de un minuto",
+    "Configura tu tienda (nombre y categoría)",
+    "Publica productos — activos de inmediato",
+  ];
 
   return (
     <section className={styles.webDevSection}>
       <div className={styles.container}>
         {/* Header */}
         <div className={styles.header}>
-          <span className={styles.badge}>Desarrollo Web</span>
-          <h2>Transformamos tus ideas en realidad digital</h2>
+          <span className={styles.badge}>Para tiendas y negocios</span>
+          <h2>Vende tus productos en Neurai</h2>
           <p>
-            Creamos sitios web profesionales que impulsan tu negocio. Desde
-            landing pages hasta tiendas online completas.
+            Te entregamos tu espacio listo y configurado. Solo accede y empieza
+            a publicar — tus productos quedan activos inmediatamente.
           </p>
         </div>
 
-        {/* Servicios Grid */}
+        {/* Beneficios Grid */}
         <div className={styles.servicesGrid}>
-          {servicios.map((servicio, index) => (
+          {beneficios.map((b, index) => (
             <div key={index} className={styles.serviceCard}>
               <div
                 className={styles.iconWrapper}
                 style={{
-                  background: `linear-gradient(135deg, ${servicio.color}, ${servicio.color}dd)`,
+                  background: `linear-gradient(135deg, ${b.color}, ${b.color}dd)`,
                 }}
               >
-                {servicio.icon}
+                {b.icon}
               </div>
-              <h3>{servicio.titulo}</h3>
-              <p>{servicio.descripcion}</p>
+              <h3>{b.titulo}</h3>
+              <p>{b.descripcion}</p>
             </div>
           ))}
         </div>
 
-        {/* Proyectos Destacados */}
-        {/* <div className={styles.proyectos}>
-          <h3>Proyectos Destacados</h3>
-          <div className={styles.proyectosGrid}>
-            {proyectos.map((proyecto, index) => (
-              <Link
-                key={index}
-                href={proyecto.url}
-                className={styles.proyectoCard}
-              >
-                <h4>{proyecto.nombre}</h4>
-                <p>{proyecto.descripcion}</p>
-                <div className={styles.tecnologias}>
-                  {proyecto.tecnologias.map((tech, i) => (
-                    <span key={i} className={styles.tech}>
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div> */}
-
         {/* CTA */}
         <div className={styles.cta}>
-          <h3>¿Tienes un proyecto en mente?</h3>
-          <p>Conversemos sobre cómo podemos ayudarte a crecer en línea</p>
+          <h3>Tu tienda en 3 pasos</h3>
+          <ul style={{ listStyle: "none", padding: 0, marginBottom: "24px", textAlign: "left", maxWidth: "360px", margin: "0 auto 24px" }}>
+            {pasos.map((paso, i) => (
+              <li key={i} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "6px 0", color: "rgba(255,255,255,0.9)", fontSize: "0.95rem" }}>
+                <span style={{ width: "22px", height: "22px", background: "rgba(255,255,255,0.2)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.75rem", fontWeight: "bold", flexShrink: 0 }}>
+                  {i + 1}
+                </span>
+                {paso}
+              </li>
+            ))}
+          </ul>
+          <p style={{ fontSize: "0.85rem", opacity: 0.75, marginBottom: "28px" }}>
+            Los pagos en línea los gestionamos nosotros — tú solo te enfocas en vender.
+          </p>
           <div className={styles.ctaButtons}>
-            <Link
-              href="https://wa.me/573174503604?text=Hola, me interesa un sitio web profesional"
-              target="_blank"
-              className={styles.primaryBtn}
-            >
-              <MessageCircle size={20} />
-              Solicitar Cotización
+            <Link href="/para-tiendas" className={styles.primaryBtn}>
+              <Store size={20} />
+              Crear mi tienda gratis
             </Link>
-            {/* <Link href="/servicios" className={styles.secondaryBtn}>
-              Ver Todos los Servicios
-            </Link> */}
           </div>
         </div>
       </div>

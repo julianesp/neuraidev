@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Servicios.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+import { CheckCircle, Store, Package, ShoppingCart, TrendingUp, ArrowRight } from "lucide-react";
 
 export const metadata = {
   title: "Servicios Profesionales | Neurai.dev",
@@ -151,6 +152,77 @@ export default function Servicios() {
             </div>
           </div>
         ))}
+      </section>
+
+      {/* Vende en Neurai */}
+      <section className="py-20 px-4 bg-white dark:bg-gray-900">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="inline-block text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+              Nuevo servicio
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Vende tus productos en Neurai
+            </h2>
+            <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+              Te entregamos tu espacio de tienda listo y configurado. Accede y empieza a publicar productos que quedan activos inmediatamente.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Beneficios */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { icon: Store, titulo: "Perfil listo", desc: "Tu tienda configurada desde el primer día, sin complicaciones." },
+                { icon: Package, titulo: "Publica y vende", desc: "Tus productos aparecen visibles al instante para todos." },
+                { icon: ShoppingCart, titulo: "Gestiona pedidos", desc: "Recibe y administra tus pedidos en tiempo real." },
+                { icon: TrendingUp, titulo: "Ve tus ganancias", desc: "Dashboard con estadísticas de ventas y clientes." },
+              ].map((b) => {
+                const Icon = b.icon;
+                return (
+                  <div key={b.titulo} className="border border-gray-200 dark:border-gray-700 rounded-xl p-5 hover:border-blue-400 dark:hover:border-blue-500 transition-all hover:shadow-md">
+                    <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">{b.titulo}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{b.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Card de acción */}
+            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 text-white">
+              <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mb-6">
+                <Store className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3">Tu tienda en 3 pasos</h3>
+              <ol className="space-y-3 mb-8">
+                {[
+                  "Regístrate — menos de un minuto",
+                  "Configura tu tienda (nombre, categoría)",
+                  "Publica productos — activos de inmediato",
+                ].map((paso, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                      {i + 1}
+                    </span>
+                    <span className="text-blue-100">{paso}</span>
+                  </li>
+                ))}
+              </ol>
+              <div className="bg-yellow-400/20 border border-yellow-300/30 rounded-lg p-3 mb-6 text-sm text-yellow-100">
+                Los pagos en línea los gestionamos nosotros. Tú solo te enfocas en vender.
+              </div>
+              <Link
+                href="/para-tiendas"
+                className="inline-flex items-center gap-2 bg-white text-blue-600 font-bold py-3 px-6 rounded-xl hover:bg-blue-50 transition-colors w-full justify-center"
+              >
+                Crear mi tienda gratis <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* CTA Section */}
