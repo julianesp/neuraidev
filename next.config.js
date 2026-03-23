@@ -30,10 +30,10 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://www.googletagmanager.com https://vercel.live https://va.vercel-scripts.com https://connect.facebook.net https://*.clerk.accounts.dev https://clerk.neurai.dev https://www.google.com https://www.gstatic.com https://challenges.cloudflare.com https://checkout.epayco.co https://epayco.co https://*.epayco.co",
+      "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://www.googletagmanager.com https://vercel.live https://va.vercel-scripts.com https://connect.facebook.net https://*.clerk.accounts.dev https://clerk.neurai.dev https://www.google.com https://www.gstatic.com https://challenges.cloudflare.com https://checkout.epayco.co https://epayco.co https://*.epayco.co https://widget.dapta.ai",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' https: data: blob: https://selectafm.com https://*.epayco.co",
-      "font-src 'self' https://fonts.gstatic.com",
+      "font-src 'self' https://fonts.gstatic.com data:",
       "media-src 'self' blob: data: https://yfglwidanlpqsmbnound.supabase.co https://*.supabase.co https://www.youtube.com https://youtube.com https://player.vimeo.com https://vimeo.com https://radio25.virtualtronics.com",
       "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://connect.facebook.net https://*.clerk.accounts.dev https://clerk.neurai.dev https://api.clerk.com https://www.google.com https://www.gstatic.com https://challenges.cloudflare.com https://yfglwidanlpqsmbnound.supabase.co https://*.supabase.co wss://yfglwidanlpqsmbnound.supabase.co wss://*.supabase.co https://epayco.co https://*.epayco.co https://secure.epayco.co https://api.secure.epayco.co https://radio25.virtualtronics.com",
       "frame-src 'self' https://www.youtube.com https://youtube.com https://www.facebook.com https://*.clerk.accounts.dev https://clerk.neurai.dev https://www.google.com https://www.recaptcha.net https://recaptcha.google.com https://challenges.cloudflare.com https://checkout.epayco.co https://*.epayco.co https://player.vimeo.com",
