@@ -5,8 +5,6 @@ import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { ShoppingCart, Plus, Minus, AlertTriangle, X } from "lucide-react";
 import ProductColorPicker from "./ProductColorPicker";
-import PaymentMethodModal from "./PaymentMethodModal";
-import NequiPaymentModal from "./NequiPaymentModal";
 import { getSupabaseBrowserClient } from "@/lib/db";
 import { createProductRepository } from "@/lib/repositories/ProductRepository";
 import { InsufficientStockError } from "@/lib/errors/AppErrors";
@@ -21,9 +19,6 @@ export default function AddToCartButton({ producto }) {
   const [stockDisponible, setStockDisponible] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showNoStockModal, setShowNoStockModal] = useState(false);
-  const [showPaymentMethodModal, setShowPaymentMethodModal] = useState(false);
-  const [showNequiModal, setShowNequiModal] = useState(false);
-  const [colorParaNequi, setColorParaNequi] = useState(null);
 
   // Usar la nueva arquitectura (Repository Pattern)
   const supabase = useMemo(() => getSupabaseBrowserClient(), []);
@@ -107,51 +102,11 @@ export default function AddToCartButton({ producto }) {
   const tieneVariaciones =
     producto.variaciones && producto.variaciones.length > 0;
 
-  // Abrir modal de selección de método de pago
-  const handleOpenPaymentModal = async () => {
-    try {
-      // Usar ProductRepository para verificar stock
-      const stockActual = await productRepo.checkStock(producto.id);
-
-      // Calcular cuántos productos de este tipo ya están en el carrito
-      const cantidadEnCarrito = cart.reduce((total, item) => {
-        if (item.id === producto.id) {
-          return total + item.cantidad;
-        }
-        return total;
-      }, 0);
-
-      const stockRestante = stockActual - cantidadEnCarrito;
-
-      // Si no hay stock disponible, mostrar modal de sin stock
-      if (stockRestante <= 0 || cantidad > stockRestante) {
-        setShowNoStockModal(true);
-        return;
-      }
-
-      // Abrir modal de selección de método de pago
-      setShowPaymentMethodModal(true);
-    } catch (error) {
-      console.error("Error al verificar stock:", error);
-      toast.error("Error al verificar disponibilidad");
-    }
-  };
-
-  // Manejar selección de Nequi
-  const handleSelectNequi = (color) => {
-    setColorParaNequi(color);
-    setColorSeleccionado(color);
-    setShowPaymentMethodModal(false);
-    setShowNequiModal(true);
-  };
-
-  // Manejar selección de ePayco (flujo normal al carrito)
+  // Agregar al carrito
   const handleSelectEpayco = async (color) => {
     if (color) {
       setColorSeleccionado(color);
     }
-
-    setShowPaymentMethodModal(false);
 
     // Verificar si hay variaciones
     if (tieneVariaciones && !variacionSeleccionada) {
@@ -342,7 +297,7 @@ export default function AddToCartButton({ producto }) {
 
       {/* Botón de agregar al carrito */}
       <button
-        onClick={handleOpenPaymentModal}
+        onClick={() => handleSelectEpayco(colorSeleccionado)}
         disabled={showSuccess}
         className={`w-full flex items-center justify-center gap-2 px-4 py-4 rounded-lg font-medium transition-all buzz-interval ${
           showSuccess
@@ -456,30 +411,6 @@ export default function AddToCartButton({ producto }) {
         </div>
       )}
 
-      {/* Modal de Selección de Método de Pago */}
-      <PaymentMethodModal
-        isOpen={showPaymentMethodModal}
-        onClose={() => setShowPaymentMethodModal(false)}
-        producto={producto}
-        coloresDisponibles={coloresDisponibles}
-        colorInicial={colorSeleccionado}
-        cantidad={cantidad}
-        descuento={5}
-        onSelectNequi={handleSelectNequi}
-        onSelectEpayco={handleSelectEpayco}
-      />
-
-      {/* Modal de Instrucciones Nequi */}
-      <NequiPaymentModal
-        isOpen={showNequiModal}
-        onClose={() => setShowNequiModal(false)}
-        producto={producto}
-        colorSeleccionado={colorParaNequi}
-        cantidad={cantidad}
-        descuento={5}
-        numeroNequi="3174503604"
-        nombreNegocio="Neurai.dev"
-      />
       </div>
     </>
   );
