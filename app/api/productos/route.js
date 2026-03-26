@@ -38,10 +38,11 @@ export async function GET(request) {
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
-    // Construir query
+    // Construir query — solo productos del usuario autenticado
     let query = supabase
       .from('products')
       .select('*')
+      .eq('clerk_user_id', userId)
       .order('created_at', { ascending: false });
 
     // Filtrar por disponibilidad si se solicita
@@ -98,10 +99,10 @@ export async function POST(request) {
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
-    // Insertar producto
+    // Insertar producto vinculado al usuario autenticado
     const { data, error } = await supabase
       .from('products')
-      .insert([productoData])
+      .insert([{ ...productoData, clerk_user_id: userId }])
       .select()
       .single();
 

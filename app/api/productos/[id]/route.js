@@ -109,11 +109,12 @@ export async function PUT(request, { params }) {
 
     // Actualizando producto
 
-    // Actualizar producto
+    // Actualizar producto — solo si pertenece al usuario
     const { data, error } = await supabase
       .from('products')
       .update(body)
       .eq('id', id)
+      .eq('clerk_user_id', userId)
       .select()
       .single();
 
@@ -174,11 +175,12 @@ export async function DELETE(request, { params }) {
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
-    // Eliminar producto
+    // Eliminar producto — solo si pertenece al usuario
     const { error } = await supabase
       .from('products')
       .delete()
-      .eq('id', id);
+      .eq('id', id)
+      .eq('clerk_user_id', userId);
 
     if (error) {
       console.error('❌ [API] Error eliminando:', error);
