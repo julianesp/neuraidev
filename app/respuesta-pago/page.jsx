@@ -7,6 +7,102 @@ import Link from "next/link";
 import CustomerRegistrationModal from "@/components/CustomerRegistrationModal";
 
 /**
+ * Página que se muestra cuando el usuario cancela o abandona el pago
+ */
+function PaginaCancelacion() {
+  const [productos, setProductos] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/products?limit=4&disponible=true")
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (data?.products) setProductos(data.products.slice(0, 4));
+        else if (Array.isArray(data)) setProductos(data.slice(0, 4));
+      })
+      .catch(() => {});
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 px-4">
+      <div className="max-w-3xl mx-auto">
+        {/* Mensaje principal */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-10 text-center mb-10">
+          <div className="text-7xl mb-4">😕</div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+            No completaste el pago
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-2">
+            Cancelaste el proceso, pero <span className="font-semibold text-blue-600">no te preocupes</span>.
+          </p>
+          <p className="text-gray-500 dark:text-gray-400 mb-8">
+            Cuando estés listo puedes volver y completar tu compra. ¡Tus productos siguen ahí!
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/accesorios"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-colors"
+            >
+              Seguir explorando productos
+            </Link>
+            <Link
+              href="/"
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-8 rounded-lg transition-colors"
+            >
+              Ir al inicio
+            </Link>
+          </div>
+        </div>
+
+        {/* Productos sugeridos */}
+        {productos.length > 0 && (
+          <div>
+            <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+              Quizás te interese algo de esto 👇
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {productos.map((producto) => {
+                const imagen =
+                  Array.isArray(producto.imagenes) && producto.imagenes[0]
+                    ? typeof producto.imagenes[0] === "object"
+                      ? producto.imagenes[0].url
+                      : producto.imagenes[0]
+                    : producto.imagen_principal || "/placeholder.jpg";
+                const precio = parseFloat(producto.precio || 0).toLocaleString("es-CO");
+                const slug = producto.slug || producto.id;
+                const categoria = (producto.categoria || "generales").toLowerCase().replace(/\s+/g, "-");
+                const href = `/accesorios/${categoria}/${slug}`;
+
+                return (
+                  <Link
+                    key={producto.id}
+                    href={href}
+                    className="bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-md transition-shadow overflow-hidden group"
+                  >
+                    <div className="relative h-36 bg-gray-100 dark:bg-gray-700 overflow-hidden">
+                      <img
+                        src={imagen}
+                        alt={producto.nombre}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <p className="text-sm font-medium text-gray-800 dark:text-white line-clamp-2 mb-1">
+                        {producto.nombre}
+                      </p>
+                      <p className="text-blue-600 font-bold text-sm">${precio}</p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
  * Componente interno que usa useSearchParams
  */
 function RespuestaPagoContent() {
@@ -20,8 +116,8 @@ function RespuestaPagoContent() {
   const [isRegisteredCustomer, setIsRegisteredCustomer] = useState(false);
 
   useEffect(() => {
-    // Detectar si es redirect de ePayco (tiene x_ref_payco o x_transaction_state)
-    const epaycoRef = searchParams.get("x_ref_payco");
+    // Detectar si es redirect de ePayco (tiene x_ref_payco, ref_payco o x_transaction_state)
+    const epaycoRef = searchParams.get("x_ref_payco") || searchParams.get("ref_payco");
     const epaycoState = searchParams.get("x_transaction_state");
 
     // Si es un redirect de ePayco, leer los parámetros directamente de la URL
@@ -42,7 +138,7 @@ function RespuestaPagoContent() {
         reference: reference,
         amount: parseFloat(searchParams.get("x_amount") || searchParams.get("x_amount_ok") || 0),
         currency: searchParams.get("x_currency_code") || "COP",
-        status: stateMap[rawState] || "ERROR",
+        status: rawState ? (stateMap[rawState] || "ERROR") : "CANCELLED",
         statusMessage: rawState,
         paymentMethod: searchParams.get("x_franchise") || "ePayco",
         customerEmail: searchParams.get("x_customer_email") || "",
@@ -198,13 +294,13 @@ function RespuestaPagoContent() {
           "Tu pago está en proceso de verificación. Te notificaremos cuando se confirme.",
         color: "yellow",
       };
-    } else if (state === "VOIDED") {
+    } else if (state === "VOIDED" || state === "CANCELLED") {
       return {
-        type: "error",
-        icon: "🚫",
-        title: "Pago anulado",
-        message: "La transacción fue anulada.",
-        color: "red",
+        type: "cancelled",
+        icon: "😕",
+        title: "No completaste el pago",
+        message: "Cancelaste el proceso de pago, pero no te preocupes. Puedes intentarlo cuando quieras.",
+        color: "orange",
       };
     } else {
       return {
@@ -233,21 +329,7 @@ function RespuestaPagoContent() {
   }
 
   if (!status) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 text-center">
-          <p className="text-gray-600 dark:text-gray-400">
-            No se recibió información de pago.
-          </p>
-          <Link
-            href="/"
-            className="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
-          >
-            Volver al inicio
-          </Link>
-        </div>
-      </div>
-    );
+    return <PaginaCancelacion />;
   }
 
   return (
@@ -262,7 +344,9 @@ function RespuestaPagoContent() {
                 ? "text-green-600 dark:text-green-400"
                 : status.color === "red"
                   ? "text-red-600 dark:text-red-400"
-                  : "text-yellow-600 dark:text-yellow-400"
+                  : status.color === "orange"
+                    ? "text-orange-500 dark:text-orange-400"
+                    : "text-yellow-600 dark:text-yellow-400"
             }`}
           >
             {status.title}
@@ -615,19 +699,19 @@ function RespuestaPagoContent() {
             </>
           )}
 
-          {status.type === "error" && (
+          {(status.type === "error" || status.type === "cancelled") && (
             <>
               <button
                 onClick={() => router.back()}
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
               >
-                Reintentar pago
+                {status.type === "cancelled" ? "Volver e intentar de nuevo" : "Reintentar pago"}
               </button>
               <Link
-                href="/"
+                href="/accesorios"
                 className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors text-center"
               >
-                Volver al inicio
+                Seguir explorando
               </Link>
             </>
           )}
@@ -677,6 +761,11 @@ function RespuestaPagoContent() {
                     </p>
                   )}
                 </>
+              )}
+              {status.type === "cancelled" && (
+                <p>
+                  Cuando estés listo para comprar, puedes volver al producto y completar el pago. ¡Te esperamos!
+                </p>
               )}
               {status.type === "error" && (
                 <p>
