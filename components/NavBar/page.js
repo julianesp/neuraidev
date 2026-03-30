@@ -36,8 +36,9 @@ const NavBar = () => {
   // Solution for hydratation errors
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Verificar si el usuario es administrador
+  // Verificar si el usuario es administrador o dueño de tienda
   const userIsAdmin = user && isAdmin(user);
+  const userIsTienda = user?.publicMetadata?.role === "tienda";
 
   const menuBurger = () => {
     setBurgerOpen(!burgerOpen);
@@ -414,15 +415,30 @@ const NavBar = () => {
                 Mi Cuenta
               </Link>
             </li>
-            <li role="none">
-              <Link
-                href="/mis-anuncios"
-                title="Gestionar mis anuncios"
-                onClick={handleLinkClick}
-              >
-                Mis Anuncios
-              </Link>
-            </li>
+            {/* Mis Anuncios solo para el admin */}
+            {userIsAdmin && (
+              <li role="none">
+                <Link
+                  href="/mis-anuncios"
+                  title="Gestionar mis anuncios"
+                  onClick={handleLinkClick}
+                >
+                  Mis Anuncios
+                </Link>
+              </li>
+            )}
+            {/* Enlace a panel de tienda para dueños de tienda */}
+            {userIsTienda && (
+              <li role="none">
+                <Link
+                  href="/tienda/dashboard"
+                  title="Ir al panel de mi tienda"
+                  onClick={handleLinkClick}
+                >
+                  Mi Tienda
+                </Link>
+              </li>
+            )}
           </SignedIn>
 
           {/* Botón de Dashboard solo para admins */}
