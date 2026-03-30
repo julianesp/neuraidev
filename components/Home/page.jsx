@@ -24,6 +24,7 @@ import ExternalNews from "@/components/ExternalNews/ExternalNews";
 import NotificationsBanner from "@/components/NotificationsBanner";
 import CategoryCard from "@/components/CategoryCard";
 import PromocionesDestacadas from "@/components/PromocionesDestacadas/PromocionesDestacadas";
+import TiendasDestacadas from "@/components/TiendasDestacadas/TiendasDestacadas";
 import {
   Smartphone,
   Monitor,
@@ -308,6 +309,11 @@ export default function Inicio() {
             <PromocionesDestacadas />
           </Suspense>
         </div>
+
+        {/* Tiendas registradas en Neurai - se oculta automáticamente si no hay ninguna */}
+        <Suspense fallback={null}>
+          <TiendasDestacadas />
+        </Suspense>
 
         {/* Accesorios destacados */}
         <section

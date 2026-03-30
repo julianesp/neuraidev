@@ -21,11 +21,12 @@ async function getTiendaPorSlug(slug) {
   }) || null;
 }
 
-async function getProductos() {
+async function getProductosDeTienda(clerkUserId) {
   const supabase = getSupabaseClient();
   const { data } = await supabase
     .from("products")
     .select("id, nombre, precio, precio_oferta, imagen_principal, categoria, stock, disponible, slug")
+    .eq("clerk_user_id", clerkUserId)
     .eq("disponible", true)
     .gt("stock", 0)
     .order("created_at", { ascending: false });
@@ -47,7 +48,7 @@ export default async function TiendaPublicaPage({ params }) {
   const tienda = await getTiendaPorSlug(slug);
   if (!tienda) notFound();
 
-  const productos = await getProductos();
+  const productos = await getProductosDeTienda(tienda.clerk_user_id);
 
   const categorias = [...new Set(productos.map((p) => p.categoria))];
 
