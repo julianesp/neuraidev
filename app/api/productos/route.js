@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { auth } from '@clerk/nextjs/server';
+import { getCurrentUserWithRole } from '@/lib/auth/server-roles';
 
 // Cliente de Supabase con Service Role (bypass RLS)
 function createAdminClient() {
@@ -31,6 +32,9 @@ export async function GET(request) {
       );
     }
 
+    // Verificar si es admin para decidir el filtro
+    const { isAdmin } = await getCurrentUserWithRole();
+
     // Obtener parámetros de búsqueda
     const { searchParams } = new URL(request.url);
     const disponible = searchParams.get('disponible');
@@ -38,12 +42,15 @@ export async function GET(request) {
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
-    // Construir query — solo productos del usuario autenticado
+    // Si es admin, traer todos los productos; si no, solo los del usuario
     let query = supabase
       .from('products')
       .select('*')
-      .eq('clerk_user_id', userId)
       .order('created_at', { ascending: false });
+
+    if (!isAdmin) {
+      query = query.eq('clerk_user_id', userId);
+    }
 
     // Filtrar por disponibilidad si se solicita
     if (disponible === 'true') {
