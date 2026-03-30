@@ -310,11 +310,6 @@ export default function Inicio() {
           </Suspense>
         </div>
 
-        {/* Tiendas registradas en Neurai - se oculta automáticamente si no hay ninguna */}
-        <Suspense fallback={null}>
-          <TiendasDestacadas />
-        </Suspense>
-
         {/* Accesorios destacados */}
         <section
           ref={destacadosRef}
@@ -330,6 +325,13 @@ export default function Inicio() {
         <Suspense fallback={<LoadingSkeleton />}>
           <MostVisitedProducts />
         </Suspense>
+
+        {/* Tiendas registradas en Neurai */}
+        <section className={`${styles.tiendasDestacadas}`}>
+          <Suspense fallback={null}>
+            <TiendasDestacadas />
+          </Suspense>
+        </section>
 
         {/* Noticias Externas */}
         <Suspense fallback={<LoadingSkeleton />}>

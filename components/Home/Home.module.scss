@@ -637,6 +637,7 @@ $primary: $color-primario;
       "presentacion presentacion"
       "destacados aside"
       "accesories aside"
+      "tiendasDestacadas aside"
       "contactWhatsApp aside"
       "webDevSection aside"
       "blogSection aside"
@@ -722,6 +723,13 @@ $primary: $color-primario;
 
     & .technicalServices {
       grid-area: technicalServices;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+
+    & .tiendasDestacadas {
+      grid-area: tiendasDestacadas;
+      width: 100%;
       padding: 0 10px;
       box-sizing: border-box;
     }
