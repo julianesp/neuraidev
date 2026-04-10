@@ -128,40 +128,39 @@ export default function TiendaNuevoProductoPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Categorías</label>
-              <div className="flex gap-2 mb-2">
-                <input
-                  value={categoriaInput}
-                  onChange={(e) => setCategoriaInput(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); agregarCategoria(); }}}
-                  placeholder="Ej: ropa, calzado..."
-                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button type="button" onClick={agregarCategoria}
-                  className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                  <Plus className="w-4 h-4" />
-                </button>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Categorías</label>
+            <div className="flex gap-2 mb-2">
+              <input
+                value={categoriaInput}
+                onChange={(e) => setCategoriaInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); agregarCategoria(); }}}
+                placeholder="Ej: ropa, calzado..."
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button type="button" onClick={agregarCategoria}
+                className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex-shrink-0">
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
+            {form.categorias.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {form.categorias.map((cat) => (
+                  <span key={cat} className="flex items-center gap-1 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full">
+                    {cat}
+                    <button type="button" onClick={() => quitarCategoria(cat)}>
+                      <X className="w-3 h-3" />
+                    </button>
+                  </span>
+                ))}
               </div>
-              {form.categorias.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {form.categorias.map((cat) => (
-                    <span key={cat} className="flex items-center gap-1 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full">
-                      {cat}
-                      <button type="button" onClick={() => quitarCategoria(cat)}>
-                        <X className="w-3 h-3" />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
-              <input name="stock" value={form.stock} onChange={handleChange} type="number" min="0"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+            <input name="stock" value={form.stock} onChange={handleChange} type="number" min="0"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
 
           <div>
