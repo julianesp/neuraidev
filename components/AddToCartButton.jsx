@@ -49,6 +49,10 @@ export default function AddToCartButton({ producto }) {
           ? [producto.imagen]
           : [],
     categoria: producto.categoria || "general",
+    // Datos del vendedor — presentes solo si es producto de una tienda
+    seller_clerk_user_id: producto.clerk_user_id || null,
+    seller_whatsapp: producto.seller_whatsapp || null,
+    seller_nombre: producto.seller_nombre || null,
   };
 
   // Cargar stock disponible al montar el componente usando Repository

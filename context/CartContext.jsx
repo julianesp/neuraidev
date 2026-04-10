@@ -168,7 +168,11 @@ export function CartProvider({ children }) {
           variacion,
           categoria: producto.categoria,
           stock: stockDisponible,
-          metadata: producto.metadata || {}, // Incluir metadata con payment_link
+          metadata: producto.metadata || {},
+          // Identificador del vendedor (null = producto del sitio principal)
+          seller_clerk_user_id: producto.seller_clerk_user_id || null,
+          seller_whatsapp: producto.seller_whatsapp || null,
+          seller_nombre: producto.seller_nombre || null,
         };
         newCart = [...prevCart, newItem];
       }

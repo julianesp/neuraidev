@@ -24,6 +24,12 @@ export default function ShoppingCart() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
+  // Detectar si el carrito tiene items de tiendas externas (no del sitio principal)
+  const itemsDeTienda = cart.filter((item) => item.seller_clerk_user_id);
+  const itemsPropios = cart.filter((item) => !item.seller_clerk_user_id);
+  const hayMezcla = itemsDeTienda.length > 0 && itemsPropios.length > 0;
+  const soloTienda = itemsDeTienda.length > 0 && itemsPropios.length === 0;
+
   // Debug: Log cart state
   // console.log(
   //   "[ShoppingCart] Render - isOpen:",
@@ -34,52 +40,77 @@ export default function ShoppingCart() {
   //   cart,
   // );
 
-  const handleCheckout = () => {
-    if (cart.length === 0) {
-      toast.warning("Tu carrito está vacío", {
-        title: "Carrito Vacío",
-        duration: 3000,
-      });
-      return;
-    }
+  // Construir y enviar pedido al WhatsApp de una tienda
+  const enviarPedidoWhatsApp = async (items, whatsapp, nombreTienda) => {
+    let numero = whatsapp.replace(/\D/g, "");
+    // Si no tiene código de país, asumir Colombia (+57)
+    if (!numero.startsWith("57")) numero = `57${numero}`;
 
-    // Construir mensaje para WhatsApp con mejor presentación
-    let mensaje = "🛒 *PEDIDO DESDE NEURAI.DEV*\n";
+    let mensaje = `🛒 *PEDIDO - ${(nombreTienda || "Tienda").toUpperCase()}*\n`;
     mensaje += "━━━━━━━━━━━━━━━━━━━━\n\n";
     mensaje += "Hola! Quiero realizar el siguiente pedido:\n\n";
 
-    // Listar productos
-    cart.forEach((item, index) => {
+    items.forEach((item, index) => {
       mensaje += `📦 *Producto ${index + 1}*\n`;
       mensaje += `┣ *Nombre:* ${item.nombre}\n`;
       mensaje += `┣ *Cantidad:* ${item.cantidad} unidad${item.cantidad > 1 ? "es" : ""}\n`;
-      mensaje += `┣ *Precio unitario:* $${item.precio.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n`;
-
-      if (item.variacion) {
-        mensaje += `┣ *Variación:* ${item.variacion}\n`;
-      }
-
-      const subtotal = item.precio * item.cantidad;
-      mensaje += `┗ *Subtotal:* $${subtotal.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n\n`;
+      mensaje += `┣ *Precio unitario:* $${item.precio.toLocaleString("es-CO")}\n`;
+      if (item.variacion) mensaje += `┣ *Variación:* ${item.variacion}\n`;
+      mensaje += `┗ *Subtotal:* $${(item.precio * item.cantidad).toLocaleString("es-CO")}\n\n`;
     });
 
-    // Resumen del pedido
+    const total = items.reduce((s, i) => s + i.precio * i.cantidad, 0);
     mensaje += "━━━━━━━━━━━━━━━━━━━━\n";
-    mensaje += "📋 *RESUMEN DEL PEDIDO*\n\n";
+    mensaje += `📋 *Total a pagar: $${total.toLocaleString("es-CO")}*\n\n`;
+    mensaje += "Quisiera coordinar el pago y la entrega. ¡Gracias! 😊";
 
-    const cantidadTotal = cart.reduce((sum, item) => sum + item.cantidad, 0);
-    mensaje += `• Total de productos: ${cantidadTotal}\n`;
-    mensaje += `• Total a pagar: *$${getTotalPrice().toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}*\n\n`;
+    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
+  };
 
-    mensaje += "━━━━━━━━━━━━━━━━━━━━\n\n";
-    mensaje += "Quisiera coordinar el medio de pago y la entrega. ¡Gracias! 😊";
+  const handleCheckoutTienda = async () => {
+    if (itemsDeTienda.length === 0) return;
 
-    const mensajeCodificado = encodeURIComponent(mensaje);
-    const numeroWhatsApp = "573174503604";
+    // Agrupar items por tienda
+    const porTienda = {};
+    for (const item of itemsDeTienda) {
+      const sid = item.seller_clerk_user_id;
+      if (!porTienda[sid]) {
+        porTienda[sid] = {
+          items: [],
+          whatsapp: item.seller_whatsapp,
+          nombre: item.seller_nombre,
+        };
+      }
+      porTienda[sid].items.push(item);
+    }
 
-    // Abrir WhatsApp
-    const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensajeCodificado}`;
-    window.open(urlWhatsApp, "_blank");
+    // Para tiendas sin whatsapp cacheado, consultarlo
+    for (const sid of Object.keys(porTienda)) {
+      if (!porTienda[sid].whatsapp) {
+        try {
+          const res = await fetch(`/api/tiendas/info?clerk_user_id=${sid}`);
+          if (res.ok) {
+            const data = await res.json();
+            porTienda[sid].whatsapp = data.whatsapp;
+            porTienda[sid].nombre = data.nombre;
+          }
+        } catch {}
+      }
+
+      if (!porTienda[sid].whatsapp) {
+        toast.warning("Esta tienda no tiene WhatsApp registrado. Contáctalos directamente.", {
+          title: "Sin WhatsApp",
+          duration: 5000,
+        });
+        continue;
+      }
+
+      await enviarPedidoWhatsApp(
+        porTienda[sid].items,
+        porTienda[sid].whatsapp,
+        porTienda[sid].nombre,
+      );
+    }
   };
 
   if (!isOpen) {
@@ -402,47 +433,52 @@ export default function ShoppingCart() {
                       >
                         ← Volver
                       </button>
-
                       <EpaycoCheckout onClose={() => setShowCheckout(false)} />
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      {/* Botón para proceder al pago */}
-                      <button
-                        onClick={() => setShowPaymentModal(true)}
-                        className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
-                      >
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          className="w-5 h-5 group-hover:scale-110 transition-transform"
+
+                      {/* Aviso si hay mezcla de productos propios y de tiendas */}
+                      {hayMezcla && (
+                        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-lg p-3 text-xs text-amber-800 dark:text-amber-300">
+                          ⚠️ Tu carrito tiene productos de <strong>Neurai</strong> y de <strong>tiendas externas</strong>. Cada grupo se paga por separado.
+                        </div>
+                      )}
+
+                      {/* Botón pago ePayco/Nequi — solo si hay productos propios */}
+                      {itemsPropios.length > 0 && (
+                        <button
+                          onClick={() => setShowPaymentModal(true)}
+                          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
                         >
-                          <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
-                        </svg>
-                        Proceder al Pago
-                        <span className="text-xs opacity-80">(Nequi o ePayco)</span>
-                      </button>
+                          <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 group-hover:scale-110 transition-transform">
+                            <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                          </svg>
+                          {hayMezcla ? `Pagar Neurai (${itemsPropios.length} producto${itemsPropios.length > 1 ? "s" : ""})` : "Proceder al Pago"}
+                          {!hayMezcla && <span className="text-xs opacity-80">(Nequi o ePayco)</span>}
+                        </button>
+                      )}
 
-                      {/* Separador */}
-                      <div className="relative my-4">
-                        <div className="absolute inset-0 flex items-center">
-                          <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
-                        </div>
-                        <div className="relative flex justify-center text-sm">
-                          <span className="px-2 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">
-                            O
-                          </span>
-                        </div>
-                      </div>
+                      {/* Botón WhatsApp — solo si hay productos de tiendas */}
+                      {itemsDeTienda.length > 0 && (
+                        <button
+                          onClick={handleCheckoutTienda}
+                          className="w-full bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
+                        >
+                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                          </svg>
+                          {hayMezcla
+                            ? `Pedir por WhatsApp (${itemsDeTienda.length} producto${itemsDeTienda.length > 1 ? "s" : ""})`
+                            : "Pedir por WhatsApp"}
+                        </button>
+                      )}
 
-                      {/* Botón limpiar carrito */}
+                      {/* Vaciar carrito */}
                       <button
                         onClick={() => {
                           clearCart();
-                          toast.info("Carrito vaciado", {
-                            title: "Carrito Limpio",
-                            duration: 2000,
-                          });
+                          toast.info("Carrito vaciado", { title: "Carrito Limpio", duration: 2000 });
                         }}
                         className="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-2 px-4 rounded-lg transition-colors"
                       >

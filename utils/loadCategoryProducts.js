@@ -150,6 +150,23 @@ export async function loadProductBySlug(categoria, slug) {
       return { producto: null, otrosProductos: productos };
     }
 
+    // Si el producto pertenece a una tienda, enriquecer con datos de contacto
+    if (producto.clerk_user_id) {
+      try {
+        const { data: tiendaData } = await getSupabaseClient()
+          .from("tiendas")
+          .select("nombre, whatsapp, telefono")
+          .eq("clerk_user_id", producto.clerk_user_id)
+          .eq("activa", true)
+          .single();
+
+        if (tiendaData) {
+          producto.seller_whatsapp = tiendaData.whatsapp || tiendaData.telefono || null;
+          producto.seller_nombre = tiendaData.nombre || null;
+        }
+      } catch {}
+    }
+
     // Las imágenes ya vienen en el array 'imagenes' del producto
     // Si no hay imágenes, usar la imagen principal
     if (!producto.imagenes || producto.imagenes.length === 0) {
