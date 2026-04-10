@@ -101,7 +101,12 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { send_notifications = true, ...productoData } = body;
+    const { send_notifications = true, categorias, ...productoData } = body;
+
+    // Si viene array de categorías, usar la primera como categoria principal
+    if (categorias?.length > 0 && !productoData.categoria) {
+      productoData.categoria = categorias[0];
+    }
 
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
