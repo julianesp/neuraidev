@@ -203,17 +203,6 @@ $primary: $color-primario;
     }
 
     @media (min-width: 1024px) {
-      justify-content: space-between;
-      gap: 30px;
-
-      & > * {
-        flex: 1;
-        max-width: 50%;
-      }
-    }
-
-    @media (min-width: 1440px) {
-      gap: 40px;
     }
 
     // Ajuste específico para resoluciones tipo 1280x800 (tablets/laptops pequeños)
@@ -639,10 +628,6 @@ $primary: $color-primario;
     }
   }
 
-  @media (min-width: 1440px) {
-    grid-template-columns: 1fr minmax(350px, 420px) !important;
-  }
-
   @media (min-width: 1024px) {
     margin: 0;
     display: grid;
@@ -657,8 +642,7 @@ $primary: $color-primario;
       "webDevSection aside"
       "blogSection aside"
       "faq aside"
-      "technicalServices aside"
-      "ubicacion ubicacion";
+      "technicalServices aside";
 
     gap: 0;
     max-width: 100vw;
@@ -740,13 +724,6 @@ $primary: $color-primario;
     & .technicalServices {
       grid-area: technicalServices;
       padding: 0 10px;
-      box-sizing: border-box;
-    }
-
-    & .ubicacion {
-      grid-area: ubicacion;
-      grid-column: 1 / -1;
-      width: 100%;
       box-sizing: border-box;
     }
 
