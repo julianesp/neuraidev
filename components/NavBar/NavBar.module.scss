@@ -119,9 +119,10 @@
   background-color: rgba(#fff, 0.7);
   border-radius: 50%;
   border: 0.5px solid #000;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 
   @media (max-width: 1023px) {
-    order: 4; // Menú hamburguesa al final solo en móvil/tablet
+    order: 4;
   }
 
   button {
@@ -136,14 +137,42 @@
     height: 40px;
     gap: 5px;
     padding: 0;
+
     span {
       display: block;
       background-color: #000;
       height: 3px;
       width: 24px;
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+      transform-origin: center;
     }
   }
+}
+
+/* Cuando el menú está abierto: borde blanco, fondo azul translúcido */
+.circleOpen {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+
+  button span {
+    background-color: #ffffff;
+  }
+}
+
+/* Línea superior → rota a / */
+.spanTop {
+  transform: translateY(8px) rotate(45deg) !important;
+}
+
+/* Línea del medio → desaparece */
+.spanMid {
+  opacity: 0 !important;
+  transform: scaleX(0) !important;
+}
+
+/* Línea inferior → rota a \ */
+.spanBot {
+  transform: translateY(-8px) rotate(-45deg) !important;
 }
 
 .nav_container {

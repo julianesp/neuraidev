@@ -564,16 +564,16 @@ const NavBar = () => {
         </SignedIn>
       </div>
 
-      <div className={styles.circle}>
+      <div className={`${styles.circle} ${burgerOpen ? styles.circleOpen : ""}`}>
         <button
           onClick={menuBurger}
           aria-label={burgerOpen ? "Cerrar menu" : "Abrir menu"}
           aria-controls="mobile-menu"
           aria-expanded={burgerOpen}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span className={burgerOpen ? styles.spanTop : ""}></span>
+          <span className={burgerOpen ? styles.spanMid : ""}></span>
+          <span className={burgerOpen ? styles.spanBot : ""}></span>
         </button>
       </div>
     </div>
