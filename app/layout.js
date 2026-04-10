@@ -260,11 +260,6 @@ export default function RootLayout({ children }) {
             strategy="afterInteractive"
           />
 
-          {/* Dapta AI Widget */}
-          <Script
-            src="https://widget.dapta.ai/dapta_agent_min.js?agentId=422289d8-9dd2-46f6-bf5c-538601f0cea0&env="
-            strategy="afterInteractive"
-          />
         </head>
 
         <body>

@@ -369,6 +369,69 @@ export default function SobreNosotros() {
         </div>
       </section>
 
+      {/* Ubicación */}
+      <section className="py-16 px-4 bg-white dark:bg-gray-900">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center text-gray-900 dark:text-white mb-4">
+            Encuéntranos
+          </h2>
+          <p className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
+            Visítanos en nuestra tienda física. Estamos disponibles para
+            atenderte personalmente.
+          </p>
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            {/* Mapa */}
+            <div className="rounded-xl overflow-hidden shadow-lg">
+              <iframe
+                src="https://www.google.com/maps?q=1.189785,-76.970495&z=17&output=embed"
+                width="100%"
+                height="380"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Ubicación Neurai.dev"
+              />
+            </div>
+            {/* Info de contacto físico */}
+            <div className="flex flex-col gap-6 justify-center">
+              <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md">
+                <div className="text-3xl mb-3">📍</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  Dirección
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Mocoa, Putumayo, Colombia
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  Coordenadas: 1.189785, -76.970495
+                </p>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md">
+                <div className="text-3xl mb-3">🕐</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  Horario de atención
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Lunes – Viernes: 8:00 am – 6:00 pm
+                </p>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Sábado: 8:00 am – 2:00 pm
+                </p>
+              </div>
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=1.189785,-76.970495"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors"
+              >
+                <span>📌</span> Cómo llegar
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contacto */}
       <section className="py-16 px-4 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-4xl mx-auto text-center">
