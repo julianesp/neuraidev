@@ -5,9 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./Footer.module.scss";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { useMinecraftTheme } from "@/contexts/MinecraftThemeContext";
 
 const Footer = () => {
   const [menuOption, setMenuOptions] = useState(false);
+  const { isMinecraftTheme, toggleMinecraftTheme } = useMinecraftTheme();
   const [isClient, setIsClient] = useState(false);
   const menuRef = useRef(null);
   const flechaRef = useRef(null);
@@ -315,6 +317,15 @@ const Footer = () => {
             © 2025 Neurai.dev • NIT: 1124315657-2 • Todos los derechos
             reservados
           </p>
+
+          {/* Botón tema Minecraft */}
+          <button
+            onClick={toggleMinecraftTheme}
+            className={styles.minecraftToggle}
+            title={isMinecraftTheme ? "Desactivar tema Minecraft" : "Activar tema Minecraft"}
+          >
+            {isMinecraftTheme ? "⛏️ Desactivar Minecraft" : "🎮 Activar tema Minecraft"}
+          </button>
         </div>
       </div>
 

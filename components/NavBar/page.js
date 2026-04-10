@@ -16,9 +16,11 @@ import { esES } from "@clerk/localizations";
 import { isAdmin } from "@/lib/auth/roles";
 import CartIcon from "../CartIcon";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
+import { useMinecraftTheme } from "@/contexts/MinecraftThemeContext";
 
 const NavBar = () => {
   const { user } = useUser();
+  const { isMinecraftTheme, toggleMinecraftTheme } = useMinecraftTheme();
   const [burgerOpen, setBurgerOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [serviciosDropdownOpen, setServiciosDropdownOpen] = useState(false);
@@ -226,7 +228,7 @@ const NavBar = () => {
             <Link
               href="/accesorios"
               title="Ir a la tienda de productos"
-              className={`${styles.dropdown_toggle} ${dropdownOpen ? styles.active : ''}`}
+              className={`${styles.dropdown_toggle} ${dropdownOpen ? styles.active : ""}`}
               onClick={(e) => {
                 // Solo prevenir navegación en móvil para toggle
                 if (window.innerWidth < 1024) {
@@ -235,7 +237,12 @@ const NavBar = () => {
                 }
               }}
             >
-              Productos <span className={`${styles.dropdown_arrow} ${dropdownOpen ? styles.rotated : ''}`}>▾</span>
+              Productos{" "}
+              <span
+                className={`${styles.dropdown_arrow} ${dropdownOpen ? styles.rotated : ""}`}
+              >
+                ▾
+              </span>
             </Link>
             {dropdownOpen && (
               <ul className={styles.dropdown}>
@@ -302,7 +309,7 @@ const NavBar = () => {
             <Link
               href="/servicios"
               title="Ver servicios profesionales"
-              className={`${styles.dropdown_toggle} ${serviciosDropdownOpen ? styles.active : ''}`}
+              className={`${styles.dropdown_toggle} ${serviciosDropdownOpen ? styles.active : ""}`}
               onClick={(e) => {
                 // Solo prevenir navegación en móvil para toggle
                 if (window.innerWidth < 1024) {
@@ -311,7 +318,12 @@ const NavBar = () => {
                 }
               }}
             >
-              Servicios <span className={`${styles.dropdown_arrow} ${serviciosDropdownOpen ? styles.rotated : ''}`}>▾</span>
+              Servicios{" "}
+              <span
+                className={`${styles.dropdown_arrow} ${serviciosDropdownOpen ? styles.rotated : ""}`}
+              >
+                ▾
+              </span>
             </Link>
             {serviciosDropdownOpen && (
               <ul className={styles.dropdown}>
@@ -469,6 +481,26 @@ const NavBar = () => {
               title="Opciones de accesibilidad"
             >
               ♿ Accesibilidad
+            </button>
+          </li>
+
+          {/* Minecraft Theme Toggle - Solo visible en móvil */}
+          <li role="none" className={styles.mobileAccessibilityItem}>
+            <button
+              onClick={() => {
+                toggleMinecraftTheme();
+                handleLinkClick();
+              }}
+              className={styles.accessibilityLink}
+              title={
+                isMinecraftTheme
+                  ? "Desactivar tema Minecraft"
+                  : "Activar tema Minecraft"
+              }
+            >
+              {isMinecraftTheme
+                ? "⛏️ Desactivar Minecraft"
+                : "🎮 Tema Minecraft"}
             </button>
           </li>
 
