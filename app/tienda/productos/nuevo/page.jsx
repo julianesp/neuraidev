@@ -2,30 +2,36 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Plus, X } from "lucide-react";
 import ImageUploader from "@/components/ImageUploader";
-
-const CATEGORIAS = [
-  "celulares", "computadoras", "damas", "belleza",
-  "libros-nuevos", "libros-usados", "generales", "otros",
-];
 
 export default function TiendaNuevoProductoPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [categoriaInput, setCategoriaInput] = useState("");
   const [form, setForm] = useState({
     nombre: "",
     descripcion: "",
     precio: "",
     precio_oferta: "",
-    categoria: "generales",
+    categorias: [],
     marca: "",
     stock: 1,
     disponible: true,
     destacado: false,
-    imagen_principal: "",
     imagenes: [],
   });
+
+  function agregarCategoria() {
+    const cat = categoriaInput.trim().toLowerCase();
+    if (!cat || form.categorias.includes(cat)) return;
+    setForm((prev) => ({ ...prev, categorias: [...prev.categorias, cat] }));
+    setCategoriaInput("");
+  }
+
+  function quitarCategoria(cat) {
+    setForm((prev) => ({ ...prev, categorias: prev.categorias.filter((c) => c !== cat) }));
+  }
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
@@ -48,12 +54,13 @@ export default function TiendaNuevoProductoPage() {
           descripcion: form.descripcion.trim(),
           precio: parseFloat(form.precio) || 0,
           precio_oferta: form.precio_oferta ? parseFloat(form.precio_oferta) : null,
-          categoria: form.categoria,
+          categoria: form.categorias[0] || "general",
+          categorias: form.categorias,
           marca: form.marca || null,
           stock: parseInt(form.stock) || 0,
           disponible: form.disponible,
           destacado: form.destacado,
-          imagen_principal: form.imagen_principal || null,
+          imagen_principal: form.imagenes[0] || null,
           imagenes: form.imagenes.filter(Boolean),
         }),
       });
@@ -123,11 +130,32 @@ export default function TiendaNuevoProductoPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
-              <select name="categoria" value={form.categoria} onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                {CATEGORIAS.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Categorías</label>
+              <div className="flex gap-2 mb-2">
+                <input
+                  value={categoriaInput}
+                  onChange={(e) => setCategoriaInput(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); agregarCategoria(); }}}
+                  placeholder="Ej: ropa, calzado..."
+                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button type="button" onClick={agregarCategoria}
+                  className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+              {form.categorias.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {form.categorias.map((cat) => (
+                    <span key={cat} className="flex items-center gap-1 bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full">
+                      {cat}
+                      <button type="button" onClick={() => quitarCategoria(cat)}>
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
@@ -145,10 +173,18 @@ export default function TiendaNuevoProductoPage() {
 
         {/* Imágenes */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
-          <h2 className="font-semibold text-gray-900">Imagen principal</h2>
+          <div>
+            <h2 className="font-semibold text-gray-900">Imágenes del producto</h2>
+            <p className="text-xs text-gray-500 mt-1">La primera imagen será la principal. Máximo 5 imágenes.</p>
+          </div>
           <ImageUploader
-            value={form.imagen_principal}
-            onChange={(url) => setForm((prev) => ({ ...prev, imagen_principal: url }))}
+            value={form.imagenes}
+            onChange={(urls) => {
+              const limitadas = Array.isArray(urls) ? urls.slice(0, 5) : urls;
+              setForm((prev) => ({ ...prev, imagenes: limitadas }));
+            }}
+            multiple={true}
+            label="Imágenes"
           />
         </div>
 

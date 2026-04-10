@@ -1,6 +1,7 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { getSupabaseClient } from "@/lib/db";
+import { notifyNewTienda } from "@/lib/notificationService";
 
 export async function POST(request) {
   try {
@@ -10,7 +11,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { nombre, descripcion, categoria, ciudad, telefono } = body;
+    const { nombre, descripcion, categoria, ciudad, telefono, whatsapp, facebook, instagram, tiktok } = body;
 
     if (!nombre?.trim()) {
       return NextResponse.json({ error: "El nombre es obligatorio" }, { status: 400 });
@@ -38,6 +39,10 @@ export async function POST(request) {
           categoria,
           ciudad: ciudad?.trim() || null,
           telefono: telefono?.trim() || null,
+          whatsapp: whatsapp?.trim() || null,
+          facebook: facebook?.trim() || null,
+          instagram: instagram?.trim() || null,
+          tiktok: tiktok?.trim() || null,
           onboarding_completado: true,
           updated_at: new Date().toISOString(),
         })
@@ -53,11 +58,18 @@ export async function POST(request) {
         categoria,
         ciudad: ciudad?.trim() || null,
         telefono: telefono?.trim() || null,
+        whatsapp: whatsapp?.trim() || null,
+        facebook: facebook?.trim() || null,
+        instagram: instagram?.trim() || null,
+        tiktok: tiktok?.trim() || null,
         onboarding_completado: true,
         activa: true,
       });
 
       if (error) throw error;
+
+      // Notificar por Telegram (sin bloquear la respuesta)
+      notifyNewTienda({ nombre: nombre.trim(), descripcion, categoria, ciudad, telefono }).catch(() => {});
     }
 
     // Asignar rol "tienda" en Clerk automáticamente

@@ -31,6 +31,10 @@ export default function TiendaOnboardingPage() {
     categoria: "",
     ciudad: "",
     telefono: "",
+    whatsapp: "",
+    facebook: "",
+    instagram: "",
+    tiktok: "",
   });
 
   useEffect(() => {
@@ -177,6 +181,32 @@ export default function TiendaOnboardingPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
                   <input name="telefono" value={form.telefono} onChange={handleChange} placeholder="3001234567"
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+              </div>
+
+              <div>
+                <p className="text-sm font-medium text-gray-700 mb-3">Redes sociales <span className="text-gray-400 font-normal">(opcional)</span></p>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg w-6 text-center">💬</span>
+                    <input name="whatsapp" value={form.whatsapp} onChange={handleChange} placeholder="WhatsApp: 3001234567"
+                      className="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg w-6 text-center">📘</span>
+                    <input name="facebook" value={form.facebook} onChange={handleChange} placeholder="Facebook: usuario o URL"
+                      className="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg w-6 text-center">📸</span>
+                    <input name="instagram" value={form.instagram} onChange={handleChange} placeholder="Instagram: @usuario"
+                      className="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg w-6 text-center">🎵</span>
+                    <input name="tiktok" value={form.tiktok} onChange={handleChange} placeholder="TikTok: @usuario"
+                      className="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  </div>
                 </div>
               </div>
 

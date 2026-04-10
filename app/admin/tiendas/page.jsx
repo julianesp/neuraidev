@@ -9,6 +9,7 @@ import {
   UserX,
   Search,
   RefreshCw,
+  Trash2,
 } from "lucide-react";
 
 export default function AdminTiendasPage() {
@@ -46,6 +47,27 @@ export default function AdminTiendasPage() {
           clerkUserId,
           accion: revocar ? "revocar" : "asignar",
         }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setMensaje(data.mensaje);
+      await cargarTiendas();
+    } catch (e) {
+      setMensaje(e.message || "Error");
+    } finally {
+      setAccionando(null);
+    }
+  }
+
+  async function eliminarTienda(clerkUserId, nombre) {
+    if (!confirm(`¿Eliminar la tienda "${nombre}" y todos sus productos? Esta acción no se puede deshacer.`)) return;
+    setAccionando(clerkUserId);
+    setMensaje("");
+    try {
+      const res = await fetch("/api/admin/tiendas", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ clerkUserId }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -168,6 +190,16 @@ export default function AdminTiendasPage() {
                         className="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors disabled:opacity-50"
                       >
                         <UserX className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => eliminarTienda(tienda.clerk_user_id, tienda.nombre)}
+                        disabled={accionando === tienda.clerk_user_id}
+                        title="Eliminar tienda y sus productos"
+                        className="p-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                      >
+                        {accionando === tienda.clerk_user_id
+                          ? <div className="w-4 h-4 animate-spin rounded-full border-b-2 border-white" />
+                          : <Trash2 className="w-4 h-4" />}
                       </button>
                     </div>
                   </td>

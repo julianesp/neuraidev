@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Store, MapPin, ChevronRight } from "lucide-react";
+import { Store, MapPin, ChevronRight, ArrowRight } from "lucide-react";
 
 export default function TiendasDestacadas() {
   const [tiendas, setTiendas] = useState([]);
@@ -48,7 +48,7 @@ export default function TiendasDestacadas() {
             return (
               <Link
                 key={tienda.id}
-                href={`/tienda/${slug}`}
+                href={`/tiendas/${slug}`}
                 className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-600 transition-all group"
               >
                 <div className="flex items-center gap-3 mb-3">
@@ -85,6 +85,9 @@ export default function TiendasDestacadas() {
                     {tienda.categoria}
                   </span>
                 )}
+                <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-blue-600 group-hover:gap-2 transition-all">
+                  Ver tienda <ArrowRight className="w-3.5 h-3.5" />
+                </div>
               </Link>
             );
           })}

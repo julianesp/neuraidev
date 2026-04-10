@@ -68,7 +68,7 @@ export default async function TiendaPublicaPage({ params }) {
               {tienda.descripcion && (
                 <p className="text-blue-100 mt-1 max-w-lg">{tienda.descripcion}</p>
               )}
-              <div className="flex flex-wrap gap-4 mt-3 text-sm text-blue-200">
+              <div className="flex flex-wrap gap-3 mt-3 text-sm text-blue-200">
                 {tienda.ciudad && (
                   <span className="flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5" /> {tienda.ciudad}
@@ -78,6 +78,33 @@ export default async function TiendaPublicaPage({ params }) {
                   <a href={`https://wa.me/57${tienda.telefono}`} target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-1 hover:text-white transition-colors">
                     <Phone className="w-3.5 h-3.5" /> {tienda.telefono}
+                  </a>
+                )}
+                {tienda.whatsapp && (
+                  <a href={`https://wa.me/57${tienda.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-1 bg-green-500/80 hover:bg-green-500 px-2.5 py-0.5 rounded-full text-white text-xs transition-colors">
+                    💬 WhatsApp
+                  </a>
+                )}
+                {tienda.instagram && (
+                  <a href={tienda.instagram.startsWith("http") ? tienda.instagram : `https://instagram.com/${tienda.instagram.replace("@","")}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-1 bg-pink-500/80 hover:bg-pink-500 px-2.5 py-0.5 rounded-full text-white text-xs transition-colors">
+                    📸 Instagram
+                  </a>
+                )}
+                {tienda.facebook && (
+                  <a href={tienda.facebook.startsWith("http") ? tienda.facebook : `https://facebook.com/${tienda.facebook}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-1 bg-blue-500/80 hover:bg-blue-500 px-2.5 py-0.5 rounded-full text-white text-xs transition-colors">
+                    📘 Facebook
+                  </a>
+                )}
+                {tienda.tiktok && (
+                  <a href={tienda.tiktok.startsWith("http") ? tienda.tiktok : `https://tiktok.com/@${tienda.tiktok.replace("@","")}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-1 bg-black/50 hover:bg-black/70 px-2.5 py-0.5 rounded-full text-white text-xs transition-colors">
+                    🎵 TikTok
                   </a>
                 )}
                 {tienda.categoria && (

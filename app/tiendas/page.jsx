@@ -1,6 +1,6 @@
 import { getSupabaseClient } from "@/lib/db";
 import Link from "next/link";
-import { Store, MapPin } from "lucide-react";
+import { Store, MapPin, ArrowRight } from "lucide-react";
 
 export const metadata = {
   title: "Tiendas | Neurai.dev",
@@ -54,7 +54,7 @@ export default async function TiendasPage() {
               return (
                 <Link
                   key={tienda.id}
-                  href={`/tienda/${slug}`}
+                  href={`/tiendas/${slug}`}
                   className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 hover:shadow-md hover:border-blue-300 transition-all group"
                 >
                   <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
@@ -87,6 +87,9 @@ export default async function TiendasPage() {
                       {tienda.categoria}
                     </span>
                   )}
+                  <div className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 group-hover:bg-blue-700 text-white text-sm font-semibold py-2 rounded-lg transition-colors">
+                    Ver productos <ArrowRight className="w-4 h-4" />
+                  </div>
                 </Link>
               );
             })}

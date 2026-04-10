@@ -1,12 +1,12 @@
 // Estilos para el botón de volver arriba
 .backToTop {
   position: fixed;
-  bottom: 80px;
+  bottom: 10px;
   right: 20px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #0070f3; // Color base gris que combina con tu UI existente
+  background-color: #0070f3;
   color: white;
   display: flex;
   align-items: center;
@@ -16,79 +16,53 @@
   border: none;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(20px);
-  // Separate transitions for better control
+  // Oculto: desplazado hacia abajo y centrado verticalmente
+  transform: translateY(calc(-50% + 20px));
   transition:
     opacity 0.3s ease,
     visibility 0.3s ease,
     transform 0.3s ease,
     background-color 0.3s ease;
-  z-index: 10001; // Highest z-index - must be above accessibility and theme buttons
+  z-index: 10001;
 
   &:hover {
-    background-color: #374151; // Un tono más oscuro al hacer hover
-    transform: translateY(0) scale(1.05);
+    background-color: #374151;
+    transform: translateY(-50%) scale(1.05);
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: translateY(-50%) scale(0.95);
   }
 
   &.visible {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
-    // Removing conflicting bottom position - use the parent's bottom value
+    transform: translateY(-50%);
   }
 
-  // Animación de rebote similar a la que usas en tus enlaces
   @keyframes bounce {
     0%,
     20%,
     50%,
     80%,
     100% {
-      transform: translateY(0);
+      transform: translateY(-50%);
     }
     40% {
-      transform: translateY(-10px);
+      transform: translateY(calc(-50% - 10px));
     }
     60% {
-      transform: translateY(-5px);
+      transform: translateY(calc(-50% - 5px));
     }
   }
 
-  // Clase para la animación de rebote
   &.bounceAnimation {
     animation: bounce 1s;
   }
 
-  // Ajustes responsive - improved responsive positioning
   @media (max-width: 768px) {
     width: 40px;
     height: 40px;
-    bottom: 80px;
-    right: 20px;
-  }
-}
-
-// Media query for smaller screens (mobile)
-@media (min-width: 320px) and (max-width: 767px) {
-  .backToTop {
-    // bottom: 70px;
     right: 15px;
-    
-    &.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-}
-
-// Media query for tablets and small desktops
-@media (min-width: 768px) and (max-width: 1023px) {
-  .backToTop {
-    // bottom: 40px;
-    right: 20px;
   }
 }

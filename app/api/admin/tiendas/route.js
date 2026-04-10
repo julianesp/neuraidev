@@ -1,4 +1,4 @@
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { getCurrentUserWithRole } from "@/lib/auth/server-roles";
 import { getSupabaseClient } from "@/lib/db";
@@ -61,5 +61,44 @@ export async function POST(request) {
   } catch (error) {
     console.error("Error actualizando rol en Clerk:", error);
     return NextResponse.json({ error: "Error actualizando usuario" }, { status: 500 });
+  }
+}
+
+/**
+ * DELETE /api/admin/tiendas
+ * Elimina una tienda y sus productos (solo admins)
+ * Body: { clerkUserId }
+ */
+export async function DELETE(request) {
+  const { isAdmin } = await getCurrentUserWithRole();
+  if (!isAdmin) {
+    return NextResponse.json({ error: "No autorizado" }, { status: 403 });
+  }
+
+  const { clerkUserId } = await request.json();
+  if (!clerkUserId) {
+    return NextResponse.json({ error: "clerkUserId requerido" }, { status: 400 });
+  }
+
+  try {
+    const supabase = getSupabaseClient();
+
+    // Eliminar productos de la tienda
+    await supabase.from("products").delete().eq("clerk_user_id", clerkUserId);
+
+    // Eliminar la tienda
+    const { error } = await supabase.from("tiendas").delete().eq("clerk_user_id", clerkUserId);
+    if (error) throw error;
+
+    // Revocar rol en Clerk
+    const client = await clerkClient();
+    await client.users.updateUser(clerkUserId, {
+      publicMetadata: { role: null },
+    });
+
+    return NextResponse.json({ ok: true, mensaje: "Tienda eliminada correctamente" });
+  } catch (error) {
+    console.error("Error eliminando tienda:", error);
+    return NextResponse.json({ error: "Error eliminando tienda" }, { status: 500 });
   }
 }
