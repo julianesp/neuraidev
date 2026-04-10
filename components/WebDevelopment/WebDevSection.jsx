@@ -1,7 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Store, Package, ShoppingCart, TrendingUp, CheckCircle, ArrowRight } from "lucide-react";
+import {
+  Store,
+  Package,
+  ShoppingCart,
+  TrendingUp,
+  CheckCircle,
+  ArrowRight,
+} from "lucide-react";
 import styles from "./WebDevSection.module.scss";
 
 export default function WebDevSection() {
@@ -52,7 +59,7 @@ export default function WebDevSection() {
         </div>
 
         {/* Beneficios Grid */}
-        <div className={styles.servicesGrid}>
+        {/* <div className={styles.servicesGrid}>
           {beneficios.map((b, index) => (
             <div key={index} className={styles.serviceCard}>
               <div
@@ -67,12 +74,12 @@ export default function WebDevSection() {
               <p>{b.descripcion}</p>
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/* CTA */}
         <div className={styles.cta}>
-          <h3>Tu tienda en 3 pasos</h3>
-          <ul style={{ listStyle: "none", padding: 0, marginBottom: "24px", textAlign: "left", maxWidth: "360px", margin: "0 auto 24px" }}>
+          {/* <h3>Tu tienda en 3 pasos</h3> */}
+          {/* <ul style={{ listStyle: "none", padding: 0, marginBottom: "24px", textAlign: "left", maxWidth: "360px", margin: "0 auto 24px" }}>
             {pasos.map((paso, i) => (
               <li key={i} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "6px 0", color: "rgba(255,255,255,0.9)", fontSize: "0.95rem" }}>
                 <span style={{ width: "22px", height: "22px", background: "rgba(255,255,255,0.2)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.75rem", fontWeight: "bold", flexShrink: 0 }}>
@@ -81,13 +88,12 @@ export default function WebDevSection() {
                 {paso}
               </li>
             ))}
-          </ul>
-          <p style={{ fontSize: "0.85rem", opacity: 0.75, marginBottom: "28px" }}>
+          </ul> */}
+          {/* <p style={{ fontSize: "0.85rem", opacity: 0.75, marginBottom: "28px" }}>
             Los pagos en línea los gestionamos nosotros — tú solo te enfocas en vender.
-          </p>
+          </p> */}
           <div className={styles.ctaButtons}>
             <Link href="/para-tiendas" className={styles.primaryBtn}>
-              <Store size={20} />
               Crear mi tienda gratis
             </Link>
           </div>
