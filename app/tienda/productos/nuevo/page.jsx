@@ -132,13 +132,17 @@ export default function TiendaNuevoProductoPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Categorías</label>
             <div className="flex gap-2 mb-2">
               <input
+                type="text"
                 value={categoriaInput}
                 onChange={(e) => setCategoriaInput(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); agregarCategoria(); }}}
                 placeholder="Ej: ropa, calzado..."
                 className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button type="button" onClick={agregarCategoria}
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={agregarCategoria}
                 className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex-shrink-0">
                 <Plus className="w-4 h-4" />
               </button>
