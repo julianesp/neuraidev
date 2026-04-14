@@ -1,3 +1,5 @@
+@use "../../../styles/variables" as v;
+
 .container {
   width: 100%;
   min-height: 100vh;
@@ -440,7 +442,7 @@
 
 .contact {
   padding: 80px 20px;
-  background: linear-gradient(135deg, #0070f3 0%, #00d4ff 100%);
+  // background: linear-gradient(135deg, #0070f3 0%, #00d4ff 100%);
   text-align: center;
 }
 
@@ -451,7 +453,7 @@
   h2 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: white;
+    color: black;
     margin-bottom: 20px;
 
     @media (max-width: 768px) {
@@ -461,7 +463,7 @@
 
   p {
     font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.95);
+    color: rgba(0, 0, 0, 0.95);
     margin-bottom: 40px;
     line-height: 1.6;
   }
@@ -472,7 +474,8 @@
   align-items: center;
   gap: 12px;
   padding: 16px 40px;
-  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  // background: linear-gradient(135deg, $color-primario 0%, #128c7e 100%);
+  background: v.$color-primario;
   color: white;
   font-size: 1.2rem;
   font-weight: 600;

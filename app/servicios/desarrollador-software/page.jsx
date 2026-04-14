@@ -3,6 +3,7 @@
 import React from "react";
 import styles from "./DesarrolladorSoftware.module.scss";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function DesarrolladorSoftware() {
   const tecnologias = [
@@ -77,7 +78,6 @@ export default function DesarrolladorSoftware() {
       nombre: "posib.dev",
       url: "https://posib.dev/",
       descripcion: "Plataforma de desarrollo web y servicios digitales",
-      tecnologias: ["Next.js", "React", "TypeScript"],
       imagen: "🌐",
     },
     {
@@ -85,7 +85,6 @@ export default function DesarrolladorSoftware() {
       nombre: "ipsinka.com",
       url: "https://ipsinka.com/",
       descripcion: "Sistema de gestión y servicios administrativos",
-      tecnologias: ["Next.js", "Tailwind", "Supabase"],
       imagen: "💼",
     },
     {
@@ -93,8 +92,16 @@ export default function DesarrolladorSoftware() {
       nombre: "neurai.dev",
       url: "https://neurai.dev/",
       descripcion: "E-commerce de tecnología y servicios profesionales",
-      tecnologias: ["Next.js", "Supabase", "Clerk", "ePayco"],
-      imagen: "🛒",
+      imagen:
+        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+    },
+    {
+      id: 4,
+      nombre: "motaxi.dev",
+      url: "https://motaxi.dev/",
+      descripcion: "Plataforma de servicios de transporte y movilidad",
+      imagen:
+        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/motaxi/logo.png",
     },
   ];
 
@@ -171,25 +178,28 @@ export default function DesarrolladorSoftware() {
               rel="noopener noreferrer"
               className={styles.portfolioCard}
             >
-              <div className={styles.portfolioIcon}>{sitio.imagen}</div>
+              <div className={styles.portfolioIcon}>
+                {sitio.imagen.startsWith("http") ? (
+                  <Image
+                    src={sitio.imagen}
+                    alt={sitio.nombre}
+                    width={80}
+                    height={80}
+                    style={{ objectFit: "contain", borderRadius: "8px" }}
+                  />
+                ) : (
+                  sitio.imagen
+                )}
+              </div>
               <h3 className={styles.portfolioName}>{sitio.nombre}</h3>
               <p className={styles.portfolioDescription}>{sitio.descripcion}</p>
-              <div className={styles.portfolioTech}>
-                {sitio.tecnologias.map((tech, index) => (
-                  <span key={index} className={styles.techBadge}>
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <div className={styles.portfolioLink}>
-                Ver sitio web →
-              </div>
+              <div className={styles.portfolioLink}>Ver sitio web →</div>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className={styles.projects}>
+      {/* <section className={styles.projects}>
         <h2 className={styles.sectionTitle}>Proyectos Destacados</h2>
 
         <div className={`${styles.projectsGrid} `}>
@@ -212,7 +222,7 @@ export default function DesarrolladorSoftware() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       <section className={styles.contact} id="contacto">
         <div className={styles.contactContent}>

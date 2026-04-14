@@ -155,7 +155,7 @@ export default function Servicios() {
       </section>
 
       {/* Vende en Neurai */}
-      <section className="py-20 px-4 bg-white dark:bg-gray-900">
+      {/* <section className="py-20 px-4 bg-white dark:bg-gray-900">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <span className="inline-block text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
@@ -170,7 +170,7 @@ export default function Servicios() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Beneficios */}
+            
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
                 { icon: Store, titulo: "Perfil listo", desc: "Tu tienda configurada desde el primer día, sin complicaciones." },
@@ -191,7 +191,7 @@ export default function Servicios() {
               })}
             </div>
 
-            {/* Card de acción */}
+            
             <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 text-white">
               <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mb-6">
                 <Store className="w-7 h-7 text-white" />
@@ -223,7 +223,7 @@ export default function Servicios() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
       <section className={styles.cta}>

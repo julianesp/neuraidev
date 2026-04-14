@@ -241,12 +241,7 @@ const NavBar = () => {
               </span>
             </Link>
             {dropdownOpen && (
-              <ul className={styles.dropdown}>
-                {/* <li>
-                  <Link href="/accesorios/destacados" onClick={handleLinkClick}>
-                    Destacados
-                  </Link>
-                </li> */}
+              <ul className={`${styles.dropdown} backdrop-blur-sm`}>
                 <li>
                   <Link
                     href="/accesorios/celulares"
@@ -349,7 +344,7 @@ const NavBar = () => {
                     Desarrollador Web
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     href="/para-tiendas"
                     onClick={handleLinkClick}
@@ -357,7 +352,7 @@ const NavBar = () => {
                   >
                     🏪 Vende en Neurai
                   </Link>
-                </li>
+                </li> */}
               </ul>
             )}
           </li>
@@ -560,7 +555,9 @@ const NavBar = () => {
         </SignedIn>
       </div>
 
-      <div className={`${styles.circle} ${burgerOpen ? styles.circleOpen : ""}`}>
+      <div
+        className={`${styles.circle} ${burgerOpen ? styles.circleOpen : ""}`}
+      >
         <button
           onClick={menuBurger}
           aria-label={burgerOpen ? "Cerrar menu" : "Abrir menu"}

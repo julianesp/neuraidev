@@ -119,7 +119,9 @@
   background-color: rgba(#fff, 0.7);
   border-radius: 50%;
   border: 0.5px solid #000;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 
   @media (max-width: 1023px) {
     order: 4;
@@ -143,7 +145,10 @@
       background-color: #000;
       height: 3px;
       width: 24px;
-      transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+      transition:
+        transform 0.3s ease,
+        opacity 0.3s ease,
+        background-color 0.3s ease;
       transform-origin: center;
     }
   }
@@ -242,40 +247,43 @@
 
   /* Dropdown mobile — dentro del overlay */
   .dropdown {
-    list-style: none !important;
-    padding: 4px !important;
-    margin: 4px 0 !important;
-    width: 100% !important;
-    background: rgba(255, 255, 255, 0.12) !important;
-    border-radius: 8px !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    box-shadow: none !important;
+    list-style: none;
+    padding: 4px;
+    margin: 4px 0;
+    width: 100%;
+    background: rgba(15, 15, 15, 0.92);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     animation: slideDown 0.2s ease-out;
     overflow: hidden;
 
     li {
-      margin-bottom: 0 !important;
+      margin-bottom: 0;
 
       a {
-        font-size: 0.95rem !important;
-        padding: 10px 14px !important;
-        margin: 2px !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-        background-color: transparent !important;
-        border: none !important;
-        border-radius: 6px !important;
-        font-weight: 500 !important;
-        transition: background 0.1s ease !important;
+        font-size: 0.95rem;
+        padding: 10px 14px;
+        margin: 2px;
+        color: #ffffff;
+        background-color: transparent;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: background 0.1s ease;
+        text-shadow:
+          0 1px 4px rgba(0, 0, 0, 1),
+          0 0 8px rgba(0, 0, 0, 0.9);
 
         &:hover {
-          background: rgba(255, 255, 255, 0.2) !important;
-          color: #ffffff !important;
-          transform: none !important;
+          background: rgba(255, 255, 255, 0.15);
+          color: #ffffff;
         }
 
         &:active {
-          background: rgba(255, 255, 255, 0.25) !important;
-          transform: none !important;
+          background: rgba(255, 255, 255, 0.2);
         }
       }
     }
@@ -354,8 +362,7 @@
 
 .dropdown_menu {
   position: relative;
-  // background-color: rgba(#627d98, 0.95);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   opacity: 0;
   visibility: hidden;
   display: none;
@@ -364,12 +371,12 @@
     visibility 0.3s ease;
   z-index: 1003;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 8px;
   margin-top: 5px;
-  backdrop-filter: blur(20px);
-  // background-color: rgba(30, 30, 30, 0.5);
-  background-color: none;
-  // border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(15, 15, 15, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 
   &.show {
     display: block;
@@ -386,16 +393,22 @@
     }
 
     a {
-      font-size: 1rem;
       padding: 8px 15px;
-      margin: 0 10px;
-      color: #000;
-      transform-origin: center;
-      // text-shadow: 0 0 3px rgba(0, 0, 0, 1);
-      font-weight: 500;
-      font-size: 1.1rem;
+      margin: 2px 6px;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1rem;
       letter-spacing: 0.5px;
-      background-color: #ffffff;
+      border-radius: 5px;
+      display: block;
+      text-shadow:
+        0 1px 4px rgba(0, 0, 0, 1),
+        0 0 8px rgba(0, 0, 0, 0.9);
+
+      &:hover {
+        text-decoration: underline;
+        color: #ffffff;
+      }
     }
   }
 }
@@ -665,10 +678,10 @@
     margin: 0;
     gap: 2px;
     position: relative;
-    color: #ffffff;
-    text-shadow:
-      0 1px 4px rgba(0, 0, 0, 1),
-      0 0 8px rgba(0, 0, 0, 0.9);
+    // color: #ffffff;
+    // text-shadow:
+    //   0 1px 4px rgba(0, 0, 0, 1),
+    //   0 0 8px rgba(0, 0, 0, 0.9);
 
     &:hover {
       text-decoration: underline;
@@ -687,14 +700,15 @@
     left: 50%;
     transform: translateX(-50%);
     width: 250px;
-    background-color: transparent;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: none;
+    background-color: rgba(15, 15, 15, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    // border: 1px solid rgba(255, 255, 255, 0.15);
+    // box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 
     // margin-top: 10px;
     // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
+    // border-radius: 8px;
     padding: 5px 0;
     opacity: 0;
     visibility: hidden;
@@ -765,7 +779,7 @@
         border-radius: 5px;
         font-size: 1rem;
         margin: 2px 6px;
-        color: #ffffff;
+        // color: #ffffff;
         white-space: nowrap;
         font-weight: 600;
         letter-spacing: 0.5px;
@@ -1103,12 +1117,12 @@
 }
 
 .dashboardLink {
-  font-weight: 600 !important;
-  color: #0070f3 !important;
+  font-weight: 600;
+  color: #0070f3;
   transition: all 0.3s ease;
 
   &:hover {
-    color: #005ac1 !important;
+    color: #005ac1;
     text-decoration: underline;
   }
 }
@@ -1156,17 +1170,6 @@
   width: 20px;
   height: 20px;
   fill: white;
-}
-
-.dashboardLink {
-  font-weight: 600 !important;
-  color: #0070f3 !important;
-  transition: all 0.3s ease;
-
-  &:hover {
-    color: #005ac1 !important;
-    text-decoration: underline;
-  }
 }
 
 // Store Status Wrapper
