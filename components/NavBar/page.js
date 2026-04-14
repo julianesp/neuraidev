@@ -35,8 +35,7 @@ const NavBar = () => {
   // Define unique ID for the logo image
   const logoImageId = "navbar-logo";
 
-  // Solution for hydratation errors
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // Verificar si el usuario es administrador o dueño de tienda
   const userIsAdmin = user && isAdmin(user);
@@ -138,15 +137,13 @@ const NavBar = () => {
     }
   };
 
-  // to hidden menu nav
   useEffect(() => {
-    setIsLoaded(true);
+    setMounted(true);
     document.addEventListener("click", handleOutsideClick);
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
-  if (!isLoaded) return null;
 
   return (
     <div
@@ -164,8 +161,7 @@ const NavBar = () => {
               width={30}
               height={30}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority={false} // Solo true para imágenes above-the-fold
-              loading="lazy"
+              priority={true}
               quality={85}
               blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
               onError={() =>
@@ -428,7 +424,7 @@ const NavBar = () => {
               </Link>
             </li>
             {/* Mis Anuncios solo para el admin */}
-            {userIsAdmin && (
+            {mounted && userIsAdmin && (
               <li role="none">
                 <Link
                   href="/mis-anuncios"
@@ -440,7 +436,7 @@ const NavBar = () => {
               </li>
             )}
             {/* Enlace a panel de tienda para dueños de tienda */}
-            {userIsTienda && (
+            {mounted && userIsTienda && (
               <li role="none">
                 <Link
                   href="/tienda/dashboard"
@@ -454,7 +450,7 @@ const NavBar = () => {
           </SignedIn>
 
           {/* Botón de Dashboard solo para admins */}
-          {userIsAdmin && (
+          {mounted && userIsAdmin && (
             <li role="none">
               <Link
                 href="/dashboard"

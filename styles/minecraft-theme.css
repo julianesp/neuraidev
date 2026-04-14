@@ -66,7 +66,7 @@ html.minecraft-theme body {
 .minecraft-theme h4,
 .minecraft-theme h5,
 .minecraft-theme h6 {
-  font-family: 'Press Start 2P', monospace !important;
+  font-family: var(--font-press-start), monospace !important;
   text-shadow: 2px 2px 0px var(--mc-text-shadow-light) !important;
   letter-spacing: 1px;
 }
@@ -104,7 +104,7 @@ html.minecraft-theme body {
 .minecraft-theme [role="button"],
 .minecraft-theme a.button,
 .minecraft-theme .btn {
-  font-family: 'Press Start 2P', monospace !important;
+  font-family: var(--font-press-start), monospace !important;
   font-size: 0.6rem !important;
   border-width: 2px !important;
   border-style: solid !important;
@@ -197,7 +197,7 @@ html.minecraft-theme body {
 .minecraft-theme thead,
 .minecraft-theme th {
   border-bottom: 2px solid rgba(0,0,0,0.3) !important;
-  font-family: 'Press Start 2P', monospace !important;
+  font-family: var(--font-press-start), monospace !important;
   font-size: 0.5rem !important;
   text-shadow: 1px 1px 0px rgba(0,0,0,0.3) !important;
 }

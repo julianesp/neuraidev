@@ -7,7 +7,6 @@ import styles from "./PresentationCarousel.module.scss";
 
 const PresentationCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
 
   // Datos del carrusel con imágenes y enlaces
@@ -58,14 +57,6 @@ const PresentationCarousel = () => {
     return () => clearInterval(interval);
   }, [slides.length, isPlaying]);
 
-  // Marcar como cargado después del montaje y asegurar scroll al inicio
-  useEffect(() => {
-    setIsLoaded(true);
-
-    // Asegurar que la página inicie en la parte superior
-    window.scrollTo(0, 0);
-  }, []);
-
   const goToSlide = (index) => {
     setCurrentSlide(index);
   };
@@ -77,17 +68,6 @@ const PresentationCarousel = () => {
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
-
-  if (!isLoaded) {
-    return (
-      <div className={styles.carouselContainer}>
-        <div className={styles.loadingSkeleton}>
-          <div className={styles.skeletonImage}></div>
-          <div className={styles.skeletonText}></div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className={styles.carouselContainer}>

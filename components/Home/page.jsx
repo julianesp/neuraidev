@@ -1,44 +1,36 @@
 "use client";
 
-import React, { useEffect, useState, useRef, Suspense, lazy } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link.js";
-import Head from "next/head";
 import styles from "./Home.module.scss";
-import SidebarContent from "@/components/SidebarContent/SidebarContent";
-import AccesoriosDestacados from "@/components/Accesorio/AccesoriosDestacados";
-import ProductosRecientes from "@/components/Producto/ProductosRecientes";
-import MostVisitedProducts from "@/components/MostVisitedProducts/MostVisitedProducts";
-import NightSkyHero from "@/components/NightSkyHero";
-import BackToTop from "@/components/backTop/BackToTop";
-import { CarouselDemo } from "@/components/CarouselDemo";
-import Image from "next/image";
-import FAQ from "@/components/FAQ";
-// import ContactForm from "./ContactForm";
-import SideModal from "@/components/SideModal/page";
+import Script from "next/script";
 import PresentationCarousel from "@/components/PresentationCarousel/PresentationCarousel";
-import TechnicalServicesCarousel from "@/components/TechnicalServicesCarousel";
-import WebDevSection from "@/components/WebDevelopment/WebDevSection";
-import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
-import ProductSearch from "@/components/ProductSearch/ProductSearch";
-import ExternalNews from "@/components/ExternalNews/ExternalNews";
 import NotificationsBanner from "@/components/NotificationsBanner";
+import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import CategoryCard from "@/components/CategoryCard";
-import PromocionesDestacadas from "@/components/PromocionesDestacadas/PromocionesDestacadas";
-import TiendasDestacadas from "@/components/TiendasDestacadas/TiendasDestacadas";
+import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
 import {
   Smartphone,
   Monitor,
-  Heart,
   BookOpen,
   Package,
-  Star,
 } from "lucide-react";
+
+// Componentes below-fold cargados de forma lazy
+const AccesoriosDestacados = dynamic(() => import("@/components/Accesorio/AccesoriosDestacados"), { ssr: false });
+const ProductosRecientes = dynamic(() => import("@/components/Producto/ProductosRecientes"), { ssr: false });
+const MostVisitedProducts = dynamic(() => import("@/components/MostVisitedProducts/MostVisitedProducts"), { ssr: false });
+const TiendasDestacadas = dynamic(() => import("@/components/TiendasDestacadas/TiendasDestacadas"), { ssr: false });
+const ExternalNews = dynamic(() => import("@/components/ExternalNews/ExternalNews"), { ssr: false });
+const PromocionesDestacadas = dynamic(() => import("@/components/PromocionesDestacadas/PromocionesDestacadas"), { ssr: false });
+const SidebarContent = dynamic(() => import("@/components/SidebarContent/SidebarContent"), { ssr: false });
+const FAQ = dynamic(() => import("@/components/FAQ"), { ssr: false });
+const TechnicalServicesCarousel = dynamic(() => import("@/components/TechnicalServicesCarousel"), { ssr: false });
+const BackToTop = dynamic(() => import("@/components/backTop/BackToTop"), { ssr: false });
 // import FacebookLogin from "./Auth/FacebookLogin";
 // import "./ContactForm.css";
 // import "./SideModal/SideModal.module.scss";
-
-const API_PRESENTATION = "/presentation.json";
-const API_ACCESORIOS = "/accesoriosDestacados.json";
 
 // Categorías de accesorios para la página de inicio
 const categorias = [
@@ -84,204 +76,64 @@ const categorias = [
   },
 ];
 
-function CarouselSkeleton() {
-  return (
-    <div className="w-full h-64 bg-gray-200 animate-pulse rounded-lg flex items-center justify-center">
-      <div className="text-gray-400">Cargando...</div>
-    </div>
-  );
-}
-
-function LoadingSkeleton() {
-  return (
-    <div className="bg-yellow-50 p-6 rounded-lg border animate-pulse">
-      <div className="h-6 bg-gray-300 rounded mb-4 w-48"></div>
-      <div className="h-48 bg-gray-300 rounded mb-4"></div>
-      <div className="h-4 bg-gray-300 rounded w-32"></div>
-    </div>
-  );
-}
-
 export default function Inicio() {
-  const [imageError, setImageError] = useState({});
-  const [imageId, setImageId] = useState({});
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [data, setData] = useState([]);
-
-  const [presentationImages, setPresentationImages] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // States for toggling product lists visibility
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showCelulares, setShowCelulares] = useState(false);
-  const [showComputadores, setShowComputadores] = useState(false);
-  const [showLibrosNuevos, setShowLibrosNuevos] = useState(false);
-  const [showLibrosUsados, setShowLibrosUsados] = useState(false);
-  const [showAccesorios, setShowAccesorios] = useState(false);
 
-  // Referencias para elementos con animación de scroll
   const servicesRef = useRef(null);
   const accesoriesRef = useRef(null);
   const destacadosRef = useRef(null);
   const publicidadRef = useRef(null);
   const linkDirectRef = useRef(null);
-
-  // Referencias para elementos con animaciones laterales
   const celularesRef = useRef(null);
   const computadoresRef = useRef(null);
   const librosNuevosRef = useRef(null);
   const librosUsadosRef = useRef(null);
   const accesoriosRef = useRef(null);
 
-  // Efecto para asegurar que la página inicie en la parte superior
   useEffect(() => {
-    // Scroll al inicio cuando el componente se monta
-    window.scrollTo(0, 0);
+    const fadeInObserver = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add(styles.visible); fadeInObserver.unobserve(e.target); } }),
+      { threshold: 0.1 }
+    );
+    const fadeLeftObserver = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add(styles.visibleLeft); fadeLeftObserver.unobserve(e.target); } }),
+      { threshold: 0.1 }
+    );
+    const fadeRightObserver = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add(styles.visibleRight); fadeRightObserver.unobserve(e.target); } }),
+      { threshold: 0.1 }
+    );
 
-    // También prevenimos cualquier scroll automático
-    if ("scrollRestoration" in history) {
-      history.scrollRestoration = "manual";
-    }
-  }, []);
-
-  // Efecto para manejar las animaciones al hacer scroll
-  useEffect(() => {
-    const handleScrollAnimation = () => {
-      const fadeInElements = [
-        servicesRef.current,
-        accesoriesRef.current,
-        destacadosRef.current,
-        publicidadRef.current,
-        linkDirectRef.current,
-      ];
-
-      // Elementos que entrarán desde la izquierda
-      const fadeInLeftElements = [
-        celularesRef.current,
-        librosUsadosRef.current,
-        accesoriosRef.current,
-      ];
-
-      // Elementos que entrarán desde la derecha
-      const fadeInRightElements = [
-        computadoresRef.current,
-        librosNuevosRef.current,
-      ];
-
-      // Animación para elementos fadeIn
-      fadeInElements.forEach((element) => {
-        if (!element) return;
-
-        const position = element.getBoundingClientRect();
-
-        // Si el elemento está visible en la pantalla (umbral más amplio para activación)
-        if (position.top < window.innerHeight * 1.2 && position.bottom >= 0) {
-          element.classList.add(styles.visible);
-        }
-      });
-
-      // Animación para elementos fadeInLeft
-      fadeInLeftElements.forEach((element) => {
-        if (!element) return;
-
-        const position = element.getBoundingClientRect();
-
-        // Si el elemento está visible en la pantalla
-        if (position.top < window.innerHeight * 0.9 && position.bottom >= 0) {
-          element.classList.add(styles.visibleLeft);
-        }
-      });
-
-      // Animación para elementos fadeInRight
-      fadeInRightElements.forEach((element) => {
-        if (!element) return;
-
-        const position = element.getBoundingClientRect();
-
-        // Si el elemento está visible en la pantalla
-        if (position.top < window.innerHeight * 0.9 && position.bottom >= 0) {
-          element.classList.add(styles.visibleRight);
-        }
-      });
-    };
-
-    // Ejecutamos la función una vez para los elementos ya visibles
-    setTimeout(handleScrollAnimation, 100);
-
-    // Ejecutamos nuevamente después de un delay para asegurar que todo esté cargado
-    setTimeout(handleScrollAnimation, 500);
-
-    // Agregamos el evento de scroll
-    window.addEventListener("scroll", handleScrollAnimation);
+    [servicesRef, accesoriesRef, destacadosRef, publicidadRef, linkDirectRef]
+      .forEach((r) => r.current && fadeInObserver.observe(r.current));
+    [celularesRef, librosUsadosRef, accesoriosRef]
+      .forEach((r) => r.current && fadeLeftObserver.observe(r.current));
+    [computadoresRef, librosNuevosRef]
+      .forEach((r) => r.current && fadeRightObserver.observe(r.current));
 
     return () => {
-      window.removeEventListener("scroll", handleScrollAnimation);
+      fadeInObserver.disconnect();
+      fadeLeftObserver.disconnect();
+      fadeRightObserver.disconnect();
     };
-  }, [isLoaded]);
-
-  useEffect(() => {
-    setIsLoaded(true);
-
-    // Cargar productos destacados desde Supabase
-    const cargarProductosDestacados = async () => {
-      try {
-        const { getFeaturedProducts } = await import("@/lib/productService");
-        const productosDestacados = await getFeaturedProducts(10);
-
-        const normalizedData = productosDestacados.map((product) => ({
-          ...product,
-          images: Array.isArray(product.imagenes)
-            ? product.imagenes
-            : product.imagenes
-              ? [product.imagenes]
-              : [],
-        }));
-
-        setData(normalizedData);
-      } catch (error) {
-        console.error("[Home] Error al cargar productos destacados:", error);
-        setData([]);
-      }
-    };
-
-    cargarProductosDestacados();
-
-    // Usar la URL directamente como imagen
-    setPresentationImages([API_PRESENTATION]);
-    setLoading(false);
-
-    // Cargar Facebook SDK
-    if (typeof window !== "undefined") {
-      window.fbAsyncInit = function () {
-        window.FB.init({
-          appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "123456789", // Reemplaza con tu App ID
-          cookie: true,
-          xfbml: true,
-          version: "v18.0",
-        });
-      };
-
-      // Cargar el SDK de Facebook
-      (function (d, s, id) {
-        const fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        const js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/es_ES/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, "script", "facebook-jssdk");
-    }
   }, []);
 
-  if (!isLoaded) return null;
 
   return (
     <>
-      <Head>
-        <title>Inicio</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta content="Página de inicio" />
-      </Head>
+      <Script
+        id="facebook-jssdk"
+        src="https://connect.facebook.net/es_ES/sdk.js"
+        strategy="lazyOnload"
+        onLoad={() => {
+          window.FB?.init({
+            appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
+            cookie: true,
+            xfbml: true,
+            version: "v18.0",
+          });
+        }}
+      />
       <main
         className={`${styles.container} bg-white text-black dark:bg-gray-800 dark:text-white`}
         style={{
@@ -305,9 +157,7 @@ export default function Inicio() {
 
         {/* Promociones Especiales - Solo se muestra si hay promociones activas */}
         <div className="mt-6 mb-6">
-          <Suspense fallback={null}>
-            <PromocionesDestacadas />
-          </Suspense>
+          <PromocionesDestacadas />
         </div>
 
         {/* Accesorios destacados */}
@@ -315,28 +165,20 @@ export default function Inicio() {
           ref={destacadosRef}
           className={`${styles.destacados} ${styles.fadeInUp}`}
         >
-          <Suspense fallback={<LoadingSkeleton />}>
-            <AccesoriosDestacados />
-            <ProductosRecientes />
-          </Suspense>
+          <AccesoriosDestacados />
+          <ProductosRecientes />
         </section>
 
         {/* Productos Más Visitados - Diseño Bento Grid */}
-        <Suspense fallback={<LoadingSkeleton />}>
-          <MostVisitedProducts />
-        </Suspense>
+        <MostVisitedProducts />
 
         {/* Tiendas registradas en Neurai */}
         <section className={`${styles.tiendasDestacadas}`}>
-          <Suspense fallback={null}>
-            <TiendasDestacadas />
-          </Suspense>
+          <TiendasDestacadas />
         </section>
 
         {/* Noticias Externas */}
-        <Suspense fallback={<LoadingSkeleton />}>
-          <ExternalNews />
-        </Suspense>
+        <ExternalNews />
 
         {/* Negocios Locales */}
         {/* <section className="py-16 px-4 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
@@ -534,13 +376,7 @@ export default function Inicio() {
         <section
           className={`${styles.aside} ${sidebarOpen ? styles.asideOpen : ""}`}
         >
-          <Suspense
-            fallback={
-              <div className="w-72 h-96 bg-gray-100 animate-pulse rounded"></div>
-            }
-          >
-            <SidebarContent />
-          </Suspense>
+          <SidebarContent />
         </section>
 
         {/* Accesorios  */}
@@ -580,7 +416,7 @@ export default function Inicio() {
         </section>
 
         {/* Sección de Desarrollo Web */}
-        <Suspense
+        {/* <Suspense
           fallback={
             <div className="w-full h-64 bg-gray-100 animate-pulse"></div>
           }
@@ -588,7 +424,7 @@ export default function Inicio() {
           <section className={`${styles.webDevSection}`}>
             <WebDevSection />
           </section>
-        </Suspense>
+        </Suspense> */}
 
         <section className={styles.faq}>
           <FAQ />
@@ -596,15 +432,7 @@ export default function Inicio() {
 
         {/* Section Technical Services Carousel */}
         <section className={`${styles.technicalServices}`}>
-          <Suspense
-            fallback={
-              <div className="w-full max-w-6xl mx-auto px-4">
-                <div className="bg-gray-200 dark:bg-gray-700 animate-pulse rounded-2xl h-64"></div>
-              </div>
-            }
-          >
-            <TechnicalServicesCarousel />
-          </Suspense>
+          <TechnicalServicesCarousel />
         </section>
 
         {/* Formulario para clientes */}
@@ -616,9 +444,7 @@ export default function Inicio() {
         </section> */}
 
         <div className="mb-16 md:mb-0">
-          <Suspense fallback={null}>
-            <BackToTop />
-          </Suspense>
+          <BackToTop />
         </div>
       </main>
 

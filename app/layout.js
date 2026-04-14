@@ -5,6 +5,7 @@ import ConditionalFooter from "@/components/ConditionalFooter";
 import StructuredData from "@/components/StructuredData";
 import FAQSchema from "@/components/FAQSchema";
 import AOSInit from "@/components/AOSInit";
+import { Press_Start_2P } from "next/font/google";
 import "./globals.css";
 import "../styles/sweetalert2-custom.css";
 import "../styles/minecraft-theme.css";
@@ -26,6 +27,13 @@ import AnnouncementsProvider from "@/components/AnnouncementsProvider";
 import AccessibilityPanel from "@/components/AccessibilityPanel";
 import { MinecraftThemeProvider } from "@/contexts/MinecraftThemeContext";
 import MinecraftThemeFloatingButton from "@/components/MinecraftThemeFloatingButton";
+
+const pressStart2P = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-press-start",
+  display: "swap",
+});
 
 export const metadata = {
   metadataBase: new URL("https://neurai.dev"),
@@ -202,7 +210,7 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <React.Fragment>
-      <html lang="es" suppressHydrationWarning>
+      <html lang="es" suppressHydrationWarning className={pressStart2P.variable}>
         <head>
           <link
             rel="icon"
@@ -219,12 +227,6 @@ export default function RootLayout({ children }) {
           />
           <link rel="manifest" href="/manifest.json" />
           <meta name="apple-mobile-web-app-title" content="neurai.dev" />
-
-          {/* Fuente pixelada para tema Minecraft */}
-          <link
-            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
-            rel="stylesheet"
-          />
 
           {/* Google Analytics con variable de entorno */}
           <Script
@@ -254,18 +256,11 @@ export default function RootLayout({ children }) {
           `}
           </Script>
 
-          {/* ePayco Checkout para procesamiento de pagos */}
-          <Script
-            src="https://checkout.epayco.co/checkout.js"
-            strategy="afterInteractive"
-          />
-
         </head>
 
         <body>
           <StructuredData />
           <FAQSchema />
-          <AOSInit />
           <ClerkProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <MinecraftThemeProvider>
