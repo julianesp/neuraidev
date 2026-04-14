@@ -333,7 +333,7 @@ export default function ShoppingCart() {
                   position: "fixed",
                   left: 0,
                   top: "55px",
-                  height: "calc(100vh - 55px)",
+                  height: "calc(100dvh - 55px)",
                   width: "min(30vw, 420px)",
                   zIndex: 1502,
                   overflowY: "auto",

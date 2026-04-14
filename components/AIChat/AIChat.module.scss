@@ -399,7 +399,7 @@
 @media (max-width: 480px) {
   .chatWindow {
     width: calc(100vw - 20px);
-    height: calc(100vh - 110px);
+    height: calc(100dvh - 110px);
     right: 10px;
     bottom: 80px;
   }
@@ -414,7 +414,7 @@
 
 @media (max-height: 700px) {
   .chatWindow {
-    height: calc(100vh - 110px);
+    height: calc(100dvh - 110px);
   }
 }
 

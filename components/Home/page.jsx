@@ -140,7 +140,7 @@ export default function Inicio() {
           margin: 0,
           padding: 0,
           overflowX: "hidden",
-          maxWidth: "100vw",
+          maxWidth: "100dvw",
         }}
       >
         {/* Modal para envio gratis */}

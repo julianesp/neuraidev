@@ -17,8 +17,8 @@ $primary: $color-primario;
 
   overflow-x: hidden;
 
-  width: 100vw; // Exactamente el ancho del viewport
-  max-width: 100vw;
+  width: 100dvw; // Exactamente el ancho del viewport
+  max-width: 100dvw;
 
   margin: 0;
   padding: 0;
@@ -645,8 +645,8 @@ $primary: $color-primario;
       "technicalServices aside";
 
     gap: 0;
-    max-width: 100vw;
-    width: 100vw; // Exactamente el viewport
+    max-width: 100dvw;
+    width: 100dvw; // Exactamente el viewport
     padding: 0;
     margin: 0 auto;
     box-sizing: border-box;
