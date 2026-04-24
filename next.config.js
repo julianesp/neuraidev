@@ -163,8 +163,6 @@ const nextConfig = {
   experimental: {
     // Aumentar timeout de carga de imágenes (30 segundos)
     proxyTimeout: 30000,
-    // Optimizar prefetch
-    optimisticClientCache: true,
   },
 
   // Configuración de Turbopack (habilitado por defecto en Next.js 16)
@@ -201,7 +199,7 @@ const nextConfig = {
   generateEtags: false,
 
   // Optimizaciones de seguridad para el bundle
-  serverExternalPackages: ["bcryptjs"],
+  serverExternalPackages: ["bcryptjs", "isomorphic-dompurify", "dompurify"],
 
   // Redirecciones para manejar variaciones de URL
   async redirects() {

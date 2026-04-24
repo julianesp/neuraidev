@@ -80,7 +80,7 @@ export default async function BlogPost({ params }) {
   await incrementPostViews(slug);
 
   // Sanitizar el contenido HTML para prevenir XSS
-  const sanitizedContent = DOMPurify.sanitize(post.content);
+  const sanitizedContent = DOMPurify.sanitize(post.content || "");
 
   return (
     <BlogArticle
