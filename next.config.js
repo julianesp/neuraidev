@@ -199,7 +199,7 @@ const nextConfig = {
   generateEtags: false,
 
   // Optimizaciones de seguridad para el bundle
-  serverExternalPackages: ["bcryptjs", "isomorphic-dompurify", "dompurify"],
+  serverExternalPackages: ["bcryptjs"],
 
   // Redirecciones para manejar variaciones de URL
   async redirects() {

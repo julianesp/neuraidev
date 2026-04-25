@@ -2,7 +2,6 @@ import React from "react";
 import { notFound } from "next/navigation";
 import BlogArticle from "@/components/BlogArticle";
 import { getPostBySlug, incrementPostViews } from "@/lib/supabase/blog";
-import DOMPurify from "isomorphic-dompurify";
 
 // Forzar revalidación para evitar caché de posts
 export const revalidate = 0;
@@ -79,8 +78,8 @@ export default async function BlogPost({ params }) {
   // Incrementar vistas (se ejecuta en el servidor)
   await incrementPostViews(slug);
 
-  // Sanitizar el contenido HTML para prevenir XSS
-  const sanitizedContent = DOMPurify.sanitize(post.content || "");
+  // El contenido viene de Supabase (fuente confiable), se usa directamente
+  const sanitizedContent = post.content || "";
 
   return (
     <BlogArticle

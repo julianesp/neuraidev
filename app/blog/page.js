@@ -5,15 +5,18 @@ import styles from "./blog.module.css";
 
 // Forzar revalidación para evitar caché de posts
 export const revalidate = 0;
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Blog de Tecnología | Neurai.dev",
-  description: "Artículos, guías y consejos sobre tecnología, computadores, celulares, desarrollo web y más. Mantente actualizado con las últimas tendencias tecnológicas.",
-  keywords: "blog tecnología, guías tecnológicas, consejos computadores, tutoriales web, Colombia",
+  description:
+    "Artículos, guías y consejos sobre tecnología, computadores, celulares, desarrollo web y más. Mantente actualizado con las últimas tendencias tecnológicas.",
+  keywords:
+    "blog tecnología, guías tecnológicas, consejos computadores, tutoriales web, Colombia",
   openGraph: {
     title: "Blog de Tecnología - Neurai.dev",
-    description: "Artículos y guías sobre tecnología, computadores y desarrollo web",
+    description:
+      "Artículos y guías sobre tecnología, computadores y desarrollo web",
     type: "website",
     siteName: "neurai.dev",
     url: "https://neurai.dev/blog",
@@ -30,7 +33,8 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Blog de Tecnología - Neurai.dev",
-    description: "Artículos y guías sobre tecnología, computadores y desarrollo web",
+    description:
+      "Artículos y guías sobre tecnología, computadores y desarrollo web",
     images: ["/og-image.png"],
     creator: "@neuraidev",
   },
@@ -44,11 +48,11 @@ export default async function Blog() {
   const articles = await getPublishedPosts();
 
   // Obtener la fecha actual
-  const today = new Date().toLocaleDateString('es-CO', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  const today = new Date().toLocaleDateString("es-CO", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 
   return (
@@ -76,9 +80,10 @@ export default async function Blog() {
             <div className={styles.emptyStateIcon}>📰</div>
             <h2 className={styles.emptyStateTitle}>Próxima Edición</h2>
             <p className={styles.emptyStateText}>
-              Estamos preparando contenido extraordinario para nuestros lectores.
-              Pronto encontrarás aquí artículos, investigaciones y análisis profundos
-              sobre tecnología, computadores, desarrollo web y las últimas innovaciones del sector.
+              Estamos preparando contenido extraordinario para nuestros
+              lectores. Pronto encontrarás aquí artículos, investigaciones y
+              análisis profundos sobre tecnología, computadores, desarrollo web
+              y las últimas innovaciones del sector.
             </p>
             <Link href="/" className={styles.emptyStateButton}>
               Regresar al Inicio
@@ -91,18 +96,32 @@ export default async function Blog() {
               {/* Artículo principal destacado (grande) */}
               {articles[0] && (
                 <article className={styles.featuredMain}>
-                  <Link href={`/blog/${articles[0].slug}`} className={styles.articleLink}>
-                    <span className={styles.category}>{articles[0].category}</span>
-                    <h2 className={`${styles.headline} ${styles.headlineLarge}`}>
+                  <Link
+                    href={`/blog/${articles[0].slug}`}
+                    className={styles.articleLink}
+                  >
+                    <span className={styles.category}>
+                      {articles[0].category}
+                    </span>
+                    <h2
+                      className={`${styles.headline} ${styles.headlineLarge}`}
+                    >
                       {articles[0].title}
                     </h2>
                     <p className={styles.subheadline}>{articles[0].excerpt}</p>
                     <div className={styles.articleMeta}>
                       <span>
-                        {new Date(articles[0].published_at || articles[0].created_at)
-                          .toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        {new Date(
+                          articles[0].published_at || articles[0].created_at,
+                        ).toLocaleDateString("es-CO", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
                       </span>
-                      {articles[0].read_time && <span>{articles[0].read_time} min de lectura</span>}
+                      {articles[0].read_time && (
+                        <span>{articles[0].read_time} min de lectura</span>
+                      )}
                     </div>
                     <div className={styles.articleBody}>
                       {articles[0].excerpt}
@@ -114,15 +133,26 @@ export default async function Blog() {
               {/* Artículos secundarios (columna derecha) */}
               {articles[1] && (
                 <article className={styles.featuredSecondary}>
-                  <Link href={`/blog/${articles[1].slug}`} className={styles.articleLink}>
-                    <span className={styles.category}>{articles[1].category}</span>
-                    <h3 className={`${styles.headline} ${styles.headlineMedium}`}>
+                  <Link
+                    href={`/blog/${articles[1].slug}`}
+                    className={styles.articleLink}
+                  >
+                    <span className={styles.category}>
+                      {articles[1].category}
+                    </span>
+                    <h3
+                      className={`${styles.headline} ${styles.headlineMedium}`}
+                    >
                       {articles[1].title}
                     </h3>
                     <div className={styles.articleMeta}>
                       <span>
-                        {new Date(articles[1].published_at || articles[1].created_at)
-                          .toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}
+                        {new Date(
+                          articles[1].published_at || articles[1].created_at,
+                        ).toLocaleDateString("es-CO", {
+                          day: "numeric",
+                          month: "short",
+                        })}
                       </span>
                     </div>
                     <p className={styles.articleExcerpt}>
@@ -134,15 +164,26 @@ export default async function Blog() {
 
               {articles[2] && (
                 <article className={styles.featuredSecondary}>
-                  <Link href={`/blog/${articles[2].slug}`} className={styles.articleLink}>
-                    <span className={styles.category}>{articles[2].category}</span>
-                    <h3 className={`${styles.headline} ${styles.headlineMedium}`}>
+                  <Link
+                    href={`/blog/${articles[2].slug}`}
+                    className={styles.articleLink}
+                  >
+                    <span className={styles.category}>
+                      {articles[2].category}
+                    </span>
+                    <h3
+                      className={`${styles.headline} ${styles.headlineMedium}`}
+                    >
                       {articles[2].title}
                     </h3>
                     <div className={styles.articleMeta}>
                       <span>
-                        {new Date(articles[2].published_at || articles[2].created_at)
-                          .toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}
+                        {new Date(
+                          articles[2].published_at || articles[2].created_at,
+                        ).toLocaleDateString("es-CO", {
+                          day: "numeric",
+                          month: "short",
+                        })}
                       </span>
                     </div>
                     <p className={styles.articleExcerpt}>
@@ -160,17 +201,28 @@ export default async function Blog() {
             <div className={styles.articlesGrid}>
               {articles.slice(3, 6).map((article) => (
                 <article key={article.slug} className={styles.articleColumn}>
-                  <Link href={`/blog/${article.slug}`} className={styles.articleLink}>
+                  <Link
+                    href={`/blog/${article.slug}`}
+                    className={styles.articleLink}
+                  >
                     <span className={styles.category}>{article.category}</span>
-                    <h3 className={`${styles.headline} ${styles.headlineSmall}`}>
+                    <h3
+                      className={`${styles.headline} ${styles.headlineSmall}`}
+                    >
                       {article.title}
                     </h3>
                     <div className={styles.articleMeta}>
                       <span>
-                        {new Date(article.published_at || article.created_at)
-                          .toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}
+                        {new Date(
+                          article.published_at || article.created_at,
+                        ).toLocaleDateString("es-CO", {
+                          day: "numeric",
+                          month: "short",
+                        })}
                       </span>
-                      {article.read_time && <span>{article.read_time} min</span>}
+                      {article.read_time && (
+                        <span>{article.read_time} min</span>
+                      )}
                     </div>
                     <p className={styles.articleExcerpt}>
                       {article.excerpt?.substring(0, 200)}...
@@ -187,9 +239,14 @@ export default async function Blog() {
             <div className={styles.articlesGrid}>
               {articles.slice(6).map((article) => (
                 <article key={article.slug} className={styles.articleSmall}>
-                  <Link href={`/blog/${article.slug}`} className={styles.articleLink}>
+                  <Link
+                    href={`/blog/${article.slug}`}
+                    className={styles.articleLink}
+                  >
                     <span className={styles.category}>{article.category}</span>
-                    <h4 className={`${styles.headline} ${styles.headlineSmall}`}>
+                    <h4
+                      className={`${styles.headline} ${styles.headlineSmall}`}
+                    >
                       {article.title}
                     </h4>
                     <p className={styles.articleExcerpt}>
@@ -206,7 +263,8 @@ export default async function Blog() {
                 Suscríbase a Nuestra Edición Digital
               </h2>
               <p className={styles.subheadline}>
-                Reciba las últimas noticias tecnológicas directamente en su correo
+                Reciba las últimas noticias tecnológicas directamente en su
+                correo
               </p>
               <form className={styles.newsletterForm}>
                 <input
@@ -223,16 +281,20 @@ export default async function Blog() {
         )}
 
         {/* Footer del periódico */}
-        <footer style={{
-          borderTop: '4px double #000',
-          marginTop: '2rem',
-          paddingTop: '1rem',
-          textAlign: 'center',
-          fontSize: '0.75rem',
-          color: '#666'
-        }}>
-          <p>© {new Date().getFullYear()} El Diario Tecnológico - Neurai.dev</p>
-          <p style={{ fontStyle: 'italic', marginTop: '0.5rem' }}>
+        <footer
+          style={{
+            borderTop: "4px double #000",
+            marginTop: "2rem",
+            paddingTop: "1rem",
+            textAlign: "center",
+            fontSize: "0.75rem",
+            color: "#666",
+          }}
+        >
+          <p>
+            © {new Date().getFullYear()} El Diario Tecnológico - Neurai.dev
+          </p>
+          <p style={{ fontStyle: "italic", marginTop: "0.5rem" }}>
             "Todas las noticias que merecen ser impresas"
           </p>
         </footer>
