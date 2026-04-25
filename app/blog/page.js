@@ -96,13 +96,18 @@ export default async function Blog() {
               {/* Artículo principal destacado (grande) */}
               {articles[0] && (
                 <article className={styles.featuredMain}>
+                  <div className={styles.articleHeader}>
+                    <span className={styles.category}>
+                      {articles[0].category}
+                    </span>
+                    <Link href={`/blog/${articles[0].slug}`} className={styles.readButton}>
+                      Leer
+                    </Link>
+                  </div>
                   <Link
                     href={`/blog/${articles[0].slug}`}
                     className={styles.articleLink}
                   >
-                    <span className={styles.category}>
-                      {articles[0].category}
-                    </span>
                     <h2
                       className={`${styles.headline} ${styles.headlineLarge}`}
                     >
@@ -133,26 +138,18 @@ export default async function Blog() {
               {/* Artículos secundarios (columna derecha) */}
               {articles[1] && (
                 <article className={styles.featuredSecondary}>
-                  <Link
-                    href={`/blog/${articles[1].slug}`}
-                    className={styles.articleLink}
-                  >
-                    <span className={styles.category}>
-                      {articles[1].category}
-                    </span>
-                    <h3
-                      className={`${styles.headline} ${styles.headlineMedium}`}
-                    >
+                  <div className={styles.articleHeader}>
+                    <span className={styles.category}>{articles[1].category}</span>
+                    <Link href={`/blog/${articles[1].slug}`} className={styles.readButton}>Leer</Link>
+                  </div>
+                  <Link href={`/blog/${articles[1].slug}`} className={styles.articleLink}>
+                    <h3 className={`${styles.headline} ${styles.headlineMedium}`}>
                       {articles[1].title}
                     </h3>
                     <div className={styles.articleMeta}>
                       <span>
-                        {new Date(
-                          articles[1].published_at || articles[1].created_at,
-                        ).toLocaleDateString("es-CO", {
-                          day: "numeric",
-                          month: "short",
-                        })}
+                        {new Date(articles[1].published_at || articles[1].created_at)
+                          .toLocaleDateString("es-CO", { day: "numeric", month: "short" })}
                       </span>
                     </div>
                     <p className={styles.articleExcerpt}>
@@ -164,26 +161,18 @@ export default async function Blog() {
 
               {articles[2] && (
                 <article className={styles.featuredSecondary}>
-                  <Link
-                    href={`/blog/${articles[2].slug}`}
-                    className={styles.articleLink}
-                  >
-                    <span className={styles.category}>
-                      {articles[2].category}
-                    </span>
-                    <h3
-                      className={`${styles.headline} ${styles.headlineMedium}`}
-                    >
+                  <div className={styles.articleHeader}>
+                    <span className={styles.category}>{articles[2].category}</span>
+                    <Link href={`/blog/${articles[2].slug}`} className={styles.readButton}>Leer</Link>
+                  </div>
+                  <Link href={`/blog/${articles[2].slug}`} className={styles.articleLink}>
+                    <h3 className={`${styles.headline} ${styles.headlineMedium}`}>
                       {articles[2].title}
                     </h3>
                     <div className={styles.articleMeta}>
                       <span>
-                        {new Date(
-                          articles[2].published_at || articles[2].created_at,
-                        ).toLocaleDateString("es-CO", {
-                          day: "numeric",
-                          month: "short",
-                        })}
+                        {new Date(articles[2].published_at || articles[2].created_at)
+                          .toLocaleDateString("es-CO", { day: "numeric", month: "short" })}
                       </span>
                     </div>
                     <p className={styles.articleExcerpt}>

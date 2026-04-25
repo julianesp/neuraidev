@@ -44,6 +44,29 @@ export default function NuevoArticulo() {
     meta_keywords: "",
   });
 
+  const [images, setImages] = useState([{ url: "", source: "" }]);
+
+  const addImage = () => setImages([...images, { url: "", source: "" }]);
+
+  const removeImage = (index) => {
+    const updated = images.filter((_, i) => i !== index);
+    setImages(updated.length > 0 ? updated : [{ url: "", source: "" }]);
+  };
+
+  const updateImage = (index, field, value) => {
+    const updated = images.map((img, i) =>
+      i === index ? { ...img, [field]: value } : img
+    );
+    setImages(updated);
+  };
+
+  const buildImageUrl = () => {
+    const valid = images.filter((img) => img.url.trim());
+    if (valid.length === 0) return "";
+    if (valid.length === 1 && !valid[0].source.trim()) return valid[0].url;
+    return JSON.stringify(valid);
+  };
+
   // Generar slug automáticamente desde el título
   const generateSlug = (title) => {
     return title
@@ -96,6 +119,7 @@ export default function NuevoArticulo() {
         },
         body: JSON.stringify({
           ...formData,
+          image_url: buildImageUrl(),
           published: publish,
           read_time: formData.read_time ? parseInt(formData.read_time) : null,
         }),
@@ -258,18 +282,50 @@ export default function NuevoArticulo() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  URL de Imagen
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Imágenes
                 </label>
-                <input
-                  type="url"
-                  value={formData.image_url}
-                  onChange={(e) =>
-                    setFormData({ ...formData, image_url: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="https://ejemplo.com/imagen.jpg"
-                />
+                <div className="space-y-3">
+                  {images.map((img, index) => (
+                    <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-3 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                          Imagen {index + 1}
+                        </span>
+                        {images.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeImage(index)}
+                            className="text-xs text-red-500 hover:text-red-700"
+                          >
+                            Eliminar
+                          </button>
+                        )}
+                      </div>
+                      <input
+                        type="url"
+                        value={img.url}
+                        onChange={(e) => updateImage(index, "url", e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                        placeholder="https://ejemplo.com/imagen.jpg"
+                      />
+                      <input
+                        type="url"
+                        value={img.source}
+                        onChange={(e) => updateImage(index, "source", e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                        placeholder="Fuente (URL del sitio original, opcional)"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={addImage}
+                  className="mt-2 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 font-medium"
+                >
+                  + Agregar otra URL de imagen
+                </button>
               </div>
 
               <div className="flex items-center space-x-6">

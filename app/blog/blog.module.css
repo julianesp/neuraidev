@@ -47,7 +47,7 @@
 
 .mastheadTitle {
   font-family: 'Playfair Display', 'Georgia', serif;
-  font-size: 4rem;
+  font-size: clamp(1.8rem, 4vw, 4rem);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -285,6 +285,37 @@
 }
 
 /* ===========================
+   ARTICLE HEADER (categoría + botón leer)
+   =========================== */
+
+.articleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.readButton {
+  display: inline-block;
+  padding: 0.3rem 1.1rem;
+  border: 2px solid #000;
+  background: transparent;
+  color: #000;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.readButton:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* ===========================
    LINK STYLING
    =========================== */
 
@@ -428,6 +459,123 @@
 
 .newsletterButton:hover {
   background: #c41e3a;
+}
+
+/* ===========================
+   BREADCRUMB
+   =========================== */
+
+.breadcrumb {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #555;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.breadcrumbLink {
+  color: #000;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.breadcrumbLink:hover {
+  text-decoration: underline;
+}
+
+.breadcrumbSep {
+  margin: 0 0.5rem;
+  color: #999;
+}
+
+/* ===========================
+   ARTÍCULO COMPLETO (página de lectura)
+   =========================== */
+
+.articleFull {
+  max-width: 860px;
+  margin: 0 auto 2rem;
+  padding: 2rem 0;
+  border-bottom: 2px solid #000;
+}
+
+.articleImages {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.articleFigure {
+  margin: 0;
+  border: 2px solid #000;
+  padding: 0.5rem;
+  background: #fff;
+}
+
+.articleImage {
+  width: 100%;
+  display: block;
+  filter: grayscale(15%) contrast(1.05);
+}
+
+.articleCaption {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.78rem;
+  color: #555;
+  margin-top: 0.4rem;
+  font-style: italic;
+  text-align: center;
+}
+
+.articleCaptionLink {
+  color: #333;
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.articleCaptionLink:hover {
+  color: #000;
+}
+
+.articleFullContent {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #222;
+  text-align: justify;
+  margin-top: 1.5rem;
+  columns: 2;
+  column-gap: 2rem;
+}
+
+.articleFullContent p {
+  margin-bottom: 1rem;
+}
+
+.articleFullContent h2,
+.articleFullContent h3 {
+  column-span: all;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 1.5rem 0 0.75rem;
+  border-bottom: 2px solid #000;
+  padding-bottom: 0.3rem;
+}
+
+.articleFullContent img {
+  max-width: 100%;
+  border: 2px solid #000;
+  filter: grayscale(15%) contrast(1.05);
+}
+
+@media (max-width: 768px) {
+  .articleFullContent {
+    columns: 1;
+  }
 }
 
 /* ===========================
