@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import FacebookComments from "./FacebookComments";
+import AdminButton from "./AdminButton";
 
 export const metadata = {
   title: "Pollos Colón — Venta de pollos encubados a domicilio",
@@ -40,6 +41,9 @@ export default async function PollosColonPage() {
           <div className="mt-6 inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-5 py-2.5 rounded-full text-sm font-medium">
             <span className="w-2 h-2 rounded-full bg-green-300 animate-pulse" />
             Pedidos con entrega a domicilio
+          </div>
+          <div className="mt-3">
+            <AdminButton />
           </div>
         </div>
       </section>
