@@ -18,6 +18,7 @@ import {
   Send,
   Store,
   Wrench,
+  Bird,
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -124,6 +125,15 @@ export default function AdminDashboard() {
       stats: "3 secciones · 47 fotos",
       color: "indigo",
       gradient: "from-indigo-500 to-indigo-600",
+    },
+    {
+      title: "Pollos Colón",
+      description: "Gestiona publicaciones de venta de pollos encubados",
+      icon: Bird,
+      href: "/admin/pollos-colon",
+      stats: "Publicaciones a domicilio",
+      color: "yellow",
+      gradient: "from-yellow-500 to-amber-600",
     },
   ];
 

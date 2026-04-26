@@ -225,6 +225,35 @@ export default function Servicios() {
         </div>
       </section> */}
 
+      {/* Pollos Colón CTA */}
+      <section className="py-14 px-4 bg-amber-50 dark:bg-gray-800/50">
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl shadow-xl overflow-hidden">
+            <div className="flex flex-col md:flex-row items-center gap-6 p-8">
+              <div className="text-7xl flex-shrink-0">🐔</div>
+              <div className="flex-1 text-center md:text-left">
+                <span className="inline-block text-xs font-bold bg-white/30 text-white px-3 py-1 rounded-full mb-3 uppercase tracking-wider">
+                  Entrega a domicilio
+                </span>
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                  Pollos Colón
+                </h2>
+                <p className="text-yellow-100 text-sm md:text-base mb-5">
+                  Venta de pollos encubados frescos con entrega directa a tu puerta. Consulta disponibilidad y precios.
+                </p>
+                <Link
+                  href="/pollos-colon"
+                  className="inline-flex items-center gap-2 bg-white text-amber-600 font-bold py-3 px-6 rounded-xl hover:bg-amber-50 transition-colors shadow-md"
+                >
+                  Ver publicaciones
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className={styles.cta}>
         <div className={styles.ctaContent}>

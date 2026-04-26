@@ -344,6 +344,15 @@ const NavBar = () => {
                     Desarrollador Web
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/pollos-colon"
+                    onClick={handleLinkClick}
+                    title="Pollos Colón — Venta de pollos encubados a domicilio"
+                  >
+                    🐔 Pollos Colón
+                  </Link>
+                </li>
                 {/* <li>
                   <Link
                     href="/para-tiendas"

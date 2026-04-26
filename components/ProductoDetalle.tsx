@@ -213,7 +213,30 @@ export default function ProductoDetalle({ producto }: Props) {
           <div>
             <div className="flex items-start justify-between gap-4 mb-2">
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white flex-1">{producto.nombre}</h1>
-              <FavoriteButton producto={producto} size="large" />
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <a
+                  href={`https://wa.me/573174503604?text=${encodeURIComponent(`Hola! Tengo una pregunta sobre este producto:\n\n*${producto.nombre}*\nPrecio: $${precio.toLocaleString()} COP\nLink: `)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Preguntar por WhatsApp"
+                  className="flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors shadow-sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const msg = `Hola! Tengo una pregunta sobre este producto:\n\n*${producto.nombre}*\nPrecio: $${precio.toLocaleString()} COP\nLink: ${window.location.href}`;
+                    window.open(`https://wa.me/573174503604?text=${encodeURIComponent(msg)}`, '_blank');
+                  }}
+                >
+                  <img
+                    src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/redes/social%20%281%29.png"
+                    alt="WhatsApp"
+                    width={18}
+                    height={18}
+                    className="w-4 h-4 object-contain"
+                  />
+                  Consultar
+                </a>
+                <FavoriteButton producto={producto} size="large" />
+              </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-4">
