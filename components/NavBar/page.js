@@ -353,6 +353,15 @@ const NavBar = () => {
                     🐔 Pollos Colón
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/encuesta-presidencial"
+                    onClick={handleLinkClick}
+                    title="Encuesta Presidencial Sur Occidente Colombiano 2026"
+                  >
+                    🗳️ Encuesta Presidencial
+                  </Link>
+                </li>
                 {/* <li>
                   <Link
                     href="/para-tiendas"

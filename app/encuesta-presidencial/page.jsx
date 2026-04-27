@@ -71,8 +71,12 @@ function ganador(votos) {
 }
 
 export default function EncuestaPresidencialPage() {
+  const FECHA_CIERRE = new Date("2026-05-30T23:59:59");
+  const encuestaCerrada = new Date() > FECHA_CIERRE;
+
   const [fbUser, setFbUser] = useState(null);
   const [fbSdkReady, setFbSdkReady] = useState(false);
+  const [fbEnWebview, setFbEnWebview] = useState(false);
   const [departamento, setDepartamento] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [candidatoId, setCandidatoId] = useState("");
@@ -83,6 +87,14 @@ export default function EncuestaPresidencialPage() {
   const [resultadosDepartamentos, setResultadosDepartamentos] = useState([]);
   const [vistaResultados, setVistaResultados] = useState("municipios");
   const [cargandoResultados, setCargandoResultados] = useState(false);
+
+  // Detectar si se abre desde el navegador interno de Facebook
+  useEffect(() => {
+    const ua = navigator.userAgent || "";
+    if (ua.includes("FBAN") || ua.includes("FBAV") || ua.includes("FB_IAB")) {
+      setFbEnWebview(true);
+    }
+  }, []);
 
   // Cargar SDK de Facebook
   useEffect(() => {
@@ -210,10 +222,41 @@ export default function EncuestaPresidencialPage() {
           <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">
             Participa iniciando sesion con tu cuenta de Facebook. Solo se permite un voto por persona.
           </p>
+          <p className="text-gray-400 dark:text-gray-600 text-xs mt-1">
+            Encuesta activa hasta el 30 de mayo de 2026
+          </p>
         </div>
 
         {/* Bloque de votacion */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 p-6 mb-8">
+
+          {encuestaCerrada ? (
+            <div className="text-center py-10">
+              <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                🗳️
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Encuesta cerrada</h2>
+              <p className="text-gray-500 dark:text-gray-400">
+                La encuesta finalizó el 30 de mayo de 2026. Consulta los resultados a continuacion.
+              </p>
+            </div>
+          ) : fbEnWebview ? (
+            <div className="text-center py-8 px-4">
+              <div className="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                ⚠️
+              </div>
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Abre esta pagina en tu navegador</h2>
+              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                El navegador interno de Facebook no permite el inicio de sesion con Facebook por razones de seguridad.
+                <br /><br />
+                Abre esta pagina en <strong>Chrome, Safari o tu navegador preferido</strong> para poder votar.
+              </p>
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg px-4 py-2 inline-block text-xs text-gray-500 dark:text-gray-400 font-mono break-all">
+                neurai.dev/encuesta-presidencial
+              </div>
+            </div>
+          ) : (
+          <>
 
           {/* Login Facebook */}
           {!fbUser ? (
@@ -354,6 +397,8 @@ export default function EncuestaPresidencialPage() {
                 </button>
               </form>
             </>
+          )}
+          </>
           )}
         </div>
 
