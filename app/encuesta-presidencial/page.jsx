@@ -98,6 +98,43 @@ export default function EncuestaPresidencialPage() {
 
   // Cargar SDK de Facebook
   useEffect(() => {
+    function initFB() {
+      if (!window.FB) return;
+      // Si ya fue inicializado por otro componente, solo marcamos listo
+      try {
+        window.FB.getLoginStatus(() => {});
+        setFbSdkReady(true);
+        return;
+      } catch {
+        // no estaba inicializado aún, inicializar
+      }
+      window.FB.init({
+        appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "",
+        cookie: true,
+        xfbml: true,
+        version: "v19.0",
+      });
+      setFbSdkReady(true);
+    }
+
+    // Si el SDK ya está cargado y disponible
+    if (window.FB) {
+      initFB();
+      return;
+    }
+
+    // Si el script ya existe pero FB aún no está disponible (cargando)
+    if (document.getElementById("facebook-jssdk")) {
+      // Esperar a que fbAsyncInit sea llamado
+      const originalInit = window.fbAsyncInit;
+      window.fbAsyncInit = function () {
+        if (originalInit) originalInit();
+        initFB();
+      };
+      return;
+    }
+
+    // Cargar el script por primera vez
     window.fbAsyncInit = function () {
       window.FB.init({
         appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "",
@@ -108,17 +145,13 @@ export default function EncuestaPresidencialPage() {
       setFbSdkReady(true);
     };
 
-    if (!document.getElementById("facebook-jssdk")) {
-      const script = document.createElement("script");
-      script.id = "facebook-jssdk";
-      script.src = "https://connect.facebook.net/es_LA/sdk.js";
-      script.async = true;
-      script.defer = true;
-      script.crossOrigin = "anonymous";
-      document.body.appendChild(script);
-    } else {
-      setFbSdkReady(true);
-    }
+    const script = document.createElement("script");
+    script.id = "facebook-jssdk";
+    script.src = "https://connect.facebook.net/es_LA/sdk.js";
+    script.async = true;
+    script.defer = true;
+    script.crossOrigin = "anonymous";
+    document.body.appendChild(script);
   }, []);
 
   const cargarResultados = useCallback(async () => {
