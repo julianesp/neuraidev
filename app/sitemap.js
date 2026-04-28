@@ -159,6 +159,13 @@ export default async function sitemap() {
       changeFrequency: "monthly",
       priority: 0.75,
     },
+    // Encuesta
+    {
+      url: `${baseUrl}/encuesta-presidencial`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
     // Noticias
     {
       url: `${baseUrl}/noticias`,

@@ -98,18 +98,11 @@ export default function EncuestaPresidencialPage() {
 
   // Cargar SDK de Facebook
   useEffect(() => {
-    function initFB() {
-      if (!window.FB) return;
-      // Si ya fue inicializado por otro componente, solo marcamos listo
-      try {
-        window.FB.getLoginStatus(() => {});
-        setFbSdkReady(true);
-        return;
-      } catch {
-        // no estaba inicializado aún, inicializar
-      }
+    const FB_APP_ID = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "";
+
+    function doInit() {
       window.FB.init({
-        appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "",
+        appId: FB_APP_ID,
         cookie: true,
         xfbml: true,
         version: "v19.0",
@@ -117,34 +110,23 @@ export default function EncuestaPresidencialPage() {
       setFbSdkReady(true);
     }
 
-    // Si el SDK ya está cargado y disponible
+    // Si el SDK ya está cargado y disponible, inicializar directamente
     if (window.FB) {
-      initFB();
+      doInit();
       return;
     }
 
-    // Si el script ya existe pero FB aún no está disponible (cargando)
+    // Registrar fbAsyncInit antes de cargar el script
+    window.fbAsyncInit = function () {
+      doInit();
+    };
+
+    // Si el script ya está en el DOM, solo esperar a que fbAsyncInit dispare
     if (document.getElementById("facebook-jssdk")) {
-      // Esperar a que fbAsyncInit sea llamado
-      const originalInit = window.fbAsyncInit;
-      window.fbAsyncInit = function () {
-        if (originalInit) originalInit();
-        initFB();
-      };
       return;
     }
 
     // Cargar el script por primera vez
-    window.fbAsyncInit = function () {
-      window.FB.init({
-        appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "",
-        cookie: true,
-        xfbml: true,
-        version: "v19.0",
-      });
-      setFbSdkReady(true);
-    };
-
     const script = document.createElement("script");
     script.id = "facebook-jssdk";
     script.src = "https://connect.facebook.net/es_LA/sdk.js";

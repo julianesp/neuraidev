@@ -9,6 +9,16 @@ import { MetadataRoute } from 'next'
 export default function robots(): MetadataRoute.Robots {
   const baseUrl = 'https://neurai.dev'
 
+  // Bloquear indexación en previews de Vercel
+  const isPreview = process.env.VERCEL_ENV !== 'production';
+
+  if (isPreview) {
+    return {
+      rules: [{ userAgent: '*', disallow: '/' }],
+      sitemap: `${baseUrl}/sitemap.xml`,
+    };
+  }
+
   return {
     rules: [
       {
