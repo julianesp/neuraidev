@@ -42,7 +42,7 @@ export default async function PollosColonPage() {
             <span className="w-2 h-2 rounded-full bg-green-300 animate-pulse" />
             Pedidos con entrega a domicilio
           </div>
-          <div className="absolute top-4 left-4">
+          <div className="absolute top-16 left-4">
             <AdminButton />
           </div>
         </div>

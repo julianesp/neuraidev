@@ -44,7 +44,7 @@ export default async function BlumePage() {
             Pedidos personalizados disponibles
           </div>
         </div>
-        <div className="absolute top-4 left-4">
+        <div className="absolute top-16 left-4">
           <AdminButton />
         </div>
       </section>
