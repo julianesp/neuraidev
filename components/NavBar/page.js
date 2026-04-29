@@ -350,7 +350,16 @@ const NavBar = () => {
                     onClick={handleLinkClick}
                     title="Pollos Colón — Venta de pollos encubados a domicilio"
                   >
-                    🐔 Pollos Colón
+                    🍗 Pollos Colón
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/blume"
+                    onClick={handleLinkClick}
+                    title="Blume — Adornos y decoraciones manuales"
+                  >
+                    🌸 Blume
                   </Link>
                 </li>
                 <li>
