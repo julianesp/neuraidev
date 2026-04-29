@@ -5,6 +5,7 @@ import EnhancedSearch from "@/components/EnhancedSearch/EnhancedSearch";
 import CategoryFilters from "@/components/CategoryFilters/CategoryFilters";
 import ProductBanners from "@/components/ProductBanners/ProductBanners";
 import ExternalLinks from "@/components/ExternalLinks/ExternalLinks";
+import PollosColonWidget from "@/components/PollosColonWidget/PollosColonWidget";
 import styles from "./SidebarContent.module.scss";
 
 function LoadingSkeleton({ height = "200px" }) {
@@ -27,6 +28,9 @@ export default function SidebarContent() {
       <Suspense fallback={<LoadingSkeleton height="400px" />}>
         <CategoryFilters />
       </Suspense>
+
+      {/* Pollos Colón - publicaciones recientes */}
+      <PollosColonWidget />
 
       {/* Banners publicitarios de productos */}
       <Suspense fallback={<LoadingSkeleton height="600px" />}>
