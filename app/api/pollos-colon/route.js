@@ -37,7 +37,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { titulo, descripcion, imagen_url, imagen_path } = body;
+    const { titulo, descripcion, imagen_url, imagen_path, imagenes_urls, imagenes_paths } = body;
 
     if (!titulo || !imagen_url) {
       return NextResponse.json(
@@ -46,7 +46,7 @@ export async function POST(request) {
       );
     }
 
-    const publicacion = await crearPublicacion({ titulo, descripcion, imagen_url, imagen_path });
+    const publicacion = await crearPublicacion({ titulo, descripcion, imagen_url, imagen_path, imagenes_urls, imagenes_paths });
     return NextResponse.json({ publicacion });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -63,12 +63,14 @@ export async function DELETE(request) {
     const { searchParams } = new URL(request.url);
     const id = await Promise.resolve(searchParams.get("id"));
     const imagen_path = await Promise.resolve(searchParams.get("imagen_path"));
+    const imagenes_paths_raw = await Promise.resolve(searchParams.get("imagenes_paths"));
+    const imagenes_paths = imagenes_paths_raw ? JSON.parse(imagenes_paths_raw) : [];
 
     if (!id) {
       return NextResponse.json({ error: "ID requerido" }, { status: 400 });
     }
 
-    await eliminarPublicacion(id, imagen_path);
+    await eliminarPublicacion(id, imagen_path, imagenes_paths);
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

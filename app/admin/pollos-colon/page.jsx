@@ -29,8 +29,8 @@ export default function AdminPollosColon() {
   // Formulario nueva publicación
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [imagenFile, setImagenFile] = useState(null);
-  const [imagenPreview, setImagenPreview] = useState(null);
+  const [imagenesFiles, setImagenesFiles] = useState([]);
+  const [imagenesPreviews, setImagenesPreviews] = useState([]);
   const [subiendoImagen, setSubiendoImagen] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -69,25 +69,36 @@ export default function AdminPollosColon() {
   }
 
   function handleFileChange(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    setImagenFile(file);
-    setImagenPreview(URL.createObjectURL(file));
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+    const total = imagenesFiles.length + files.length;
+    if (total > 5) {
+      alert("Máximo 5 fotos por publicación");
+      return;
+    }
+    setImagenesFiles((prev) => [...prev, ...files]);
+    setImagenesPreviews((prev) => [...prev, ...files.map((f) => URL.createObjectURL(f))]);
   }
 
-  async function subirImagen() {
-    if (!imagenFile) return null;
+  function quitarImagen(idx) {
+    setImagenesFiles((prev) => prev.filter((_, i) => i !== idx));
+    setImagenesPreviews((prev) => prev.filter((_, i) => i !== idx));
+  }
+
+  async function subirTodasImagenes() {
     setSubiendoImagen(true);
     try {
-      const formData = new FormData();
-      formData.append("file", imagenFile);
-      const res = await fetch("/api/upload-image", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      return { url: data.url, path: data.path };
+      const resultados = await Promise.all(
+        imagenesFiles.map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          const res = await fetch("/api/upload-image", { method: "POST", body: formData });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error);
+          return { url: data.url, path: data.path };
+        })
+      );
+      return resultados;
     } finally {
       setSubiendoImagen(false);
     }
@@ -95,11 +106,10 @@ export default function AdminPollosColon() {
 
   async function handleCrear(e) {
     e.preventDefault();
-    if (!titulo.trim() || !imagenFile) return;
+    if (!titulo.trim() || imagenesFiles.length === 0) return;
     setGuardando(true);
     try {
-      const imagen = await subirImagen();
-      if (!imagen) throw new Error("No se pudo subir la imagen");
+      const imagenes = await subirTodasImagenes();
 
       const res = await fetch("/api/pollos-colon", {
         method: "POST",
@@ -107,8 +117,10 @@ export default function AdminPollosColon() {
         body: JSON.stringify({
           titulo: titulo.trim(),
           descripcion: descripcion.trim(),
-          imagen_url: imagen.url,
-          imagen_path: imagen.path,
+          imagen_url: imagenes[0].url,
+          imagen_path: imagenes[0].path,
+          imagenes_urls: imagenes.map((i) => i.url),
+          imagenes_paths: imagenes.map((i) => i.path),
         }),
       });
       const data = await res.json();
@@ -117,8 +129,8 @@ export default function AdminPollosColon() {
       setPublicaciones((prev) => [data.publicacion, ...prev]);
       setTitulo("");
       setDescripcion("");
-      setImagenFile(null);
-      setImagenPreview(null);
+      setImagenesFiles([]);
+      setImagenesPreviews([]);
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (err) {
       alert("Error al crear la publicación: " + err.message);
@@ -132,6 +144,7 @@ export default function AdminPollosColon() {
     try {
       const params = new URLSearchParams({ id: pub.id });
       if (pub.imagen_path) params.set("imagen_path", pub.imagen_path);
+      if (pub.imagenes_paths?.length) params.set("imagenes_paths", JSON.stringify(pub.imagenes_paths));
       const res = await fetch(`/api/pollos-colon?${params}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Error al eliminar");
       setPublicaciones((prev) => prev.filter((p) => p.id !== pub.id));
@@ -227,38 +240,47 @@ export default function AdminPollosColon() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Foto *
+                Fotos * <span className="text-gray-400 font-normal">(máx. 5)</span>
               </label>
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 cursor-pointer hover:border-yellow-500 transition-colors flex flex-col items-center gap-2"
-              >
-                {imagenPreview ? (
-                  <img
-                    src={imagenPreview}
-                    alt="Preview"
-                    className="w-full max-h-48 object-contain rounded"
-                  />
-                ) : (
-                  <>
-                    <ImageIcon className="w-8 h-8 text-gray-400" />
-                    <span className="text-sm text-gray-500 dark:text-gray-400">
-                      Haz clic para seleccionar una foto
-                    </span>
-                  </>
-                )}
-              </div>
+              {imagenesPreviews.length > 0 && (
+                <div className="grid grid-cols-3 gap-2 mb-2">
+                  {imagenesPreviews.map((src, idx) => (
+                    <div key={idx} className="relative group rounded-lg overflow-hidden aspect-square bg-gray-100 dark:bg-gray-700">
+                      <img src={src} alt={`Foto ${idx + 1}`} className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => quitarImagen(idx)}
+                        className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {imagenesFiles.length < 5 && (
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 cursor-pointer hover:border-yellow-500 transition-colors flex flex-col items-center gap-2"
+                >
+                  <ImageIcon className="w-8 h-8 text-gray-400" />
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    {imagenesFiles.length === 0 ? "Haz clic para agregar fotos" : "Agregar más fotos"}
+                  </span>
+                </div>
+              )}
               <input
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={handleFileChange}
                 className="hidden"
               />
             </div>
             <button
               type="submit"
-              disabled={guardando || subiendoImagen || !titulo.trim() || !imagenFile}
+              disabled={guardando || subiendoImagen || !titulo.trim() || imagenesFiles.length === 0}
               className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white font-semibold rounded-lg transition-colors text-sm"
             >
               {guardando || subiendoImagen ? (
