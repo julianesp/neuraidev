@@ -2,31 +2,41 @@
 
 import Link from "next/link";
 import { useUser, SignInButton } from "@clerk/nextjs";
-import { Settings } from "lucide-react";
+
+const ADMIN_EMAIL = "hesucabrera223@umariana.edu.co";
 
 export default function AdminButton() {
   const { user, isLoaded } = useUser();
 
   if (!isLoaded) return null;
 
-  if (user) {
+  const emails = user?.emailAddresses?.map((e) => e.emailAddress) || [];
+  const esAdmin = emails.includes(ADMIN_EMAIL);
+
+  if (user && esAdmin) {
     return (
       <Link
-        href="/admin/pollos-colon"
-        className="inline-flex items-center gap-2 mt-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full transition-colors"
+        href="/pollos-colon/admin"
+        className="inline-flex items-center justify-center bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-xl w-10 h-10 rounded-full transition-colors"
+        title="Administrar publicaciones"
       >
-        <Settings className="w-4 h-4" />
-        Administrar publicaciones
+        ✏️
       </Link>
     );
   }
 
-  return (
-    <SignInButton mode="modal">
-      <button className="inline-flex items-center gap-2 mt-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full transition-colors">
-        <Settings className="w-4 h-4" />
-        Administrar publicaciones
-      </button>
-    </SignInButton>
-  );
+  if (!user) {
+    return (
+      <SignInButton mode="modal">
+        <button
+          className="inline-flex items-center justify-center bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-xl w-10 h-10 rounded-full transition-colors"
+          title="Administrar publicaciones"
+        >
+          ✏️
+        </button>
+      </SignInButton>
+    );
+  }
+
+  return null;
 }

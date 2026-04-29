@@ -29,9 +29,9 @@ export default async function PollosColonPage() {
   return (
     <main className="min-h-screen bg-amber-50 dark:bg-gray-900">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-yellow-500 to-amber-600 py-14 px-4 text-center">
+      <section className="relative bg-gradient-to-br from-yellow-500 to-amber-600 py-14 px-4 text-center">
         <div className="max-w-2xl mx-auto">
-          <div className="text-6xl mb-4">🐔</div>
+          <div className="text-6xl mb-4">🍗</div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
             Pollos Colón
           </h1>
@@ -42,7 +42,7 @@ export default async function PollosColonPage() {
             <span className="w-2 h-2 rounded-full bg-green-300 animate-pulse" />
             Pedidos con entrega a domicilio
           </div>
-          <div className="mt-3">
+          <div className="absolute top-4 left-4">
             <AdminButton />
           </div>
         </div>

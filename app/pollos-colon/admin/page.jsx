@@ -191,7 +191,7 @@ export default function AdminPollosColon() {
         {/* Header */}
         <div className="mb-8 mt-12 flex items-center gap-4">
           <Link
-            href="/admin"
+            href="/pollos-colon"
             className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow hover:shadow-md transition-shadow"
           >
             <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />
