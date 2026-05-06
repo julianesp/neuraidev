@@ -19,6 +19,7 @@ import {
   Store,
   Wrench,
   Bird,
+  Vote,
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -134,6 +135,15 @@ export default function AdminDashboard() {
       stats: "Publicaciones a domicilio",
       color: "yellow",
       gradient: "from-yellow-500 to-amber-600",
+    },
+    {
+      title: "Encuestas",
+      description: "Ver votos y resultados de encuestas electorales",
+      icon: Vote,
+      href: "/admin/encuestas",
+      stats: "Encuesta Presidencial 2026",
+      color: "rose",
+      gradient: "from-rose-500 to-red-600",
     },
   ];
 

@@ -27,31 +27,40 @@ const CANDIDATOS = [
   },
 ];
 
-const DEPARTAMENTOS_SUROCCIDENTE = {
-  "Valle del Cauca": [
-    "Cali", "Buenaventura", "Palmira", "Tuluá", "Cartago", "Buga", "Yumbo",
-    "Jamundí", "Candelaria", "Pradera", "Florida", "Dagua", "La Unión",
-    "Roldanillo", "Zarzal", "Sevilla", "Caicedonia", "El Cerrito",
-  ],
-  "Cauca": [
-    "Popayán", "Santander de Quilichao", "Puerto Tejada", "Patía", "Bolívar",
-    "Timbío", "El Tambo", "Miranda", "Guapi", "López de Micay", "Corinto",
-    "Caloto", "Toribío", "Piendamó", "Silvia",
-  ],
-  "Nariño": [
-    "Pasto", "Tumaco", "Ipiales", "Túquerres", "La Unión", "Samaniego",
-    "Barbacoas", "Cumbal", "Sandoná", "La Florida", "Ancuyá", "El Charco",
-    "Ricaurte", "Mosquera", "Olaya Herrera",
-  ],
-  "Putumayo": [
-    "Mocoa", "Puerto Asís", "Orito", "Valle del Guamuéz", "San Miguel",
-    "Villagarzón", "Puerto Caicedo", "Puerto Guzmán", "Leguízamo",
-    "Sibundoy", "San Francisco", "Colón",
-  ],
-  "Huila": [
-    "Neiva", "Pitalito", "Garzón", "La Plata", "Campoalegre", "Palermo",
-    "Gigante", "Isnos", "Timaná", "Hobo", "Rivera", "Algeciras",
-  ],
+const DEPARTAMENTOS_COLOMBIA = {
+  "Amazonas": ["Leticia", "Puerto Nariño", "El Encanto", "La Chorrera", "La Pedrera", "Mirití-Paraná", "Puerto Alegría", "Puerto Arica", "Puerto Santander", "Tarapacá"],
+  "Antioquia": ["Medellín", "Bello", "Itagüí", "Envigado", "Apartadó", "Turbo", "Rionegro", "Caucasia", "Quibdó", "Manizales", "Montería", "Pereira", "Armenia", "Barranquilla", "Bogotá", "Bucaramanga", "Cali", "Cartagena", "Cúcuta", "Ibagué", "Popayán", "Santa Marta", "Villavicencio"],
+  "Arauca": ["Arauca", "Arauquita", "Cravo Norte", "Fortul", "Puerto Rondón", "Saravena", "Tame"],
+  "Atlántico": ["Barranquilla", "Baranoa", "Campo de la Cruz", "Candelaria", "Galapa", "Juan de Acosta", "Luruaco", "Malambo", "Manatí", "Palmar de Varela", "Piojó", "Polonuevo", "Ponedera", "Puerto Colombia", "Repelón", "Sabanagrande", "Sabanalarga", "Santa Lucía", "Santo Tomás", "Soledad", "Suan", "Tubará", "Usiacurí"],
+  "Bogotá D.C.": ["Bogotá"],
+  "Bolívar": ["Cartagena", "Achí", "Altos del Rosario", "Arenal", "Arjona", "Arroyohondo", "Barranco de Loba", "Calamar", "Cantagallo", "Cicuco", "Córdoba", "Clemencia", "El Carmen de Bolívar", "El Guamo", "El Peñón", "Hatillo de Loba", "Magangué", "Mahates", "Margarita", "María la Baja", "Montecristo", "Mompós", "Morales", "Norosí", "Pinillos", "Regidor", "Río Viejo", "San Cristóbal", "San Estanislao", "San Fernando", "San Jacinto", "San Juan Nepomuceno", "San Martín de Loba", "San Pablo", "Santa Catalina", "Santa Rosa", "Santa Rosa del Sur", "Simití", "Soplaviento", "Talaigua Nuevo", "Tiquisio", "Turbaco", "Turbaná", "Villanueva", "Zambrano"],
+  "Boyacá": ["Tunja", "Chiquinquirá", "Duitama", "Sogamoso", "Paipa", "Villa de Leyva", "Moniquirá", "Puerto Boyacá", "Soatá", "Garagoa", "Guateque", "Miraflores", "Ramiriquí", "Aquitania", "Tota", "Iza", "Nobsa", "Santa Rosa de Viterbo", "Samacá", "Ventaquemada"],
+  "Caldas": ["Manizales", "Chinchiná", "La Dorada", "Riosucio", "Salamina", "Anserma", "Neira", "Villamaría", "Supía", "Manzanares", "Aguadas", "Pácora", "Filadelfia", "Pensilvania", "Rionegro", "Aranzazu", "Belalcázar", "Marulanda", "Samaná", "Victoria", "Viterbo"],
+  "Caquetá": ["Florencia", "Albania", "Belén de los Andaquíes", "Cartagena del Chairá", "Curillo", "El Doncello", "El Paujil", "La Montañita", "Milán", "Morelia", "Puerto Rico", "San José del Fragua", "San Vicente del Caguán", "Solano", "Solita", "Valparaíso"],
+  "Casanare": ["Yopal", "Aguazul", "Chameza", "Hato Corozal", "La Salina", "Maní", "Monterrey", "Nunchía", "Orocué", "Paz de Ariporo", "Pore", "Recetor", "Sabanalarga", "Sácama", "San Luis de Gaceno", "Tauramena", "Trinidad", "Villanueva"],
+  "Cauca": ["Popayán", "Santander de Quilichao", "Puerto Tejada", "Patía", "Bolívar", "Timbío", "El Tambo", "Miranda", "Guapi", "López de Micay", "Corinto", "Caloto", "Toribío", "Piendamó", "Silvia", "Mercaderes", "La Sierra", "Rosas", "Sotará", "Timbiquí", "Cajibío", "El Bordo", "Florencia", "Inzá", "Jambaló", "La Vega", "Morales", "Padilla", "Páez", "Puracé", "Sucre", "Villa Rica"],
+  "Cesar": ["Valledupar", "Aguachica", "Agustín Codazzi", "Astrea", "Becerril", "Bosconia", "Chimichagua", "Chiriguaná", "Curumaní", "El Copey", "El Paso", "Gamarra", "González", "La Gloria", "La Jagua de Ibirico", "La Paz", "Manaure", "Pailitas", "Pelaya", "Pueblo Bello", "Río de Oro", "San Alberto", "San Diego", "San Martín", "Tamalameque"],
+  "Chocó": ["Quibdó", "Acandí", "Alto Baudó", "Atrato", "Bagadó", "Bahía Solano", "Bajo Baudó", "Bojayá", "Carmen del Darién", "Cértegui", "Condoto", "El Carmen de Atrato", "El Litoral del San Juan", "Istmina", "Juradó", "Lloró", "Medio Atrato", "Medio Baudó", "Medio San Juan", "Nóvita", "Nuquí", "Río Iró", "Río Quito", "Riosucio", "San José del Palmar", "Sipí", "Tadó", "Unión Panamericana"],
+  "Córdoba": ["Montería", "Ayapel", "Buenavista", "Canalete", "Cereté", "Chimá", "Chinú", "Ciénaga de Oro", "Cotorra", "La Apartada", "Lorica", "Los Córdobas", "Momil", "Montelíbano", "Moñitos", "Planeta Rica", "Pueblo Nuevo", "Puerto Escondido", "Puerto Libertador", "Purísima", "Sahagún", "San Andrés de Sotavento", "San Antero", "San Bernardo del Viento", "San Carlos", "San José de Uré", "San Pelayo", "Tierralta", "Tuchín", "Valencia"],
+  "Cundinamarca": ["Bogotá", "Soacha", "Facatativá", "Zipaquirá", "Chía", "Fusagasugá", "Girardot", "Mosquera", "Madrid", "Funza", "Cajicá", "La Mesa", "Villeta", "Cota", "Tocancipá", "Gachancipá", "Sibaté", "Sopó", "Tabio", "Tenjo"],
+  "Guainía": ["Inírida", "Barranco Minas", "Cacahual", "La Guadalupe", "Mapiripana", "Morichal", "Pana Pana", "Puerto Colombia", "San Felipe"],
+  "Guaviare": ["San José del Guaviare", "Calamar", "El Retorno", "Miraflores"],
+  "Huila": ["Neiva", "Pitalito", "Garzón", "La Plata", "Campoalegre", "Palermo", "Gigante", "Isnos", "Timaná", "Hobo", "Rivera", "Algeciras", "Aipe", "Altamira", "Baraya", "Colombia", "El Agrado", "El Pital", "Elías", "Guadalupe", "Iquira", "Íquira", "La Argentina", "Nátaga", "Oporapa", "Paicol", "Palestina", "San Agustín", "Santa María", "Suaza", "Tarqui", "Tello", "Teruel", "Tesalia", "Villavieja", "Yaguará"],
+  "La Guajira": ["Riohacha", "Albania", "Barrancas", "Dibulla", "Distracción", "El Molino", "Fonseca", "Hatonuevo", "La Jagua del Pilar", "Maicao", "Manaure", "San Juan del Cesar", "Uribia", "Urumita", "Villanueva"],
+  "Magdalena": ["Santa Marta", "Aracataca", "Ariguaní", "Cerro de San Antonio", "Chivolo", "Ciénaga", "Concordia", "El Banco", "El Piñón", "El Retén", "Fundación", "Guamal", "Nueva Granada", "Pedraza", "Pijiño del Carmen", "Pivijay", "Plato", "Puebloviejo", "Remolino", "Sabanas de San Ángel", "Salamina", "San Sebastián de Buenavista", "San Zenón", "Santa Ana", "Santa Bárbara de Pinto", "Sitionuevo", "Tenerife", "Zapayán", "Zona Bananera"],
+  "Meta": ["Villavicencio", "Acacías", "Barranca de Upía", "Cabuyaro", "Castilla la Nueva", "Cubarral", "Cumaral", "El Calvario", "El Castillo", "El Dorado", "Fuente de Oro", "Granada", "Guamal", "La Macarena", "Lejanías", "Mapiripán", "Mesetas", "La Uribe", "Mapiripán", "Puerto Concordia", "Puerto Gaitán", "Puerto Lleras", "Puerto López", "Puerto Rico", "Restrepo", "San Carlos de Guaroa", "San Juan de Arama", "San Juanito", "San Martín", "Vistahermosa"],
+  "Nariño": ["Pasto", "Tumaco", "Ipiales", "Túquerres", "La Unión", "Samaniego", "Barbacoas", "Cumbal", "Sandoná", "La Florida", "El Charco", "Ricaurte", "Mosquera", "Olaya Herrera", "Aldana", "Ancuyá", "Arboleda", "Belén", "Buesaco", "Colón", "Consacá", "Contadero", "Córdoba", "Cuaspud", "Cumbitara", "El Peñol", "El Rosario", "El Tablón de Gómez", "El Tambo", "Funes", "Guachucal", "Guaitarilla", "Gualmatán", "Iles", "Imués", "Linares", "Leiva", "Los Andes", "Magüí", "Mallama", "Nariño", "Ospina", "Francisco Pizarro", "Policarpa", "Potosí", "Providencia", "Puerres", "Pupiales", "San Lorenzo", "San Pablo", "San Pedro de Cartago", "Santa Bárbara", "Sapuyes", "Taminango", "Tangua", "Los Andes", "Yacuanquer"],
+  "Norte de Santander": ["Cúcuta", "Ocaña", "Pamplona", "Villa del Rosario", "Los Patios", "El Zulia", "Tibú", "Bucarasica", "Cácota", "Cachirá", "Chinácota", "Chitagá", "Convención", "Durania", "El Carmen", "El Tarra", "Gramalote", "Hacarí", "Herrán", "La Esperanza", "La Playa", "Labateca", "Lourdes", "Mutiscua", "Nátagaima", "Pamplonita", "Puerto Santander", "Ragonvalia", "Salazar", "San Calixto", "San Cayetano", "Santiago", "Sardinata", "Silos", "Teorama", "Toledo", "Villa Caro", "Villanueva"],
+  "Putumayo": ["Mocoa", "Puerto Asís", "Orito", "Valle del Guamuéz", "San Miguel", "Villagarzón", "Puerto Caicedo", "Puerto Guzmán", "Leguízamo", "Sibundoy", "San Francisco", "Colón", "Santiago", "San Pedro"],
+  "Quindío": ["Armenia", "Buenavista", "Calarcá", "Circasia", "Córdoba", "Filandia", "Génova", "La Tebaida", "Montenegro", "Pijao", "Quimbaya", "Salento"],
+  "Risaralda": ["Pereira", "Dosquebradas", "Santa Rosa de Cabal", "La Virginia", "Apía", "Balboa", "Belén de Umbría", "Guática", "La Celia", "Marsella", "Mistrató", "Pueblo Rico", "Quinchía", "Santuario"],
+  "San Andrés y Providencia": ["San Andrés", "Providencia", "Santa Catalina"],
+  "Santander": ["Bucaramanga", "Floridablanca", "Girón", "Piedecuesta", "Barrancabermeja", "Socorro", "San Gil", "Vélez", "Barbosa", "Lebrija", "Málaga", "Charalá", "Concepción", "Zapatoca", "Oiba", "Rionegro", "Puerto Wilches", "Sabana de Torres", "Curití", "El Playón"],
+  "Sucre": ["Sincelejo", "Corozal", "Sampués", "San Marcos", "Tolú", "Tolúviejo", "Ovejas", "Morroa", "Los Palmitos", "Galeras", "Buenavista", "Majagual", "San Luis de Sincé", "Santiago de Tolú", "Coveñas", "Chalán", "Coloso", "Guaranda", "La Unión", "Palmito", "San Benito Abad", "San Juan de Betulia", "San Onofre", "San Pedro", "Sucre"],
+  "Tolima": ["Ibagué", "Espinal", "Honda", "Melgar", "Chaparral", "Líbano", "Mariquita", "Fresno", "Girardot", "Flandes", "Purificación", "Natagaima", "Ataco", "Cunday", "Dolores", "Guamo", "Herveo", "Icononzo", "Lérida", "Murillo", "Ortega", "Planadas", "Prado", "Rioblanco", "Roncesvalles", "Rovira", "Saldaña", "San Antonio", "Venadillo", "Villahermosa", "Villarrica"],
+  "Valle del Cauca": ["Cali", "Buenaventura", "Palmira", "Tuluá", "Cartago", "Buga", "Yumbo", "Jamundí", "Candelaria", "Pradera", "Florida", "Dagua", "La Unión", "Roldanillo", "Zarzal", "Sevilla", "Caicedonia", "El Cerrito", "Alcalá", "Andalucía", "Ansermanuevo", "Argelia", "Bolívar", "Buenaventura", "Calima", "Darién", "El Águila", "El Cairo", "El Dovio", "Ginebra", "Guacarí", "La Cumbre", "La Victoria", "Obando", "Restrepo", "Riofríio", "San Pedro", "Toro", "Trujillo", "Ulloa", "Versalles", "Vijes", "Yotoco"],
+  "Vaupés": ["Mitú", "Carurú", "Pacoa", "Papunaua", "Taraira", "Yavaraté"],
+  "Vichada": ["Puerto Carreño", "Cumaribo", "La Primavera", "Santa Rosalía"],
 };
 
 function calcularPorcentajes(votos) {
@@ -83,6 +92,8 @@ export default function EncuestaPresidencialPage() {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
   const [exito, setExito] = useState(false);
+  const [miVoto, setMiVoto] = useState(null);
+  const [cargandoMiVoto, setCargandoMiVoto] = useState(false);
   const [resultadosMunicipios, setResultadosMunicipios] = useState([]);
   const [resultadosDepartamentos, setResultadosDepartamentos] = useState([]);
   const [vistaResultados, setVistaResultados] = useState("municipios");
@@ -109,6 +120,16 @@ export default function EncuestaPresidencialPage() {
   useEffect(() => {
     cargarResultados();
   }, [cargarResultados]);
+
+  // Verificar si el usuario ya votó
+  useEffect(() => {
+    if (!user) return;
+    setCargandoMiVoto(true);
+    fetch("/api/encuesta-presidencial?vista=mi-voto")
+      .then((r) => r.json())
+      .then((d) => setMiVoto(d.voto || null))
+      .finally(() => setCargandoMiVoto(false));
+  }, [user]);
 
   async function handleVotar(e) {
     e.preventDefault();
@@ -140,7 +161,7 @@ export default function EncuestaPresidencialPage() {
     }
   }
 
-  const municipiosDisponibles = departamento ? DEPARTAMENTOS_SUROCCIDENTE[departamento] || [] : [];
+  const municipiosDisponibles = departamento ? DEPARTAMENTOS_COLOMBIA[departamento] || [] : [];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-white to-red-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-10 px-4">
@@ -155,7 +176,7 @@ export default function EncuestaPresidencialPage() {
             Encuesta Presidencial
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Sur Occidente Colombiano
+            Colombia
           </p>
           <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">
             Participa iniciando sesion con tu cuenta de Google. Solo se permite un voto por persona.
@@ -203,7 +224,11 @@ export default function EncuestaPresidencialPage() {
                 </button>
               </SignInButton>
             </div>
-          ) : exito ? (
+          ) : cargandoMiVoto ? (
+            <div className="text-center py-8">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
+            </div>
+          ) : (exito || miVoto) ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -211,9 +236,19 @@ export default function EncuestaPresidencialPage() {
                 </svg>
               </div>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Voto registrado</h2>
-              <p className="text-gray-600 dark:text-gray-400">
-                Gracias <strong>{user.fullName || user.firstName}</strong>, tu voto ha sido registrado exitosamente.
+              <p className="text-gray-600 dark:text-gray-400 mb-1">
+                Gracias <strong>{user.fullName || user.firstName}</strong>, tu voto ha sido registrado.
               </p>
+              {miVoto && (
+                <p className="text-sm text-gray-400 dark:text-gray-500">
+                  Votaste por <strong>{CANDIDATOS.find(c => c.id === miVoto.candidato_id)?.nombre}</strong> desde <strong>{miVoto.municipio}</strong>, {miVoto.departamento}.
+                </p>
+              )}
+              <SignOutButton redirectUrl="/encuesta-presidencial">
+                <button className="mt-4 text-xs text-gray-400 hover:text-red-500 transition-colors">
+                  Cerrar sesion
+                </button>
+              </SignOutButton>
             </div>
           ) : (
             <>
@@ -251,7 +286,7 @@ export default function EncuestaPresidencialPage() {
                     className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2.5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none appearance-auto cursor-pointer"
                   >
                     <option value="">Selecciona tu departamento</option>
-                    {Object.keys(DEPARTAMENTOS_SUROCCIDENTE).map((dep) => (
+                    {Object.keys(DEPARTAMENTOS_COLOMBIA).map((dep) => (
                       <option key={dep} value={dep}>{dep}</option>
                     ))}
                   </select>
@@ -336,6 +371,52 @@ export default function EncuestaPresidencialPage() {
 
         {/* Resultados */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 p-6">
+          {/* Gráfica global */}
+          {(() => {
+            const totalGlobal = resultadosMunicipios.reduce((acc, item) => {
+              Object.entries(item.votos).forEach(([id, v]) => { acc[id] = (acc[id] || 0) + v; });
+              return acc;
+            }, {});
+            const totalVotos = Object.values(totalGlobal).reduce((s, v) => s + v, 0);
+            if (totalVotos === 0) return null;
+            const ganadorGlobal = CANDIDATOS.reduce((prev, c) =>
+              (totalGlobal[c.id] || 0) > (totalGlobal[prev.id] || 0) ? c : prev
+            , CANDIDATOS[0]);
+            return (
+              <div className="mb-7 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className={`w-3 h-3 rounded-full ${ganadorGlobal.colorBarra}`} />
+                  <p className="font-bold text-gray-900 dark:text-white text-sm">
+                    Va ganando: <span className="text-base">{ganadorGlobal.nombre}</span>
+                    <span className="ml-2 text-gray-500 dark:text-gray-400 font-normal">
+                      — {totalGlobal[ganadorGlobal.id]} {totalGlobal[ganadorGlobal.id] === 1 ? "voto" : "votos"} de {totalVotos} totales
+                    </span>
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  {CANDIDATOS.map((c) => {
+                    const votos = totalGlobal[c.id] || 0;
+                    const pct = totalVotos ? ((votos / totalVotos) * 100).toFixed(1) : 0;
+                    return (
+                      <div key={c.id}>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="font-medium text-gray-700 dark:text-gray-300">{c.nombre}</span>
+                          <span className="font-bold text-gray-900 dark:text-white">{votos} votos · {pct}%</span>
+                        </div>
+                        <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full transition-all duration-700 ${c.colorBarra}`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
+
           <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">Resultados en tiempo real</h2>
             <div className="flex gap-2">

@@ -6,6 +6,8 @@ import {
   getResultadosPorMunicipio,
   getResultadosPorDepartamento,
   getTodosLosVotos,
+  getVotoDeUsuario,
+  borrarTodosLosVotos,
 } from "@/lib/supabase/encuesta-presidencial";
 
 const ADMIN_EMAIL = "hesucabrera223@umariana.edu.co";
@@ -31,6 +33,13 @@ export async function GET(request) {
       }
       const votos = await getTodosLosVotos();
       return NextResponse.json({ votos });
+    }
+
+    if (vista === "mi-voto") {
+      const { userId } = await auth();
+      if (!userId) return NextResponse.json({ voto: null });
+      const voto = await getVotoDeUsuario(userId);
+      return NextResponse.json({ voto });
     }
 
     if (vista === "departamentos") {
@@ -63,5 +72,19 @@ export async function POST(request) {
   } catch (error) {
     const status = error.message.includes("Ya has registrado") ? 409 : 500;
     return NextResponse.json({ error: error.message }, { status });
+  }
+}
+
+// DELETE /api/encuesta-presidencial — borrar todos los votos (solo admin)
+export async function DELETE() {
+  try {
+    const admin = await esAdmin();
+    if (!admin) {
+      return NextResponse.json({ error: "No autorizado" }, { status: 403 });
+    }
+    await borrarTodosLosVotos();
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
