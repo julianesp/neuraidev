@@ -49,16 +49,16 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { facebook_id, facebook_name, facebook_email, facebook_picture, municipio, departamento, candidato_id } = body;
+    const { user_id, user_name, user_email, user_picture, municipio, departamento, candidato_id } = body;
 
-    if (!facebook_id || !facebook_name || !municipio || !departamento || !candidato_id) {
+    if (!user_id || !user_name || !municipio || !departamento || !candidato_id) {
       return NextResponse.json(
-        { error: "Faltan datos requeridos: usuario de Facebook, municipio, departamento y candidato." },
+        { error: "Faltan datos requeridos: usuario, municipio, departamento y candidato." },
         { status: 400 }
       );
     }
 
-    const voto = await registrarVoto({ facebook_id, facebook_name, facebook_email, facebook_picture, municipio, departamento, candidato_id });
+    const voto = await registrarVoto({ user_id, user_name, user_email, user_picture, municipio, departamento, candidato_id });
     return NextResponse.json({ voto });
   } catch (error) {
     const status = error.message.includes("Ya has registrado") ? 409 : 500;

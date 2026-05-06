@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 
 const CANDIDATOS = [
   {
@@ -74,10 +75,8 @@ export default function EncuestaPresidencialPage() {
   const FECHA_CIERRE = new Date("2026-05-30T23:59:59");
   const encuestaCerrada = new Date() > FECHA_CIERRE;
 
-  const [fbUser, setFbUser] = useState(null);
-  const [fbSdkReady, setFbSdkReady] = useState(false);
-  const [fbEnWebview, setFbEnWebview] = useState(false);
-  const [esMobil, setEsMobil] = useState(false);
+  const { user, isLoaded } = useUser();
+
   const [departamento, setDepartamento] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [candidatoId, setCandidatoId] = useState("");
@@ -88,73 +87,6 @@ export default function EncuestaPresidencialPage() {
   const [resultadosDepartamentos, setResultadosDepartamentos] = useState([]);
   const [vistaResultados, setVistaResultados] = useState("municipios");
   const [cargandoResultados, setCargandoResultados] = useState(false);
-
-  // Detectar webview, móvil y leer callback OAuth en un solo efecto
-  useEffect(() => {
-    const ua = navigator.userAgent || "";
-    if (/Android|iPhone|iPad|iPod|Mobile/i.test(ua)) {
-      setEsMobil(true);
-    }
-
-    // Leer datos de usuario desde callback OAuth
-    const params = new URLSearchParams(window.location.search);
-    const fb_id = params.get("fb_id");
-    const fb_name = params.get("fb_name");
-
-    if (fb_id && fb_name) {
-      // Viene del callback OAuth: autenticar y NO mostrar advertencia de webview
-      setFbUser({
-        id: fb_id,
-        name: fb_name,
-        email: params.get("fb_email") || null,
-        picture: params.get("fb_picture") || null,
-      });
-      window.history.replaceState({}, "", "/encuesta-presidencial");
-    } else if (ua.includes("FBAN") || ua.includes("FBAV") || ua.includes("FB_IAB")) {
-      // Solo mostrar advertencia si NO viene del callback
-      setFbEnWebview(true);
-    }
-  }, []);
-
-  // Cargar SDK de Facebook
-  useEffect(() => {
-    const FB_APP_ID = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || "";
-
-    function doInit() {
-      window.FB.init({
-        appId: FB_APP_ID,
-        cookie: true,
-        xfbml: true,
-        version: "v19.0",
-      });
-      setFbSdkReady(true);
-    }
-
-    // Si el SDK ya está cargado y disponible, inicializar directamente
-    if (window.FB) {
-      doInit();
-      return;
-    }
-
-    // Registrar fbAsyncInit antes de cargar el script
-    window.fbAsyncInit = function () {
-      doInit();
-    };
-
-    // Si el script ya está en el DOM, solo esperar a que fbAsyncInit dispare
-    if (document.getElementById("facebook-jssdk")) {
-      return;
-    }
-
-    // Cargar el script por primera vez
-    const script = document.createElement("script");
-    script.id = "facebook-jssdk";
-    script.src = "https://connect.facebook.net/es_LA/sdk.js";
-    script.async = true;
-    script.defer = true;
-    script.crossOrigin = "anonymous";
-    document.body.appendChild(script);
-  }, []);
 
   const cargarResultados = useCallback(async () => {
     setCargandoResultados(true);
@@ -178,48 +110,9 @@ export default function EncuestaPresidencialPage() {
     cargarResultados();
   }, [cargarResultados]);
 
-  function loginFacebook() {
-    const FB_APP_ID = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
-    const redirectUri = encodeURIComponent(
-      `${window.location.origin}/api/auth/facebook/callback`
-    );
-
-    if (esMobil) {
-      // En móvil usar OAuth redirect para abrir la app de Facebook
-      window.location.href = `https://www.facebook.com/v19.0/dialog/oauth?client_id=${FB_APP_ID}&redirect_uri=${redirectUri}&scope=public_profile,email&response_type=code`;
-      return;
-    }
-
-    if (!window.FB) return;
-    window.FB.login(
-      (response) => {
-        if (response.authResponse) {
-          window.FB.api(
-            "/me",
-            { fields: "id,name,email,picture.type(large)" },
-            (perfil) => {
-              setFbUser({
-                id: perfil.id,
-                name: perfil.name,
-                email: perfil.email || null,
-                picture: perfil.picture?.data?.url || null,
-              });
-            }
-          );
-        }
-      },
-      { scope: "public_profile,email" }
-    );
-  }
-
-  function logoutFacebook() {
-    if (!window.FB) return;
-    window.FB.logout(() => setFbUser(null));
-  }
-
   async function handleVotar(e) {
     e.preventDefault();
-    if (!fbUser || !departamento || !municipio || !candidatoId) return;
+    if (!user || !departamento || !municipio || !candidatoId) return;
     setCargando(true);
     setError("");
     try {
@@ -227,10 +120,10 @@ export default function EncuestaPresidencialPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          facebook_id: fbUser.id,
-          facebook_name: fbUser.name,
-          facebook_email: fbUser.email,
-          facebook_picture: fbUser.picture,
+          user_id: user.id,
+          user_name: user.fullName || user.firstName || user.username || "Usuario",
+          user_email: user.primaryEmailAddress?.emailAddress || null,
+          user_picture: user.imageUrl || null,
           municipio,
           departamento,
           candidato_id: candidatoId,
@@ -251,7 +144,6 @@ export default function EncuestaPresidencialPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-white to-red-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-10 px-4">
-      <div id="fb-root" />
       <div className="max-w-3xl mx-auto">
 
         {/* Encabezado */}
@@ -266,7 +158,7 @@ export default function EncuestaPresidencialPage() {
             Sur Occidente Colombiano
           </p>
           <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">
-            Participa iniciando sesion con tu cuenta de Facebook. Solo se permite un voto por persona.
+            Participa iniciando sesion con tu cuenta de Google. Solo se permite un voto por persona.
           </p>
           <p className="text-gray-400 dark:text-gray-600 text-xs mt-1">
             Encuesta activa hasta el 30 de mayo de 2026
@@ -286,40 +178,30 @@ export default function EncuestaPresidencialPage() {
                 La encuesta finalizó el 30 de mayo de 2026. Consulta los resultados a continuacion.
               </p>
             </div>
-          ) : fbEnWebview ? (
-            <div className="text-center py-8 px-4">
-              <div className="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
-                ⚠️
-              </div>
-              <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Abre esta pagina en tu navegador</h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                El navegador interno de Facebook no permite el inicio de sesion con Facebook por razones de seguridad.
-                <br /><br />
-                Abre esta pagina en <strong>Chrome, Safari o tu navegador preferido</strong> para poder votar.
-              </p>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg px-4 py-2 inline-block text-xs text-gray-500 dark:text-gray-400 font-mono break-all">
-                neurai.dev/encuesta-presidencial
-              </div>
+          ) : !isLoaded ? (
+            <div className="text-center py-10">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
             </div>
           ) : (
           <>
 
-          {/* Login Facebook */}
-          {!fbUser ? (
+          {/* Login con Google via Clerk */}
+          {!user ? (
             <div className="text-center py-6">
               <p className="text-gray-600 dark:text-gray-400 mb-5">
-                Para votar debes iniciar sesion con tu cuenta de Facebook.
+                Para votar debes iniciar sesion con tu cuenta de Google.
               </p>
-              <button
-                onClick={loginFacebook}
-                disabled={!fbSdkReady}
-                className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-7 py-3 rounded-xl transition-colors duration-200 text-base"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-                Iniciar sesion con Facebook
-              </button>
+              <SignInButton mode="redirect" forceRedirectUrl="/encuesta-presidencial">
+                <button className="inline-flex items-center gap-3 bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 font-semibold px-7 py-3 rounded-xl transition-colors duration-200 text-base shadow-sm">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                  </svg>
+                  Iniciar sesion con Google
+                </button>
+              </SignInButton>
             </div>
           ) : exito ? (
             <div className="text-center py-8">
@@ -330,25 +212,29 @@ export default function EncuestaPresidencialPage() {
               </div>
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Voto registrado</h2>
               <p className="text-gray-600 dark:text-gray-400">
-                Gracias <strong>{fbUser.name}</strong>, tu voto ha sido registrado exitosamente.
+                Gracias <strong>{user.fullName || user.firstName}</strong>, tu voto ha sido registrado exitosamente.
               </p>
             </div>
           ) : (
             <>
-              {/* Perfil Facebook */}
+              {/* Perfil Google/Clerk */}
               <div className="flex items-center justify-between mb-6 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
                 <div className="flex items-center gap-3">
-                  {fbUser.picture && (
-                    <img src={fbUser.picture} alt={fbUser.name} className="w-10 h-10 rounded-full" />
+                  {user.imageUrl && (
+                    <img src={user.imageUrl} alt={user.fullName} className="w-10 h-10 rounded-full" />
                   )}
                   <div>
-                    <p className="font-semibold text-gray-900 dark:text-white text-sm">{fbUser.name}</p>
-                    {fbUser.email && <p className="text-xs text-gray-500 dark:text-gray-400">{fbUser.email}</p>}
+                    <p className="font-semibold text-gray-900 dark:text-white text-sm">{user.fullName || user.firstName}</p>
+                    {user.primaryEmailAddress?.emailAddress && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{user.primaryEmailAddress.emailAddress}</p>
+                    )}
                   </div>
                 </div>
-                <button onClick={logoutFacebook} className="text-xs text-gray-400 hover:text-red-500 transition-colors">
-                  Cerrar sesion
-                </button>
+                <SignOutButton redirectUrl="/encuesta-presidencial">
+                  <button className="text-xs text-gray-400 hover:text-red-500 transition-colors">
+                    Cerrar sesion
+                  </button>
+                </SignOutButton>
               </div>
 
               {/* Formulario de voto */}
