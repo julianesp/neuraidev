@@ -77,6 +77,7 @@ export default function EncuestaPresidencialPage() {
   const [fbUser, setFbUser] = useState(null);
   const [fbSdkReady, setFbSdkReady] = useState(false);
   const [fbEnWebview, setFbEnWebview] = useState(false);
+  const [esMobil, setEsMobil] = useState(false);
   const [departamento, setDepartamento] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [candidatoId, setCandidatoId] = useState("");
@@ -88,11 +89,31 @@ export default function EncuestaPresidencialPage() {
   const [vistaResultados, setVistaResultados] = useState("municipios");
   const [cargandoResultados, setCargandoResultados] = useState(false);
 
-  // Detectar si se abre desde el navegador interno de Facebook
+  // Detectar si es móvil y si viene del webview de Facebook
   useEffect(() => {
     const ua = navigator.userAgent || "";
     if (ua.includes("FBAN") || ua.includes("FBAV") || ua.includes("FB_IAB")) {
       setFbEnWebview(true);
+    }
+    if (/Android|iPhone|iPad|iPod|Mobile/i.test(ua)) {
+      setEsMobil(true);
+    }
+  }, []);
+
+  // Leer datos de usuario desde callback OAuth (flujo móvil)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const fb_id = params.get("fb_id");
+    const fb_name = params.get("fb_name");
+    if (fb_id && fb_name) {
+      setFbUser({
+        id: fb_id,
+        name: fb_name,
+        email: params.get("fb_email") || null,
+        picture: params.get("fb_picture") || null,
+      });
+      // Limpiar params de la URL
+      window.history.replaceState({}, "", "/encuesta-presidencial");
     }
   }, []);
 
@@ -159,6 +180,17 @@ export default function EncuestaPresidencialPage() {
   }, [cargarResultados]);
 
   function loginFacebook() {
+    const FB_APP_ID = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
+    const redirectUri = encodeURIComponent(
+      `${window.location.origin}/api/auth/facebook/callback`
+    );
+
+    if (esMobil) {
+      // En móvil usar OAuth redirect para abrir la app de Facebook
+      window.location.href = `https://www.facebook.com/v19.0/dialog/oauth?client_id=${FB_APP_ID}&redirect_uri=${redirectUri}&scope=public_profile,email&response_type=code`;
+      return;
+    }
+
     if (!window.FB) return;
     window.FB.login(
       (response) => {
