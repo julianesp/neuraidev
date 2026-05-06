@@ -331,7 +331,7 @@ export default function EncuestaPresidencialPage() {
                     value={departamento}
                     onChange={(e) => { setDepartamento(e.target.value); setMunicipio(""); }}
                     required
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2.5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2.5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none appearance-auto cursor-pointer"
                   >
                     <option value="">Selecciona tu departamento</option>
                     {Object.keys(DEPARTAMENTOS_SUROCCIDENTE).map((dep) => (
@@ -350,7 +350,7 @@ export default function EncuestaPresidencialPage() {
                     onChange={(e) => setMunicipio(e.target.value)}
                     required
                     disabled={!departamento}
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2.5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none disabled:opacity-50"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2.5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none disabled:opacity-50 appearance-auto cursor-pointer"
                   >
                     <option value="">Selecciona tu municipio</option>
                     {municipiosDisponibles.map((mun) => (
