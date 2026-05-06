@@ -10,14 +10,14 @@ import {
   borrarTodosLosVotos,
 } from "@/lib/supabase/encuesta-presidencial";
 
-const ADMIN_EMAIL = "hesucabrera223@umariana.edu.co";
+const ADMIN_EMAILS = ["julii1295@gmail.com", "admin@neurai.dev"];
 
 async function esAdmin() {
   const { userId } = await auth();
   if (!userId) return false;
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
-  return user.emailAddresses.some((e) => e.emailAddress === ADMIN_EMAIL);
+  return user.emailAddresses.some((e) => ADMIN_EMAILS.includes(e.emailAddress));
 }
 
 // GET /api/encuesta-presidencial?vista=municipios|departamentos|admin
