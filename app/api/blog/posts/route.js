@@ -83,6 +83,7 @@ export async function POST(request) {
       meta_title,
       meta_description,
       meta_keywords,
+      encuesta_slug,
     } = body;
 
     // Validar campos requeridos
@@ -126,6 +127,7 @@ export async function POST(request) {
         meta_title: meta_title || title,
         meta_description: meta_description || excerpt,
         meta_keywords,
+        encuesta_slug: encuesta_slug || null,
         published_at: published ? new Date().toISOString() : null,
       })
       .select()

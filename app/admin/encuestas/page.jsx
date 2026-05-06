@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Download, Users, BarChart2, MapPin, Trash2 } from "lucide-react";
+
+import { ArrowLeft, Download, Users, BarChart2, MapPin, Trash2, Plus, ExternalLink } from "lucide-react";
 
 const CANDIDATOS = {
   ivan_cepeda: { nombre: "Iván Cepeda", partido: "Polo Democrático Alternativo", color: "bg-red-600" },
@@ -93,16 +94,28 @@ export default function AdminEncuestasPage() {
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8 mt-10">
-          <Link href="/admin" className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-            <ArrowLeft size={20} className="text-gray-600 dark:text-gray-400" />
-          </Link>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-              <BarChart2 size={32} />
-              Encuesta Presidencial 2026
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-1">Panel de administración de votos</p>
+        <div className="flex items-center justify-between gap-4 mb-8 mt-10 flex-wrap">
+          <div className="flex items-center gap-4">
+            <Link href="/admin" className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+              <ArrowLeft size={20} className="text-gray-600 dark:text-gray-400" />
+            </Link>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                <BarChart2 size={32} />
+                Encuesta Presidencial 2026
+              </h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-1">Panel de administración de votos</p>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <Link href="/encuesta-presidencial" target="_blank"
+              className="flex items-center gap-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+              <ExternalLink size={16} /> Ver encuesta
+            </Link>
+            <Link href="/admin/encuestas/nueva"
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+              <Plus size={16} /> Nueva encuesta
+            </Link>
           </div>
         </div>
 

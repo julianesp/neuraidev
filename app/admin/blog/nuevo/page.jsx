@@ -28,6 +28,7 @@ const CATEGORIES = [
 export default function NuevoArticulo() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [encuestas, setEncuestas] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -42,7 +43,12 @@ export default function NuevoArticulo() {
     meta_title: "",
     meta_description: "",
     meta_keywords: "",
+    encuesta_slug: "",
   });
+
+  React.useEffect(() => {
+    fetch("/api/encuestas").then(r => r.json()).then(d => setEncuestas(d.encuestas || []));
+  }, []);
 
   const [images, setImages] = useState([{ url: "", source: "" }]);
 
@@ -327,6 +333,22 @@ export default function NuevoArticulo() {
                   + Agregar otra URL de imagen
                 </button>
               </div>
+
+              {encuestas.length > 0 && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Encuesta vinculada (opcional)
+                  </label>
+                  <select value={formData.encuesta_slug} onChange={(e) => setFormData({ ...formData, encuesta_slug: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                    <option value="">Sin encuesta</option>
+                    {encuestas.map((enc) => (
+                      <option key={enc.slug} value={enc.slug}>{enc.titulo}</option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-gray-400 mt-1">La encuesta aparecerá al final del artículo para que los lectores puedan votar.</p>
+                </div>
+              )}
 
               <div className="flex items-center space-x-6">
                 <label className="flex items-center">

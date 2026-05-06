@@ -4,6 +4,7 @@ import BlogArticle from "@/components/BlogArticle";
 import { getPostBySlug, incrementPostViews } from "@/lib/supabase/blog";
 import styles from "../blog.module.css";
 import Link from "next/link";
+import EncuestaWidget from "@/components/EncuestaWidget";
 
 // Forzar revalidación para evitar caché de posts
 export const revalidate = 0;
@@ -170,6 +171,13 @@ export default async function BlogPost({ params }) {
             dangerouslySetInnerHTML={{ __html: sanitizedContent }}
           />
         </article>
+
+        {/* Encuesta vinculada */}
+        {post.encuesta_slug && (
+          <div className="my-8">
+            <EncuestaWidget slug={post.encuesta_slug} />
+          </div>
+        )}
 
         {/* Footer */}
         <div className={styles.ornament}>❖ ❖ ❖</div>
