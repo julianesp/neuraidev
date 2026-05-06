@@ -89,31 +89,30 @@ export default function EncuestaPresidencialPage() {
   const [vistaResultados, setVistaResultados] = useState("municipios");
   const [cargandoResultados, setCargandoResultados] = useState(false);
 
-  // Detectar si es móvil y si viene del webview de Facebook
+  // Detectar webview, móvil y leer callback OAuth en un solo efecto
   useEffect(() => {
     const ua = navigator.userAgent || "";
-    if (ua.includes("FBAN") || ua.includes("FBAV") || ua.includes("FB_IAB")) {
-      setFbEnWebview(true);
-    }
     if (/Android|iPhone|iPad|iPod|Mobile/i.test(ua)) {
       setEsMobil(true);
     }
-  }, []);
 
-  // Leer datos de usuario desde callback OAuth (flujo móvil)
-  useEffect(() => {
+    // Leer datos de usuario desde callback OAuth
     const params = new URLSearchParams(window.location.search);
     const fb_id = params.get("fb_id");
     const fb_name = params.get("fb_name");
+
     if (fb_id && fb_name) {
+      // Viene del callback OAuth: autenticar y NO mostrar advertencia de webview
       setFbUser({
         id: fb_id,
         name: fb_name,
         email: params.get("fb_email") || null,
         picture: params.get("fb_picture") || null,
       });
-      // Limpiar params de la URL
       window.history.replaceState({}, "", "/encuesta-presidencial");
+    } else if (ua.includes("FBAN") || ua.includes("FBAV") || ua.includes("FB_IAB")) {
+      // Solo mostrar advertencia si NO viene del callback
+      setFbEnWebview(true);
     }
   }, []);
 
