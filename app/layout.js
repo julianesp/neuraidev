@@ -15,8 +15,7 @@ import styles from "../styles/components/Layout.module.scss";
 import { ThemeProvider } from "next-themes";
 import Script from "next/script";
 // import NotificationManager from "../components/NotificationManager";
-import StoreStatus from "@/components/StoreStatus";
-import { Analytics } from "@vercel/analytics/next";
+
 import { ToastProvider } from "@/contexts/ToastContext";
 import { ToastContainer } from "@/components/Toast";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -27,6 +26,7 @@ import AnnouncementsProvider from "@/components/AnnouncementsProvider";
 import AccessibilityPanel from "@/components/AccessibilityPanel";
 import { MinecraftThemeProvider } from "@/contexts/MinecraftThemeContext";
 import MinecraftThemeFloatingButton from "@/components/MinecraftThemeFloatingButton";
+import { Analytics } from "@vercel/analytics/next";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -173,7 +173,9 @@ export const metadata = {
     title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
       "Accesorios para celulares y computadoras. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
-    images: ["https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png"],
+    images: [
+      "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+    ],
     creator: "@neuraidev",
   },
   robots: {
@@ -210,7 +212,11 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <React.Fragment>
-      <html lang="es" suppressHydrationWarning className={pressStart2P.variable}>
+      <html
+        lang="es"
+        suppressHydrationWarning
+        className={pressStart2P.variable}
+      >
         <head>
           <link
             rel="icon"
@@ -255,7 +261,6 @@ export default function RootLayout({ children }) {
             });
           `}
           </Script>
-
         </head>
 
         <body>
@@ -267,33 +272,33 @@ export default function RootLayout({ children }) {
                 <AOSInit />
                 <ToastProvider>
                   <CartProvider>
-                  {/*
+                    {/*
                   presentacion de mi logo
                    <SplashScreen />
                    */}
-                  <div className={styles.layoutContainer}>
-                    <NavBar />
-                    <main
-                      id="main-content"
-                      className={styles.mainContent}
-                      role="main"
-                      aria-label="Contenido principal"
-                    >
-                      {children}
-                      {/* <NotificationManager /> */}
-                      <Analytics />
-                    </main>
-                    <ConditionalFooter />
-                    {/* <StoreStatus /> */}
-                  </div>
-                  <ShoppingCart />
-                  {/* <AIChat /> */}
-                  <ToastContainer />
-                  <AnnouncementsProvider />
-                  {/* <AccessibilityPanel /> */}
-                  <MinecraftThemeFloatingButton />
-                </CartProvider>
-              </ToastProvider>
+                    <div className={styles.layoutContainer}>
+                      <NavBar />
+                      <main
+                        id="main-content"
+                        className={styles.mainContent}
+                        role="main"
+                        aria-label="Contenido principal"
+                      >
+                        {children}
+                        {/* <NotificationManager /> */}
+                        <Analytics />
+                      </main>
+                      <ConditionalFooter />
+                      {/* <StoreStatus /> */}
+                    </div>
+                    <ShoppingCart />
+                    <AIChat />
+                    <ToastContainer />
+                    <AnnouncementsProvider />
+                    {/* <AccessibilityPanel /> */}
+                    <MinecraftThemeFloatingButton />
+                  </CartProvider>
+                </ToastProvider>
               </MinecraftThemeProvider>
             </ThemeProvider>
           </ClerkProvider>

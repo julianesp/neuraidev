@@ -13,6 +13,7 @@
     "generate:sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.76",
     "@ai-sdk/openai": "^3.0.2",
     "@clerk/localizations": "^3.31.0",
     "@clerk/nextjs": "^6.36.7",

@@ -33,6 +33,7 @@ import { isAdmin } from "@/lib/auth/roles";
 import SafeHtmlRenderer from "@/components/SafeHtmlRenderer";
 import ProductVideo from "@/components/ProductVideo";
 import NequiPaymentBadge from "@/components/NequiPaymentBadge";
+import SortableImageUploader from "@/components/SortableImageUploader";
 
 // Componente principal mejorado
 const AccesoriosContainer = ({
@@ -73,10 +74,43 @@ const AccesoriosContainer = ({
   const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Modal de imagen expandida
   const [currentUrl, setCurrentUrl] = useState(""); // URL actual para evitar problemas de hidratación
   const [showVideo, setShowVideo] = useState(false); // Controlar si se muestra video o imagen
+  const [isEditImagesOpen, setIsEditImagesOpen] = useState(false); // Modal de edición de imágenes (admin)
+  const [editImages, setEditImages] = useState([]); // Imágenes en edición
+  const [savingImages, setSavingImages] = useState(false); // Guardando imágenes
 
   // Funciones para el modal de imagen
   const openImageModal = () => setIsImageModalOpen(true);
   const closeImageModal = () => setIsImageModalOpen(false);
+
+  // Abrir modal de edición de imágenes (admin)
+  const openEditImages = () => {
+    const imgs = (accesorio?.imagenes || []).map((img) =>
+      typeof img === "object" && img.url ? img.url : img
+    ).filter(Boolean);
+    setEditImages(imgs);
+    setIsEditImagesOpen(true);
+  };
+
+  // Guardar imágenes editadas
+  const saveEditImages = async () => {
+    setSavingImages(true);
+    try {
+      const res = await fetch(`/api/productos/${accesorio.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imagenes: editImages }),
+      });
+      if (!res.ok) throw new Error("Error al guardar");
+      // Actualizar el accesorio local con las nuevas imágenes
+      setAccesorio((prev) => ({ ...prev, imagenes: editImages }));
+      setIsEditImagesOpen(false);
+      toast.success("Imágenes actualizadas correctamente", { duration: 3000 });
+    } catch {
+      toast.error("Error al guardar las imágenes", { duration: 3000 });
+    } finally {
+      setSavingImages(false);
+    }
+  };
 
   // Establecer URL actual solo en el cliente para evitar problemas de hidratación
   useEffect(() => {
@@ -706,26 +740,38 @@ const AccesoriosContainer = ({
             </h1>
             <div className="flex items-center gap-2">
               {userIsAdmin && (
-                <Link
-                  href={`/dashboard/productos/editar/${accesorio.id}`}
-                  className="flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium shadow-md"
-                  title="Editar producto"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                <>
+                  <Link
+                    href={`/dashboard/productos/editar/${accesorio.id}`}
+                    className="flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium shadow-md"
+                    title="Editar producto"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                    />
-                  </svg>
-                  Editar
-                </Link>
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                      />
+                    </svg>
+                    Editar
+                  </Link>
+                  <button
+                    onClick={openEditImages}
+                    className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-medium shadow-md"
+                    title="Editar imágenes"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Imágenes
+                  </button>
+                </>
               )}
               <FavoriteButton producto={accesorio} size="large" />
             </div>
@@ -1169,15 +1215,15 @@ const AccesoriosContainer = ({
                     </Link>
                   )}
 
-                  {/* <Link
+                  <Link
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`${styles.boton} bg-green-500 text-black dark:text-white py-3 px-6 rounded-lg flex items-center justify-center transition-colors dark:bg-gray-800`}
+                    className="bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg flex items-center justify-center transition-colors font-medium"
                   >
-                    <MessageCircle className="mr-2 text-black dark:text-white" />
+                    <MessageCircle className="mr-2" />
                     Consultar por WhatsApp
-                  </Link> */}
+                  </Link>
                 </div>
               )}
             </div>
@@ -1522,6 +1568,65 @@ const AccesoriosContainer = ({
                   <p className="text-gray-300">No hay imágenes disponibles</p>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de edición de imágenes (solo admin) */}
+      {isEditImagesOpen && (
+        <div className="fixed inset-0 z-[99999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div
+            className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                Editar imágenes — {accesorio.nombre}
+              </h2>
+              <button
+                onClick={() => setIsEditImagesOpen(false)}
+                className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 p-1"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Body con el uploader */}
+            <div className="p-4 overflow-y-auto flex-1">
+              <SortableImageUploader
+                value={editImages}
+                onChange={setEditImages}
+                multiple={true}
+              />
+            </div>
+
+            {/* Footer */}
+            <div className="flex gap-3 p-4 border-t border-gray-200 dark:border-gray-700">
+              <button
+                onClick={() => setIsEditImagesOpen(false)}
+                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                disabled={savingImages}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={saveEditImages}
+                disabled={savingImages}
+                className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
+              >
+                {savingImages ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                    Guardando...
+                  </>
+                ) : (
+                  "Guardar imágenes"
+                )}
+              </button>
             </div>
           </div>
         </div>

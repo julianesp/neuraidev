@@ -59,6 +59,12 @@ export default function StructuredData() {
           "@type": "Product",
           name: "Accesorios para Celulares",
           url: "https://neurai.dev/accesorios/celulares",
+          offers: {
+            "@type": "AggregateOffer",
+            priceCurrency: "COP",
+            availability: "https://schema.org/InStock",
+            seller: { "@type": "Organization", name: "Neurai.dev" },
+          },
         },
       },
       {
@@ -67,6 +73,12 @@ export default function StructuredData() {
           "@type": "Product",
           name: "Accesorios para Computadoras",
           url: "https://neurai.dev/accesorios/computadoras",
+          offers: {
+            "@type": "AggregateOffer",
+            priceCurrency: "COP",
+            availability: "https://schema.org/InStock",
+            seller: { "@type": "Organization", name: "Neurai.dev" },
+          },
         },
       },
     ],
@@ -130,6 +142,12 @@ export default function StructuredData() {
               itemOffered: {
                 "@type": "Product",
                 name: "Accesorios para Celulares",
+                offers: {
+                  "@type": "AggregateOffer",
+                  priceCurrency: "COP",
+                  availability: "https://schema.org/InStock",
+                  seller: { "@type": "Organization", name: "Neurai.dev" },
+                },
               },
             },
           ],
@@ -143,6 +161,12 @@ export default function StructuredData() {
               itemOffered: {
                 "@type": "Product",
                 name: "Accesorios para Computadoras",
+                offers: {
+                  "@type": "AggregateOffer",
+                  priceCurrency: "COP",
+                  availability: "https://schema.org/InStock",
+                  seller: { "@type": "Organization", name: "Neurai.dev" },
+                },
               },
             },
           ],

@@ -1,8 +1,10 @@
+import { anthropic } from "@ai-sdk/anthropic";
 import { openai } from "@ai-sdk/openai";
-import { streamText } from "ai";
+import { generateText } from "ai";
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { notifyNewLead } from "@/lib/notificationService";
 
 // Función para cargar productos desde los JSON
 async function loadAllProducts() {
@@ -63,7 +65,7 @@ async function getProductsContext() {
 }
 
 // System prompt para el asistente
-const systemPrompt = `Eres un asistente virtual inteligente y amigable de Neurai.dev, una tienda online colombiana especializada en accesorios tecnológicos y más.
+const systemPrompt = `Eres un asistente virtual de ventas de Neurai.dev, una tienda online colombiana de accesorios tecnológicos y más. Tu objetivo principal es ayudar a los clientes a comprar y, cuando muestren intención de compra, capturar sus datos de contacto para que el equipo los atienda.
 
 **INFORMACIÓN DE LA TIENDA:**
 - Nombre: Neurai.dev
@@ -73,67 +75,56 @@ const systemPrompt = `Eres un asistente virtual inteligente y amigable de Neurai
 - Email: contacto@neurai.dev
 
 **CATEGORÍAS DE PRODUCTOS:**
-1. 📱 Accesorios para celulares: fundas, cargadores, cables, protectores de pantalla, manos libres
-2. 💻 Accesorios para computadoras: teclados, mouse, memorias RAM, discos duros, pendrives, cables USB
-3. 💄 Productos de belleza y damas: accesorios y productos para el cuidado personal
-4. 📚 Libros nuevos: diferentes géneros literarios
-5. 📖 Libros usados: a precios más accesibles
-6. 🎁 Productos generales: variedad de gadgets y accesorios
+1. Accesorios para celulares: fundas, cargadores, cables, protectores de pantalla, manos libres
+2. Accesorios para computadoras: teclados, mouse, memorias RAM, discos duros, pendrives, cables USB
+3. Productos de belleza y damas: accesorios y productos para el cuidado personal
+4. Libros nuevos: diferentes géneros literarios
+5. Libros usados: a precios más accesibles
+6. Productos generales: variedad de gadgets y accesorios
 
-**INFORMACIÓN CLAVE:**
-
-**Envíos:**
+**ENVÍOS:**
 - Cobertura nacional en Colombia
 - Costo según ubicación
 - Tiempo estimado: 2-5 días hábiles
-- Seguimiento de pedidos disponible
 
-**Métodos de pago:**
+**MÉTODOS DE PAGO:**
 - Tarjetas de crédito y débito
 - Transferencia bancaria
 - Efectivo (contra entrega en algunas zonas)
-- Pago por WhatsApp
-- Todos los pagos son seguros
+- Pago coordinado por WhatsApp
 
-**Garantías:**
-- Todos los productos tienen garantía
+**GARANTÍAS:**
 - 30 días para devoluciones
 - Cambios por defectos de fábrica
-- Soporte técnico incluido
 
-**Horario de atención:**
+**Horario de atención humana:**
 - Lunes a Viernes: 8:00 AM - 6:00 PM
 - Sábados: 9:00 AM - 5:00 PM
 - Domingos: Cerrado
-- Chatbot disponible 24/7
+- (Tú estás disponible 24/7)
 
-**TU FUNCIÓN:**
-1. Ayudar a los clientes a encontrar productos
-2. Responder preguntas sobre precios, envíos, pagos y garantías
-3. Guiar a los usuarios por el sitio web
-4. Ser amigable, profesional y útil
-5. Si no sabes algo específico, ofrece contactar por WhatsApp o email
+**TU FLUJO DE VENTAS:**
+1. Saluda y ayuda al cliente a encontrar lo que necesita
+2. Cuando el cliente muestre interés en comprar ("lo quiero", "cuánto cuesta", "cómo compro", "quiero uno"), pregunta por su nombre y número de WhatsApp o teléfono para coordinar el pedido
+3. Una vez que tengas nombre + contacto, confirma que le avisarás al equipo para que lo contacten pronto
+4. Si es urgente o fuera de horario, indícale que puede escribir directamente al WhatsApp: +57 317 450 3604
 
-**ESTILO DE COMUNICACIÓN:**
-- Usa emojis apropiados para ser más amigable
-- Sé conciso pero completo
-- Ofrece opciones y alternativas
-- Si mencionas productos, incluye nombres y precios cuando estén disponibles
+**CAPTURA DE DATOS — MUY IMPORTANTE:**
+Cuando un cliente dé su nombre y/o número de contacto, incluye al FINAL de tu respuesta este bloque exacto (sin modificarlo, sin markdown, en una línea nueva):
+LEAD_CAPTURADO: {"nombre": "[nombre del cliente]", "telefono": "[número]", "producto": "[producto de interés]"}
+
+Si el cliente no quiere dar datos, respétalos y ofrece el WhatsApp directo.
+
+**ESTILO:**
+- Sé amigable, directo y conciso
 - Usa formato markdown para mejor legibilidad
-
-**IMPORTANTE:**
-- Siempre verifica la información de productos en el contexto proporcionado
-- Si preguntan por un producto específico que no encuentras, sugiere alternativas
-- Anima a los usuarios a explorar las categorías del sitio
-- Ofrece ayuda adicional al final de cada respuesta`;
+- Siempre ofrece ayuda adicional al final de cada respuesta`;
 
 export async function POST(request) {
   try {
-    // Verificar que la API key esté configurada
-    if (!process.env.OPENAI_API_KEY) {
-      console.error("OPENAI_API_KEY no está configurada");
-
-      // Fallback al sistema de respuestas básicas
+    // Verificar que haya al menos una API key configurada
+    if (!process.env.ANTHROPIC_API_KEY && !process.env.OPENAI_API_KEY) {
+      console.error("No hay API key de IA configurada");
       return fallbackResponse(request);
     }
 
@@ -149,10 +140,8 @@ export async function POST(request) {
     // Obtener contexto de productos
     const productsContext = await getProductsContext();
 
-    // Crear mensaje de contexto con información de productos
-    const contextMessage = {
-      role: "system",
-      content: `${systemPrompt}
+    // System prompt con contexto de productos (Anthropic requiere parámetro 'system' separado)
+    const systemWithContext = `${systemPrompt}
 
 **PRODUCTOS DISPONIBLES:**
 
@@ -176,33 +165,44 @@ ${productsContext.expensiveProducts.map((p, i) =>
 - Libros usados: ${productsContext.categories["libros-usados"].length} productos
 - Generales: ${productsContext.categories.generales.length} productos
 
-Usa esta información para responder preguntas específicas sobre productos y precios.`
-    };
+Usa esta información para responder preguntas específicas sobre productos y precios.`;
 
-    // Usar Vercel AI SDK para generar respuesta con streaming
-    const result = await streamText({
-      model: openai("gpt-4o-mini"), // Modelo más económico pero muy capaz
-      messages: [contextMessage, ...messages],
+    // Claude es el modelo por defecto; fallback a OpenAI si no hay API key de Anthropic
+    const useAnthropic = !!process.env.ANTHROPIC_API_KEY;
+    const model = useAnthropic
+      ? anthropic("claude-haiku-4-5")
+      : openai("gpt-4o-mini");
+
+    const result = await generateText({
+      model,
+      system: systemWithContext,
+      messages,
       temperature: 0.7,
       maxTokens: 500,
     });
 
-    // Convertir el stream a una respuesta de texto completa
-    let fullResponse = "";
-    for await (const chunk of result.textStream) {
-      fullResponse += chunk;
+    const fullResponse = result.text;
+
+    // Detectar si el agente capturó un lead y notificar por Telegram
+    const leadMatch = fullResponse.match(/LEAD_CAPTURADO:\s*(\{[^}]+\})/);
+    if (leadMatch) {
+      try {
+        const leadData = JSON.parse(leadMatch[1]);
+        notifyNewLead(leadData).catch(() => {});
+      } catch (_) {}
     }
 
+    // Limpiar el marcador interno antes de enviar al cliente
+    const cleanResponse = fullResponse.replace(/LEAD_CAPTURADO:\s*\{[^}]+\}/g, "").trim();
+
     return NextResponse.json({
-      message: fullResponse,
+      message: cleanResponse,
       timestamp: new Date().toISOString()
     });
 
   } catch (error) {
     console.error("Error en el chatbot con IA:", error);
-
-    // Intentar fallback
-    return fallbackResponse(request);
+    return NextResponse.json({ error: String(error), detail: error?.message }, { status: 500 });
   }
 }
 

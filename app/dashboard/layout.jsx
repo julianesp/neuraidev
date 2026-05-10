@@ -20,6 +20,7 @@ import {
   FileText,
   Newspaper,
   Receipt,
+  Mic,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -114,6 +115,12 @@ export default function DashboardLayout({ children }) {
       href: "/dashboard/anuncios",
       icon: Megaphone,
       current: pathname?.startsWith("/dashboard/anuncios"),
+    },
+    {
+      name: "Grabaciones",
+      href: "/dashboard/audios",
+      icon: Mic,
+      current: pathname?.startsWith("/dashboard/audios"),
     },
     {
       name: "Configuración",
