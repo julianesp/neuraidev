@@ -39,20 +39,23 @@ async function loadAllProducts() {
 async function getProductsContext() {
   const products = await loadAllProducts();
 
+  // Considerar disponible si el campo no existe (compatibilidad con JSONs sin ese campo)
+  const isAvailable = (p) => p.disponible !== false;
+
   // Agrupar productos por categoría
   const categories = {
-    celulares: products.filter(p => p.categoria === 'celulares' && p.disponible),
-    computadoras: products.filter(p => p.categoria === 'computadoras' && p.disponible),
-    damas: products.filter(p => p.categoria === 'damas' && p.disponible),
-    "libros-nuevos": products.filter(p => p.categoria === 'libros-nuevos' && p.disponible),
-    "libros-usados": products.filter(p => p.categoria === 'libros-usados' && p.disponible),
-    generales: products.filter(p => p.categoria === 'generales' && p.disponible),
+    celulares: products.filter(p => p.categoria === 'celulares' && isAvailable(p)),
+    computadoras: products.filter(p => p.categoria === 'computadoras' && isAvailable(p)),
+    damas: products.filter(p => p.categoria === 'damas' && isAvailable(p)),
+    "libros-nuevos": products.filter(p => p.categoria === 'libros-nuevos' && isAvailable(p)),
+    "libros-usados": products.filter(p => p.categoria === 'libros-usados' && isAvailable(p)),
+    generales: products.filter(p => p.categoria === 'generales' && isAvailable(p)),
   };
 
   // Obtener productos más baratos y más caros
-  const availableProducts = products.filter(p => p.precio && p.disponible);
-  const cheapest = availableProducts.sort((a, b) => a.precio - b.precio).slice(0, 5);
-  const expensive = availableProducts.sort((a, b) => b.precio - a.precio).slice(0, 5);
+  const availableProducts = products.filter(p => p.precio && isAvailable(p));
+  const cheapest = [...availableProducts].sort((a, b) => a.precio - b.precio).slice(0, 5);
+  const expensive = [...availableProducts].sort((a, b) => b.precio - a.precio).slice(0, 5);
 
   return {
     totalProducts: products.length,
@@ -60,7 +63,7 @@ async function getProductsContext() {
     categories,
     cheapestProducts: cheapest,
     expensiveProducts: expensive,
-    productsList: products.filter(p => p.disponible).slice(0, 20) // Limitar para no saturar el contexto
+    productsList: availableProducts, // Lista completa para búsqueda por nombre
   };
 }
 
@@ -165,7 +168,12 @@ ${productsContext.expensiveProducts.map((p, i) =>
 - Libros usados: ${productsContext.categories["libros-usados"].length} productos
 - Generales: ${productsContext.categories.generales.length} productos
 
-Usa esta información para responder preguntas específicas sobre productos y precios.`;
+**Catálogo completo de productos disponibles:**
+${productsContext.productsList.map(p =>
+  `- ${p.nombre} | $${p.precio?.toLocaleString("es-CO")} | ${p.categoria}`
+).join("\n")}
+
+Cuando el cliente pregunte por un producto específico, búscalo en el catálogo completo de arriba y responde con precisión si está o no disponible, su precio y categoría.`;
 
     // Claude es el modelo por defecto; fallback a OpenAI si no hay API key de Anthropic
     const useAnthropic = !!process.env.ANTHROPIC_API_KEY;
