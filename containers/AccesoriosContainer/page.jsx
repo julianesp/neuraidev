@@ -355,8 +355,8 @@ const AccesoriosContainer = ({
     };
   }, [isImageModalOpen]);
 
-  // Obtener el slug de categoría desde apiUrl
-  const categorySlug = apiUrl ? getCategorySlug(apiUrl) : "generales";
+  // Obtener el slug de categoría desde apiUrl, o desde el campo categoria del producto
+  const categorySlug = apiUrl ? getCategorySlug(apiUrl) : (accesorioProps?.categoria || accesorio?.categoria || "generales");
 
   // Validar que accesorio exista antes de continuar
   if (!accesorio) {
