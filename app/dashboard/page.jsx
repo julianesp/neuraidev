@@ -22,10 +22,12 @@ import {
 } from "lucide-react";
 import { obtenerEstadisticasProductos } from "@/lib/supabase/productos";
 import { obtenerEstadisticasCreditos } from "@/lib/supabase/creditos";
+import VisitasAdmin from "@/components/VisitasAdmin/VisitasAdmin";
 
 export default function DashboardPage() {
   const { user } = useUser();
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [stats, setStats] = useState({
     total: 0,
     disponibles: 0,
@@ -42,6 +44,16 @@ export default function DashboardPage() {
   useEffect(() => {
     if (user) {
       loadDashboardStats();
+      // Detectar admin: publicMetadata de Clerk (establecido en Clerk Dashboard)
+      // o verificando que el endpoint de stats responda sin 403
+      const adminByMeta = user.publicMetadata?.role === "admin";
+      if (adminByMeta) {
+        setIsAdmin(true);
+      } else {
+        fetch("/api/analytics/stats")
+          .then((r) => { if (r.ok) setIsAdmin(true); })
+          .catch(() => {});
+      }
     }
   }, [user]);
 
@@ -121,6 +133,9 @@ export default function DashboardPage() {
           </div>
         </Link>
       </div>
+
+      {/* Visitas — solo admin */}
+      {isAdmin && <VisitasAdmin />}
 
       {/* Stats Cards - Productos */}
       <div className="mb-6">
