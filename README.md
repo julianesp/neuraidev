@@ -1,22 +1,15 @@
 # neurai.dev
 
-Bienvenido a **neurai.dev**, un sitio web dedicado a mostrar mi preparación como ingeniero de software utilizando el lenguaje JavaScript para el frontend y backend (próximamente).
+Bienvenido a **neurai.dev**, ecommerce para venta de productos para computadores y celulares.
 
 ## Índice
 
-- Sitio web personal enfocado en aplicar las tecnologías del momento.
-- JavaScript, Next.js, CSS Grid, flex, Git.
-- [Instalación](#instalación)
-- [Uso](#uso)
-- [Contribuciones](#contribuciones)
-- [Licencia] MIT
-- [Contacto](#https://wa.me/573174503604)
 
-# NeurAIDev
+# neurai.dev
 
 ## Descripción del Proyecto
 
-neurai.dev es un sitio web construido con Next.js que se enfoca en mostrar mi perfil profesional. Este proyecto utiliza las últimas tecnologías de desarrollo frontend para crear una experiencia de usuario fluida y atractiva.
+neurai.dev es un sitio web construido con Next.js que se enfoca en mostrar los productos locales en el ambiente virtual. Este proyecto utiliza las últimas tecnologías de desarrollo frontend para crear una experiencia de usuario fluida y atractiva.
 
 ## Tecnologías Utilizadas
 
@@ -26,53 +19,11 @@ neurai.dev es un sitio web construido con Next.js que se enfoca en mostrar mi pe
   - [shadcn/ui](https://ui.shadcn.com/)
   - [Radix UI](https://www.radix-ui.com/) (accordions, dropdown menus)
   - [Framer Motion](https://www.framer.com/motion/) para animaciones
-  - [Embla Carousel](https://www.embla-carousel.com/) para carruseles
   - [TailwindCSS](https://tailwindcss.com/) para estilos
-  - [DaisyUI](https://daisyui.com/) como complemento de Tailwind
 - **Networking**: [Axios](https://axios-http.com/) para peticiones HTTP
 - **Optimización**: [Sharp](https://sharp.pixelplumbing.com/) para optimización de imágenes
 - **Theming**: Soporte para temas claro/oscuro con [next-themes](https://github.com/pacocoursey/next-themes)
 
-## Requisitos Previos
-
-- Node.js (versión recomendada: 18.x o superior)
-- npm o yarn
-- Conocimientos de React y Next.js
-- Conocimientos básicos de TailwindCSS
-
-## Instalación
-
-1. Clona este repositorio
-
-   ```bash
-   git clone https://github.com/[tu-usuario]/neuraidev.git
-   cd neuraidev
-   ```
-
-2. Instala las dependencias
-
-   ```bash
-   npm install
-   # o
-   yarn install
-   ```
-
-3. Inicia el servidor de desarrollo
-
-   ```bash
-   npm run dev
-   # o
-   yarn dev
-   ```
-
-4. Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación
-
-## Scripts Disponibles
-
-- `npm run dev` - Inicia el servidor de desarrollo
-- `npm run build` - Construye la aplicación para producción
-- `npm run start` - Inicia la aplicación en modo producción
-- `npm run lint` - Ejecuta el linter para verificar errores de código
 
 ## Estructura del Proyecto
 
@@ -91,14 +42,6 @@ neuraidev/
 ├── postcss.config.js # Configuración de PostCSS
 └── tailwind.config.js # Configuración de Tailwind CSS
 ```
-
-## Convenciones de Código
-
-Este proyecto usa:
-
-- ESLint y Prettier para formateo de código
-- Comillas dobles para strings (según configuración de Prettier)
-- Las reglas completas están definidas en los archivos `.eslintrc.json` y en la configuración de Prettier del package.json
 
 ## Características Principales
 
