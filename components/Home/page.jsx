@@ -6,6 +6,7 @@ import Link from "next/link.js";
 import styles from "./Home.module.scss";
 import Script from "next/script";
 import PresentationCarousel from "@/components/PresentationCarousel/PresentationCarousel";
+import OfertasBanner from "@/components/OfertasBanner/OfertasBanner";
 import NotificationsBanner from "@/components/NotificationsBanner";
 import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import CategoryCard from "@/components/CategoryCard";
@@ -149,6 +150,9 @@ export default function Inicio() {
         <div className={`${styles.presentacion}`}>
           <PresentationCarousel />
         </div>
+
+        {/* Banner de ofertas activas - se cierra por el día al hacer clic en X */}
+        <OfertasBanner />
 
         {/* Banner de notificaciones - solo en página de inicio */}
         <div className="mt-4">
