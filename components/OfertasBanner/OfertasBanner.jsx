@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, Tag } from "lucide-react";
+import Link from "next/link";
 
 export default function OfertasBanner() {
   const [ofertas, setOfertas] = useState([]);
@@ -23,7 +24,9 @@ export default function OfertasBanner() {
       .catch(() => {});
   }, []);
 
-  const cerrar = () => {
+  const cerrar = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const hoy = new Date().toDateString();
     localStorage.setItem("ofertasBannerCerrado", hoy);
     setVisible(false);
@@ -32,10 +35,10 @@ export default function OfertasBanner() {
   if (!visible || ofertas.length === 0) return null;
 
   return (
-    <div className="relative w-full bg-gradient-to-r from-orange-500 to-red-500 text-white">
+    <Link href="/ofertas/productos" className="block w-full" style={{ backgroundColor: "#0070f3" }}>
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-3 flex-wrap text-white">
             <Tag className="w-5 h-5 shrink-0" />
             <span className="font-bold text-sm uppercase tracking-wide">
               Ofertas activas:
@@ -60,16 +63,19 @@ export default function OfertasBanner() {
                 </span>
               ))}
             </div>
+            <span className="text-white/80 text-xs hidden sm:inline">
+              Ver todos los productos →
+            </span>
           </div>
           <button
             onClick={cerrar}
             aria-label="Cerrar banner de ofertas"
-            className="shrink-0 p-1 rounded-full hover:bg-white/20 transition-colors"
+            className="shrink-0 p-1 rounded-full hover:bg-white/20 transition-colors text-white"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
