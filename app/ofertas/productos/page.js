@@ -1,5 +1,4 @@
 import { getSupabaseClient } from "@/lib/db";
-import { obtenerOfertasActivas } from "@/lib/supabase/ofertas";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -14,8 +13,26 @@ function calcularPrecioFinal(precio, porcentaje) {
   return Math.round(precio * (1 - porcentaje / 100));
 }
 
+async function getOfertasActivas() {
+  const supabase = getSupabaseClient();
+  const ahora = new Date().toISOString();
+  const { data, error } = await supabase
+    .from("ofertas")
+    .select("*")
+    .eq("activa", true)
+    .lte("fecha_inicio", ahora)
+    .gte("fecha_fin", ahora)
+    .order("porcentaje_descuento", { ascending: false });
+
+  if (error) {
+    console.error("Error cargando ofertas:", error);
+    return [];
+  }
+  return data || [];
+}
+
 export default async function ProductosEnOfertaPage() {
-  const ofertas = await obtenerOfertasActivas();
+  const ofertas = await getOfertasActivas();
 
   if (ofertas.length === 0) {
     return (
@@ -40,7 +57,7 @@ export default async function ProductosEnOfertaPage() {
   // Recopilar todos los IDs únicos de productos
   const todosLosIds = [...new Set(ofertas.flatMap((o) => o.productos_ids))];
 
-  // Consultar productos en Supabase
+  // Consultar productos con el cliente server-side (service role)
   const supabase = getSupabaseClient();
   const { data: productos } = await supabase
     .from("products")

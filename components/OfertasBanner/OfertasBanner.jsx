@@ -63,8 +63,8 @@ export default function OfertasBanner() {
                 </span>
               ))}
             </div>
-            <span className="text-white/80 text-xs hidden sm:inline">
-              Ver todos los productos →
+            <span className="bg-white font-semibold text-xs px-3 py-1 rounded-full hidden sm:inline transition-opacity hover:opacity-90" style={{ color: "#0070f3" }}>
+              Ver oferta →
             </span>
           </div>
           <button
