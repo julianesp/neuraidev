@@ -227,7 +227,7 @@ export default function ProductoDetalle({ producto }: Props) {
                   }}
                 >
                   <img
-                    src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/redes/social%20%281%29.png"
+                    src="https://media.neurai.dev/redes/social%20%281%29.png"
                     alt="WhatsApp"
                     width={18}
                     height={18}

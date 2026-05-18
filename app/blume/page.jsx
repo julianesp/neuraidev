@@ -7,8 +7,8 @@ export const metadata = {
   description:
     "Floreros, adornos y decoraciones hechos a mano. Creaciones únicas con materiales de calidad. Pedidos personalizados.",
   icons: {
-    icon: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo%20Helena.jpeg",
-    apple: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo%20Helena.jpeg",
+    icon: "https://media.neurai.dev/logo%20Helena.jpeg",
+    apple: "https://media.neurai.dev/logo%20Helena.jpeg",
   },
 };
 

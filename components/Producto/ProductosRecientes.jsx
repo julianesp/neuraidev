@@ -235,7 +235,7 @@ const ProductosRecientes = () => {
                     producto.imagen_principal ||
                     (producto.imagenes && producto.imagenes.length > 0
                       ? producto.imagenes[0].url
-                      : "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/books/used/algebra_intermedia/2.jpg")
+                      : "https://media.neurai.dev/Accesorios/books/used/algebra_intermedia/2.jpg")
                   }
                   alt={producto.nombre}
                   fill={true}

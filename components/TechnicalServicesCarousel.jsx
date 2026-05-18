@@ -21,7 +21,7 @@ const TechnicalServicesCarousel = () => {
       description:
         "Formateo completo con instalación de sistemas operativos como Windows o alguna distribución de Linux. Programas esenciales y optimización del sistema para máximo rendimiento.",
       image:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/computer.png",
+        "https://media.neurai.dev/computer.png",
       features: [
         "Instalación de Sistema Operativo",
         "Programas Básicos",
@@ -36,7 +36,7 @@ const TechnicalServicesCarousel = () => {
       description:
         "Limpieza completa interna y externa, cambio de pasta térmica, optimización del sistema y diagnóstico de hardware.",
       image:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/mantenimiento.jpg",
+        "https://media.neurai.dev/servicios/mantenimiento.jpg",
       features: [
         "Limpieza Interna",
         "Cambio Pasta Térmica",
@@ -52,7 +52,7 @@ const TechnicalServicesCarousel = () => {
       description:
         "Mejora tu PC con nuevos componentes: RAM DDR4, discos SSD, y más.",
       image:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Accesorios/computers/ram%20ddr4%208%20gb/1.jpg",
+        "https://media.neurai.dev/Accesorios/computers/ram%20ddr4%208%20gb/1.jpg",
       features: [
         "Memoria RAM DDR4",
         "Discos SSD",
@@ -69,7 +69,7 @@ const TechnicalServicesCarousel = () => {
       description:
         "Asesoría personalizada, soporte remoto y presencial, configuración de redes y recuperación de datos.",
       image:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/mantenimiento.jpg",
+        "https://media.neurai.dev/servicios/mantenimiento.jpg",
       features: [
         "Soporte Remoto",
         "Configuración Redes",
@@ -142,7 +142,7 @@ const TechnicalServicesCarousel = () => {
               onError={(e) => {
                 // Fallback image if main image fails to load
                 e.target.src =
-                  "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/mantenimiento.jpg";
+                  "https://media.neurai.dev/servicios/mantenimiento.jpg";
               }}
             />
             <div className="absolute top-4 left-4">

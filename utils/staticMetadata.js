@@ -2,7 +2,7 @@ import { getSupabaseClient } from '@/lib/db';
 
 // Función helper para generar metadata de fallback cuando no se encuentra el producto
 function generateFallbackMetadata(categoria, categoryName, slug) {
-  const logoUrl = 'https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png';
+  const logoUrl = 'https://media.neurai.dev/logo.png';
 
   return {
     title: `Producto - ${categoryName} | neurai.dev`,
@@ -45,7 +45,7 @@ function generateFallbackMetadata(categoria, categoryName, slug) {
 
 // Función helper para generar metadatos dinámicos con Open Graph basados en el producto real
 export async function generateStaticProductMetadata(categoria, slug) {
-  const logoUrl = 'https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png';
+  const logoUrl = 'https://media.neurai.dev/logo.png';
 
   const categoryNames = {
     'celulares': 'Celulares',

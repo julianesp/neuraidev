@@ -130,7 +130,7 @@ const SideModal = () => {
               onClick={handleTaxiClick}
             >
               <Image
-                src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/icons/taxi.png"
+                src="https://media.neurai.dev/icons/taxi.png"
                 alt="Taxi - Envío gratis"
                 width={35}
                 height={35}

@@ -35,7 +35,7 @@ export default function ArticleSchema({
       "name": "Neurai.dev",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+        "url": "https://media.neurai.dev/logo.png",
         "width": 512,
         "height": 512,
       },

@@ -37,7 +37,7 @@ export default function AccesoriosDestacadosPage() {
       description:
         "Abarrotes y productos básicos para tu hogar. Servicio a domicilio disponible.",
       imageUrl:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+        "https://media.neurai.dev/Others/store.png",
       businessId: "tienda-local",
     },
     {
@@ -45,7 +45,7 @@ export default function AccesoriosDestacadosPage() {
       description:
         "Pan fresco todos los días. Especialistas en productos artesanales.",
       imageUrl:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+        "https://media.neurai.dev/Others/store.png",
       businessId: "panaderia-el-trigal",
     },
     {
@@ -53,7 +53,7 @@ export default function AccesoriosDestacadosPage() {
       description:
         "Todo para construcción y reparaciones. Más de 20 años de experiencia.",
       imageUrl:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+        "https://media.neurai.dev/Others/store.png",
       businessId: "ferreteria-martinez",
     },
     {
@@ -61,7 +61,7 @@ export default function AccesoriosDestacadosPage() {
       description:
         "Solicita tu espacio publicitario aquí y llega a más clientes en tu zona.",
       imageUrl:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+        "https://media.neurai.dev/Others/store.png",
       linkUrl:
         "https://wa.me/573174503604?text=Hola,%20me%20interesa%20solicitar%20un%20espacio%20publicitario%20para%20mi%20negocio%20en%20NeuraIdev",
     },

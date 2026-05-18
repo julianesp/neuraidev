@@ -131,7 +131,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "0dwas2ied3dcs14f.public.blob.vercel-storage.com",
+        hostname: "media.neurai.dev",
       },
       {
         protocol: "https",

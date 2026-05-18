@@ -93,7 +93,7 @@ export default function DesarrolladorSoftware() {
       url: "https://neurai.dev/",
       descripcion: "E-commerce de tecnología y servicios profesionales",
       imagen:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+        "https://media.neurai.dev/logo.png",
     },
     {
       id: 4,
@@ -101,7 +101,7 @@ export default function DesarrolladorSoftware() {
       url: "https://motaxi.dev/",
       descripcion: "Plataforma de servicios de transporte y movilidad",
       imagen:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/motaxi/logo.png",
+        "https://media.neurai.dev/motaxi/logo.png",
     },
   ];
 

@@ -237,7 +237,7 @@ const OfertasEspeciales = () => {
                 >
                   Solicitar Oferta
                   <Image
-                    src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/redes/social%20%281%29.png"
+                    src="https://media.neurai.dev/redes/social%20%281%29.png"
                     alt="WhatsApp"
                     width={20}
                     height={20}
@@ -268,7 +268,7 @@ const OfertasEspeciales = () => {
               >
                 Contactar Ahora
                 <Image
-                  src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/redes/social%20%281%29.png"
+                  src="https://media.neurai.dev/redes/social%20%281%29.png"
                   alt="WhatsApp"
                   width={20}
                   height={20}

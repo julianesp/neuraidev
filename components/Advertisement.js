@@ -96,7 +96,7 @@ export default function AdvertisementToggle({ ads = [] }) {
           >
             <Image
               src={
-                "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png"
+                "https://media.neurai.dev/Others/store.png"
               }
               alt="Toggle Anuncios"
               width={24}
@@ -173,7 +173,7 @@ function AdContent({
         <Image
           src={
             imageUrl ||
-            "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png"
+            "https://media.neurai.dev/Others/store.png"
           }
           alt={businessName}
           className="p-2"

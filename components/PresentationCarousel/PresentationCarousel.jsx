@@ -14,7 +14,7 @@ const PresentationCarousel = () => {
     {
       id: 1,
       image:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/collage.jpg",
+        "https://media.neurai.dev/collage.jpg",
       title: "Productos Destacados",
       description: "Descubre nuestros mejores productos",
       link: "/accesorios/destacados",
@@ -22,7 +22,7 @@ const PresentationCarousel = () => {
     {
       id: 2,
       image:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/mantenimiento.jpg",
+        "https://media.neurai.dev/servicios/mantenimiento.jpg",
       title: "Técnico en Sistemas",
       description:
         "Soluciones profesionales para todos tus problemas informáticos",
@@ -31,7 +31,7 @@ const PresentationCarousel = () => {
     {
       id: 3,
       image:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/web_develop.png",
+        "https://media.neurai.dev/servicios/web_develop.png",
       title: "Desarrollador Web",
       description: "Creando soluciones digitales innovadoras para tu negocio",
       link: "/servicios/desarrollador-software",
@@ -39,7 +39,7 @@ const PresentationCarousel = () => {
     // {
     //   id: 4,
     //   image:
-    //     "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/loveFriend.jpg",
+    //     "https://media.neurai.dev/loveFriend.jpg",
     //   title: "Ofertas Especiales",
     //   description: "No te pierdas nuestras promociones",
     //   link: "/ofertas",

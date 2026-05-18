@@ -257,7 +257,7 @@ function buildProductMetadata(producto, slug, categoria) {
 
   // Si no hay imagen del producto, usar el logo del sitio
   const logoSitio =
-    "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png";
+    "https://media.neurai.dev/logo.png";
   const imagenFinal = imagenPrincipal || logoSitio;
 
   // Detectar tipo de imagen desde la URL

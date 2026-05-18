@@ -48,7 +48,7 @@ export default function Servicios() {
       descripcion:
         "Soluciones profesionales para mantenimiento, reparación y optimización de equipos de cómputo. Servicio especializado para hogares y pequeñas empresas.",
       imagen:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/mantenimiento.jpg",
+        "https://media.neurai.dev/servicios/mantenimiento.jpg",
       link: "/servicios/tecnico-sistemas",
       serviciosIncluidos: [
         "Mantenimiento de Computadores",
@@ -65,7 +65,7 @@ export default function Servicios() {
       descripcion:
         "Creación de soluciones digitales innovadoras. Desarrollo de aplicaciones web modernas, e-commerce y sistemas personalizados para tu negocio.",
       imagen:
-        "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/servicios/web_develop.png",
+        "https://media.neurai.dev/servicios/web_develop.png",
       link: "/servicios/desarrollador-software",
       serviciosIncluidos: [
         "Desarrollo Web (sitios y aplicaciones)",

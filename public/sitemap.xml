@@ -3,715 +3,729 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <!-- ========================================== -->
-  <!-- Generado automáticamente el 2026-05-13T12:45:05.312Z -->
+  <!-- Generado automáticamente el 2026-05-18T02:55:22.051Z -->
   <!-- Script: scripts/generate-sitemap.js        -->
   <!-- ========================================== -->
 
   <url>
     <loc>https://neurai.dev/</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/accesorios</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/accesorios/destacados</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/accesorios/nuevos</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/accesorios/celulares</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/accesorios/computadoras</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/accesorios/damas</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/accesorios/belleza</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/accesorios/libros-nuevos</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/accesorios/libros-usados</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/accesorios/generales</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/ofertas</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/servicios</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/servicios/tecnicos</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/servicios/tecnico-sistemas</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/servicios/desarrollador-software</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/servicios/contable</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/servicios/transporte</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/blog</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/blog/como-elegir-celular-2025</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/blog/mantenimiento-computador-guia-completa</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/blog/ssd-vs-hdd-cual-elegir</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/blog/ram-ddr4-vs-ddr5</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/blog/desarrollo-web-pequenos-negocios</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/noticias</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/sobre-nosotros</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/clientes</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/preguntas-frecuentes</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/politicas</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.40</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/politica-devoluciones</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.50</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/politica-privacidad</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/terminos-condiciones</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
 
   <url>
     <loc>https://neurai.dev/politica-cookies</loc>
-    <lastmod>2026-05-13T12:45:05.312Z</lastmod>
+    <lastmod>2026-05-18T02:55:22.051Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/celulares/correa-para-smartwatch</loc>
-    <lastmod>2026-04-14T17:25:46.601968+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/celulares/case-magsafe-iphone-15-pro</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/celulares/control-inalambrico-data-frog-x3</loc>
-    <lastmod>2026-02-22T01:10:18.614642+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/cargador-carga-rapida-80-w</loc>
-    <lastmod>2026-02-21T14:39:55.914658+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/control-de-juego-d11-para-celular-o-tablet</loc>
-    <lastmod>2026-03-08T22:51:58.310588+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/cargador-universal-de-pared-5-voltios</loc>
-    <lastmod>2026-03-19T14:48:11.385813+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/mouse-ugreen-inalambrico-bluetooth-usb</loc>
-    <lastmod>2026-01-30T19:32:39.814054+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/unidad-estado-solido-walram-256-gb-pcie-30-m2</loc>
-    <lastmod>2026-02-24T23:47:20.155286+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/disco-solido-sata-m2-256-gb</loc>
-    <lastmod>2026-02-24T23:47:48.504836+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/mouse-alambrico-genius</loc>
-    <lastmod>2026-01-16T01:22:31.998412+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/mouse-alambrico-genius</loc>
-    <lastmod>2026-01-16T01:21:04.988777+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/refrigeracion-para-celular</loc>
-    <lastmod>2026-01-28T15:29:54.196635+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/vention-usb-32-hub-4-1-tipo-c</loc>
-    <lastmod>2026-01-15T01:40:24.363925+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/funda-iphone-xs</loc>
-    <lastmod>2025-12-21T22:18:23.638881+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/adaptador-usb-tipo-c-a</loc>
-    <lastmod>2025-12-21T20:17:52.400811+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/cable-usb-tipo-c-c</loc>
-    <lastmod>2025-12-11T00:59:45.96767+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/cable-usb-tipo-c-a</loc>
-    <lastmod>2025-12-11T00:55:40.726212+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/cable-usb-tipo-c-a</loc>
-    <lastmod>2025-12-11T00:46:49.534138+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/memoria-usb-microdrive-2-en-1-128-gb-usb-20-tipo-c</loc>
-    <lastmod>2025-12-14T14:44:19.494971+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/g96-mini-android-tv-box-5g-ultra-hd-4k-android-13-y-wifi</loc>
-    <lastmod>2025-12-16T20:33:42.708644+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/alicate-de-eslabon</loc>
-    <lastmod>2025-12-17T02:28:33.197373+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/aceite-de-romero-para-cuidado-capilar</loc>
-    <lastmod>2025-11-27T01:44:54.490698+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/cargador-rapido-usb-para-carro-gwr-4-puertos-7a-total</loc>
-    <lastmod>2025-10-29T20:22:41.143008+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/guantes-de-ciclismo-medio-dedo</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/dedales-gaming-shezi-de-fibra-ultrasensible</loc>
-    <lastmod>2025-12-23T02:31:40.771638+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/cepillo-masajeador-para-mascotas</loc>
-    <lastmod>2025-12-17T19:50:53.793086+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/dron-g6-con-camara</loc>
-    <lastmod>2025-10-29T20:23:18.111566+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/control-inalambrico-multifuncion-para-juegos</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/set-de-karaoke-portatil-k12</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/generales/luces-delantera-y-trasera-para-bicicleta</loc>
-    <lastmod>2025-12-18T18:13:30.202648+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/libros-usados/java-como-programar-paul-harvey-deitel</loc>
-    <lastmod>2025-11-15T23:32:48.410331+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/libros-usados/circuitos-electricos-dorf-svoboda</loc>
-    <lastmod>2025-11-15T23:29:53.365941+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/libros-usados/programacion-orientada-a-objetos-usando-java-hector-arturo-florez</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/libros-usados/programacion-juan-carlos-moreno-perez</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/libros-usados/algebra-intermedia-allen-r-angel</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/libros-usados/fundamentos-de-circuitos-electricos-alexander-sadiku</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/celulares/cargador-magsafe-15w</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/libros-usados/calculo-farrand-poxon</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/celulares/soporte-anillo-pop-socket</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/libros-usados/precalculo-j-douglas-faires-james-defranza</loc>
-    <lastmod>2025-11-15T23:33:05.332813+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/computadoras/teclado-bluetooth-compacto</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/libros-usados/java-como-programar-deitel-7-edicion</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/libros-nuevos/elon-musk-ashlee-vance</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/computadoras/monitor-portatil-156-full-hd</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/libros-nuevos/la-iliada-homero</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/computadoras/disipador-de-calor-para-laptop</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/libros-nuevos/enamorate-de-ti-walter-riso</loc>
-    <lastmod>2025-11-15T23:33:33.343076+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/damas/collar-de-perlas-sinteticas</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/libros-nuevos/ama-y-no-sufras-walter-riso</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/damas/set-de-10-brochas-de-maquillaje</loc>
-    <lastmod>2025-11-19T22:35:18.570419+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/damas/rizador-de-pestanas</loc>
-    <lastmod>2025-11-19T22:34:54.912852+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/disco-ssd-msata-exram-256gb</loc>
-    <lastmod>2026-02-22T11:28:50.354962+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/damas/aretes-de-zirconia</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/computadoras/hub-multifuncion-usb-c-8-en-1-ultra-hd</loc>
-    <lastmod>2026-01-09T23:51:51.745351+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/damas/pulsera-de-cuero-trenzado</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/belleza/labial-mate-de-larga-duracion</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/belleza/esmalte-de-unas-set-x12</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/mini-altavoz-bluetooth</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/computadoras/adaptador-sata-a-usb-30-para-discos-25</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/camara-web-genius-hd-720p-con-microfono</loc>
-    <lastmod>2025-12-21T19:48:30.742785+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/disco-ssd-m2-walram-512gb-ngff</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/generales/smartwatch-deportivo</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/computadoras/mouse-inalambrico-usb-bluethooth</loc>
-    <lastmod>2026-01-15T23:31:13.425395+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/carcasa-externa-usb-30-para-disco-25</loc>
-    <lastmod>2026-02-26T05:00:40.803575+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/carcasa-transparente-para-disco-duro-25</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/carcasa-transparente-usb-c-para-disco-25</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/memoria-ram-preyda-ddr3-4gb-so-dimm</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/adaptador-msata-a-sata-para-discos-ssd</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/computadoras/disco-ssd-walram-25-256gb</loc>
-    <lastmod>2026-01-23T01:36:47.600421+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/generales/camara-web-4k-para-streaming</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/celulares/cargador-rapido-pd-20w-con-cable-usb-c-a-c-1-metro</loc>
-    <lastmod>2026-02-20T15:11:49.356027+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/brazalete-deportivo-para-celular</loc>
-    <lastmod>2026-03-04T12:33:06.38609+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/usb-tipo-c-c-1-metro</loc>
-    <lastmod>2025-11-20T12:42:25.653684+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/libros-nuevos/the-pragmatic-programmer</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/celulares/gimbal-inteligente-de-seguimiento-automatico-360</loc>
-    <lastmod>2025-10-29T20:25:31.737397+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/libros-usados/brida-ken-follett</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/celulares/audifonos-bluetooth-tws</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/celulares/audifonos-inalambricos-p47-plegables</loc>
-    <lastmod>2025-11-20T12:40:30.678721+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/celulares/cargador-rapido-65w-usb-c</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/celulares/cable-baseus-usb-c-2-metros</loc>
-    <lastmod>2025-11-20T12:37:44.377773+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/celulares/cable-usb-c-a-usb-c-2m</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/celulares/funda-protectora-xiaomi-redmi-a12</loc>
-    <lastmod>2026-03-08T22:51:14.444533+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/celulares/funda-silicona-samsung-s24</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/celulares/usb-tipo-c-a-c-2-metros</loc>
-    <lastmod>2025-11-20T12:42:50.281387+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/celulares/vidrio-templado-iphone-15</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://neurai.dev/accesorios/celulares/cable-usb-a-lightning-para-iphone</loc>
-    <lastmod>2025-11-20T12:41:31.541548+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/funda-iphone-xs</loc>
-    <lastmod>2025-11-15T23:34:46.6744+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/auricular-ks19-con-banda-deportiva-para-cuello</loc>
-    <lastmod>2025-10-29T20:15:34.662465+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://neurai.dev/accesorios/celulares/auriculares-inalambricos-con-pantalla-led-digital-air-31</loc>
-    <lastmod>2026-02-26T12:51:19.725128+00:00</lastmod>
+    <loc>https://neurai.dev/accesorios/celulares/power-bank-20000mah</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/celulares/soporte-magnetico-para-auto</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/celulares/audifonos-con-cable-35mm</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/celulares/adaptador-usb-c-a-35mm</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/celulares/cargador-inalambrico-15w</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/computadoras/mouse-inalambrico-ergonomico</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/computadoras/teclado-mecanico-gaming</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/computadoras/ssd-samsung-1tb-25</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/computadoras/ram-ddr4-8gb-3200mhz</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/computadoras/hub-usb-c-7-en-1</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/computadoras/pasta-termica-noctua</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/computadoras/mousepad-gaming-xl</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/computadoras/webcam-full-hd-1080p</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/computadoras/soporte-laptop-aluminio</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/computadoras/cable-hdmi-20-2m</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/damas/bolso-de-cuero-sintetico</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/damas/monedero-minimalista</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/damas/gafas-de-sol-uv400</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/damas/reloj-digital-femenino</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/damas/panuelo-de-seda-estampado</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/belleza/crema-hidratante-facial-50ml</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/belleza/serum-vitamina-c</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/belleza/kit-maquillaje-completo</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/belleza/mascarilla-capilar-reparadora</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/belleza/perfume-floral-50ml</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-nuevos/clean-code-robert-c-martin</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-nuevos/el-arte-de-la-guerra-sun-tzu</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-nuevos/habitos-atomicos-james-clear</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-nuevos/python-para-todos</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-nuevos/inteligencia-emocional-goleman</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-nuevos/el-poder-del-ahora-eckhart-tolle</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-nuevos/sapiens-yuval-noah-harari</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-nuevos/design-patterns-gang-of-four</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-usados/cien-anos-de-soledad-garcia-marquez</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-usados/el-principito-antoine-de-saint-exupery</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-usados/harry-potter-coleccion-completa</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-usados/don-quijote-de-la-mancha</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-usados/el-alquimista-paulo-coelho</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/libros-usados/como-ganar-amigos-dale-carnegie</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/termo-de-acero-inoxidable-500ml</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/linterna-led-recargable</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/mochila-antirrobo-30l</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/candado-de-combinacion</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/kit-de-destornilladores-32-en-1</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/cinta-led-rgb-5m</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/calculadora-cientifica</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/lampara-de-escritorio-led</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/organizador-de-cables</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://neurai.dev/accesorios/generales/almohadilla-para-mouse-ergonomica</loc>
+    <lastmod>2025-05-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
   </url>
 
 </urlset>

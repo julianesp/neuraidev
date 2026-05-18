@@ -238,7 +238,7 @@ const Footer = () => {
           <div className={styles.brandSection}>
             <Link href="/" className={styles.logoLink}>
               <Image
-                src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png"
+                src="https://media.neurai.dev/logo.png"
                 alt="Neurai.dev"
                 width={80}
                 height={80}

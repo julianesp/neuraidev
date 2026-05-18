@@ -6,7 +6,7 @@ const ProductMetaTags = ({ product, category }) => {
   // Obtener imagen del producto o logo por defecto
   const getOGImageUrl = () => {
     // Logo por defecto del sitio
-    const defaultLogo = 'https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png';
+    const defaultLogo = 'https://media.neurai.dev/logo.png';
 
     // Si hay imagen principal del producto, usarla
     if (product.imagenPrincipal) {

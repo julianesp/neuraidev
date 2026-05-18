@@ -1,25 +1,17 @@
 /**
- * Script para generar sitemap.xml dinámicamente desde Supabase
+ * Script para generar sitemap.xml dinámicamente desde Cloudflare D1
  *
  * Uso:
  *   node scripts/generate-sitemap.js
- *
- * Este script:
- * 1. Consulta todos los productos disponibles en Supabase
- * 2. Genera un sitemap.xml completo con páginas estáticas + productos
- * 3. Guarda el archivo en public/sitemap.xml
  */
 
-const { createClient } = require('@supabase/supabase-js');
 const fs = require('fs');
 const path = require('path');
 
-// Cargar variables de entorno
 require('dotenv').config({ path: '.env.local' });
 
 const BASE_URL = 'https://neurai.dev';
 
-// Páginas estáticas del sitio
 const staticPages = [
   { url: '/', priority: '1.0', changefreq: 'daily' },
 
@@ -70,9 +62,6 @@ const staticPages = [
   { url: '/politica-cookies', priority: '0.30', changefreq: 'yearly' },
 ];
 
-/**
- * Genera un slug SEO-friendly desde un texto
- */
 function generateSlug(text) {
   if (!text) return 'producto';
 
@@ -93,43 +82,48 @@ function generateSlug(text) {
     .replace(/-+$/, '');
 }
 
-/**
- * Obtiene productos desde Supabase
- */
 async function getProducts() {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+    const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID;
+    const token = process.env.CLOUDFLARE_D1_TOKEN;
 
-    if (!supabaseUrl || !supabaseKey) {
-      console.warn('⚠️  Credenciales de Supabase no encontradas. Generando sitemap solo con páginas estáticas.');
+    if (!accountId || !databaseId || !token) {
+      console.warn('⚠️  Credenciales de D1 no encontradas. Generando sitemap solo con páginas estáticas.');
       return [];
     }
 
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const response = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${accountId}/d1/database/${databaseId}/query`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sql: 'SELECT id, sku, nombre, categoria, updated_at, created_at, disponible, destacado FROM products WHERE disponible = 1 ORDER BY created_at DESC',
+          params: [],
+        }),
+      }
+    );
 
-    const { data: productos, error } = await supabase
-      .from('products')
-      .select('id, sku, nombre, categoria, updated_at, created_at, disponible, destacado')
-      .eq('disponible', true)
-      .order('created_at', { ascending: false });
+    const data = await response.json();
 
-    if (error) {
-      console.error('❌ Error obteniendo productos:', error);
+    if (!data.success) {
+      console.error('❌ Error obteniendo productos de D1:', data.errors);
       return [];
     }
 
-    console.log(`✅ ${productos?.length || 0} productos obtenidos desde Supabase`);
-    return productos || [];
+    const productos = data.result[0]?.results ?? [];
+    console.log(`✅ ${productos.length} productos obtenidos desde D1`);
+    return productos;
   } catch (error) {
     console.error('❌ Error fatal:', error);
     return [];
   }
 }
 
-/**
- * Genera el XML del sitemap
- */
 function generateSitemapXML(pages) {
   const currentDate = new Date().toISOString();
 
@@ -156,16 +150,11 @@ function generateSitemapXML(pages) {
   return xml;
 }
 
-/**
- * Función principal
- */
 async function main() {
   console.log('🚀 Generando sitemap.xml...\n');
 
-  // 1. Obtener productos
   const productos = await getProducts();
 
-  // 2. Convertir productos a URLs
   const productPages = productos.map(producto => {
     const slug = generateSlug(producto.nombre || producto.sku || producto.id);
     const priority = producto.destacado ? '0.85' : '0.80';
@@ -178,30 +167,21 @@ async function main() {
     };
   });
 
-  // 3. Combinar páginas estáticas + productos
   const allPages = [...staticPages, ...productPages];
 
   console.log(`📄 Total de URLs: ${allPages.length}`);
   console.log(`   - Páginas estáticas: ${staticPages.length}`);
   console.log(`   - Productos: ${productPages.length}\n`);
 
-  // 4. Generar XML
   const sitemapXML = generateSitemapXML(allPages);
 
-  // 5. Guardar archivo
   const outputPath = path.join(__dirname, '..', 'public', 'sitemap.xml');
   fs.writeFileSync(outputPath, sitemapXML, 'utf8');
 
   console.log(`✅ Sitemap generado exitosamente en: ${outputPath}`);
   console.log(`\n📍 URL: ${BASE_URL}/sitemap.xml`);
-  console.log('\n💡 Próximos pasos:');
-  console.log('   1. Revisar el archivo public/sitemap.xml');
-  console.log('   2. Hacer commit y push a producción');
-  console.log('   3. Verificar en: https://neurai.dev/sitemap.xml');
-  console.log('   4. Enviar a Google Search Console\n');
 }
 
-// Ejecutar
 main().catch(error => {
   console.error('❌ Error fatal:', error);
   process.exit(1);

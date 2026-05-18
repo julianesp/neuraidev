@@ -9,11 +9,11 @@ export default function StructuredData() {
     url: "https://neurai.dev",
     logo: {
       "@type": "ImageObject",
-      url: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+      url: "https://media.neurai.dev/logo.png",
       width: 512,
       height: 512,
     },
-    image: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+    image: "https://media.neurai.dev/logo.png",
     description:
       "Tienda online de accesorios tecnológicos, servicios de desarrollo web y soporte técnico en sistemas. Venta de accesorios para celulares, computadoras, libros y más.",
     sameAs: [
@@ -103,7 +103,7 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": ["Store", "OnlineStore"],
     name: "Neurai.dev",
-    image: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png",
+    image: "https://media.neurai.dev/logo.png",
     "@id": "https://neurai.dev",
     url: "https://neurai.dev",
     telephone: "+57-317-450-3604",

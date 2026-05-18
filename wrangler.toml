@@ -1,0 +1,11 @@
+name = "neuraidev"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "neurai-db"
+database_id = "25f012f9-3f73-4e50-8703-5d123b8630a3"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "neurai-pos-images"

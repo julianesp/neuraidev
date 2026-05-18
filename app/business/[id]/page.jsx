@@ -33,59 +33,59 @@ import {
 const businessProducts = {
   "tienda-local": [
     // Productos de Mercado
-    { id: "tl-001", nombre: "Arroz Diana x 500g", categoria: "mercado", precio: 3500, stock: 50, descripcion: "Arroz blanco premium", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, marca: "Diana", createdAt: "2024-01-15" },
-    { id: "tl-002", nombre: "Aceite Gourmet x 900ml", categoria: "mercado", precio: 12500, precioAnterior: 15000, stock: 30, descripcion: "Aceite vegetal premium", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, marca: "Gourmet", createdAt: "2024-01-16" },
-    { id: "tl-003", nombre: "Pasta Doria x 250g", categoria: "mercado", precio: 2800, stock: 100, descripcion: "Pasta espaguetti", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, marca: "Doria", createdAt: "2024-01-17" },
-    { id: "tl-004", nombre: "Leche Colanta x 1L", categoria: "lacteos", precio: 4200, stock: 40, descripcion: "Leche entera pasteurizada", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, marca: "Colanta", createdAt: "2024-01-18" },
-    { id: "tl-005", nombre: "Huevos AA x 30 unidades", categoria: "mercado", precio: 18500, stock: 25, descripcion: "Huevos frescos tamaño AA", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, createdAt: "2024-01-19" },
+    { id: "tl-001", nombre: "Arroz Diana x 500g", categoria: "mercado", precio: 3500, stock: 50, descripcion: "Arroz blanco premium", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, marca: "Diana", createdAt: "2024-01-15" },
+    { id: "tl-002", nombre: "Aceite Gourmet x 900ml", categoria: "mercado", precio: 12500, precioAnterior: 15000, stock: 30, descripcion: "Aceite vegetal premium", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, marca: "Gourmet", createdAt: "2024-01-16" },
+    { id: "tl-003", nombre: "Pasta Doria x 250g", categoria: "mercado", precio: 2800, stock: 100, descripcion: "Pasta espaguetti", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, marca: "Doria", createdAt: "2024-01-17" },
+    { id: "tl-004", nombre: "Leche Colanta x 1L", categoria: "lacteos", precio: 4200, stock: 40, descripcion: "Leche entera pasteurizada", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, marca: "Colanta", createdAt: "2024-01-18" },
+    { id: "tl-005", nombre: "Huevos AA x 30 unidades", categoria: "mercado", precio: 18500, stock: 25, descripcion: "Huevos frescos tamaño AA", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, createdAt: "2024-01-19" },
 
     // Productos de Aseo
-    { id: "tl-006", nombre: "Jabón en Polvo Ariel x 500g", categoria: "aseo", precio: 8900, precioAnterior: 10500, stock: 45, descripcion: "Detergente en polvo concentrado", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, marca: "Ariel", createdAt: "2024-01-20" },
-    { id: "tl-007", nombre: "Suavizante Suavitel x 900ml", categoria: "aseo", precio: 7500, stock: 35, descripcion: "Suavizante de ropa aroma primavera", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, marca: "Suavitel", createdAt: "2024-01-21" },
-    { id: "tl-008", nombre: "Papel Higiénico Familia x 12 rollos", categoria: "aseo", precio: 15900, stock: 60, descripcion: "Papel higiénico triple hoja", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, marca: "Familia", createdAt: "2024-01-22" },
+    { id: "tl-006", nombre: "Jabón en Polvo Ariel x 500g", categoria: "aseo", precio: 8900, precioAnterior: 10500, stock: 45, descripcion: "Detergente en polvo concentrado", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, marca: "Ariel", createdAt: "2024-01-20" },
+    { id: "tl-007", nombre: "Suavizante Suavitel x 900ml", categoria: "aseo", precio: 7500, stock: 35, descripcion: "Suavizante de ropa aroma primavera", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, marca: "Suavitel", createdAt: "2024-01-21" },
+    { id: "tl-008", nombre: "Papel Higiénico Familia x 12 rollos", categoria: "aseo", precio: 15900, stock: 60, descripcion: "Papel higiénico triple hoja", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, marca: "Familia", createdAt: "2024-01-22" },
 
     // Mecato y Dulces
-    { id: "tl-009", nombre: "Papas Margarita x 150g", categoria: "mecato", precio: 3200, stock: 80, descripcion: "Papas fritas sabor natural", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, marca: "Margarita", createdAt: "2024-01-23" },
-    { id: "tl-010", nombre: "Chocolatina Jet x 35g", categoria: "dulces", precio: 1500, precioAnterior: 2000, stock: 120, descripcion: "Chocolate con leche", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, marca: "Jet", createdAt: "2024-01-24" },
-    { id: "tl-011", nombre: "Galletas Festival x 200g", categoria: "mecato", precio: 4500, stock: 55, descripcion: "Galletas con chips de chocolate", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, marca: "Festival", createdAt: "2024-01-25" },
+    { id: "tl-009", nombre: "Papas Margarita x 150g", categoria: "mecato", precio: 3200, stock: 80, descripcion: "Papas fritas sabor natural", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, marca: "Margarita", createdAt: "2024-01-23" },
+    { id: "tl-010", nombre: "Chocolatina Jet x 35g", categoria: "dulces", precio: 1500, precioAnterior: 2000, stock: 120, descripcion: "Chocolate con leche", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, marca: "Jet", createdAt: "2024-01-24" },
+    { id: "tl-011", nombre: "Galletas Festival x 200g", categoria: "mecato", precio: 4500, stock: 55, descripcion: "Galletas con chips de chocolate", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, marca: "Festival", createdAt: "2024-01-25" },
 
     // Bebidas
-    { id: "tl-012", nombre: "Gaseosa Coca-Cola x 1.5L", categoria: "bebidas", precio: 5800, stock: 70, descripcion: "Bebida gaseosa sabor original", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, marca: "Coca-Cola", createdAt: "2024-01-26" },
-    { id: "tl-013", nombre: "Jugo Hit Mora x 200ml", categoria: "bebidas", precio: 2100, stock: 90, descripcion: "Jugo de mora", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, marca: "Hit", createdAt: "2024-01-27" },
+    { id: "tl-012", nombre: "Gaseosa Coca-Cola x 1.5L", categoria: "bebidas", precio: 5800, stock: 70, descripcion: "Bebida gaseosa sabor original", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, marca: "Coca-Cola", createdAt: "2024-01-26" },
+    { id: "tl-013", nombre: "Jugo Hit Mora x 200ml", categoria: "bebidas", precio: 2100, stock: 90, descripcion: "Jugo de mora", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, marca: "Hit", createdAt: "2024-01-27" },
 
     // Cuidado Personal
-    { id: "tl-014", nombre: "Shampoo Sedal x 350ml", categoria: "cuidado-personal", precio: 11900, stock: 40, descripcion: "Shampoo hidratación instantánea", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, marca: "Sedal", createdAt: "2024-01-28" },
-    { id: "tl-015", nombre: "Crema Dental Colgate x 100ml", categoria: "cuidado-personal", precio: 6500, precioAnterior: 7500, stock: 65, descripcion: "Pasta dental triple acción", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, marca: "Colgate", createdAt: "2024-01-29" },
+    { id: "tl-014", nombre: "Shampoo Sedal x 350ml", categoria: "cuidado-personal", precio: 11900, stock: 40, descripcion: "Shampoo hidratación instantánea", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, marca: "Sedal", createdAt: "2024-01-28" },
+    { id: "tl-015", nombre: "Crema Dental Colgate x 100ml", categoria: "cuidado-personal", precio: 6500, precioAnterior: 7500, stock: 65, descripcion: "Pasta dental triple acción", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, marca: "Colgate", createdAt: "2024-01-29" },
 
     // Productos con bajo stock
-    { id: "tl-016", nombre: "Pan Tajado Bimbo x 450g", categoria: "panaderia", precio: 5200, stock: 3, descripcion: "Pan de molde blanco", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, marca: "Bimbo", createdAt: "2024-01-30" },
+    { id: "tl-016", nombre: "Pan Tajado Bimbo x 450g", categoria: "panaderia", precio: 5200, stock: 3, descripcion: "Pan de molde blanco", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, marca: "Bimbo", createdAt: "2024-01-30" },
   ],
   "panaderia-el-trigal": [
     // Panes
-    { id: "pt-001", nombre: "Pan Francés", categoria: "panaderia", precio: 500, stock: 150, descripcion: "Pan recién horneado, crujiente por fuera", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-15" },
-    { id: "pt-002", nombre: "Pan Integral", categoria: "panaderia", precio: 800, stock: 80, descripcion: "Pan integral con semillas", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-16" },
-    { id: "pt-003", nombre: "Pan de Queso", categoria: "panaderia", precio: 1200, stock: 100, descripcion: "Pan artesanal relleno de queso", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, createdAt: "2024-01-17" },
-    { id: "pt-004", nombre: "Pan de Aguacate", categoria: "panaderia", precio: 1500, precioAnterior: 1800, stock: 60, descripcion: "Pan especial con aguacate", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-18" },
+    { id: "pt-001", nombre: "Pan Francés", categoria: "panaderia", precio: 500, stock: 150, descripcion: "Pan recién horneado, crujiente por fuera", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-15" },
+    { id: "pt-002", nombre: "Pan Integral", categoria: "panaderia", precio: 800, stock: 80, descripcion: "Pan integral con semillas", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-16" },
+    { id: "pt-003", nombre: "Pan de Queso", categoria: "panaderia", precio: 1200, stock: 100, descripcion: "Pan artesanal relleno de queso", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, createdAt: "2024-01-17" },
+    { id: "pt-004", nombre: "Pan de Aguacate", categoria: "panaderia", precio: 1500, precioAnterior: 1800, stock: 60, descripcion: "Pan especial con aguacate", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-18" },
 
     // Tortas
-    { id: "pt-005", nombre: "Torta de Chocolate", categoria: "tortas", precio: 35000, stock: 5, descripcion: "Torta de chocolate para 8 personas", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-19" },
-    { id: "pt-006", nombre: "Torta de Vainilla", categoria: "tortas", precio: 32000, stock: 4, descripcion: "Torta de vainilla con crema", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, createdAt: "2024-01-20" },
-    { id: "pt-007", nombre: "Torta Personalizada", categoria: "tortas", precio: 85000, precioAnterior: 100000, stock: 2, descripcion: "Torta personalizada para 15 personas", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-21" },
+    { id: "pt-005", nombre: "Torta de Chocolate", categoria: "tortas", precio: 35000, stock: 5, descripcion: "Torta de chocolate para 8 personas", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-19" },
+    { id: "pt-006", nombre: "Torta de Vainilla", categoria: "tortas", precio: 32000, stock: 4, descripcion: "Torta de vainilla con crema", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, createdAt: "2024-01-20" },
+    { id: "pt-007", nombre: "Torta Personalizada", categoria: "tortas", precio: 85000, precioAnterior: 100000, stock: 2, descripcion: "Torta personalizada para 15 personas", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-21" },
 
     // Pastelería
-    { id: "pt-008", nombre: "Croissant", categoria: "pasteleria", precio: 2500, stock: 45, descripcion: "Croissant de mantequilla", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, createdAt: "2024-01-22" },
-    { id: "pt-009", nombre: "Donas Glaseadas x 6", categoria: "pasteleria", precio: 8500, stock: 30, descripcion: "Paquete de 6 donas glaseadas", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, createdAt: "2024-01-23" },
-    { id: "pt-010", nombre: "Rollos de Canela x 4", categoria: "pasteleria", precio: 7000, precioAnterior: 8500, stock: 25, descripcion: "Rollos de canela frescos", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-24" },
+    { id: "pt-008", nombre: "Croissant", categoria: "pasteleria", precio: 2500, stock: 45, descripcion: "Croissant de mantequilla", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, createdAt: "2024-01-22" },
+    { id: "pt-009", nombre: "Donas Glaseadas x 6", categoria: "pasteleria", precio: 8500, stock: 30, descripcion: "Paquete de 6 donas glaseadas", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, createdAt: "2024-01-23" },
+    { id: "pt-010", nombre: "Rollos de Canela x 4", categoria: "pasteleria", precio: 7000, precioAnterior: 8500, stock: 25, descripcion: "Rollos de canela frescos", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-24" },
 
     // Desayunos
-    { id: "pt-011", nombre: "Desayuno Completo", categoria: "desayunos", precio: 12000, stock: 20, descripcion: "Incluye pan, huevos, café y jugo", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-25" },
-    { id: "pt-012", nombre: "Combo Café + Croissant", categoria: "desayunos", precio: 5500, stock: 50, descripcion: "Café caliente con croissant", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, createdAt: "2024-01-26" },
+    { id: "pt-011", nombre: "Desayuno Completo", categoria: "desayunos", precio: 12000, stock: 20, descripcion: "Incluye pan, huevos, café y jugo", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, createdAt: "2024-01-25" },
+    { id: "pt-012", nombre: "Combo Café + Croissant", categoria: "desayunos", precio: 5500, stock: 50, descripcion: "Café caliente con croissant", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, createdAt: "2024-01-26" },
   ],
   "ferreteria-martinez": [
     // Herramientas
-    { id: "fm-001", nombre: "Taladro Eléctrico Black & Decker", categoria: "herramientas", precio: 185000, precioAnterior: 220000, stock: 8, descripcion: "Taladro percutor 550W con accesorios", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, destacado: true, marca: "Black & Decker", createdAt: "2024-01-15" },
-    { id: "fm-002", nombre: "Martillo de Carpintero", categoria: "herramientas", precio: 25000, stock: 30, descripcion: "Martillo 16 oz con mango de fibra", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, createdAt: "2024-01-16" },
-    { id: "fm-003", nombre: "Destornilladores Set x 6", categoria: "herramientas", precio: 35000, stock: 20, descripcion: "Set de destornilladores profesionales", imagenPrincipal: "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png", disponible: true, createdAt: "2024-01-17" },
+    { id: "fm-001", nombre: "Taladro Eléctrico Black & Decker", categoria: "herramientas", precio: 185000, precioAnterior: 220000, stock: 8, descripcion: "Taladro percutor 550W con accesorios", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, destacado: true, marca: "Black & Decker", createdAt: "2024-01-15" },
+    { id: "fm-002", nombre: "Martillo de Carpintero", categoria: "herramientas", precio: 25000, stock: 30, descripcion: "Martillo 16 oz con mango de fibra", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, createdAt: "2024-01-16" },
+    { id: "fm-003", nombre: "Destornilladores Set x 6", categoria: "herramientas", precio: 35000, stock: 20, descripcion: "Set de destornilladores profesionales", imagenPrincipal: "https://media.neurai.dev/Others/store.png", disponible: true, createdAt: "2024-01-17" },
   ],
 };
 
@@ -97,7 +97,7 @@ const businessDatabase = {
     description:
       "La tienda más completa del sector. Miles de productos en un solo lugar: mercado, aseo, mecato, tecnología, ropa y mucho más. Tu aliado de confianza para todas las necesidades del hogar y la familia.",
     image:
-      "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+      "https://media.neurai.dev/Others/store.png",
     address: "Calle 15 #23-45, Barrio Centro",
     phone: "+57 3174503604",
     hours: "Lunes a Domingo: 6:00 AM - 10:00 PM",
@@ -150,7 +150,7 @@ const businessDatabase = {
     description:
       "Pan fresco todos los días. Especialistas en productos de panadería artesanal y pastelería.",
     image:
-      "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+      "https://media.neurai.dev/Others/store.png",
     address: "Carrera 10 #18-32, Barrio San José",
     phone: "+57 3174503604",
     hours: "Todos los días: 5:00 AM - 7:00 PM",
@@ -184,7 +184,7 @@ const businessDatabase = {
     description:
       "Todo para construcción y reparaciones del hogar. Más de 20 años sirviendo a la comunidad.",
     image:
-      "https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/Others/store.png",
+      "https://media.neurai.dev/Others/store.png",
     address: "Avenida Principal #45-67, Sector Industrial",
     phone: "+57 3174503604",
     hours: "Lunes a Viernes: 7:00 AM - 6:00 PM, Sábados: 7:00 AM - 4:00 PM",

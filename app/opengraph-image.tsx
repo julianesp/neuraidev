@@ -49,10 +49,10 @@ export default async function Image() {
             }}
           >
             <img
-              src="https://0dwas2ied3dcs14f.public.blob.vercel-storage.com/logo.png"
+              src="https://media.neurai.dev/logo.png"
               alt="Logo neurai.dev"
-              width="200"
-              height="316"
+              width={200}
+              height={316}
               style={{
                 objectFit: "contain",
               }}
