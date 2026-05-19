@@ -16,7 +16,61 @@ import {
   Monitor,
   BookOpen,
   Package,
+  MessageCircle,
+  X,
+  Sparkles,
 } from "lucide-react";
+
+function AIChatBanner() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    // Revisar si ya fue cerrado hoy
+    const closedAt = sessionStorage.getItem("ai-banner-closed");
+    if (!closedAt) setVisible(true);
+  }, []);
+
+  const handleOpen = () => {
+    setVisible(false);
+    window.dispatchEvent(new Event("open-ai-chat"));
+  };
+
+  const handleClose = () => {
+    sessionStorage.setItem("ai-banner-closed", "1");
+    setVisible(false);
+  };
+
+  if (!visible) return null;
+
+  return (
+    <div className={styles.aiBanner}>
+      <div className={styles.aiBannerInner}>
+        <div className={styles.aiBannerIcon}>
+          <Sparkles className="w-5 h-5" />
+        </div>
+        <div className={styles.aiBannerText}>
+          <strong>¿No sabes qué comprar?</strong>
+          <span> Pregúntale a nuestro asistente IA — te ayuda a elegir el producto ideal.</span>
+        </div>
+        <button
+          onClick={handleOpen}
+          className={styles.aiBannerButton}
+          aria-label="Abrir asistente IA"
+        >
+          <MessageCircle className="w-4 h-4" />
+          Consultar
+        </button>
+        <button
+          onClick={handleClose}
+          className={styles.aiBannerClose}
+          aria-label="Cerrar sugerencia"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 // Componentes below-fold cargados de forma lazy
 const AccesoriosDestacados = dynamic(() => import("@/components/Accesorio/AccesoriosDestacados"), { ssr: false });
@@ -150,6 +204,9 @@ export default function Inicio() {
         <div className={`${styles.presentacion}`}>
           <PresentationCarousel />
         </div>
+
+        {/* Banner de sugerencia del asistente IA */}
+        <AIChatBanner />
 
         {/* Banner de ofertas activas - se cierra por el día al hacer clic en X */}
         <OfertasBanner />

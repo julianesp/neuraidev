@@ -34,6 +34,13 @@ export default function AIChat() {
     }
   }, [isOpen]);
 
+  // Permite abrir el chat desde otros componentes via evento custom
+  useEffect(() => {
+    const handler = () => setIsOpen(true);
+    window.addEventListener("open-ai-chat", handler);
+    return () => window.removeEventListener("open-ai-chat", handler);
+  }, []);
+
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
 
