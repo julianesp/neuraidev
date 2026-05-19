@@ -5,46 +5,66 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./PresentationCarousel.module.scss";
 
+// Slides por defecto mientras carga la BD o si no hay slides configurados
+const DEFAULT_SLIDES = [
+  {
+    id: "default-1",
+    imagen_url: "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/collage%20celulares_2.png",
+    titulo: "Accesorios para Celulares",
+    descripcion: "Cables, cargadores, fundas y más para tu smartphone",
+    link: "/accesorios/celulares",
+    boton_texto: "Ver celulares",
+  },
+  {
+    id: "default-2",
+    imagen_url: "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/collage%20computadoras.png",
+    titulo: "Accesorios para Computadores",
+    descripcion: "Teclados, mouse, cables y componentes para PC",
+    link: "/accesorios/computadoras",
+    boton_texto: "Ver computadores",
+  },
+  {
+    id: "default-3",
+    imagen_url: "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/tecSis.png",
+    titulo: "Técnico en Sistemas",
+    descripcion: "Soluciones profesionales para todos tus problemas informáticos",
+    link: "/servicios/tecnico-sistemas",
+    boton_texto: "Ver más",
+  },
+  {
+    id: "default-4",
+    imagen_url: "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/parque%20Col%C3%B3n.png",
+    titulo: "Colón, Putumayo",
+    descripcion: "Tu tienda de tecnología en el corazón de Colón",
+    link: null,
+    boton_texto: null,
+    boton_secundario: { texto: "Conocer Colón", href: "https://es.wikipedia.org/wiki/Col%C3%B3n_(Putumayo)" },
+  },
+];
+
 const PresentationCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [slides, setSlides] = useState(DEFAULT_SLIDES);
 
-  // Datos del carrusel con imágenes y enlaces
-  const slides = [
-    {
-      id: 1,
-      image:
-        "https://media.neurai.dev/collage.jpg",
-      title: "Productos Destacados",
-      description: "Descubre nuestros mejores productos",
-      link: "/accesorios/destacados",
-    },
-    {
-      id: 2,
-      image:
-        "https://media.neurai.dev/servicios/mantenimiento.jpg",
-      title: "Técnico en Sistemas",
-      description:
-        "Soluciones profesionales para todos tus problemas informáticos",
-      link: "/servicios/tecnico-sistemas",
-    },
-    {
-      id: 3,
-      image:
-        "https://media.neurai.dev/servicios/web_develop.png",
-      title: "Desarrollador Web",
-      description: "Creando soluciones digitales innovadoras para tu negocio",
-      link: "/servicios/desarrollador-software",
-    },
-    // {
-    //   id: 4,
-    //   image:
-    //     "https://media.neurai.dev/loveFriend.jpg",
-    //   title: "Ofertas Especiales",
-    //   description: "No te pierdas nuestras promociones",
-    //   link: "/ofertas",
-    // },
-  ];
+  useEffect(() => {
+    fetch('/api/carousel')
+      .then(r => r.json())
+      .then(data => {
+        if (data.success && data.slides?.length > 0) {
+          setSlides(data.slides.map(s => ({
+            ...s,
+            imagen_url: s.imagen_url,
+            titulo: s.titulo,
+            descripcion: s.descripcion,
+            boton_texto: s.boton_texto ?? 'Ver más',
+          })));
+        }
+      })
+      .catch(() => {
+        // Si falla, mantiene los slides por defecto
+      });
+  }, []);
 
   // Auto-slide cada 5 segundos (solo si isPlaying es true)
   useEffect(() => {
@@ -81,24 +101,40 @@ const PresentationCarousel = () => {
             <div key={slide.id} className={styles.slide}>
               <div className={styles.imageContainer}>
                 <Image
-                  src={slide.image}
-                  alt={slide.title}
+                  src={slide.imagen_url}
+                  alt={slide.titulo}
                   fill
                   className={styles.slideImage}
                   priority={index === 0}
                   quality={85}
                   sizes="100vw"
+                  unoptimized
                 />
                 <div className={styles.overlay}></div>
               </div>
 
               <div className={styles.slideContent}>
-                <h2 className={styles.slideTitle}>{slide.title}</h2>
-                <p className={styles.slideDescription}>{slide.description}</p>
+                <h2 className={styles.slideTitle}>{slide.titulo}</h2>
+                {slide.descripcion && (
+                  <p className={styles.slideDescription}>{slide.descripcion}</p>
+                )}
 
-                <Link href={slide.link} className={styles.seeMoreButton}>
-                  Ver más
-                </Link>
+                {slide.link && (
+                  <Link href={slide.link} className={styles.seeMoreButton}>
+                    {slide.boton_texto ?? "Ver más"}
+                  </Link>
+                )}
+
+                {slide.boton_secundario && (
+                  <a
+                    href={slide.boton_secundario.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.secondaryButton}
+                  >
+                    {slide.boton_secundario.texto}
+                  </a>
+                )}
               </div>
             </div>
           ))}

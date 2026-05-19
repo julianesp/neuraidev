@@ -154,6 +154,43 @@
   }
 }
 
+.secondaryButton {
+  display: inline-block;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: white;
+  padding: 10px 28px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(22, 163, 74, 0.35);
+  position: absolute;
+  z-index: 105;
+  bottom: 60px;
+  right: 80px;
+
+  &:hover {
+    background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.45);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+    padding: 8px 20px;
+    bottom: 55px;
+    right: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+    padding: 7px 16px;
+    bottom: 50px;
+    right: 15px;
+  }
+}
+
 // Controles de navegación
 .navButton {
   position: absolute;

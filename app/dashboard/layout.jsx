@@ -21,6 +21,7 @@ import {
   Newspaper,
   Receipt,
   Mic,
+  Images,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -109,6 +110,12 @@ export default function DashboardLayout({ children }) {
       href: "/dashboard/noticias",
       icon: Newspaper,
       current: pathname?.startsWith("/dashboard/noticias"),
+    },
+    {
+      name: "Carrusel",
+      href: "/dashboard/carrusel",
+      icon: Images,
+      current: pathname?.startsWith("/dashboard/carrusel"),
     },
     {
       name: "Anuncios",
