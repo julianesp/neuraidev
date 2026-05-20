@@ -83,12 +83,18 @@ export async function GET(request) {
           images.push(product.imagen_principal);
         }
         // Si no hay imagen_principal, intentar con el array de imágenes
-        else if (product.imagenes && product.imagenes.length > 0) {
-          const firstImage = product.imagenes[0];
-          if (typeof firstImage === 'string') {
-            images.push(firstImage);
-          } else if (firstImage && firstImage.url) {
-            images.push(firstImage.url);
+        else if (product.imagenes) {
+          let imagenesArr = product.imagenes;
+          if (typeof imagenesArr === 'string') {
+            try { imagenesArr = JSON.parse(imagenesArr); } catch { imagenesArr = []; }
+          }
+          if (Array.isArray(imagenesArr) && imagenesArr.length > 0) {
+            const firstImage = imagenesArr[0];
+            if (typeof firstImage === 'string') {
+              images.push(firstImage);
+            } else if (firstImage && firstImage.url) {
+              images.push(firstImage.url);
+            }
           }
         }
       });
