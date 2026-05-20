@@ -161,7 +161,8 @@ export async function loadProductBySlug(categoria, slug) {
           .single();
 
         if (tiendaData) {
-          producto.seller_whatsapp = tiendaData.whatsapp || tiendaData.telefono || null;
+          producto.seller_whatsapp =
+            tiendaData.whatsapp || tiendaData.telefono || null;
           producto.seller_nombre = tiendaData.nombre || null;
         }
       } catch {}

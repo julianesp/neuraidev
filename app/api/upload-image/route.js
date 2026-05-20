@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { createClient } from "@supabase/supabase-js";
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const r2 = new S3Client({
+  region: "auto",
+  endpoint: process.env.CLOUDFLARE_R2_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID,
+    secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY,
+  },
+});
 
 // Headers para CORS y JSON
 const jsonHeaders = {
@@ -179,40 +183,28 @@ export async function POST(request) {
       contentType = mimeMap[fileExtension] || "image/jpeg";
     }
 
-    console.log("Subiendo a Supabase:", {
+    console.log("Subiendo a Cloudflare R2:", {
       fileName: storageFileName,
       contentType: contentType,
       size: buffer.length
     });
 
-    // Subir a Supabase Storage
-    const { data, error } = await supabase.storage
-      .from("imagenes")
-      .upload(storageFileName, buffer, {
-        contentType: contentType,
-        upsert: false,
-        cacheControl: "3600",
-      });
+    // Subir a Cloudflare R2
+    await r2.send(new PutObjectCommand({
+      Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME,
+      Key: storageFileName,
+      Body: buffer,
+      ContentType: contentType,
+    }));
 
-    if (error) {
-      console.error("Error subiendo a Supabase:", error);
-      return NextResponse.json(
-        { error: "Error subiendo la imagen: " + error.message },
-        { status: 500, headers: jsonHeaders }
-      );
-    }
+    console.log("Imagen subida exitosamente a Cloudflare R2");
 
-    console.log("Imagen subida exitosamente a Supabase");
-
-    // Obtener URL pública
-    const { data: urlData } = supabase.storage
-      .from("imagenes")
-      .getPublicUrl(storageFileName);
+    const publicUrl = `${process.env.NEXT_PUBLIC_CLOUDFLARE_R2_PUBLIC_URL}/${storageFileName}`;
 
     return NextResponse.json(
       {
         success: true,
-        url: urlData.publicUrl,
+        url: publicUrl,
         path: storageFileName,
       },
       { headers: jsonHeaders }
@@ -271,17 +263,10 @@ export async function DELETE(request) {
       );
     }
 
-    const { error } = await supabase.storage
-      .from("imagenes")
-      .remove([path]);
-
-    if (error) {
-      console.error("Error eliminando de Supabase:", error);
-      return NextResponse.json(
-        { error: "Error eliminando la imagen: " + error.message },
-        { status: 500, headers: jsonHeaders }
-      );
-    }
+    await r2.send(new DeleteObjectCommand({
+      Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME,
+      Key: path,
+    }));
 
     return NextResponse.json(
       { success: true },
