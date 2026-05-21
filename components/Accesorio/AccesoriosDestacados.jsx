@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { obtenerProductosDestacados } from "@/lib/supabase/productos";
+async function obtenerProductosDestacados() {
+  try {
+    const res = await fetch('/api/productos/destacados', { cache: 'no-store' });
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
+}
 import Image from "next/image";
 // import styles from "@/styles/components/AccesoriosDestacados.module.scss";
 import styles from "@/styles/components/AccesoriosDestacados.module.scss";

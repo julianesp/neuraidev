@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { obtenerAccesoriosDestacados } from "../accesoriosService";
+async function obtenerAccesoriosDestacados() {
+  try {
+    const res = await fetch('/api/productos/nuevos', { cache: 'no-store' });
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
+}
 import Image from "next/image";
 import style from "@/styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";

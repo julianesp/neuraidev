@@ -21,7 +21,7 @@ const TechnicalServicesCarousel = () => {
       description:
         "Formateo completo con instalación de sistemas operativos como Windows o alguna distribución de Linux. Programas esenciales y optimización del sistema para máximo rendimiento.",
       image:
-        "https://media.neurai.dev/computer.png",
+        "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/computadores/keyboard%20genius%20basic/1.jpg",
       features: [
         "Instalación de Sistema Operativo",
         "Programas Básicos",
@@ -36,7 +36,7 @@ const TechnicalServicesCarousel = () => {
       description:
         "Limpieza completa interna y externa, cambio de pasta térmica, optimización del sistema y diagnóstico de hardware.",
       image:
-        "https://media.neurai.dev/servicios/mantenimiento.jpg",
+        "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/computadores/ram%20ddr4%208%20gb/1.jpg",
       features: [
         "Limpieza Interna",
         "Cambio Pasta Térmica",
@@ -52,7 +52,7 @@ const TechnicalServicesCarousel = () => {
       description:
         "Mejora tu PC con nuevos componentes: RAM DDR4, discos SSD, y más.",
       image:
-        "https://media.neurai.dev/Accesorios/computers/ram%20ddr4%208%20gb/1.jpg",
+        "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/computadores/ram%20ddr4%208%20gb/1.jpg",
       features: [
         "Memoria RAM DDR4",
         "Discos SSD",
@@ -69,7 +69,7 @@ const TechnicalServicesCarousel = () => {
       description:
         "Asesoría personalizada, soporte remoto y presencial, configuración de redes y recuperación de datos.",
       image:
-        "https://media.neurai.dev/servicios/mantenimiento.jpg",
+        "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/computadores/ram%20ddr4%208%20gb/1.jpg",
       features: [
         "Soporte Remoto",
         "Configuración Redes",
@@ -142,7 +142,7 @@ const TechnicalServicesCarousel = () => {
               onError={(e) => {
                 // Fallback image if main image fails to load
                 e.target.src =
-                  "https://media.neurai.dev/servicios/mantenimiento.jpg";
+                  "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/computadores/ram%20ddr4%208%20gb/1.jpg";
               }}
             />
             <div className="absolute top-4 left-4">

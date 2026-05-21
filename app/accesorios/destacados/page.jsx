@@ -3,7 +3,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getFeaturedProducts } from "@/lib/productService";
+async function getFeaturedProducts(limit = 20) {
+  try {
+    const res = await fetch(`/api/productos/destacados`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    return res.json();
+  } catch { return []; }
+}
 import AddToCartButton from "@/components/AddToCartButton";
 import FavoriteButton from "@/components/FavoriteButton";
 import Advertisement from "@/components/Advertisement";
