@@ -23,6 +23,40 @@ const AccesoriosDestacados = () => {
   // Referencia al contenedor de scroll
   const scrollContainerRef = useRef(null);
 
+  const getAccesorioImagenUrl = (accesorio) => {
+    const placeholder =
+      "https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen";
+    if (!accesorio) return placeholder;
+
+    const explicitImage =
+      accesorio.imagenPrincipal ||
+      accesorio.imagen_principal ||
+      accesorio.imagen ||
+      accesorio.imagen_url;
+    if (explicitImage) return explicitImage;
+
+    const imagenes =
+      typeof accesorio.imagenes === "string"
+        ? (() => {
+            try {
+              return JSON.parse(accesorio.imagenes);
+            } catch {
+              return [];
+            }
+          })()
+        : accesorio.imagenes;
+
+    if (Array.isArray(imagenes) && imagenes.length > 0) {
+      const primera = imagenes[0];
+      if (typeof primera === "string") return primera;
+      if (primera && typeof primera === "object") {
+        return primera.url || primera.src || primera.imagen || placeholder;
+      }
+    }
+
+    return placeholder;
+  };
+
   // Efecto para cargar los accesorios destacados al montar el componente
   useEffect(() => {
     const cargarAccesorios = async () => {
@@ -176,12 +210,7 @@ const AccesoriosDestacados = () => {
             <div className="w-full h-48 relative">
               <Link href={`/accesorios/${accesorio.categoria}/${accesorio.id}`}>
                 <Image
-                  src={
-                    accesorio.imagen_principal ||
-                    (accesorio.imagenes && accesorio.imagenes.length > 0
-                      ? accesorio.imagenes[0].url
-                      : "/imageshttps://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen")
-                  }
+                  src={getAccesorioImagenUrl(accesorio)}
                   alt={`${accesorio.nombre} - Producto destacado en Neurai.dev`}
                   fill={true}
                   className="object-contain cursor-pointer"
@@ -195,16 +224,21 @@ const AccesoriosDestacados = () => {
               </Link>
 
               {/* Botón de favoritos en la esquina superior derecha */}
-              <div className="absolute top-2 right-2 z-10" onClick={(e) => e.stopPropagation()}>
+              <div
+                className="absolute top-2 right-2 z-10"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <FavoriteButton producto={accesorio} size="small" />
               </div>
 
               {/* Badge de stock si está bajo */}
-              {accesorio.stock && accesorio.stock <= 5 && accesorio.stock > 0 && (
-                <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                  ¡{accesorio.stock} unidades!
-                </div>
-              )}
+              {accesorio.stock &&
+                accesorio.stock <= 5 &&
+                accesorio.stock > 0 && (
+                  <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    ¡{accesorio.stock} unidades!
+                  </div>
+                )}
             </div>
 
             <div className="p-4 w-full flex flex-col flex-grow">

@@ -30,6 +30,40 @@ const AccesoriosNuevos = () => {
   // Referencia al contenedor de scroll
   const scrollContainerRef = useRef(null);
 
+  const getAccesorioImagenUrl = (accesorio) => {
+    const placeholder =
+      "https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen";
+    if (!accesorio) return placeholder;
+
+    const explicitImage =
+      accesorio.imagenPrincipal ||
+      accesorio.imagen_principal ||
+      accesorio.imagen ||
+      accesorio.imagen_url;
+    if (explicitImage) return explicitImage;
+
+    const imagenes =
+      typeof accesorio.imagenes === "string"
+        ? (() => {
+            try {
+              return JSON.parse(accesorio.imagenes);
+            } catch {
+              return [];
+            }
+          })()
+        : accesorio.imagenes;
+
+    if (Array.isArray(imagenes) && imagenes.length > 0) {
+      const primera = imagenes[0];
+      if (typeof primera === "string") return primera;
+      if (primera && typeof primera === "object") {
+        return primera.url || primera.src || primera.imagen || placeholder;
+      }
+    }
+
+    return placeholder;
+  };
+
   // Efecto para cargar los accesorios destacados al montar el componente
   useEffect(() => {
     const cargarAccesorios = async () => {
@@ -208,12 +242,7 @@ const AccesoriosNuevos = () => {
           >
             <div className="relative h-48 w-56">
               <Image
-                src={
-                  accesorio.imagenPrincipal ||
-                  (accesorio.imagenes && accesorio.imagenes.length > 0
-                    ? accesorio.imagenes[0].url
-                    : "/placeholder-accesorio.jpg")
-                }
+                src={getAccesorioImagenUrl(accesorio)}
                 alt={accesorio.nombre}
                 className="object-cover h-full w-full"
                 width={300}

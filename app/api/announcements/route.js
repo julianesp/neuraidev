@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseClient } from "@/lib/db";
+import { d1Select } from "@/lib/db-d1";
 import { auth } from "@clerk/nextjs/server";
 
 export const dynamic = "force-dynamic";
@@ -20,19 +21,15 @@ export async function GET(request) {
     let announcements;
 
     if (activeOnly) {
-      // Usar la función de Supabase para obtener solo anuncios activos
-      const { data, error } = await supabase
-        .rpc('get_active_announcements');
-
-      if (error) {
-        console.error("Error obteniendo anuncios activos:", error);
-        return NextResponse.json(
-          { error: "Error obteniendo anuncios", details: error.message },
-          { status: 500 }
-        );
-      }
-
-      announcements = data;
+      const now = new Date().toISOString();
+      announcements = await d1Select(
+        `SELECT * FROM community_announcements
+         WHERE status = 'active'
+           AND (start_date IS NULL OR start_date <= ?)
+           AND (end_date IS NULL OR end_date >= ?)
+         ORDER BY priority ASC, created_at DESC`,
+        [now, now]
+      );
     } else {
       // Obtener todos los anuncios (para admin)
       const { data, error } = await supabase
