@@ -1,125 +1,53 @@
 import { findProductBySlug, generateProductSlug } from "./slugify";
-import { getSupabaseClient } from "../lib/db";
-
-// Categorías soportadas
-// Ahora se obtienen directamente desde Supabase
+import { obtenerProductos, obtenerProductoPorId } from "../lib/supabase/productos";
 
 /**
- * Función auxiliar para reintentar operaciones con backoff exponencial
- * @param {Function} fn - Función a ejecutar
- * @param {number} maxRetries - Número máximo de reintentos
- * @param {number} delay - Delay inicial en ms
- * @returns {Promise<any>} - Resultado de la función
+ * Normaliza un producto de D1 para compatibilidad con el resto del código
  */
-async function retryWithBackoff(fn, maxRetries = 3, delay = 1000) {
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      return await fn();
-    } catch (error) {
-      const isLastAttempt = i === maxRetries - 1;
-      const isTimeoutError =
-        error.name === "AbortError" ||
-        error.message?.includes("timeout") ||
-        error.message?.includes("fetch failed");
-
-      if (isLastAttempt || !isTimeoutError) {
-        throw error;
-      }
-
-      // Backoff exponencial: 1s, 2s, 4s
-      const waitTime = delay * Math.pow(2, i);
-      console.log(
-        `[retryWithBackoff] Reintento ${i + 1}/${maxRetries} después de ${waitTime}ms...`,
-      );
-      await new Promise((resolve) => setTimeout(resolve, waitTime));
-    }
+function normalizarProducto(p) {
+  let imagenes = p.imagenes;
+  if (typeof imagenes === "string") {
+    try { imagenes = JSON.parse(imagenes); } catch { imagenes = []; }
   }
+  imagenes = (imagenes || []).map((img, index) => {
+    if (typeof img === "object" && img !== null && img.url) {
+      return { ...img, alt: img.alt || p.nombre, orden: img.orden ?? index };
+    }
+    if (typeof img === "string") {
+      return { url: img, alt: p.nombre, orden: index };
+    }
+    return null;
+  }).filter(Boolean);
+
+  return {
+    ...p,
+    imagenPrincipal: p.imagen_principal,
+    imagenes,
+    precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
+    precio: parseFloat(p.precio),
+    cantidad: p.stock || 0,
+    disponible: (p.disponible === 1 || p.disponible === true) && p.stock > 0,
+    createdAt: p.created_at,
+    updatedAt: p.updated_at,
+    video_url: p.video_url,
+    video_type: p.video_type,
+  };
 }
 
 /**
- * Carga los productos de una categoría desde Supabase
+ * Carga los productos de una categoría desde Cloudflare D1
  * @param {string} categoria - El nombre de la categoría
  * @returns {Promise<Array>} - Array de productos disponibles
  */
 export async function loadCategoryProducts(categoria) {
   try {
-    const supabase = getSupabaseClient();
-
-    const { data, error } = await retryWithBackoff(async () => {
-      const result = await supabase
-        .from("products")
-        .select("*")
-        .ilike("categoria", `%${categoria}%`) // Búsqueda case-insensitive
-        .eq("disponible", true)
-        .order("created_at", { ascending: false });
-
-      if (result.error) {
-        throw result.error;
-      }
-
-      return result;
-    });
-
-    if (error) {
-      console.error(`[loadCategoryProducts] Error de Supabase:`, error);
-      throw error;
-    }
-
-    // Normalizar estructura de datos para compatibilidad
-    const productos = (data || []).map((p) => ({
-      ...p,
-      // Mapear snake_case a camelCase para compatibilidad
-      imagenPrincipal: p.imagen_principal,
-      precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
-      precio: parseFloat(p.precio),
-      cantidad: p.stock || 0,
-      disponible: p.disponible && p.stock > 0,
-      createdAt: p.created_at,
-      updatedAt: p.updated_at,
-      // Incluir campos de video
-      video_url: p.video_url,
-      video_type: p.video_type,
-    }));
-
-    if (productos.length === 0) {
-      // Fallback: obtener los primeros productos disponibles
-      const { data: fallbackData, error: fallbackError } = await supabase
-        .from("products")
-        .select("*")
-        .eq("disponible", true)
-        .limit(10)
-        .order("created_at", { ascending: false });
-
-      if (fallbackError) {
-        console.error(
-          `[loadCategoryProducts] Error en fallback:`,
-          fallbackError,
-        );
-        return [];
-      }
-
-      return (fallbackData || []).map((p) => ({
-        ...p,
-        imagenPrincipal: p.imagen_principal,
-        precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
-        precio: parseFloat(p.precio),
-        cantidad: p.stock || 0,
-        disponible: p.disponible && p.stock > 0,
-        createdAt: p.created_at,
-        updatedAt: p.updated_at,
-        // Incluir campos de video
-        video_url: p.video_url,
-        video_type: p.video_type,
-      }));
-    }
-
-    return productos;
+    const data = await obtenerProductos({ categoria });
+    return (data || []).map(normalizarProducto);
   } catch (error) {
     console.error(
-      `[loadCategoryProducts] Error fatal loading ${categoria} products:`,
+      `[loadCategoryProducts] Error loading ${categoria} products:`,
       error,
     );
-    // En lugar de lanzar el error, devolver array vacío para evitar que la página crashee
     return [];
   }
 }
@@ -150,23 +78,7 @@ export async function loadProductBySlug(categoria, slug) {
       return { producto: null, otrosProductos: productos };
     }
 
-    // Si el producto pertenece a una tienda, enriquecer con datos de contacto
-    if (producto.clerk_user_id) {
-      try {
-        const { data: tiendaData } = await getSupabaseClient()
-          .from("tiendas")
-          .select("nombre, whatsapp, telefono")
-          .eq("clerk_user_id", producto.clerk_user_id)
-          .eq("activa", true)
-          .single();
-
-        if (tiendaData) {
-          producto.seller_whatsapp =
-            tiendaData.whatsapp || tiendaData.telefono || null;
-          producto.seller_nombre = tiendaData.nombre || null;
-        }
-      } catch {}
-    }
+    // Enriquecimiento de tiendas omitido (migrado a D1)
 
     // Las imágenes ya vienen en el array 'imagenes' del producto
     // Si no hay imágenes, usar la imagen principal
