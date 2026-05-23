@@ -344,33 +344,8 @@ const NavBar = () => {
                     Desarrollador Web
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/pollos-colon"
-                    onClick={handleLinkClick}
-                    title="Pollos Colón — Venta de pollos encubados a domicilio"
-                  >
-                    🍗 Pollos Colón
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/blume"
-                    onClick={handleLinkClick}
-                    title="Blume — Adornos y decoraciones manuales"
-                  >
-                    🌸 Blume
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/encuesta-presidencial"
-                    onClick={handleLinkClick}
-                    title="Encuesta Presidencial Sur Occidente Colombiano 2026"
-                  >
-                    🗳️ Encuesta Presidencial
-                  </Link>
-                </li>
+
+
                 {/* <li>
                   <Link
                     href="/para-tiendas"

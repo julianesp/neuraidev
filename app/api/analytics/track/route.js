@@ -17,7 +17,7 @@ export async function POST() {
     );
     if ((meta.changes ?? 0) === 0) {
       await d1Execute(
-        `INSERT INTO page_views (date, visits, created_at, updated_at) VALUES (?, 1, ?, ?)`,
+        `INSERT INTO page_views (id, date, visits, created_at, updated_at) VALUES (unixepoch('now','subsec')*1000, ?, 1, ?, ?)`,
         [today, now2, now2]
       );
     }

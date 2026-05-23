@@ -18,8 +18,7 @@ import {
   Send,
   Store,
   Wrench,
-  Bird,
-  Vote,
+
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -126,24 +125,6 @@ export default function AdminDashboard() {
       stats: "3 secciones · 47 fotos",
       color: "indigo",
       gradient: "from-indigo-500 to-indigo-600",
-    },
-    {
-      title: "Pollos Colón",
-      description: "Gestiona publicaciones de venta de pollos encubados",
-      icon: Bird,
-      href: "/admin/pollos-colon",
-      stats: "Publicaciones a domicilio",
-      color: "yellow",
-      gradient: "from-yellow-500 to-amber-600",
-    },
-    {
-      title: "Encuestas",
-      description: "Ver votos y resultados de encuestas electorales",
-      icon: Vote,
-      href: "/admin/encuestas",
-      stats: "Encuesta Presidencial 2026",
-      color: "rose",
-      gradient: "from-rose-500 to-red-600",
     },
   ];
 
