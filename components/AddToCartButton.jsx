@@ -1,16 +1,13 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { ShoppingCart, Plus, Minus, AlertTriangle, X } from "lucide-react";
 import ProductColorPicker from "./ProductColorPicker";
-import { getSupabaseBrowserClient } from "@/lib/db";
-import { createProductRepository } from "@/lib/repositories/ProductRepository";
-import { InsufficientStockError } from "@/lib/errors/AppErrors";
 
 export default function AddToCartButton({ producto }) {
-  const { addToCart, checkStock, cart } = useCart();
+  const { addToCart, cart } = useCart();
   const toast = useToast();
   const [cantidad, setCantidad] = useState(1);
   const [variacionSeleccionada, setVariacionSeleccionada] = useState(null);
@@ -19,10 +16,6 @@ export default function AddToCartButton({ producto }) {
   const [stockDisponible, setStockDisponible] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showNoStockModal, setShowNoStockModal] = useState(false);
-
-  // Usar la nueva arquitectura (Repository Pattern)
-  const supabase = useMemo(() => getSupabaseBrowserClient(), []);
-  const productRepo = useMemo(() => createProductRepository(supabase), [supabase]);
 
   // Obtener colores disponibles desde metadata
   const coloresDisponibles = producto.metadata?.colores_disponibles || [];
@@ -55,30 +48,27 @@ export default function AddToCartButton({ producto }) {
     seller_nombre: producto.seller_nombre || null,
   };
 
-  // Cargar stock disponible al montar el componente usando Repository
+  // Cargar stock disponible al montar el componente
   useEffect(() => {
     const fetchStock = async () => {
       try {
-        // Usar ProductRepository en lugar de checkStock directo
-        const stock = await productRepo.checkStock(producto.id);
-        setStockDisponible(stock);
-      } catch (error) {
-        console.error("Error al cargar stock:", error);
-        // Fallback al método viejo si falla
-        try {
-          const stock = await checkStock(producto.id);
-          setStockDisponible(stock);
-        } catch (fallbackError) {
-          console.error("Error en fallback:", fallbackError);
-          setStockDisponible(0);
+        const res = await fetch(`/api/products/stock?id=${encodeURIComponent(producto.id)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setStockDisponible(data.stock ?? producto.stock ?? 999);
+        } else {
+          // Producto no está en D1 (viene de JSON) — usar stock del objeto o asumir disponible
+          setStockDisponible(producto.stock ?? 999);
         }
+      } catch {
+        setStockDisponible(producto.stock ?? 999);
       } finally {
         setLoading(false);
       }
     };
 
     fetchStock();
-  }, [producto.id, productRepo, checkStock]);
+  }, [producto.id, producto.stock]);
 
   // Manejar el modal de sin stock (cerrar con Escape y prevenir scroll)
   useEffect(() => {
@@ -121,8 +111,17 @@ export default function AddToCartButton({ producto }) {
       return;
     }
 
-    // Usar ProductRepository para verificar stock en tiempo real
-    const stockActual = await productRepo.checkStock(producto.id);
+    // Verificar stock en tiempo real desde D1
+    let stockActual = stockDisponible ?? producto.stock ?? 999;
+    try {
+      const res = await fetch(`/api/products/stock?id=${encodeURIComponent(producto.id)}`);
+      if (res.ok) {
+        const data = await res.json();
+        stockActual = data.stock ?? stockActual;
+      }
+    } catch {
+      // usar stockActual ya definido como fallback
+    }
 
     // Calcular cuántos productos de este tipo ya están en el carrito
     const cantidadEnCarrito = cart.reduce((total, item) => {
