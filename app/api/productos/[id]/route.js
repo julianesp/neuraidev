@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { auth } from '@clerk/nextjs/server';
+import { getCurrentUserWithRole } from '@/lib/auth/server-roles';
 
 // Configuración de runtime para Next.js
 export const runtime = 'nodejs';
@@ -104,19 +105,23 @@ export async function PUT(request, { params }) {
       );
     }
 
+    // Verificar si el usuario es admin
+    const { isAdmin } = await getCurrentUserWithRole();
+
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
-    // Actualizando producto
-
-    // Actualizar producto — solo si pertenece al usuario
-    const { data, error } = await supabase
+    // Admins pueden actualizar cualquier producto; otros usuarios solo los suyos
+    const query = supabase
       .from('products')
       .update(body)
-      .eq('id', id)
-      .eq('clerk_user_id', userId)
-      .select()
-      .single();
+      .eq('id', id);
+
+    if (!isAdmin) {
+      query.eq('clerk_user_id', userId);
+    }
+
+    const { data, error } = await query.select().single();
 
     if (error) {
       console.error('❌ [API] Error actualizando:', error);
