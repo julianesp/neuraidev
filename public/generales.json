@@ -23,6 +23,7 @@
       ],
       "imagenPrincipal": "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/generales/cepillo%20pets/1.jpg",
       "precio": 38900,
+      "stock": 1,
       "categoria": "generales"
     },
     {
@@ -42,6 +43,7 @@
       ],
       "imagenPrincipal": "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/generales/aceite_romero/2.jpg",
       "precio": 44900,
+      "stock": 1,
       "categoria": "generales"
     },
     {
@@ -61,6 +63,7 @@
       ],
       "imagenPrincipal": "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/generales/parlantes/1.jpg",
       "precio": 60900,
+      "stock": 1,
       "categoria": "generales"
     },
     {
@@ -86,6 +89,7 @@
       ],
       "imagenPrincipal": "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/generales/adaptador%20de%20carga%20carro/1.jpg",
       "precio": 36900,
+      "stock": 1,
       "categoria": "generales"
     },
     {
@@ -117,6 +121,7 @@
       ],
       "imagenPrincipal": "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/generales/control%20inalambrico%20data%20frog%20x3/1.png",
       "precio": 94900,
+      "stock": 1,
       "categoria": "generales"
     },
     {
@@ -139,6 +144,7 @@
       ],
       "imagenPrincipal": "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/generales/luces%20bike/1.jpg",
       "precio": 34900,
+      "stock": 1,
       "categoria": "generales"
     },
     {
@@ -167,6 +173,7 @@
       ],
       "imagenPrincipal": "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/generales/dedales/1.png",
       "precio": 14900,
+      "stock": 1,
       "categoria": "generales"
     },
     {
@@ -183,6 +190,7 @@
       ],
       "imagenPrincipal": "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/generales/cadena%20bicicleta/1.jpg",
       "precio": 14900,
+      "stock": 1,
       "categoria": "generales"
     },
     {
@@ -205,6 +213,7 @@
       ],
       "imagenPrincipal": "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/generales/dron/1.jpg",
       "precio": 204900,
+      "stock": 1,
       "categoria": "generales"
     },
     {
@@ -221,6 +230,7 @@
       ],
       "imagenPrincipal": "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/generales/guantes%20bicicleta/1.jpg",
       "precio": 25900,
+      "stock": 1,
       "categoria": "generales"
     }
   ],

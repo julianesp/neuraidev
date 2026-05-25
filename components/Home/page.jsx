@@ -50,7 +50,11 @@ function AIChatBanner() {
         </div>
         <div className={styles.aiBannerText}>
           <strong>¿No sabes qué comprar?</strong>
-          <span> Pregúntale a nuestro asistente IA — te ayuda a elegir el producto ideal.</span>
+          <span>
+            {" "}
+            Pregúntale a nuestro asistente IA — te ayuda a elegir el producto
+            ideal.
+          </span>
         </div>
         <button
           onClick={handleOpen}
@@ -73,16 +77,42 @@ function AIChatBanner() {
 }
 
 // Componentes below-fold cargados de forma lazy
-const AccesoriosDestacados = dynamic(() => import("@/components/Accesorio/AccesoriosDestacados"), { ssr: false });
-const ProductosRecientes = dynamic(() => import("@/components/Producto/ProductosRecientes"), { ssr: false });
-const MostVisitedProducts = dynamic(() => import("@/components/MostVisitedProducts/MostVisitedProducts"), { ssr: false });
-const TiendasDestacadas = dynamic(() => import("@/components/TiendasDestacadas/TiendasDestacadas"), { ssr: false });
-const ExternalNews = dynamic(() => import("@/components/ExternalNews/ExternalNews"), { ssr: false });
-const PromocionesDestacadas = dynamic(() => import("@/components/PromocionesDestacadas/PromocionesDestacadas"), { ssr: false });
-const SidebarContent = dynamic(() => import("@/components/SidebarContent/SidebarContent"), { ssr: false });
+const AccesoriosDestacados = dynamic(
+  () => import("@/components/Accesorio/AccesoriosDestacados"),
+  { ssr: false },
+);
+const ProductosRecientes = dynamic(
+  () => import("@/components/Producto/ProductosRecientes"),
+  { ssr: false },
+);
+const MostVisitedProducts = dynamic(
+  () => import("@/components/MostVisitedProducts/MostVisitedProducts"),
+  { ssr: false },
+);
+const TiendasDestacadas = dynamic(
+  () => import("@/components/TiendasDestacadas/TiendasDestacadas"),
+  { ssr: false },
+);
+const ExternalNews = dynamic(
+  () => import("@/components/ExternalNews/ExternalNews"),
+  { ssr: false },
+);
+const PromocionesDestacadas = dynamic(
+  () => import("@/components/PromocionesDestacadas/PromocionesDestacadas"),
+  { ssr: false },
+);
+const SidebarContent = dynamic(
+  () => import("@/components/SidebarContent/SidebarContent"),
+  { ssr: false },
+);
 const FAQ = dynamic(() => import("@/components/FAQ"), { ssr: false });
-const TechnicalServicesCarousel = dynamic(() => import("@/components/TechnicalServicesCarousel"), { ssr: false });
-const BackToTop = dynamic(() => import("@/components/backTop/BackToTop"), { ssr: false });
+const TechnicalServicesCarousel = dynamic(
+  () => import("@/components/TechnicalServicesCarousel"),
+  { ssr: false },
+);
+const BackToTop = dynamic(() => import("@/components/backTop/BackToTop"), {
+  ssr: false,
+});
 // import FacebookLogin from "./Auth/FacebookLogin";
 // import "./ContactForm.css";
 // import "./SideModal/SideModal.module.scss";
@@ -147,24 +177,49 @@ export default function Inicio() {
 
   useEffect(() => {
     const fadeInObserver = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add(styles.visible); fadeInObserver.unobserve(e.target); } }),
-      { threshold: 0.1 }
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add(styles.visible);
+            fadeInObserver.unobserve(e.target);
+          }
+        }),
+      { threshold: 0.1 },
     );
     const fadeLeftObserver = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add(styles.visibleLeft); fadeLeftObserver.unobserve(e.target); } }),
-      { threshold: 0.1 }
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add(styles.visibleLeft);
+            fadeLeftObserver.unobserve(e.target);
+          }
+        }),
+      { threshold: 0.1 },
     );
     const fadeRightObserver = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add(styles.visibleRight); fadeRightObserver.unobserve(e.target); } }),
-      { threshold: 0.1 }
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add(styles.visibleRight);
+            fadeRightObserver.unobserve(e.target);
+          }
+        }),
+      { threshold: 0.1 },
     );
 
-    [servicesRef, accesoriesRef, destacadosRef, publicidadRef, linkDirectRef]
-      .forEach((r) => r.current && fadeInObserver.observe(r.current));
-    [celularesRef, librosUsadosRef, accesoriosRef]
-      .forEach((r) => r.current && fadeLeftObserver.observe(r.current));
-    [computadoresRef, librosNuevosRef]
-      .forEach((r) => r.current && fadeRightObserver.observe(r.current));
+    [
+      servicesRef,
+      accesoriesRef,
+      destacadosRef,
+      publicidadRef,
+      linkDirectRef,
+    ].forEach((r) => r.current && fadeInObserver.observe(r.current));
+    [celularesRef, librosUsadosRef, accesoriosRef].forEach(
+      (r) => r.current && fadeLeftObserver.observe(r.current),
+    );
+    [computadoresRef, librosNuevosRef].forEach(
+      (r) => r.current && fadeRightObserver.observe(r.current),
+    );
 
     return () => {
       fadeInObserver.disconnect();
@@ -172,7 +227,6 @@ export default function Inicio() {
       fadeRightObserver.disconnect();
     };
   }, []);
-
 
   return (
     <>
