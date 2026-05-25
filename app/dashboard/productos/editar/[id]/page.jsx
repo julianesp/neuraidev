@@ -131,14 +131,14 @@ export default function EditarProductoPage() {
     try {
       // Limpiar y preparar datos para la tabla products de Supabase
       // Preservar metadata existente y actualizar payment_link y colores_disponibles
+      const paymentLink = String(formData.payment_link || '').trim();
       const metadataActualizado = {
-        ...formData.metadata, // Preservar metadata existente
-        payment_link: formData.payment_link.trim() || null,
+        ...formData.metadata,
+        payment_link: paymentLink || null,
         colores_disponibles: formData.colores_disponibles.length > 0 ? formData.colores_disponibles : null,
       };
 
-      // Si payment_link es null, eliminarlo del metadata
-      if (!formData.payment_link.trim()) {
+      if (!paymentLink) {
         delete metadataActualizado.payment_link;
       }
 
