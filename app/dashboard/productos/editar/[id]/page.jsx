@@ -160,7 +160,7 @@ export default function EditarProductoPage() {
         vista_horizontal: formData.vista_horizontal,
         imagen_principal: formData.imagen_principal || null,
         imagenes: Array.isArray(formData.imagenes)
-          ? formData.imagenes.filter((img) => img && img.trim() !== "")
+          ? formData.imagenes.filter((img) => img && String(img).trim() !== "")
           : [],
         video_url: formData.video_url || null,
         video_type: formData.video_type || null,
