@@ -735,10 +735,10 @@ const AccesoriosContainer = ({
             ]}
           />
           <div className="flex items-start justify-between gap-4 mb-6">
-            <h1 className="text-3xl font-bold text-center flex-1">
+            <h1 className="text-3xl font-bold text-center flex-1 min-w-0">
               {accesorio.nombre}
             </h1>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0 relative z-10">
               {userIsAdmin && (
                 <>
                   <Link
