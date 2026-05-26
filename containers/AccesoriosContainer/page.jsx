@@ -719,7 +719,7 @@ const AccesoriosContainer = ({
       <ProductSchema producto={accesorio} />
       {/* max-w-4xl */}
       <div ref={containerRef} id="accesorios-container" className="w-full">
-        <div className="lg:max-w-md mx-auto px-2 py-4 md:p-4">
+        <div className="mx-auto px-2 py-4 md:p-4">
           {/* Breadcrumbs */}
           <Breadcrumbs
             items={[
