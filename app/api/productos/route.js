@@ -1,20 +1,11 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseClient } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
 import { getCurrentUserWithRole } from '@/lib/auth/server-roles';
 
-// Cliente de Supabase con Service Role (bypass RLS)
+// Cliente D1 compatible con API Supabase
 function createAdminClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false
-      }
-    }
-  );
+  return getSupabaseClient();
 }
 
 /**

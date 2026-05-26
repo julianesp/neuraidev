@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { registrarPago } from '@/lib/supabase/creditos';
+import { getSupabaseServerClient } from '@/lib/db';
+
+async function registrarPago(creditoId, pagoData) {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('creditos_pagos').insert({ ...pagoData, credito_id: creditoId }).select().single();
+  return data;
+}
 
 // POST - Registrar un pago
 export async function POST(request) {

@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { d1Execute } from '@/lib/db';
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,18 +14,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Eliminar sesión de la base de datos
-    const { error } = await supabase
-      .from('radio_listeners')
-      .delete()
-      .eq('session_id', session_id);
-
-    if (error) {
-      console.error('Error eliminando sesión:', error);
-      return NextResponse.json(
-        { error: 'Error al eliminar sesión' },
-        { status: 500 }
-      );
-    }
+    await d1Execute('DELETE FROM radio_listeners WHERE session_id = ?', [session_id]);
 
     return NextResponse.json({ success: true });
   } catch (error) {

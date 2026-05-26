@@ -2,13 +2,18 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import AccesoriosContainer from '@/containers/AccesoriosContainer/page';
 import ViewTracker from '@/components/ViewTracker/ViewTracker';
-import { createClient } from '@supabase/supabase-js';
+import { d1SelectOne, d1Select } from '@/lib/db';
 
-// Cliente de Supabase para server-side
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
+async function getProductoById(id: string) {
+  return d1SelectOne('SELECT * FROM products WHERE id = ?', [id]);
+}
+
+async function getProductosByCategoria(categoria: string, excludeId: string, limit = 4) {
+  return d1Select(
+    'SELECT * FROM products WHERE categoria = ? AND disponible = 1 AND id != ? LIMIT ?',
+    [categoria, excludeId, limit]
+  );
+}
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -19,13 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
 
   try {
-    const { data: producto, error } = await supabase
-      .from('products')
-      .select('*')
-      .eq('id', id)
-      .single();
+    const producto = await getProductoById(id);
 
-    if (error || !producto) {
+    if (!producto) {
       return {
         title: 'Producto no encontrado | Neurai.dev',
       };
@@ -125,15 +126,11 @@ export default async function ProductoPage({ params }: Props) {
   const { id } = await params;
 
   try {
-    // Obtener el producto por ID desde Supabase
-    const { data: producto, error: productoError } = await supabase
-      .from('products')
-      .select('*')
-      .eq('id', id)
-      .single();
+    // Obtener el producto por ID desde D1
+    const producto = await getProductoById(id);
 
-    if (productoError || !producto) {
-      console.error('Error fetching product:', productoError);
+    if (!producto) {
+      console.error('Product not found:', id);
       notFound();
     }
 
@@ -167,17 +164,7 @@ export default async function ProductoPage({ params }: Props) {
     }
 
     // Obtener otros productos de la misma categoría
-    const { data: otrosProductos, error: otrosError } = await supabase
-      .from('products')
-      .select('*')
-      .eq('categoria', producto.categoria)
-      .eq('disponible', true)
-      .neq('id', id)
-      .limit(4);
-
-    if (otrosError) {
-      console.error('Error fetching related products:', otrosError);
-    }
+    const otrosProductos = await getProductosByCategoria(producto.categoria, id);
 
     // Normalizar otros productos también
     const otrosProductosNormalizados = (otrosProductos || []).map((p: any) => ({

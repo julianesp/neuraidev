@@ -1,7 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import { getPublishedPosts } from "@/lib/supabase/blog";
+import { getSupabaseServerClient } from "@/lib/db";
 import styles from "./blog.module.css";
+
+async function getPublishedPosts() {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('blog_posts').select('*').eq('published', true).order('published_at', { ascending: false });
+  return data || [];
+}
 
 // Forzar revalidación para evitar caché de posts
 export const revalidate = 0;

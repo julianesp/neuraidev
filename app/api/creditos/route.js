@@ -1,11 +1,32 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import {
-  obtenerCreditos,
-  crearCredito,
-  actualizarCredito,
-  eliminarCredito,
-} from '@/lib/supabase/creditos';
+import { getSupabaseServerClient } from '@/lib/db';
+
+async function obtenerCreditos(filtros = {}) {
+  const db = getSupabaseServerClient();
+  let q = db.from('creditos').select('*');
+  if (filtros.estado) q = q.eq('estado', filtros.estado);
+  if (filtros.email_cliente) q = q.eq('email_cliente', filtros.email_cliente);
+  const { data } = await q;
+  return data || [];
+}
+
+async function crearCredito(creditoData) {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('creditos').insert(creditoData).select().single();
+  return data;
+}
+
+async function actualizarCredito(id, cambios) {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('creditos').update(cambios).eq('id', id).select().single();
+  return data;
+}
+
+async function eliminarCredito(id) {
+  const db = getSupabaseServerClient();
+  await db.from('creditos').delete().eq('id', id);
+}
 
 // GET - Obtener todos los créditos
 export async function GET(request) {

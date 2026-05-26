@@ -4,7 +4,12 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import styles from "@/styles/components/AccesoriosDestacados.module.scss";
 import Link from "next/link";
-import { obtenerProductosRecientes } from "@/lib/supabase/productos";
+async function obtenerProductosRecientes(limit = 10) {
+  const res = await fetch(`/api/productos/nuevos?limit=${limit}`);
+  if (!res.ok) return [];
+  const data = await res.json();
+  return Array.isArray(data) ? data : (data.productos || []);
+}
 import { htmlToPlainText } from "@/utils/htmlToText";
 
 const ProductosRecientes = () => {

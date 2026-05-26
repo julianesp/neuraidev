@@ -1,12 +1,35 @@
 import { NextResponse } from 'next/server';
 import { getAuthInfo } from '@/lib/auth/server-roles';
-import {
-  obtenerTodosLosSlides,
-  obtenerSlidesActivos,
-  crearSlide,
-  actualizarSlide,
-  eliminarSlide,
-} from '@/lib/supabase/carousel';
+import { getSupabaseServerClient } from '@/lib/db';
+
+async function obtenerTodosLosSlides() {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('carousel_slides').select('*').order('orden', { ascending: true });
+  return data || [];
+}
+
+async function obtenerSlidesActivos() {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('carousel_slides').select('*').eq('activo', true).order('orden', { ascending: true });
+  return data || [];
+}
+
+async function crearSlide(slideData) {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('carousel_slides').insert(slideData).select().single();
+  return data;
+}
+
+async function actualizarSlide(id, cambios) {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('carousel_slides').update(cambios).eq('id', id).select().single();
+  return data;
+}
+
+async function eliminarSlide(id) {
+  const db = getSupabaseServerClient();
+  await db.from('carousel_slides').delete().eq('id', id);
+}
 
 // GET /api/carousel — slides activos (público) o todos (admin con ?all=true)
 export async function GET(request) {

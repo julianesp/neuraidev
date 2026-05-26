@@ -1,14 +1,11 @@
 import { headers } from "next/headers";
 import { Webhook } from "svix";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseClient } from "@/lib/db";
 // DESHABILITADO TEMPORALMENTE - n8n integration
 // import { notifyUserCreated } from "@/lib/n8nService";
 
-// Inicializar Supabase con service role key (necesario para bypass RLS)
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+// Cliente D1 compatible con API Supabase
+const supabase = getSupabaseClient();
 
 export async function POST(req) {
   // Obtener el webhook secret de Clerk

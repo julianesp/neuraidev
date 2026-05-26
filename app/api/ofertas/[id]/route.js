@@ -1,9 +1,17 @@
 import { NextResponse } from "next/server";
 import { getCurrentUserWithRole } from "@/lib/auth/server-roles";
-import {
-  actualizarOferta,
-  eliminarOferta
-} from "@/lib/supabase/ofertas";
+import { getSupabaseServerClient } from "@/lib/db";
+
+async function actualizarOferta(id, cambios) {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('ofertas').update(cambios).eq('id', id).select().single();
+  return data;
+}
+
+async function eliminarOferta(id) {
+  const db = getSupabaseServerClient();
+  await db.from('ofertas').delete().eq('id', id);
+}
 
 /**
  * PUT /api/ofertas/[id]
@@ -21,7 +29,7 @@ export async function PUT(request, { params }) {
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     // Validaciones opcionales (solo si vienen en el body)
@@ -79,7 +87,7 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     await eliminarOferta(id);
 

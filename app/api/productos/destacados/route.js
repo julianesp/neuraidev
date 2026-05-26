@@ -1,5 +1,11 @@
 import { NextResponse } from 'next/server';
-import { obtenerProductosDestacados } from '@/lib/supabase/productos';
+import { getSupabaseServerClient } from '@/lib/db';
+
+async function obtenerProductosDestacados(limit = 10) {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('productos').select('*').eq('destacado', true).eq('disponible', true).order('created_at', { ascending: false }).limit(limit);
+  return data || [];
+}
 
 export const dynamic = 'force-dynamic';
 

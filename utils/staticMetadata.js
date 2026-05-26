@@ -1,6 +1,10 @@
-import { getSupabaseClient } from '@/lib/db';
+/**
+ * Metadata estática para productos
+ *
+ * NOTE: Supabase removed — pending migration to Cloudflare D1.
+ */
 
-// Función helper para generar metadata de fallback cuando no se encuentra el producto
+// Función helper para generar metadata de fallback
 function generateFallbackMetadata(categoria, categoryName, slug) {
   const logoUrl = 'https://media.neurai.dev/logo.png';
 
@@ -43,128 +47,6 @@ function generateFallbackMetadata(categoria, categoryName, slug) {
   };
 }
 
-// Función helper para generar metadatos dinámicos con Open Graph basados en el producto real
 export async function generateStaticProductMetadata(categoria, slug) {
-  const logoUrl = 'https://media.neurai.dev/logo.png';
-
-  const categoryNames = {
-    'celulares': 'Celulares',
-    'computadoras': 'Computadoras',
-    'libros-usados': 'Libros Usados',
-    'libros-nuevos': 'Libros Nuevos',
-    'belleza': 'Belleza',
-    'damas': 'Damas',
-    'generales': 'Generales',
-  };
-
-  const categoryName = categoryNames[categoria] || categoria;
-
-  try {
-    // Extraer el ID del slug (última parte después del último guion)
-    const slugParts = slug.split('-');
-    const productId = slugParts[slugParts.length - 1];
-
-    // Validar que tenemos un ID
-    if (!productId || productId.length < 10) {
-      console.warn(`[Metadata] ID de producto inválido en slug: ${slug}`);
-      return generateFallbackMetadata(categoria, categoryName, slug);
-    }
-
-    // Obtener datos del producto desde Supabase
-    const supabase = getSupabaseClient();
-    const { data: producto, error } = await supabase
-      .from('products')
-      .select('*')
-      .eq('id', productId)
-      .single();
-
-    if (error || !producto) {
-      // No lanzar error, solo retornar metadata por defecto
-      console.warn(`[Metadata] Producto no encontrado con ID: ${productId}, usando valores por defecto`);
-      return generateFallbackMetadata(categoria, categoryName, slug);
-    }
-
-    // Extraer datos del producto
-    const nombre = producto.nombre || `Producto de ${categoryName}`;
-    const descripcion = producto.descripcion
-      ? producto.descripcion.replace(/<[^>]*>/g, '').substring(0, 160)
-      : `Descubre ${nombre} en neurai.dev. Compra en línea con envío a toda Colombia.`;
-    const precio = producto.precio ? `$${parseFloat(producto.precio).toLocaleString('es-CO')} COP` : '';
-    const imagenPrincipal = producto.imagen_principal || (producto.imagenes && producto.imagenes[0]) || logoUrl;
-    const disponible = producto.disponible ? 'En Stock' : 'Agotado';
-
-    // Construir título optimizado
-    const tituloCompleto = `${nombre}${precio ? ` - ${precio}` : ''} | neurai.dev`;
-    const descripcionCompleta = `${descripcion}${precio ? ` Precio: ${precio}.` : ''} ${disponible}. Envío a toda Colombia.`;
-
-    return {
-      title: tituloCompleto,
-      description: descripcionCompleta,
-      metadataBase: new URL("https://neurai.dev"),
-      alternates: {
-        canonical: `https://neurai.dev/accesorios/${categoria}/${slug}`,
-      },
-      keywords: [
-        nombre,
-        categoryName,
-        producto.marca,
-        'comprar online Colombia',
-        'envío Colombia',
-        'neurai.dev',
-      ].filter(Boolean),
-      openGraph: {
-        title: nombre,
-        description: descripcionCompleta,
-        type: "product",
-        siteName: "neurai.dev",
-        locale: "es_CO",
-        url: `https://neurai.dev/accesorios/${categoria}/${slug}`,
-        images: [
-          {
-            url: imagenPrincipal,
-            secureUrl: imagenPrincipal,
-            width: 1200,
-            height: 630,
-            alt: nombre,
-            type: 'image/jpeg',
-          },
-        ],
-        product: {
-          price: {
-            amount: producto.precio || '',
-            currency: 'COP',
-          },
-          availability: producto.disponible ? 'in stock' : 'out of stock',
-          condition: 'new',
-        },
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: nombre,
-        description: descripcionCompleta,
-        images: [imagenPrincipal],
-        creator: "@neuraidev",
-        site: "@neuraidev",
-      },
-      // Metadata adicional para productos y motores de búsqueda
-      other: {
-        'product:price:amount': producto.precio || '',
-        'product:price:currency': 'COP',
-        'product:availability': producto.disponible ? 'in stock' : 'out of stock',
-        'product:condition': 'new',
-        'product:brand': producto.marca || 'neurai.dev',
-        'og:image': imagenPrincipal,
-        'og:image:secure_url': imagenPrincipal,
-        'og:image:width': '1200',
-        'og:image:height': '630',
-        'og:image:alt': nombre,
-      }
-    };
-  } catch (error) {
-    // Loguear el error pero no lanzarlo, solo retornar fallback
-    console.error(`[Metadata] Error generando metadata para ${categoria}/${slug}:`, error.message);
-
-    // Retornar metadata genérica usando la función helper
-    return generateFallbackMetadata(categoria, categoryName, slug);
-  }
+  throw new Error('Not implemented: migrating to Cloudflare D1');
 }

@@ -3,14 +3,12 @@
 import { useUser } from "@clerk/nextjs";
 import { Store, MapPin, Phone, Mail, Clock, Globe, Power, AlertCircle } from "lucide-react";
 import { useState, useEffect } from 'react';
-import { createClient } from '@/lib/supabase/client';
 
 export default function MiTiendaPage() {
   const { user } = useUser();
   const [storeStatus, setStoreStatus] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const supabase = createClient();
 
   // Cargar estado de la tienda
   useEffect(() => {
@@ -20,14 +18,10 @@ export default function MiTiendaPage() {
 
   const fetchStoreStatus = async () => {
     try {
-      const { data, error } = await supabase
-        .from('StoreStatus')
-        .select('*')
-        .eq('id', 1)
-        .single();
-
-      if (error) throw error;
-      setStoreStatus(data);
+      const res = await fetch('/api/tiendas/info');
+      if (!res.ok) throw new Error('Error al cargar estado');
+      const data = await res.json();
+      setStoreStatus(data.storeStatus || data);
     } catch (error) {
       console.error('Error al cargar estado:', error);
     } finally {
@@ -37,23 +31,20 @@ export default function MiTiendaPage() {
 
   const toggleStoreStatus = async () => {
     if (!storeStatus) return;
-
     setSaving(true);
     try {
       const newStatus = !storeStatus.is_open;
-
-      const { error } = await supabase
-        .from('StoreStatus')
-        .update({
+      const res = await fetch('/api/tiendas/info', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           is_open: newStatus,
           manual_override: true,
-          override_until: null, // Override indefinido hasta cambio manual
-          updated_by: user?.emailAddresses[0]?.emailAddress
-        })
-        .eq('id', 1);
-
-      if (error) throw error;
-
+          override_until: null,
+          updated_by: user?.emailAddresses[0]?.emailAddress,
+        }),
+      });
+      if (!res.ok) throw new Error('Error al actualizar');
       setStoreStatus({ ...storeStatus, is_open: newStatus, manual_override: true });
     } catch (error) {
       console.error('Error al actualizar estado:', error);
@@ -65,20 +56,18 @@ export default function MiTiendaPage() {
 
   const setAutomaticSchedule = async () => {
     if (!storeStatus) return;
-
     setSaving(true);
     try {
-      const { error } = await supabase
-        .from('StoreStatus')
-        .update({
+      const res = await fetch('/api/tiendas/info', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           manual_override: false,
           override_until: null,
-          updated_by: user?.emailAddresses[0]?.emailAddress
-        })
-        .eq('id', 1);
-
-      if (error) throw error;
-
+          updated_by: user?.emailAddresses[0]?.emailAddress,
+        }),
+      });
+      if (!res.ok) throw new Error('Error al activar horario automático');
       await fetchStoreStatus();
       alert('Horario automático activado (8:00 AM - 6:00 PM)');
     } catch (error) {
@@ -91,20 +80,18 @@ export default function MiTiendaPage() {
 
   const updateSchedule = async (openTime, closeTime) => {
     if (!storeStatus) return;
-
     setSaving(true);
     try {
-      const { error } = await supabase
-        .from('StoreStatus')
-        .update({
+      const res = await fetch('/api/tiendas/info', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           open_time: openTime,
           close_time: closeTime,
-          updated_by: user?.emailAddresses[0]?.emailAddress
-        })
-        .eq('id', 1);
-
-      if (error) throw error;
-
+          updated_by: user?.emailAddresses[0]?.emailAddress,
+        }),
+      });
+      if (!res.ok) throw new Error('Error al actualizar horario');
       await fetchStoreStatus();
     } catch (error) {
       console.error('Error al actualizar horario:', error);

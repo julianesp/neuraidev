@@ -2,7 +2,13 @@ import { notFound, redirect } from "next/navigation";
 import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
 import { findProductBySlug } from "@/utils/slugify";
 import { generateProductMetadata } from "@/utils/productMetadata";
-import { obtenerProductos } from "@/lib/supabase/productos";
+import { getSupabaseServerClient } from "@/lib/db";
+
+async function obtenerProductos() {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('productos').select('*');
+  return data || [];
+}
 
 // Forzar renderizado dinámico para esta ruta
 export const dynamic = "force-dynamic";

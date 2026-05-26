@@ -1,6 +1,18 @@
 import { NextResponse } from "next/server";
 import { getCurrentUserWithRole } from "@/lib/auth/server-roles";
-import { obtenerEstadisticasOfertas } from "@/lib/supabase/ofertas";
+import { getSupabaseServerClient } from "@/lib/db";
+
+async function obtenerEstadisticasOfertas() {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('ofertas').select('*');
+  const todas = data || [];
+  const now = new Date().toISOString();
+  return {
+    total: todas.length,
+    activas: todas.filter(o => o.activa && o.fecha_fin >= now).length,
+    inactivas: todas.filter(o => !o.activa || o.fecha_fin < now).length,
+  };
+}
 
 /**
  * GET /api/ofertas/estadisticas

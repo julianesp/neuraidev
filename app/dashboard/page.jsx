@@ -20,8 +20,35 @@ import {
   ArrowRight,
   Tag,
 } from "lucide-react";
-import { obtenerEstadisticasProductos } from "@/lib/supabase/productos";
-import { obtenerEstadisticasCreditos } from "@/lib/supabase/creditos";
+async function obtenerEstadisticasProductos() {
+  try {
+    const res = await fetch('/api/productos?stats=true');
+    if (!res.ok) return { total: 0, disponibles: 0, destacados: 0, sinStock: 0 };
+    const data = await res.json();
+    const productos = Array.isArray(data) ? data : (data.productos || []);
+    return {
+      total: productos.length,
+      disponibles: productos.filter(p => p.disponible).length,
+      destacados: productos.filter(p => p.destacado).length,
+      sinStock: productos.filter(p => !p.stock || p.stock === 0).length,
+    };
+  } catch { return { total: 0, disponibles: 0, destacados: 0, sinStock: 0 }; }
+}
+
+async function obtenerEstadisticasCreditos() {
+  try {
+    const res = await fetch('/api/creditos');
+    if (!res.ok) return { total: 0, pendientes: 0, vencidos: 0, montoPendiente: 0 };
+    const data = await res.json();
+    const creditos = data.creditos || [];
+    return {
+      total: creditos.length,
+      pendientes: creditos.filter(c => c.estado === 'pendiente').length,
+      vencidos: creditos.filter(c => c.estado === 'vencido').length,
+      montoPendiente: creditos.filter(c => c.estado === 'pendiente').reduce((s, c) => s + (c.monto_total || 0), 0),
+    };
+  } catch { return { total: 0, pendientes: 0, vencidos: 0, montoPendiente: 0 }; }
+}
 import VisitasAdmin from "@/components/VisitasAdmin/VisitasAdmin";
 
 export default function DashboardPage() {

@@ -1,5 +1,19 @@
 import { findProductBySlug, generateProductSlug } from "./slugify";
-import { obtenerProductos, obtenerProductoPorId } from "../lib/supabase/productos";
+import { getSupabaseServerClient } from "../lib/db";
+
+async function obtenerProductos(filtros = {}) {
+  const db = getSupabaseServerClient();
+  let q = db.from('productos').select('*');
+  if (filtros.categoria) q = q.eq('categoria', filtros.categoria);
+  const { data } = await q;
+  return data || [];
+}
+
+async function obtenerProductoPorId(id) {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('productos').select('*').eq('id', id).single();
+  return data || null;
+}
 
 /**
  * Normaliza un producto de D1 para compatibilidad con el resto del código

@@ -1,10 +1,24 @@
 import { NextResponse } from "next/server";
 import { getCurrentUserWithRole } from "@/lib/auth/server-roles";
-import {
-  obtenerTodasLasOfertas,
-  obtenerOfertasActivas,
-  crearOferta
-} from "@/lib/supabase/ofertas";
+import { getSupabaseServerClient } from "@/lib/db";
+
+async function obtenerTodasLasOfertas() {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('ofertas').select('*').order('created_at', { ascending: false });
+  return data || [];
+}
+
+async function obtenerOfertasActivas() {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('ofertas').select('*').eq('activa', true).order('created_at', { ascending: false });
+  return data || [];
+}
+
+async function crearOferta(ofertaData) {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('ofertas').insert(ofertaData).select().single();
+  return data;
+}
 
 /**
  * GET /api/ofertas

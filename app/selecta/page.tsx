@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Play, Pause, Volume2, Radio, Users, Share2, Copy, Check } from "lucide-react";
-import { createClient } from "@supabase/supabase-js";
 
 interface StreamConfig {
   // Reemplaza estas URLs con las reales de Selecta FM
@@ -35,12 +34,6 @@ const SELECTA_FM: StreamConfig = {
     website: "https://selectafm.com",
   },
 };
-
-// Inicializar Supabase Client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export default function SelectaFMPage() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -90,137 +83,10 @@ export default function SelectaFMPage() {
     }
   }, []);
 
-  // Tracking de oyentes en tiempo real con Supabase
+  // Listener tracking disabled — Supabase realtime removed, pending migration to D1-compatible solution
   useEffect(() => {
-    let listenerInterval: NodeJS.Timeout;
-
-    const deleteSession = async (sessionId: string) => {
-      try {
-        await supabase
-          .from('radio_listeners')
-          .delete()
-          .eq('session_id', sessionId);
-        console.log('Sesión eliminada:', sessionId);
-      } catch (err) {
-        console.error('Error eliminando sesión:', err);
-      }
-    };
-
-    const initializeSession = async () => {
-      try {
-        // Generar ID de sesión único
-        const sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
-        sessionIdRef.current = sessionId;
-
-        // Registrar nuevo oyente
-        const { error } = await supabase
-          .from('radio_listeners')
-          .insert({
-            session_id: sessionId,
-            station: 'selecta_fm',
-            connected_at: new Date().toISOString(),
-            last_heartbeat: new Date().toISOString(),
-          });
-
-        if (error) {
-          console.error('Error al registrar oyente:', error);
-        } else {
-          console.log('Sesión registrada:', sessionId);
-        }
-
-        // Heartbeat cada 30 segundos para mantener sesión activa
-        listenerInterval = setInterval(async () => {
-          if (sessionIdRef.current) {
-            const { error: updateError } = await supabase
-              .from('radio_listeners')
-              .update({
-                last_heartbeat: new Date().toISOString(),
-              })
-              .eq('session_id', sessionIdRef.current);
-
-            if (!updateError) {
-              console.log('Heartbeat enviado');
-            }
-          }
-        }, 30000);
-
-      } catch (err) {
-        console.error('Error inicializando sesión:', err);
-      }
-    };
-
-    // Suscribirse a cambios en tiempo real
-    const channel = supabase
-      .channel('radio_listeners_channel')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'radio_listeners',
-          filter: `station=eq.selecta_fm`,
-        },
-        () => {
-          // Actualizar contador cuando hay cambios
-          fetchListenerCount();
-        }
-      )
-      .subscribe();
-
-    // Obtener conteo inicial
-    const fetchListenerCount = async () => {
-      const { count, error } = await supabase
-        .from('radio_listeners')
-        .select('*', { count: 'exact', head: true })
-        .eq('station', 'selecta_fm')
-        .gte('last_heartbeat', new Date(Date.now() - 45000).toISOString()); // Últimos 45 segundos
-
-      if (!error && count !== null) {
-        setListeners(count);
-      }
-    };
-
-    // Listener para detectar cuando se cierra/recarga la página
-    const handleBeforeUnload = () => {
-      if (sessionIdRef.current) {
-        // Usar sendBeacon para asegurar que se envíe incluso al cerrar
-        const data = new FormData();
-        data.append('session_id', sessionIdRef.current);
-
-        // Intentar eliminar usando fetch síncrono
-        navigator.sendBeacon(
-          '/api/radio/remove-listener',
-          JSON.stringify({ session_id: sessionIdRef.current })
-        );
-
-        // También intentar eliminar directamente (backup)
-        deleteSession(sessionIdRef.current);
-      }
-    };
-
-    // Agregar event listener para beforeunload
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    initializeSession();
-    fetchListenerCount();
-
-    // Actualizar contador cada 10 segundos
-    const countInterval = setInterval(fetchListenerCount, 10000);
-
-    // Cleanup al desmontar
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-
-      if (listenerInterval) clearInterval(listenerInterval);
-      if (countInterval) clearInterval(countInterval);
-
-      // Eliminar sesión al salir
-      if (sessionIdRef.current) {
-        deleteSession(sessionIdRef.current);
-      }
-
-      channel.unsubscribe();
-    };
+    // no-op: listener count tracking not yet implemented for D1
+    return () => {};
   }, []);
 
   // Función para compartir usando Web Share API nativa

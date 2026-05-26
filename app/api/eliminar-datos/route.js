@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseClient } from "@/lib/db";
 
-// Inicializar cliente de Supabase con service role key para operaciones de servidor
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+// Cliente D1 compatible con API Supabase
+const supabase = getSupabaseClient();
 
 export async function POST(req) {
   try {

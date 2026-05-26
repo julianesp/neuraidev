@@ -1,9 +1,26 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import BlogArticle from "@/components/BlogArticle";
-import { getPostBySlug, incrementPostViews } from "@/lib/supabase/blog";
+import { getSupabaseServerClient } from "@/lib/db";
 import styles from "../blog.module.css";
 import Link from "next/link";
+
+async function getPostBySlug(slug) {
+  const db = getSupabaseServerClient();
+  const { data } = await db.from('blog_posts').select('*').eq('slug', slug).eq('published', true).single();
+  return data || null;
+}
+
+async function incrementPostViews(slug) {
+  // Best-effort view increment — ignore errors
+  try {
+    const db = getSupabaseServerClient();
+    const { data: post } = await db.from('blog_posts').select('views').eq('slug', slug).single();
+    if (post) {
+      await db.from('blog_posts').update({ views: (post.views || 0) + 1 }).eq('slug', slug);
+    }
+  } catch { /* ignore */ }
+}
 
 
 // Forzar revalidación para evitar caché de posts
