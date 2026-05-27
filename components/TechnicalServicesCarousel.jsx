@@ -139,6 +139,7 @@ const TechnicalServicesCarousel = () => {
               className="w-full h-48 md:h-80 object-cover"
               priority={currentIndex === 0}
               loading={currentIndex === 0 ? "eager" : "lazy"}
+              unoptimized={typeof currentService.image === "string" && currentService.image.includes("r2.dev")}
               onError={(e) => {
                 // Fallback image if main image fails to load
                 e.target.src =

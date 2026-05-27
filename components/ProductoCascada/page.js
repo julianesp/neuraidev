@@ -185,6 +185,7 @@ export default function ProductoCascada({
                             priority={false}
                             loading="lazy"
                             quality={85}
+                            unoptimized={typeof img === "string" && img.includes("r2.dev")}
                             onError={() =>
                               handleImageError(producto.id || index, idx)
                             }

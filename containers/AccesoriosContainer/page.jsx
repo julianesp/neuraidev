@@ -858,9 +858,8 @@ const AccesoriosContainer = ({
                               unoptimized={
                                 imagenUrl &&
                                 typeof imagenUrl === "string" &&
-                                imagenUrl.includes(
-                                  "firebasestorage.googleapis.com",
-                                )
+                                (imagenUrl.includes("firebasestorage.googleapis.com") ||
+                                  imagenUrl.includes("r2.dev"))
                               }
                             />
                           ) : (
@@ -892,6 +891,7 @@ const AccesoriosContainer = ({
                           sizes="(max-width: 768px) 100vw, 50vw"
                           className="rounded-lg object-cover"
                           priority
+                          unoptimized={typeof imagenPrincipal === "string" && imagenPrincipal.includes("r2.dev")}
                           onError={() => handleImageError("principal")}
                         />
                       ) : (
@@ -1281,6 +1281,7 @@ const AccesoriosContainer = ({
                               priority={false}
                               loading="lazy"
                               quality={85}
+                              unoptimized={typeof itemImageUrl === "string" && itemImageUrl.includes("r2.dev")}
                             />
                           ) : (
                             <div className="flex items-center justify-center h-full bg-gray-200">
@@ -1455,9 +1456,8 @@ const AccesoriosContainer = ({
                               unoptimized={
                                 imagenUrl &&
                                 typeof imagenUrl === "string" &&
-                                imagenUrl.includes(
-                                  "firebasestorage.googleapis.com",
-                                )
+                                (imagenUrl.includes("firebasestorage.googleapis.com") ||
+                                  imagenUrl.includes("r2.dev"))
                               }
                               priority
                             />
@@ -1555,6 +1555,7 @@ const AccesoriosContainer = ({
                         height: "auto",
                         minHeight: "300px",
                       }}
+                      unoptimized={typeof imagenPrincipal === "string" && imagenPrincipal.includes("r2.dev")}
                       priority
                     />
                   ) : (
