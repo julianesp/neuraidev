@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getSupabaseClient } from "@/lib/db";
+import { d1Select } from "@/lib/db-d1";
 import { isAdminServer } from "@/lib/auth/server-roles";
 import { currentUser } from "@clerk/nextjs/server";
 
@@ -11,21 +11,10 @@ export async function GET() {
       return NextResponse.json({ error: "No autorizado" }, { status: 403 });
     }
 
-    const supabase = getSupabaseClient();
-
-    // Traer los últimos 365 días
-    const { data, error } = await supabase
-      .from("page_views")
-      .select("date, visits")
-      .order("date", { ascending: false })
-      .limit(365);
-
-    if (error) {
-      console.error("[stats] Error:", error.message);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    const rows = data || [];
+    // Agrupar por fecha para evitar duplicados en D1
+    const rows = await d1Select(
+      "SELECT date, MAX(visits) as visits FROM page_views GROUP BY date ORDER BY date DESC LIMIT 365"
+    );
 
     // --- Semanas del mes actual ---
     const now = new Date();
@@ -83,12 +72,59 @@ export async function GET() {
     const monthTotal = weeksData.reduce((s, w) => s + w.visits, 0);
     const allTimeTotal = rows.reduce((s, r) => s + (r.visits || 0), 0);
 
+    // --- Top países del mes actual ---
+    const topCountries = await d1Select(
+      `SELECT country, country_code, COUNT(*) as visits
+       FROM visit_details
+       WHERE date LIKE ?
+       GROUP BY country_code
+       ORDER BY visits DESC
+       LIMIT 10`,
+      [`${monthStr}%`]
+    );
+
+    // --- Top ciudades del mes actual ---
+    const topCities = await d1Select(
+      `SELECT city, country, COUNT(*) as visits
+       FROM visit_details
+       WHERE date LIKE ? AND city IS NOT NULL AND city != ''
+       GROUP BY city, country
+       ORDER BY visits DESC
+       LIMIT 10`,
+      [`${monthStr}%`]
+    );
+
+    // --- Top páginas del mes actual ---
+    const topPages = await d1Select(
+      `SELECT page, COUNT(*) as visits
+       FROM visit_details
+       WHERE date LIKE ?
+       GROUP BY page
+       ORDER BY visits DESC
+       LIMIT 10`,
+      [`${monthStr}%`]
+    );
+
+    // --- Dispositivos del mes actual ---
+    const devices = await d1Select(
+      `SELECT device, COUNT(*) as visits
+       FROM visit_details
+       WHERE date LIKE ?
+       GROUP BY device
+       ORDER BY visits DESC`,
+      [`${monthStr}%`]
+    );
+
     return NextResponse.json({
       today: todayVisits,
       monthTotal,
       allTimeTotal,
       weeks: weeksData,
       monthly: monthlyData,
+      topCountries,
+      topCities,
+      topPages,
+      devices,
     });
   } catch (e) {
     console.error("[stats] Exception:", e);

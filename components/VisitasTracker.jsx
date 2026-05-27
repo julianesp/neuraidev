@@ -15,7 +15,11 @@ export default function VisitasTracker() {
     if (tracked.current.has(pathname)) return;
     tracked.current.add(pathname);
 
-    fetch("/api/analytics/track", { method: "POST" }).catch(() => {});
+    fetch("/api/analytics/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ page: pathname }),
+    }).catch(() => {});
   }, [pathname]);
 
   return null;
