@@ -2,28 +2,38 @@
 const CATEGORY_INFO = {
   celulares: {
     title: "Accesorios para Celulares",
-    description: "Encuentra los mejores accesorios para tu celular: fundas, cargadores, cables USB-C, audífonos inalámbricos y más. Envíos a todo el Valle de Sibundoy.",
-    keywords: "accesorios celulares, fundas celular, cargadores rápidos, cables USB-C, audífonos, Putumayo",
+    description:
+      "Encuentra los mejores accesorios para tu celular: fundas, cargadores, cables USB-C, audífonos inalámbricos y más. Envíos a todo el Valle de Sibundoy.",
+    keywords:
+      "accesorios celulares, fundas celular, cargadores rápidos, cables USB-C, audífonos, Putumayo",
   },
   computadoras: {
     title: "Accesorios para Computadoras",
-    description: "Accesorios y componentes para PC: discos SSD, memorias RAM, teclados, mouse, webcams y más. Mejora el rendimiento de tu computador.",
-    keywords: "accesorios computadora, SSD, memoria RAM, teclados, mouse, webcam, componentes PC",
+    description:
+      "Accesorios y componentes para PC: discos SSD, memorias RAM, teclados, mouse, webcams y más. Mejora el rendimiento de tu computador.",
+    keywords:
+      "accesorios computadora, SSD, memoria RAM, teclados, mouse, webcam, componentes PC",
   },
   generales: {
     title: "Accesorios Generales",
-    description: "Accesorios variados: gadgets tecnológicos, artículos deportivos, herramientas, productos para mascotas y más. Gran variedad de productos.",
-    keywords: "accesorios generales, gadgets, herramientas, productos deportivos, mascotas",
+    description:
+      "Accesorios variados: gadgets tecnológicos, artículos deportivos, herramientas, productos para mascotas y más. Gran variedad de productos.",
+    keywords:
+      "accesorios generales, gadgets, herramientas, productos deportivos, mascotas",
   },
   "libros-nuevos": {
     title: "Libros Nuevos",
-    description: "Libros nuevos de diferentes géneros: desarrollo personal, biografías, literatura clásica y más. Amplía tu biblioteca personal.",
-    keywords: "libros nuevos, literatura, desarrollo personal, biografías, libros Valle de Sibundoy",
+    description:
+      "Libros nuevos de diferentes géneros: desarrollo personal, biografías, literatura clásica y más. Amplía tu biblioteca personal.",
+    keywords:
+      "libros nuevos, literatura, desarrollo personal, biografías, libros Valle de Sibundoy",
   },
   "libros-usados": {
     title: "Libros Usados",
-    description: "Libros universitarios usados: programación, matemáticas, ingeniería, circuitos electrónicos y más. Ahorra en libros académicos.",
-    keywords: "libros usados, libros universitarios, programación, matemáticas, ingeniería, textos académicos",
+    description:
+      "Libros universitarios usados: programación, matemáticas, ingeniería, circuitos electrónicos y más. Ahorra en libros académicos.",
+    keywords:
+      "libros usados, libros universitarios, programación, matemáticas, ingeniería, textos académicos",
   },
 };
 
@@ -42,17 +52,17 @@ export function generateCategoryMetadata(categoria) {
   const canonicalUrl = `https://neurai.dev/accesorios/${categoria}`;
 
   return {
-    title: `${info.title} | Neurai.dev`,
+    title: `neurai.dev - Productos y servicios tecnologicos`,
     description: info.description,
     keywords: info.keywords,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `${info.title} | Neurai.dev`,
+      title: `neurai.dev - Productos y servicios tecnologicos`,
       description: info.description,
       type: "website",
-      siteName: "Neurai.dev",
+      siteName: "neurai.dev",
       locale: "es_CO",
       url: canonicalUrl,
       images: [
@@ -60,13 +70,13 @@ export function generateCategoryMetadata(categoria) {
           url: "/og-image.png",
           width: 1200,
           height: 630,
-          alt: `${info.title} - Neurai.dev`,
+          alt: `neurai.dev - Productos y servicios tecnologicos`,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${info.title} | Neurai.dev`,
+      title: `neurai.dev - Productos y servicios tecnologicos`,
       description: info.description,
       images: ["/og-image.png"],
       creator: "@neuraidev",
