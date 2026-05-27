@@ -40,10 +40,10 @@ function SortableImage({ id, url, index, onRemove }) {
     <div
       ref={setNodeRef}
       style={style}
-      className="relative group bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden"
+      className="relative group bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600"
     >
       {/* Indicador de posición */}
-      <div className="absolute top-2 left-2 z-10 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">
+      <div className="absolute top-2 left-2 z-20 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">
         {index + 1}
       </div>
 
@@ -51,14 +51,14 @@ function SortableImage({ id, url, index, onRemove }) {
       <div
         {...attributes}
         {...listeners}
-        className="absolute top-2 right-2 z-10 bg-gray-800/80 hover:bg-gray-900 text-white p-2 rounded cursor-move transition-colors"
+        className="absolute top-2 right-2 z-20 bg-gray-800/80 hover:bg-gray-900 text-white p-2 rounded cursor-move transition-colors"
         title="Arrastra para reordenar"
       >
         <GripVertical className="w-5 h-5" />
       </div>
 
       {/* Imagen */}
-      <div className="aspect-square">
+      <div className="aspect-square overflow-hidden rounded-lg">
         {url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -78,7 +78,7 @@ function SortableImage({ id, url, index, onRemove }) {
       <button
         type="button"
         onClick={() => onRemove(url)}
-        className="absolute bottom-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full shadow transition-colors"
+        className="absolute bottom-2 right-2 z-20 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full shadow transition-colors"
         title="Eliminar imagen"
       >
         <X className="w-4 h-4" />
