@@ -27,7 +27,7 @@ export async function GET(request) {
     const { isAdmin } = await getCurrentUserWithRole();
 
     // Obtener parámetros de búsqueda
-    const { searchParams } = new URL(request.url);
+    const { searchParams } = await new URL(request.url);
     const disponible = searchParams.get('disponible');
 
     // Crear cliente admin que bypasea RLS
@@ -102,10 +102,13 @@ export async function POST(request) {
     // Crear cliente admin que bypasea RLS
     const supabase = createAdminClient();
 
+    // D1/SQLite no genera UUID automáticamente — lo generamos aquí
+    const newId = crypto.randomUUID();
+
     // Insertar producto vinculado al usuario autenticado
     const { data, error } = await supabase
       .from('products')
-      .insert([{ ...productoData, clerk_user_id: userId }])
+      .insert([{ id: newId, ...productoData, clerk_user_id: userId }])
       .select()
       .single();
 

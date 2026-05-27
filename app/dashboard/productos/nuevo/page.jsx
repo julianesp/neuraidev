@@ -321,15 +321,31 @@ export default function NuevoProductoPage() {
                   >
                     Stock
                   </label>
-                  <input
-                    id="stock"
-                    type="number"
-                    name="stock"
-                    min="0"
-                    value={formData.stock}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  />
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setFormData((prev) => ({ ...prev, stock: Math.max(0, (parseInt(prev.stock) || 0) - 1) }))}
+                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-lg font-bold select-none"
+                    >
+                      −
+                    </button>
+                    <input
+                      id="stock"
+                      type="number"
+                      name="stock"
+                      min="0"
+                      value={formData.stock}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-center"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setFormData((prev) => ({ ...prev, stock: (parseInt(prev.stock) || 0) + 1 }))}
+                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-lg font-bold select-none"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
 
                 <div>
@@ -491,44 +507,27 @@ export default function NuevoProductoPage() {
                 Estados
               </h2>
               <div className="space-y-3">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="disponible"
-                    checked={formData.disponible}
-                    onChange={handleChange}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">
-                    Disponible
-                  </span>
-                </label>
-
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="destacado"
-                    checked={formData.destacado}
-                    onChange={handleChange}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">
-                    Destacado
-                  </span>
-                </label>
-
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="vista_horizontal"
-                    checked={formData.vista_horizontal}
-                    onChange={handleChange}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">
-                    Vista Horizontal (ocupa 2 columnas)
-                  </span>
-                </label>
+                {[
+                  { name: "disponible", label: "Disponible" },
+                  { name: "destacado", label: "Destacado" },
+                  { name: "vista_horizontal", label: "Vista Horizontal (ocupa 2 columnas)" },
+                ].map(({ name, label }) => (
+                  <label key={name} className="flex items-center gap-3 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      name={name}
+                      checked={formData[name]}
+                      onChange={handleChange}
+                      className="sr-only"
+                    />
+                    <div className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${formData[name] ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600"}`}>
+                      <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${formData[name] ? "translate-x-5" : "translate-x-0"}`} />
+                    </div>
+                    <span className={`text-sm font-medium ${formData[name] ? "text-blue-600 dark:text-blue-400" : "text-gray-600 dark:text-gray-400"}`}>
+                      {label}
+                    </span>
+                  </label>
+                ))}
               </div>
             </div>
 

@@ -131,7 +131,7 @@ export default async function BlogPost({ params }) {
             <span>Colombia</span>
           </div>
           <div className={styles.decorativeLine}></div>
-          <h1 className={styles.mastheadTitle}>El Diario Tecnológico</h1>
+          <p className={styles.mastheadTitle}>El Diario Tecnológico</p>
           <p className={styles.mastheadSubtitle}>"La verdad sobre tecnología, sin compromisos"</p>
           <div className={styles.decorativeLine}></div>
           <div className={styles.mastheadDate}>{today}</div>
