@@ -51,7 +51,7 @@ function SortableImage({ id, url, index, onRemove }) {
       <div
         {...attributes}
         {...listeners}
-        className="absolute top-2 right-2 z-10 bg-gray-800/80 hover:bg-gray-900 text-white p-2 rounded cursor-move opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute top-2 right-2 z-10 bg-gray-800/80 hover:bg-gray-900 text-white p-2 rounded cursor-move transition-colors"
         title="Arrastra para reordenar"
       >
         <GripVertical className="w-5 h-5" />
@@ -78,7 +78,7 @@ function SortableImage({ id, url, index, onRemove }) {
       <button
         type="button"
         onClick={() => onRemove(url)}
-        className="absolute bottom-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute bottom-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full shadow transition-colors"
         title="Eliminar imagen"
       >
         <X className="w-4 h-4" />
