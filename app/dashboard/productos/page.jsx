@@ -13,33 +13,35 @@ export default function ProductosPage() {
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
   useEffect(() => {
-    if (user) {
-      cargarProductos();
+    if (!user) return;
+    let cancelled = false;
+
+    async function cargar() {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/productos");
+        if (!response.ok) throw new Error("Error cargando productos");
+        const data = await response.json();
+        const productosData = data.productos || data;
+        if (!cancelled) {
+          const arr = Array.isArray(productosData) ? productosData : [];
+          setProductos(arr);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Error cargando productos:", error);
+          alert("Error cargando productos: " + error.message);
+          setProductos([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     }
+
+    cargar();
+    return () => { cancelled = true; };
   }, [user]);
 
-  async function cargarProductos() {
-    try {
-      setLoading(true);
-      // Usar la API route que bypasea RLS con SERVICE_ROLE_KEY
-      const response = await fetch("/api/productos");
-
-      if (!response.ok) {
-        throw new Error("Error cargando productos");
-      }
-
-      const data = await response.json();
-      // El API ahora devuelve { productos: [...] }
-      const productosData = data.productos || data;
-      setProductos(Array.isArray(productosData) ? productosData : []);
-    } catch (error) {
-      console.error("Error cargando productos:", error);
-      alert("Error cargando productos: " + error.message);
-      setProductos([]); // Set empty array on error
-    } finally {
-      setLoading(false);
-    }
-  }
 
   async function handleEliminar(id) {
     if (!confirm("¿Estás seguro de eliminar este producto?")) return;

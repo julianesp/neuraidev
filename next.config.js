@@ -163,12 +163,6 @@ const nextConfig = {
     domains: [], // Usar remotePatterns en su lugar
   },
 
-  // Configurar timeouts para el servidor
-  experimental: {
-    // Aumentar timeout de carga de imágenes (30 segundos)
-    proxyTimeout: 30000,
-  },
-
   // Configuración de Turbopack (habilitado por defecto en Next.js 16)
   turbopack: {
     // Configuración vacía - la mayoría de aplicaciones funcionan bien sin configuración adicional

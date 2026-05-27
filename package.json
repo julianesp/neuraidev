@@ -5,13 +5,12 @@
   "packageManager": "pnpm@11.1.2",
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm run generate:sitemap && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "lint:strict": "eslint --max-warnings=0 .",
-    "lint:critical": "node lint-critical.js",
-    "generate:sitemap": "node scripts/generate-sitemap.js"
+    "lint:critical": "node lint-critical.js"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.76",
