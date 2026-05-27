@@ -7,6 +7,7 @@ import SortableImageUploader from "@/components/SortableImageUploader";
 import VideoUploader from "@/components/VideoUploader";
 import RichTextEditor from "@/components/RichTextEditor";
 import ColorSelector from "@/components/ColorSelector";
+import Swal from "sweetalert2";
 
 export default function EditarProductoPage() {
   const router = useRouter();
@@ -85,7 +86,12 @@ export default function EditarProductoPage() {
       });
     } catch (error) {
       console.error("Error cargando producto:", error);
-      alert("Error cargando producto: " + error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error al cargar producto",
+        text: error.message,
+        confirmButtonColor: "#2563eb",
+      });
       router.push("/dashboard/productos");
     } finally {
       setLoading(false);
@@ -199,11 +205,24 @@ export default function EditarProductoPage() {
         );
       }
 
+      await Swal.fire({
+        icon: "success",
+        title: "¡Producto actualizado!",
+        text: "Los cambios fueron guardados exitosamente.",
+        confirmButtonColor: "#2563eb",
+        timer: 2500,
+        timerProgressBar: true,
+      });
       // Forzar recarga completa eliminando caché
       window.location.href = "/dashboard/productos";
     } catch (error) {
       console.error("Error actualizando producto:", error);
-      alert("Error actualizando producto: " + error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error al actualizar producto",
+        text: error.message,
+        confirmButtonColor: "#2563eb",
+      });
     } finally {
       setSaving(false);
     }

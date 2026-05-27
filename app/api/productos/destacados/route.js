@@ -3,7 +3,7 @@ import { getSupabaseServerClient } from '@/lib/db';
 
 async function obtenerProductosDestacados(limit = 10) {
   const db = getSupabaseServerClient();
-  const { data } = await db.from('productos').select('*').eq('destacado', true).eq('disponible', true).order('created_at', { ascending: false }).limit(limit);
+  const { data } = await db.from('products').select('*').eq('destacado', true).eq('disponible', true).order('created_at', { ascending: false }).limit(limit);
   return data || [];
 }
 

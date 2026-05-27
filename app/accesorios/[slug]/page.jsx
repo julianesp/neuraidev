@@ -6,7 +6,7 @@ import { getSupabaseServerClient } from "@/lib/db";
 
 async function obtenerProductos() {
   const db = getSupabaseServerClient();
-  const { data } = await db.from('productos').select('*');
+  const { data } = await db.from('products').select('*');
   return data || [];
 }
 

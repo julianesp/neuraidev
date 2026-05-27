@@ -3,7 +3,7 @@ import { getSupabaseServerClient } from "../lib/db";
 
 async function obtenerProductos(filtros = {}) {
   const db = getSupabaseServerClient();
-  let q = db.from('productos').select('*');
+  let q = db.from('products').select('*');
   if (filtros.categoria) q = q.eq('categoria', filtros.categoria);
   const { data } = await q;
   return data || [];
@@ -11,7 +11,7 @@ async function obtenerProductos(filtros = {}) {
 
 async function obtenerProductoPorId(id) {
   const db = getSupabaseServerClient();
-  const { data } = await db.from('productos').select('*').eq('id', id).single();
+  const { data } = await db.from('products').select('*').eq('id', id).single();
   return data || null;
 }
 

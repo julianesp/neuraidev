@@ -7,6 +7,7 @@ import ImageUploader from "@/components/ImageUploader";
 import VideoUploader from "@/components/VideoUploader";
 import ColorSelector from "@/components/ColorSelector";
 import RichTextEditor from "@/components/RichTextEditor";
+import Swal from "sweetalert2";
 
 export default function NuevoProductoPage() {
   const router = useRouter();
@@ -120,11 +121,23 @@ export default function NuevoProductoPage() {
 
       await response.json();
 
-      alert("Producto creado exitosamente");
+      await Swal.fire({
+        icon: "success",
+        title: "¡Producto creado!",
+        text: "El producto fue guardado exitosamente.",
+        confirmButtonColor: "#2563eb",
+        timer: 2500,
+        timerProgressBar: true,
+      });
       router.push("/dashboard/productos");
     } catch (error) {
       console.error("Error creando producto:", error);
-      alert("Error creando producto: " + error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error al crear producto",
+        text: error.message,
+        confirmButtonColor: "#2563eb",
+      });
     } finally {
       setLoading(false);
     }
