@@ -6,6 +6,7 @@ import { ArrowLeft, Save } from "lucide-react";
 import ImageUploader from "@/components/ImageUploader";
 import VideoUploader from "@/components/VideoUploader";
 import ColorSelector from "@/components/ColorSelector";
+import RichTextEditor from "@/components/RichTextEditor";
 
 export default function NuevoProductoPage() {
   const router = useRouter();
@@ -181,19 +182,12 @@ export default function NuevoProductoPage() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label
-                    htmlFor="descripcion"
-                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
-                  >
-                    Descripción
-                  </label>
-                  <textarea
-                    id="descripcion"
-                    name="descripcion"
-                    rows={4}
+                  <RichTextEditor
                     value={formData.descripcion}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    onChange={(html) =>
+                      setFormData((prev) => ({ ...prev, descripcion: html }))
+                    }
+                    label="Descripción"
                   />
                 </div>
 
