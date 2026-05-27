@@ -43,26 +43,26 @@ export default function ProductoCascada({
   }
 
   const normalizeImages = (images, producto) => {
-    // Si hay imagen_principal, úsala como primera opción
-    if (producto?.imagen_principal) {
-      return [producto.imagen_principal];
+    const principal = producto?.imagen_principal || producto?.imagenPrincipal;
+
+    // Normalizar el array de imágenes adicionales
+    let normalized = [];
+    if (Array.isArray(images) && images.length > 0) {
+      normalized = images
+        .map((img) => (typeof img === "object" && img?.url ? img.url : img))
+        .filter(Boolean);
+    } else if (typeof images === "string" && images.trim()) {
+      normalized = [images];
     }
 
-    if (!images)
-      return ["https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"];
-    if (typeof images === "string") return [images];
-    if (Array.isArray(images)) {
-      const normalized = images.map((img) => {
-        if (typeof img === "object" && img.url) {
-          return img.url;
-        }
-        return img;
-      });
-      return normalized.length > 0
-        ? normalized
-        : ["https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"];
-    }
-    return ["https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"];
+    // Construir lista final: imagen principal primero, luego las adicionales sin duplicar
+    const todas = principal
+      ? [principal, ...normalized.filter((u) => u !== principal)]
+      : normalized;
+
+    return todas.length > 0
+      ? todas
+      : ["https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen"];
   };
 
   const formatPrice = (price) => {
@@ -88,7 +88,7 @@ export default function ProductoCascada({
     const producto = productosConEstado.find((item) => item?.id === productoId);
     if (!producto) return;
 
-    const images = normalizeImages(producto.images || producto.imagenes);
+    const images = normalizeImages(producto.images || producto.imagenes, producto);
     const totalSlides = images.length;
     if (totalSlides <= 1) return;
 
@@ -105,7 +105,7 @@ export default function ProductoCascada({
     const producto = productosConEstado.find((item) => item?.id === productoId);
     if (!producto) return;
 
-    const images = normalizeImages(producto.images || producto.imagenes);
+    const images = normalizeImages(producto.images || producto.imagenes, producto);
     const totalSlides = images.length;
     if (totalSlides <= 1) return;
 
