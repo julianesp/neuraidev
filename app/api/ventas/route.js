@@ -140,15 +140,26 @@ export async function POST(request) {
       actualizarStock = true;
     }
 
+    const ahora = new Date().toISOString();
+    const numeroVenta = `V-${Date.now()}`;
+    const precioCompraNum = parseFloat(precio_compra);
+    const precioVentaNum = parseFloat(precio_venta);
+
     // Crear la venta
     const { data: venta, error: errorVenta } = await supabase
       .from('ventas')
       .insert({
+        id: crypto.randomUUID(),
+        numero_venta: numeroVenta,
+        fecha_venta: ahora,
         producto_id: producto_id || null,
         producto_nombre: nombreProducto,
         cantidad,
-        precio_compra: parseFloat(precio_compra),
-        precio_venta: parseFloat(precio_venta),
+        precio_compra: precioCompraNum,
+        precio_venta: precioVentaNum,
+        subtotal_compra: precioCompraNum * cantidad,
+        subtotal_venta: precioVentaNum * cantidad,
+        ganancia_total: (precioVentaNum - precioCompraNum) * cantidad,
         cliente_nombre,
         cliente_telefono,
         cliente_email,
@@ -156,7 +167,9 @@ export async function POST(request) {
         comprobante_pago,
         notas,
         vendedor_id: userId,
-        vendedor_nombre: user?.fullName || user?.emailAddresses?.[0]?.emailAddress || 'Usuario'
+        vendedor_nombre: user?.fullName || user?.emailAddresses?.[0]?.emailAddress || 'Usuario',
+        created_at: ahora,
+        updated_at: ahora,
       })
       .select()
       .single();

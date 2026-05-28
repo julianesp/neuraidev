@@ -249,35 +249,39 @@ export default function NuevaVentaPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Seleccionar producto */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                Producto
-              </h2>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={esProductoManual}
-                  onChange={(e) => {
-                    setEsProductoManual(e.target.checked);
-                    if (e.target.checked) {
-                      // Limpiar búsqueda de producto
-                      setBusquedaProducto('');
-                      setProductoSeleccionado(null);
-                      setMostrarListaProductos(false);
-                    } else {
-                      // Limpiar producto manual
-                      setNombreProductoManual('');
-                      setPrecioVenta('');
-                      setPrecioCompra('');
-                    }
-                  }}
-                  className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-                />
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Producto no en inventario
-                </span>
-              </label>
-            </div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+              Producto
+            </h2>
+
+            {/* Toggle producto manual — prominente */}
+            <button
+              type="button"
+              onClick={() => {
+                const next = !esProductoManual;
+                setEsProductoManual(next);
+                if (next) {
+                  setBusquedaProducto('');
+                  setProductoSeleccionado(null);
+                  setMostrarListaProductos(false);
+                } else {
+                  setNombreProductoManual('');
+                  setPrecioVenta('');
+                  setPrecioCompra('');
+                }
+              }}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border-2 mb-4 transition-all ${
+                esProductoManual
+                  ? 'border-orange-400 bg-orange-50 dark:bg-orange-900/20'
+                  : 'border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50'
+              }`}
+            >
+              <span className={`font-medium text-sm ${esProductoManual ? 'text-orange-700 dark:text-orange-300' : 'text-gray-600 dark:text-gray-300'}`}>
+                📦 Producto <strong>no</strong> está en el inventario
+              </span>
+              <div className={`relative w-12 h-6 rounded-full transition-colors ${esProductoManual ? 'bg-orange-500' : 'bg-gray-300 dark:bg-gray-600'}`}>
+                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all ${esProductoManual ? 'left-7' : 'left-1'}`} />
+              </div>
+            </button>
 
             {esProductoManual ? (
               /* Campo manual */
