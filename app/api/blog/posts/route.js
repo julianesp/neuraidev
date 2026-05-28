@@ -114,6 +114,7 @@ export async function POST(request) {
     const { data, error } = await supabase
       .from("blog_posts")
       .insert({
+        id: crypto.randomUUID(),
         slug,
         title,
         excerpt,
