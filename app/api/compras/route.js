@@ -43,7 +43,7 @@ export async function POST(request) {
     if (!userId) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
 
     const body = await request.json();
-    const { items, proveedor, notas } = body;
+    const { items, proveedor, notas, fecha_compra } = body;
 
     if (!Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: 'Debes agregar al menos un producto' }, { status: 400 });
@@ -56,6 +56,7 @@ export async function POST(request) {
     }
 
     const ahora = new Date().toISOString();
+    const fechaFinal = fecha_compra ? new Date(fecha_compra).toISOString() : ahora;
     const insertadas = [];
 
     for (const item of items) {
@@ -66,7 +67,7 @@ export async function POST(request) {
       await d1Execute(
         `INSERT INTO compras (id, numero_compra, fecha_compra, producto_nombre, cantidad, precio_unitario, subtotal, proveedor, notas, vendedor_id, created_at)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [id, numeroCompra, ahora, item.producto_nombre.trim(), item.cantidad, item.precio_unitario, subtotal, proveedor || null, notas || null, userId, ahora]
+        [id, numeroCompra, fechaFinal, item.producto_nombre.trim(), item.cantidad, item.precio_unitario, subtotal, proveedor || null, notas || null, userId, ahora]
       );
       insertadas.push({ id, producto_nombre: item.producto_nombre, cantidad: item.cantidad, subtotal });
     }

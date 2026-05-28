@@ -35,6 +35,7 @@ export default function ComprasPage() {
   const [items, setItems] = useState([itemVacio()]);
   const [proveedor, setProveedor] = useState('');
   const [notas, setNotas] = useState('');
+  const [fechaCompra, setFechaCompra] = useState(() => new Date().toISOString().split('T')[0]);
   const [mostrarFormulario, setMostrarFormulario] = useState(true);
 
   useEffect(() => {
@@ -93,6 +94,7 @@ export default function ComprasPage() {
           })),
           proveedor: proveedor.trim() || null,
           notas: notas.trim() || null,
+          fecha_compra: fechaCompra,
         }),
       });
 
@@ -103,6 +105,7 @@ export default function ComprasPage() {
       setItems([itemVacio()]);
       setProveedor('');
       setNotas('');
+      setFechaCompra(new Date().toISOString().split('T')[0]);
       setTimeout(() => setExito(false), 3000);
       await cargarCompras();
     } catch (e) {
@@ -148,8 +151,18 @@ export default function ComprasPage() {
         {mostrarFormulario && (
           <form onSubmit={handleSubmit} className="p-5 pt-0 space-y-4 border-t border-gray-100 dark:border-gray-700">
 
-            {/* Proveedor y notas */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+            {/* Fecha, proveedor y notas */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha de compra *</label>
+                <input
+                  type="date"
+                  value={fechaCompra}
+                  onChange={e => setFechaCompra(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
+                />
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Proveedor (opcional)</label>
                 <input
