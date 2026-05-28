@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, ShoppingBag, Calendar, ChevronDown, ChevronUp, Package, TrendingDown } from "lucide-react";
+import { Plus, Trash2, ShoppingBag, Calendar, ChevronDown, ChevronUp, Package, TrendingDown, Pencil } from "lucide-react";
+import Link from "next/link";
 
 const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 
@@ -341,9 +342,15 @@ export default function ComprasPage() {
                               </div>
                             </div>
                           </div>
-                          <div className="text-right flex-shrink-0 ml-4">
+                          <div className="text-right flex-shrink-0 ml-4 flex flex-col items-end gap-1.5">
                             <p className="text-sm font-bold text-gray-900 dark:text-white">${(compra.subtotal || 0).toLocaleString('es-CO')}</p>
                             <p className="text-xs text-gray-500">{compra.cantidad} u × ${(compra.precio_unitario || 0).toLocaleString('es-CO')}</p>
+                            <Link
+                              href={`/dashboard/compras/editar/${compra.id}`}
+                              className="flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                            >
+                              <Pencil className="w-3 h-3" /> Editar
+                            </Link>
                           </div>
                         </div>
                       </div>
