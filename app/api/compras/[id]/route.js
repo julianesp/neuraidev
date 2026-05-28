@@ -33,9 +33,10 @@ export async function PUT(request, { params }) {
     if (!fecha_compra) return NextResponse.json({ error: 'Fecha requerida' }, { status: 400 });
 
     const cant = parseInt(cantidad);
-    const precio = parseFloat(precio_unitario);
+    const precioBase = parseFloat(precio_unitario);
     const envio = parseFloat(costo_envio) || 0;
-    const subtotal = cant * precio;
+    const subtotalConEnvio = cant * precioBase + envio;
+    const precioUnitarioReal = subtotalConEnvio / cant;
     const fechaFinal = new Date(fecha_compra).toISOString();
 
     await d1Execute(
@@ -43,7 +44,7 @@ export async function PUT(request, { params }) {
         producto_nombre = ?, cantidad = ?, precio_unitario = ?, subtotal = ?,
         costo_envio = ?, proveedor = ?, notas = ?, fecha_compra = ?
        WHERE id = ?`,
-      [producto_nombre.trim(), cant, precio, subtotal, envio, proveedor || null, notas || null, fechaFinal, id]
+      [producto_nombre.trim(), cant, precioUnitarioReal, subtotalConEnvio, envio, proveedor || null, notas || null, fechaFinal, id]
     );
 
     const updated = await d1Select('SELECT * FROM compras WHERE id = ? LIMIT 1', [id]);

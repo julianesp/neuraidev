@@ -59,18 +59,27 @@ export async function POST(request) {
     const fechaFinal = fecha_compra ? new Date(fecha_compra).toISOString() : ahora;
     const insertadas = [];
 
+    const envioTotal = parseFloat(costo_envio) || 0;
+    // Distribute shipping cost proportionally by each item's subtotal weight
+    const subtotalSinEnvio = items.reduce((s, i) => s + i.cantidad * i.precio_unitario, 0);
+
     for (const item of items) {
       const id = crypto.randomUUID();
       const numeroCompra = `C-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-      const subtotal = item.cantidad * item.precio_unitario;
+      const subtotalItem = item.cantidad * item.precio_unitario;
+      // Share of shipping proportional to this item's weight in the order
+      const envioItem = subtotalSinEnvio > 0
+        ? (subtotalItem / subtotalSinEnvio) * envioTotal
+        : envioTotal / items.length;
+      const subtotalConEnvio = subtotalItem + envioItem;
+      const precioUnitarioReal = subtotalConEnvio / item.cantidad;
 
-      const envio = parseFloat(costo_envio) || 0;
       await d1Execute(
         `INSERT INTO compras (id, numero_compra, fecha_compra, producto_nombre, cantidad, precio_unitario, subtotal, costo_envio, proveedor, notas, vendedor_id, created_at)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [id, numeroCompra, fechaFinal, item.producto_nombre.trim(), item.cantidad, item.precio_unitario, subtotal, envio, proveedor || null, notas || null, userId, ahora]
+        [id, numeroCompra, fechaFinal, item.producto_nombre.trim(), item.cantidad, precioUnitarioReal, subtotalConEnvio, envioItem, proveedor || null, notas || null, userId, ahora]
       );
-      insertadas.push({ id, producto_nombre: item.producto_nombre, cantidad: item.cantidad, subtotal });
+      insertadas.push({ id, producto_nombre: item.producto_nombre, cantidad: item.cantidad, subtotal: subtotalConEnvio });
     }
 
     return NextResponse.json({ success: true, compras: insertadas }, { status: 201 });

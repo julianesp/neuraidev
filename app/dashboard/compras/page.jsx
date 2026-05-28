@@ -297,7 +297,7 @@ export default function ComprasPage() {
               )}
               {(parseFloat(costoEnvio) > 0) && (
                 <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                  <span>Envío:</span>
+                  <span>+ Envío:</span>
                   <span>${(parseFloat(costoEnvio) || 0).toLocaleString('es-CO')}</span>
                 </div>
               )}
@@ -305,6 +305,22 @@ export default function ComprasPage() {
                 <span className="text-sm text-gray-600 dark:text-gray-400">Total a invertir:</span>
                 <span className="text-xl font-bold text-orange-600">${totalCompra.toLocaleString('es-CO')}</span>
               </div>
+              {/* Precio unitario real por ítem cuando hay envío */}
+              {(parseFloat(costoEnvio) > 0) && items.filter(i => i.producto_nombre.trim()).map((item, i) => {
+                const cant = parseInt(item.cantidad) || 1;
+                const precio = parseFloat(item.precio_unitario) || 0;
+                const subtotalItem = cant * precio;
+                const envioItem = subtotalProductos > 0
+                  ? (subtotalItem / subtotalProductos) * (parseFloat(costoEnvio) || 0)
+                  : (parseFloat(costoEnvio) || 0) / items.filter(x => x.producto_nombre.trim()).length;
+                const precioReal = (subtotalItem + envioItem) / cant;
+                return (
+                  <div key={i} className="flex items-center justify-between text-xs text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded px-2 py-1">
+                    <span>💡 {item.producto_nombre.trim() || `Producto ${i+1}`} — precio real c/u:</span>
+                    <span className="font-semibold">${Math.round(precioReal).toLocaleString('es-CO')}</span>
+                  </div>
+                );
+              })}
             </div>
 
             {error && <p className="text-sm text-red-600 bg-red-50 dark:bg-red-900/20 rounded-lg px-3 py-2">{error}</p>}
@@ -389,7 +405,7 @@ export default function ComprasPage() {
                           </div>
                           <div className="text-right flex-shrink-0 ml-4 flex flex-col items-end gap-1.5">
                             <p className="text-sm font-bold text-gray-900 dark:text-white">${(compra.subtotal || 0).toLocaleString('es-CO')}</p>
-                            <p className="text-xs text-gray-500">{compra.cantidad} u × ${(compra.precio_unitario || 0).toLocaleString('es-CO')}</p>
+                            <p className="text-xs text-gray-500">{compra.cantidad} u × ${Math.round(compra.precio_unitario || 0).toLocaleString('es-CO')} c/u</p>
                             <Link
                               href={`/dashboard/compras/editar/${compra.id}`}
                               className="flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-colors"
