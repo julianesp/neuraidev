@@ -62,7 +62,8 @@ export function CartProvider({ children }) {
         categoria: producto.categoria,
         stock: producto.stock ?? 999,
         metadata: producto.metadata || {},
-        seller_clerk_user_id: producto.seller_clerk_user_id || null,
+        // seller_clerk_user_id solo aplica a tiendas externas (tienen seller_whatsapp)
+        seller_clerk_user_id: producto.seller_whatsapp ? (producto.seller_clerk_user_id || null) : null,
         seller_whatsapp: producto.seller_whatsapp || null,
         seller_nombre: producto.seller_nombre || null,
       };

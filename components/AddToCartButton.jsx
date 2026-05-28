@@ -42,8 +42,9 @@ export default function AddToCartButton({ producto }) {
           ? [producto.imagen]
           : [],
     categoria: producto.categoria || "general",
-    // Datos del vendedor — presentes solo si es producto de una tienda
-    seller_clerk_user_id: producto.clerk_user_id || null,
+    // Datos del vendedor — presentes solo si es producto de una tienda externa
+    // clerk_user_id es el admin que creó el producto propio; no cuenta como tienda externa
+    seller_clerk_user_id: producto.seller_whatsapp ? (producto.seller_clerk_user_id || producto.clerk_user_id || null) : null,
     seller_whatsapp: producto.seller_whatsapp || null,
     seller_nombre: producto.seller_nombre || null,
   };
