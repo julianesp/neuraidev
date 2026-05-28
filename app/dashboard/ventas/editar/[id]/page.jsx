@@ -3,7 +3,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Save } from 'lucide-react';
+import { ArrowLeft, Save, Plus, Trash2 } from 'lucide-react';
+
+const itemVacio = () => ({ producto_nombre: '', cantidad: 1, precio_compra: '', precio_venta: '' });
 
 export default function EditarVentaPage() {
   const router = useRouter();
@@ -12,6 +14,7 @@ export default function EditarVentaPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
 
+  // Producto original (editable)
   const [form, setForm] = useState({
     producto_nombre: '',
     cantidad: 1,
@@ -24,6 +27,9 @@ export default function EditarVentaPage() {
     comprobante_pago: '',
     notas: '',
   });
+
+  // Productos adicionales a agregar
+  const [extras, setExtras] = useState([]);
 
   const cargar = useCallback(async () => {
     try {
@@ -53,16 +59,30 @@ export default function EditarVentaPage() {
 
   const set = (field) => (e) => setForm(prev => ({ ...prev, [field]: e.target.value }));
 
+  function actualizarExtra(i, campo, valor) {
+    setExtras(prev => prev.map((item, idx) => idx === i ? { ...item, [campo]: valor } : item));
+  }
+
+  // Totales del producto original
   const subtotalVenta = (parseFloat(form.precio_venta) || 0) * (parseInt(form.cantidad) || 0);
   const subtotalCompra = (parseFloat(form.precio_compra) || 0) * (parseInt(form.cantidad) || 0);
-  const ganancia = subtotalVenta - subtotalCompra;
-  const margen = subtotalVenta > 0 ? (ganancia / subtotalVenta) * 100 : 0;
+  const gananciaOriginal = subtotalVenta - subtotalCompra;
+
+  // Totales de extras
+  const totalExtrasVenta = extras.reduce((s, e) => s + (parseFloat(e.precio_venta) || 0) * (parseInt(e.cantidad) || 0), 0);
+  const totalExtrasCompra = extras.reduce((s, e) => s + (parseFloat(e.precio_compra) || 0) * (parseInt(e.cantidad) || 0), 0);
+
+  // Gran total
+  const granTotalVenta = subtotalVenta + totalExtrasVenta;
+  const granTotalGanancia = gananciaOriginal + (totalExtrasVenta - totalExtrasCompra);
+  const granMargen = granTotalVenta > 0 ? (granTotalGanancia / granTotalVenta) * 100 : 0;
 
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
     setError(null);
     try {
+      // 1. Actualizar venta original
       const res = await fetch(`/api/ventas/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -70,6 +90,32 @@ export default function EditarVentaPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error al guardar');
+
+      // 2. Insertar productos extras como nuevas ventas
+      const extrasValidos = extras.filter(e => e.producto_nombre.trim());
+      for (const extra of extrasValidos) {
+        const resExtra = await fetch('/api/ventas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            producto_nombre_manual: extra.producto_nombre.trim(),
+            cantidad: parseInt(extra.cantidad) || 1,
+            precio_venta: parseFloat(extra.precio_venta) || 0,
+            precio_compra: parseFloat(extra.precio_compra) || 0,
+            cliente_nombre: form.cliente_nombre || null,
+            cliente_telefono: form.cliente_telefono || null,
+            cliente_email: form.cliente_email || null,
+            metodo_pago: form.metodo_pago,
+            comprobante_pago: form.comprobante_pago || null,
+            notas: form.notas || null,
+          }),
+        });
+        if (!resExtra.ok) {
+          const errData = await resExtra.json();
+          throw new Error(`Error al agregar "${extra.producto_nombre}": ${errData.error}`);
+        }
+      }
+
       router.push('/dashboard/ventas');
     } catch (e) {
       setError(e.message);
@@ -93,7 +139,7 @@ export default function EditarVentaPage() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Editar Venta</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Modifica los datos de la venta</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Modifica el producto o agrega más al mismo cliente</p>
         </div>
       </div>
 
@@ -105,60 +151,112 @@ export default function EditarVentaPage() {
 
       <form onSubmit={handleSubmit} className="space-y-5">
 
-        {/* Producto */}
+        {/* Producto original */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 space-y-4">
-          <h2 className="font-semibold text-gray-900 dark:text-white">Producto</h2>
+          <h2 className="font-semibold text-gray-900 dark:text-white">Producto vendido</h2>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre del producto *</label>
-            <input
-              type="text" required value={form.producto_nombre} onChange={set('producto_nombre')}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-            />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre *</label>
+            <input type="text" required value={form.producto_nombre} onChange={set('producto_nombre')}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
           </div>
 
           <div className="grid grid-cols-3 gap-3">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cantidad *</label>
-              <input
-                type="number" min="1" required value={form.cantidad} onChange={set('cantidad')}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-              />
+              <input type="number" min="1" required value={form.cantidad} onChange={set('cantidad')}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio compra *</label>
-              <input
-                type="number" min="0" step="0.01" required value={form.precio_compra} onChange={set('precio_compra')}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-              />
+              <input type="number" min="0" step="0.01" required value={form.precio_compra} onChange={set('precio_compra')}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio venta *</label>
-              <input
-                type="number" min="0" step="0.01" required value={form.precio_venta} onChange={set('precio_venta')}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-              />
+              <input type="number" min="0" step="0.01" required value={form.precio_venta} onChange={set('precio_venta')}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
             </div>
           </div>
+        </div>
 
-          {/* Resumen ganancia en tiempo real */}
-          {form.precio_venta && form.precio_compra && (
-            <div className="grid grid-cols-3 gap-2 pt-1">
-              <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-2.5 text-center">
-                <p className="text-xs text-gray-500">Total venta</p>
-                <p className="font-bold text-purple-600 text-sm">${subtotalVenta.toLocaleString('es-CO')}</p>
-              </div>
-              <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-2.5 text-center">
-                <p className="text-xs text-gray-500">Ganancia</p>
-                <p className="font-bold text-green-600 text-sm">${ganancia.toLocaleString('es-CO')}</p>
-              </div>
-              <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-2.5 text-center">
-                <p className="text-xs text-gray-500">Margen</p>
-                <p className="font-bold text-yellow-600 text-sm">{margen.toFixed(1)}%</p>
-              </div>
+        {/* Productos adicionales */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="font-semibold text-gray-900 dark:text-white">Productos adicionales</h2>
+            <button type="button" onClick={() => setExtras(prev => [...prev, itemVacio()])}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg text-sm hover:bg-green-200 transition-colors">
+              <Plus className="w-4 h-4" /> Agregar producto
+            </button>
+          </div>
+
+          {extras.length === 0 ? (
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-4 border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-lg">
+              Haz clic en "Agregar producto" para incluir más productos a esta venta
+            </p>
+          ) : (
+            <div className="space-y-3">
+              {extras.map((item, i) => (
+                <div key={i} className="border border-gray-200 dark:border-gray-600 rounded-lg p-3 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Producto {i + 2}</span>
+                    <button type="button" onClick={() => setExtras(prev => prev.filter((_, idx) => idx !== i))}
+                      className="text-red-400 hover:text-red-600 p-1">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <input type="text" value={item.producto_nombre}
+                    onChange={e => actualizarExtra(i, 'producto_nombre', e.target.value)}
+                    placeholder="Nombre del producto" required={extras.length > 0}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" />
+                  <div className="grid grid-cols-3 gap-2">
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">Cantidad</label>
+                      <input type="number" min="1" value={item.cantidad}
+                        onChange={e => actualizarExtra(i, 'cantidad', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">Precio compra</label>
+                      <input type="number" min="0" step="0.01" value={item.precio_compra}
+                        onChange={e => actualizarExtra(i, 'precio_compra', e.target.value)}
+                        placeholder="0"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">Precio venta</label>
+                      <input type="number" min="0" step="0.01" value={item.precio_venta}
+                        onChange={e => actualizarExtra(i, 'precio_venta', e.target.value)}
+                        placeholder="0"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
+
+        {/* Resumen total */}
+        {(form.precio_venta || extras.length > 0) && (
+          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-4 text-white">
+            <p className="text-sm font-semibold mb-3">Resumen total de la venta</p>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="bg-white/20 rounded-lg p-2.5 text-center">
+                <p className="text-xs opacity-80">Total venta</p>
+                <p className="font-bold">${granTotalVenta.toLocaleString('es-CO')}</p>
+              </div>
+              <div className="bg-white/20 rounded-lg p-2.5 text-center">
+                <p className="text-xs opacity-80">Ganancia</p>
+                <p className="font-bold">${granTotalGanancia.toLocaleString('es-CO')}</p>
+              </div>
+              <div className="bg-white/20 rounded-lg p-2.5 text-center">
+                <p className="text-xs opacity-80">Margen</p>
+                <p className="font-bold">{granMargen.toFixed(1)}%</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Cliente */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 space-y-3">
@@ -194,7 +292,7 @@ export default function EditarVentaPage() {
         {/* Notas */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5">
           <h2 className="font-semibold text-gray-900 dark:text-white mb-3">Notas</h2>
-          <textarea value={form.notas} onChange={set('notas')} rows={3} placeholder="Notas adicionales..."
+          <textarea value={form.notas} onChange={set('notas')} rows={2} placeholder="Notas adicionales..."
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
         </div>
 
@@ -207,7 +305,7 @@ export default function EditarVentaPage() {
           <button type="submit" disabled={saving}
             className="flex-1 flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-lg transition-colors text-sm font-medium">
             <Save className="w-4 h-4" />
-            {saving ? 'Guardando...' : 'Guardar cambios'}
+            {saving ? 'Guardando...' : extras.length > 0 ? `Guardar (${1 + extras.length} productos)` : 'Guardar cambios'}
           </button>
         </div>
       </form>
