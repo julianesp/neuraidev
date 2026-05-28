@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { d1Select } from '@/lib/db-d1';
 import { getSupabaseServerClient } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
 
@@ -11,52 +12,49 @@ export async function GET(request) {
     }
 
     const { searchParams } = new URL(request.url);
-    const fecha = searchParams.get('fecha'); // YYYY-MM-DD (día específico)
-    const mes = searchParams.get('mes'); // YYYY-MM (mes completo)
+    const fecha = searchParams.get('fecha');
+    const mes = searchParams.get('mes');
     const productoId = searchParams.get('producto_id');
     const metodoPago = searchParams.get('metodo_pago');
     const limit = parseInt(searchParams.get('limit') || '500');
     const offset = parseInt(searchParams.get('offset') || '0');
 
-    const supabase = getSupabaseServerClient();
-    let query = supabase
-      .from('ventas')
-      .select('*', { count: 'exact' })
-      .order('fecha_venta', { ascending: false })
-      .range(offset, offset + limit - 1);
+    const conditions = [];
+    const params = [];
 
-    // Filtros opcionales
     if (mes) {
-      // Filtrar por mes completo (YYYY-MM)
       const [year, month] = mes.split('-').map(Number);
       const primerDia = `${mes}-01T00:00:00`;
-      const ultimoDia = new Date(year, month, 0); // último día del mes
+      const ultimoDia = new Date(year, month, 0);
       const ultimoDiaStr = `${mes}-${String(ultimoDia.getDate()).padStart(2, '0')}T23:59:59`;
-      query = query.gte('fecha_venta', primerDia).lte('fecha_venta', ultimoDiaStr);
+      conditions.push('fecha_venta >= ? AND fecha_venta <= ?');
+      params.push(primerDia, ultimoDiaStr);
     } else if (fecha) {
-      // Filtrar por día específico (legado)
-      query = query.gte('fecha_venta', `${fecha}T00:00:00`)
-                   .lte('fecha_venta', `${fecha}T23:59:59`);
+      conditions.push('fecha_venta >= ? AND fecha_venta <= ?');
+      params.push(`${fecha}T00:00:00`, `${fecha}T23:59:59`);
     }
 
     if (productoId) {
-      query = query.eq('producto_id', productoId);
+      conditions.push('producto_id = ?');
+      params.push(productoId);
     }
 
     if (metodoPago) {
-      query = query.eq('metodo_pago', metodoPago);
+      conditions.push('metodo_pago = ?');
+      params.push(metodoPago);
     }
 
-    const { data: ventas, error, count } = await query;
+    const where = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+    params.push(limit, offset);
 
-    if (error) {
-      console.error('Error obteniendo ventas:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+    const ventas = await d1Select(
+      `SELECT * FROM ventas ${where} ORDER BY fecha_venta DESC LIMIT ? OFFSET ?`,
+      params
+    );
 
     return NextResponse.json({
       ventas,
-      total: count,
+      total: ventas.length,
       limit,
       offset
     });
