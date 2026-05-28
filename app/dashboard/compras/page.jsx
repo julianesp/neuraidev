@@ -26,6 +26,7 @@ const itemVacio = () => ({ producto_nombre: '', cantidad: 1, precio_unitario: ''
 
 export default function ComprasPage() {
   const [compras, setCompras] = useState([]);
+  const [proveedores, setProveedores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState(null);
@@ -49,7 +50,11 @@ export default function ComprasPage() {
       const res = await fetch('/api/compras');
       if (!res.ok) throw new Error('Error cargando compras');
       const data = await res.json();
-      setCompras(data.compras || []);
+      const lista = data.compras || [];
+      setCompras(lista);
+      // Extraer proveedores únicos no vacíos
+      const unicos = [...new Set(lista.map(c => c.proveedor).filter(Boolean))].sort();
+      setProveedores(unicos);
     } catch (e) {
       console.error(e);
     } finally {
@@ -168,11 +173,15 @@ export default function ComprasPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Proveedor (opcional)</label>
                 <input
                   type="text"
+                  list="proveedores-list"
                   value={proveedor}
                   onChange={e => setProveedor(e.target.value)}
                   placeholder="Nombre del proveedor o tienda"
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
                 />
+                <datalist id="proveedores-list">
+                  {proveedores.map(p => <option key={p} value={p} />)}
+                </datalist>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notas (opcional)</label>
