@@ -22,6 +22,7 @@ import {
   Receipt,
   Mic,
   Images,
+  ShoppingBag,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -61,6 +62,12 @@ export default function DashboardLayout({ children }) {
       href: "/dashboard/ventas",
       icon: Receipt,
       current: pathname?.startsWith("/dashboard/ventas"),
+    },
+    {
+      name: "Compras",
+      href: "/dashboard/compras",
+      icon: ShoppingBag,
+      current: pathname?.startsWith("/dashboard/compras"),
     },
     {
       name: "Mi Tienda",
