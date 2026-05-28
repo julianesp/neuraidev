@@ -43,7 +43,7 @@ export async function POST(request) {
     if (!userId) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
 
     const body = await request.json();
-    const { items, proveedor, notas, fecha_compra } = body;
+    const { items, proveedor, notas, fecha_compra, costo_envio } = body;
 
     if (!Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: 'Debes agregar al menos un producto' }, { status: 400 });
@@ -64,10 +64,11 @@ export async function POST(request) {
       const numeroCompra = `C-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
       const subtotal = item.cantidad * item.precio_unitario;
 
+      const envio = parseFloat(costo_envio) || 0;
       await d1Execute(
-        `INSERT INTO compras (id, numero_compra, fecha_compra, producto_nombre, cantidad, precio_unitario, subtotal, proveedor, notas, vendedor_id, created_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [id, numeroCompra, fechaFinal, item.producto_nombre.trim(), item.cantidad, item.precio_unitario, subtotal, proveedor || null, notas || null, userId, ahora]
+        `INSERT INTO compras (id, numero_compra, fecha_compra, producto_nombre, cantidad, precio_unitario, subtotal, costo_envio, proveedor, notas, vendedor_id, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [id, numeroCompra, fechaFinal, item.producto_nombre.trim(), item.cantidad, item.precio_unitario, subtotal, envio, proveedor || null, notas || null, userId, ahora]
       );
       insertadas.push({ id, producto_nombre: item.producto_nombre, cantidad: item.cantidad, subtotal });
     }

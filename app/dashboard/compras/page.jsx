@@ -38,6 +38,7 @@ export default function ComprasPage() {
   const [proveedor, setProveedor] = useState('');
   const [notas, setNotas] = useState('');
   const [fechaCompra, setFechaCompra] = useState(() => new Date().toISOString().split('T')[0]);
+  const [costoEnvio, setCostoEnvio] = useState('');
   const [mostrarFormulario, setMostrarFormulario] = useState(true);
 
   useEffect(() => {
@@ -74,11 +75,12 @@ export default function ComprasPage() {
     setItems(prev => prev.filter((_, i) => i !== index));
   }
 
-  const totalCompra = items.reduce((s, item) => {
+  const subtotalProductos = items.reduce((s, item) => {
     const cant = parseInt(item.cantidad) || 0;
     const precio = parseFloat(item.precio_unitario) || 0;
     return s + cant * precio;
   }, 0);
+  const totalCompra = subtotalProductos + (parseFloat(costoEnvio) || 0);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -101,6 +103,7 @@ export default function ComprasPage() {
           proveedor: proveedor.trim() || null,
           notas: notas.trim() || null,
           fecha_compra: fechaCompra,
+          costo_envio: parseFloat(costoEnvio) || 0,
         }),
       });
 
@@ -111,6 +114,7 @@ export default function ComprasPage() {
       setItems([itemVacio()]);
       setProveedor('');
       setNotas('');
+      setCostoEnvio('');
       setFechaCompra(new Date().toISOString().split('T')[0]);
       setTimeout(() => setExito(false), 3000);
       await cargarCompras();
@@ -266,10 +270,41 @@ export default function ComprasPage() {
               </div>
             </div>
 
+            {/* Costo de envío */}
+            <div className="flex items-center gap-4 pt-2">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">🚚 Costo de envío</label>
+              <div className="relative flex-1 max-w-xs">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={costoEnvio}
+                  onChange={e => setCostoEnvio(e.target.value)}
+                  placeholder="0 (gratis)"
+                  className="w-full pl-7 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+            </div>
+
             {/* Total */}
-            <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-700">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Total a invertir:</span>
-              <span className="text-xl font-bold text-orange-600">${totalCompra.toLocaleString('es-CO')}</span>
+            <div className="space-y-1 pt-2 border-t border-gray-100 dark:border-gray-700">
+              {(parseFloat(costoEnvio) > 0) && (
+                <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                  <span>Subtotal productos:</span>
+                  <span>${subtotalProductos.toLocaleString('es-CO')}</span>
+                </div>
+              )}
+              {(parseFloat(costoEnvio) > 0) && (
+                <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                  <span>Envío:</span>
+                  <span>${(parseFloat(costoEnvio) || 0).toLocaleString('es-CO')}</span>
+                </div>
+              )}
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Total a invertir:</span>
+                <span className="text-xl font-bold text-orange-600">${totalCompra.toLocaleString('es-CO')}</span>
+              </div>
             </div>
 
             {error && <p className="text-sm text-red-600 bg-red-50 dark:bg-red-900/20 rounded-lg px-3 py-2">{error}</p>}
@@ -347,6 +382,7 @@ export default function ComprasPage() {
                                   {new Date(compra.fecha_compra).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                                 </span>
                                 {compra.proveedor && <span>📦 {compra.proveedor}</span>}
+                                {compra.costo_envio > 0 && <span>🚚 Envío: ${(compra.costo_envio).toLocaleString('es-CO')}</span>}
                                 {compra.notas && <span>📝 {compra.notas}</span>}
                               </div>
                             </div>

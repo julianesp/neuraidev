@@ -16,6 +16,7 @@ export default function EditarCompraPage() {
   const [productoNombre, setProductoNombre] = useState('');
   const [cantidad, setCantidad] = useState(1);
   const [precioUnitario, setPrecioUnitario] = useState('');
+  const [costoEnvio, setCostoEnvio] = useState('');
   const [proveedor, setProveedor] = useState('');
   const [notas, setNotas] = useState('');
   const [fechaCompra, setFechaCompra] = useState('');
@@ -32,7 +33,7 @@ export default function EditarCompraPage() {
         setPrecioUnitario(data.precio_unitario ?? '');
         setProveedor(data.proveedor || '');
         setNotas(data.notas || '');
-        // Convert ISO to YYYY-MM-DD for date input
+        setCostoEnvio(data.costo_envio > 0 ? data.costo_envio : '');
         setFechaCompra(data.fecha_compra ? data.fecha_compra.split('T')[0] : '');
       } catch (e) {
         setError(e.message);
@@ -43,7 +44,8 @@ export default function EditarCompraPage() {
     cargar();
   }, [id]);
 
-  const subtotal = (parseInt(cantidad) || 0) * (parseFloat(precioUnitario) || 0);
+  const subtotalProductos = (parseInt(cantidad) || 0) * (parseFloat(precioUnitario) || 0);
+  const subtotal = subtotalProductos + (parseFloat(costoEnvio) || 0);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -58,6 +60,7 @@ export default function EditarCompraPage() {
           producto_nombre: productoNombre,
           cantidad: parseInt(cantidad),
           precio_unitario: parseFloat(precioUnitario),
+          costo_envio: parseFloat(costoEnvio) || 0,
           proveedor: proveedor.trim() || null,
           notas: notas.trim() || null,
           fecha_compra: fechaCompra,
@@ -163,6 +166,24 @@ export default function EditarCompraPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              🚚 Costo de envío (opcional)
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={costoEnvio}
+                onChange={e => setCostoEnvio(e.target.value)}
+                placeholder="0 (gratis)"
+                className="w-full pl-7 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Fecha de compra *
             </label>
             <input
@@ -201,9 +222,23 @@ export default function EditarCompraPage() {
           </div>
 
           {/* Subtotal preview */}
-          <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-700">
-            <span className="text-sm text-gray-600 dark:text-gray-400">Subtotal:</span>
-            <span className="text-xl font-bold text-orange-600">${subtotal.toLocaleString('es-CO')}</span>
+          <div className="space-y-1 pt-2 border-t border-gray-100 dark:border-gray-700">
+            {(parseFloat(costoEnvio) > 0) && (
+              <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                <span>Subtotal productos:</span>
+                <span>${subtotalProductos.toLocaleString('es-CO')}</span>
+              </div>
+            )}
+            {(parseFloat(costoEnvio) > 0) && (
+              <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                <span>Envío:</span>
+                <span>${(parseFloat(costoEnvio) || 0).toLocaleString('es-CO')}</span>
+              </div>
+            )}
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-600 dark:text-gray-400">Total:</span>
+              <span className="text-xl font-bold text-orange-600">${subtotal.toLocaleString('es-CO')}</span>
+            </div>
           </div>
 
           {error && (

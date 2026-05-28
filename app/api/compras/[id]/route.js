@@ -25,7 +25,7 @@ export async function PUT(request, { params }) {
     const { id } = await params;
     const body = await request.json();
 
-    const { producto_nombre, cantidad, precio_unitario, proveedor, notas, fecha_compra } = body;
+    const { producto_nombre, cantidad, precio_unitario, costo_envio, proveedor, notas, fecha_compra } = body;
 
     if (!producto_nombre?.trim()) return NextResponse.json({ error: 'Nombre de producto requerido' }, { status: 400 });
     if (!cantidad || cantidad <= 0) return NextResponse.json({ error: 'Cantidad inválida' }, { status: 400 });
@@ -34,15 +34,16 @@ export async function PUT(request, { params }) {
 
     const cant = parseInt(cantidad);
     const precio = parseFloat(precio_unitario);
+    const envio = parseFloat(costo_envio) || 0;
     const subtotal = cant * precio;
     const fechaFinal = new Date(fecha_compra).toISOString();
 
     await d1Execute(
       `UPDATE compras SET
         producto_nombre = ?, cantidad = ?, precio_unitario = ?, subtotal = ?,
-        proveedor = ?, notas = ?, fecha_compra = ?
+        costo_envio = ?, proveedor = ?, notas = ?, fecha_compra = ?
        WHERE id = ?`,
-      [producto_nombre.trim(), cant, precio, subtotal, proveedor || null, notas || null, fechaFinal, id]
+      [producto_nombre.trim(), cant, precio, subtotal, envio, proveedor || null, notas || null, fechaFinal, id]
     );
 
     const updated = await d1Select('SELECT * FROM compras WHERE id = ? LIMIT 1', [id]);
