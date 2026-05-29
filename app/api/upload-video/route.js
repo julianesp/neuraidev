@@ -33,17 +33,21 @@ export async function POST(request) {
       );
     }
 
-    const validTypes = ['video/mp4', 'video/webm', 'video/quicktime'];
-    if (!validTypes.includes(file.type)) {
+    const validTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-matroska', 'video/avi', 'video/x-msvideo'];
+    const validExtensions = ['mp4', 'webm', 'mov', 'mkv', 'avi'];
+    const extension = file.name.split('.').pop()?.toLowerCase() || '';
+    const isValidType = file.type.startsWith('video/') || validTypes.includes(file.type);
+    const isValidExtension = validExtensions.includes(extension);
+
+    if (!isValidType && !isValidExtension) {
       return NextResponse.json(
-        { error: 'Formato no soportado. Usa MP4, WebM o MOV.' },
+        { error: `Formato no soportado. Usa MP4, WebM o MOV. Tipo recibido: ${file.type}` },
         { status: 400 }
       );
     }
 
     const timestamp = Date.now();
     const randomString = Math.random().toString(36).substring(2, 15);
-    const extension = file.name.split('.').pop();
     const storageFileName = `videos/${timestamp}-${randomString}.${extension}`;
 
     const bytes = await file.arrayBuffer();
