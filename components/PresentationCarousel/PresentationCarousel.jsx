@@ -89,6 +89,8 @@ const PresentationCarousel = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
+  const currentSlideData = slides[currentSlide];
+
   return (
     <div className={styles.carouselContainer}>
       <div className={styles.carousel}>
@@ -117,25 +119,6 @@ const PresentationCarousel = () => {
                 <h2 className={styles.slideTitle}>{slide.titulo}</h2>
                 {slide.descripcion && (
                   <p className={styles.slideDescription}>{slide.descripcion}</p>
-                )}
-              </div>
-
-              {/* Botones posicionados en la parte inferior, sobre los indicadores */}
-              <div className={styles.slideButtons}>
-                {slide.link && (
-                  <Link href={slide.link} className={styles.seeMoreButton}>
-                    {slide.boton_texto ?? "Ver más"}
-                  </Link>
-                )}
-                {slide.boton_secundario && (
-                  <a
-                    href={slide.boton_secundario.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.secondaryButton}
-                  >
-                    {slide.boton_secundario.texto}
-                  </a>
                 )}
               </div>
             </div>
@@ -203,6 +186,27 @@ const PresentationCarousel = () => {
           )}
         </button>
       </div>
+
+      {/* Botones del slide actual — fuera del overflow:hidden para no quedar cortados */}
+      {(currentSlideData?.link || currentSlideData?.boton_secundario) && (
+        <div className={styles.slideButtons}>
+          {currentSlideData.link && (
+            <Link href={currentSlideData.link} className={styles.seeMoreButton}>
+              {currentSlideData.boton_texto ?? "Ver más"}
+            </Link>
+          )}
+          {currentSlideData.boton_secundario && (
+            <a
+              href={currentSlideData.boton_secundario.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.secondaryButton}
+            >
+              {currentSlideData.boton_secundario.texto}
+            </a>
+          )}
+        </div>
+      )}
     </div>
   );
 };

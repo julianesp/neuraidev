@@ -131,7 +131,7 @@ $primary: $color-primario;
     padding: 0;
     z-index: 100; // Por encima del aside
 
-    @media (min-width: 1024px) {
+    @media (min-width: 768px) {
       margin-bottom: 40px;
     }
   }
