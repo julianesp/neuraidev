@@ -112,45 +112,59 @@
   }
 }
 
-.seeMoreButton {
-  display: inline-block;
-
-  background: linear-gradient(135deg, #0070f3 0%, #0059c9 100%);
-  // color: white;
-  // padding: 12px 32px;
-  border-radius: 25px;
-  // text-decoration: none;
-  font-weight: 600;
-  font-size: 1.3rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 112, 243, 0.3);
+.slideButtons {
   position: absolute;
-  z-index: 105; // Mayor que el carouselContainer
-
-  // bottom: 5px; // Posicionado entre el texto y los indicadores
+  bottom: 60px; // por encima de los indicadores (bottom: 20px + altura dots)
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  z-index: 105;
+
+  @media (max-width: 768px) {
+    bottom: 55px;
+    gap: 10px;
+  }
+
+  @media (max-width: 480px) {
+    bottom: 50px;
+    gap: 8px;
+  }
+}
+
+.seeMoreButton {
+  display: inline-block;
+  background: linear-gradient(135deg, #0070f3 0%, #0059c9 100%);
+  color: white;
+  padding: 12px 32px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 112, 243, 0.3);
+  white-space: nowrap;
 
   &:hover {
     background: linear-gradient(135deg, #0059c9 0%, #0041a3 100%);
-    transform: translateX(-50%) translateY(-2px);
+    transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 112, 243, 0.4);
   }
 
   &:active {
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
 
   @media (max-width: 768px) {
     padding: 10px 24px;
     font-size: 1rem;
-    bottom: 30px;
   }
 
   @media (max-width: 480px) {
     padding: 8px 20px;
     font-size: 0.9rem;
-    bottom: 25px;
   }
 }
 
@@ -165,10 +179,7 @@
   text-decoration: none;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(22, 163, 74, 0.35);
-  position: absolute;
-  z-index: 105;
-  bottom: 60px;
-  right: 80px;
+  white-space: nowrap;
 
   &:hover {
     background: linear-gradient(135deg, #15803d 0%, #166534 100%);
@@ -179,15 +190,11 @@
   @media (max-width: 768px) {
     font-size: 0.95rem;
     padding: 8px 20px;
-    bottom: 55px;
-    right: 20px;
   }
 
   @media (max-width: 480px) {
     font-size: 0.85rem;
     padding: 7px 16px;
-    bottom: 50px;
-    right: 15px;
   }
 }
 

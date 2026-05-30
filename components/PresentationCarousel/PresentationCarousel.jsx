@@ -118,13 +118,15 @@ const PresentationCarousel = () => {
                 {slide.descripcion && (
                   <p className={styles.slideDescription}>{slide.descripcion}</p>
                 )}
+              </div>
 
+              {/* Botones posicionados en la parte inferior, sobre los indicadores */}
+              <div className={styles.slideButtons}>
                 {slide.link && (
                   <Link href={slide.link} className={styles.seeMoreButton}>
                     {slide.boton_texto ?? "Ver más"}
                   </Link>
                 )}
-
                 {slide.boton_secundario && (
                   <a
                     href={slide.boton_secundario.href}

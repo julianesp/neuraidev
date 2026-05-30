@@ -939,7 +939,7 @@ const AccesoriosContainer = ({
                 (accesorio.video_url && tieneImagenes)) &&
                 !isImageModalOpen && (
                   <div className="flex justify-center items-center mt-3">
-                    <div className="flex items-center gap-2 bg-black px-3 py-2 rounded-full shadow-md">
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-full shadow-md" style={{ backgroundColor: '#0070f3' }}>
                       {accesorio.video_url && (
                         <button
                           onClick={(e) => {
