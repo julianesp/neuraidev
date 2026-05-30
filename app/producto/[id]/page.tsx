@@ -44,7 +44,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const imagenPrincipal = producto.imagen_principal ||
     (producto.imagenes && producto.imagenes[0]) || '';
 
-  const ogImageUrl = `/api/og?title=${encodeURIComponent(producto.nombre)}&price=${encodeURIComponent(precio.toString())}&description=${encodeURIComponent(descripcionLimpia)}&image=${encodeURIComponent(imagenPrincipal)}&category=${encodeURIComponent(producto.categoria)}`;
+  const baseUrl = 'https://neurai.dev';
+  const ogImageUrl = imagenPrincipal
+    ? (imagenPrincipal.startsWith('http') ? imagenPrincipal : `${baseUrl}${imagenPrincipal}`)
+    : `${baseUrl}/android-chrome-512x512.png`;
 
   // Generar keywords estratégicos para SEO
   const categoriaNombre = producto.categoria?.replace(/-/g, ' ') || '';
@@ -88,20 +91,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           height: 630,
           alt: `${producto.nombre} - Neurai.dev`,
         },
-        // Imagen principal como fallback
-        ...(imagenPrincipal ? [{
-          url: imagenPrincipal,
-          width: 800,
-          height: 600,
-          alt: producto.nombre,
-        }] : []),
       ],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${producto.nombre} | Neurai.dev`,
       description: metaDescription,
-      images: [ogImageUrl],
+      images: ogImageUrl ? [ogImageUrl] : [],
       creator: '@neuraidev',
     },
     other: {

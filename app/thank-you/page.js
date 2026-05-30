@@ -2,6 +2,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 import {
   CheckCircle,
   Download,
@@ -14,29 +15,47 @@ import {
   Share2,
   Star,
 } from "lucide-react";
+import CustomerRegistrationModal from "@/components/CustomerRegistrationModal";
 
 function ThankYouContent() {
   const searchParams = useSearchParams();
+  const { isSignedIn, isLoaded } = useUser();
   const [orderData, setOrderData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
   const [resendingEmail, setResendingEmail] = useState(false);
   const [emailResent, setEmailResent] = useState(false);
+  const [showCustomerModal, setShowCustomerModal] = useState(false);
 
   useEffect(() => {
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
 
-    // Obtener referencia de la orden desde los parámetros de URL
     const reference = searchParams.get("ref");
 
     if (reference) {
-      // Consultar la orden desde la API
       fetch(`/api/orders/get-by-reference?reference=${reference}`)
         .then((res) => res.ok ? res.json() : null)
-        .then((data) => {
+        .then(async (data) => {
           if (data?.order) {
             setOrderData(data.order);
+
+            // Verificar si el cliente ya está registrado
+            const customerEmail = data.order.correo_cliente || data.order.customer_email;
+            if (customerEmail) {
+              try {
+                const customerCheck = await fetch(
+                  `/api/customers/register?email=${encodeURIComponent(customerEmail)}`
+                );
+                if (customerCheck.ok) {
+                  const customerData = await customerCheck.json();
+                  if (!customerData.registered) {
+                    setTimeout(() => setShowCustomerModal(true), 2000);
+                  }
+                }
+              } catch {
+                // silencioso — no bloquear la página por este chequeo
+              }
+            }
           }
         })
         .catch((error) => console.error("Error cargando orden:", error))
@@ -374,6 +393,17 @@ function ThankYouContent() {
           </p>
         </div>
       </footer>
+
+      {/* Modal de puntos/registro — solo para usuarios no logueados con Clerk */}
+      {showCustomerModal && orderData && isLoaded && !isSignedIn && (
+        <CustomerRegistrationModal
+          orderData={orderData}
+          onClose={() => setShowCustomerModal(false)}
+          onSuccess={() => {
+            setTimeout(() => setShowCustomerModal(false), 3000);
+          }}
+        />
+      )}
     </div>
   );
 }

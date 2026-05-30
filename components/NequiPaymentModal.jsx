@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { X, Copy, Check, Download, MessageCircle, UserPlus, LogIn } from "lucide-react";
 import { generateNequiInvoicePDF } from "@/utils/generateNequiInvoicePDF";
 import { useUser } from "@clerk/nextjs";
+import CustomerRegistrationModal from "@/components/CustomerRegistrationModal";
 
 /**
  * Modal de instrucciones para pago con Nequi
@@ -30,6 +31,7 @@ export default function NequiPaymentModal({
   const [creatingOrder, setCreatingOrder] = useState(false);
   const [numeroFactura, setNumeroFactura] = useState('');
   const [orderCreated, setOrderCreated] = useState(false);
+  const [showPointsModal, setShowPointsModal] = useState(false);
 
   // IMPORTANTE: Todos los hooks deben estar ANTES de cualquier return condicional
   // Cerrar modal con Escape
@@ -83,6 +85,7 @@ export default function NequiPaymentModal({
       setCreatingOrder(false);
       setNumeroFactura('');
       setOrderCreated(false);
+      setShowPointsModal(false);
     }
   }, [isOpen]);
 
@@ -218,7 +221,10 @@ export default function NequiPaymentModal({
       setShowEmailForm(false);
       setOrderCreated(true);
 
-      console.log('✅ Pedido Nequi creado:', data.order);
+      // Mostrar modal de puntos 3s después si el usuario no está logueado
+      if (!user) {
+        setTimeout(() => setShowPointsModal(true), 3000);
+      }
 
     } catch (error) {
       console.error('Error creando pedido Nequi:', error);
@@ -431,6 +437,7 @@ export default function NequiPaymentModal({
   }
 
   return (
+    <>
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
       onClick={onClose}
@@ -604,5 +611,20 @@ export default function NequiPaymentModal({
         </div>
       </div>
     </div>
+
+    {/* Modal de puntos post-Nequi — solo para usuarios no registrados con Clerk */}
+    {showPointsModal && (
+      <CustomerRegistrationModal
+        orderData={{
+          nombre_cliente: '',
+          correo_cliente: email,
+        }}
+        onClose={() => setShowPointsModal(false)}
+        onSuccess={() => {
+          setTimeout(() => setShowPointsModal(false), 3000);
+        }}
+      />
+    )}
+    </>
   );
 }

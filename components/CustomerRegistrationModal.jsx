@@ -66,34 +66,40 @@ export default function CustomerRegistrationModal({ orderData, onClose, onSucces
           </div>
 
           <p className="text-gray-700 dark:text-gray-300 mb-4">
-            ¿Te gustaría recibir{" "}
+            ¿Te gustaría{" "}
             <span className="font-bold text-purple-600 dark:text-purple-400">
-              descuentos exclusivos
+              acumular puntos
             </span>{" "}
-            en tus próximas compras?
+            por cada compra y canjearlos como descuento en tu próxima orden?
           </p>
 
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-4 mb-6">
-            <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-              Regístrate en nuestro programa de clientes y obtén:
+            <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
+              <span className="text-lg">🎯</span> Beneficios del programa de puntos:
             </p>
             <ul className="space-y-2">
               <li className="flex items-center gap-2 text-sm">
-                <Check className="w-4 h-4 text-green-500" />
+                <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
                 <span className="text-gray-700 dark:text-gray-300">
-                  Códigos de descuento personalizados
+                  <strong>Acumula puntos</strong> con cada compra que realizas
                 </span>
               </li>
               <li className="flex items-center gap-2 text-sm">
-                <Check className="w-4 h-4 text-green-500" />
+                <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
                 <span className="text-gray-700 dark:text-gray-300">
-                  Ofertas exclusivas antes que nadie
+                  <strong>Canjea puntos</strong> como descuento en tu próxima orden
                 </span>
               </li>
               <li className="flex items-center gap-2 text-sm">
-                <Check className="w-4 h-4 text-green-500" />
+                <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
                 <span className="text-gray-700 dark:text-gray-300">
-                  Promociones especiales para clientes frecuentes
+                  Ofertas y promociones exclusivas para miembros
+                </span>
+              </li>
+              <li className="flex items-center gap-2 text-sm">
+                <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
+                <span className="text-gray-700 dark:text-gray-300">
+                  Historial completo de tus compras y puntos acumulados
                 </span>
               </li>
             </ul>
@@ -230,10 +236,10 @@ export default function CustomerRegistrationModal({ orderData, onClose, onSucces
 
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-4 mb-6">
             <p className="text-sm text-gray-700 dark:text-gray-300 font-medium mb-2">
-              🎁 Tu primer beneficio:
+              🎯 Tus puntos de esta compra:
             </p>
             <p className="text-xs text-gray-600 dark:text-gray-400">
-              Revisa tu correo en los próximos días para recibir un código de descuento especial de bienvenida.
+              Los puntos de tu compra de hoy ya han sido registrados. Podrás usarlos como descuento en tu próxima orden. Revisa tu correo para más detalles.
             </p>
           </div>
 
