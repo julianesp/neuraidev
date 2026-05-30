@@ -930,46 +930,58 @@ const AccesoriosContainer = ({
                       >
                         <ChevronRight size={24} />
                       </button>
-
-                      {/* Indicadores de posición */}
-                      <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center mx-auto space-x-2 bg-orange-300 h-5 p-1 w-56 rounded-xl border-stone-950 z-[6]">
-                        {/* Indicador para video (si existe) */}
-                        {accesorio.video_url && (
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setMainSlideIndex(-1);
-                              setShowVideo(true);
-                            }}
-                            className={`w-3 h-3 rounded-full ${
-                              mainSlideIndex === -1 && showVideo
-                                ? "bg-primary"
-                                : "bg-gray-300"
-                            }`}
-                            aria-label="Ir al video"
-                          />
-                        )}
-                        {/* Indicadores para imágenes */}
-                        {accesorio.imagenes.map((_, index) => (
-                          <button
-                            key={index}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setMainSlideIndex(index);
-                              setShowVideo(false);
-                            }}
-                            className={`w-3 h-3 rounded-full ${
-                              index === mainSlideIndex && !showVideo
-                                ? "bg-primary"
-                                : "bg-gray-300"
-                            }`}
-                            aria-label={`Ir a imagen ${index + 1}`}
-                          />
-                        ))}
-                      </div>
                     </>
                   )}
               </div>
+
+              {/* Indicadores de posición debajo de la imagen */}
+              {((tieneImagenes && accesorio.imagenes.length > 1) ||
+                (accesorio.video_url && tieneImagenes)) &&
+                !isImageModalOpen && (
+                  <div className="flex justify-center items-center mt-3">
+                    <div className="flex items-center gap-2 bg-black px-3 py-2 rounded-full shadow-md">
+                      {accesorio.video_url && (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setMainSlideIndex(-1);
+                            setShowVideo(true);
+                          }}
+                          aria-label="Ir al video"
+                          style={{
+                            width: mainSlideIndex === -1 && showVideo ? '24px' : '10px',
+                            height: '10px',
+                            borderRadius: '9999px',
+                            backgroundColor: 'white',
+                            opacity: mainSlideIndex === -1 && showVideo ? 1 : 0.4,
+                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                            transform: mainSlideIndex === -1 && showVideo ? 'scale(1.2)' : 'scale(1)',
+                          }}
+                        />
+                      )}
+                      {accesorio.imagenes.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setMainSlideIndex(index);
+                            setShowVideo(false);
+                          }}
+                          aria-label={`Ir a imagen ${index + 1}`}
+                          style={{
+                            width: index === mainSlideIndex && !showVideo ? '24px' : '10px',
+                            height: '10px',
+                            borderRadius: '9999px',
+                            backgroundColor: 'white',
+                            opacity: index === mainSlideIndex && !showVideo ? 1 : 0.4,
+                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                            transform: index === mainSlideIndex && !showVideo ? 'scale(1.2)' : 'scale(1)',
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
             </div>
 
             {/* Columna 2: Descripción y Características */}

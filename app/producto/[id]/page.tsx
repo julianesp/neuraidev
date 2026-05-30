@@ -45,8 +45,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     (producto.imagenes && producto.imagenes[0]) || '';
 
   const baseUrl = 'https://neurai.dev';
+  const normalizeImageUrl = (url: string) =>
+    url.replace('https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev', 'https://images.neurai.dev')
+       .replace(/^\//, `${baseUrl}/`);
   const ogImageUrl = imagenPrincipal
-    ? (imagenPrincipal.startsWith('http') ? imagenPrincipal : `${baseUrl}${imagenPrincipal}`)
+    ? normalizeImageUrl(imagenPrincipal)
     : `${baseUrl}/android-chrome-512x512.png`;
 
   // Generar keywords estratégicos para SEO
