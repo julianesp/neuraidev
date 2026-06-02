@@ -1,9 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { ArrowLeft, Download, Printer, Edit2, Phone, Mail, Globe, MapPin, Cpu, Zap, Brain, Code2, CircuitBoard } from "lucide-react";
+import { ArrowLeft, Download, Printer, Edit2 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function VistaFactura({ factura, onVolver, onEditar }) {
   const facturaRef = useRef(null);
@@ -27,9 +26,16 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
     tarjeta: "Tarjeta de crédito / débito",
   };
 
+  const subtotal =
+    factura.subtotal ||
+    [...(factura.servicios || []), ...(factura.productos || [])].reduce(
+      (s, x) => s + parseFloat(x.precio || 0) * parseInt(x.cantidad || 0),
+      0
+    );
+
   return (
     <div>
-      {/* ── Barra de acciones ── */}
+      {/* ── Barra de acciones (no se imprime) ── */}
       <div className="mb-6 flex items-center justify-between print:hidden">
         <button
           onClick={onVolver}
@@ -41,337 +47,285 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
         <div className="flex gap-3">
           <button
             onClick={onEditar}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors shadow"
+            className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
           >
-            <Edit2 className="w-4 h-4" />
-            Editar
+            <Edit2 className="w-4 h-4" /> Editar
           </button>
           <button
             onClick={handleImprimir}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors shadow"
+            className="flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors"
           >
-            <Printer className="w-4 h-4" />
-            Imprimir
+            <Printer className="w-4 h-4" /> Imprimir
           </button>
           <button
             onClick={handleDescargarPDF}
-            className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors shadow"
+            className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
           >
-            <Download className="w-4 h-4" />
-            Descargar PDF
+            <Download className="w-4 h-4" /> Descargar PDF
           </button>
         </div>
       </div>
 
-      {/* ── Factura ── */}
+      {/* ══════════════════════════════════════
+          FACTURA  (todo lo que se imprime)
+      ══════════════════════════════════════ */}
       <div
         id="factura-container"
         ref={facturaRef}
-        className="bg-[#0a0e1a] shadow-2xl rounded-2xl overflow-hidden print:rounded-none print:shadow-none"
-        style={{ maxWidth: "210mm", margin: "0 auto", fontFamily: "'Inter', sans-serif" }}
+        className="bg-white shadow-2xl rounded-2xl overflow-hidden print:shadow-none print:rounded-none"
+        style={{ maxWidth: "210mm", margin: "0 auto" }}
       >
 
-        {/* ══ HEADER ══ */}
-        <div className="relative overflow-hidden print:overflow-visible">
-          {/* Fondo con gradiente + malla de puntos */}
+        {/* ── HEADER ── */}
+        <div className="flex items-stretch min-h-[130px] print:min-h-0">
+
+          {/* Columna izquierda – logo + nombre */}
           <div
-            className="absolute inset-0 print:hidden"
-            style={{
-              background: "linear-gradient(135deg, #0d1b4b 0%, #0a0e1a 40%, #1a0630 100%)",
-            }}
-          />
-          {/* Grid decorativo */}
+            className="flex flex-col justify-center px-8 py-6 print:px-5 print:py-4"
+            style={{ width: "42%", background: "linear-gradient(160deg,#1e0a4b 0%,#0d1e6b 50%,#062060 100%)" }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="bg-white rounded-lg p-0.5 shadow flex-shrink-0">
+                <Image
+                  src="/images/logo.png"
+                  alt="neurai.dev"
+                  width={54}
+                  height={54}
+                  className="rounded-md object-contain print:w-9 print:h-9"
+                />
+              </div>
+              <div>
+                <p className="text-white font-black text-2xl leading-none tracking-tight print:text-lg">
+                  neurai<span style={{ color: "#a78bfa" }}>.dev</span>
+                </p>
+                <p className="text-slate-300 text-xs mt-1 leading-tight print:text-[10px]">
+                  Ingeniería de Software<br />& Inteligencia Artificial
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Columna derecha – datos del emisor */}
           <div
-            className="absolute inset-0 opacity-10 print:hidden"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(99,102,241,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,.4) 1px, transparent 1px)",
-              backgroundSize: "28px 28px",
-            }}
-          />
-          {/* Círculos de brillo */}
-          <div className="absolute -top-16 -left-16 w-64 h-64 bg-violet-600 rounded-full opacity-10 blur-3xl print:hidden" />
-          <div className="absolute -top-8 right-24 w-48 h-48 bg-cyan-500 rounded-full opacity-10 blur-3xl print:hidden" />
-
-          <div className="relative px-8 pt-8 pb-6 print:px-6 print:pt-5 print:pb-4" style={{ background: "linear-gradient(135deg, #0d1b4b 0%, #0a0e1a 40%, #1a0630 100%)" }}>
-            <div className="flex items-start justify-between gap-4">
-              {/* Logo + nombre */}
-              <div className="flex items-center gap-4">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-violet-500 rounded-xl blur-md opacity-50 print:hidden" />
-                  <div className="relative bg-white rounded-xl p-0.5 shadow-lg">
-                    <Image
-                      src="/images/logo.png"
-                      alt="neurai.dev"
-                      width={64}
-                      height={64}
-                      className="rounded-lg object-contain print:w-10 print:h-10"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h1 className="text-3xl font-black text-white tracking-tight print:text-xl">
-                      neurai<span className="text-violet-400">.dev</span>
-                    </h1>
-                    <Brain className="w-5 h-5 text-cyan-400 print:hidden" />
-                  </div>
-                  <p className="text-slate-400 text-sm mt-0.5 flex items-center gap-1 print:text-xs">
-                    <Cpu className="w-3.5 h-3.5 print:hidden" />
-                    Ingeniería de Software · Inteligencia Artificial
-                  </p>
-                </div>
-              </div>
-
-              {/* Número de factura */}
-              <div className="text-right">
-                <div className="inline-flex items-center gap-1.5 bg-violet-600/20 border border-violet-500/30 rounded-full px-3 py-1 mb-2">
-                  <Zap className="w-3.5 h-3.5 text-violet-400" />
-                  <span className="text-violet-300 text-xs font-semibold uppercase tracking-widest">Factura</span>
-                </div>
-                <div className="text-2xl font-black text-white font-mono print:text-base">
-                  {factura.numeroFactura}
-                </div>
-                <div className="text-slate-400 text-sm mt-1 print:text-xs">
-                  {formatearFecha(factura.fecha)}
-                </div>
-              </div>
-            </div>
-
-            {/* Línea divisora con gradiente */}
-            <div className="mt-6 h-px print:mt-3" style={{ background: "linear-gradient(90deg, transparent, rgba(99,102,241,.6), rgba(34,211,238,.6), transparent)" }} />
-
-            {/* Contacto */}
-            <div className="mt-4 grid grid-cols-2 gap-2 print:mt-2">
-              <div className="space-y-1.5 print:space-y-0.5">
-                <Link
-                  href={`tel:${factura.miContacto?.telefono}`}
-                  className="flex items-center gap-2 text-slate-300 text-sm hover:text-cyan-400 transition-colors print:text-xs"
-                >
-                  <Phone className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
-                  {factura.miContacto?.telefono}
-                </Link>
-                <Link
-                  href={`mailto:${factura.miContacto?.email}`}
-                  className="flex items-center gap-2 text-slate-300 text-sm hover:text-violet-400 transition-colors print:text-xs"
-                >
-                  <Mail className="w-3.5 h-3.5 text-violet-400 flex-shrink-0" />
-                  {factura.miContacto?.email}
-                </Link>
-              </div>
-              <div className="text-right space-y-1.5 print:space-y-0.5">
-                <div className="flex items-center justify-end gap-2 text-slate-300 text-sm print:text-xs">
-                  <Globe className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
-                  neurai.dev
-                </div>
-                <div className="flex items-center justify-end gap-2 text-slate-300 text-sm print:text-xs">
-                  <MapPin className="w-3.5 h-3.5 text-violet-400 flex-shrink-0" />
-                  Colombia
-                </div>
-              </div>
+            className="flex-1 flex flex-col justify-center px-7 py-5 print:px-5 print:py-4"
+            style={{ background: "#f8f7ff" }}
+          >
+            <p className="font-black text-gray-800 text-base leading-tight print:text-sm">
+              {/* Nombre del ingeniero – se puede sacar del env si se quiere */}
+              Julián Espinosa
+            </p>
+            <p className="text-gray-500 text-xs mt-0.5 print:text-[10px]">Ingeniero de Software · neurai.dev</p>
+            <div className="mt-2 space-y-0.5 text-xs text-gray-600 print:text-[10px] print:mt-1">
+              {factura.miContacto?.telefono && (
+                <p>Tel: {factura.miContacto.telefono}</p>
+              )}
+              {factura.miContacto?.email && (
+                <p>Email: {factura.miContacto.email}</p>
+              )}
+              <p>Bogotá, Colombia</p>
+              <p>neurai.dev</p>
             </div>
           </div>
         </div>
 
-        {/* ══ FACTURADO A ══ */}
-        <div className="px-8 py-5 print:px-6 print:py-3" style={{ background: "#0f1424" }}>
-          <div className="flex items-start gap-4">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-1 h-4 rounded-full bg-gradient-to-b from-violet-500 to-cyan-500" />
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Facturado a</span>
-              </div>
-              <p className="text-xl font-bold text-white print:text-base">{factura.cliente.nombre}</p>
-              <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-0.5">
-                {factura.cliente.identificacion && (
-                  <span className="text-sm text-slate-400 print:text-xs">
-                    {factura.cliente.identificacion.length > 10 ? "NIT" : "C.C."}: {factura.cliente.identificacion}
-                  </span>
-                )}
-                {factura.cliente.telefono && (
-                  <span className="text-sm text-slate-400 print:text-xs">Tel: {factura.cliente.telefono}</span>
-                )}
-                {factura.cliente.email && (
-                  <span className="text-sm text-slate-400 print:text-xs">{factura.cliente.email}</span>
-                )}
-                {factura.cliente.direccion && (
-                  <span className="text-sm text-slate-400 print:text-xs">{factura.cliente.direccion}</span>
-                )}
-              </div>
-            </div>
-            {/* Badge de estado */}
-            <div className="flex-shrink-0 bg-emerald-900/40 border border-emerald-500/30 rounded-xl px-4 py-2 text-center print:hidden">
-              <div className="flex items-center gap-1.5 text-emerald-400">
-                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-bold uppercase tracking-wider">Emitida</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ══ SERVICIOS ══ */}
-        {factura.servicios?.length > 0 && (
-          <div className="px-8 py-5 print:px-6 print:py-3" style={{ borderTop: "1px solid rgba(99,102,241,0.15)" }}>
-            <div className="flex items-center gap-2 mb-4 print:mb-2">
-              <Code2 className="w-4 h-4 text-violet-400 print:hidden" />
-              <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Servicios Prestados</h2>
-            </div>
-            <table className="w-full">
-              <thead>
-                <tr style={{ borderBottom: "1px solid rgba(99,102,241,0.2)" }}>
-                  <th className="text-left pb-3 text-xs font-bold text-slate-500 uppercase tracking-wider print:pb-1">Descripción</th>
-                  <th className="text-center pb-3 text-xs font-bold text-slate-500 uppercase tracking-wider w-16 print:pb-1">Cant.</th>
-                  <th className="text-right pb-3 text-xs font-bold text-slate-500 uppercase tracking-wider w-32 print:pb-1">Valor Unit.</th>
-                  <th className="text-right pb-3 text-xs font-bold text-slate-500 uppercase tracking-wider w-32 print:pb-1">Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {factura.servicios.map((s, i) => (
-                  <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                    <td className="py-3 text-white text-sm print:py-1.5 print:text-xs">{s.descripcion}</td>
-                    <td className="py-3 text-center print:py-1.5">
-                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-800 text-slate-300 text-xs font-bold print:w-auto print:h-auto print:bg-transparent print:text-xs">{s.cantidad}</span>
-                    </td>
-                    <td className="py-3 text-right text-slate-400 text-sm print:py-1.5 print:text-xs">${fmt(s.precio)}</td>
-                    <td className="py-3 text-right font-bold text-cyan-400 text-sm print:py-1.5 print:text-xs">
-                      ${fmt(s.cantidad * s.precio)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* ══ PRODUCTOS ══ */}
-        {factura.productos?.length > 0 && (
-          <div className="px-8 py-5 print:px-6 print:py-3" style={{ borderTop: "1px solid rgba(99,102,241,0.15)" }}>
-            <div className="flex items-center gap-2 mb-4 print:mb-2">
-              <CircuitBoard className="w-4 h-4 text-cyan-400 print:hidden" />
-              <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Productos Vendidos</h2>
-            </div>
-            <table className="w-full">
-              <thead>
-                <tr style={{ borderBottom: "1px solid rgba(34,211,238,0.2)" }}>
-                  <th className="text-left pb-3 text-xs font-bold text-slate-500 uppercase tracking-wider print:pb-1">Producto</th>
-                  <th className="text-center pb-3 text-xs font-bold text-slate-500 uppercase tracking-wider w-16 print:pb-1">Cant.</th>
-                  <th className="text-right pb-3 text-xs font-bold text-slate-500 uppercase tracking-wider w-32 print:pb-1">Valor Unit.</th>
-                  <th className="text-right pb-3 text-xs font-bold text-slate-500 uppercase tracking-wider w-32 print:pb-1">Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {factura.productos.map((p, i) => (
-                  <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                    <td className="py-3 text-white text-sm print:py-1.5 print:text-xs">{p.nombre}</td>
-                    <td className="py-3 text-center print:py-1.5">
-                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-800 text-slate-300 text-xs font-bold print:w-auto print:h-auto print:bg-transparent print:text-xs">{p.cantidad}</span>
-                    </td>
-                    <td className="py-3 text-right text-slate-400 text-sm print:py-1.5 print:text-xs">${fmt(p.precio)}</td>
-                    <td className="py-3 text-right font-bold text-cyan-400 text-sm print:py-1.5 print:text-xs">
-                      ${fmt(p.cantidad * p.precio)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* ══ TOTALES ══ */}
-        <div className="px-8 py-6 print:px-6 print:py-4" style={{ borderTop: "1px solid rgba(99,102,241,0.15)", background: "#0a0e1a" }}>
-          <div className="flex flex-col items-end gap-2 print:gap-1">
-            {/* Subtotal */}
-            {factura.descuentoMonto > 0 && (
-              <div className="flex items-center gap-8 text-sm print:text-xs">
-                <span className="text-slate-500 uppercase tracking-wider font-semibold">Subtotal</span>
-                <span className="text-slate-400 w-36 text-right">${fmt(factura.subtotal)} COP</span>
-              </div>
-            )}
-            {/* Descuento */}
-            {factura.descuentoMonto > 0 && (
-              <div className="flex items-center gap-8 text-sm print:text-xs">
-                <span className="text-emerald-400 uppercase tracking-wider font-semibold flex items-center gap-1">
-                  <Zap className="w-3.5 h-3.5 print:hidden" />
-                  Descuento ({factura.descuentoPorcentaje}%)
-                </span>
-                <span className="text-emerald-400 w-36 text-right">-${fmt(factura.descuentoMonto)} COP</span>
-              </div>
-            )}
-
-            {/* Total */}
-            <div
-              className="mt-2 flex items-center gap-8 rounded-xl px-5 py-3 print:mt-1 print:px-3 print:py-2"
-              style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.15), rgba(34,211,238,0.08))", border: "1px solid rgba(99,102,241,0.3)" }}
-            >
-              <span className="text-slate-300 font-bold uppercase tracking-wider text-sm print:text-xs">Total a Pagar</span>
-              <span
-                className="font-black text-2xl print:text-base"
-                style={{ background: "linear-gradient(90deg, #a78bfa, #38bdf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
-              >
-                ${fmt(factura.total)} COP
-              </span>
-            </div>
-
-            {/* Método de pago */}
-            <div className="flex items-center gap-2 mt-1 print:mt-0.5">
-              <span className="text-slate-600 text-xs uppercase tracking-wider">Pago:</span>
-              <span className="text-slate-400 text-xs font-semibold capitalize">
-                {metodoPagoLabel[factura.metodoPago] || factura.metodoPago}
-              </span>
-            </div>
-          </div>
-
-          {/* Notas */}
-          {factura.notas && (
-            <div className="mt-5 print:mt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "1rem" }}>
-              <p className="text-xs font-bold text-slate-600 uppercase tracking-widest mb-1">Notas</p>
-              <p className="text-slate-400 text-sm print:text-xs">{factura.notas}</p>
-            </div>
-          )}
-        </div>
-
-        {/* ══ PIE DE PÁGINA ══ */}
+        {/* ── BANDA: Título factura + número + fecha ── */}
         <div
-          className="px-8 py-5 print:px-6 print:py-3 relative overflow-hidden"
-          style={{ background: "linear-gradient(135deg, #0d1b4b 0%, #0a0e1a 50%, #1a0630 100%)" }}
+          className="flex items-center justify-between px-8 py-3 print:px-5 print:py-2"
+          style={{ background: "#1e0a4b" }}
         >
-          <div className="absolute inset-0 opacity-5 print:hidden" style={{ backgroundImage: "linear-gradient(rgba(99,102,241,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,.4) 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
-          <div className="relative flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2 print:gap-1">
-              <Brain className="w-4 h-4 text-violet-400 print:hidden" />
-              <span className="text-violet-300 text-xs font-semibold print:text-xs">Powered by AI · neurai.dev</span>
-            </div>
-            <div className="text-center flex-1">
-              <p className="text-slate-500 text-xs print:text-xs">Gracias por confiar en neurai.dev</p>
-            </div>
-            <p className="text-slate-600 text-xs print:text-xs">Documento electrónico válido</p>
+          <p className="text-white font-black text-lg tracking-wide uppercase print:text-sm">
+            Factura de Cobro
+          </p>
+          <div className="text-right">
+            <p className="text-violet-200 font-mono font-bold text-base print:text-sm">
+              No. {factura.numeroFactura}
+            </p>
+            <p className="text-violet-300 text-xs print:text-[10px]">
+              {formatearFecha(factura.fecha)}
+            </p>
           </div>
         </div>
+
+        {/* ── INFO CLIENTE ── */}
+        <div className="px-8 py-5 print:px-5 print:py-3" style={{ borderBottom: "2px solid #1e0a4b" }}>
+          <p className="text-xs font-bold uppercase tracking-widest mb-1 print:text-[10px]" style={{ color: "#1e0a4b" }}>
+            Cliente:
+          </p>
+          <p className="font-bold text-gray-800 text-base print:text-sm">
+            {factura.cliente.nombre}
+          </p>
+          <div className="mt-1 flex flex-wrap gap-x-5 gap-y-0.5 text-xs text-gray-600 print:text-[10px]">
+            {factura.cliente.identificacion && (
+              <p>
+                {factura.cliente.identificacion.length > 10 ? "NIT" : "C.C."}: {factura.cliente.identificacion}
+              </p>
+            )}
+            {factura.cliente.direccion && <p>Dirección: {factura.cliente.direccion}</p>}
+            {factura.cliente.telefono && <p>Tel: {factura.cliente.telefono}</p>}
+            {factura.cliente.email && <p>Email: {factura.cliente.email}</p>}
+          </div>
+        </div>
+
+        {/* ── TABLA DE ÍTEMS ── */}
+        <div className="px-8 py-5 print:px-5 print:py-3">
+
+          {/* Encabezado de tabla */}
+          <table className="w-full text-sm print:text-xs">
+            <thead>
+              <tr style={{ background: "#1e0a4b" }}>
+                <th className="text-left text-white font-semibold px-3 py-2.5 print:px-2 print:py-1.5" style={{ width: "44%" }}>
+                  DESCRIPCIÓN
+                </th>
+                <th className="text-center text-white font-semibold px-3 py-2.5 print:px-2 print:py-1.5" style={{ width: "13%" }}>
+                  CANTIDAD
+                </th>
+                <th className="text-right text-white font-semibold px-3 py-2.5 print:px-2 print:py-1.5" style={{ width: "20%" }}>
+                  PRECIO UNIT.
+                </th>
+                <th className="text-right text-white font-semibold px-3 py-2.5 print:px-2 print:py-1.5 rounded-tr-sm" style={{ width: "23%" }}>
+                  TOTAL ($)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Servicios */}
+              {(factura.servicios || []).map((s, i) => (
+                <tr
+                  key={`s-${i}`}
+                  style={{ background: i % 2 === 0 ? "#faf9ff" : "#ffffff", borderBottom: "1px solid #e5e7eb" }}
+                >
+                  <td className="px-3 py-2.5 text-gray-800 print:px-2 print:py-1.5">
+                    {s.descripcion}
+                  </td>
+                  <td className="px-3 py-2.5 text-center text-gray-600 print:px-2 print:py-1.5">
+                    {s.cantidad} Hrs
+                  </td>
+                  <td className="px-3 py-2.5 text-right text-gray-600 print:px-2 print:py-1.5">
+                    ${fmt(s.precio)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-semibold text-gray-800 print:px-2 print:py-1.5">
+                    ${fmt(parseFloat(s.precio) * parseInt(s.cantidad || 1))}
+                  </td>
+                </tr>
+              ))}
+              {/* Productos */}
+              {(factura.productos || []).map((p, i) => (
+                <tr
+                  key={`p-${i}`}
+                  style={{
+                    background:
+                      ((factura.servicios?.length || 0) + i) % 2 === 0 ? "#faf9ff" : "#ffffff",
+                    borderBottom: "1px solid #e5e7eb",
+                  }}
+                >
+                  <td className="px-3 py-2.5 text-gray-800 print:px-2 print:py-1.5">
+                    {p.nombre}
+                  </td>
+                  <td className="px-3 py-2.5 text-center text-gray-600 print:px-2 print:py-1.5">
+                    {p.cantidad} Und
+                  </td>
+                  <td className="px-3 py-2.5 text-right text-gray-600 print:px-2 print:py-1.5">
+                    ${fmt(p.precio)}
+                  </td>
+                  <td className="px-3 py-2.5 text-right font-semibold text-gray-800 print:px-2 print:py-1.5">
+                    ${fmt(parseFloat(p.precio) * parseInt(p.cantidad || 1))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* ── TOTALES ── */}
+          <div className="mt-4 flex justify-end print:mt-2">
+            <div className="w-72 print:w-60">
+              {/* Subtotal */}
+              <div className="flex justify-between items-center py-1.5 text-sm print:text-xs" style={{ borderBottom: "1px solid #e5e7eb" }}>
+                <span className="text-gray-500 font-medium">SUBTOTAL:</span>
+                <span className="text-gray-800 font-semibold">${fmt(subtotal)}</span>
+              </div>
+
+              {/* Descuento si aplica */}
+              {parseFloat(factura.descuentoMonto) > 0 && (
+                <div className="flex justify-between items-center py-1.5 text-sm print:text-xs" style={{ borderBottom: "1px solid #e5e7eb" }}>
+                  <span className="text-emerald-600 font-medium">
+                    DESCUENTO ({factura.descuentoPorcentaje}%):
+                  </span>
+                  <span className="text-emerald-600 font-semibold">-${fmt(factura.descuentoMonto)}</span>
+                </div>
+              )}
+
+              {/* Total */}
+              <div
+                className="flex justify-between items-center px-4 py-3 mt-2 rounded-lg print:px-3 print:py-2 print:mt-1"
+                style={{ background: "#1e0a4b" }}
+              >
+                <span className="text-white font-bold text-sm uppercase tracking-wide print:text-xs">
+                  Total a Pagar
+                </span>
+                <span className="text-white font-black text-lg print:text-sm">
+                  ${fmt(factura.total)}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── DATOS DE PAGO / PIE ── */}
+        <div
+          className="px-8 py-5 print:px-5 print:py-3"
+          style={{ background: "#f8f7ff", borderTop: "2px solid #1e0a4b" }}
+        >
+          <div className="flex flex-col gap-2 text-xs text-gray-700 print:text-[10px] print:gap-1">
+            <p>
+              <span className="font-bold">Favor realizar el pago antes del </span>
+              <span className="font-bold" style={{ color: "#1e0a4b" }}>
+                {(() => {
+                  const d = new Date(factura.fecha);
+                  d.setDate(d.getDate() + 10);
+                  return d.toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" });
+                })()}
+              </span>
+            </p>
+            <p>
+              <span className="font-bold">Método de pago: </span>
+              {metodoPagoLabel[factura.metodoPago] || factura.metodoPago}
+            </p>
+            {factura.notas && (
+              <p>
+                <span className="font-bold">Notas: </span>
+                {factura.notas}
+              </p>
+            )}
+            <p className="mt-1 print:mt-0.5">
+              <span className="font-bold">Beneficiario: </span>Julián Espinosa · neurai.dev
+            </p>
+            <p className="text-gray-400 mt-1 print:mt-0.5">
+              Validada por neurai.dev · {factura.numeroFactura} · {formatearFecha(factura.fecha)}
+            </p>
+          </div>
+        </div>
+
       </div>
 
       {/* ── Estilos de impresión ── */}
       <style jsx global>{`
         @media print {
           body * { visibility: hidden; }
-          nav, header, footer, aside, .print\\:hidden, button { display: none !important; }
-          #factura-container, #factura-container * { visibility: visible !important; }
+          nav, header, footer, aside, .print\\:hidden, button {
+            display: none !important;
+          }
+          #factura-container,
+          #factura-container * { visibility: visible !important; }
           #factura-container {
             position: absolute;
             left: 0; top: 0;
             width: 100%; max-width: 100% !important;
-            background: white !important;
             box-shadow: none !important;
             border-radius: 0 !important;
             margin: 0 !important;
-            color: #111 !important;
-          }
-          #factura-container * {
-            color: #111 !important;
-            border-color: #ddd !important;
-            background: transparent !important;
-            -webkit-text-fill-color: inherit !important;
           }
           @page { size: A4; margin: 8mm 12mm; }
+          #factura-container { page-break-inside: avoid; }
         }
       `}</style>
     </div>
