@@ -65,7 +65,11 @@ export async function POST(request) {
       telefono,
       email,
       direccion,
-      notas
+      notas,
+      nivel_fidelidad,
+      descuento_fidelidad,
+      total_compras,
+      total_gastado,
     } = body;
 
     // Validaciones
@@ -102,12 +106,17 @@ export async function POST(request) {
     const { data: cliente, error: errorCliente } = await supabase
       .from('clientes')
       .insert({
+        id: crypto.randomUUID(),
         nombre,
         identificacion: identificacion || null,
         telefono: telefono || null,
         email: email || null,
         direccion: direccion || null,
-        notas: notas || null
+        notas: notas || null,
+        nivel_fidelidad: nivel_fidelidad || 'bronce',
+        descuento_fidelidad: descuento_fidelidad ?? 5,
+        total_compras: total_compras ?? 1,
+        total_gastado: total_gastado ?? 0,
       })
       .select()
       .single();

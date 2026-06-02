@@ -17,7 +17,10 @@ import {
   Package,
   Edit,
   Save,
-  X
+  X,
+  UserPlus,
+  Star,
+  CheckCircle
 } from "lucide-react";
 import { useSidebar } from "../layout";
 
@@ -39,6 +42,7 @@ export default function ClientesPage() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [editingNotes, setEditingNotes] = useState(null);
   const [notesText, setNotesText] = useState("");
+  const [showRegistrarComprador, setShowRegistrarComprador] = useState(false);
 
   // Obtener clientes de la base de datos
   const fetchCustomers = async () => {
@@ -169,6 +173,13 @@ export default function ClientesPage() {
               title="Ocultar/Mostrar barra lateral"
             >
               <Menu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            </button>
+            <button
+              onClick={() => setShowRegistrarComprador(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+            >
+              <UserPlus className="w-4 h-4" />
+              Registrar Comprador Previo
             </button>
             <button
               onClick={fetchCustomers}
@@ -447,6 +458,295 @@ export default function ClientesPage() {
           }}
         />
       )}
+
+      {/* Modal Registrar Comprador Previo */}
+      {showRegistrarComprador && (
+        <RegistrarCompradorModal
+          onClose={() => setShowRegistrarComprador(false)}
+        />
+      )}
+    </div>
+  );
+}
+
+// Modal para registrar compradores previos con descuento de fidelidad
+function RegistrarCompradorModal({ onClose }) {
+  const NIVELES = [
+    { value: "bronce", label: "Bronce", descuento: 5, color: "bg-orange-500" },
+    { value: "plata", label: "Plata", descuento: 10, color: "bg-gray-400" },
+    { value: "oro", label: "Oro", descuento: 15, color: "bg-yellow-500" },
+    { value: "platino", label: "Platino", descuento: 20, color: "bg-gray-700" },
+  ];
+
+  const [form, setForm] = useState({
+    nombre: "",
+    telefono: "",
+    email: "",
+    identificacion: "",
+    direccion: "",
+    nivel_fidelidad: "bronce",
+    descuento_fidelidad: 5,
+    total_compras: 1,
+    total_gastado: "",
+    notas: "",
+  });
+  const [guardando, setGuardando] = useState(false);
+  const [exito, setExito] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleNivel = (nivel) => {
+    const n = NIVELES.find((x) => x.value === nivel);
+    setForm((f) => ({ ...f, nivel_fidelidad: nivel, descuento_fidelidad: n?.descuento ?? 5 }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setGuardando(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/clientes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: form.nombre,
+          telefono: form.telefono || null,
+          email: form.email || null,
+          identificacion: form.identificacion || null,
+          direccion: form.direccion || null,
+          nivel_fidelidad: form.nivel_fidelidad,
+          descuento_fidelidad: form.descuento_fidelidad,
+          total_compras: parseInt(form.total_compras) || 1,
+          total_gastado: parseFloat(form.total_gastado) || 0,
+          notas: form.notas || null,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Error al registrar");
+      setExito(true);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  if (exito) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-8 text-center">
+          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            ¡Comprador registrado!
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            Cuando <strong>{form.nombre}</strong> se registre con su email o teléfono, el sistema le habilitará automáticamente el descuento de <strong>{form.descuento_fidelidad}%</strong>.
+          </p>
+          <div className="flex gap-3 justify-center">
+            <button
+              onClick={() => { setExito(false); setForm({ nombre: "", telefono: "", email: "", identificacion: "", direccion: "", nivel_fidelidad: "bronce", descuento_fidelidad: 5, total_compras: 1, total_gastado: "", notas: "" }); }}
+              className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+            >
+              Registrar otro
+            </button>
+            <button
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <UserPlus className="w-5 h-5 text-green-600" />
+              Registrar Comprador Previo
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              Agrega clientes que ya te compraron para habilitarles descuentos cuando se registren
+            </p>
+          </div>
+          <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {error && (
+          <div className="mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+            <p className="text-red-800 dark:text-red-200 text-sm">{error}</p>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Nombre */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Nombre completo *
+            </label>
+            <input
+              type="text"
+              required
+              value={form.nombre}
+              onChange={(e) => setForm((f) => ({ ...f, nombre: e.target.value }))}
+              placeholder="Ej: María González"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
+
+          {/* Teléfono y Email */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Teléfono
+              </label>
+              <input
+                type="tel"
+                value={form.telefono}
+                onChange={(e) => setForm((f) => ({ ...f, telefono: e.target.value }))}
+                placeholder="3001234567"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                placeholder="cliente@correo.com"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
+
+          {/* Cédula */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Cédula / NIT
+            </label>
+            <input
+              type="text"
+              value={form.identificacion}
+              onChange={(e) => setForm((f) => ({ ...f, identificacion: e.target.value }))}
+              placeholder="1234567890"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
+
+          {/* Nivel de fidelidad */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Nivel de fidelidad
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {NIVELES.map((n) => (
+                <button
+                  key={n.value}
+                  type="button"
+                  onClick={() => handleNivel(n.value)}
+                  className={`flex flex-col items-center gap-1 p-3 rounded-lg border-2 transition-all ${
+                    form.nivel_fidelidad === n.value
+                      ? "border-green-500 bg-green-50 dark:bg-green-900/20"
+                      : "border-gray-200 dark:border-gray-600 hover:border-gray-300"
+                  }`}
+                >
+                  <div className={`w-8 h-8 ${n.color} rounded-full flex items-center justify-center`}>
+                    <Star className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">{n.label}</span>
+                  <span className="text-xs text-green-600 font-medium">{n.descuento}% OFF</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Descuento personalizado */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Descuento (%) — puedes ajustarlo
+            </label>
+            <input
+              type="number"
+              min="1"
+              max="80"
+              value={form.descuento_fidelidad}
+              onChange={(e) => setForm((f) => ({ ...f, descuento_fidelidad: parseInt(e.target.value) || 0 }))}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
+
+          {/* Historial compras */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                N° de compras previas
+              </label>
+              <input
+                type="number"
+                min="1"
+                value={form.total_compras}
+                onChange={(e) => setForm((f) => ({ ...f, total_compras: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Total gastado (COP, aproximado)
+              </label>
+              <input
+                type="number"
+                min="0"
+                step="1000"
+                value={form.total_gastado}
+                onChange={(e) => setForm((f) => ({ ...f, total_gastado: e.target.value }))}
+                placeholder="50000"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
+
+          {/* Notas */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Notas (qué compró, observaciones)
+            </label>
+            <textarea
+              value={form.notas}
+              onChange={(e) => setForm((f) => ({ ...f, notas: e.target.value }))}
+              placeholder="Ej: Compró un cargador y un cable HDMI en noviembre 2024"
+              rows="2"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+            />
+          </div>
+
+          <div className="flex gap-3 pt-2">
+            <button
+              type="submit"
+              disabled={guardando}
+              className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-4 py-2 rounded-lg transition-colors font-medium"
+            >
+              <UserPlus className="w-4 h-4" />
+              {guardando ? "Registrando..." : "Registrar Comprador"}
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

@@ -18,6 +18,23 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
     return { telefono: "", email: "" };
   });
 
+  // Cargar datos de contacto del admin al montar (solo para facturas nuevas)
+  useEffect(() => {
+    if (facturaInicial?.id) return;
+    async function cargarContactoAdmin() {
+      try {
+        const res = await fetch('/api/config/admin');
+        if (!res.ok) return;
+        const data = await res.json();
+        setMiContacto(prev => ({
+          telefono: prev.telefono || data.celular || "",
+          email: prev.email || data.emailCorporativo || "",
+        }));
+      } catch {}
+    }
+    cargarContactoAdmin();
+  }, []);
+
   const [clientes, setClientes] = useState([]);
   const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
   const [mostrarBusquedaCliente, setMostrarBusquedaCliente] = useState(false);

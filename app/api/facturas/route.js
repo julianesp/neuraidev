@@ -198,6 +198,7 @@ export async function POST(request) {
 
     // Crear la factura
     const facturaData = {
+      id: crypto.randomUUID(),
       numero_factura: numeroFactura,
       cliente_id: clienteId || null,
       cliente_nombre: cliente.nombre,
