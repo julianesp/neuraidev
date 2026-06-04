@@ -1,11 +1,16 @@
 "use client";
 
 import { useMemo } from "react";
-import DOMPurify from "isomorphic-dompurify";
+// dompurify solo corre en el cliente; no usar isomorphic-dompurify porque
+// jsdom (su dependencia de servidor) tiene un módulo ESM incompatible en Vercel
+let DOMPurify = null;
+if (typeof window !== "undefined") {
+  DOMPurify = require("dompurify");
+}
 
 export default function SafeHtmlRenderer({ html, className = "" }) {
   const sanitizedHtml = useMemo(() => {
-    if (!html) return "";
+    if (!html || !DOMPurify) return "";
 
     // Configuración de DOMPurify para permitir estilos y formatos comunes
     const config = {
