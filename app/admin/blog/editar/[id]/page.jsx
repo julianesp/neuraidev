@@ -32,6 +32,7 @@ export default function EditarArticulo() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [images, setImages] = useState([{ url: "", source: "" }]);
+  const [sources, setSources] = useState([{ url: "", label: "" }]);
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -75,6 +76,14 @@ export default function EditarArticulo() {
         } catch {
           setImages([{ url: rawUrl, source: "" }]);
         }
+        // Cargar fuentes guardadas
+        try {
+          const rawSources = data.post.sources || "[]";
+          const parsedSources = typeof rawSources === "string" ? JSON.parse(rawSources) : rawSources;
+          setSources(Array.isArray(parsedSources) && parsedSources.length > 0 ? parsedSources : [{ url: "", label: "" }]);
+        } catch {
+          setSources([{ url: "", label: "" }]);
+        }
       } else {
         throw new Error(data.error);
       }
@@ -113,10 +122,13 @@ export default function EditarArticulo() {
         return JSON.stringify(valid);
       };
 
+      const validSources = sources.filter((s) => s.url.trim());
+
       const updateData = {
         ...formData,
         image_url: buildImageUrl(),
         read_time: formData.read_time ? parseInt(formData.read_time) : null,
+        sources: JSON.stringify(validSources),
       };
 
       // Si se especifica el estado de publicación, actualizarlo
@@ -211,6 +223,20 @@ export default function EditarArticulo() {
       i === index ? { ...img, [field]: value } : img
     );
     setImages(updated);
+  };
+
+  const addSource = () => setSources([...sources, { url: "", label: "" }]);
+
+  const removeSource = (index) => {
+    const updated = sources.filter((_, i) => i !== index);
+    setSources(updated.length > 0 ? updated : [{ url: "", label: "" }]);
+  };
+
+  const updateSource = (index, field, value) => {
+    const updated = sources.map((s, i) =>
+      i === index ? { ...s, [field]: value } : s
+    );
+    setSources(updated);
   };
 
   if (loading) {
@@ -434,6 +460,57 @@ export default function EditarArticulo() {
               content={formData.content}
               onChange={(content) => setFormData({ ...formData, content })}
             />
+          </div>
+
+          {/* Sección de fuentes */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-1">
+              Fuentes y Referencias
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              Agrega los sitios web de donde tomaste la información. Se mostrarán al pie del artículo.
+            </p>
+            <div className="space-y-3">
+              {sources.map((src, index) => (
+                <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                      Fuente {index + 1}
+                    </span>
+                    {sources.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeSource(index)}
+                        className="text-xs text-red-500 hover:text-red-700"
+                      >
+                        Eliminar
+                      </button>
+                    )}
+                  </div>
+                  <input
+                    type="url"
+                    value={src.url}
+                    onChange={(e) => updateSource(index, "url", e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                    placeholder="https://ejemplo.com/articulo"
+                  />
+                  <input
+                    type="text"
+                    value={src.label}
+                    onChange={(e) => updateSource(index, "label", e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                    placeholder="Nombre del sitio o descripción (opcional)"
+                  />
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={addSource}
+              className="mt-2 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 font-medium"
+            >
+              + Agregar otra fuente
+            </button>
           </div>
 
           <div className="flex flex-wrap gap-4 justify-end">

@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import { TextStyle } from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 import Placeholder from "@tiptap/extension-placeholder";
+import Link from "@tiptap/extension-link";
 import {
   Bold,
   Italic,
@@ -22,15 +23,41 @@ import {
   Undo,
   Redo,
   Palette,
+  Link as LinkIcon,
+  Unlink,
 } from "lucide-react";
 
 const MenuBar = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
+  const [showLinkInput, setShowLinkInput] = useState(false);
+  const [linkUrl, setLinkUrl] = useState("");
+
+  if (!editor) return null;
+
+  const openLinkDialog = () => {
+    const existing = editor.getAttributes("link").href || "";
+    setLinkUrl(existing);
+    setShowLinkInput(true);
+  };
+
+  const applyLink = () => {
+    const url = linkUrl.trim();
+    if (!url) {
+      editor.chain().focus().unsetLink().run();
+    } else {
+      const href = url.startsWith("http") ? url : `https://${url}`;
+      editor.chain().focus().setLink({ href, target: "_blank" }).run();
+    }
+    setShowLinkInput(false);
+    setLinkUrl("");
+  };
+
+  const removeLink = () => {
+    editor.chain().focus().unsetLink().run();
+  };
 
   return (
-    <div className="border-b border-gray-200 dark:border-gray-700 p-2 flex flex-wrap gap-1 bg-gray-50 dark:bg-gray-800">
+    <div className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+    <div className="p-2 flex flex-wrap gap-1">
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
@@ -165,6 +192,57 @@ const MenuBar = ({ editor }) => {
       >
         <Redo size={18} />
       </button>
+
+      <div className="w-px bg-gray-300 dark:bg-gray-600 mx-1" />
+
+      <button
+        onClick={openLinkDialog}
+        className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 ${
+          editor.isActive("link") ? "bg-gray-300 dark:bg-gray-600" : ""
+        }`}
+        title="Insertar / editar enlace"
+      >
+        <LinkIcon size={18} />
+      </button>
+      {editor.isActive("link") && (
+        <button
+          onClick={removeLink}
+          className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-red-500"
+          title="Quitar enlace"
+        >
+          <Unlink size={18} />
+        </button>
+      )}
+    </div>
+
+    {showLinkInput && (
+      <div className="flex items-center gap-2 px-3 py-2 border-t border-gray-200 dark:border-gray-700">
+        <input
+          autoFocus
+          type="text"
+          value={linkUrl}
+          onChange={(e) => setLinkUrl(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") applyLink();
+            if (e.key === "Escape") setShowLinkInput(false);
+          }}
+          placeholder="https://ejemplo.com"
+          className="flex-1 px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          onClick={applyLink}
+          className="px-3 py-1.5 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded font-medium"
+        >
+          Aplicar
+        </button>
+        <button
+          onClick={() => setShowLinkInput(false)}
+          className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+        >
+          Cancelar
+        </button>
+      </div>
+    )}
     </div>
   );
 };
@@ -177,6 +255,11 @@ export default function BlogEditor({ content, onChange, placeholder }) {
       Underline,
       TextStyle,
       Color,
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: "https",
+      }),
       Placeholder.configure({
         placeholder: placeholder || "Escribe el contenido de tu artículo...",
       }),
