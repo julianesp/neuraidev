@@ -135,6 +135,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "images.neurai.dev",
+      },
+      {
+        protocol: "https",
         hostname: "pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev",
       },
       {

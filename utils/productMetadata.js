@@ -34,27 +34,38 @@ export async function generateProductMetadata(slug, categoria) {
         .slice(0, 160) ||
       `${producto.nombre} - ${producto.categoria}`;
 
-    const imagen =
+    const rawImagen =
       producto.imagen_principal ||
       "https://neurai.dev/favicon-96x96.png";
 
+    const imagen = rawImagen
+      .replace(
+        "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev",
+        "https://images.neurai.dev"
+      );
+
     const url = `https://neurai.dev/accesorios/${producto.categoria}/${slug}`;
 
+    const productoTitle = `${producto.nombre} | neurai.dev`;
+    const metaDescription = descripcion
+      ? `${descripcion.slice(0, 140)} | Compra en neurai.dev ✓ Envíos a todo Colombia`
+      : `Compra ${producto.nombre} en neurai.dev. Envíos a todo Colombia.`;
+
     return {
-      title: SITE_TITLE,
-      description: descripcion,
+      title: productoTitle,
+      description: metaDescription,
       openGraph: {
-        title: SITE_TITLE,
-        description: descripcion,
+        title: productoTitle,
+        description: metaDescription,
         type: "website",
         siteName: "neurai.dev",
         url,
-        images: [{ url: imagen, width: 800, height: 600, alt: producto.nombre }],
+        images: [{ url: imagen, width: 1200, height: 630, alt: producto.nombre }],
       },
       twitter: {
         card: "summary_large_image",
-        title: SITE_TITLE,
-        description: descripcion,
+        title: productoTitle,
+        description: metaDescription,
         images: [imagen],
       },
     };
