@@ -147,16 +147,24 @@ export default async function BlogPost({ params }) {
         </nav>
 
         {/* Artículo */}
-        <article className={styles.articleFull}>
+        <article
+          className={styles.articleFull}
+          itemScope
+          itemType="https://schema.org/Article"
+        >
           <div className={styles.articleHeader}>
-            <span className={styles.category}>{post.category}</span>
+            <span className={styles.category} itemProp="articleSection">{post.category}</span>
           </div>
-          {post.excerpt && <p className={styles.subheadline}>{post.excerpt}</p>}
+          <h1 className={styles.articleTitle} itemProp="headline">{post.title}</h1>
+          {post.excerpt && <p className={styles.subheadline} itemProp="description">{post.excerpt}</p>}
           <div className={styles.articleMeta}>
-            <span>{today}</span>
+            <time dateTime={post.published_at || post.created_at} itemProp="datePublished">{today}</time>
             {post.read_time && <span>{post.read_time} min de lectura</span>}
-            <span>Por {post.author || 'Equipo Neurai.dev'}</span>
+            <span itemProp="author" itemScope itemType="https://schema.org/Person">
+              Por <span itemProp="name">{post.author || 'Equipo Neurai.dev'}</span>
+            </span>
           </div>
+          <meta itemProp="publisher" content="Neurai.dev" />
           {postImages.length > 0 && (
             <div className={styles.articleImages}>
               {postImages.map((img, index) => (
@@ -185,6 +193,7 @@ export default async function BlogPost({ params }) {
           )}
           <div
             className={styles.articleFullContent}
+            itemProp="articleBody"
             dangerouslySetInnerHTML={{ __html: sanitizedContent }}
           />
         </article>
