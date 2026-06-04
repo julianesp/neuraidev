@@ -4,6 +4,7 @@ import BlogArticle from "@/components/BlogArticle";
 import { getSupabaseServerClient } from "@/lib/db";
 import styles from "../blog.module.css";
 import Link from "next/link";
+import BlogReader from "@/components/BlogReader/BlogReader";
 
 async function getPostBySlug(slug) {
   const db = getSupabaseServerClient();
@@ -165,6 +166,7 @@ export default async function BlogPost({ params }) {
             </span>
           </div>
           <meta itemProp="publisher" content="Neurai.dev" />
+          <BlogReader title={post.title} excerpt={post.excerpt} />
           {postImages.length > 0 && (
             <div className={styles.articleImages}>
               {postImages.map((img, index) => (
