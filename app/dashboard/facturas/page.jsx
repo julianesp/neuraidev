@@ -355,25 +355,30 @@ export default function FacturasPage() {
                       ? JSON.parse(factura.productos)
                       : factura.productos || [];
 
+                  // El API ya devuelve la factura transformada (cliente, miContacto,
+                  // numeroFactura, etc. anidados). Usamos esos campos y dejamos los
+                  // planos (cliente_nombre...) solo como respaldo por compatibilidad.
                   const facturaNormalizada = {
                     ...factura,
-                    numeroFactura: factura.numero_factura,
-                    cliente: {
+                    numeroFactura: factura.numeroFactura || factura.numero_factura,
+                    cliente: factura.cliente || {
                       nombre: factura.cliente_nombre,
                       identificacion: factura.cliente_identificacion,
                       telefono: factura.cliente_telefono,
                       email: factura.cliente_email,
                       direccion: factura.cliente_direccion,
                     },
-                    miContacto: {
+                    miContacto: factura.miContacto || {
                       telefono: factura.mi_telefono,
                       email: factura.mi_email,
                     },
-                    descuentoPorcentaje: factura.descuento_porcentaje,
-                    descuentoMonto: factura.descuento_monto,
+                    descuentoPorcentaje:
+                      factura.descuentoPorcentaje ?? factura.descuento_porcentaje,
+                    descuentoMonto:
+                      factura.descuentoMonto ?? factura.descuento_monto,
                     servicios,
                     productos,
-                    metodoPago: factura.metodo_pago,
+                    metodoPago: factura.metodoPago || factura.metodo_pago,
                   };
 
                   return (
@@ -386,7 +391,7 @@ export default function FacturasPage() {
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
                             <span className="font-mono text-sm font-semibold text-blue-600">
-                              {factura.numero_factura}
+                              {facturaNormalizada.numeroFactura}
                             </span>
                             <span className="text-sm text-gray-500">
                               {new Date(factura.fecha).toLocaleDateString(
@@ -394,11 +399,11 @@ export default function FacturasPage() {
                               )}
                             </span>
                             <span className="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 capitalize">
-                              {factura.metodo_pago}
+                              {facturaNormalizada.metodoPago}
                             </span>
                           </div>
                           <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                            {factura.cliente_nombre}
+                            {facturaNormalizada.cliente.nombre}
                           </h3>
                           <div className="flex gap-4 text-sm text-gray-600 dark:text-gray-400">
                             {servicios.length > 0 && (
@@ -407,9 +412,9 @@ export default function FacturasPage() {
                             {productos.length > 0 && (
                               <span>{productos.length} producto(s)</span>
                             )}
-                            {factura.descuento_porcentaje > 0 && (
+                            {facturaNormalizada.descuentoPorcentaje > 0 && (
                               <span className="text-green-600 dark:text-green-400 font-medium">
-                                -{factura.descuento_porcentaje}% descuento
+                                -{facturaNormalizada.descuentoPorcentaje}% descuento
                               </span>
                             )}
                           </div>
@@ -418,7 +423,7 @@ export default function FacturasPage() {
                           <div className="text-2xl font-bold text-gray-900 dark:text-white">
                             ${parseFloat(factura.total).toLocaleString("es-CO")}
                           </div>
-                          {factura.descuento_monto > 0 && (
+                          {facturaNormalizada.descuentoMonto > 0 && (
                             <div className="text-sm text-gray-500 line-through">
                               $
                               {parseFloat(factura.subtotal).toLocaleString(
