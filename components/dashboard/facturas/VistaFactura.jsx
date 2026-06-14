@@ -99,7 +99,7 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
                   neurai<span style={{ color: "#a78bfa" }}>.dev</span>
                 </p>
                 <p className="text-slate-300 text-xs mt-1 leading-tight print:text-[10px]">
-                  Ingeniería de Software<br />& Inteligencia Artificial
+                  Ingeniería de Software
                 </p>
               </div>
             </div>
@@ -110,19 +110,14 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
             className="flex-1 flex flex-col justify-center px-7 py-5 print:px-5 print:py-4"
             style={{ background: "#f8f7ff" }}
           >
-            <p className="font-black text-gray-800 text-base leading-tight print:text-sm">
-              {/* Nombre del ingeniero – se puede sacar del env si se quiere */}
-              Julián Espinosa
-            </p>
-            <p className="text-gray-500 text-xs mt-0.5 print:text-[10px]">Ingeniero de Software · neurai.dev</p>
-            <div className="mt-2 space-y-0.5 text-xs text-gray-600 print:text-[10px] print:mt-1">
+            <div className="space-y-0.5 text-xs text-gray-600 print:text-[10px]">
               {factura.miContacto?.telefono && (
                 <p>Tel: {factura.miContacto.telefono}</p>
               )}
               {factura.miContacto?.email && (
                 <p>Email: {factura.miContacto.email}</p>
               )}
-              <p>Bogotá, Colombia</p>
+              <p>Colón, Putumayo</p>
               <p>neurai.dev</p>
             </div>
           </div>
@@ -277,16 +272,6 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
         >
           <div className="flex flex-col gap-2 text-xs text-gray-700 print:text-[10px] print:gap-1">
             <p>
-              <span className="font-bold">Favor realizar el pago antes del </span>
-              <span className="font-bold" style={{ color: "#1e0a4b" }}>
-                {(() => {
-                  const d = new Date(factura.fecha);
-                  d.setDate(d.getDate() + 10);
-                  return d.toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" });
-                })()}
-              </span>
-            </p>
-            <p>
               <span className="font-bold">Método de pago: </span>
               {metodoPagoLabel[factura.metodoPago] || factura.metodoPago}
             </p>
@@ -297,10 +282,18 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
               </p>
             )}
             <p className="mt-1 print:mt-0.5">
-              <span className="font-bold">Beneficiario: </span>Julián Espinosa · neurai.dev
+              <span className="font-bold">Servicio prestado a: </span>
+              {factura.cliente.nombre}
             </p>
-            <p className="text-gray-400 mt-1 print:mt-0.5">
-              Validada por neurai.dev · {factura.numeroFactura} · {formatearFecha(factura.fecha)}
+          </div>
+
+          {/* ── Firma / nombre del emisor ── */}
+          <div className="mt-8 text-right print:mt-6">
+            <p className="font-bold text-gray-800 text-base print:text-sm">
+              Julián España
+            </p>
+            <p className="text-gray-500 text-[11px] mt-0.5 print:text-[9px]">
+              Ingeniero de software, desarrollador web y técnico en sistemas
             </p>
           </div>
         </div>
@@ -316,6 +309,10 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
           }
           #factura-container,
           #factura-container * { visibility: visible !important; }
+          html, body {
+            height: auto !important;
+            overflow: hidden !important;
+          }
           #factura-container {
             position: absolute;
             left: 0; top: 0;
@@ -323,9 +320,12 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
             box-shadow: none !important;
             border-radius: 0 !important;
             margin: 0 !important;
+            overflow: hidden !important;
           }
           @page { size: A4; margin: 8mm 12mm; }
-          #factura-container { page-break-inside: avoid; }
+          #factura-container,
+          #factura-container * { page-break-inside: avoid !important; }
+          #factura-container { page-break-after: avoid !important; }
         }
       `}</style>
     </div>
