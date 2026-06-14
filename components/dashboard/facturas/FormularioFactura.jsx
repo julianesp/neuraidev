@@ -15,7 +15,7 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
         email: sanitizeValue(facturaInicial.miContacto.email),
       };
     }
-    return { telefono: "", email: "" };
+    return { telefono: "3174503604", email: "admin@neurai.dev" };
   });
 
   // Cargar datos de contacto del admin al montar (solo para facturas nuevas)
@@ -709,6 +709,7 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
               onChange={(e) => setMetodoPago(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             >
+              <option value="">Sin especificar</option>
               <option value="efectivo">Efectivo</option>
               <option value="nequi">Nequi</option>
               <option value="transferencia">Transferencia Bancaria</option>

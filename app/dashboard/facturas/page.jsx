@@ -10,6 +10,7 @@ import {
   Filter,
   DollarSign,
   Users,
+  Edit2,
 } from "lucide-react";
 import FormularioFactura from "@/components/dashboard/facturas/FormularioFactura";
 import VistaFactura from "@/components/dashboard/facturas/VistaFactura";
@@ -352,29 +353,31 @@ export default function FacturasPage() {
                       ? JSON.parse(factura.productos)
                       : factura.productos || [];
 
+                  const facturaNormalizada = {
+                    ...factura,
+                    numeroFactura: factura.numero_factura,
+                    cliente: {
+                      nombre: factura.cliente_nombre,
+                      identificacion: factura.cliente_identificacion,
+                      telefono: factura.cliente_telefono,
+                      email: factura.cliente_email,
+                      direccion: factura.cliente_direccion,
+                    },
+                    miContacto: {
+                      telefono: factura.mi_telefono,
+                      email: factura.mi_email,
+                    },
+                    descuentoPorcentaje: factura.descuento_porcentaje,
+                    descuentoMonto: factura.descuento_monto,
+                    servicios,
+                    productos,
+                    metodoPago: factura.metodo_pago,
+                  };
+
                   return (
                     <div
                       key={factura.id || index}
-                      onClick={() =>
-                        handleVerFactura({
-                          ...factura,
-                          numeroFactura: factura.numero_factura,
-                          cliente: {
-                            nombre: factura.cliente_nombre,
-                            identificacion: factura.cliente_identificacion,
-                            telefono: factura.cliente_telefono,
-                            email: factura.cliente_email,
-                            direccion: factura.cliente_direccion,
-                          },
-                          miContacto: {
-                            telefono: factura.mi_telefono,
-                            email: factura.mi_email,
-                          },
-                          servicios,
-                          productos,
-                          metodoPago: factura.metodo_pago,
-                        })
-                      }
+                      onClick={() => handleVerFactura(facturaNormalizada)}
                       className="p-6 hover:bg-gray-50 dark:hover:bg-gray-750 cursor-pointer transition-colors"
                     >
                       <div className="flex items-center justify-between">
@@ -421,10 +424,28 @@ export default function FacturasPage() {
                               )}
                             </div>
                           )}
-                          <button className="mt-2 text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1">
-                            <Download className="w-4 h-4" />
-                            Descargar PDF
-                          </button>
+                          <div className="mt-2 flex items-center justify-end gap-3">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleEditarFactura(facturaNormalizada);
+                              }}
+                              className="text-sm text-amber-600 hover:text-amber-700 flex items-center gap-1"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                              Editar
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleVerFactura(facturaNormalizada);
+                              }}
+                              className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                            >
+                              <Download className="w-4 h-4" />
+                              Descargar PDF
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
