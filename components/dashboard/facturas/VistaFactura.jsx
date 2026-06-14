@@ -133,7 +133,7 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
           </p>
           <div className="text-right">
             <p className="text-violet-200 font-mono font-bold text-base print:text-sm">
-              No. {factura.numeroFactura}
+              {factura.numeroFactura}
             </p>
             <p className="text-violet-300 text-xs print:text-[10px]">
               {formatearFecha(factura.fecha)}
@@ -292,9 +292,11 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
             <p className="font-bold text-gray-800 text-base print:text-sm">
               Julián España
             </p>
-            <p className="text-gray-500 text-[11px] mt-0.5 print:text-[9px]">
-              Ingeniero de software, desarrollador web y técnico en sistemas
-            </p>
+            <div className="text-gray-500 text-[11px] mt-0.5 print:text-[9px] flex flex-col">
+              <span>Ingeniero de software</span>
+              <span>Desarrollador web</span>
+              <span>Técnico en sistemas</span>
+            </div>
           </div>
         </div>
 

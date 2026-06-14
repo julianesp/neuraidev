@@ -260,8 +260,12 @@ export default function FormularioFactura({ facturaInicial, onGuardar, onCancela
       miContacto,
       cliente,
       clienteId: clienteSeleccionado?.id || facturaInicial?.clienteId || null,
-      servicios: servicios.filter(s => s.descripcion && s.precio > 0),
-      productos: productos.filter(p => p.nombre && p.precio > 0),
+      servicios: servicios
+        .filter(s => s.descripcion)
+        .map(s => ({ ...s, precio: s.precio === "" ? 0 : s.precio })),
+      productos: productos
+        .filter(p => p.nombre)
+        .map(p => ({ ...p, precio: p.precio === "" ? 0 : p.precio })),
       descuentoPorcentaje: descuentoFidelidad,
       descuentoMonto: calcularDescuentoMonto(),
       total: calcularTotal(),
