@@ -193,7 +193,7 @@ export default function VistaFactura({ factura, onVolver, onEditar }) {
                     {s.descripcion}
                   </td>
                   <td className="px-3 py-2.5 text-center text-gray-600 print:px-2 print:py-1.5">
-                    {s.cantidad} Hrs
+                    {s.cantidad}
                   </td>
                   <td className="px-3 py-2.5 text-right text-gray-600 print:px-2 print:py-1.5">
                     ${fmt(s.precio)}

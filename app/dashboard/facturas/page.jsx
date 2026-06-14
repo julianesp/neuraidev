@@ -121,12 +121,14 @@ export default function FacturasPage() {
 
       const data = await res.json();
 
-      // Mostrar mensaje de éxito
+      // Mostrar mensaje de éxito (solo número de factura, sin datos del cliente)
+      const numero = data.factura?.numeroFactura
+        ? ` ${data.factura.numeroFactura}`
+        : "";
       alert(
-        data.mensaje ||
-          (isUpdate
-            ? "Factura actualizada exitosamente"
-            : "Factura creada exitosamente"),
+        isUpdate
+          ? `Factura${numero} actualizada exitosamente`
+          : `Factura${numero} creada exitosamente`,
       );
 
       setFacturaPreview(data.factura);
