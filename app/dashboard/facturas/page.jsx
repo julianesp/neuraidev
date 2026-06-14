@@ -11,6 +11,7 @@ import {
   DollarSign,
   Users,
   Edit2,
+  Trash2,
 } from "lucide-react";
 import FormularioFactura from "@/components/dashboard/facturas/FormularioFactura";
 import VistaFactura from "@/components/dashboard/facturas/VistaFactura";
@@ -158,6 +159,39 @@ export default function FacturasPage() {
     setFacturaEditando(factura);
     setFacturaPreview(null);
     setMostrarFormulario(true);
+  };
+
+  const handleEliminarFactura = async (factura) => {
+    if (!factura.id) {
+      alert("No se puede eliminar: la factura no tiene ID.");
+      return;
+    }
+
+    const confirmar = window.confirm(
+      `¿Seguro que deseas eliminar la factura ${factura.numeroFactura || ""}? Esta acción no se puede deshacer.`,
+    );
+    if (!confirmar) return;
+
+    try {
+      const res = await fetch(`/api/facturas?id=${factura.id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Error eliminando factura");
+      }
+
+      const data = await res.json();
+      alert(data.mensaje || "Factura eliminada exitosamente");
+
+      // Si estábamos viendo esa factura, volver a la lista
+      setFacturaPreview(null);
+      cargarFacturas();
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error al eliminar la factura: " + error.message);
+    }
   };
 
   return (
@@ -441,6 +475,16 @@ export default function FacturasPage() {
                             >
                               <Edit2 className="w-4 h-4" />
                               Editar
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleEliminarFactura(facturaNormalizada);
+                              }}
+                              className="text-sm text-red-600 hover:text-red-700 flex items-center gap-1"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                              Eliminar
                             </button>
                             <button
                               onClick={(e) => {
