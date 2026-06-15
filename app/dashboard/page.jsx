@@ -49,7 +49,6 @@ async function obtenerEstadisticasCreditos() {
     };
   } catch { return { total: 0, pendientes: 0, vencidos: 0, montoPendiente: 0 }; }
 }
-import VisitasAdmin from "@/components/VisitasAdmin/VisitasAdmin";
 
 export default function DashboardPage() {
   const { user } = useUser();
@@ -160,9 +159,6 @@ export default function DashboardPage() {
           </div>
         </Link>
       </div>
-
-      {/* Visitas — solo admin */}
-      {isAdmin && <VisitasAdmin />}
 
       {/* Stats Cards - Productos */}
       <div className="mb-6">
