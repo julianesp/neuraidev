@@ -859,7 +859,8 @@ const AccesoriosContainer = ({
                                 imagenUrl &&
                                 typeof imagenUrl === "string" &&
                                 (imagenUrl.includes("firebasestorage.googleapis.com") ||
-                                  imagenUrl.includes("r2.dev"))
+                                  imagenUrl.includes("r2.dev") ||
+                                  imagenUrl.includes("images.neurai.dev"))
                               }
                             />
                           ) : (
@@ -891,7 +892,7 @@ const AccesoriosContainer = ({
                           sizes="(max-width: 768px) 100vw, 50vw"
                           className="rounded-lg object-cover"
                           priority
-                          unoptimized={typeof imagenPrincipal === "string" && imagenPrincipal.includes("r2.dev")}
+                          unoptimized={typeof imagenPrincipal === "string" && (imagenPrincipal.includes("r2.dev") || imagenPrincipal.includes("images.neurai.dev"))}
                           onError={() => handleImageError("principal")}
                         />
                       ) : (
@@ -1293,7 +1294,7 @@ const AccesoriosContainer = ({
                               priority={false}
                               loading="lazy"
                               quality={85}
-                              unoptimized={typeof itemImageUrl === "string" && itemImageUrl.includes("r2.dev")}
+                              unoptimized={typeof itemImageUrl === "string" && (itemImageUrl.includes("r2.dev") || itemImageUrl.includes("images.neurai.dev"))}
                             />
                           ) : (
                             <div className="flex items-center justify-center h-full bg-gray-200">
@@ -1469,7 +1470,8 @@ const AccesoriosContainer = ({
                                 imagenUrl &&
                                 typeof imagenUrl === "string" &&
                                 (imagenUrl.includes("firebasestorage.googleapis.com") ||
-                                  imagenUrl.includes("r2.dev"))
+                                  imagenUrl.includes("r2.dev") ||
+                                  imagenUrl.includes("images.neurai.dev"))
                               }
                               priority
                             />
@@ -1567,7 +1569,7 @@ const AccesoriosContainer = ({
                         height: "auto",
                         minHeight: "300px",
                       }}
-                      unoptimized={typeof imagenPrincipal === "string" && imagenPrincipal.includes("r2.dev")}
+                      unoptimized={typeof imagenPrincipal === "string" && (imagenPrincipal.includes("r2.dev") || imagenPrincipal.includes("images.neurai.dev"))}
                       priority
                     />
                   ) : (
