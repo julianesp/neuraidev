@@ -23,6 +23,8 @@ import {
   Mic,
   Images,
   ShoppingBag,
+  MessageSquare,
+  Activity,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -111,6 +113,20 @@ export default function DashboardLayout({ children }) {
       href: "/dashboard/clientes",
       icon: Users,
       current: pathname?.startsWith("/dashboard/clientes"),
+    },
+    {
+      name: "Accesos",
+      href: "/dashboard/usuarios",
+      icon: Activity,
+      current: pathname?.startsWith("/dashboard/usuarios"),
+      badge: "Nuevo",
+    },
+    {
+      name: "Comentarios",
+      href: "/dashboard/comentarios",
+      icon: MessageSquare,
+      current: pathname?.startsWith("/dashboard/comentarios"),
+      badge: "Nuevo",
     },
     {
       name: "Noticias",

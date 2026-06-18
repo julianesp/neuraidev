@@ -28,6 +28,7 @@ import { MinecraftThemeProvider } from "@/contexts/MinecraftThemeContext";
 import MinecraftThemeFloatingButton from "@/components/MinecraftThemeFloatingButton";
 import { Analytics } from "@vercel/analytics/next";
 import VisitasTracker from "@/components/VisitasTracker";
+import LoginTracker from "@/components/LoginTracker/LoginTracker";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -302,6 +303,7 @@ export default function RootLayout({ children }) {
                         {/* <NotificationManager /> */}
                         <Analytics />
                         <VisitasTracker />
+                        <LoginTracker />
                       </main>
                       <ConditionalFooter />
                       {/* <StoreStatus /> */}

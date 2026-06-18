@@ -97,6 +97,10 @@ const ExternalNews = dynamic(
   () => import("@/components/ExternalNews/ExternalNews"),
   { ssr: false },
 );
+const BlogDestacado = dynamic(
+  () => import("@/components/BlogDestacado/BlogDestacado"),
+  { ssr: false },
+);
 const PromocionesDestacadas = dynamic(
   () => import("@/components/PromocionesDestacadas/PromocionesDestacadas"),
   { ssr: false },
@@ -294,6 +298,9 @@ export default function Inicio() {
 
         {/* Noticias Externas */}
         <ExternalNews />
+
+        {/* Últimas publicaciones del blog */}
+        <BlogDestacado />
 
         {/* Negocios Locales */}
         {/* <section className="py-16 px-4 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
