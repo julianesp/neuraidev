@@ -5,6 +5,7 @@ import { getSupabaseServerClient } from "@/lib/db";
 import styles from "../blog.module.css";
 import Link from "next/link";
 import BlogReader from "@/components/BlogReader/BlogReader";
+import BlogComments from "@/components/BlogComments/BlogComments";
 
 async function getPostBySlug(slug) {
   const db = getSupabaseServerClient();
@@ -200,6 +201,9 @@ export default async function BlogPost({ params }) {
           />
         </article>
 
+
+        {/* Comentarios */}
+        <BlogComments slug={post.slug} />
 
         {/* Footer */}
         <div className={styles.ornament}>❖ ❖ ❖</div>
