@@ -12,6 +12,11 @@ import styles from "./BlogComments.module.css";
  */
 export default function BlogComments({ slug }) {
   const { isSignedIn, user, isLoaded } = useUser();
+
+  // Tras iniciar sesión, Clerk debe devolver al usuario a este mismo artículo
+  // (con #comentarios para dejarlo justo en la sección).
+  const returnUrl = `/blog/${slug}#comentarios`;
+
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState("");
@@ -96,7 +101,11 @@ export default function BlogComments({ slug }) {
   };
 
   return (
-    <section className={styles.commentsSection} aria-label="Comentarios">
+    <section
+      id="comentarios"
+      className={styles.commentsSection}
+      aria-label="Comentarios"
+    >
       <h2 className={styles.commentsTitle}>
         Comentarios {comments.length > 0 && `(${comments.length})`}
       </h2>
@@ -151,7 +160,13 @@ export default function BlogComments({ slug }) {
           <p className={styles.loginText}>
             Inicia sesión con tu cuenta de Google para dejar un comentario.
           </p>
-          <SignInButton mode="modal">
+          <SignInButton
+            mode="modal"
+            forceRedirectUrl={returnUrl}
+            fallbackRedirectUrl={returnUrl}
+            signUpForceRedirectUrl={returnUrl}
+            signUpFallbackRedirectUrl={returnUrl}
+          >
             <button className={styles.googleButton} type="button">
               <GoogleIcon />
               Iniciar sesión con Google
