@@ -51,12 +51,34 @@ export function CartProvider({ children }) {
         return newCart;
       }
 
+      // Normalizar imágenes: el producto puede traer `imagenes` como array
+      // de objetos {url}, array de strings, o un JSON string ("[...]").
+      // También soporta `imagen_principal` (productos de la tabla D1).
+      let imagenesArr = producto.imagenes;
+      if (typeof imagenesArr === "string" && imagenesArr.trim().startsWith("[")) {
+        try {
+          imagenesArr = JSON.parse(imagenesArr);
+        } catch {
+          imagenesArr = null;
+        }
+      }
+      if (!Array.isArray(imagenesArr)) {
+        imagenesArr = producto.imagen ? [producto.imagen] : [];
+      }
+      const primeraImagen =
+        producto.imagen_principal ||
+        (imagenesArr[0] && typeof imagenesArr[0] === "object"
+          ? imagenesArr[0].url
+          : imagenesArr[0]) ||
+        producto.imagen ||
+        null;
+
       const newItem = {
         id: producto.id,
         nombre: producto.nombre,
         precio: producto.precio,
-        imagen: producto.imagenes?.[0] || producto.imagen || null,
-        imagenes: producto.imagenes || (producto.imagen ? [producto.imagen] : []),
+        imagen: primeraImagen,
+        imagenes: imagenesArr,
         cantidad,
         variacion,
         categoria: producto.categoria,

@@ -65,6 +65,10 @@ export default function MisFavoritos() {
   };
 
   const handleViewProduct = (id) => {
+    if (!id) {
+      toast.error("Este producto ya no está disponible");
+      return;
+    }
     router.push(`/producto/${id}`);
   };
 
@@ -100,13 +104,14 @@ export default function MisFavoritos() {
           {favoritos.map((item) => {
             const producto = item.producto || {};
 
-            console.log(`🔍 Item ${item.id}:`, { item, producto });
+            // El id para ver el producto: el del join, o el guardado en el favorito
+            const productoId = producto.id || item.producto_id;
 
-            // Procesar imagen: puede ser string, array, o JSON string
-            let imagen = null;
-            if (producto.imagen) {
+            // Procesar imagen: usa imagen_principal, o imagenes (array o JSON string)
+            let imagen = producto.imagen_principal || null;
+            if (!imagen && producto.imagen) {
               imagen = producto.imagen;
-            } else if (producto.imagenes) {
+            } else if (!imagen && producto.imagenes) {
               try {
                 // Si es string JSON, parsear
                 const imgArray =
@@ -131,7 +136,7 @@ export default function MisFavoritos() {
 
                 <div
                   className={styles.imageContainer}
-                  onClick={() => handleViewProduct(producto.id)}
+                  onClick={() => handleViewProduct(productoId)}
                 >
                   {imagen ? (
                     <img
@@ -152,7 +157,7 @@ export default function MisFavoritos() {
                 <div className={styles.content}>
                   <h3
                     className={styles.productName}
-                    onClick={() => handleViewProduct(producto.id)}
+                    onClick={() => handleViewProduct(productoId)}
                   >
                     {producto.nombre}
                   </h3>
