@@ -19,18 +19,27 @@ export async function GET() {
 
     const supabase = getSupabaseClient();
 
-    // Buscar o crear perfil
+    // Buscar perfil. En D1, si no existe, .single() devuelve { data: null, error: null }
     let { data: profile, error } = await supabase
       .from("user_profiles")
       .select("*")
       .eq("clerk_user_id", userId)
       .single();
 
-    // Si no existe, crear uno nuevo
-    if (error && error.code === "PGRST116") {
+    if (error) {
+      console.error("Error al obtener perfil:", error);
+      return NextResponse.json(
+        { error: "Error al obtener perfil" },
+        { status: 500 }
+      );
+    }
+
+    // Si no existe el perfil, crear uno nuevo
+    if (!profile) {
       const { data: newProfile, error: createError } = await supabase
         .from("user_profiles")
         .insert({
+          id: crypto.randomUUID(),
           clerk_user_id: userId,
           preferencias_notificaciones: {
             email_promociones: true,
@@ -39,6 +48,7 @@ export async function GET() {
             push_promociones: false,
             push_pedidos: true,
           },
+          created_at: new Date().toISOString(),
         })
         .select()
         .single();
@@ -52,12 +62,6 @@ export async function GET() {
       }
 
       profile = newProfile;
-    } else if (error) {
-      console.error("Error al obtener perfil:", error);
-      return NextResponse.json(
-        { error: "Error al obtener perfil" },
-        { status: 500 }
-      );
     }
 
     return NextResponse.json(profile);

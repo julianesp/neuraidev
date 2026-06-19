@@ -42,7 +42,11 @@ export default function FavoriteButton({
       const response = await fetch("/api/perfil/favoritos");
       if (response.ok) {
         const favoritos = await response.json();
-        const exists = favoritos.some((fav) => fav.producto_id === productoId);
+        const exists =
+          Array.isArray(favoritos) &&
+          favoritos.some(
+            (fav) => String(fav.producto_id) === String(productoId),
+          );
         setIsFavorite(exists);
       }
     } catch (error) {

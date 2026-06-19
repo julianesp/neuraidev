@@ -36,17 +36,21 @@ export async function GET() {
     }
 
     // Obtener información de los productos
-    const productIds = favoritos.map((f) => f.producto_id);
+    const productIds = favoritos.map((f) => f.producto_id).filter(Boolean);
 
-    const { data: productos, error: prodError } = await supabase
-      .from("products")
-      .select("*")
-      .in("id", productIds);
+    let productos = [];
+    if (productIds.length > 0) {
+      const { data: prodData, error: prodError } = await supabase
+        .from("products")
+        .select("*")
+        .in("id", productIds);
 
-    if (prodError) {
-      console.error("❌ Error al obtener productos:", prodError);
-      // Devolver favoritos sin información de productos
-      return NextResponse.json(favoritos);
+      if (prodError) {
+        console.error("❌ Error al obtener productos:", prodError);
+        // Devolver favoritos sin información de productos
+        return NextResponse.json(favoritos);
+      }
+      productos = prodData || [];
     }
 
     // Combinar favoritos con información de productos
@@ -108,9 +112,11 @@ export async function POST(request) {
     const { data, error } = await supabase
       .from("user_favorites")
       .insert({
+        id: crypto.randomUUID(),
         clerk_user_id: userId,
-        producto_id,
-        precio_al_agregar: precio,
+        producto_id: String(producto_id),
+        precio_al_agregar: precio ?? null,
+        created_at: new Date().toISOString(),
       })
       .select()
       .single();

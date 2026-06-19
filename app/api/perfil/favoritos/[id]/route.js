@@ -15,7 +15,7 @@ export async function DELETE(request, { params }) {
       return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const supabase = getSupabaseClient();
 
     console.log(`🗑️ Eliminando favorito del producto: ${id}`);
