@@ -4,8 +4,7 @@ import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
-import Image from "next/image";
-import { getProductImage } from "@/lib/constants";
+import { getProductImage, PLACEHOLDER_IMAGE } from "@/lib/constants";
 import EpaycoCheckout from "../EpaycoCheckout";
 import CartPaymentMethodModal from "../CartPaymentMethodModal";
 import styles from "./ShoppingCart.module.scss";
@@ -210,23 +209,24 @@ export default function ShoppingCart() {
                     >
                       {/* Imagen del producto */}
                       <div className="relative w-20 h-20 flex-shrink-0 bg-gray-100 dark:bg-gray-600 rounded-md overflow-hidden">
-                        {(() => {
-                          const imageSrc = getProductImage(item);
-                          const isDataUri =
-                            imageSrc &&
-                            typeof imageSrc === "string" &&
-                            imageSrc.startsWith("data:");
-                          return (
-                            <Image
-                              src={imageSrc}
-                              alt={item.nombre}
-                              fill
-                              sizes="80px"
-                              className="object-cover rounded-md"
-                              unoptimized={isDataUri}
-                            />
-                          );
-                        })()}
+                        {/*
+                          Miniatura de 80x80: se usa <img> nativo en lugar de
+                          next/image para evitar que el optimizador falle con
+                          URLs remotas (R2 con %20) y muestre el ícono roto.
+                          onError cae al placeholder si la imagen no carga.
+                        */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={getProductImage(item)}
+                          alt={item.nombre}
+                          className="w-full h-full object-cover rounded-md"
+                          loading="lazy"
+                          onError={(e) => {
+                            if (e.currentTarget.src !== PLACEHOLDER_IMAGE) {
+                              e.currentTarget.src = PLACEHOLDER_IMAGE;
+                            }
+                          }}
+                        />
                       </div>
 
                       {/* Información del producto */}
