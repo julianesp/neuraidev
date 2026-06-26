@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSupabaseClient } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
 import { getCurrentUserWithRole } from '@/lib/auth/server-roles';
+import { authenticateRequest } from '@/lib/auth/api-auth';
 
 // Cliente D1 compatible con API Supabase
 function createAdminClient() {
@@ -13,8 +14,8 @@ function createAdminClient() {
  */
 export async function GET(request) {
   try {
-    // Verificar autenticación con Clerk
-    const { userId } = await auth();
+    // Acepta cookie de sesión (web) o token Bearer de Clerk (app móvil).
+    const { userId, isAdmin } = await authenticateRequest(request);
 
     if (!userId) {
       return NextResponse.json(
@@ -23,11 +24,8 @@ export async function GET(request) {
       );
     }
 
-    // Verificar si es admin para decidir el filtro
-    const { isAdmin } = await getCurrentUserWithRole();
-
     // Obtener parámetros de búsqueda
-    const { searchParams } = await new URL(request.url);
+    const { searchParams } = new URL(request.url);
     const disponible = searchParams.get('disponible');
 
     // Crear cliente admin que bypasea RLS
@@ -81,13 +79,20 @@ export async function GET(request) {
  */
 export async function POST(request) {
   try {
-    // Verificar autenticación con Clerk
-    const { userId } = await auth();
+    // Acepta cookie de sesión (web) o token Bearer de Clerk (app móvil).
+    const { userId, isAdmin } = await authenticateRequest(request);
 
     if (!userId) {
       return NextResponse.json(
         { error: 'No autenticado' },
         { status: 401 }
+      );
+    }
+
+    if (!isAdmin) {
+      return NextResponse.json(
+        { error: 'No autorizado: se requieren permisos de administrador' },
+        { status: 403 }
       );
     }
 

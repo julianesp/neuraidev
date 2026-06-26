@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { getCurrentUserWithRole } from '@/lib/auth/server-roles';
+import { authenticateRequest } from '@/lib/auth/api-auth';
 import { d1Select, d1Execute } from '@/lib/db-d1';
 
 export const runtime = 'nodejs';
@@ -8,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(request, { params }) {
   try {
-    const { userId } = await auth();
+    const { userId } = await authenticateRequest(request);
     if (!userId) {
       return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
     }
@@ -37,7 +38,7 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
-    const { userId } = await auth();
+    const { userId, isAdmin } = await authenticateRequest(request);
     if (!userId) {
       return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
     }
@@ -50,8 +51,6 @@ export async function PUT(request, { params }) {
     } catch {
       return NextResponse.json({ error: 'Datos inválidos. Debe enviar JSON válido.' }, { status: 400 });
     }
-
-    const { isAdmin } = await getCurrentUserWithRole();
 
     // Verificar que el producto existe (y pertenece al usuario si no es admin)
     let checkSql = 'SELECT id FROM products WHERE id = ?';
@@ -116,13 +115,12 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const { userId } = await auth();
+    const { userId, isAdmin } = await authenticateRequest(request);
     if (!userId) {
       return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
     }
 
     const { id } = await params;
-    const { isAdmin } = await getCurrentUserWithRole();
 
     let sql = 'DELETE FROM products WHERE id = ?';
     const sqlParams = [id];

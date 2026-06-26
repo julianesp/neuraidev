@@ -1,10 +1,13 @@
-allowBuilds:
-  '@clerk/shared': true
-  '@parcel/watcher': true
-  '@tsparticles/engine': true
-  core-js: true
-  esbuild: true
-  react-tsparticles: true
-  sharp: true
-  tsparticles-engine: true
-  unrs-resolver: true
+onlyBuiltDependencies:
+  - '@clerk/shared'
+  - '@parcel/watcher'
+  - '@tsparticles/engine'
+  - browser-tabs-lock
+  - bufferutil
+  - core-js
+  - esbuild
+  - react-tsparticles
+  - sharp
+  - tsparticles-engine
+  - unrs-resolver
+  - utf-8-validate
