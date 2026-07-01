@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "../styles/components/Carousel.module.scss";
+import styles from "./TechnicalServicesCarousel.module.scss";
 
 const TechnicalServicesCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -101,13 +101,16 @@ const TechnicalServicesCarousel = () => {
     setIsPaused((prev) => !prev);
   }, []);
 
-  // Auto-play con pausa
+  // Auto-play con pausa. Incluir currentIndex en las dependencias hace que
+  // el contador de 5s se reinicie cada vez que cambia el slide (ya sea por
+  // el autoplay o por acción del usuario): al cambiar, se limpia el intervalo
+  // anterior y arranca uno nuevo desde ese slide.
   useEffect(() => {
     if (!isClient || isPaused) return;
 
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
-  }, [isClient, isPaused, nextSlide]);
+  }, [isClient, isPaused, nextSlide, currentIndex]);
 
   if (!isClient) return null;
 
@@ -116,10 +119,33 @@ const TechnicalServicesCarousel = () => {
   return (
     <div className="w-full max-w-6xl mx-auto my-8 px-4">
       <div className="text-center mb-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          🛠️ Servicios Técnicos Profesionales
-        </h2>
-        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        {/* Título con flechas de navegación a los lados */}
+        <div className="flex items-center justify-center gap-4">
+          <button
+            onClick={prevSlide}
+            className={`${styles.controlButton} flex-shrink-0 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full shadow-md`}
+            aria-label="Servicio anterior"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15 18l-6-6 6-6v12z" />
+            </svg>
+          </button>
+
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+            🛠️ Servicios Técnicos Profesionales
+          </h2>
+
+          <button
+            onClick={nextSlide}
+            className={`${styles.controlButton} flex-shrink-0 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full shadow-md`}
+            aria-label="Servicio siguiente"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 18l6-6-6-6v12z" />
+            </svg>
+          </button>
+        </div>
+        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mt-4">
           Soluciones completas para mantener tu computador en óptimas
           condiciones
         </p>
@@ -197,49 +223,10 @@ const TechnicalServicesCarousel = () => {
           </div>
         </div>
 
-        {/* Navigation Arrows */}
-        <button
-          onClick={() => {
-            prevSlide();
-            setIsPaused(false); // Reanudar autoplay después del cambio manual
-          }}
-          className="absolute left-1 top-1/2 transform -translate-y-1/2 bg-black/80 hover:bg-black text-white p-2 md:p-3 rounded-full transition-all duration-300 z-10 hover:scale-110"
-          aria-label="Servicio anterior"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="md:w-6 md:h-6"
-          >
-            <path d="M15 18l-6-6 6-6v12z" />
-          </svg>
-        </button>
-
-        <button
-          onClick={() => {
-            nextSlide();
-            setIsPaused(false); // Reanudar autoplay después del cambio manual
-          }}
-          className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-black/80 hover:bg-black text-white p-2 md:p-3 rounded-full transition-all duration-300 z-10 hover:scale-110"
-          aria-label="Servicio siguiente"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="md:w-6 md:h-6"
-          >
-            <path d="M9 18l6-6-6-6v12z" />
-          </svg>
-        </button>
-
         {/* Botón de Pausa/Play */}
         <button
           onClick={togglePause}
-          className="absolute top-4 right-4 bg-black/80 hover:bg-black text-white p-2 md:p-3 rounded-full transition-all duration-300 z-10 hover:scale-110"
+          className={`${styles.controlButton} absolute top-4 right-4 p-2 md:p-3 rounded-full z-10 shadow-md`}
           aria-label={isPaused ? "Reanudar autoplay" : "Pausar autoplay"}
           title={isPaused ? "Reanudar autoplay" : "Pausar autoplay"}
         >
@@ -273,10 +260,7 @@ const TechnicalServicesCarousel = () => {
           {servicesData.map((_, index) => (
             <button
               key={index}
-              onClick={() => {
-                goToSlide(index);
-                setIsPaused(false); // Reanudar autoplay después del cambio manual
-              }}
+              onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentIndex
                   ? "bg-white shadow-lg scale-125"

@@ -1,0 +1,24 @@
+@use "sass:color";
+@use "@/styles/variables" as *;
+
+// Botones de control del carrusel (flechas y pausa/play).
+// En modo claro usan el color principal del sitio; en modo oscuro,
+// un fondo translúcido claro para contrastar sobre el carrusel oscuro.
+.controlButton {
+  color: #fff;
+  background-color: $color-primario;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: color.adjust($color-primario, $lightness: -8%);
+    transform: scale(1.1);
+  }
+}
+
+:global(.dark) .controlButton {
+  background-color: rgba(255, 255, 255, 0.15);
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+}
