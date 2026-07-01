@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Printer, Download, MessageCircle } from "lucide-react";
+import { X, Printer, Download } from "lucide-react";
 import Image from "next/image";
 
 /**
@@ -25,9 +25,6 @@ export default function FacturaVentaModal({ grupo, onClose }) {
   // página (body > *:not(#factura-overlay)) funciona de forma fiable.
   const [montado, setMontado] = useState(false);
   useEffect(() => setMontado(true), []);
-
-  // Aviso "Próximamente disponible" para el envío por WhatsApp
-  const [mostrarProximamente, setMostrarProximamente] = useState(false);
 
   if (!grupo || !montado) return null;
 
@@ -77,13 +74,7 @@ export default function FacturaVentaModal({ grupo, onClose }) {
     window.print();
   };
 
-  // El envío por WhatsApp aún no está disponible: solo mostramos un aviso.
-  const handleEnviarWhatsApp = () => {
-    setMostrarProximamente(true);
-  };
-
   return createPortal(
-    <>
     <div
       id="factura-overlay"
       className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 p-4"
@@ -102,21 +93,12 @@ export default function FacturaVentaModal({ grupo, onClose }) {
             <X className="w-5 h-5" />
             Cerrar
           </button>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleEnviarWhatsApp}
-              title="Enviar resumen de la factura por WhatsApp al cliente"
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow"
-            >
-              <MessageCircle className="w-4 h-4" /> Enviar por WhatsApp
-            </button>
-            <button
-              onClick={handleImprimir}
-              className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors shadow"
-            >
-              <Download className="w-4 h-4" /> Imprimir / Descargar PDF
-            </button>
-          </div>
+          <button
+            onClick={handleImprimir}
+            className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors shadow"
+          >
+            <Download className="w-4 h-4" /> Imprimir / Descargar PDF
+          </button>
         </div>
 
         {/* ══════════════ FACTURA (todo lo que se imprime) ══════════════ */}
@@ -348,37 +330,7 @@ export default function FacturaVentaModal({ grupo, onClose }) {
           @page { size: A4; margin: 8mm 12mm; }
         }
       `}</style>
-    </div>
-
-    {/* Aviso "Próximamente disponible" para el envío por WhatsApp */}
-    {mostrarProximamente && (
-      <div
-        className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4 print:hidden"
-        onClick={() => setMostrarProximamente(false)}
-      >
-        <div
-          className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="mx-auto mb-4 w-14 h-14 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center">
-            <MessageCircle className="w-7 h-7 text-green-600 dark:text-green-400" />
-          </div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            Próximamente disponible
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-            El envío de la factura por WhatsApp estará disponible muy pronto.
-          </p>
-          <button
-            onClick={() => setMostrarProximamente(false)}
-            className="w-full px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
-          >
-            Entendido
-          </button>
-        </div>
-      </div>
-    )}
-    </>,
+    </div>,
     document.body
   );
 }

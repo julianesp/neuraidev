@@ -47,6 +47,9 @@ const PresentationCarousel = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [slides, setSlides] = useState(DEFAULT_SLIDES);
 
+  // Aviso "Próximamente disponible" para el botón secundario del slide
+  const [mostrarProximamente, setMostrarProximamente] = useState(false);
+
   useEffect(() => {
     fetch('/api/carousel')
       .then(r => r.json())
@@ -196,15 +199,44 @@ const PresentationCarousel = () => {
             </Link>
           )}
           {currentSlideData.boton_secundario && (
-            <a
-              href={currentSlideData.boton_secundario.href}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => setMostrarProximamente(true)}
               className={styles.secondaryButton}
             >
               {currentSlideData.boton_secundario.texto}
-            </a>
+            </button>
           )}
+        </div>
+      )}
+
+      {/* Aviso "Próximamente disponible" */}
+      {mostrarProximamente && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4"
+          onClick={() => setMostrarProximamente(false)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-5xl mb-4">🚧</div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+              Próximamente disponible
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+              Esta sección estará disponible muy pronto.
+            </p>
+            <button
+              type="button"
+              onClick={() => setMostrarProximamente(false)}
+              className="w-full px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+            >
+              Entendido
+            </button>
+          </div>
         </div>
       )}
     </div>
