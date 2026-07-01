@@ -4,13 +4,18 @@ import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Search, Star, Gift, X, Package as PackageIcon } from 'lucide-react';
+import { Search, Star, Gift, X, Package as PackageIcon, Plus, Trash2 } from 'lucide-react';
 
 export default function NuevaVentaPage() {
   const { isLoaded, isSignedIn } = useUser();
   const router = useRouter();
 
   const [productos, setProductos] = useState([]);
+
+  // Lista de productos agregados a la venta
+  const [itemsVenta, setItemsVenta] = useState([]);
+
+  // Estado del formulario "agregar producto"
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [cantidad, setCantidad] = useState(1);
   const [precioVenta, setPrecioVenta] = useState('');
@@ -116,64 +121,136 @@ export default function NuevaVentaPage() {
     );
   });
 
-  // Calcular totales
-  const subtotalVenta = (parseFloat(precioVenta) || 0) * cantidad;
-  const subtotalCompra = (parseFloat(precioCompra) || 0) * cantidad;
+  // Resetear el formulario de "agregar producto"
+  const resetFormularioProducto = () => {
+    setProductoSeleccionado(null);
+    setCantidad(1);
+    setPrecioVenta('');
+    setPrecioCompra('');
+    setBusquedaProducto('');
+    setMostrarListaProductos(false);
+    setEsProductoManual(false);
+    setNombreProductoManual('');
+  };
+
+  // Agregar el producto actual a la lista de la venta
+  const agregarProducto = () => {
+    setError(null);
+
+    // Validar producto (del inventario o manual)
+    if (!esProductoManual && !productoSeleccionado) {
+      setError('Selecciona un producto o activa "Producto no en inventario"');
+      return;
+    }
+    if (esProductoManual && !nombreProductoManual.trim()) {
+      setError('Ingresa el nombre del producto');
+      return;
+    }
+    if (cantidad <= 0) {
+      setError('La cantidad debe ser mayor a 0');
+      return;
+    }
+    if (!precioVenta || parseFloat(precioVenta) <= 0) {
+      setError('El precio de venta debe ser mayor a 0');
+      return;
+    }
+    if (precioCompra === '' || parseFloat(precioCompra) < 0) {
+      setError('El precio de compra es requerido');
+      return;
+    }
+
+    // Validar stock del inventario considerando lo ya agregado
+    if (!esProductoManual && productoSeleccionado) {
+      const yaAgregado = itemsVenta
+        .filter(i => i.producto_id === productoSeleccionado.id)
+        .reduce((sum, i) => sum + i.cantidad, 0);
+      if (yaAgregado + cantidad > (productoSeleccionado.stock ?? 0)) {
+        setError(`Stock insuficiente para "${productoSeleccionado.nombre}". Disponible: ${productoSeleccionado.stock}, ya agregado: ${yaAgregado}`);
+        return;
+      }
+    }
+
+    const nuevoItem = {
+      // ID local único para poder renderizar/eliminar
+      _key: crypto.randomUUID(),
+      producto_id: esProductoManual ? null : productoSeleccionado.id,
+      nombre: esProductoManual ? nombreProductoManual.trim() : productoSeleccionado.nombre,
+      es_manual: esProductoManual,
+      cantidad,
+      precio_venta: parseFloat(precioVenta),
+      precio_compra: parseFloat(precioCompra),
+    };
+
+    setItemsVenta((prev) => [...prev, nuevoItem]);
+    resetFormularioProducto();
+  };
+
+  // Eliminar un producto de la lista
+  const eliminarProducto = (key) => {
+    setItemsVenta((prev) => prev.filter((i) => i._key !== key));
+  };
+
+  // Calcular totales de un item
+  const totalesItem = (item) => {
+    const subtotalVenta = item.precio_venta * item.cantidad;
+    const subtotalCompra = item.precio_compra * item.cantidad;
+    return {
+      subtotalVenta,
+      subtotalCompra,
+      ganancia: subtotalVenta - subtotalCompra,
+    };
+  };
+
+  // Totales globales de la venta
+  const subtotalVenta = itemsVenta.reduce((sum, i) => sum + i.precio_venta * i.cantidad, 0);
+  const subtotalCompra = itemsVenta.reduce((sum, i) => sum + i.precio_compra * i.cantidad, 0);
   const gananciaTotal = subtotalVenta - subtotalCompra;
   const margenGanancia = subtotalVenta > 0 ? (gananciaTotal / subtotalVenta) * 100 : 0;
 
-  // Registrar venta
+  // Registrar venta (una petición POST por cada producto de la lista)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
 
+    if (itemsVenta.length === 0) {
+      setError('Agrega al menos un producto a la venta');
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      // Validar producto (del inventario o manual)
-      if (!esProductoManual && !productoSeleccionado) {
-        throw new Error('Debes seleccionar un producto o activar "Producto no en inventario"');
-      }
+      const datosComunes = {
+        cliente_nombre: clienteNombre || null,
+        cliente_telefono: clienteTelefono || null,
+        cliente_email: clienteEmail || null,
+        metodo_pago: metodoPago,
+        comprobante_pago: comprobantePago || null,
+        notas: notas || null,
+      };
 
-      if (esProductoManual && !nombreProductoManual.trim()) {
-        throw new Error('Debes ingresar el nombre del producto');
-      }
+      // Registrar cada producto como una venta independiente
+      for (const item of itemsVenta) {
+        const res = await fetch('/api/ventas', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            producto_id: item.producto_id,
+            producto_nombre_manual: item.es_manual ? item.nombre : null,
+            cantidad: item.cantidad,
+            precio_venta: item.precio_venta,
+            precio_compra: item.precio_compra,
+            ...datosComunes,
+          })
+        });
 
-      if (cantidad <= 0) {
-        throw new Error('La cantidad debe ser mayor a 0');
-      }
+        const data = await res.json();
 
-      if (!precioVenta || parseFloat(precioVenta) <= 0) {
-        throw new Error('El precio de venta debe ser mayor a 0');
-      }
-
-      if (!precioCompra || parseFloat(precioCompra) < 0) {
-        throw new Error('El precio de compra es requerido');
-      }
-
-      const res = await fetch('/api/ventas', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          producto_id: esProductoManual ? null : productoSeleccionado.id,
-          producto_nombre_manual: esProductoManual ? nombreProductoManual : null,
-          cantidad,
-          precio_venta: parseFloat(precioVenta),
-          precio_compra: parseFloat(precioCompra),
-          cliente_nombre: clienteNombre || null,
-          cliente_telefono: clienteTelefono || null,
-          cliente_email: clienteEmail || null,
-          metodo_pago: metodoPago,
-          comprobante_pago: comprobantePago || null,
-          notas: notas || null
-        })
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Error al registrar la venta');
+        if (!res.ok) {
+          throw new Error(`Error al registrar "${item.nombre}": ${data.error || 'Error desconocido'}`);
+        }
       }
 
       setSuccess(true);
@@ -201,14 +278,16 @@ export default function NuevaVentaPage() {
         <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow text-center">
           <div className="text-6xl mb-4">✅</div>
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            ¡Venta Registrada!
+            {itemsVenta.length > 1 ? '¡Ventas Registradas!' : '¡Venta Registrada!'}
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
-            La venta se ha registrado correctamente
+            {itemsVenta.length > 1
+              ? `Se registraron ${itemsVenta.length} productos correctamente`
+              : 'La venta se ha registrado correctamente'}
           </p>
           <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 mb-4">
             <p className="text-lg font-bold text-green-700 dark:text-green-400">
-              Ganancia: ${gananciaTotal.toLocaleString('es-CO')}
+              Ganancia total: ${gananciaTotal.toLocaleString('es-CO')}
             </p>
           </div>
           <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -236,7 +315,7 @@ export default function NuevaVentaPage() {
             🛒 Registrar Nueva Venta
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Completa los datos de la venta
+            Agrega uno o varios productos a la venta
           </p>
         </div>
 
@@ -247,10 +326,10 @@ export default function NuevaVentaPage() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Seleccionar producto */}
+          {/* Agregar producto */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-              Producto
+              Agregar producto
             </h2>
 
             {/* Toggle producto manual — prominente */}
@@ -295,7 +374,6 @@ export default function NuevaVentaPage() {
                   onChange={(e) => setNombreProductoManual(e.target.value)}
                   placeholder="Ej: Reparación personalizada, Producto especial..."
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  required
                 />
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                   💡 Este producto no se descontará del inventario
@@ -427,11 +505,10 @@ export default function NuevaVentaPage() {
                 <input
                   type="number"
                   min="1"
-                  max={productoSeleccionado?.stock || 1}
+                  max={esProductoManual ? undefined : (productoSeleccionado?.stock || undefined)}
                   value={cantidad}
                   onChange={(e) => setCantidad(parseInt(e.target.value) || 1)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  required
                 />
               </div>
 
@@ -446,7 +523,6 @@ export default function NuevaVentaPage() {
                   onChange={(e) => setPrecioCompra(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="0"
-                  required
                 />
               </div>
 
@@ -461,14 +537,78 @@ export default function NuevaVentaPage() {
                   onChange={(e) => setPrecioVenta(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="0"
-                  required
                 />
               </div>
             </div>
+
+            {/* Botón agregar a la venta */}
+            <button
+              type="button"
+              onClick={agregarProducto}
+              className="mt-4 w-full flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors font-medium"
+            >
+              <Plus className="w-5 h-5" />
+              Agregar a la venta
+            </button>
           </div>
 
+          {/* Lista de productos agregados */}
+          {itemsVenta.length > 0 && (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                Productos en esta venta ({itemsVenta.length})
+              </h2>
+              <div className="space-y-3">
+                {itemsVenta.map((item) => {
+                  const t = totalesItem(item);
+                  return (
+                    <div
+                      key={item._key}
+                      className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-lg"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <PackageIcon className={`w-4 h-4 ${item.es_manual ? 'text-orange-500' : 'text-blue-500'}`} />
+                          <p className="font-semibold text-gray-900 dark:text-white truncate">
+                            {item.nombre}
+                          </p>
+                          {item.es_manual && (
+                            <span className="px-2 py-0.5 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded text-xs">
+                              Manual
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
+                          <span>Cant: <strong>{item.cantidad}</strong></span>
+                          <span>Venta: <strong>${item.precio_venta.toLocaleString('es-CO')}</strong></span>
+                          <span>Compra: <strong>${item.precio_compra.toLocaleString('es-CO')}</strong></span>
+                          <span className="text-green-600 dark:text-green-400">
+                            Ganancia: <strong>${t.ganancia.toLocaleString('es-CO')}</strong>
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 ml-4">
+                        <span className="font-bold text-blue-600 dark:text-blue-400 whitespace-nowrap">
+                          ${t.subtotalVenta.toLocaleString('es-CO')}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => eliminarProducto(item._key)}
+                          className="text-red-600 hover:text-red-700 p-1"
+                          title="Eliminar producto"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Resumen de ganancia */}
-          {(productoSeleccionado || (esProductoManual && nombreProductoManual)) && precioVenta && precioCompra && (
+          {itemsVenta.length > 0 && (
             <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow p-6 text-white">
               <h3 className="text-lg font-bold mb-4">💰 Resumen de Ganancia</h3>
               <div className="space-y-2">
@@ -678,10 +818,12 @@ export default function NuevaVentaPage() {
             </Link>
             <button
               type="submit"
-              disabled={loading || (!productoSeleccionado && !esProductoManual) || (esProductoManual && !nombreProductoManual)}
+              disabled={loading || itemsVenta.length === 0}
               className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-lg transition-colors font-medium"
             >
-              {loading ? 'Registrando...' : '💾 Registrar Venta'}
+              {loading
+                ? 'Registrando...'
+                : `💾 Registrar Venta${itemsVenta.length > 1 ? ` (${itemsVenta.length} productos)` : ''}`}
             </button>
           </div>
         </form>
