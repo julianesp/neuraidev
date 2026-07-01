@@ -130,10 +130,6 @@ $primary: $color-primario;
     margin: 0;
     padding: 0;
     z-index: 100; // Por encima del aside
-
-    @media (min-width: 768px) {
-      margin-bottom: 40px;
-    }
   }
 
   & .carrusel {
@@ -688,7 +684,7 @@ $primary: $color-primario;
       grid-area: presentacion;
       grid-column: 1 / -1; // Expande en todas las columnas
       width: 100%;
-      height: 350px;
+      height: auto; // Se ajusta a la altura real del carrusel, sin dejar hueco
       margin: 0;
       padding: 0;
       z-index: 100; // Por encima del aside
@@ -701,6 +697,7 @@ $primary: $color-primario;
       width: 100%;
       max-width: 100%; // Usar todo el espacio del grid
       align-self: stretch; // Estirar para ocupar toda la altura del grid
+      margin-top: 20px; // Igualar la distancia superior con .destacados
       padding: 0.5rem; // Reducido para que quepa mejor
       height: auto; // Altura automática basada en el contenido
       min-height: 100%; // Mínimo toda la altura disponible
@@ -712,7 +709,7 @@ $primary: $color-primario;
     & .destacados {
       grid-area: destacados;
       width: 100%;
-      margin: 20px 0;
+      margin: 20px 0 0; // Solo margen superior; el inferior lo da la fila siguiente
       padding: 0 10px;
       box-sizing: border-box;
     }
