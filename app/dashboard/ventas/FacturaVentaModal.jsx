@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Printer, Download } from "lucide-react";
+import { X, Printer, Download, MessageCircle } from "lucide-react";
 import Image from "next/image";
 
 /**
@@ -74,6 +74,45 @@ export default function FacturaVentaModal({ grupo, onClose }) {
     window.print();
   };
 
+  // Normaliza un teléfono colombiano a formato internacional para wa.me.
+  // Deja solo dígitos y antepone 57 si viene como número local de 10 dígitos.
+  const normalizarTelefono = (tel) => {
+    let d = (tel || "").replace(/\D/g, "");
+    if (!d) return "";
+    if (d.startsWith("57")) return d;          // ya trae indicativo
+    if (d.length === 10) return `57${d}`;      // móvil colombiano local
+    return d;                                   // otro formato: usar tal cual
+  };
+
+  // Genera el número de WhatsApp del cliente (null si no hay teléfono válido)
+  const telefonoWhatsApp = normalizarTelefono(grupo.cliente_telefono);
+
+  // Envía por WhatsApp un resumen en texto de la factura al cliente.
+  const handleEnviarWhatsApp = () => {
+    if (!telefonoWhatsApp) return;
+
+    const lineasItems = grupo.items
+      .map((p) => {
+        const totalItem = parseFloat(p.precio_venta) * parseInt(p.cantidad || 1);
+        return `• ${p.producto_nombre} (x${p.cantidad}) — $${fmt(totalItem)}`;
+      })
+      .join("\n");
+
+    const mensaje =
+      `*neurai.dev — Factura de Venta*\n` +
+      `N.º ${grupo.numeroFactura}\n` +
+      `Fecha: ${formatearFecha(grupo.fecha_venta)}\n\n` +
+      `Cliente: ${grupo.cliente_nombre || "Cliente"}\n\n` +
+      `*Productos:*\n${lineasItems}\n\n` +
+      `*Total a pagar: $${fmt(subtotal)}*\n` +
+      `Método de pago: ${metodoPagoLabel[grupo.metodo_pago] || grupo.metodo_pago}` +
+      (grupo.notas ? `\n\nNotas: ${grupo.notas}` : "") +
+      `\n\n¡Gracias por tu compra! 🙌`;
+
+    const url = `https://wa.me/${telefonoWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   return createPortal(
     <div
       id="factura-overlay"
@@ -93,12 +132,26 @@ export default function FacturaVentaModal({ grupo, onClose }) {
             <X className="w-5 h-5" />
             Cerrar
           </button>
-          <button
-            onClick={handleImprimir}
-            className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors shadow"
-          >
-            <Download className="w-4 h-4" /> Imprimir / Descargar PDF
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleEnviarWhatsApp}
+              disabled={!telefonoWhatsApp}
+              title={
+                telefonoWhatsApp
+                  ? "Enviar resumen de la factura por WhatsApp al cliente"
+                  : "Esta venta no tiene teléfono de cliente registrado"
+              }
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors shadow"
+            >
+              <MessageCircle className="w-4 h-4" /> Enviar por WhatsApp
+            </button>
+            <button
+              onClick={handleImprimir}
+              className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors shadow"
+            >
+              <Download className="w-4 h-4" /> Imprimir / Descargar PDF
+            </button>
+          </div>
         </div>
 
         {/* ══════════════ FACTURA (todo lo que se imprime) ══════════════ */}
