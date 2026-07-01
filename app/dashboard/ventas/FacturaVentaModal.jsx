@@ -26,6 +26,9 @@ export default function FacturaVentaModal({ grupo, onClose }) {
   const [montado, setMontado] = useState(false);
   useEffect(() => setMontado(true), []);
 
+  // Aviso "Próximamente disponible" para el envío por WhatsApp
+  const [mostrarProximamente, setMostrarProximamente] = useState(false);
+
   if (!grupo || !montado) return null;
 
   const fmt = (n) => parseFloat(n || 0).toLocaleString("es-CO");
@@ -74,46 +77,13 @@ export default function FacturaVentaModal({ grupo, onClose }) {
     window.print();
   };
 
-  // Normaliza un teléfono colombiano a formato internacional para wa.me.
-  // Deja solo dígitos y antepone 57 si viene como número local de 10 dígitos.
-  const normalizarTelefono = (tel) => {
-    let d = (tel || "").replace(/\D/g, "");
-    if (!d) return "";
-    if (d.startsWith("57")) return d;          // ya trae indicativo
-    if (d.length === 10) return `57${d}`;      // móvil colombiano local
-    return d;                                   // otro formato: usar tal cual
-  };
-
-  // Genera el número de WhatsApp del cliente (null si no hay teléfono válido)
-  const telefonoWhatsApp = normalizarTelefono(grupo.cliente_telefono);
-
-  // Envía por WhatsApp un resumen en texto de la factura al cliente.
+  // El envío por WhatsApp aún no está disponible: solo mostramos un aviso.
   const handleEnviarWhatsApp = () => {
-    if (!telefonoWhatsApp) return;
-
-    const lineasItems = grupo.items
-      .map((p) => {
-        const totalItem = parseFloat(p.precio_venta) * parseInt(p.cantidad || 1);
-        return `• ${p.producto_nombre} (x${p.cantidad}) — $${fmt(totalItem)}`;
-      })
-      .join("\n");
-
-    const mensaje =
-      `*neurai.dev — Factura de Venta*\n` +
-      `N.º ${grupo.numeroFactura}\n` +
-      `Fecha: ${formatearFecha(grupo.fecha_venta)}\n\n` +
-      `Cliente: ${grupo.cliente_nombre || "Cliente"}\n\n` +
-      `*Productos:*\n${lineasItems}\n\n` +
-      `*Total a pagar: $${fmt(subtotal)}*\n` +
-      `Método de pago: ${metodoPagoLabel[grupo.metodo_pago] || grupo.metodo_pago}` +
-      (grupo.notas ? `\n\nNotas: ${grupo.notas}` : "") +
-      `\n\n¡Gracias por tu compra! 🙌`;
-
-    const url = `https://wa.me/${telefonoWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    setMostrarProximamente(true);
   };
 
   return createPortal(
+    <>
     <div
       id="factura-overlay"
       className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 p-4"
@@ -135,13 +105,8 @@ export default function FacturaVentaModal({ grupo, onClose }) {
           <div className="flex items-center gap-3">
             <button
               onClick={handleEnviarWhatsApp}
-              disabled={!telefonoWhatsApp}
-              title={
-                telefonoWhatsApp
-                  ? "Enviar resumen de la factura por WhatsApp al cliente"
-                  : "Esta venta no tiene teléfono de cliente registrado"
-              }
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors shadow"
+              title="Enviar resumen de la factura por WhatsApp al cliente"
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow"
             >
               <MessageCircle className="w-4 h-4" /> Enviar por WhatsApp
             </button>
@@ -383,7 +348,37 @@ export default function FacturaVentaModal({ grupo, onClose }) {
           @page { size: A4; margin: 8mm 12mm; }
         }
       `}</style>
-    </div>,
+    </div>
+
+    {/* Aviso "Próximamente disponible" para el envío por WhatsApp */}
+    {mostrarProximamente && (
+      <div
+        className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4 print:hidden"
+        onClick={() => setMostrarProximamente(false)}
+      >
+        <div
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="mx-auto mb-4 w-14 h-14 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center">
+            <MessageCircle className="w-7 h-7 text-green-600 dark:text-green-400" />
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            Próximamente disponible
+          </h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+            El envío de la factura por WhatsApp estará disponible muy pronto.
+          </p>
+          <button
+            onClick={() => setMostrarProximamente(false)}
+            className="w-full px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+          >
+            Entendido
+          </button>
+        </div>
+      </div>
+    )}
+    </>,
     document.body
   );
 }
