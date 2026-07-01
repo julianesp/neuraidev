@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Printer, Download } from "lucide-react";
 import Image from "next/image";
 
@@ -18,7 +20,13 @@ import Image from "next/image";
  *   onClose: () => void
  */
 export default function FacturaVentaModal({ grupo, onClose }) {
-  if (!grupo) return null;
+  // El modal se renderiza en un portal a <body> para que el overlay sea hijo
+  // directo del body; así la regla de impresión que oculta el resto de la
+  // página (body > *:not(#factura-overlay)) funciona de forma fiable.
+  const [montado, setMontado] = useState(false);
+  useEffect(() => setMontado(true), []);
+
+  if (!grupo || !montado) return null;
 
   const fmt = (n) => parseFloat(n || 0).toLocaleString("es-CO");
 
@@ -66,13 +74,14 @@ export default function FacturaVentaModal({ grupo, onClose }) {
     window.print();
   };
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 p-4 print:static print:bg-transparent print:p-0"
+      id="factura-overlay"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 p-4"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-3xl my-8 print:my-0"
+        className="relative w-full max-w-3xl my-8"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Barra de acciones (no se imprime) ── */}
@@ -268,31 +277,60 @@ export default function FacturaVentaModal({ grupo, onClose }) {
       {/* ── Estilos de impresión ── */}
       <style jsx global>{`
         @media print {
-          body * { visibility: hidden; }
-          nav, header, footer, aside, .print\\:hidden, button {
+          /* 1) Sacar del layout todo lo que no sea el overlay de la factura.
+                Al ser el overlay hijo directo de <body> (portal), esto elimina
+                el alto del resto de la página y evita hojas en blanco. */
+          body > *:not(#factura-overlay) {
             display: none !important;
           }
-          #factura-container,
-          #factura-container * { visibility: visible !important; }
-          html, body {
-            height: auto !important;
-            overflow: hidden !important;
+          /* 2) Ocultar visualmente cualquier resto, sin romper la factura */
+          body * {
+            visibility: hidden !important;
           }
+          #factura-container,
+          #factura-container * {
+            visibility: visible !important;
+          }
+          /* 3) Colapsar el overlay fixed para que no ocupe pantalla completa */
+          #factura-overlay {
+            position: static !important;
+            inset: auto !important;
+            display: block !important;
+            width: auto !important;
+            height: auto !important;
+            min-height: 0 !important;
+            overflow: visible !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+          #factura-overlay > div {
+            position: static !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+          }
+          /* 4) Colocar la factura al inicio de la hoja */
           #factura-container {
-            position: absolute;
-            left: 0; top: 0;
-            width: 100%; max-width: 100% !important;
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
             box-shadow: none !important;
             border-radius: 0 !important;
             margin: 0 !important;
-            overflow: hidden !important;
+            overflow: visible !important;
+          }
+          html, body {
+            height: auto !important;
+            overflow: visible !important;
+            background: #fff !important;
           }
           @page { size: A4; margin: 8mm 12mm; }
-          #factura-container,
-          #factura-container * { page-break-inside: avoid !important; }
-          #factura-container { page-break-after: avoid !important; }
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 }
