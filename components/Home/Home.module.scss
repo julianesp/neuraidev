@@ -698,6 +698,7 @@ $primary: $color-primario;
       max-width: 100%; // Usar todo el espacio del grid
       align-self: stretch; // Estirar para ocupar toda la altura del grid
       margin-top: 20px; // Igualar la distancia superior con .destacados
+      margin-right: 16px; // Separar del borde derecho para ver la esquina redondeada
       padding: 0.5rem; // Reducido para que quepa mejor
       height: auto; // Altura automática basada en el contenido
       min-height: 100%; // Mínimo toda la altura disponible
