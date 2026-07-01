@@ -41,7 +41,30 @@ export default function FacturaVentaModal({ grupo, onClose }) {
     0
   );
 
-  const handleImprimir = () => window.print();
+  // Al "Guardar como PDF", el navegador usa document.title como nombre por
+  // defecto del archivo. Lo cambiamos temporalmente para incluir el nombre
+  // del cliente y lo restauramos al terminar de imprimir.
+  const handleImprimir = () => {
+    const slug = (grupo.cliente_nombre || "cliente-ocasional")
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "") // quitar acentos
+      .trim()
+      .replace(/[^\w\s-]/g, "")        // quitar caracteres no válidos
+      .replace(/\s+/g, "-")            // espacios -> guiones
+      .toLowerCase();
+
+    const nombreArchivo = `factura-${slug}-${grupo.numeroFactura}`;
+    const tituloOriginal = document.title;
+    document.title = nombreArchivo;
+
+    const restaurar = () => {
+      document.title = tituloOriginal;
+      window.removeEventListener("afterprint", restaurar);
+    };
+    window.addEventListener("afterprint", restaurar);
+
+    window.print();
+  };
 
   return (
     <div
