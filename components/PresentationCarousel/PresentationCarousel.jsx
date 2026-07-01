@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./PresentationCarousel.module.scss";
@@ -49,6 +50,9 @@ const PresentationCarousel = () => {
 
   // Aviso "Próximamente disponible" para el botón secundario del slide
   const [mostrarProximamente, setMostrarProximamente] = useState(false);
+  // El aviso se renderiza en un portal a <body>; montamos solo en cliente
+  const [montado, setMontado] = useState(false);
+  useEffect(() => setMontado(true), []);
 
   useEffect(() => {
     fetch('/api/carousel')
@@ -210,20 +214,21 @@ const PresentationCarousel = () => {
         </div>
       )}
 
-      {/* Aviso "Próximamente disponible" */}
-      {mostrarProximamente && (
+      {/* Aviso "Próximamente disponible" — en portal a <body> para quedar
+          por encima del carrusel y sus botones (que usan z-index alto) */}
+      {montado && mostrarProximamente && createPortal(
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 p-4"
           onClick={() => setMostrarProximamente(false)}
           role="dialog"
           aria-modal="true"
         >
           <div
-            className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center"
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-auto max-w-xs p-6 text-center"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-5xl mb-4">🚧</div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 whitespace-nowrap">
               Próximamente disponible
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
@@ -237,7 +242,8 @@ const PresentationCarousel = () => {
               Entendido
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
