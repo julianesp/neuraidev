@@ -64,6 +64,9 @@ export async function POST(request) {
       customerTypeDoc,
       customerNumberDoc,
       items = [],
+      // Opcional: solo lo envía la app móvil (usuario Clerk). La web no lo manda,
+      // así la orden queda con clerk_user_id = null igual que antes.
+      clerkUserId = null,
     } = body;
 
     // Validar datos requeridos
@@ -132,7 +135,7 @@ export async function POST(request) {
       }));
 
       const { error: orderError } = await supabase.from("orders").insert({
-        clerk_user_id: null,
+        clerk_user_id: clerkUserId,
         numero_orden: reference,
         estado: "pendiente",
         customer_name: customerName || "Cliente",

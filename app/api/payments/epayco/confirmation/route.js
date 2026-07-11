@@ -3,6 +3,8 @@ import { getSupabaseClient } from "@/lib/db";
 import { decrementMultipleProductsStock } from "@/lib/productService";
 import { createInvoiceRecord } from "@/lib/invoiceGenerator";
 import { notifyNewSale } from "@/lib/notificationService";
+import { validarFirmaEpayco } from "@/lib/epayco/signature";
+import { notificarPagoAprobado } from "@/lib/pushService";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -65,6 +67,26 @@ export async function POST(request) {
 
     log("🔔 Webhook de confirmación ePayco recibido");
     log("📦 Datos recibidos:", body);
+
+    // Validar la firma x_signature de ePayco. Es aditivo y a prueba de fallos:
+    // solo rechazamos cuando la firma viene y NO coincide (y no es prueba). Si no
+    // hay credenciales o el body no trae firma, se registra pero se continúa para
+    // no romper el flujo de pagos que ya funciona.
+    const esPrueba = String(body.x_test_request || "").toUpperCase() === "TRUE";
+    const firma = validarFirmaEpayco(body);
+    if (!firma.valida) {
+      if (firma.motivo === "no-coincide" && !esPrueba) {
+        logError("🚫 Firma ePayco inválida — se rechaza el webhook");
+        return NextResponse.json(
+          { error: "Firma inválida" },
+          { status: 401 },
+        );
+      }
+      // no-credenciales / sin-firma / prueba: continuar como antes, solo avisar.
+      log(`⚠️ Firma ePayco no validada (${firma.motivo}); se continúa.`);
+    } else {
+      log("✅ Firma ePayco válida");
+    }
 
     // Extraer datos importantes
     const transactionState = body.x_transaction_state || body.x_response;
@@ -239,6 +261,19 @@ export async function POST(request) {
         } catch (notificationError) {
           // No bloqueamos el proceso si falla la notificación
           logError("⚠️ Error enviando notificación:", notificationError);
+        }
+
+        // 6. Notificar al comprador por push (app móvil), si su orden quedó
+        //    ligada a un usuario Clerk. Nunca bloquea el webhook.
+        try {
+          if (order.clerk_user_id) {
+            await notificarPagoAprobado(order.clerk_user_id, {
+              numeroOrden: order.numero_orden,
+              total: amount,
+            });
+          }
+        } catch (pushError) {
+          logError("⚠️ Error enviando push al comprador:", pushError);
         }
       }
 
