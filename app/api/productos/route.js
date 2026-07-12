@@ -3,6 +3,7 @@ import { getSupabaseClient } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
 import { getCurrentUserWithRole } from '@/lib/auth/server-roles';
 import { authenticateRequest } from '@/lib/auth/api-auth';
+import { enviarPushExpo, todosLosTokens } from '@/lib/pushService';
 
 // Cliente D1 compatible con API Supabase
 function createAdminClient() {
@@ -127,7 +128,27 @@ export async function POST(request) {
 
     console.log('✅ [API] Producto creado:', data.id);
 
-    // Enviar notificaciones automáticamente si está habilitado
+    // Push a la app móvil (Expo): avisa a TODOS los dispositivos con la app
+    // instalada. Independiente del email a suscriptores web (más abajo).
+    // A prueba de fallos: si el push falla, no rompe la creación del producto.
+    let pushResult = null;
+    if (send_notifications && data) {
+      try {
+        const tokens = await todosLosTokens();
+        if (tokens.length > 0) {
+          console.log(`📱 [API] Enviando push Expo a ${tokens.length} dispositivos:`, data.nombre);
+          pushResult = await enviarPushExpo(tokens, {
+            title: 'Nuevo producto en neurai.dev',
+            body: data.nombre,
+            data: { tipo: 'nuevo_producto', productoId: data.id },
+          });
+        }
+      } catch (pushError) {
+        console.error('⚠️ [API] Error al enviar push Expo (no crítico):', pushError);
+      }
+    }
+
+    // Enviar notificaciones por email a suscriptores web si está habilitado
     let notificationResult = null;
     if (send_notifications && data) {
       try {
