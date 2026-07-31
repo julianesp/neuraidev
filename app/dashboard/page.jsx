@@ -19,6 +19,7 @@ import {
   FileText,
   ArrowRight,
   Tag,
+  ClipboardList,
 } from "lucide-react";
 async function obtenerEstadisticasProductos() {
   try {
@@ -282,6 +283,12 @@ export default function DashboardPage() {
             description="Gestiona créditos y fiados a clientes"
             href="/dashboard/creditos"
             icon={CreditCard}
+          />
+          <QuickAction
+            title="Encuesta Pío XII"
+            description="Respuestas del personal del hospital"
+            href="/dashboard/pio12"
+            icon={ClipboardList}
           />
           <QuickAction
             title="Ver tienda"

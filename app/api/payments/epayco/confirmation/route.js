@@ -4,7 +4,7 @@ import { decrementMultipleProductsStock } from "@/lib/productService";
 import { createInvoiceRecord } from "@/lib/invoiceGenerator";
 import { notifyNewSale } from "@/lib/notificationService";
 import { validarFirmaEpayco } from "@/lib/epayco/signature";
-import { notificarPagoAprobado } from "@/lib/pushService";
+import { notificarPagoAprobado, notificarNuevaVentaAdmin } from "@/lib/pushService";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -235,9 +235,18 @@ export async function POST(request) {
           logError("⚠️ Error generando factura electrónica:", invoiceError);
         }
 
-        // 5. Enviar notificación al administrador vía Telegram
+        // 5. Notificar al administrador (push app + Telegram como respaldo)
         try {
-          log("📱 Enviando notificación de venta al administrador...");
+          log("📱 Notificando al administrador...");
+
+          // Push a la app móvil del admin (si tiene la app instalada y sesión).
+          await notificarNuevaVentaAdmin({
+            numeroOrden: reference,
+            total: amount,
+            clienteNombre: order.customer_name || body.x_customer_name || 'Cliente',
+          }).catch((e) => logError("⚠️ Push admin fallido:", e.message));
+
+          // Telegram como respaldo (sigue funcionando aunque no tenga app).
           const epaycoTransaction = {
             id: transactionId,
             status: 'APPROVED',
@@ -246,7 +255,6 @@ export async function POST(request) {
             amount_in_cents: Math.round(amount * 100),
             customer_email: body.x_customer_email || order.customer_email,
           };
-          // Enriquecer la orden con los datos del cliente que llegan de ePayco
           const orderForNotification = {
             ...order,
             customer_phone: order.customer_phone || body.x_customer_phone || '',
@@ -255,11 +263,8 @@ export async function POST(request) {
             customer_region: order.metadata?.customer_region || '',
           };
           const notificationSent = await notifyNewSale(orderForNotification, epaycoTransaction);
-          if (notificationSent) {
-            log("✅ Notificación enviada exitosamente");
-          }
+          if (notificationSent) log("✅ Telegram enviado");
         } catch (notificationError) {
-          // No bloqueamos el proceso si falla la notificación
           logError("⚠️ Error enviando notificación:", notificationError);
         }
 

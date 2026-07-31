@@ -30,6 +30,7 @@ export async function POST(request) {
     const body = await request.json();
     const expoToken = body?.expoToken;
     const platform = body?.platform || null;
+    const email = body?.email || null;
 
     if (!expoToken || !String(expoToken).startsWith("ExponentPushToken")) {
       return NextResponse.json(
@@ -57,13 +58,13 @@ export async function POST(request) {
 
     if (existente) {
       await d1Execute(
-        "UPDATE push_tokens SET clerk_user_id = ?, platform = ?, updated_at = ? WHERE expo_token = ?",
-        [clerkUserId, platform, ahora, expoToken],
+        "UPDATE push_tokens SET clerk_user_id = ?, platform = ?, email = ?, updated_at = ? WHERE expo_token = ?",
+        [clerkUserId, platform, email, ahora, expoToken],
       );
     } else {
       await d1Execute(
-        "INSERT INTO push_tokens (expo_token, clerk_user_id, platform, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
-        [expoToken, clerkUserId, platform, ahora, ahora],
+        "INSERT INTO push_tokens (expo_token, clerk_user_id, platform, email, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+        [expoToken, clerkUserId, platform, email, ahora, ahora],
       );
     }
 
