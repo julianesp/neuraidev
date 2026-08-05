@@ -73,7 +73,11 @@ const PresentationCarousel = () => {
       });
   }, []);
 
-  // Auto-slide cada 5 segundos (solo si isPlaying es true)
+  // Auto-slide cada 5 segundos (solo si isPlaying es true). Incluir
+  // currentSlide en las dependencias reinicia el contador de 5s cada vez que
+  // cambia el slide (por autoplay o por acción del usuario con las flechas o
+  // los indicadores): al cambiar, se limpia el intervalo anterior y arranca
+  // uno nuevo desde ese slide, dando siempre 5s completos para verlo.
   useEffect(() => {
     if (!isPlaying) return;
 
@@ -82,7 +86,7 @@ const PresentationCarousel = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [slides.length, isPlaying]);
+  }, [slides.length, isPlaying, currentSlide]);
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
