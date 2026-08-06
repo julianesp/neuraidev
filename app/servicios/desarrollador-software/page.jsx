@@ -4,6 +4,7 @@ import React from "react";
 import styles from "./DesarrolladorSoftware.module.scss";
 import Link from "next/link";
 import Image from "next/image";
+import { portafolioSitios } from "@/data/portafolioSitios";
 
 export default function DesarrolladorSoftware() {
   const tecnologias = [
@@ -72,38 +73,7 @@ export default function DesarrolladorSoftware() {
     },
   ];
 
-  const portafolio = [
-    {
-      id: 1,
-      nombre: "posib.dev",
-      url: "https://posib.dev/",
-      descripcion: "Plataforma de desarrollo web y servicios digitales",
-      imagen: "🌐",
-    },
-    {
-      id: 2,
-      nombre: "ipsinka.com",
-      url: "https://ipsinka.com/",
-      descripcion: "Sistema de gestión y servicios administrativos",
-      imagen: "💼",
-    },
-    {
-      id: 3,
-      nombre: "neurai.dev",
-      url: "https://neurai.dev/",
-      descripcion: "E-commerce de tecnología y servicios profesionales",
-      imagen:
-        "https://media.neurai.dev/logo.png",
-    },
-    {
-      id: 4,
-      nombre: "motaxi.dev",
-      url: "https://motaxi.dev/",
-      descripcion: "Plataforma de servicios de transporte y movilidad",
-      imagen:
-        "https://media.neurai.dev/motaxi/logo.png",
-    },
-  ];
+  const portafolio = portafolioSitios;
 
   return (
     <main className={styles.container}>

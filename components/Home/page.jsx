@@ -11,6 +11,7 @@ import NotificationsBanner from "@/components/NotificationsBanner";
 import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import CategoryCard from "@/components/CategoryCard";
 import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
+import { shouldShowCategory } from "@/utils/categoriesWithStock";
 import {
   Smartphone,
   Monitor,
@@ -114,6 +115,10 @@ const TechnicalServicesCarousel = dynamic(
   () => import("@/components/TechnicalServicesCarousel"),
   { ssr: false },
 );
+const PortafolioSitios = dynamic(
+  () => import("@/components/PortafolioSitios/PortafolioSitios"),
+  { ssr: false },
+);
 const BackToTop = dynamic(() => import("@/components/backTop/BackToTop"), {
   ssr: false,
 });
@@ -167,6 +172,33 @@ const categorias = [
 
 export default function Inicio() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Categorías con stock real en D1. Empezamos con null: hasta saber el stock
+  // ocultamos las categorías controladas por stock, así no parpadea una
+  // categoría (p. ej. libros) que luego resultaría estar vacía.
+  const [categoriasConStock, setCategoriasConStock] = useState(null);
+
+  useEffect(() => {
+    let activo = true;
+    fetch("/api/categorias/stock")
+      .then((r) => r.json())
+      .then((data) => {
+        if (activo && data.success) {
+          setCategoriasConStock(new Set(data.categorias));
+        }
+      })
+      .catch(() => {
+        // Si falla, mostramos todas para no dejar la sección vacía
+        if (activo) setCategoriasConStock(null);
+      });
+    return () => {
+      activo = false;
+    };
+  }, []);
+
+  const categoriasVisibles = categorias.filter((c) =>
+    shouldShowCategory(c.id, categoriasConStock ?? new Set()),
+  );
 
   const servicesRef = useRef(null);
   const accesoriesRef = useRef(null);
@@ -525,7 +557,7 @@ export default function Inicio() {
 
             {/* Grid de categorías con carrusel */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-              {categorias.map((categoria) => (
+              {categoriasVisibles.map((categoria) => (
                 <CategoryCard key={categoria.id} categoria={categoria} />
               ))}
             </div>
@@ -556,6 +588,9 @@ export default function Inicio() {
         <section className={`${styles.technicalServices}`}>
           <TechnicalServicesCarousel />
         </section>
+
+        {/* Portafolio de sitios web / PWAs desarrollados */}
+        <PortafolioSitios />
 
         {/* Formulario para clientes */}
         {/* <section className={`py-5 ${styles.consulta}`}>

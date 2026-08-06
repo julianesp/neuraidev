@@ -128,7 +128,7 @@ Hola, me gustaría obtener información sobre este producto:
                 className={`${styles.input} ${
                   errors.nombre ? styles.inputError : ""
                 }`}
-                placeholder="Ej: Alan Turing"
+                placeholder="audifonos"
               />
               {errors.nombre && (
                 <span className={styles.errorText}>{errors.nombre}</span>
@@ -150,7 +150,7 @@ Hola, me gustaría obtener información sobre este producto:
                 className={`${styles.input} ${
                   errors.telefono ? styles.inputError : ""
                 }`}
-                placeholder="Ej: 3001234567"
+                placeholder="3000000000"
               />
               {errors.telefono && (
                 <span className={styles.errorText}>{errors.telefono}</span>

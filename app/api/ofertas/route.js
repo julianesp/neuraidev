@@ -8,9 +8,21 @@ async function obtenerTodasLasOfertas() {
   return data || [];
 }
 
+// Devuelve solo las ofertas VIGENTES para el público: además del flag
+// `activa`, deben estar dentro de su rango de fechas (fecha_inicio <= ahora <=
+// fecha_fin). Es el mismo criterio `esVigente` que usa el panel admin, de modo
+// que una oferta marcada "Inactiva"/"Expirada"/"Futura" ahí no se muestre en el
+// storefront. Las fechas se guardan en ISO UTC, comparables lexicográficamente.
 async function obtenerOfertasActivas() {
   const db = getSupabaseServerClient();
-  const { data } = await db.from('ofertas').select('*').eq('activa', true).order('created_at', { ascending: false });
+  const ahora = new Date().toISOString();
+  const { data } = await db
+    .from('ofertas')
+    .select('*')
+    .eq('activa', true)
+    .lte('fecha_inicio', ahora)
+    .gte('fecha_fin', ahora)
+    .order('created_at', { ascending: false });
   return data || [];
 }
 

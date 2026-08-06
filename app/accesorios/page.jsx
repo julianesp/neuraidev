@@ -3,6 +3,7 @@ import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import CategoryCard from "@/components/CategoryCard";
 import CategoryProductGrid from "@/components/CategoryProductGrid";
 import { getSupabaseClient } from "@/lib/db";
+import { getCategoriesWithStock, shouldShowCategory } from "@/utils/categoriesWithStock";
 
 export const metadata = {
   title: "Accesorios y Productos | Tienda Online Neurai.dev",
@@ -189,6 +190,12 @@ export default async function AccesoriosPage({ searchParams }) {
     );
   }
 
+  // Ocultar categorías controladas por stock que no tengan existencias
+  const categoriasConStock = await getCategoriesWithStock();
+  const categoriasVisibles = categorias.filter((c) =>
+    shouldShowCategory(c.id, categoriasConStock),
+  );
+
   return (
     <main className="min-h-screen py-14">
       <div className="max-w-7xl mx-auto px-4">
@@ -209,7 +216,7 @@ export default async function AccesoriosPage({ searchParams }) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categorias.map((categoria) => (
+          {categoriasVisibles.map((categoria) => (
             <CategoryCard key={categoria.id} categoria={categoria} />
           ))}
         </div>
