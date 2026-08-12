@@ -413,6 +413,17 @@ export default function VentasPage() {
                                     </div>
                                   </div>
 
+                                  {(venta.codigo_barras || venta.numero_serie) && (
+                                    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
+                                      {venta.codigo_barras && (
+                                        <span>Código: <strong className="font-mono">{venta.codigo_barras}</strong></span>
+                                      )}
+                                      {venta.numero_serie && (
+                                        <span>Serie/IMEI: <strong className="font-mono">{venta.numero_serie}</strong></span>
+                                      )}
+                                    </div>
+                                  )}
+
                                   {venta.notas && (
                                     <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 rounded p-2">
                                       <strong>Notas:</strong> {venta.notas}

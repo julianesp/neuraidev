@@ -25,6 +25,8 @@ export default function EditarVentaPage() {
     cliente_email: '',
     metodo_pago: 'nequi',
     comprobante_pago: '',
+    codigo_barras: '',
+    numero_serie: '',
     notas: '',
   });
 
@@ -46,6 +48,8 @@ export default function EditarVentaPage() {
         cliente_email: data.cliente_email || '',
         metodo_pago: data.metodo_pago || 'nequi',
         comprobante_pago: data.comprobante_pago || '',
+        codigo_barras: data.codigo_barras || '',
+        numero_serie: data.numero_serie || '',
         notas: data.notas || '',
       });
     } catch (e) {
@@ -177,6 +181,24 @@ export default function EditarVentaPage() {
               <input type="number" min="0" step="0.01" required value={form.precio_venta} onChange={set('precio_venta')}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Código de barras / EAN</label>
+              <input type="text" value={form.codigo_barras} onChange={set('codigo_barras')} placeholder="Ej: 7702004003457"
+                inputMode="numeric" autoComplete="off"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">N° de serie / IMEI</label>
+              <input type="text" value={form.numero_serie} onChange={set('numero_serie')} placeholder="Ej: 356938035643809"
+                autoComplete="off"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
+            </div>
+            <p className="md:col-span-2 text-xs text-gray-500 dark:text-gray-400">
+              🔒 Opcional. Respaldo frente a reclamos.
+            </p>
           </div>
         </div>
 

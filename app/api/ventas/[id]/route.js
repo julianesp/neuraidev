@@ -28,7 +28,7 @@ export async function PUT(request, { params }) {
     const {
       producto_nombre, cantidad, precio_venta, precio_compra,
       cliente_nombre, cliente_telefono, cliente_email,
-      metodo_pago, comprobante_pago, notas,
+      metodo_pago, comprobante_pago, codigo_barras, numero_serie, notas,
     } = body;
 
     if (!producto_nombre || !cantidad || !precio_venta || precio_compra === undefined) {
@@ -45,13 +45,14 @@ export async function PUT(request, { params }) {
         producto_nombre = ?, cantidad = ?, precio_venta = ?, precio_compra = ?,
         subtotal_venta = ?, subtotal_compra = ?, ganancia_total = ?,
         cliente_nombre = ?, cliente_telefono = ?, cliente_email = ?,
-        metodo_pago = ?, comprobante_pago = ?, notas = ?, updated_at = ?
+        metodo_pago = ?, comprobante_pago = ?, codigo_barras = ?, numero_serie = ?, notas = ?, updated_at = ?
        WHERE id = ?`,
       [
         producto_nombre, cant, precioVenta, precioCompra,
         precioVenta * cant, precioCompra * cant, (precioVenta - precioCompra) * cant,
         cliente_nombre || null, cliente_telefono || null, cliente_email || null,
-        metodo_pago || 'nequi', comprobante_pago || null, notas || null, ahora,
+        metodo_pago || 'nequi', comprobante_pago || null,
+        codigo_barras || null, numero_serie || null, notas || null, ahora,
         id,
       ]
     );

@@ -204,6 +204,13 @@ export default function FacturaVentaModal({ grupo, onClose }) {
                   >
                     <td className="px-3 py-2.5 text-gray-800 print:px-2 print:py-1.5">
                       {p.producto_nombre}
+                      {(p.codigo_barras || p.numero_serie) && (
+                        <span className="block text-[10px] text-gray-500 mt-0.5">
+                          {p.codigo_barras && <>Cód: {p.codigo_barras}</>}
+                          {p.codigo_barras && p.numero_serie && " · "}
+                          {p.numero_serie && <>Serie/IMEI: {p.numero_serie}</>}
+                        </span>
+                      )}
                     </td>
                     <td className="px-3 py-2.5 text-center text-gray-600 print:px-2 print:py-1.5">
                       {p.cantidad} Und

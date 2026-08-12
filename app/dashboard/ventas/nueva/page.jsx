@@ -20,6 +20,8 @@ export default function NuevaVentaPage() {
   const [cantidad, setCantidad] = useState(1);
   const [precioVenta, setPrecioVenta] = useState('');
   const [precioCompra, setPrecioCompra] = useState('');
+  const [codigoBarras, setCodigoBarras] = useState('');
+  const [numeroSerie, setNumeroSerie] = useState('');
   const [busquedaProducto, setBusquedaProducto] = useState('');
   const [mostrarListaProductos, setMostrarListaProductos] = useState(false);
 
@@ -127,6 +129,8 @@ export default function NuevaVentaPage() {
     setCantidad(1);
     setPrecioVenta('');
     setPrecioCompra('');
+    setCodigoBarras('');
+    setNumeroSerie('');
     setBusquedaProducto('');
     setMostrarListaProductos(false);
     setEsProductoManual(false);
@@ -179,6 +183,8 @@ export default function NuevaVentaPage() {
       cantidad,
       precio_venta: parseFloat(precioVenta),
       precio_compra: parseFloat(precioCompra),
+      codigo_barras: codigoBarras.trim() || null,
+      numero_serie: numeroSerie.trim() || null,
     };
 
     setItemsVenta((prev) => [...prev, nuevoItem]);
@@ -242,6 +248,8 @@ export default function NuevaVentaPage() {
             cantidad: item.cantidad,
             precio_venta: item.precio_venta,
             precio_compra: item.precio_compra,
+            codigo_barras: item.codigo_barras,
+            numero_serie: item.numero_serie,
             ...datosComunes,
           })
         });
@@ -541,6 +549,40 @@ export default function NuevaVentaPage() {
               </div>
             </div>
 
+            {/* Código de barras y número de serie (respaldo antirreclamos) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Código de barras / EAN
+                </label>
+                <input
+                  type="text"
+                  value={codigoBarras}
+                  onChange={(e) => setCodigoBarras(e.target.value)}
+                  placeholder="Ej: 7702004003457"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  N° de serie / IMEI
+                </label>
+                <input
+                  type="text"
+                  value={numeroSerie}
+                  onChange={(e) => setNumeroSerie(e.target.value)}
+                  placeholder="Ej: 356938035643809"
+                  autoComplete="off"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                />
+              </div>
+              <p className="md:col-span-2 -mt-2 text-xs text-gray-500 dark:text-gray-400">
+                🔒 Opcional. Registra el código del producto como respaldo frente a reclamos (garantía de que salió de tu tienda).
+              </p>
+            </div>
+
             {/* Botón agregar a la venta */}
             <button
               type="button"
@@ -586,6 +628,16 @@ export default function NuevaVentaPage() {
                             Ganancia: <strong>${t.ganancia.toLocaleString('es-CO')}</strong>
                           </span>
                         </div>
+                        {(item.codigo_barras || item.numero_serie) && (
+                          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            {item.codigo_barras && (
+                              <span>Código: <strong className="font-mono">{item.codigo_barras}</strong></span>
+                            )}
+                            {item.numero_serie && (
+                              <span>Serie/IMEI: <strong className="font-mono">{item.numero_serie}</strong></span>
+                            )}
+                          </div>
+                        )}
                       </div>
                       <div className="flex items-center gap-3 ml-4">
                         <span className="font-bold text-blue-600 dark:text-blue-400 whitespace-nowrap">

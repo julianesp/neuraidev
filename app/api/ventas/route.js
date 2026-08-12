@@ -85,6 +85,8 @@ export async function POST(request) {
       cliente_email,
       metodo_pago,
       comprobante_pago,
+      codigo_barras,
+      numero_serie,
       notas
     } = body;
 
@@ -163,6 +165,8 @@ export async function POST(request) {
         cliente_email,
         metodo_pago: metodo_pago || 'nequi',
         comprobante_pago,
+        codigo_barras: codigo_barras || null,
+        numero_serie: numero_serie || null,
         notas,
         vendedor_id: userId,
         vendedor_nombre: user?.fullName || user?.emailAddresses?.[0]?.emailAddress || 'Usuario',
