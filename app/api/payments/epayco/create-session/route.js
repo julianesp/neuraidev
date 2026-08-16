@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 import { getSupabaseClient, d1Select } from "@/lib/db";
 
 // Solo loguear en desarrollo
@@ -228,6 +229,8 @@ export async function POST(request) {
         }));
 
       const { error: orderError } = await supabase.from("orders").insert({
+        // orders.id es TEXT NOT NULL sin default en D1: hay que generarlo aquí
+        id: crypto.randomUUID(),
         clerk_user_id: clerkUserId,
         numero_orden: reference,
         estado: "pendiente",
@@ -243,6 +246,8 @@ export async function POST(request) {
         costo_envio: 0,
         descuentos: 0,
         estado_pago: "pendiente",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
         metadata: {
           productos: normalizedItems,
           source: "epayco_checkout",

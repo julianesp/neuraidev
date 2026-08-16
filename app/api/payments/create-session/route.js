@@ -96,6 +96,8 @@ export async function POST(request) {
       }));
 
       const { error: orderError } = await supabase.from("orders").insert({
+        // orders.id es TEXT NOT NULL sin default en D1: hay que generarlo aquí
+        id: crypto.randomUUID(),
         clerk_user_id: null, // NULL para usuarios no autenticados (compras como invitado)
         numero_orden: reference,
         estado: "pendiente",
