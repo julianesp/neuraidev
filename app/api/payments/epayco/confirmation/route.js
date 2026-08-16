@@ -68,22 +68,22 @@ export async function POST(request) {
     log("🔔 Webhook de confirmación ePayco recibido");
     log("📦 Datos recibidos:", body);
 
-    // Validar la firma x_signature de ePayco. Es aditivo y a prueba de fallos:
-    // solo rechazamos cuando la firma viene y NO coincide (y no es prueba). Si no
-    // hay credenciales o el body no trae firma, se registra pero se continúa para
-    // no romper el flujo de pagos que ya funciona.
-    const esPrueba = String(body.x_test_request || "").toUpperCase() === "TRUE";
+    // Validar la firma x_signature de ePayco. Fail-closed: sin firma válida el
+    // webhook se rechaza (sin credenciales configuradas, sin firma en el body o
+    // firma que no coincide). La única excepción es el modo de pruebas, que se
+    // controla con la variable de entorno EPAYCO_TEST_MODE — nunca con
+    // x_test_request, porque ese campo lo controla quien envía la petición.
+    const testMode = process.env.EPAYCO_TEST_MODE === "true";
     const firma = validarFirmaEpayco(body);
     if (!firma.valida) {
-      if (firma.motivo === "no-coincide" && !esPrueba) {
-        logError("🚫 Firma ePayco inválida — se rechaza el webhook");
+      if (!testMode) {
+        logError(`🚫 Webhook ePayco rechazado — firma no válida (${firma.motivo})`);
         return NextResponse.json(
           { error: "Firma inválida" },
           { status: 401 },
         );
       }
-      // no-credenciales / sin-firma / prueba: continuar como antes, solo avisar.
-      log(`⚠️ Firma ePayco no validada (${firma.motivo}); se continúa.`);
+      log(`⚠️ Firma no validada (${firma.motivo}); se continúa solo por EPAYCO_TEST_MODE.`);
     } else {
       log("✅ Firma ePayco válida");
     }
@@ -135,8 +135,44 @@ export async function POST(request) {
           });
         }
 
-        // 2. Reducir el stock de cada producto
-        const orderItems = order.metadata?.productos || order.productos || order.items;
+        // Verificar que el monto pagado (x_amount, cubierto por la firma) y la
+        // moneda coinciden con lo guardado al crear la orden. Si no coinciden,
+        // la orden NO se completa: queda pendiente y marcada para revisión
+        // manual. Se responde 200 porque reintentar no corrige la discrepancia.
+        const montoOrden = Number(order.total);
+        const moneda = String(body.x_currency_code || "").toUpperCase();
+        const montoCoincide =
+          Number.isFinite(montoOrden) &&
+          Number.isFinite(amount) &&
+          Math.abs(amount - montoOrden) <= 1;
+
+        if (!montoCoincide || (moneda && moneda !== "COP")) {
+          logError(
+            `🚫 Monto/moneda no coincide en orden ${reference}: pagado ${amount} ${moneda || "?"} vs total ${montoOrden} COP. Orden marcada para revisión.`,
+          );
+          await supabase
+            .from('orders')
+            .update({
+              estado_pago: 'en_revision',
+              transaction_id: transactionId,
+              informacion_pago: { ...body, source: 'epayco' },
+              notes: `ATENCIÓN: el monto pagado (${amount} ${moneda || "?"}) no coincide con el total de la orden (${montoOrden} COP). NO despachar sin revisar manualmente.`,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('numero_orden', reference);
+
+          return NextResponse.json({
+            success: false,
+            message: "Monto no coincide; orden en revisión",
+          });
+        }
+
+        // 2. Reducir el stock de cada producto (metadata llega de D1 como JSON string)
+        let metadata = order.metadata;
+        if (typeof metadata === "string") {
+          try { metadata = JSON.parse(metadata); } catch { metadata = null; }
+        }
+        const orderItems = metadata?.productos || order.productos || order.items;
         if (orderItems && Array.isArray(orderItems)) {
           log(`📦 Procesando ${orderItems.length} productos para descuento de stock`);
 
@@ -259,8 +295,8 @@ export async function POST(request) {
             ...order,
             customer_phone: order.customer_phone || body.x_customer_phone || '',
             customer_address: order.customer_address || body.x_customer_address || order.direccion_envio || '',
-            customer_city: order.metadata?.customer_city || body.x_customer_city || '',
-            customer_region: order.metadata?.customer_region || '',
+            customer_city: metadata?.customer_city || body.x_customer_city || '',
+            customer_region: metadata?.customer_region || '',
           };
           const notificationSent = await notifyNewSale(orderForNotification, epaycoTransaction);
           if (notificationSent) log("✅ Telegram enviado");

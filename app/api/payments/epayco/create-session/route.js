@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getSupabaseClient } from "@/lib/db";
+import { getSupabaseClient, d1Select } from "@/lib/db";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -42,6 +42,60 @@ function getClientIp(request) {
 
   // IP de fallback (puede ser la IP del servidor en desarrollo)
   return "186.97.212.162";
+}
+
+/**
+ * Recalcula el total de la compra en el servidor usando los precios reales
+ * de la tabla `products` en D1. No se confía en `amount` ni en `items[].price`
+ * enviados por el cliente (cualquiera puede manipularlos desde el navegador o
+ * la app). Si algún producto no existe en el catálogo, la sesión se rechaza.
+ *
+ * @returns {{ ok: true, total: number, items: Array } | { ok: false, error: string }}
+ */
+async function recalcularTotalServidor(items) {
+  const normalizados = [];
+
+  for (const item of items) {
+    const id = item.id || item.productId;
+    if (!id) {
+      return { ok: false, error: "Hay productos sin identificador en el carrito" };
+    }
+    const cantidad = Math.min(Math.max(parseInt(item.quantity || item.cantidad, 10) || 1, 1), 999);
+    normalizados.push({ id, name: item.name || item.nombre, cantidad });
+  }
+
+  const ids = [...new Set(normalizados.map((i) => i.id))];
+  const placeholders = ids.map(() => "?").join(", ");
+  const rows = await d1Select(
+    `SELECT id, nombre, precio FROM products WHERE id IN (${placeholders})`,
+    ids,
+  );
+  const porId = new Map((rows || []).map((p) => [String(p.id), p]));
+
+  let total = 0;
+  const itemsVerificados = [];
+
+  for (const item of normalizados) {
+    const producto = porId.get(String(item.id));
+    const precio = producto ? Number(producto.precio) : NaN;
+
+    if (!producto || !Number.isFinite(precio) || precio <= 0) {
+      return {
+        ok: false,
+        error: `Producto no válido o sin precio en el catálogo: ${item.name || item.id}`,
+      };
+    }
+
+    total += precio * item.cantidad;
+    itemsVerificados.push({
+      id: item.id,
+      name: producto.nombre || item.name,
+      quantity: item.cantidad,
+      price: precio,
+    });
+  }
+
+  return { ok: true, total: Math.round(total), items: itemsVerificados };
 }
 
 /**
@@ -112,27 +166,66 @@ export async function POST(request) {
         .trim();
     };
 
+    // Recalcular el monto en el servidor. Si vienen items, el total sale de los
+    // precios reales en D1 y el `amount` del cliente solo se usa para detectar
+    // manipulación. Sin items (flujos legacy) se mantiene el amount recibido.
+    let finalAmount = Math.round(Number(amount));
+    let verifiedItems = null;
+
+    if (Array.isArray(items) && items.length > 0) {
+      const recalculo = await recalcularTotalServidor(items);
+      if (!recalculo.ok) {
+        logError("🚫 Sesión ePayco rechazada:", recalculo.error);
+        return NextResponse.json(
+          { error: recalculo.error },
+          { status: 400, headers: corsHeaders },
+        );
+      }
+
+      if (Math.abs(recalculo.total - Number(amount)) > 1) {
+        logError(
+          `⚠️ Monto del cliente (${amount}) difiere del calculado en servidor (${recalculo.total}) para ref ${reference}. Se usa el del servidor.`,
+        );
+      }
+
+      finalAmount = recalculo.total;
+      verifiedItems = recalculo.items;
+    } else {
+      logError(
+        `⚠️ Sesión ePayco sin items (ref ${reference}); no se puede verificar el monto ${amount} contra el catálogo.`,
+      );
+    }
+
+    if (!Number.isFinite(finalAmount) || finalAmount <= 0) {
+      return NextResponse.json(
+        { error: "Monto de la compra inválido" },
+        { status: 400, headers: corsHeaders },
+      );
+    }
+
     // Calcular impuestos (IVA 19% en Colombia)
     const taxRate = 0.19;
-    const taxBase = Number(amount) / (1 + taxRate);
-    const tax = Number(amount) - taxBase;
+    const taxBase = finalAmount / (1 + taxRate);
+    const tax = finalAmount - taxBase;
 
     // Obtener IP del cliente
     const clientIp = getClientIp(request);
 
-    log("💰 Impuestos calculados:", { amount, taxBase, tax });
+    log("💰 Impuestos calculados:", { finalAmount, taxBase, tax });
 
     // Guardar la orden en Supabase ANTES de procesar el pago
     try {
       const supabase = getSupabaseClient();
 
-      // Normalizar items
-      const normalizedItems = items.map((item) => ({
-        id: item.id || item.productId,
-        name: item.name || item.nombre,
-        quantity: item.quantity || item.cantidad || 1,
-        price: item.price || item.precio || 0,
-      }));
+      // Items con precios verificados contra D1 (o normalización legacy si no hubo items)
+      const normalizedItems =
+        verifiedItems ||
+        items.map((item) => ({
+          id: item.id || item.productId,
+          name: item.name || item.nombre,
+          quantity: item.quantity || item.cantidad || 1,
+          price: item.price || item.precio || 0,
+        }));
 
       const { error: orderError } = await supabase.from("orders").insert({
         clerk_user_id: clerkUserId,
@@ -144,7 +237,7 @@ export async function POST(request) {
         direccion_envio: customerAddress || "Pendiente de confirmar",
         metodo_pago: "epayco",
         referencia_pago: reference,
-        total: amount,
+        total: finalAmount,
         subtotal: taxBase,
         impuestos: tax,
         costo_envio: 0,
@@ -186,7 +279,7 @@ export async function POST(request) {
       ),
       invoice: sanitizeString(reference),
       currency: "cop", // Debe estar en minúsculas según documentación oficial
-      amount: Math.round(Number(amount)).toString(),
+      amount: finalAmount.toString(),
       tax_base: Number(taxBase).toFixed(2),
       tax: Number(tax).toFixed(2),
       country: "co", // Debe estar en minúsculas según documentación oficial
