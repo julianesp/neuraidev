@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.neurai",
+      "sha256_cert_fingerprints": [
+        "1C:D0:A4:18:AA:ED:B7:2A:C1:95:67:12:46:2F:04:7B:1B:45:71:68:F3:A4:BF:6B:6C:B1:DB:CB:8D:BB:28:40"
+      ]
+    }
+  }
+]
