@@ -15,7 +15,7 @@ const faqData = [
   {
     question: "¿Realizan envíos a todo el país?",
     answer:
-      "Sí, realizamos envíos a todo el país. Los costos de envío van por cuenta del cliente. ¡IMPORTANTE! Solo aplica ENVÍO GRATIS si tu compra supera los $50.000 COP Y vives en el Valle de Sibundoy. En cualquier otro caso, el envío tiene costo adicional que será calculado según tu ubicación.",
+      "Sí, realizamos envíos a todo el país. Los costos de envío van por cuenta del cliente. ¡IMPORTANTE! Aplica ENVÍO GRATIS para cualquier compra si vives en el Alto Putumayo (Valle de Sibundoy, Colón, Sibundoy, Santiago o San Francisco). En cualquier otro caso, el envío tiene costo adicional que será calculado según tu ubicación.",
   },
   {
     question: "¿Tienen garantía los productos?",

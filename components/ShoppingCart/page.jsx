@@ -390,32 +390,19 @@ export default function ShoppingCart() {
                         <p className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
                           📦 Envíos
                         </p>
-                        {getTotalPrice() >= 50000 ? (
-                          <>
-                            <p className="text-xs text-blue-700 dark:text-blue-300">
-                              <span className="font-semibold text-green-600 dark:text-green-400">
-                                ✓ GRATIS
-                              </span>{" "}
-                              en Valle de Sibundoy - Alto Putumayo
-                            </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                              ¡Tu compra supera los $50.000!
-                            </p>
-                          </>
-                        ) : (
-                          <>
-                            <p className="text-xs text-amber-700 dark:text-amber-400">
-                              Envío gratis al Alto Putumayo en compras desde{" "}
-                              <span className="font-bold">$50.000</span>
-                            </p>
-                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                              Te faltan{" "}
-                              <span className="font-semibold text-blue-600 dark:text-blue-400">
-                                ${(50000 - getTotalPrice()).toLocaleString("es-CO")}
-                              </span>{" "}
-                              para envío gratis
-                            </p>
-                          </>
+                        <p className="text-xs text-blue-700 dark:text-blue-300">
+                          <span className="font-semibold text-green-600 dark:text-green-400">
+                            ✓ GRATIS
+                          </span>{" "}
+                          en todo el Alto Putumayo
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                          (Valle de Sibundoy, Colón, Sibundoy, Santiago, San Francisco)
+                        </p>
+                        {getTotalPrice() > 0 && getTotalPrice() < 5000 && cart.length === 1 && (
+                          <p className="text-xs text-amber-700 dark:text-amber-400 mt-2 font-medium">
+                            ⚠️ El pago mínimo con ePayco es $5.000. Agrega otro producto (o una unidad más) para poder pagar en línea.
+                          </p>
                         )}
                         <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
                           Otros destinos: se coordina por WhatsApp

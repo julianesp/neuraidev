@@ -590,26 +590,16 @@ export default function EpaycoCheckout({ onClose }) {
                     />
                   </svg>
                   <span className="font-semibold text-green-800 dark:text-green-200 text-sm">
-                    {getTotalPrice() >= 50000
-                      ? "✓ Envío GRATIS"
-                      : "Envío gratis desde $50.000"}
+                    ✓ Envío GRATIS al Alto Putumayo
                   </span>
                 </div>
                 <p className="text-xs text-green-700 dark:text-green-300 ml-7">
-                  Para <strong>Valle de Sibundoy - Alto Putumayo</strong> en
-                  compras desde <strong>$50.000</strong>
+                  Para todo el <strong>Alto Putumayo</strong> (Valle de Sibundoy,
+                  Colón, Sibundoy, Santiago, San Francisco)
                 </p>
-                {getTotalPrice() >= 50000 ? (
-                  <p className="text-xs text-green-600 dark:text-green-400 ml-7 mt-1 font-medium">
-                    ¡Tu compra califica para envío gratis!
-                  </p>
-                ) : (
-                  <p className="text-xs text-amber-600 dark:text-amber-400 ml-7 mt-1">
-                    Te faltan $
-                    {(50000 - getTotalPrice()).toLocaleString("es-CO")} para
-                    envío gratis
-                  </p>
-                )}
+                <p className="text-xs text-green-600 dark:text-green-400 ml-7 mt-1 font-medium">
+                  ¡Tu compra califica para envío gratis!
+                </p>
               </div>
 
               {/* Otros destinos */}
