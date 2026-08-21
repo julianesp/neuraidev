@@ -41,11 +41,11 @@ export const metadata = {
   metadataBase: new URL("https://neurai.dev"),
   title: {
     default:
-      "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
+      "Tienda Online de Tecnología y Servicios Profesionales",
     template: "%s | neurai.dev",
   },
   description:
-    "Accesorios para celulares y computadoras. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
+    "Accesorios para celulares y computadoras. Servicios de desarrollo web y soporte técnico en sistemas.",
   keywords: [
     // Servicios principales (long-tail keywords para mejor posicionamiento)
     "desarrollo web Colombia",
@@ -155,16 +155,16 @@ export const metadata = {
     title: "neurai.dev",
   },
   openGraph: {
-    title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
+    title: "Tienda Online de Tecnología y Servicios Profesionales",
     description:
-      "Accesorios para celulares y computadoras. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
+      "Accesorios para celulares y computadoras. Servicios de desarrollo web y soporte técnico en sistemas.",
     siteName: "neurai.dev",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
+        alt: "Tienda Online de Tecnología y Servicios Profesionales | neurai.dev",
         type: "image/png",
       },
     ],
@@ -174,9 +174,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
+    title: "Tienda Online de Tecnología y Servicios Profesionales",
     description:
-      "Accesorios para celulares y computadoras. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
+      "Accesorios para celulares y computadoras. Servicios de desarrollo web y soporte técnico en sistemas.",
     images: ["/og-image.png"],
     creator: "@neuraidev",
   },
