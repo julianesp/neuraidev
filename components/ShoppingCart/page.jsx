@@ -399,11 +399,6 @@ export default function ShoppingCart() {
                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                           (Valle de Sibundoy, Colón, Sibundoy, Santiago, San Francisco)
                         </p>
-                        {getTotalPrice() > 0 && getTotalPrice() < 5000 && cart.length === 1 && (
-                          <p className="text-xs text-amber-700 dark:text-amber-400 mt-2 font-medium">
-                            ⚠️ El pago mínimo con ePayco es $5.000. Agrega otro producto (o una unidad más) para poder pagar en línea.
-                          </p>
-                        )}
                         <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
                           Otros destinos: se coordina por WhatsApp
                         </p>
@@ -433,18 +428,40 @@ export default function ShoppingCart() {
                       )}
 
                       {/* Botón pago ePayco/Nequi — solo si hay productos propios */}
-                      {itemsPropios.length > 0 && (
-                        <button
-                          onClick={() => setShowPaymentModal(true)}
-                          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
-                        >
-                          <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 group-hover:scale-110 transition-transform">
-                            <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
-                          </svg>
-                          {hayMezcla ? `Pagar Neurai (${itemsPropios.length} producto${itemsPropios.length > 1 ? "s" : ""})` : "Proceder al Pago"}
-                          {!hayMezcla && <span className="text-xs opacity-80">(Nequi o ePayco)</span>}
-                        </button>
-                      )}
+                      {itemsPropios.length > 0 && (() => {
+                        const totalPropios = itemsPropios.reduce((s, i) => s + i.precio * i.cantidad, 0);
+                        const bajoMinimo = totalPropios < 5000;
+                        return (
+                          <>
+                            {bajoMinimo && (
+                              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-lg p-3 text-xs text-amber-800 dark:text-amber-300 space-y-1">
+                                <p className="font-semibold">⚠️ Total menor al mínimo de ePayco ($5.000)</p>
+                                <p>Agrega otro producto para pagar con ePayco o Nequi en línea.</p>
+                                <p>
+                                  ¿Tienes prisa? También puedes pagar{" "}
+                                  <strong>${totalPropios.toLocaleString("es-CO")}</strong> por transferencia
+                                  Nequi al número <strong>317 450 3604</strong> y enviarnos el comprobante por WhatsApp.
+                                </p>
+                              </div>
+                            )}
+                            <button
+                              onClick={() => !bajoMinimo && setShowPaymentModal(true)}
+                              disabled={bajoMinimo}
+                              className={`w-full font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group ${
+                                bajoMinimo
+                                  ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                                  : "bg-green-600 hover:bg-green-700 text-white"
+                              }`}
+                            >
+                              <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 group-hover:scale-110 transition-transform">
+                                <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                              </svg>
+                              {hayMezcla ? `Pagar Neurai (${itemsPropios.length} producto${itemsPropios.length > 1 ? "s" : ""})` : "Proceder al Pago"}
+                              {!hayMezcla && !bajoMinimo && <span className="text-xs opacity-80">(Nequi o ePayco)</span>}
+                            </button>
+                          </>
+                        );
+                      })()}
 
                       {/* Botón WhatsApp — solo si hay productos de tiendas */}
                       {itemsDeTienda.length > 0 && (
