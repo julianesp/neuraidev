@@ -38,11 +38,15 @@ export async function generateProductMetadata(slug, categoria) {
       producto.imagen_principal ||
       "https://neurai.dev/favicon-96x96.png";
 
-    const imagen = rawImagen
+    const imagenCdn = rawImagen
       .replace(
         "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev",
         "https://images.neurai.dev"
       );
+
+    // Optimizar la imagen OG vía Next.js Image API para reducir tamaño
+    // (WhatsApp/Telegram rechazan imágenes >~500 KB en previsualizaciones)
+    const imagen = `https://neurai.dev/_next/image?url=${encodeURIComponent(imagenCdn)}&w=1200&q=75`;
 
     const url = `https://neurai.dev/accesorios/${producto.categoria}/${slug}`;
 
