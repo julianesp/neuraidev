@@ -122,6 +122,10 @@ const PortafolioSitios = dynamic(
 const BackToTop = dynamic(() => import("@/components/backTop/BackToTop"), {
   ssr: false,
 });
+const ClientesVitrina = dynamic(
+  () => import("@/components/ClientesVitrina/ClientesVitrina"),
+  { ssr: false },
+);
 // import FacebookLogin from "./Auth/FacebookLogin";
 // import "./ContactForm.css";
 // import "./SideModal/SideModal.module.scss";
@@ -604,6 +608,9 @@ export default function Inicio() {
           <BackToTop />
         </div>
       </main>
+
+      {/* Vitrina de clientes + testimonios (prueba social) */}
+      <ClientesVitrina />
 
       {/* Ubicación física - fuera del grid para ocupar ancho completo */}
       <section className="w-full py-16 px-4 bg-white dark:bg-gray-900">

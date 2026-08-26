@@ -107,7 +107,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto mt-8">
+    <div className="w-full mt-8">
       {/* Header */}
       <div className="mb-4 md:mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">

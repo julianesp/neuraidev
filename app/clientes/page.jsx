@@ -2,6 +2,12 @@
 
 import React from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const ClientesVitrina = dynamic(
+  () => import("@/components/ClientesVitrina/ClientesVitrina"),
+  { ssr: false },
+);
 
 export default function ClientesPage() {
   return (
@@ -65,6 +71,11 @@ export default function ClientesPage() {
           &copy; {new Date().getFullYear()} neurai.dev &mdash; Todos los
           derechos reservados.
         </div>
+      </div>
+
+      {/* Vitrina de clientes publicados + testimonios */}
+      <div className="relative z-10 mt-4">
+        <ClientesVitrina siempreFormulario />
       </div>
     </div>
   );
