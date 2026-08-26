@@ -295,7 +295,7 @@ export default function DashboardLayout({ children }) {
           <div
             className={`transition-all duration-300 min-h-screen dark:bg-gray-700 ${sidebarOpen ? "lg:pl-64" : "lg:pl-0"}`}
           >
-            <main className="p-6 lg:p-8 pb-24">{children}</main>
+            <main className="px-3 py-6 lg:px-8 lg:py-8 pb-24">{children}</main>
           </div>
 
           {/* Overlay for mobile */}
