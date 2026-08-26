@@ -1,10 +1,22 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseServerClient } from '@/lib/db';
+import { d1Select } from '@/lib/db';
 
 async function obtenerProductosRecientes(limit = 10) {
-  const db = getSupabaseServerClient();
-  const { data } = await db.from('products').select('*').eq('disponible', true).order('created_at', { ascending: false }).limit(limit);
-  return data || [];
+  // Ordenamos por created_at DESC, pero tratamos NULL como "muy reciente"
+  // (COALESCE con una fecha alta) para que los productos que se crearon sin
+  // created_at no queden al final del listado e invisibles bajo el LIMIT.
+  const sql = `
+    SELECT * FROM products
+    WHERE disponible = 1
+    ORDER BY COALESCE(created_at, '9999-12-31') DESC, rowid DESC
+    LIMIT ?
+  `;
+  try {
+    return await d1Select(sql, [limit]);
+  } catch (e) {
+    console.error('[nuevos] query error', e);
+    return [];
+  }
 }
 
 export const dynamic = 'force-dynamic';
@@ -17,7 +29,10 @@ export async function GET() {
       if (typeof imagenes === 'string') {
         try { imagenes = JSON.parse(imagenes); } catch { imagenes = []; }
       }
-      return { ...p, imagenes: imagenes || [] };
+      // El componente muestra el badge de fecha desde `fechaIngreso`,
+      // pero la tabla D1 usa `created_at`. Mapeamos para que el badge
+      // ("Hoy", "Ayer", "Hace N días") refleje la fecha real de alta.
+      return { ...p, imagenes: imagenes || [], fechaIngreso: p.fechaIngreso || p.created_at || null };
     });
     return NextResponse.json(normalized);
   } catch (e) {

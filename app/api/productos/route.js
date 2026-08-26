@@ -111,10 +111,20 @@ export async function POST(request) {
     // D1/SQLite no genera UUID automáticamente — lo generamos aquí
     const newId = crypto.randomUUID();
 
+    // D1/SQLite no rellena created_at si la columna no tiene DEFAULT.
+    // Lo seteamos explícitamente para que "Productos Recientes" pueda
+    // ordenar por fecha y los productos nuevos aparezcan primero.
+    const nowIso = new Date().toISOString();
+
     // Insertar producto vinculado al usuario autenticado
     const { data, error } = await supabase
       .from('products')
-      .insert([{ id: newId, ...productoData, clerk_user_id: userId }])
+      .insert([{
+        id: newId,
+        ...productoData,
+        clerk_user_id: userId,
+        created_at: productoData.created_at || nowIso,
+      }])
       .select()
       .single();
 
