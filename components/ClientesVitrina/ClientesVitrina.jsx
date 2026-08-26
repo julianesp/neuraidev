@@ -83,8 +83,9 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
             Nuestros clientes
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Personas que ya confiaron en nosotros. ¡Gracias por elegirnos y ser
-            parte de la familia Neurai.dev!
+            {hayContenido
+              ? "Personas que ya confiaron en nosotros. ¡Gracias por elegirnos y ser parte de la familia Neurai.dev!"
+              : "¿Ya compraste con nosotros? Cuéntanos tu experiencia y ayuda a otros a conocernos. ¡Tu opinión nos hace mejores!"}
           </p>
         </div>
 

@@ -609,8 +609,10 @@ export default function Inicio() {
         </div>
       </main>
 
-      {/* Vitrina de clientes + testimonios (prueba social) */}
-      <ClientesVitrina />
+      {/* Vitrina de clientes + testimonios (prueba social).
+          siempreFormulario: el formulario para dejar opinión se muestra
+          siempre, aunque aún no haya clientes ni testimonios publicados. */}
+      <ClientesVitrina siempreFormulario />
 
       {/* Ubicación física - fuera del grid para ocupar ancho completo */}
       <section className="w-full py-16 px-4 bg-white dark:bg-gray-900">
