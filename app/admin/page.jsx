@@ -18,7 +18,7 @@ import {
   Send,
   Store,
   Wrench,
-
+  Star,
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -29,6 +29,7 @@ export default function AdminDashboard() {
     orders: { total: 0, pending: 0 },
   });
   const [loading, setLoading] = useState(true);
+  const [testimoniosPendientes, setTestimoniosPendientes] = useState(0);
 
   useEffect(() => {
     fetchStats();
@@ -51,6 +52,13 @@ export default function AdminDashboard() {
             drafts: posts.filter((p) => !p.published).length,
           },
         }));
+      }
+
+      // Testimonios pendientes de moderación
+      const testimoniosResponse = await fetch("/api/testimonios?estado=pendiente");
+      if (testimoniosResponse.ok) {
+        const testimoniosData = await testimoniosResponse.json();
+        setTestimoniosPendientes((testimoniosData.testimonios || []).length);
       }
 
       // Aquí puedes agregar más llamadas para otras estadísticas
@@ -125,6 +133,18 @@ export default function AdminDashboard() {
       stats: "3 secciones · 47 fotos",
       color: "indigo",
       gradient: "from-indigo-500 to-indigo-600",
+    },
+    {
+      title: "Vitrina de Clientes",
+      description: "Publica clientes, sus compras y modera testimonios",
+      icon: Star,
+      href: "/admin/clientes-vitrina",
+      stats:
+        testimoniosPendientes > 0
+          ? `${testimoniosPendientes} testimonio${testimoniosPendientes === 1 ? "" : "s"} por revisar`
+          : "Gestionar vitrina",
+      color: "yellow",
+      gradient: "from-amber-500 to-yellow-600",
     },
   ];
 
