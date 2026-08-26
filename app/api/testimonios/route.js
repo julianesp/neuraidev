@@ -5,14 +5,14 @@ import { currentUser } from '@clerk/nextjs/server';
 
 // GET /api/testimonios
 // Público: devuelve solo los testimonios aprobados (para la vitrina).
-// Admin (?estado=pendiente): devuelve la cola de moderación.
+// Admin (?estado=pendiente|rechazado|todos): cola de moderación / gestión.
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const estado = searchParams.get('estado');
 
     // Cualquier estado distinto de 'aprobado' es información de moderación:
-    // exige sesión de admin.
+    // exige sesión de admin. ('todos' también, obviamente.)
     if (estado && estado !== 'aprobado') {
       const user = await currentUser();
       if (!user || !isAdminServer(user)) {
@@ -20,11 +20,18 @@ export async function GET(request) {
       }
     }
 
-    const filtro = estado || 'aprobado';
-    const testimonios = await d1Select(
-      `SELECT * FROM testimonios WHERE estado = ? ORDER BY created_at DESC`,
-      [filtro]
-    );
+    let testimonios;
+    if (estado === 'todos') {
+      testimonios = await d1Select(
+        `SELECT * FROM testimonios ORDER BY created_at DESC`
+      );
+    } else {
+      const filtro = estado || 'aprobado';
+      testimonios = await d1Select(
+        `SELECT * FROM testimonios WHERE estado = ? ORDER BY created_at DESC`,
+        [filtro]
+      );
+    }
 
     return NextResponse.json({ testimonios });
   } catch (error) {

@@ -24,15 +24,35 @@ export default function ClientesVitrinaPage() {
   const [busqueda, setBusqueda] = useState("");
   const [tab, setTab] = useState("clientes"); // clientes | testimonios
   const [guardando, setGuardando] = useState(null);
+  // Filtro de estado en la pestaña de testimonios: pendiente | aprobado | rechazado | todos
+  const [filtroTestimonios, setFiltroTestimonios] = useState("pendiente");
+  // Nº de pendientes, para el badge del tab (independiente del filtro activo)
+  const [numPendientes, setNumPendientes] = useState(0);
 
   useEffect(() => {
     cargarTodo();
   }, []);
 
+  // Recargar la lista cuando cambia el filtro de estado
+  useEffect(() => {
+    cargarTestimonios();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filtroTestimonios]);
+
   async function cargarTodo() {
     setLoading(true);
-    await Promise.all([cargarClientes(), cargarTestimonios()]);
+    await Promise.all([cargarClientes(), cargarTestimonios(), cargarNumPendientes()]);
     setLoading(false);
+  }
+
+  async function cargarNumPendientes() {
+    try {
+      const res = await fetch("/api/testimonios?estado=pendiente");
+      const data = await res.json();
+      if (res.ok) setNumPendientes((data.testimonios || []).length);
+    } catch (error) {
+      console.error("Error contando pendientes:", error);
+    }
   }
 
   async function cargarClientes() {
@@ -48,7 +68,12 @@ export default function ClientesVitrinaPage() {
 
   async function cargarTestimonios() {
     try {
-      const res = await fetch("/api/testimonios?estado=pendiente");
+      // "todos" no manda estado; el endpoint admin acepta cualquier estado
+      const query =
+        filtroTestimonios === "todos"
+          ? "/api/testimonios?estado=todos"
+          : `/api/testimonios?estado=${filtroTestimonios}`;
+      const res = await fetch(query);
       const data = await res.json();
       if (res.ok) setTestimonios(data.testimonios || []);
       else throw new Error(data.error);
@@ -93,6 +118,12 @@ export default function ClientesVitrinaPage() {
     }
   }
 
+  const titulosModerar = {
+    aprobado: "¡Testimonio publicado!",
+    rechazado: "Testimonio rechazado",
+    pendiente: "Quitado de la web (vuelve a pendiente)",
+  };
+
   async function moderarTestimonio(id, estado) {
     try {
       const res = await fetch("/api/testimonios", {
@@ -104,10 +135,11 @@ export default function ClientesVitrinaPage() {
         const data = await res.json();
         throw new Error(data.error);
       }
-      setTestimonios((prev) => prev.filter((t) => t.id !== id));
+      // Recargar la lista según el filtro activo y recontar pendientes
+      await Promise.all([cargarTestimonios(), cargarNumPendientes()]);
       Swal.fire({
         icon: "success",
-        title: estado === "aprobado" ? "¡Testimonio publicado!" : "Testimonio rechazado",
+        title: titulosModerar[estado] || "Actualizado",
         timer: 1800,
         showConfirmButton: false,
       });
@@ -133,6 +165,7 @@ export default function ClientesVitrinaPage() {
       const res = await fetch(`/api/testimonios?id=${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error();
       setTestimonios((prev) => prev.filter((t) => t.id !== id));
+      cargarNumPendientes();
     } catch {
       Swal.fire({ icon: "error", title: "Error", text: "No se pudo eliminar" });
     }
@@ -198,10 +231,10 @@ export default function ClientesVitrinaPage() {
           }`}
         >
           <MessageSquare className="w-4 h-4" />
-          Testimonios por revisar
-          {testimonios.length > 0 && (
+          Testimonios
+          {numPendientes > 0 && (
             <span className="px-2 py-0.5 text-xs font-bold text-white bg-red-500 rounded-full">
-              {testimonios.length}
+              {numPendientes}
             </span>
           )}
         </button>
@@ -315,77 +348,125 @@ export default function ClientesVitrinaPage() {
 
       {tab === "testimonios" && (
         <>
+          {/* Filtro por estado */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {[
+              { valor: "pendiente", label: "Pendientes" },
+              { valor: "aprobado", label: "Publicados" },
+              { valor: "rechazado", label: "Rechazados" },
+              { valor: "todos", label: "Todos" },
+            ].map((op) => (
+              <button
+                key={op.valor}
+                onClick={() => setFiltroTestimonios(op.valor)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  filtroTestimonios === op.valor
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300"
+                }`}
+              >
+                {op.label}
+              </button>
+            ))}
+          </div>
+
           {testimonios.length === 0 ? (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-12 text-center">
               <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
               <p className="text-gray-500">
-                No hay testimonios pendientes. ¡Todo al día!
+                {filtroTestimonios === "pendiente"
+                  ? "No hay testimonios pendientes. ¡Todo al día!"
+                  : "No hay testimonios en este estado."}
               </p>
             </div>
           ) : (
             <div className="grid gap-4">
-              {testimonios.map((t) => (
-                <div
-                  key={t.id}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 border-l-4 border-amber-400"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-semibold text-gray-900 dark:text-white">
-                          {t.cliente_nombre}
-                        </span>
-                        {t.calificacion && (
-                          <span className="flex items-center text-amber-500 text-sm">
-                            {"★".repeat(t.calificacion)}
-                            <span className="text-gray-300">
-                              {"★".repeat(5 - t.calificacion)}
-                            </span>
+              {testimonios.map((t) => {
+                const estilos = {
+                  pendiente: { borde: "border-amber-400", badge: "bg-amber-100 text-amber-800", icon: Clock, texto: "Pendiente" },
+                  aprobado: { borde: "border-green-400", badge: "bg-green-100 text-green-800", icon: CheckCircle, texto: "Publicado" },
+                  rechazado: { borde: "border-gray-300", badge: "bg-gray-100 text-gray-600", icon: XCircle, texto: "Rechazado" },
+                }[t.estado] || { borde: "border-gray-300", badge: "bg-gray-100 text-gray-600", icon: Clock, texto: t.estado };
+                const BadgeIcon = estilos.icon;
+                return (
+                  <div
+                    key={t.id}
+                    className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 border-l-4 ${estilos.borde}`}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-semibold text-gray-900 dark:text-white">
+                            {t.cliente_nombre}
                           </span>
+                          {t.calificacion && (
+                            <span className="flex items-center text-amber-500 text-sm">
+                              {"★".repeat(t.calificacion)}
+                              <span className="text-gray-300">
+                                {"★".repeat(5 - t.calificacion)}
+                              </span>
+                            </span>
+                          )}
+                          <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${estilos.badge}`}>
+                            <BadgeIcon className="w-3 h-3" /> {estilos.texto}
+                          </span>
+                        </div>
+                        {t.cliente_email && (
+                          <p className="text-xs text-gray-400 mb-2">{t.cliente_email}</p>
                         )}
-                        <span className="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
-                          <Clock className="w-3 h-3" /> Pendiente
-                        </span>
-                      </div>
-                      {t.cliente_email && (
-                        <p className="text-xs text-gray-400 mb-2">{t.cliente_email}</p>
-                      )}
-                      <p className="text-gray-700 dark:text-gray-300 italic">
-                        &ldquo;{t.mensaje}&rdquo;
-                      </p>
-                      {t.producto_relacionado && (
-                        <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                          <ShoppingBag className="w-3 h-3" />
-                          Sobre: {t.producto_relacionado}
+                        <p className="text-gray-700 dark:text-gray-300 italic">
+                          &ldquo;{t.mensaje}&rdquo;
                         </p>
+                        {t.producto_relacionado && (
+                          <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                            <ShoppingBag className="w-3 h-3" />
+                            Sobre: {t.producto_relacionado}
+                          </p>
+                        )}
+                        <p className="text-xs text-gray-400 mt-2">
+                          Enviado: {new Date(t.created_at).toLocaleString("es-CO")}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
+                      {/* Aprobar/publicar: visible si no está ya aprobado */}
+                      {t.estado !== "aprobado" && (
+                        <button
+                          onClick={() => moderarTestimonio(t.id, "aprobado")}
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium"
+                        >
+                          <CheckCircle className="w-4 h-4" /> Aprobar y publicar
+                        </button>
                       )}
-                      <p className="text-xs text-gray-400 mt-2">
-                        Enviado: {new Date(t.created_at).toLocaleString("es-CO")}
-                      </p>
+                      {/* Quitar de la web: solo si está publicado */}
+                      {t.estado === "aprobado" && (
+                        <button
+                          onClick={() => moderarTestimonio(t.id, "pendiente")}
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 text-amber-800 rounded-lg hover:bg-amber-200 text-sm font-medium"
+                        >
+                          <EyeOff className="w-4 h-4" /> Quitar de la web
+                        </button>
+                      )}
+                      {/* Rechazar: visible si no está ya rechazado */}
+                      {t.estado !== "rechazado" && (
+                        <button
+                          onClick={() => moderarTestimonio(t.id, "rechazado")}
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 text-sm font-medium"
+                        >
+                          <XCircle className="w-4 h-4" /> Rechazar
+                        </button>
+                      )}
+                      <button
+                        onClick={() => eliminarTestimonio(t.id)}
+                        className="inline-flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-sm font-medium ml-auto"
+                        title="Eliminar definitivamente"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
-                  <div className="flex gap-2 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
-                    <button
-                      onClick={() => moderarTestimonio(t.id, "aprobado")}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium"
-                    >
-                      <CheckCircle className="w-4 h-4" /> Aprobar y publicar
-                    </button>
-                    <button
-                      onClick={() => moderarTestimonio(t.id, "rechazado")}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 text-sm font-medium"
-                    >
-                      <XCircle className="w-4 h-4" /> Rechazar
-                    </button>
-                    <button
-                      onClick={() => eliminarTestimonio(t.id)}
-                      className="inline-flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-sm font-medium ml-auto"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </>
