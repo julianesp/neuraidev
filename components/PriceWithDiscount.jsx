@@ -7,12 +7,11 @@ const PriceWithDiscount = ({
   showBadge = true,
   className = '' 
 }) => {
-  // Verificar si es septiembre para aplicar el descuento
-  const currentMonth = new Date().getMonth(); // 0 = enero, 8 = septiembre
-  const isSeptember = currentMonth === 8;
-  
-  if (!isSeptember || !precio) {
-    // Si no es septiembre o no hay precio, mostrar precio normal
+  // Descuento del 15% desactivado: siempre se muestra el precio normal
+  const descuentoActivo = false;
+
+  if (!descuentoActivo || !precio) {
+    // Descuento desactivado o sin precio: mostrar precio normal
     const formatPrice = (price) => {
       return new Intl.NumberFormat('es-CO', {
         style: 'currency',
