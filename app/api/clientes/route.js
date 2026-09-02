@@ -141,3 +141,48 @@ export async function POST(request) {
     }, { status: 500 });
   }
 }
+
+// PATCH /api/clientes - Actualizar campos editables de un cliente (p.ej. notas)
+export async function PATCH(request) {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { id, notas, nivel_fidelidad, descuento_fidelidad } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: 'Se requiere el id del cliente' }, { status: 400 });
+    }
+
+    const updateData = {};
+    if (notas !== undefined) updateData.notas = notas;
+    if (nivel_fidelidad !== undefined) updateData.nivel_fidelidad = nivel_fidelidad;
+    if (descuento_fidelidad !== undefined) updateData.descuento_fidelidad = descuento_fidelidad;
+
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json({ error: 'No hay campos para actualizar' }, { status: 400 });
+    }
+
+    const supabase = getSupabaseBrowserClient();
+    const { data: cliente, error } = await supabase
+      .from('clientes')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error actualizando cliente:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true, cliente });
+
+  } catch (error) {
+    console.error('Error en PATCH /api/clientes:', error);
+    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
+  }
+}

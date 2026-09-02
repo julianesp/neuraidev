@@ -44,19 +44,19 @@ export default function ClientesPage() {
   const [notesText, setNotesText] = useState("");
   const [showRegistrarComprador, setShowRegistrarComprador] = useState(false);
 
-  // Obtener clientes de la base de datos
+  // Obtener clientes de la base de datos (tabla `clientes`, donde el
+  // formulario "Registrar Comprador Previo" guarda los registros)
   const fetchCustomers = async () => {
     try {
       setLoading(true);
       setError(null);
 
       const params = new URLSearchParams({
-        search: searchTerm,
-        sortBy,
-        order: sortOrder
+        busqueda: searchTerm,
+        limit: "100"
       });
 
-      const response = await fetch(`/api/customers?${params}`);
+      const response = await fetch(`/api/clientes?${params}`);
 
       if (!response.ok) {
         throw new Error('Error al obtener los clientes');
@@ -64,15 +64,46 @@ export default function ClientesPage() {
 
       const data = await response.json();
 
-      if (data.success) {
-        setClientes(data.customers || []);
-        setStats(data.stats || {
-          total: 0,
-          totalRevenue: 0,
-          averageOrderValue: 0,
-          totalOrders: 0
-        });
-      }
+      // Mapear el esquema de la tabla `clientes` (español) al formato que
+      // consume la tabla de la UI (name, email, total_spent, etc.)
+      let mapped = (data.clientes || []).map((c) => ({
+        id: c.id,
+        name: c.nombre,
+        email: c.email,
+        phone: c.telefono,
+        total_orders: c.total_compras ?? 0,
+        total_spent: c.total_gastado ?? 0,
+        last_order_date: c.fecha_ultima_compra || c.updated_at || c.created_at,
+        notes: c.notas,
+      }));
+
+      // Ordenamiento en cliente según los controles de la UI
+      const dir = sortOrder === 'asc' ? 1 : -1;
+      mapped.sort((a, b) => {
+        let va;
+        let vb;
+        if (sortBy === 'name') {
+          va = (a.name || '').toLowerCase();
+          vb = (b.name || '').toLowerCase();
+          return va < vb ? -dir : va > vb ? dir : 0;
+        }
+        if (sortBy === 'total_spent') { va = a.total_spent; vb = b.total_spent; }
+        else if (sortBy === 'total_orders') { va = a.total_orders; vb = b.total_orders; }
+        else { va = new Date(a.last_order_date || 0).getTime(); vb = new Date(b.last_order_date || 0).getTime(); }
+        return (Number(va) - Number(vb)) * dir;
+      });
+
+      setClientes(mapped);
+
+      // Calcular estadísticas
+      const totalRevenue = mapped.reduce((sum, c) => sum + parseFloat(c.total_spent || 0), 0);
+      const totalOrders = mapped.reduce((sum, c) => sum + (Number(c.total_orders) || 0), 0);
+      setStats({
+        total: mapped.length,
+        totalRevenue,
+        totalOrders,
+        averageOrderValue: totalOrders > 0 ? totalRevenue / totalOrders : 0,
+      });
     } catch (err) {
       console.error('Error fetching customers:', err);
       setError(err.message);
@@ -129,10 +160,10 @@ export default function ClientesPage() {
 
   const saveNotes = async (customerId) => {
     try {
-      const response = await fetch('/api/customers', {
+      const response = await fetch('/api/clientes', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customerId, notes: notesText })
+        body: JSON.stringify({ id: customerId, notas: notesText })
       });
 
       if (!response.ok) throw new Error('Error al guardar notas');
