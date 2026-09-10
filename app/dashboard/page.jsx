@@ -19,6 +19,7 @@ import {
   FileText,
   ArrowRight,
   Tag,
+  MessageSquare,
 } from "lucide-react";
 async function obtenerEstadisticasProductos() {
   try {
@@ -282,6 +283,12 @@ export default function DashboardPage() {
             description="Gestiona créditos y fiados a clientes"
             href="/dashboard/creditos"
             icon={CreditCard}
+          />
+          <QuickAction
+            title="Chat de soporte"
+            description="Responde los mensajes de tus clientes"
+            href="/dashboard/chat"
+            icon={MessageSquare}
           />
           <QuickAction
             title="Ver tienda"

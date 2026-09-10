@@ -1156,7 +1156,7 @@ const AccesoriosContainer = ({
               {/* Banner de Descuento Nequi */}
               {accesorio.stock > 0 && (
                 <div className="mt-6">
-                  <NequiPaymentBadge descuento={5} variant="banner" />
+                  <NequiPaymentBadge descuento={10} variant="banner" />
                 </div>
               )}
 

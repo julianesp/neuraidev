@@ -20,6 +20,7 @@ import { ToastProvider } from "@/contexts/ToastContext";
 import { ToastContainer } from "@/components/Toast";
 import { ClerkProvider } from "@clerk/nextjs";
 import AIChat from "@/components/AIChat/AIChat";
+import ChatSoporte from "@/components/ChatSoporte/ChatSoporte";
 import { CartProvider } from "@/context/CartContext";
 import ShoppingCart from "@/components/ShoppingCart/page";
 import AnnouncementsProvider from "@/components/AnnouncementsProvider";
@@ -310,6 +311,7 @@ export default function RootLayout({ children }) {
                     </div>
                     <ShoppingCart />
                     <AIChat />
+                    <ChatSoporte />
                     <ToastContainer />
                     <AnnouncementsProvider />
                     {/* <AccessibilityPanel /> */}

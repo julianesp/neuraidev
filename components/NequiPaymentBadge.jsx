@@ -28,15 +28,9 @@ export default function NequiPaymentBadge({
                 {descuento}% de Descuento
               </h3>
               <p className="text-white text-md ">
-                ¡Paga con <span className="font-bold">Nequi</span> y ahorra!
+                ¡Paga en <span className="font-bold">efectivo</span> y ahorra!
               </p>
             </div>
-          </div>
-          <div className="hidden md:flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
-            <Gift className="w-5 h-5 text-white mr-2" />
-            <span className="text-white font-semibold text-sm">
-              Sin comisiones
-            </span>
           </div>
         </div>
       </div>

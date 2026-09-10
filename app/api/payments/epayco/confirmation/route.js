@@ -5,6 +5,7 @@ import { createInvoiceRecord } from "@/lib/invoiceGenerator";
 import { notifyNewSale } from "@/lib/notificationService";
 import { validarFirmaEpayco } from "@/lib/epayco/signature";
 import { notificarPagoAprobado, notificarNuevaVentaAdmin } from "@/lib/pushService";
+import { crearMensajeSistemaPedido } from "@/lib/chatSoporte";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -315,6 +316,14 @@ export async function POST(request) {
           }
         } catch (pushError) {
           logError("⚠️ Error enviando push al comprador:", pushError);
+        }
+
+        // 7. Abrir un hilo de chat de soporte ligado al pedido con un mensaje
+        //    automático de confirmación. Nunca bloquea el webhook.
+        try {
+          await crearMensajeSistemaPedido(order);
+        } catch (chatError) {
+          logError("⚠️ Error creando mensaje de chat de compra:", chatError);
         }
       }
 
