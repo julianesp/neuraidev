@@ -6,6 +6,16 @@ const isDev = process.env.NODE_ENV === 'development';
 const log = (...args) => isDev && console.warn('[DEV]', ...args);
 const logError = (...args) => console.error(...args);
 
+// items se guarda en D1 como string JSON; la página lo espera como array.
+function normalizarItems(invoice) {
+  if (!invoice) return invoice;
+  let items = invoice.items;
+  if (typeof items === 'string') {
+    try { items = JSON.parse(items); } catch { items = []; }
+  }
+  return { ...invoice, items: Array.isArray(items) ? items : [] };
+}
+
 /**
  * API Route para generar una factura electrónica
  * POST /api/invoices/generate
@@ -68,7 +78,7 @@ export async function POST(request) {
       log('✅ Factura ya existe:', existingInvoice.invoice_number);
       return NextResponse.json({
         success: true,
-        invoice: existingInvoice,
+        invoice: normalizarItems(existingInvoice),
         message: 'Factura ya existente',
       });
     }
@@ -76,17 +86,15 @@ export async function POST(request) {
     // 4. Crear la factura
     log('📄 Creando nueva factura...');
 
-    const invoice = await createInvoiceRecord(
-      supabase,
-      order,
-      order.payment_response
-    );
+    // createInvoiceRecord toma los datos de la transacción de la orden
+    // (informacion_pago / transaction_id) cuando el 3er argumento es null.
+    const invoice = await createInvoiceRecord(supabase, order, null);
 
     log('✅ Factura creada:', invoice.invoice_number);
 
     return NextResponse.json({
       success: true,
-      invoice,
+      invoice: normalizarItems(invoice),
       message: 'Factura generada exitosamente',
     });
   } catch (error) {
