@@ -116,9 +116,26 @@ function RespuestaPagoContent() {
   const [isRegisteredCustomer, setIsRegisteredCustomer] = useState(false);
 
   useEffect(() => {
-    // Detectar si es redirect de ePayco (tiene x_ref_payco, ref_payco o x_transaction_state)
-    const epaycoRef = searchParams.get("x_ref_payco") || searchParams.get("ref_payco");
-    const epaycoState = searchParams.get("x_transaction_state");
+    // ePayco redirige con dos formatos de parámetros según el flujo:
+    //   - largo:  x_ref_payco, x_transaction_state, x_id_invoice, x_amount...
+    //   - corto:  ref_payco, transaction_state (o response), id_invoice, amount...
+    // Leemos ambos con un helper para no quedarnos "en blanco" (lo que causaba
+    // que un pago aceptado se mostrara como "No completaste el pago").
+    const p = (...keys) => {
+      for (const k of keys) {
+        const v = searchParams.get(k);
+        if (v !== null && v !== "") return v;
+      }
+      return "";
+    };
+
+    const epaycoRef = p("x_ref_payco", "ref_payco");
+    const epaycoState = p(
+      "x_transaction_state",
+      "transaction_state",
+      "x_response",
+      "response",
+    );
 
     // Si es un redirect de ePayco, leer los parámetros directamente de la URL
     if (epaycoRef || epaycoState) {
@@ -131,17 +148,22 @@ function RespuestaPagoContent() {
       };
 
       const rawState = epaycoState || "";
-      const reference = searchParams.get("x_id_invoice") || searchParams.get("x_extra1") || "";
+      const reference = p("x_id_invoice", "id_invoice", "x_extra1", "extra1");
 
       const data = {
-        transactionId: epaycoRef || searchParams.get("x_transaction_id") || "",
+        transactionId: epaycoRef || p("x_transaction_id", "transaction_id") || "",
         reference: reference,
-        amount: parseFloat(searchParams.get("x_amount") || searchParams.get("x_amount_ok") || 0),
-        currency: searchParams.get("x_currency_code") || "COP",
-        status: rawState ? (stateMap[rawState] || "ERROR") : "CANCELLED",
+        amount: parseFloat(p("x_amount", "amount", "x_amount_ok") || 0),
+        currency: p("x_currency_code", "currency_code") || "COP",
+        // Si por algún motivo no llega el estado en la URL pero sí la referencia,
+        // dejamos PENDING (no CANCELLED) para que la página consulte la orden real
+        // en la BD en vez de afirmar que el pago se canceló.
+        status: rawState
+          ? (stateMap[rawState] || "ERROR")
+          : (epaycoRef ? "PENDING" : "CANCELLED"),
         statusMessage: rawState,
-        paymentMethod: searchParams.get("x_franchise") || "ePayco",
-        customerEmail: searchParams.get("x_customer_email") || "",
+        paymentMethod: p("x_franchise", "franchise") || "ePayco",
+        customerEmail: p("x_customer_email", "customer_email") || "",
         source: "epayco",
       };
 
@@ -264,6 +286,25 @@ function RespuestaPagoContent() {
   // Determinar el estado del pago
   const getPaymentStatus = () => {
     if (!paymentData) return null;
+
+    // La verdad del pago la tiene el webhook, reflejado en la orden de la BD.
+    // Si la orden ya quedó pagada/completada, mostramos éxito aunque la URL de
+    // retorno de ePayco venga incompleta o mal formada.
+    if (
+      orderData &&
+      (orderData.estado === "completado" ||
+        orderData.estado === "pagado" ||
+        orderData.estado_pago === "completado" ||
+        orderData.estado_pago === "pagado")
+    ) {
+      return {
+        type: "success",
+        icon: "✅",
+        title: "¡Pago exitoso!",
+        message: "Tu transacción ha sido procesada correctamente.",
+        color: "green",
+      };
+    }
 
     const state = paymentData.status;
 
