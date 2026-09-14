@@ -163,8 +163,12 @@ export default function EpaycoCheckout({ onClose }) {
       missingFields.push("Correo electrónico válido");
     }
 
-    if (!customerData.phone || customerData.phone.length < 7) {
-      missingFields.push("Teléfono");
+    // ePayco exige un móvil colombiano de 10 dígitos (empieza por 3).
+    // Si dejamos pasar menos dígitos, el checkout de ePayco deja el botón
+    // "Continuar" deshabilitado y el pago nunca avanza.
+    const phoneDigits = (customerData.phone || "").replace(/\D/g, "");
+    if (phoneDigits.length !== 10 || !phoneDigits.startsWith("3")) {
+      missingFields.push("Teléfono (celular de 10 dígitos, ej: 3001234567)");
     }
 
     if (!customerData.address || customerData.address.trim().length < 5) {
@@ -263,7 +267,8 @@ export default function EpaycoCheckout({ onClose }) {
           reference: reference,
           customerName: customerData.name,
           customerEmail: customerData.email,
-          customerPhone: customerData.phone,
+          // Solo dígitos: ePayco rechaza teléfonos con espacios/guiones
+          customerPhone: (customerData.phone || "").replace(/\D/g, ""),
           customerAddress: customerData.address,
           customerCity: customerData.city,
           customerRegion: customerData.region,
