@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Zap, CreditCard, Download, MessageCircle, Copy, Check, UserPlus, LogIn } from "lucide-react";
+import { X, CreditCard, Download, MessageCircle, Copy, Check, UserPlus, LogIn } from "lucide-react";
 import { generateNequiInvoicePDF } from "@/utils/generateNequiInvoicePDF";
 import { useUser } from "@clerk/nextjs";
 
@@ -20,7 +20,8 @@ export default function CartPaymentMethodModal({
   onSelectEpayco
 }) {
   const { user, isLoaded } = useUser();
-  const [metodoSeleccionado, setMetodoSeleccionado] = useState(null);
+  // ePayco es el único método disponible: se preselecciona.
+  const [metodoSeleccionado, setMetodoSeleccionado] = useState("epayco");
   const [showNequiInstructions, setShowNequiInstructions] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [showRegisterSuggestion, setShowRegisterSuggestion] = useState(false);
@@ -441,7 +442,7 @@ export default function CartPaymentMethodModal({
           {/* Header */}
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-              💜 Elige cómo quieres pagar
+              💳 Finaliza tu compra
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               {cart.length} producto{cart.length > 1 ? 's' : ''} en tu carrito
@@ -453,43 +454,6 @@ export default function CartPaymentMethodModal({
             <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               💰 Método de Pago:
             </p>
-
-            {/* Opción Nequi */}
-            <button
-              onClick={() => setMetodoSeleccionado("nequi")}
-              className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-                metodoSeleccionado === "nequi"
-                  ? "border-purple-600 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30"
-                  : "border-gray-200 dark:border-gray-600 hover:border-purple-300 dark:hover:border-purple-700"
-              }`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-2 rounded-lg">
-                    <Zap className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="font-bold text-gray-900 dark:text-white">
-                    Nequi
-                  </span>
-                  <span className="bg-purple-600 text-white text-xs px-2 py-0.5 rounded-full font-bold">
-                    -{descuento}%
-                  </span>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-bold text-purple-700 dark:text-purple-300">
-                    ${totalConDescuento.toLocaleString('es-CO')}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-2 text-xs">
-                <span className="text-green-600 dark:text-green-400 font-medium">
-                  ✓ Ahorras ${ahorro.toLocaleString('es-CO')}
-                </span>
-                <span className="text-gray-600 dark:text-gray-400">
-                  • Sin comisiones
-                </span>
-              </div>
-            </button>
 
             {/* Opción ePayco */}
             <button
