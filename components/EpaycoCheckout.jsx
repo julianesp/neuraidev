@@ -12,6 +12,11 @@ export default function EpaycoCheckout({ onClose }) {
   const { cart, getTotalPrice, clearCart } = useCart();
   const toast = useToast();
 
+  // Envío gratis al Alto Putumayo solo desde este monto.
+  const ENVIO_GRATIS_MINIMO = 50000;
+  const calificaEnvioGratis = getTotalPrice() >= ENVIO_GRATIS_MINIMO;
+  const faltaParaEnvioGratis = ENVIO_GRATIS_MINIMO - getTotalPrice();
+
   const [loading, setLoading] = useState(false);
   const [customerData, setCustomerData] = useState({
     name: "",
@@ -580,32 +585,49 @@ export default function EpaycoCheckout({ onClose }) {
                 Política de Envíos
               </h3>
 
-              {/* Envío gratis */}
-              <div className="mb-3 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-md p-3">
-                <div className="flex items-center gap-2 mb-1">
-                  <svg
-                    className="w-5 h-5 text-green-600 dark:text-green-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="font-semibold text-green-800 dark:text-green-200 text-sm">
-                    ✓ Envío GRATIS al Alto Putumayo
-                  </span>
+              {/* Envío gratis (solo desde el mínimo) */}
+              {calificaEnvioGratis ? (
+                <div className="mb-3 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-md p-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <svg
+                      className="w-5 h-5 text-green-600 dark:text-green-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="font-semibold text-green-800 dark:text-green-200 text-sm">
+                      ✓ Envío GRATIS al Alto Putumayo
+                    </span>
+                  </div>
+                  <p className="text-xs text-green-700 dark:text-green-300 ml-7">
+                    Para todo el <strong>Alto Putumayo</strong> (Valle de
+                    Sibundoy, Colón, Sibundoy, Santiago, San Francisco)
+                  </p>
+                  <p className="text-xs text-green-600 dark:text-green-400 ml-7 mt-1 font-medium">
+                    ¡Tu compra califica para envío gratis!
+                  </p>
                 </div>
-                <p className="text-xs text-green-700 dark:text-green-300 ml-7">
-                  Para todo el <strong>Alto Putumayo</strong> (Valle de Sibundoy,
-                  Colón, Sibundoy, Santiago, San Francisco)
-                </p>
-                <p className="text-xs text-green-600 dark:text-green-400 ml-7 mt-1 font-medium">
-                  ¡Tu compra califica para envío gratis!
-                </p>
-              </div>
+              ) : (
+                <div className="mb-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-md p-3">
+                  <p className="text-xs text-amber-800 dark:text-amber-200">
+                    Añade{" "}
+                    <span className="font-bold">
+                      ${faltaParaEnvioGratis.toLocaleString("es-CO")}
+                    </span>{" "}
+                    más para <strong>envío GRATIS</strong> al Alto Putumayo.
+                  </p>
+                  <p className="text-xs text-amber-700 dark:text-amber-300 mt-1">
+                    Válido en compras desde $
+                    {ENVIO_GRATIS_MINIMO.toLocaleString("es-CO")} (Valle de
+                    Sibundoy, Colón, Sibundoy, Santiago, San Francisco).
+                  </p>
+                </div>
+              )}
 
               {/* Otros destinos */}
               <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-md p-3">

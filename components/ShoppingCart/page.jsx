@@ -23,6 +23,12 @@ export default function ShoppingCart() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
+  // Envío gratis al Alto Putumayo solo desde este monto.
+  const ENVIO_GRATIS_MINIMO = 50000;
+  const totalCarrito = getTotalPrice();
+  const calificaEnvioGratis = totalCarrito >= ENVIO_GRATIS_MINIMO;
+  const faltaParaEnvioGratis = ENVIO_GRATIS_MINIMO - totalCarrito;
+
   // Detectar si el carrito tiene items de tiendas externas (no del sitio principal)
   const itemsDeTienda = cart.filter((item) => item.seller_clerk_user_id);
   const itemsPropios = cart.filter((item) => !item.seller_clerk_user_id);
@@ -390,12 +396,24 @@ export default function ShoppingCart() {
                         <p className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
                           📦 Envíos
                         </p>
-                        <p className="text-xs text-blue-700 dark:text-blue-300">
-                          <span className="font-semibold text-green-600 dark:text-green-400">
-                            ✓ GRATIS
-                          </span>{" "}
-                          en todo el Alto Putumayo
-                        </p>
+                        {calificaEnvioGratis ? (
+                          <p className="text-xs text-blue-700 dark:text-blue-300">
+                            <span className="font-semibold text-green-600 dark:text-green-400">
+                              ✓ GRATIS
+                            </span>{" "}
+                            en todo el Alto Putumayo
+                          </p>
+                        ) : (
+                          <p className="text-xs text-blue-700 dark:text-blue-300">
+                            Añade{" "}
+                            <span className="font-semibold text-green-600 dark:text-green-400">
+                              ${faltaParaEnvioGratis.toLocaleString("es-CO")}
+                            </span>{" "}
+                            más para <strong>envío GRATIS</strong> al Alto
+                            Putumayo (mínimo $
+                            {ENVIO_GRATIS_MINIMO.toLocaleString("es-CO")})
+                          </p>
+                        )}
                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                           (Valle de Sibundoy, Colón, Sibundoy, Santiago, San Francisco)
                         </p>
