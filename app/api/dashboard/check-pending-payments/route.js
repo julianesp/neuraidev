@@ -92,7 +92,7 @@ export async function GET(request) {
               `https://secure.epayco.co/validation/v1/reference/${order.numero_orden}`,
               {
                 headers: {
-                  'Authorization': `Bearer ${process.env.EPAYCO_PUBLIC_KEY}`,
+                  'Authorization': `Bearer ${process.env.EPAYCO_PUBLIC_KEY || process.env.NEXT_PUBLIC_EPAYCO_PUBLIC_KEY || ''}`,
                 }
               }
             );
@@ -179,9 +179,13 @@ export async function GET(request) {
             continue;
           }
 
-          // Descontar stock
+          // Descontar stock (metadata de D1 puede llegar como string JSON)
+          let orderMetadata = order.metadata;
+          if (typeof orderMetadata === "string") {
+            try { orderMetadata = JSON.parse(orderMetadata); } catch { orderMetadata = null; }
+          }
           const orderItems =
-            order.metadata?.productos || order.productos || order.items;
+            orderMetadata?.productos || order.productos || order.items;
           if (orderItems && Array.isArray(orderItems)) {
             const stockResult = await decrementMultipleProductsStock(orderItems);
 

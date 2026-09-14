@@ -114,6 +114,8 @@ function RespuestaPagoContent() {
   const [loading, setLoading] = useState(true);
   const [showCustomerModal, setShowCustomerModal] = useState(false);
   const [isRegisteredCustomer, setIsRegisteredCustomer] = useState(false);
+  // true mientras se consulta a ePayco la confirmación del pago (polling).
+  const [verificandoPago, setVerificandoPago] = useState(false);
 
   useEffect(() => {
     // ePayco redirige con dos formatos de parámetros según el flujo:
@@ -176,17 +178,70 @@ function RespuestaPagoContent() {
 
       // Consultar la orden desde nuestra base de datos
       if (reference) {
-        fetch(`/api/orders/get-by-reference?reference=${reference}`)
-          .then((res) => res.ok ? res.json() : null)
-          .then(async (orderInfo) => {
-            if (orderInfo?.order) {
-              setOrderData(orderInfo.order);
+        (async () => {
+          try {
+            const fetchOrder = async () => {
+              const res = await fetch(
+                `/api/orders/get-by-reference?reference=${reference}`,
+              );
+              return res.ok ? (await res.json())?.order : null;
+            };
+
+            const estaCompletada = (o) =>
+              o &&
+              (o.estado === "completado" ||
+                o.estado === "pagado" ||
+                o.estado_pago === "completado");
+
+            const estaRechazada = (o) =>
+              o && (o.estado === "cancelado" || o.estado_pago === "rechazado");
+
+            const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+            let order = await fetchOrder();
+
+            // Polling con reconciliación: los pagos Nequi/PSE por ePayco se
+            // confirman de forma asíncrona (puede tardar ~1-2 min). Mientras la
+            // orden siga pendiente, reintentamos: pedimos a ePayco el estado
+            // real (reconcile completa la orden si ya está Aceptada) y releemos.
+            // Así la página pasa sola de "pendiente" a "¡Pago exitoso!" sin que
+            // el cliente tenga que recargar. Máx ~2 min (24 intentos x 5s).
+            const MAX_INTENTOS = 24;
+            for (
+              let intento = 0;
+              intento < MAX_INTENTOS &&
+              order &&
+              !estaCompletada(order) &&
+              !estaRechazada(order);
+              intento++
+            ) {
+              setVerificandoPago(true);
+              try {
+                await fetch(
+                  `/api/payments/epayco/reconcile?reference=${reference}`,
+                );
+              } catch (recErr) {
+                console.error("Error en reconciliación de pago:", recErr);
+              }
+              order = (await fetchOrder()) || order;
+              if (estaCompletada(order) || estaRechazada(order)) break;
+              await wait(5000);
             }
-            // Verificar si el cliente ya está registrado (solo si pago exitoso)
-            if (data.status === "APPROVED" && data.customerEmail) {
+            setVerificandoPago(false);
+
+            if (order) setOrderData(order);
+
+            // El pago cuenta como exitoso si la URL lo dice O la orden quedó
+            // completada (tras el webhook o la reconciliación).
+            const pagoExitoso = data.status === "APPROVED" || estaCompletada(order);
+
+            const emailCliente = data.customerEmail || order?.customer_email;
+
+            // Invitación a registrarse (solo si pago exitoso y hay email)
+            if (pagoExitoso && emailCliente) {
               try {
                 const customerCheck = await fetch(
-                  `/api/customers/register?email=${encodeURIComponent(data.customerEmail)}`
+                  `/api/customers/register?email=${encodeURIComponent(emailCliente)}`,
                 );
                 if (customerCheck.ok) {
                   const customerData = await customerCheck.json();
@@ -199,9 +254,12 @@ function RespuestaPagoContent() {
                 console.error("Error verificando cliente:", error);
               }
             }
-          })
-          .catch((error) => console.error("Error consultando orden:", error))
-          .finally(() => setLoading(false));
+          } catch (error) {
+            console.error("Error consultando orden:", error);
+          } finally {
+            setLoading(false);
+          }
+        })();
       } else {
         setLoading(false);
       }
@@ -358,12 +416,25 @@ function RespuestaPagoContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+        <div className="text-center max-w-md">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">
-            Procesando respuesta...
-          </p>
+          {verificandoPago ? (
+            <>
+              <p className="mt-4 text-lg font-semibold text-gray-900 dark:text-white">
+                Confirmando tu pago…
+              </p>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                Estamos verificando tu pago con la pasarela. Esto puede tardar
+                hasta un par de minutos (los pagos por Nequi/PSE no son
+                instantáneos). No cierres esta página.
+              </p>
+            </>
+          ) : (
+            <p className="mt-4 text-gray-600 dark:text-gray-400">
+              Procesando respuesta...
+            </p>
+          )}
         </div>
       </div>
     );
