@@ -207,7 +207,30 @@ export default function CartPaymentMethodModal({
     window.open(whatsappUrl, '_blank');
   };
 
+  // Pago en efectivo: se coordina por WhatsApp. Se envía el pedido con el
+  // total real (sin el descuento de Nequi) al número de la tienda.
+  const enviarEfectivoPorWhatsApp = () => {
+    let mensaje = `Hola! 👋\n\n`;
+    mensaje += `Quiero hacer un pedido y pagar *en efectivo*:\n\n`;
+    mensaje += `📦 Productos:\n`;
+
+    cart.forEach((item, index) => {
+      mensaje += `${index + 1}. ${item.nombre}${item.variacion ? ` - ${item.variacion}` : ''} (x${item.cantidad})\n`;
+    });
+
+    mensaje += `\n💰 Total: $${totalPrice.toLocaleString('es-CO')}\n`;
+    mensaje += `\n¿Cómo coordinamos la entrega y el pago? ¡Gracias!`;
+
+    const whatsappUrl = `https://wa.me/57${numeroNequi}?text=${encodeURIComponent(mensaje)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const handleContinuar = () => {
+    if (metodoSeleccionado === "efectivo") {
+      enviarEfectivoPorWhatsApp();
+      onClose();
+      return;
+    }
     if (metodoSeleccionado === "nequi") {
       // Si el usuario no está autenticado, mostrar sugerencia de registro
       if (!user) {
@@ -483,6 +506,35 @@ export default function CartPaymentMethodModal({
                 Pago con tarjeta de crédito/débito
               </div>
             </button>
+
+            {/* Opción En efectivo (se coordina por WhatsApp) */}
+            <button
+              onClick={() => setMetodoSeleccionado("efectivo")}
+              className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
+                metodoSeleccionado === "efectivo"
+                  ? "border-green-600 bg-green-50 dark:bg-green-900/30"
+                  : "border-gray-200 dark:border-gray-600 hover:border-green-300 dark:hover:border-green-700"
+              }`}
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <div className="bg-green-600 p-2 rounded-lg">
+                    <MessageCircle className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="font-bold text-gray-900 dark:text-white">
+                    En efectivo
+                  </span>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">
+                    ${totalPrice.toLocaleString('es-CO')}
+                  </p>
+                </div>
+              </div>
+              <div className="text-xs text-gray-600 dark:text-gray-400">
+                Coordina la entrega y el pago por WhatsApp
+              </div>
+            </button>
           </div>
 
           {/* Botones de acción */}
@@ -501,10 +553,18 @@ export default function CartPaymentMethodModal({
                   ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
                   : metodoSeleccionado === "nequi"
                     ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-                    : "bg-blue-600 hover:bg-blue-700 text-white"
+                    : metodoSeleccionado === "efectivo"
+                      ? "bg-green-600 hover:bg-green-700 text-white"
+                      : "bg-blue-600 hover:bg-blue-700 text-white"
               }`}
             >
-              {metodoSeleccionado === "nequi" ? "Continuar con Nequi" : metodoSeleccionado === "epayco" ? "Pagar con ePayco" : "Continuar"}
+              {metodoSeleccionado === "nequi"
+                ? "Continuar con Nequi"
+                : metodoSeleccionado === "epayco"
+                  ? "Pagar con ePayco"
+                  : metodoSeleccionado === "efectivo"
+                    ? "Coordinar por WhatsApp"
+                    : "Continuar"}
             </button>
           </div>
         </div>
