@@ -28,11 +28,15 @@
   overflow: hidden;
   position: relative;
 
-  &:hover {
-    transform: scale(1.1);
-    box-shadow:
-      0 6px 20px rgba(0, 0, 0, 0.4),
-      0 0 30px rgba(102, 126, 234, 0.6);
+  // Gatear el hover a punteros finos: en táctil el tap dispara un hover
+  // fantasma que dejaría el botón agrandado.
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: scale(1.1);
+      box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(102, 126, 234, 0.6);
+    }
   }
 
   &:active {
@@ -278,5 +282,21 @@
   .floatingButton::after,
   .floatingButton::before {
     display: none;
+  }
+}
+
+// Reduced motion: conservar los cambios de estado y color, quitar el
+// movimiento (pulso infinito, slide-in, giro animado de la palanca).
+@media (prefers-reduced-motion: reduce) {
+  .floatingButton.active {
+    animation: none;
+  }
+
+  .floatingButtonContainer {
+    animation: none;
+  }
+
+  .leverHandle {
+    transition: none;
   }
 }

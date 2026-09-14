@@ -28,10 +28,13 @@
   width: 60px;
   height: 40px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 
-  &:hover {
-    transform: scale(1.05);
+  // Hover solo en puntero fino: en táctil el tap deja un hover fantasma.
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   &:focus {
@@ -102,7 +105,8 @@
   background: linear-gradient(to right, #8b6f47, #6b5335);
   border-radius: 2px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  /* Rebote contenido, como un interruptor de redstone que hace clic al caer */
+  transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.5, 1);
 
   &::before {
     content: '';
@@ -159,5 +163,21 @@
 }
 
 .leverSwitch:active .leverHandle {
-  animation: leverPull 0.2s ease;
+  animation: leverPull 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+// Reduced motion: mantener el estado (palanca girada, bloque de color),
+// quitar el rebote y el tirón animado.
+@media (prefers-reduced-motion: reduce) {
+  .leverSwitch {
+    transition: none;
+  }
+
+  .leverHandle {
+    transition: none;
+  }
+
+  .leverSwitch:active .leverHandle {
+    animation: none;
+  }
 }

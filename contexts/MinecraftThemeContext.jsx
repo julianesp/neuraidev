@@ -42,8 +42,38 @@ export const MinecraftThemeProvider = ({ children }) => {
     }
   }, [isMinecraftTheme, mounted]);
 
+  // Secuencia de activación: barrido de "colocar bloques" + entrada escalonada.
+  // Solo al ENCENDER el tema (delight de evento raro); apagar es una salida limpia.
+  const playActivationAnimation = () => {
+    const reduce =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+    const root = document.documentElement;
+    root.classList.add('minecraft-theme', 'mc-activating');
+
+    // Overlay de barrido de bloques
+    const overlay = document.createElement('div');
+    overlay.className = 'mc-place-overlay';
+    document.body.appendChild(overlay);
+
+    // Duración alineada con los keyframes CSS (700ms; reducido a 200ms sin movimiento)
+    const duration = reduce ? 220 : 720;
+    window.setTimeout(() => {
+      root.classList.remove('mc-activating');
+      overlay.remove();
+    }, duration);
+  };
+
   const toggleMinecraftTheme = () => {
-    setIsMinecraftTheme(prev => !prev);
+    setIsMinecraftTheme(prev => {
+      const next = !prev;
+      if (next && mounted) {
+        // encender: reproducir la animación temática
+        playActivationAnimation();
+      }
+      return next;
+    });
   };
 
   // Evitar flash de contenido sin estilo

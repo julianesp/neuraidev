@@ -32,6 +32,11 @@ html.minecraft-theme body {
   --mc-lapis:        #1B44B8;
   --mc-text-shadow-light: rgba(0,0,0,0.4);
   --mc-text-shadow-dark:  rgba(0,0,0,0.7);
+
+  /* Curvas de animación (del sistema del skill /animate)
+     ease-out fuerte para entradas; ease-in-out fuerte para movimiento en pantalla. */
+  --mc-ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+  --mc-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 /* ============================================
@@ -174,7 +179,11 @@ html.minecraft-theme body {
   border-width: 2px !important;
   border-style: solid !important;
   border-color: rgba(0,0,0,0.25) !important;
-  box-shadow: var(--mc-shadow), var(--mc-inset-light), var(--mc-inset-dark) !important;
+  /* Bisel de bloque: luz arriba-izquierda, sombra abajo-derecha (como una cara de bloque) */
+  box-shadow:
+    var(--mc-shadow),
+    inset 2px 2px 0px rgba(255,255,255,0.25),
+    inset -2px -2px 0px rgba(0,0,0,0.28) !important;
 }
 
 /* Modo oscuro — borde más visible */
@@ -278,7 +287,7 @@ html.minecraft-theme body {
 }
 
 /* ============================================
-   ANIMACIÓN BOTÓN
+   ANIMACIÓN BOTÓN — feedback de pulsación (100-160ms)
    ============================================ */
 
 @keyframes mc-pop {
@@ -288,7 +297,124 @@ html.minecraft-theme body {
 }
 
 .minecraft-theme button:active {
-  animation: mc-pop 0.15s ease !important;
+  animation: mc-pop 0.15s var(--mc-ease-out) !important;
+}
+
+/* ============================================
+   ANIMACIONES TEMÁTICAS DE MINECRAFT
+   Se disparan al ACTIVAR el tema (evento raro → presupuesto de delight)
+   y al colocar bloques (cards/botones) la primera vez que aparecen.
+   Todo cortesía de transform + opacity para que corra en GPU.
+   ============================================ */
+
+/* --- 1. Entrada global al activar el tema ---
+   La clase .mc-activating la añade el provider durante ~700ms al encender.
+   Simula "colocar" la interfaz como quien pone bloques en el mundo. */
+
+@keyframes mc-block-place {
+  0%   { transform: translateY(-14px) scale(0.92); opacity: 0; }
+  55%  { transform: translateY(2px)   scale(1.02); opacity: 1; }
+  100% { transform: translateY(0)     scale(1);    opacity: 1; }
+}
+
+.minecraft-theme.mc-activating [class*="card"],
+.minecraft-theme.mc-activating [class*="Card"],
+.minecraft-theme.mc-activating .bg-white,
+.minecraft-theme.mc-activating [class*="bg-gray"],
+.minecraft-theme.mc-activating button,
+.minecraft-theme.mc-activating [role="button"] {
+  animation: mc-block-place 0.42s var(--mc-ease-out) both !important;
+}
+
+/* Escalonado por columnas para que caigan como bloques, no todos a la vez.
+   Stagger de ~40-70ms (dentro del rango 30-80ms recomendado). */
+.minecraft-theme.mc-activating [class*="card"]:nth-child(2n),
+.minecraft-theme.mc-activating [class*="Card"]:nth-child(2n) {
+  animation-delay: 0.05s !important;
+}
+.minecraft-theme.mc-activating [class*="card"]:nth-child(3n),
+.minecraft-theme.mc-activating [class*="Card"]:nth-child(3n) {
+  animation-delay: 0.11s !important;
+}
+.minecraft-theme.mc-activating [class*="card"]:nth-child(4n),
+.minecraft-theme.mc-activating [class*="Card"]:nth-child(4n) {
+  animation-delay: 0.16s !important;
+}
+
+/* --- 2. Destello de "romper bloque" en los títulos al activar --- */
+
+@keyframes mc-title-shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-2px); }
+  40%      { transform: translateX(2px); }
+  60%      { transform: translateX(-1px); }
+  80%      { transform: translateX(1px); }
+}
+
+.minecraft-theme.mc-activating h1,
+.minecraft-theme.mc-activating h2 {
+  animation: mc-title-shake 0.34s var(--mc-ease-in-out) both !important;
+}
+
+/* ============================================
+   OVERLAY DE ACTIVACIÓN — "colocando bloques"
+   Barrido de píxeles que el provider monta como <div class="mc-place-overlay">
+   sobre toda la pantalla durante la activación.
+   ============================================ */
+
+.mc-place-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  /* rejilla de bloques tipo tierra/pasto */
+  background-image:
+    linear-gradient(rgba(0,0,0,0.22) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(0,0,0,0.22) 2px, transparent 2px),
+    linear-gradient(135deg, #6b8e3d 0%, #5a7a33 45%, #7b5a3a 46%, #6b4a2f 100%);
+  background-size: 48px 48px, 48px 48px, 100% 100%;
+  transform: translateY(-100%);
+  animation: mc-place-sweep 0.7s var(--mc-ease-in-out) forwards;
+}
+
+@keyframes mc-place-sweep {
+  0%   { transform: translateY(-100%); opacity: 1; }
+  45%  { transform: translateY(0);     opacity: 1; }
+  55%  { transform: translateY(0);     opacity: 1; }
+  100% { transform: translateY(100%);  opacity: 0; }
+}
+
+/* ============================================
+   REDUCED MOTION
+   Mantener el cambio de estado y un fade suave; quitar el movimiento.
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .minecraft-theme button:active {
+    animation: none !important;
+  }
+
+  .minecraft-theme.mc-activating [class*="card"],
+  .minecraft-theme.mc-activating [class*="Card"],
+  .minecraft-theme.mc-activating .bg-white,
+  .minecraft-theme.mc-activating [class*="bg-gray"],
+  .minecraft-theme.mc-activating button,
+  .minecraft-theme.mc-activating [role="button"],
+  .minecraft-theme.mc-activating h1,
+  .minecraft-theme.mc-activating h2 {
+    animation: mc-reduced-fade 0.2s ease both !important;
+  }
+
+  @keyframes mc-reduced-fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .mc-place-overlay {
+    animation: mc-reduced-fade 0.2s ease forwards !important;
+    transform: none;
+    opacity: 0;
+  }
 }
 
 /* ============================================
