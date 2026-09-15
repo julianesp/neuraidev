@@ -25,6 +25,7 @@ import {
   ShoppingBag,
   MessageSquare,
   Activity,
+  UserCheck,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -113,6 +114,12 @@ export default function DashboardLayout({ children }) {
       href: "/dashboard/clientes",
       icon: Users,
       current: pathname?.startsWith("/dashboard/clientes"),
+    },
+    {
+      name: "Compradores",
+      href: "/dashboard/compradores",
+      icon: UserCheck,
+      current: pathname?.startsWith("/dashboard/compradores"),
     },
     {
       name: "Accesos",
