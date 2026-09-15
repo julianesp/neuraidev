@@ -116,6 +116,33 @@ function RespuestaPagoContent() {
   const [isRegisteredCustomer, setIsRegisteredCustomer] = useState(false);
   // true mientras se consulta a ePayco la confirmación del pago (polling).
   const [verificandoPago, setVerificandoPago] = useState(false);
+  // Referencia de la orden en curso, para poder re-verificar el pago cuando el
+  // usuario vuelve a la pestaña (los navegadores pausan el polling en pestañas
+  // en segundo plano, así que al volver hay que reconsultar).
+  const [refEnCurso, setRefEnCurso] = useState(null);
+  // true mientras corre la verificación manual (botón "Ya pagué").
+  const [verificandoManual, setVerificandoManual] = useState(false);
+
+  // Verificación manual: el cliente confirma que ya pagó. Pedimos a ePayco el
+  // estado real (reconcile completa la orden si está Aceptada) y releemos.
+  const verificarPagoAhora = async () => {
+    if (!refEnCurso || verificandoManual) return;
+    setVerificandoManual(true);
+    try {
+      await fetch(`/api/payments/epayco/reconcile?reference=${refEnCurso}`);
+      const res = await fetch(
+        `/api/orders/get-by-reference?reference=${refEnCurso}`,
+      );
+      if (res.ok) {
+        const info = await res.json();
+        if (info?.order) setOrderData(info.order);
+      }
+    } catch (e) {
+      console.error("Error en verificación manual:", e);
+    } finally {
+      setVerificandoManual(false);
+    }
+  };
 
   useEffect(() => {
     // ePayco redirige con dos formatos de parámetros según el flujo:
@@ -178,6 +205,7 @@ function RespuestaPagoContent() {
 
       // Consultar la orden desde nuestra base de datos
       if (reference) {
+        setRefEnCurso(reference);
         (async () => {
           try {
             const fetchOrder = async () => {
@@ -340,6 +368,46 @@ function RespuestaPagoContent() {
       setLoading(false);
     }
   }, [searchParams]);
+
+  // Re-verificar el pago cuando el usuario vuelve a la pestaña. Los navegadores
+  // pausan los timers en pestañas en segundo plano, así que si el cliente se
+  // fue a la app de Nequi a pagar y volvió, el polling pudo quedar congelado.
+  // Al reactivar la pestaña reconsultamos la orden (y disparamos el reconcile);
+  // si el webhook ya la completó, la vista pasa a "¡Pago exitoso!".
+  useEffect(() => {
+    if (!refEnCurso) return;
+
+    const yaCompletada = () =>
+      orderData &&
+      (orderData.estado === "completado" ||
+        orderData.estado === "pagado" ||
+        orderData.estado_pago === "completado");
+
+    const revisar = async () => {
+      if (document.visibilityState !== "visible" || yaCompletada()) return;
+      try {
+        // Pedir a ePayco que confirme (completa la orden si ya está Aceptada)
+        await fetch(`/api/payments/epayco/reconcile?reference=${refEnCurso}`);
+        const res = await fetch(
+          `/api/orders/get-by-reference?reference=${refEnCurso}`,
+        );
+        if (res.ok) {
+          const info = await res.json();
+          if (info?.order) setOrderData(info.order);
+        }
+      } catch (e) {
+        console.error("Error re-verificando pago al volver a la pestaña:", e);
+      }
+    };
+
+    document.addEventListener("visibilitychange", revisar);
+    // También al enfocar la ventana (algunos navegadores no disparan visibilitychange)
+    window.addEventListener("focus", revisar);
+    return () => {
+      document.removeEventListener("visibilitychange", revisar);
+      window.removeEventListener("focus", revisar);
+    };
+  }, [refEnCurso, orderData]);
 
   // Determinar el estado del pago
   const getPaymentStatus = () => {
@@ -829,12 +897,28 @@ function RespuestaPagoContent() {
           )}
 
           {status.type === "warning" && (
-            <Link
-              href="/"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center"
-            >
-              Volver al inicio
-            </Link>
+            <>
+              <button
+                onClick={verificarPagoAhora}
+                disabled={verificandoManual}
+                className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
+              >
+                {verificandoManual ? (
+                  <>
+                    <span className="inline-block h-4 w-4 border-b-2 border-white rounded-full animate-spin" />
+                    Verificando…
+                  </>
+                ) : (
+                  "Ya pagué — verificar ahora"
+                )}
+              </button>
+              <Link
+                href="/"
+                className="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-3 px-6 rounded-lg transition-colors text-center"
+              >
+                Volver al inicio
+              </Link>
+            </>
           )}
         </div>
 
