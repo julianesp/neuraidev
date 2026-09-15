@@ -118,402 +118,286 @@ export default function ShoppingCart() {
     }
   };
 
-  if (!isOpen) {
-    return null;
-  }
+  const totalPropios = itemsPropios.reduce((s, i) => s + i.precio * i.cantidad, 0);
+  const bajoMinimo = totalPropios < 5000;
 
   return (
     <>
-      {/* Overlay */}
+      {/* Overlay: fade + backdrop-blur. Montado siempre para poder animar la
+          salida del drawer; se vuelve inerte con pointer-events cuando cierra. */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50"
-        style={{ zIndex: 1500 }}
         onClick={toggleCart}
+        aria-hidden={!isOpen}
+        className={`fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ease-out ${
+          isOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        style={{ zIndex: 2100 }}
       />
 
-      {/* Panel del carrito */}
-      <div
-        className={styles.carrito_panel}
-        style={{
-          position: "fixed",
-          top: 0,
-          right: 0,
-          height: "90vh",
-          width: "min(30vw, 1000px)",
-          zIndex: 1501,
-          boxShadow: "-4px 0 20px rgba(0,0,0,0.3)",
-          display: "flex",
-          flexDirection: "column",
-          marginTop: "55px",
-        }}
+      {/* Drawer lateral derecho (una sola columna) */}
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label="Carrito de compras"
+        className={`${styles.drawer} fixed right-0 top-0 h-[100dvh] w-full max-w-md flex flex-col bg-white dark:bg-gray-900 shadow-2xl will-change-transform ${
+          isOpen ? styles.drawerOpen : styles.drawerClosed
+        }`}
+        style={{ zIndex: 2101 }}
       >
         {/* Header */}
-        <div
-          style={{
-            padding: "16px",
-            borderBottom: "1px solid #e5e7eb",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            // darkMode: "bg-gray-900 border-gray-700",
-          }}
-          className="bg-white dark:bg-gray-700 "
-        >
-          <h2
-            // style={{
-            //   fontSize: "20px",
-            //   fontWeight: "bold",
-            //   display: "flex",
-            //   alignItems: "center",
-            //   gap: "8px",
-            // }}
-            className={`${styles.carrito_title}`}
-          >
-            {/* <ShoppingBag size={24} className="dark:bg-gray-700 " /> */}
-            Carrito de Compras ({cart.length} items)
-          </h2>
+        <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-gray-200 dark:border-gray-800">
+          <div className="flex items-center gap-2">
+            <ShoppingBag size={20} className="text-blue-600 dark:text-blue-400" />
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+              Tu carrito
+              {cart.length > 0 && (
+                <span className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+                  ({cart.length} {cart.length === 1 ? "item" : "items"})
+                </span>
+              )}
+            </h2>
+          </div>
           <button
             onClick={toggleCart}
-            style={{
-              padding: "8px",
-              borderRadius: "50%",
-              border: "none",
-              // background: "#f3f4f6",
-              cursor: "pointer",
-              dark: "bg-gray-600",
-            }}
+            className="p-2 rounded-full text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             aria-label="Cerrar carrito"
             title="Cerrar carrito"
-            // className="dark:bg-gray-700"
           >
-            <X size={24} />
+            <X size={22} />
           </button>
         </div>
 
-        {/* Contenido del carrito - Layout de 2 columnas */}
-        <div className="flex-1 overflow-hidden bg-gray-50 dark:bg-gray-800">
-          {cart.length === 0 ? (
-            <div className="flex flex-col items-center justify-center  text-gray-400 dark:text-gray-500">
-              <ShoppingBag size={64} className="mb-4" />
-              <p className="text-lg">Tu carrito está vacío</p>
-            </div>
-          ) : (
-            <div className={`grid grid-cols-1 lg:grid-cols-[1fr,400px] h-full ${styles.grid_container}`}>
-              {/* Columna izquierda: Lista de productos */}
-              <div
-                className={`overflow-y-auto p-4 border-r border-gray-200 dark:border-gray-700 ${styles.productosListados}`}
-                data-aos="fade-down"
-              >
-                <h3 className="text-lg font-bold mb-4 text-gray-900 dark:text-white sticky top-0 bg-gray-50 dark:bg-gray-800 py-2 z-10">
-                  Productos ({cart.length})
-                </h3>
-                <div className="space-y-3">
-                  {cart.map((item, index) => (
-                    <div
-                      key={`${item.id}-${item.variacion}-${index}`}
-                      className="flex gap-3 p-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg hover:shadow-md transition-shadow"
-                    >
-                      {/* Imagen del producto */}
-                      <div className="relative w-20 h-20 flex-shrink-0 bg-gray-100 dark:bg-gray-600 rounded-md overflow-hidden">
-                        {/*
-                          Miniatura de 80x80: se usa <img> nativo en lugar de
-                          next/image para evitar que el optimizador falle con
-                          URLs remotas (R2 con %20) y muestre el ícono roto.
-                          onError cae al placeholder si la imagen no carga.
-                        */}
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={getProductImage(item)}
-                          alt={item.nombre}
-                          className="w-full h-full object-cover rounded-md"
-                          loading="lazy"
-                          onError={(e) => {
-                            if (e.currentTarget.src !== PLACEHOLDER_IMAGE) {
-                              e.currentTarget.src = PLACEHOLDER_IMAGE;
-                            }
-                          }}
-                        />
-                      </div>
+        {cart.length === 0 ? (
+          /* Estado vacío */
+          <div className="flex-1 flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 px-6 text-center">
+            <ShoppingBag size={56} className="mb-4 opacity-60" />
+            <p className="text-lg font-medium">Tu carrito está vacío</p>
+            <p className="text-sm mt-1">Agrega productos para empezar tu compra.</p>
+          </div>
+        ) : (
+          <>
+            {/* Lista de productos (scrolleable) */}
+            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-gray-50 dark:bg-gray-950/40">
+              {cart.map((item, index) => (
+                <div
+                  key={`${item.id}-${item.variacion}-${index}`}
+                  className={`${styles.itemCard} flex gap-3 p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl`}
+                >
+                  {/* Imagen */}
+                  <div className="relative w-20 h-20 flex-shrink-0 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={getProductImage(item)}
+                      alt={item.nombre}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        if (e.currentTarget.src !== PLACEHOLDER_IMAGE) {
+                          e.currentTarget.src = PLACEHOLDER_IMAGE;
+                        }
+                      }}
+                    />
+                  </div>
 
-                      {/* Información del producto */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-sm text-gray-900 dark:text-white">
-                          {item.nombre}
-                        </h3>
-                        {item.variacion && (
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {item.variacion}
-                          </p>
-                        )}
-                        <div className="mt-1">
-                          <p className="text-blue-600 dark:text-blue-400 font-bold">
-                            ${item.precio.toLocaleString("es-CO")}
-                          </p>
-                          {item.precio_original && item.precio_original !== item.precio && (
-                            <p className="text-xs text-black dark:text-gray-400 opacity-60 line-through">
-                              ${item.precio_original.toLocaleString("es-CO")}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Indicador de stock */}
-                        {item.stock !== undefined && (
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Stock: {item.stock} {item.stock <= 5 && "⚠️"}
-                          </p>
-                        )}
-
-                        {/* Controles de cantidad */}
-                        <div className="flex items-center gap-2 mt-2">
-                          <button
-                            onClick={() =>
-                              updateQuantity(
-                                item.id,
-                                item.variacion,
-                                item.cantidad - 1,
-                              )
-                            }
-                            className="p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded text-gray-700 dark:text-gray-300"
-                            aria-label="Disminuir cantidad"
-                          >
-                            <Minus size={14} />
-                          </button>
-                          <span className="text-sm font-semibold px-3 py-1 bg-gray-100 dark:bg-gray-600 rounded text-gray-900 dark:text-white">
-                            {item.cantidad}
-                          </span>
-                          <button
-                            onClick={() => {
-                              // Validar si hay stock disponible
-                              if (item.stock !== undefined && item.cantidad >= item.stock) {
-                                toast.warning(
-                                  `No hay más existencias disponibles de "${item.nombre}". Stock máximo: ${item.stock}`,
-                                  {
-                                    title: "Stock agotado",
-                                    duration: 4000,
-                                  }
-                                );
-                                return;
-                              }
-                              updateQuantity(
-                                item.id,
-                                item.variacion,
-                                item.cantidad + 1,
-                              );
-                            }}
-                            disabled={item.stock !== undefined && item.cantidad >= item.stock}
-                            className={`p-1 rounded text-gray-700 dark:text-gray-300 ${
-                              item.stock !== undefined && item.cantidad >= item.stock
-                                ? "opacity-50 cursor-not-allowed bg-gray-200 dark:bg-gray-700"
-                                : "hover:bg-gray-100 dark:hover:bg-gray-600"
-                            }`}
-                            aria-label="Aumentar cantidad"
-                          >
-                            <Plus size={14} />
-                          </button>
-                          <span className="text-xs text-gray-600 dark:text-gray-400 ml-2">
-                            = $
-                            {(item.precio * item.cantidad).toLocaleString(
-                              "es-CO",
-                            )}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Botón eliminar */}
+                  {/* Información */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="font-semibold text-sm text-gray-900 dark:text-white line-clamp-2">
+                        {item.nombre}
+                      </h3>
                       <button
                         onClick={() => removeFromCart(item.id, item.variacion)}
-                        className="p-2 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 rounded transition-colors self-start text-gray-600 dark:text-gray-400"
+                        className="p-1.5 -mr-1 -mt-1 rounded-lg text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors flex-shrink-0"
                         aria-label="Eliminar del carrito"
                       >
-                        <Trash2 size={18} />
+                        <Trash2 size={16} />
                       </button>
                     </div>
-                  ))}
-                </div>
-              </div>
 
-              {/* Resumen: lo posicionamos fijo al lado izquierdo del viewport en desktop, relativo en móvil */}
-              <div
-                className={`bg-white dark:bg-gray-900 ${styles.carrito}`}
-                style={{
-                  position: "fixed",
-                  left: 0,
-                  top: "55px",
-                  height: "calc(100dvh - 55px)",
-                  width: "min(30vw, 420px)",
-                  zIndex: 1502,
-                  overflowY: "auto",
-                  padding: "16px",
-                }}
-              >
-                <div className="space-y-4">
-                  {/* Resumen del pedido */}
-                  <div>
-                    <h3 className="text-lg font-bold mb-3 text-gray-900 dark:text-white md:absolute">
-                      Resumen del Pedido
-                    </h3>
+                    {item.variacion && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        {item.variacion}
+                      </p>
+                    )}
 
-                    {/* Subtotal */}
-                    {/* <div className="space-y-2 mb-3 pb-3 border-b border-gray-200 dark:border-gray-700">
-                      <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-                        <span>Productos ({cart.length})</span>
-                        <span>${getTotalPrice().toLocaleString("es-CO")}</span>
-                      </div>
-                      <div className="flex justify-between text-sm text-green-600 dark:text-green-400">
-                        <span>Envío</span>
-                        <span className="font-semibold">GRATIS*</span>
-                      </div>
-                    </div> */}
-
-                    {/* Total */}
-                    <div className="flex items-center justify-between text-xl font-bold mb-4">
-                      <span className="text-gray-900 dark:text-white">
-                        
-                      </span>
-                      <span className="text-blue-600 dark:text-blue-400">
-                        ${getTotalPrice().toLocaleString("es-CO")}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Información de envíos */}
-                  <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
-                    <div className="flex items-start gap-2">
-                      <svg
-                        className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                        />
-                      </svg>
-                      <div className="flex-1">
-                        <p className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
-                          📦 Envíos
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <p className="text-blue-600 dark:text-blue-400 font-bold">
+                        ${item.precio.toLocaleString("es-CO")}
+                      </p>
+                      {item.precio_original && item.precio_original !== item.precio && (
+                        <p className="text-xs text-gray-400 line-through">
+                          ${item.precio_original.toLocaleString("es-CO")}
                         </p>
-                        {calificaEnvioGratis ? (
-                          <p className="text-xs text-blue-700 dark:text-blue-300">
-                            <span className="font-semibold text-green-600 dark:text-green-400">
-                              ✓ GRATIS
-                            </span>{" "}
-                            en todo el Alto Putumayo
-                          </p>
-                        ) : (
-                          <p className="text-xs text-blue-700 dark:text-blue-300">
-                            Añade{" "}
-                            <span className="font-semibold text-green-600 dark:text-green-400">
-                              ${faltaParaEnvioGratis.toLocaleString("es-CO")}
-                            </span>{" "}
-                            más para <strong>envío GRATIS</strong> al Alto
-                            Putumayo (mínimo $
-                            {ENVIO_GRATIS_MINIMO.toLocaleString("es-CO")})
-                          </p>
-                        )}
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                          (Valle de Sibundoy, Colón, Sibundoy, Santiago, San Francisco)
-                        </p>
-                        <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                          Otros destinos: se coordina por WhatsApp
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Área de checkout o botones */}
-                  {showCheckout ? (
-                    <div>
-                      <button
-                        onClick={() => setShowCheckout(false)}
-                        className="mb-3 text-sm text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 flex items-center gap-1"
-                      >
-                        ← Volver
-                      </button>
-                      <EpaycoCheckout onClose={() => setShowCheckout(false)} />
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-
-                      {/* Aviso si hay mezcla de productos propios y de tiendas */}
-                      {hayMezcla && (
-                        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-lg p-3 text-xs text-amber-800 dark:text-amber-300">
-                          ⚠️ Tu carrito tiene productos de <strong>Neurai</strong> y de <strong>tiendas externas</strong>. Cada grupo se paga por separado.
-                        </div>
                       )}
+                    </div>
 
-                      {/* Botón pago ePayco/Nequi — solo si hay productos propios */}
-                      {itemsPropios.length > 0 && (() => {
-                        const totalPropios = itemsPropios.reduce((s, i) => s + i.precio * i.cantidad, 0);
-                        const bajoMinimo = totalPropios < 5000;
-                        return (
-                          <>
-                            {bajoMinimo && (
-                              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-lg p-3 text-xs text-amber-800 dark:text-amber-300 space-y-1">
-                                <p className="font-semibold">⚠️ Total menor al mínimo de ePayco ($5.000)</p>
-                                <p>Agrega otro producto para pagar con ePayco o Nequi en línea.</p>
-                                <p>
-                                  ¿Tienes prisa? También puedes pagar{" "}
-                                  <strong>${totalPropios.toLocaleString("es-CO")}</strong> por transferencia
-                                  Nequi al número <strong>317 450 3604</strong> y enviarnos el comprobante por WhatsApp.
-                                </p>
-                              </div>
-                            )}
-                            <button
-                              onClick={() => !bajoMinimo && setShowPaymentModal(true)}
-                              disabled={bajoMinimo}
-                              className={`w-full font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group ${
-                                bajoMinimo
-                                  ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
-                                  : "bg-green-600 hover:bg-green-700 text-white"
-                              }`}
-                            >
-                              <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 group-hover:scale-110 transition-transform">
-                                <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
-                              </svg>
-                              {hayMezcla ? `Pagar Neurai (${itemsPropios.length} producto${itemsPropios.length > 1 ? "s" : ""})` : "Proceder al Pago"}
-                              {!hayMezcla && !bajoMinimo && <span className="text-xs opacity-80">(Nequi o ePayco)</span>}
-                            </button>
-                          </>
-                        );
-                      })()}
+                    {item.stock !== undefined && item.stock <= 5 && (
+                      <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">
+                        ¡Últimas {item.stock} unidades!
+                      </p>
+                    )}
 
-                      {/* Botón WhatsApp — solo si hay productos de tiendas */}
-                      {itemsDeTienda.length > 0 && (
+                    {/* Controles de cantidad + subtotal */}
+                    <div className="flex items-center justify-between mt-2">
+                      <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-0.5">
                         <button
-                          onClick={handleCheckoutTienda}
-                          className="w-full bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 group"
+                          onClick={() =>
+                            updateQuantity(item.id, item.variacion, item.cantidad - 1)
+                          }
+                          className="p-1.5 rounded-md hover:bg-white dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 transition-colors"
+                          aria-label="Disminuir cantidad"
                         >
-                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                          </svg>
-                          {hayMezcla
-                            ? `Pedir por WhatsApp (${itemsDeTienda.length} producto${itemsDeTienda.length > 1 ? "s" : ""})`
-                            : "Pedir por WhatsApp"}
+                          <Minus size={14} />
                         </button>
-                      )}
+                        <span className="text-sm font-semibold w-7 text-center text-gray-900 dark:text-white">
+                          {item.cantidad}
+                        </span>
+                        <button
+                          onClick={() => {
+                            if (item.stock !== undefined && item.cantidad >= item.stock) {
+                              toast.warning(
+                                `No hay más existencias disponibles de "${item.nombre}". Stock máximo: ${item.stock}`,
+                                { title: "Stock agotado", duration: 4000 },
+                              );
+                              return;
+                            }
+                            updateQuantity(item.id, item.variacion, item.cantidad + 1);
+                          }}
+                          disabled={item.stock !== undefined && item.cantidad >= item.stock}
+                          className={`p-1.5 rounded-md text-gray-700 dark:text-gray-300 transition-colors ${
+                            item.stock !== undefined && item.cantidad >= item.stock
+                              ? "opacity-40 cursor-not-allowed"
+                              : "hover:bg-white dark:hover:bg-gray-600"
+                          }`}
+                          aria-label="Aumentar cantidad"
+                        >
+                          <Plus size={14} />
+                        </button>
+                      </div>
+                      <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                        ${(item.precio * item.cantidad).toLocaleString("es-CO")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-                      {/* Vaciar carrito */}
-                      <button
-                        onClick={() => {
-                          clearCart();
-                          toast.info("Carrito vaciado", { title: "Carrito Limpio", duration: 2000 });
-                        }}
-                        className="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-2 px-4 rounded-lg transition-colors"
-                      >
-                        Vaciar Carrito
-                      </button>
+            {/* Footer fijo: resumen + acciones */}
+            <div className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4 space-y-3">
+              {showCheckout ? (
+                <div className="max-h-[60dvh] overflow-y-auto">
+                  <button
+                    onClick={() => setShowCheckout(false)}
+                    className="mb-3 text-sm text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 flex items-center gap-1"
+                  >
+                    ← Volver
+                  </button>
+                  <EpaycoCheckout onClose={() => setShowCheckout(false)} />
+                </div>
+              ) : (
+                <>
+                  {/* Envíos */}
+                  <div className="rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/60 px-3 py-2">
+                    {calificaEnvioGratis ? (
+                      <p className="text-xs text-blue-800 dark:text-blue-200">
+                        <span className="font-semibold text-green-600 dark:text-green-400">✓ Envío GRATIS</span>{" "}
+                        al Alto Putumayo
+                      </p>
+                    ) : (
+                      <p className="text-xs text-blue-800 dark:text-blue-200">
+                        Añade{" "}
+                        <span className="font-semibold text-green-600 dark:text-green-400">
+                          ${faltaParaEnvioGratis.toLocaleString("es-CO")}
+                        </span>{" "}
+                        más para <strong>envío GRATIS</strong> (mínimo $
+                        {ENVIO_GRATIS_MINIMO.toLocaleString("es-CO")})
+                      </p>
+                    )}
+                    <p className="text-[11px] text-blue-600/70 dark:text-blue-300/70 mt-0.5">
+                      Otros destinos: se coordina por WhatsApp
+                    </p>
+                  </div>
+
+                  {/* Total */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">Total</span>
+                    <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                      ${getTotalPrice().toLocaleString("es-CO")}
+                    </span>
+                  </div>
+
+                  {/* Aviso de mezcla */}
+                  {hayMezcla && (
+                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-lg p-3 text-xs text-amber-800 dark:text-amber-300">
+                      ⚠️ Tu carrito tiene productos de <strong>Neurai</strong> y de{" "}
+                      <strong>tiendas externas</strong>. Cada grupo se paga por separado.
                     </div>
                   )}
-                </div>
-              </div>
+
+                  {/* Aviso bajo mínimo ePayco */}
+                  {itemsPropios.length > 0 && bajoMinimo && (
+                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-lg p-3 text-xs text-amber-800 dark:text-amber-300 space-y-1">
+                      <p className="font-semibold">⚠️ Total menor al mínimo de ePayco ($5.000)</p>
+                      <p>
+                        Agrega otro producto, o paga{" "}
+                        <strong>${totalPropios.toLocaleString("es-CO")}</strong> por Nequi al{" "}
+                        <strong>317 450 3604</strong> y envía el comprobante por WhatsApp.
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Botón pago ePayco/Nequi */}
+                  {itemsPropios.length > 0 && (
+                    <button
+                      onClick={() => !bajoMinimo && setShowPaymentModal(true)}
+                      disabled={bajoMinimo}
+                      className={`w-full font-bold py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 group ${
+                        bajoMinimo
+                          ? "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
+                          : "bg-green-600 hover:bg-green-700 text-white"
+                      }`}
+                    >
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                      </svg>
+                      {hayMezcla
+                        ? `Pagar Neurai (${itemsPropios.length} producto${itemsPropios.length > 1 ? "s" : ""})`
+                        : "Proceder al Pago"}
+                    </button>
+                  )}
+
+                  {/* Botón WhatsApp para tiendas */}
+                  {itemsDeTienda.length > 0 && (
+                    <button
+                      onClick={handleCheckoutTienda}
+                      className="w-full bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                      </svg>
+                      {hayMezcla
+                        ? `Pedir por WhatsApp (${itemsDeTienda.length} producto${itemsDeTienda.length > 1 ? "s" : ""})`
+                        : "Pedir por WhatsApp"}
+                    </button>
+                  )}
+
+                  {/* Vaciar carrito */}
+                  <button
+                    onClick={() => {
+                      clearCart();
+                      toast.info("Carrito vaciado", { title: "Carrito Limpio", duration: 2000 });
+                    }}
+                    className="w-full text-sm text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 font-medium py-1.5 transition-colors"
+                  >
+                    Vaciar carrito
+                  </button>
+                </>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+          </>
+        )}
+      </aside>
 
       {/* Modal de Selección de Método de Pago */}
       <CartPaymentMethodModal

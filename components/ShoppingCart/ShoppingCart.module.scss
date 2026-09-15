@@ -1,108 +1,58 @@
-// Estilos base
-.carrito {
-  height: 40%;
-  overflow-y: scroll;
-  border-top-left-radius: 30px;
+// Drawer del carrito — panel lateral que entra deslizando desde la derecha.
+// Propósito: spatial consistency (viene del ícono del carrito, arriba a la derecha).
+// Curva iOS para drawers (Ionic); 300ms. Solo transform → corre en GPU.
+
+$ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+.drawer {
+  transition:
+    transform 0.3s $ease-drawer,
+    opacity 0.3s $ease-drawer;
 }
 
-.carrito_title {
-  font-size: 14px;
-  font-weight: 700;
+.drawerClosed {
+  transform: translateX(100%);
+  opacity: 0;
+  // Evita que el panel cerrado capture clics fuera de pantalla.
+  pointer-events: none;
 }
 
-.productosListados {
-  overflow-y: scroll;
-  border-bottom-left-radius: 30px;
+.drawerOpen {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
-// Estilos específicos para móviles pequeños (320px - 479px)
-@media (max-width: 479px) {
-  .carrito_panel {
-    width: 100dvw !important;
-    max-width: 100dvw !important;
-    min-width: 100dvw !important;
-    margin-top: 55px !important;
-    right: 0 !important;
-    left: 0 !important;
-    height: 85vh !important;
-  }
+// Tarjeta de producto: leve realce al pasar el puntero (solo punteros finos,
+// para que el tap en móvil no deje un hover fantasma).
+.itemCard {
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
 
-  .carrito {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: 300px !important;
-    max-height: 40vh !important;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    padding: 12px !important;
-  }
-
-  .productosListados {
-    height: auto !important;
-    max-height: 40vh !important;
-    border-bottom-left-radius: 0;
-    padding: 8px !important;
-    border-right: none !important;
-  }
-
-  .carrito_title {
-    font-size: 14px !important;
-  }
-
-  .grid_container {
-    display: flex !important;
-    flex-direction: column-reverse !important;
-    grid-template-columns: 1fr !important;
-    height: auto !important;
+@media (hover: hover) and (pointer: fine) {
+  .itemCard:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   }
 }
 
-// Estilos específicos para móviles medianos (480px - 767px)
-@media (min-width: 480px) and (max-width: 767px) {
-  .carrito_panel {
-    width: 100dvw !important;
-    max-width: 100dvw !important;
-    min-width: 100dvw !important;
-    margin-top: 55px !important;
-    right: 0 !important;
-    left: 0 !important;
-    height: 88vh !important;
+// Reduced motion: se conserva el cambio de estado (aparecer/desaparecer) con un
+// fade suave, pero se elimina el desplazamiento lateral.
+@media (prefers-reduced-motion: reduce) {
+  .drawer {
+    transition: opacity 0.2s ease;
   }
 
-  .carrito {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: 350px !important;
-    max-height: 42vh !important;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    padding: 16px !important;
+  .drawerClosed {
+    transform: none;
   }
 
-  .productosListados {
-    height: auto !important;
-    max-height: 42vh !important;
-    border-bottom-left-radius: 0;
-    padding: 12px !important;
-    border-right: none !important;
+  .drawerOpen {
+    transform: none;
   }
 
-  .carrito_title {
-    font-size: 16px !important;
-  }
-
-  .grid_container {
-    display: flex !important;
-    flex-direction: column-reverse !important;
-    grid-template-columns: 1fr !important;
-    height: auto !important;
+  .itemCard {
+    transition: none;
   }
 }
