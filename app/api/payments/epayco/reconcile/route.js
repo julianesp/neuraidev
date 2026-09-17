@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { getSupabaseClient } from "@/lib/db";
 import { decrementMultipleProductsStock } from "@/lib/productService";
 import { createInvoiceRecord } from "@/lib/invoiceGenerator";
@@ -31,6 +31,12 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const reference = searchParams.get("reference");
+    // ref_payco es el ID interno de la transacción en ePayco. Es el ÚNICO
+    // identificador que acepta el endpoint de validación de ePayco
+    // (/validation/v1/reference/{ref_payco}); NO acepta nuestro numero_orden.
+    // Llega desde la URL de retorno (x_ref_payco). Si no viene, intentamos
+    // recuperarlo del transaction_id que se haya guardado antes en la orden.
+    const refPaycoParam = searchParams.get("ref_payco");
 
     if (!reference) {
       return NextResponse.json({ error: "Se requiere 'reference'" }, { status: 400 });
@@ -58,20 +64,38 @@ export async function GET(request) {
       return NextResponse.json({ status: "APPROVED", alreadyProcessed: true });
     }
 
-    // 2. Consultar el estado real en ePayco
+    // Resolver el ref_payco: preferimos el de la URL; si no, el transaction_id
+    // que un webhook/intento previo haya podido dejar en la orden.
+    const refPayco = refPaycoParam || order.transaction_id || null;
+
+    if (!refPayco) {
+      // Sin ref_payco no podemos consultar a ePayco. No es un error del flujo:
+      // simplemente aún no tenemos con qué validar. Reportamos pendiente.
+      log("Sin ref_payco para reconciliar la referencia", reference);
+      return NextResponse.json({ status: "PENDING", verified: false, reason: "sin-ref-payco" });
+    }
+
+    // 2. Consultar el estado real en ePayco.
+    // El endpoint de validación NO usa Authorization: Bearer; espera el
+    // ref_payco en la ruta y responde { success, data: { x_response, ... } }.
     let epaycoState = null;
     let transaction = null;
     try {
       const resp = await fetch(
-        `https://secure.epayco.co/validation/v1/reference/${encodeURIComponent(reference)}`,
-        { headers: { Authorization: `Bearer ${process.env.EPAYCO_PUBLIC_KEY || process.env.NEXT_PUBLIC_EPAYCO_PUBLIC_KEY || ""}` } },
+        `https://secure.epayco.co/validation/v1/reference/${encodeURIComponent(refPayco)}`,
+        { headers: { "Content-Type": "application/json" } },
       );
       if (resp.ok) {
         const data = await resp.json();
+        // Formato de ePayco: { success: true, data: { x_response, x_transaction_state, ... } }
         transaction = data?.data || null;
-        epaycoState = transaction?.x_response || transaction?.x_transaction_state || null;
+        if (data?.success && transaction) {
+          epaycoState = transaction.x_response || transaction.x_transaction_state || null;
+        } else {
+          log("ePayco validation sin éxito:", data?.text_response || data?.title_response || "sin detalle");
+        }
       } else {
-        log("ePayco validation devolvió", resp.status);
+        log("ePayco validation devolvió HTTP", resp.status);
       }
     } catch (e) {
       logError("Error consultando ePayco:", e.message);
@@ -80,6 +104,17 @@ export async function GET(request) {
     // Sin respuesta de ePayco no cambiamos nada: seguimos reportando pendiente.
     if (!epaycoState) {
       return NextResponse.json({ status: "PENDING", verified: false });
+    }
+
+    // Blindaje anti-suplantación: el x_id_invoice que devuelve ePayco debe
+    // corresponder a la orden que estamos reconciliando. Si no coincide, no
+    // completamos nada (evita que un ref_payco de otra compra cierre esta orden).
+    const invoiceEpayco = transaction?.x_id_invoice || transaction?.x_extra1 || null;
+    if (invoiceEpayco && String(invoiceEpayco) !== String(reference)) {
+      logError(
+        `🚫 ref_payco ${refPayco} corresponde a la factura ${invoiceEpayco}, no a ${reference}. Se ignora.`,
+      );
+      return NextResponse.json({ status: "PENDING", verified: false, reason: "invoice-mismatch" });
     }
 
     if (epaycoState !== "Aceptada") {
@@ -147,65 +182,71 @@ export async function GET(request) {
 
     log("✅ Orden completada por reconciliación:", reference);
 
-    // Objeto de transacción para factura/notificación (formato compartido)
-    const txForServices = {
-      id: transactionId,
-      status: "APPROVED",
-      reference,
-      amount_in_cents: Math.round(amount * 100),
-      payment_method_type: franchise,
-      payment_method: { type: franchise },
-      customer_email: transaction?.x_customer_email || order.customer_email,
-    };
-
-    // Factura (si no existe)
-    try {
-      const { data: existingInvoice } = await supabase
-        .from("invoices")
-        .select("invoice_number")
-        .eq("order_reference", reference)
-        .single();
-      if (!existingInvoice) {
-        await createInvoiceRecord(supabase, order, txForServices);
-      }
-    } catch (e) {
-      logError("Error generando factura en reconcile:", e.message);
-    }
-
-    // Notificaciones (Telegram/push admin) y chat — nunca bloquean la respuesta
-    try {
-      await notificarNuevaVentaAdmin({
-        numeroOrden: reference,
-        total: amount,
-        clienteNombre: order.customer_name || transaction?.x_customer_name || "Cliente",
-      }).catch((e) => logError("Push admin fallido:", e.message));
-
-      const orderForNotification = {
-        ...order,
-        metadata, // ya parseado
-        customer_phone: order.customer_phone || transaction?.x_customer_phone || "",
-        customer_address: order.customer_address || transaction?.x_customer_address || order.direccion_envio || "",
-        customer_city: metadata?.customer_city || transaction?.x_customer_city || "",
-        customer_region: metadata?.customer_region || "",
+    // La orden ya quedó completada arriba: eso es lo que el frontend necesita
+    // para pasar a "¡Pago exitoso!". El resto (factura con PDF+email, Telegram,
+    // push, chat) es pesado y no crítico, así que corre con after() para no
+    // demorar la respuesta del polling.
+    after(async () => {
+      // Objeto de transacción para factura/notificación (formato compartido)
+      const txForServices = {
+        id: transactionId,
+        status: "APPROVED",
+        reference,
+        amount_in_cents: Math.round(amount * 100),
+        payment_method_type: franchise,
+        payment_method: { type: franchise },
+        customer_email: transaction?.x_customer_email || order.customer_email,
       };
-      await notifyNewSale(orderForNotification, txForServices);
-    } catch (e) {
-      logError("Error notificando en reconcile:", e.message);
-    }
 
-    try {
-      if (order.clerk_user_id) {
-        await notificarPagoAprobado(order.clerk_user_id, { numeroOrden: reference, total: amount });
+      // Factura (si no existe)
+      try {
+        const { data: existingInvoice } = await supabase
+          .from("invoices")
+          .select("invoice_number")
+          .eq("order_reference", reference)
+          .single();
+        if (!existingInvoice) {
+          await createInvoiceRecord(supabase, order, txForServices);
+        }
+      } catch (e) {
+        logError("Error generando factura en reconcile:", e.message);
       }
-    } catch (e) {
-      logError("Error push comprador en reconcile:", e.message);
-    }
 
-    try {
-      await crearMensajeSistemaPedido({ ...order, metadata });
-    } catch (e) {
-      logError("Error creando chat de pedido en reconcile:", e.message);
-    }
+      // Notificaciones (Telegram/push admin) y chat — nunca bloquean la respuesta
+      try {
+        await notificarNuevaVentaAdmin({
+          numeroOrden: reference,
+          total: amount,
+          clienteNombre: order.customer_name || transaction?.x_customer_name || "Cliente",
+        }).catch((e) => logError("Push admin fallido:", e.message));
+
+        const orderForNotification = {
+          ...order,
+          metadata, // ya parseado
+          customer_phone: order.customer_phone || transaction?.x_customer_phone || "",
+          customer_address: order.customer_address || transaction?.x_customer_address || order.direccion_envio || "",
+          customer_city: metadata?.customer_city || transaction?.x_customer_city || "",
+          customer_region: metadata?.customer_region || "",
+        };
+        await notifyNewSale(orderForNotification, txForServices);
+      } catch (e) {
+        logError("Error notificando en reconcile:", e.message);
+      }
+
+      try {
+        if (order.clerk_user_id) {
+          await notificarPagoAprobado(order.clerk_user_id, { numeroOrden: reference, total: amount });
+        }
+      } catch (e) {
+        logError("Error push comprador en reconcile:", e.message);
+      }
+
+      try {
+        await crearMensajeSistemaPedido({ ...order, metadata });
+      } catch (e) {
+        logError("Error creando chat de pedido en reconcile:", e.message);
+      }
+    });
 
     return NextResponse.json({ status: "APPROVED", verified: true, reconciled: true });
   } catch (error) {
