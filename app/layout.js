@@ -304,6 +304,7 @@ export default function RootLayout({ children }) {
                         {children}
                         {/* <NotificationManager /> */}
                         <Analytics />
+                        <SpeedInsights />
                         <VisitasTracker />
                         <LoginTracker />
                       </main>
