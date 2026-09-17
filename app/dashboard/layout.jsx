@@ -26,6 +26,7 @@ import {
   MessageSquare,
   Activity,
   UserCheck,
+  Star,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -134,6 +135,12 @@ export default function DashboardLayout({ children }) {
       icon: MessageSquare,
       current: pathname?.startsWith("/dashboard/comentarios"),
       badge: "Nuevo",
+    },
+    {
+      name: "Calificaciones",
+      href: "/dashboard/calificaciones",
+      icon: Star,
+      current: pathname?.startsWith("/dashboard/calificaciones"),
     },
     {
       name: "Noticias",

@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styles from "./TecnicoSistemas.module.scss";
 import Link from "next/link";
+import OpinionesFormateo from "@/components/CalificacionFormateo/OpinionesFormateo";
 
 const STORAGE_KEY = "tecnico_sistemas_orden_fotos";
 
@@ -358,6 +359,9 @@ export default function TecnicoSistemas() {
           </div>
         </div>
       </section>
+
+      {/* Opiniones de clientes sobre el formateo (solo las aprobadas) */}
+      <OpinionesFormateo />
 
       {/* Contacto */}
       <section className={styles.contact} id="contacto">
