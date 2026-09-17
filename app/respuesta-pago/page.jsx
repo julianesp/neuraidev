@@ -120,8 +120,21 @@ function RespuestaPagoContent() {
   // usuario vuelve a la pestaña (los navegadores pausan el polling en pestañas
   // en segundo plano, así que al volver hay que reconsultar).
   const [refEnCurso, setRefEnCurso] = useState(null);
+  // ref_payco de ePayco (su ID interno de transacción). Es el identificador que
+  // exige el endpoint de validación de ePayco; sin él, reconcile no puede
+  // consultar el estado real del pago y la orden se queda "pendiente" para
+  // siempre. Lo tomamos de la URL de retorno (x_ref_payco / ref_payco).
+  const [refPaycoEnCurso, setRefPaycoEnCurso] = useState(null);
   // true mientras corre la verificación manual (botón "Ya pagué").
   const [verificandoManual, setVerificandoManual] = useState(false);
+
+  // Construye la URL de reconcile pasando SIEMPRE que se pueda el ref_payco, que
+  // es lo que ePayco necesita para validar el estado real de la transacción.
+  const reconcileUrl = (reference, refPayco) => {
+    const params = new URLSearchParams({ reference });
+    if (refPayco) params.set("ref_payco", refPayco);
+    return `/api/payments/epayco/reconcile?${params.toString()}`;
+  };
 
   // Verificación manual: el cliente confirma que ya pagó. Pedimos a ePayco el
   // estado real (reconcile completa la orden si está Aceptada) y releemos.
@@ -129,7 +142,7 @@ function RespuestaPagoContent() {
     if (!refEnCurso || verificandoManual) return;
     setVerificandoManual(true);
     try {
-      await fetch(`/api/payments/epayco/reconcile?reference=${refEnCurso}`);
+      await fetch(reconcileUrl(refEnCurso, refPaycoEnCurso));
       const res = await fetch(
         `/api/orders/get-by-reference?reference=${refEnCurso}`,
       );
@@ -206,6 +219,8 @@ function RespuestaPagoContent() {
       // Consultar la orden desde nuestra base de datos
       if (reference) {
         setRefEnCurso(reference);
+        // epaycoRef es el x_ref_payco: guardarlo para poder reconciliar.
+        if (epaycoRef) setRefPaycoEnCurso(epaycoRef);
         (async () => {
           try {
             const fetchOrder = async () => {
@@ -229,12 +244,14 @@ function RespuestaPagoContent() {
             let order = await fetchOrder();
 
             // Polling con reconciliación: los pagos Nequi/PSE por ePayco se
-            // confirman de forma asíncrona (puede tardar ~1-2 min). Mientras la
+            // confirman de forma asíncrona y pueden tardar VARIOS minutos (un
+            // pago PSE real de prueba tardó ~2m31s en confirmarse). Mientras la
             // orden siga pendiente, reintentamos: pedimos a ePayco el estado
             // real (reconcile completa la orden si ya está Aceptada) y releemos.
             // Así la página pasa sola de "pendiente" a "¡Pago exitoso!" sin que
-            // el cliente tenga que recargar. Máx ~2 min (24 intentos x 5s).
-            const MAX_INTENTOS = 24;
+            // el cliente tenga que recargar. Máx ~5 min (60 intentos x 5s) para
+            // cubrir con margen la latencia de PSE.
+            const MAX_INTENTOS = 60;
             for (
               let intento = 0;
               intento < MAX_INTENTOS &&
@@ -245,9 +262,7 @@ function RespuestaPagoContent() {
             ) {
               setVerificandoPago(true);
               try {
-                await fetch(
-                  `/api/payments/epayco/reconcile?reference=${reference}`,
-                );
+                await fetch(reconcileUrl(reference, epaycoRef));
               } catch (recErr) {
                 console.error("Error en reconciliación de pago:", recErr);
               }
@@ -387,7 +402,7 @@ function RespuestaPagoContent() {
       if (document.visibilityState !== "visible" || yaCompletada()) return;
       try {
         // Pedir a ePayco que confirme (completa la orden si ya está Aceptada)
-        await fetch(`/api/payments/epayco/reconcile?reference=${refEnCurso}`);
+        await fetch(reconcileUrl(refEnCurso, refPaycoEnCurso));
         const res = await fetch(
           `/api/orders/get-by-reference?reference=${refEnCurso}`,
         );
@@ -407,7 +422,7 @@ function RespuestaPagoContent() {
       document.removeEventListener("visibilitychange", revisar);
       window.removeEventListener("focus", revisar);
     };
-  }, [refEnCurso, orderData]);
+  }, [refEnCurso, refPaycoEnCurso, orderData]);
 
   // Determinar el estado del pago
   const getPaymentStatus = () => {

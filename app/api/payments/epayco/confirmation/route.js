@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { getSupabaseClient } from "@/lib/db";
 import { decrementMultipleProductsStock } from "@/lib/productService";
 import { createInvoiceRecord } from "@/lib/invoiceGenerator";
@@ -238,93 +238,89 @@ export async function POST(request) {
           log("✅ Orden marcada como pagada");
         }
 
-        // 4. Generar factura electrónica automáticamente
-        try {
-          log("📄 Generando factura electrónica...");
+        // 4-7. Trabajo NO crítico y pesado (factura con PDF + email, Telegram,
+        // push, chat). ePayco exige que el webhook responda 200 en menos de 30s;
+        // generar el PDF y enviar el correo puede tardar más y hacía que ePayco
+        // diera el webhook por fallido, dejando la orden "pendiente" pese a estar
+        // ya marcada como pagada arriba. Con after() esto corre DESPUÉS de
+        // responder, sin bloquear la confirmación a ePayco.
+        after(async () => {
+          // Factura electrónica (guarda en D1 + genera PDF + email)
+          try {
+            log("📄 Generando factura electrónica...");
+            const { data: existingInvoice } = await supabase
+              .from('invoices')
+              .select('invoice_number')
+              .eq('order_reference', reference)
+              .single();
 
-          // Verificar si ya existe una factura para esta orden
-          const { data: existingInvoice } = await supabase
-            .from('invoices')
-            .select('invoice_number')
-            .eq('order_reference', reference)
-            .single();
+            if (existingInvoice) {
+              log("⚠️ La factura ya existe:", existingInvoice.invoice_number);
+            } else {
+              const epaycoTransaction = {
+                id: transactionId,
+                status: 'APPROVED',
+                reference: reference,
+                amount_in_cents: amount * 100,
+                payment_method_type: franchise || 'CARD',
+                payment_method: { type: franchise || 'CARD' },
+              };
+              const invoice = await createInvoiceRecord(supabase, order, epaycoTransaction);
+              log("✅ Factura electrónica generada:", invoice.invoice_number);
+            }
+          } catch (invoiceError) {
+            logError("⚠️ Error generando factura electrónica:", invoiceError);
+          }
 
-          if (existingInvoice) {
-            log("⚠️ La factura ya existe:", existingInvoice.invoice_number);
-          } else {
-            // Crear la factura con información de ePayco
+          // Notificar al administrador (push app + Telegram como respaldo)
+          try {
+            log("📱 Notificando al administrador...");
+            await notificarNuevaVentaAdmin({
+              numeroOrden: reference,
+              total: amount,
+              clienteNombre: order.customer_name || body.x_customer_name || 'Cliente',
+            }).catch((e) => logError("⚠️ Push admin fallido:", e.message));
+
             const epaycoTransaction = {
               id: transactionId,
               status: 'APPROVED',
-              reference: reference,
-              amount_in_cents: amount * 100,
-              payment_method_type: franchise || 'CARD',
-              payment_method: {
-                type: franchise || 'CARD',
-              },
+              payment_method_type: franchise || 'ePayco',
+              payment_method: { type: franchise || 'ePayco' },
+              amount_in_cents: Math.round(amount * 100),
+              customer_email: body.x_customer_email || order.customer_email,
             };
-
-            const invoice = await createInvoiceRecord(supabase, order, epaycoTransaction);
-            log("✅ Factura electrónica generada:", invoice.invoice_number);
+            const orderForNotification = {
+              ...order,
+              customer_phone: order.customer_phone || body.x_customer_phone || '',
+              customer_address: order.customer_address || body.x_customer_address || order.direccion_envio || '',
+              customer_city: metadata?.customer_city || body.x_customer_city || '',
+              customer_region: metadata?.customer_region || '',
+            };
+            const notificationSent = await notifyNewSale(orderForNotification, epaycoTransaction);
+            if (notificationSent) log("✅ Telegram enviado");
+          } catch (notificationError) {
+            logError("⚠️ Error enviando notificación:", notificationError);
           }
-        } catch (invoiceError) {
-          // No bloqueamos el proceso si falla la factura, solo registramos el error
-          logError("⚠️ Error generando factura electrónica:", invoiceError);
-        }
 
-        // 5. Notificar al administrador (push app + Telegram como respaldo)
-        try {
-          log("📱 Notificando al administrador...");
-
-          // Push a la app móvil del admin (si tiene la app instalada y sesión).
-          await notificarNuevaVentaAdmin({
-            numeroOrden: reference,
-            total: amount,
-            clienteNombre: order.customer_name || body.x_customer_name || 'Cliente',
-          }).catch((e) => logError("⚠️ Push admin fallido:", e.message));
-
-          // Telegram como respaldo (sigue funcionando aunque no tenga app).
-          const epaycoTransaction = {
-            id: transactionId,
-            status: 'APPROVED',
-            payment_method_type: franchise || 'ePayco',
-            payment_method: { type: franchise || 'ePayco' },
-            amount_in_cents: Math.round(amount * 100),
-            customer_email: body.x_customer_email || order.customer_email,
-          };
-          const orderForNotification = {
-            ...order,
-            customer_phone: order.customer_phone || body.x_customer_phone || '',
-            customer_address: order.customer_address || body.x_customer_address || order.direccion_envio || '',
-            customer_city: metadata?.customer_city || body.x_customer_city || '',
-            customer_region: metadata?.customer_region || '',
-          };
-          const notificationSent = await notifyNewSale(orderForNotification, epaycoTransaction);
-          if (notificationSent) log("✅ Telegram enviado");
-        } catch (notificationError) {
-          logError("⚠️ Error enviando notificación:", notificationError);
-        }
-
-        // 6. Notificar al comprador por push (app móvil), si su orden quedó
-        //    ligada a un usuario Clerk. Nunca bloquea el webhook.
-        try {
-          if (order.clerk_user_id) {
-            await notificarPagoAprobado(order.clerk_user_id, {
-              numeroOrden: order.numero_orden,
-              total: amount,
-            });
+          // Push al comprador (si su orden quedó ligada a un usuario Clerk)
+          try {
+            if (order.clerk_user_id) {
+              await notificarPagoAprobado(order.clerk_user_id, {
+                numeroOrden: order.numero_orden,
+                total: amount,
+              });
+            }
+          } catch (pushError) {
+            logError("⚠️ Error enviando push al comprador:", pushError);
           }
-        } catch (pushError) {
-          logError("⚠️ Error enviando push al comprador:", pushError);
-        }
 
-        // 7. Abrir un hilo de chat de soporte ligado al pedido con un mensaje
-        //    automático de confirmación. Nunca bloquea el webhook.
-        try {
-          await crearMensajeSistemaPedido(order);
-        } catch (chatError) {
-          logError("⚠️ Error creando mensaje de chat de compra:", chatError);
-        }
+          // Chat de soporte ligado al pedido con mensaje de confirmación
+          try {
+            await crearMensajeSistemaPedido(order);
+          } catch (chatError) {
+            logError("⚠️ Error creando mensaje de chat de compra:", chatError);
+          }
+        });
       }
 
     } else if (transactionState === "Rechazada" || transactionState === "Fallida") {
