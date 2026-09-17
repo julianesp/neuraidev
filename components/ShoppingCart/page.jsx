@@ -139,7 +139,7 @@ export default function ShoppingCart() {
         role="dialog"
         aria-modal="true"
         aria-label="Carrito de compras"
-        className={`${styles.drawer} fixed right-0 top-0 h-[100dvh] w-full max-w-md flex flex-col bg-white dark:bg-gray-900 shadow-2xl will-change-transform ${
+        className={`${styles.drawer} fixed right-0 inset-y-0 h-full w-full max-w-md flex flex-col bg-white dark:bg-gray-900 shadow-2xl will-change-transform ${
           isOpen ? styles.drawerOpen : styles.drawerClosed
         }`}
         style={{ zIndex: 2101 }}
@@ -176,8 +176,14 @@ export default function ShoppingCart() {
           </div>
         ) : (
           <>
-            {/* Lista de productos (scrolleable) */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-gray-50 dark:bg-gray-950/40">
+            {/* Lista de productos (scrolleable) — se oculta durante el checkout
+                para que el formulario de pago disponga de todo el alto y pueda
+                hacer scroll cómodamente. */}
+            <div
+              className={`flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-gray-50 dark:bg-gray-950/40 ${
+                showCheckout ? "hidden" : ""
+              }`}
+            >
               {cart.map((item, index) => (
                 <div
                   key={`${item.id}-${item.variacion}-${index}`}
@@ -283,20 +289,21 @@ export default function ShoppingCart() {
               ))}
             </div>
 
-            {/* Footer fijo: resumen + acciones */}
-            <div className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4 space-y-3">
-              {showCheckout ? (
-                <div className="max-h-[60dvh] overflow-y-auto">
-                  <button
-                    onClick={() => setShowCheckout(false)}
-                    className="mb-3 text-sm text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 flex items-center gap-1"
-                  >
-                    ← Volver
-                  </button>
-                  <EpaycoCheckout onClose={() => setShowCheckout(false)} />
-                </div>
-              ) : (
-                <>
+            {/* Checkout: ocupa toda el área scrolleable del drawer para que el
+                formulario de pago se pueda desplazar por completo. */}
+            {showCheckout ? (
+              <div className="flex-1 overflow-y-auto px-5 py-4">
+                <button
+                  onClick={() => setShowCheckout(false)}
+                  className="mb-3 text-sm text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 flex items-center gap-1"
+                >
+                  ← Volver
+                </button>
+                <EpaycoCheckout onClose={() => setShowCheckout(false)} />
+              </div>
+            ) : (
+              /* Footer fijo: resumen + acciones */
+              <div className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4 space-y-3">
                   {/* Envíos */}
                   <div className="rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/60 px-3 py-2">
                     {calificaEnvioGratis ? (
@@ -392,9 +399,8 @@ export default function ShoppingCart() {
                   >
                     Vaciar carrito
                   </button>
-                </>
-              )}
-            </div>
+              </div>
+            )}
           </>
         )}
       </aside>

@@ -188,10 +188,6 @@ export default function EpaycoCheckout({ onClose }) {
       missingFields.push("Departamento/Región");
     }
 
-    if (!customerData.numberDoc || customerData.numberDoc.trim().length < 6) {
-      missingFields.push("Número de documento");
-    }
-
     if (missingFields.length > 0) {
       toast.warning(
         `Faltan los siguientes campos obligatorios: ${missingFields.join(", ")}`,
@@ -435,48 +431,6 @@ export default function EpaycoCheckout({ onClose }) {
             value={customerData.phone}
             onChange={handleChange}
             placeholder="3001234567"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
-          />
-        </div>
-
-        {/* Tipo de documento */}
-        <div>
-          <label
-            htmlFor="epayco-customer-type-doc"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >
-            Tipo de documento *
-          </label>
-          <select
-            id="epayco-customer-type-doc"
-            name="typeDoc"
-            value={customerData.typeDoc}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
-          >
-            <option value="CC">Cédula de Ciudadanía</option>
-            <option value="CE">Cédula de Extranjería</option>
-            <option value="NIT">NIT</option>
-            <option value="TI">Tarjeta de Identidad</option>
-            <option value="PP">Pasaporte</option>
-          </select>
-        </div>
-
-        {/* Número de documento */}
-        <div>
-          <label
-            htmlFor="epayco-customer-number-doc"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >
-            Número de documento *
-          </label>
-          <input
-            id="epayco-customer-number-doc"
-            type="text"
-            name="numberDoc"
-            value={customerData.numberDoc}
-            onChange={handleChange}
-            placeholder="Ingrese su número de documento"
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
           />
         </div>
