@@ -4,8 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import styles from "./TecnicoSistemas.module.scss";
 import Link from "next/link";
 import OpinionesFormateo from "@/components/CalificacionFormateo/OpinionesFormateo";
-
-const STORAGE_KEY = "tecnico_sistemas_orden_fotos";
+import Coverflow from "./Coverflow";
 
 // ── Datos de trabajos realizados ──────────────────────────────────────────────
 
@@ -82,24 +81,28 @@ const trabajosBase = [
 
 // ── Página pública lee el orden guardado por el admin ─────────────────────────
 
+// Lee los trabajos desde la base de datos (gestionables en /dashboard/trabajos).
+// Si la API aún no devuelve nada (p. ej. antes de aplicar la migración), usa el
+// array base como respaldo para no dejar la sección vacía.
 function useTrabajosOrdenados() {
   const [trabajos, setTrabajos] = useState(trabajosBase);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const orden = JSON.parse(saved);
-        setTrabajos(
-          trabajosBase.map((t) => {
-            const key = `computer_${t.id}`;
-            return orden[key] ? { ...t, fotos: orden[key] } : t;
-          })
-        );
-      }
-    } catch {
-      // usar orden por defecto
-    }
+    let activo = true;
+    fetch("/api/trabajos")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!activo) return;
+        if (Array.isArray(data.trabajos) && data.trabajos.length > 0) {
+          setTrabajos(data.trabajos);
+        }
+      })
+      .catch(() => {
+        // mantener el respaldo
+      });
+    return () => {
+      activo = false;
+    };
   }, []);
 
   return trabajos;
@@ -172,22 +175,11 @@ function GaleriaTrabajo({ trabajo }) {
         </div>
         <div className={styles.trabajoDivider} />
 
-        <div className={styles.galeriaGrid}>
-          {trabajo.fotos.map((url, idx) => (
-            <div
-              key={idx}
-              className={styles.galeriaFoto}
-              onClick={() => abrirLightbox(trabajo.fotos, idx)}
-            >
-              <img src={url} alt={`${trabajo.titulo} — foto ${idx + 1}`} loading="lazy" />
-              <div className={styles.galeriaOverlay}>
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                </svg>
-              </div>
-            </div>
-          ))}
-        </div>
+        <Coverflow
+          fotos={trabajo.fotos}
+          titulo={trabajo.titulo}
+          onAbrir={abrirLightbox}
+        />
       </div>
 
       {lightboxFotos && (

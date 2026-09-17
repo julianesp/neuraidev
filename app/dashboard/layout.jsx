@@ -27,6 +27,7 @@ import {
   Activity,
   UserCheck,
   Star,
+  Wrench,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -141,6 +142,12 @@ export default function DashboardLayout({ children }) {
       href: "/dashboard/calificaciones",
       icon: Star,
       current: pathname?.startsWith("/dashboard/calificaciones"),
+    },
+    {
+      name: "Trabajos",
+      href: "/dashboard/trabajos",
+      icon: Wrench,
+      current: pathname?.startsWith("/dashboard/trabajos"),
     },
     {
       name: "Noticias",
