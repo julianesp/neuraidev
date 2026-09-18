@@ -187,20 +187,14 @@ $primary: $color-primario;
     padding: 0 20px;
     // margin-top: 25vh;
 
-    // Vista en columna para móviles
+    // Los dos carruseles (Destacados y Recientes) apilados uno debajo del
+    // otro, cada uno a ancho completo, en todas las resoluciones.
     display: flex;
     flex-direction: column;
-    gap: 20px;
-
-    // Vista en fila desde 768px
-    @media (min-width: 768px) {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: nowrap;
-    }
+    align-items: center;
+    gap: 48px;
+    max-width: 1200px;
+    margin: 0 auto;
 
     @media (min-width: 1024px) {
     }
@@ -631,18 +625,20 @@ $primary: $color-primario;
   @media (min-width: 1024px) {
     margin: 0;
     display: grid;
-    // grid-template-columns: 1fr minmax(280px, 300px);
-    grid-template-columns: 1fr minmax(300px, 350px);
+    // El aside ya no ocupa una columna: es un panel deslizante (overlay) que se
+    // abre con la flecha lateral en todas las resoluciones. Así el contenido usa
+    // todo el ancho y nada tapa los productos.
+    grid-template-columns: 1fr;
     grid-template-areas:
-      "presentacion presentacion"
-      "destacados aside"
-      "accesories aside"
-      "tiendasDestacadas aside"
-      "contactWhatsApp aside"
-      "webDevSection aside"
-      "blogSection aside"
-      "faq aside"
-      "technicalServices aside";
+      "presentacion"
+      "destacados"
+      "accesories"
+      "tiendasDestacadas"
+      "contactWhatsApp"
+      "webDevSection"
+      "blogSection"
+      "faq"
+      "technicalServices";
 
     gap: 0;
     max-width: 100dvw;
@@ -691,21 +687,8 @@ $primary: $color-primario;
       box-sizing: border-box;
     }
 
-    & .aside {
-      display: block !important; // Asegurar que se muestre en desktop
-      grid-area: aside;
-      width: 100%;
-      max-width: 100%; // Usar todo el espacio del grid
-      align-self: stretch; // Estirar para ocupar toda la altura del grid
-      margin-top: 20px; // Igualar la distancia superior con .destacados
-      margin-right: 16px; // Separar del borde derecho para ver la esquina redondeada
-      padding: 0.5rem; // Reducido para que quepa mejor
-      height: auto; // Altura automática basada en el contenido
-      min-height: 100%; // Mínimo toda la altura disponible
-      position: relative; // Cambiar de sticky a relative para que fluya con el contenido
-      z-index: 60; // Debajo del carrusel (z-index: 100)
-      box-sizing: border-box; // Incluir padding en el cálculo del ancho
-    }
+    // En desktop el aside NO va en el grid: es el mismo panel deslizante que en
+    // móvil (ver regla base de .aside más abajo). No lo redefinimos aquí.
 
     & .destacados {
       grid-area: destacados;
@@ -737,6 +720,30 @@ $primary: $color-primario;
     }
   }
 
+  // El aside de categorías/filtros es un panel deslizante (overlay) en TODAS las
+  // resoluciones: oculto fuera de pantalla, se abre con la flecha lateral. Así no
+  // ocupa espacio ni tapa los productos en desktop.
+  & .aside {
+    display: block !important;
+    position: fixed !important;
+    top: 0;
+    right: 0;
+    width: min(360px, 88vw);
+    height: 100dvh;
+    background: white;
+    z-index: 200;
+    overflow-y: auto;
+    padding: 1rem;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.18);
+    border-radius: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &.asideOpen {
+      transform: translateX(0);
+    }
+  }
+
   // Estilos para móviles y tablets (menos de 1024px)
   @media (max-width: 1023px) {
     & .presentacion {
@@ -744,58 +751,33 @@ $primary: $color-primario;
       margin-bottom: 20px;
     }
 
-    & .aside {
-      display: block !important;
-      position: fixed !important;
-      top: 0;
-      right: 0;
-      width: min(320px, 88vw);
-      height: 100dvh;
-      background: white;
-      z-index: 200;
-      overflow-y: auto;
-      padding: 1rem;
-      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.18);
-      border-radius: 0;
-      transform: translateX(100%);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-      &.asideOpen {
-        transform: translateX(0);
-      }
-    }
-
     & .destacados {
       top: 0;
     }
   }
 
-  // Botón flotante toggle sidebar (solo móvil)
+  // Botón flotante (flecha lateral) para desplegar el aside — visible siempre.
   .sidebarToggle {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: 0;
+    top: 50vh;
+    transform: translateY(-50%);
+    z-index: 210;
+    width: 36px;
+    height: 52px;
+    background: $primary;
+    color: white;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    cursor: pointer;
+    box-shadow: -2px 2px 12px rgba(0, 112, 243, 0.4);
+    transition: background 0.2s ease;
 
-    @media (max-width: 1023px) {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: fixed;
-      right: 0;
-      top: 50vh;
-      transform: translateY(-50%);
-      z-index: 210;
-      width: 36px;
-      height: 52px;
-      background: $primary;
-      color: white;
-      border: none;
-      border-radius: 10px 0 0 10px;
-      cursor: pointer;
-      box-shadow: -2px 2px 12px rgba(0, 112, 243, 0.4);
-      transition: background 0.2s ease;
-
-      &:hover {
-        background: color.adjust($primary, $lightness: -10%);
-      }
+    &:hover {
+      background: color.adjust($primary, $lightness: -10%);
     }
   }
 
@@ -810,17 +792,16 @@ $primary: $color-primario;
     transform: rotate(0deg);
   }
 
+  // Fondo que aparece al abrir el aside: oscurece y desenfoca el resto de la
+  // página. Visible en todas las resoluciones.
   .sidebarOverlay {
-    display: none;
-
-    @media (max-width: 1023px) {
-      display: block;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 199;
-      backdrop-filter: blur(2px);
-    }
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 199;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 
   // Estilos específicos para pantallas grandes (monitores 32" - 2560px)

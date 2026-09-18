@@ -37,9 +37,8 @@ const DEFAULT_SLIDES = [
     imagen_url: "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev/parque%20Col%C3%B3n.png",
     titulo: "Colón, Putumayo",
     descripcion: "Tu tienda de tecnología en el corazón de Colón",
-    link: null,
-    boton_texto: null,
-    boton_secundario: { texto: "Conocer Colón", href: "https://es.wikipedia.org/wiki/Col%C3%B3n_(Putumayo)" },
+    link: "/colon",
+    boton_texto: "Conocer Colón",
   },
 ];
 

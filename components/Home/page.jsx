@@ -499,7 +499,8 @@ export default function Inicio() {
           </div>
         </section> */}
 
-        {/* Botón flotante para abrir aside en móvil */}
+        {/* Flecha lateral para desplegar el aside (categorías/filtros).
+            Visible en todas las resoluciones. */}
         <button
           className={styles.sidebarToggle}
           onClick={() => setSidebarOpen((v) => !v)}
@@ -522,7 +523,7 @@ export default function Inicio() {
           </svg>
         </button>
 
-        {/* Overlay al abrir sidebar en móvil */}
+        {/* Fondo borroso al abrir el aside — cierra al hacer clic fuera */}
         {sidebarOpen && (
           <div
             className={styles.sidebarOverlay}

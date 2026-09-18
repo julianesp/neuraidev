@@ -1,0 +1,346 @@
+/* Coverflow de productos: foto central grande + vecinas borrosas a los lados.
+   Mismo lenguaje visual que el coverflow de servicios/tecnico-sistemas, pero
+   cada "foto" es un producto distinto. A la DERECHA de la escena se muestra la
+   info (nombre + precio + botón "Ver") SOLO del producto central. */
+
+.coverflow {
+  --cf-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  width: 100%;
+}
+
+/* Cuerpo: en móvil apila (imagen arriba, info abajo); en desktop, imagen a la
+   izquierda e info a la derecha. */
+.cuerpo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+  }
+}
+
+/* Escena: donde viven las fotos apiladas. */
+.escena {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  margin: 0 auto;
+  outline: none;
+  flex: 1 1 auto;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.5);
+    border-radius: 16px;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 560px;
+    height: 400px;
+  }
+
+  @media (max-width: 640px) {
+    height: 260px;
+  }
+}
+
+/* Cada foto se ancla al centro; Motion la desplaza con translateX en %.
+   El tamaño se define por la ALTURA de la escena para que nunca colapse. */
+.foto {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 82%;
+  aspect-ratio: 4 / 3;
+  max-width: 92%;
+  border: none;
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #e2e8f0;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  will-change: transform, opacity, filter;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+}
+
+.centro {
+  cursor: pointer;
+}
+
+/* Flechas de navegación, flotando encima de las fotos. */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  color: #2d3748;
+  cursor: pointer;
+  transition:
+    transform 0.16s var(--cf-ease-out, ease),
+    background 0.16s ease;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.08);
+    }
+  }
+
+  &:active {
+    transform: translateY(-50%) scale(0.94);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.navPrev {
+  left: 8px;
+}
+
+.navNext {
+  right: 8px;
+}
+
+/* Badges que se superponen sobre la foto central (favoritos, stock, nuevo). */
+.badgeIzq {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 25;
+}
+
+.badgeDer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 25;
+}
+
+/* Info del producto central: nombre + precio + botón Ver.
+   En móvil va centrada debajo; en desktop, a la derecha de la imagen.
+   Fondo tipo "glass" para que el texto se lea con claridad sobre cualquier
+   fondo y no quede opaco/tapado. z-index alto para quedar por encima de las
+   fotos borrosas laterales de la escena. */
+.info {
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+
+  @media (min-width: 768px) {
+    flex: 0 0 250px;
+    max-width: 250px;
+    text-align: left;
+  }
+}
+
+.titulo {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0;
+  line-height: 1.3;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: #2563eb;
+    }
+  }
+}
+
+.precio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+
+  @media (min-width: 768px) {
+    justify-content: flex-start;
+  }
+
+  .precioActual {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #16a34a;
+  }
+
+  .precioAnterior {
+    font-size: 0.9rem;
+    color: #9ca3af;
+    text-decoration: line-through;
+  }
+}
+
+.acciones {
+  margin-top: 16px;
+}
+
+/* Botón "Ver" — lleva a la página de detalle del producto. */
+.botonVer {
+  display: inline-block;
+  background: #3b82f6;
+  color: #fff;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    transform 0.16s var(--cf-ease-out, ease);
+
+  &:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* Puntos indicadores debajo. */
+.puntos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 16px;
+}
+
+.punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: #cbd5e0;
+  cursor: pointer;
+  transition:
+    transform 0.18s var(--cf-ease-out, ease),
+    background 0.18s ease;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: #a0aec0;
+    }
+  }
+}
+
+.puntoActivo {
+  width: 22px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #0070f3 0%, #764ba2 100%);
+}
+
+.contador {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #718096;
+  margin-top: 6px;
+}
+
+.verTodos {
+  margin-top: 20px;
+  text-align: center;
+
+  a {
+    display: inline-block;
+    background: #3b82f6;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #2563eb;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav,
+  .punto {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* Modo oscuro */
+:global(.dark) {
+  .foto {
+    background: #2d3748;
+  }
+
+  .nav {
+    background: rgba(45, 55, 72, 0.92);
+    color: #f7fafc;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: #2d3748;
+      }
+    }
+  }
+
+  .info {
+    background: rgba(26, 32, 44, 0.82);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  }
+
+  .titulo {
+    color: #f7fafc;
+
+    a:hover {
+      color: #60a5fa;
+    }
+  }
+
+  .punto {
+    background: #4a5568;
+  }
+
+  .contador {
+    color: #a0aec0;
+  }
+}

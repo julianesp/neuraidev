@@ -1,55 +1,49 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import styles from "@/styles/components/AccesoriosDestacados.module.scss";
-import Link from "next/link";
+import React, { useState, useEffect } from "react";
+import ProductoCoverflow from "@/components/Producto/ProductoCoverflow";
+
 async function obtenerProductosRecientes(limit = 10) {
   const res = await fetch(`/api/productos/nuevos?limit=${limit}`);
   if (!res.ok) return [];
   const data = await res.json();
-  return Array.isArray(data) ? data : (data.productos || []);
+  return Array.isArray(data) ? data : data.productos || [];
 }
-import { htmlToPlainText } from "@/utils/htmlToText";
+
+const getProductoImagenUrl = (producto) => {
+  const placeholder =
+    "https://media.neurai.dev/Accesorios/books/used/algebra_intermedia/2.jpg";
+  return (
+    producto.imagen_principal ||
+    (producto.imagenes && producto.imagenes.length > 0
+      ? producto.imagenes[0].url
+      : placeholder)
+  );
+};
+
+// Etiqueta amigable de la fecha de ingreso.
+const formatearFechaCreacion = (fecha) => {
+  if (!fecha) return "Nuevo";
+
+  const fechaCreacion = new Date(fecha);
+  const ahora = new Date();
+  const diferenciaDias = Math.floor(
+    (ahora - fechaCreacion) / (1000 * 60 * 60 * 24),
+  );
+
+  if (diferenciaDias === 0) return "Hoy";
+  if (diferenciaDias === 1) return "Ayer";
+  if (diferenciaDias < 7) return `Hace ${diferenciaDias} días`;
+  if (diferenciaDias < 30)
+    return `Hace ${Math.floor(diferenciaDias / 7)} semanas`;
+  return fechaCreacion.toLocaleDateString("es-ES");
+};
 
 const ProductosRecientes = () => {
-  // Estado para almacenar los productos recientes
   const [recientes, setRecientes] = useState([]);
-
-  // Estado para controlar la carga
   const [loading, setLoading] = useState(true);
-
-  // Estado para manejar posibles errores
   const [errorState, setErrorState] = useState(null);
 
-  // Estado para controlar errores de imágenes
-  const [imgError, setImgError] = useState({});
-
-  // Estado para controlar el índice del producto actual en vista móvil
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  // Referencia al contenedor de scroll
-  const containerRef = useRef(null);
-
-  // Función para formatear la fecha de ingreso
-  const formatearFechaCreacion = (fecha) => {
-    if (!fecha) return "Nuevo";
-
-    const fechaCreacion = new Date(fecha);
-    const ahora = new Date();
-    const diferenciaDias = Math.floor(
-      (ahora - fechaCreacion) / (1000 * 60 * 60 * 24),
-    );
-
-    if (diferenciaDias === 0) return "Hoy";
-    if (diferenciaDias === 1) return "Ayer";
-    if (diferenciaDias < 7) return `Hace ${diferenciaDias} días`;
-    if (diferenciaDias < 30)
-      return `Hace ${Math.floor(diferenciaDias / 7)} semanas`;
-    return fechaCreacion.toLocaleDateString("es-ES");
-  };
-
-  // Efecto para cargar los productos recientes al montar el componente
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -68,277 +62,69 @@ const ProductosRecientes = () => {
     fetchProductos();
   }, []);
 
-  // Función para manejar el desplazamiento hacia atrás
-  const moveLeft = () => {
-    if (activeIndex > 0) {
-      setActiveIndex(activeIndex - 1);
-      scrollToPosition(activeIndex - 1);
-    }
-  };
-
-  // Función para manejar el desplazamiento hacia adelante
-  const moveRight = () => {
-    if (activeIndex < recientes.length - 1) {
-      setActiveIndex(activeIndex + 1);
-      scrollToPosition(activeIndex + 1);
-    }
-  };
-
-  // Función para desplazarse a una posición específica
-  const scrollToPosition = (index) => {
-    if (containerRef.current) {
-      const itemWidth = containerRef.current.children[0]?.offsetWidth || 0;
-      containerRef.current.scrollTo({
-        left: itemWidth * index,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  // Renderizar mensaje de error
   if (errorState) {
     return (
-      <div className="bg-blue-50 p-6 rounded-lg">
-        <h2 className="text-2xl font-bold mb-6">Productos Nuevos</h2>
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          <p>{errorState}</p>
-        </div>
+      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <p>{errorState}</p>
       </div>
     );
   }
 
-  // Si no hay productos recientes
-  if (recientes.length === 0) {
-    return (
-      <div className="bg-blue-50 p-6 rounded-lg">
-        <h2 className="text-2xl font-bold mb-6">Productos Nuevos</h2>
-        <p className="text-gray-600 text-center">
-          No hay productos nuevos disponibles
-        </p>
-      </div>
-    );
-  }
-
-  // Renderizar estado de carga
   if (loading) {
     return (
-      <div
-        className={`${styles.container} bg-blue-50 p-6 rounded-lg border dark:border-white`}
-      >
-        <h2 className="text-2xl font-bold mb-6">🆕 Productos Recientes</h2>
-        <div className="flex justify-center items-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-          <span className="ml-2 text-gray-600">
-            Cargando productos recientes...
-          </span>
-        </div>
+      <div className="flex justify-center items-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        <span className="ml-2 text-gray-600">
+          Cargando productos recientes...
+        </span>
       </div>
     );
   }
 
-  // Renderizar el componente con los productos cargados
+  if (recientes.length === 0) {
+    return (
+      <p className="text-gray-600 text-center py-8">
+        No hay productos nuevos disponibles
+      </p>
+    );
+  }
+
   return (
-    <div
-      className={`${styles.container} bg-blue-50 p-6 rounded-lg border  dark:border-white`}
-    >
-      <h2 className="text-2xl font-bold mb-2">
-        🆕 Productos Recientes
-        <span className="absolute flex text-sm font-normal text-black dark:text-white ml-2">
-          (Últimos 30 días)
-        </span>
-      </h2>
-
-      {/* Navegación para móviles */}
-      <div
-        className={`flex justify-between items-center mb-1 ${styles.accesories}`}
-      >
-        <button
-          onClick={moveLeft}
-          disabled={activeIndex === 0}
-          className={`bg-blue-500 text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${activeIndex === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
-          aria-label="Producto anterior"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-        </button>
-
-        <span className="text-sm text-gray-600">
-          {activeIndex + 1} / {recientes.length}
-        </span>
-
-        <button
-          onClick={moveRight}
-          disabled={activeIndex === recientes.length - 1}
-          className={`bg-blue-500 text-justify flex justify-center items-center text-white p-2 rounded-full shadow-md transition-transform hover:scale-105 focus:outline-none ${activeIndex === recientes.length - 1 ? "opacity-50 cursor-not-allowed" : ""}`}
-          aria-label="Siguiente producto"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
-      </div>
-
-      {/* Contenedor con scroll horizontal */}
-      <div
-        ref={containerRef}
-        className="flex items-center overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-1"
-        style={{
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-          WebkitOverflowScrolling: "touch",
-        }}
-      >
-        {recientes.map((producto, index) => {
-          return (
-            <Link
-              key={`${producto.categoria}-${producto.id}-${index}`}
-              href={`/accesorios/${producto.categoria}/${producto.id}`}
-              className="producto-card border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 snap-start mx-2 flex flex-col relative"
-              style={{
-                minWidth: "calc(100% - 1rem)",
-                width: "calc(100% - 1rem)",
-                opacity: activeIndex === index ? 1 : 0.7,
-                transform: `scale(${activeIndex === index ? 1 : 0.95})`,
-              }}
-            >
-              {/* Badge de "NUEVO" */}
-              <div className="absolute top-2 left-2 bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
-                NUEVO
-              </div>
-
-              {/* Badge con fecha de ingreso */}
-              <div className="absolute top-2 right-2 bg-white bg-opacity-90 text-gray-700 px-2 py-1 rounded-full text-xs font-medium z-10">
-                {formatearFechaCreacion(producto.fechaIngreso)}
-              </div>
-              {/* Contenedor de imagen con posición relativa y tamaño fijo */}
-              <div className="w-full h-48 relative">
-                <Image
-                  src={
-                    producto.imagen_principal ||
-                    (producto.imagenes && producto.imagenes.length > 0
-                      ? producto.imagenes[0].url
-                      : "https://media.neurai.dev/Accesorios/books/used/algebra_intermedia/2.jpg")
-                  }
-                  alt={producto.nombre}
-                  fill={true}
-                  className="object-contain"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority={false}
-                  loading="lazy"
-                  quality={85}
-                  unoptimized={
-                    typeof (producto.imagen_principal ||
-                      (producto.imagenes?.[0]?.url)) === "string" &&
-                    (producto.imagen_principal ||
-                      (producto.imagenes?.[0]?.url) || "").includes("r2.dev")
-                  }
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-                  onError={() =>
-                    setImgError((prev) => ({
-                      ...prev,
-                      [`reciente-${producto.id}`]: true,
-                    }))
-                  }
-                />
-              </div>
-
-              <div className="p-4 w-full">
-                <h3 className="font-semibold text-lg">{producto.nombre}</h3>
-                <p className="text-black mt-1 text-sm line-clamp-2 dark:text-white">
-                  {htmlToPlainText(producto.descripcion, 100)}
-                </p>
-                <p className="text-blue-600 text-xs font-medium mt-1">
-                  Categoría: {producto.categoria}
-                </p>
-                <div className="mt-2 flex items-center">
-                  <span className="font-bold text-lg">
-                    $
-                    {typeof producto.precio === "number"
-                      ? producto.precio.toLocaleString("es-CL")
-                      : producto.precio}
-                  </span>
-                  {producto.precioAnterior && (
-                    <span className="text-gray-500 line-through ml-2 text-sm">
-                      $
-                      {typeof producto.precioAnterior === "number"
-                        ? producto.precioAnterior.toLocaleString("es-CL")
-                        : producto.precioAnterior}
-                    </span>
-                  )}
-                </div>
-
-                {/* Mostrar cantidad si está disponible */}
-                {producto.cantidad !== undefined && (
-                  <div className="mt-2">
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        producto.cantidad > 0
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {producto.cantidad > 0
-                        ? `${producto.cantidad} disponibles`
-                        : "Sin stock"}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* Indicadores de paginación (puntos) */}
-      <div className="flex justify-center mt-4 space-x-2">
-        {recientes.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              setActiveIndex(index);
-              scrollToPosition(index);
-            }}
-            className={`h-2 rounded-full transition-all duration-300 focus:outline-none
-              ${activeIndex === index ? "bg-blue-500 w-4" : "bg-gray-300 w-2"}`}
-            aria-label={`Ir al producto ${index + 1}`}
-          ></button>
-        ))}
-      </div>
-
-      <div className="mt-6 text-center">
-        <Link
-          href="/accesorios"
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
-          onClick={(e) => e.stopPropagation()}
-        >
-          Ver todos los productos
-        </Link>
-      </div>
-    </div>
+    <ProductoCoverflow
+      productos={recientes}
+      getImagen={getProductoImagenUrl}
+      getHref={(producto) => `/accesorios/${producto.categoria}/${producto.id}`}
+      renderBadgeIzq={() => (
+        <div className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+          NUEVO
+        </div>
+      )}
+      renderBadgeDer={(producto) => (
+        <div className="bg-white bg-opacity-90 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
+          {formatearFechaCreacion(producto.fechaIngreso)}
+        </div>
+      )}
+      renderPrecio={(producto) => (
+        <div className="mt-2 flex items-center gap-2">
+          <span className="font-bold text-lg text-green-600">
+            $
+            {typeof producto.precio === "number"
+              ? producto.precio.toLocaleString("es-CL")
+              : producto.precio}
+          </span>
+          {producto.precioAnterior && (
+            <span className="text-gray-500 line-through text-sm">
+              $
+              {typeof producto.precioAnterior === "number"
+                ? producto.precioAnterior.toLocaleString("es-CL")
+                : producto.precioAnterior}
+            </span>
+          )}
+        </div>
+      )}
+      verTodosHref="/accesorios"
+      verTodosTexto="Ver todos los productos"
+    />
   );
 };
 

@@ -1,0 +1,270 @@
+/* Página pública de Colón, Putumayo.
+   Banner de fondo arriba, foto de perfil centrada superpuesta, y grid de
+   eventos abajo con celdas de distinto tamaño (algunos eventos "destacado"
+   ocupan más espacio). */
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: #f7fafc;
+  padding-bottom: 80px;
+}
+
+/* Cabecera: banner + foto de perfil */
+.header {
+  position: relative;
+  width: 100%;
+}
+
+.banner {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
+
+  @media (min-width: 768px) {
+    height: 340px;
+  }
+
+  @media (min-width: 1280px) {
+    height: 420px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+/* La foto de perfil se solapa entre el banner y el contenido. */
+.perfilWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -70px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+
+  @media (min-width: 768px) {
+    margin-top: -90px;
+  }
+}
+
+.perfil {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  background: #e2e8f0;
+  flex-shrink: 0;
+
+  @media (min-width: 768px) {
+    width: 180px;
+    height: 180px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.perfilPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 2.5rem;
+}
+
+.titulo {
+  margin-top: 16px;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a202c;
+  text-align: center;
+
+  @media (max-width: 640px) {
+    font-size: 1.6rem;
+  }
+}
+
+.descripcion {
+  margin-top: 8px;
+  max-width: 640px;
+  text-align: center;
+  color: #4a5568;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* ── Grid de eventos ─────────────────────────────────────────────────────── */
+
+.eventosSection {
+  max-width: 1200px;
+  margin: 48px auto 0;
+  padding: 0 20px;
+}
+
+.eventosTitulo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Grid responsivo con celdas de distinto tamaño:
+   - celular: 1 columna
+   - tablet:  2 columnas
+   - desktop: 3 columnas
+   Los eventos "destacado" ocupan 2 columnas (y 2 filas en desktop). */
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+  grid-auto-flow: dense;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+.card {
+  position: relative;
+  display: block;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #e2e8f0;
+  text-decoration: none;
+  color: inherit;
+  min-height: 200px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.2s ease;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+
+      .cardImg img {
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+/* Un evento destacado ocupa el doble de ancho (y más alto en desktop). */
+.cardDestacado {
+  @media (min-width: 640px) {
+    grid-column: span 2;
+    min-height: 260px;
+  }
+
+  @media (min-width: 1024px) {
+    grid-row: span 2;
+    min-height: 420px;
+  }
+}
+
+.cardImg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+
+.cardPlaceholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
+}
+
+/* Overlay inferior con el título y la fecha del evento. */
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.15) 55%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.cardFecha {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #93c5fd;
+  margin-bottom: 4px;
+}
+
+.cardTitulo {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+
+  .cardDestacado & {
+    @media (min-width: 1024px) {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.vacio {
+  text-align: center;
+  color: #718096;
+  padding: 40px 0;
+}
+
+/* Modo oscuro */
+:global(.dark) {
+  .container {
+    background: #1a202c;
+  }
+
+  .titulo {
+    color: #f7fafc;
+  }
+
+  .descripcion {
+    color: #cbd5e0;
+  }
+
+  .eventosTitulo {
+    color: #f7fafc;
+  }
+
+  .perfil {
+    border-color: #2d3748;
+  }
+}

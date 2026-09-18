@@ -1,0 +1,133 @@
+/* Página de detalle de un evento de Colón: portada grande, título, fecha,
+   descripción y galería de fotos. */
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: #f7fafc;
+  padding-bottom: 80px;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
+
+  @media (min-width: 768px) {
+    height: 420px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 24px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.fecha {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.titulo {
+  margin-top: 8px;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #1a202c;
+  line-height: 1.2;
+
+  @media (max-width: 640px) {
+    font-size: 1.7rem;
+  }
+}
+
+.descripcion {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #4a5568;
+  white-space: pre-line;
+}
+
+.galeriaTitulo {
+  margin-top: 48px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.galeria {
+  margin-top: 20px;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.galeriaItem {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e2e8f0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.estado {
+  max-width: 900px;
+  margin: 60px auto;
+  text-align: center;
+  color: #718096;
+  padding: 0 20px;
+}
+
+:global(.dark) {
+  .container {
+    background: #1a202c;
+  }
+  .titulo {
+    color: #f7fafc;
+  }
+  .descripcion {
+    color: #cbd5e0;
+  }
+  .galeriaTitulo {
+    color: #f7fafc;
+  }
+}
