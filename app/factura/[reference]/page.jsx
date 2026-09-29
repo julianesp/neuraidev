@@ -5,10 +5,10 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 /**
- * Página de factura electrónica
+ * Página de comprobante de compra
  * URL: /factura/[reference]
  *
- * Permite visualizar y descargar la factura de una compra
+ * Permite visualizar y descargar el comprobante de una compra
  */
 export default function FacturaPage() {
   const params = useParams();
@@ -170,7 +170,7 @@ export default function FacturaPage() {
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-8 text-white">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold mb-2">Factura Electrónica</h1>
+                <h1 className="text-3xl font-bold mb-2">Comprobante de compra</h1>
                 <p className="text-blue-100">
                   No. {invoice.invoice_number}
                 </p>
@@ -398,9 +398,9 @@ export default function FacturaPage() {
                   />
                 </svg>
                 <p className="text-sm text-blue-800 dark:text-blue-200">
-                  Esta factura es válida como documento electrónico. Puedes
-                  descargarla en formato PDF para tus registros contables. Si
-                  tienes alguna pregunta, contáctanos en contacto@neurai.dev
+                  Este es tu comprobante de compra. Puedes descargarlo en
+                  formato PDF para tus registros. Si tienes alguna pregunta,
+                  contáctanos en admin@neurai.dev
                 </p>
               </div>
             </div>
