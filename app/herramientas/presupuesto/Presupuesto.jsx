@@ -18,6 +18,8 @@ import {
   Repeat,
   ShoppingBag,
   Info,
+  FileDown,
+  Loader2,
 } from "lucide-react";
 
 // Los datos viven solo en el navegador del usuario: no requieren cuenta y
@@ -141,6 +143,58 @@ const moverMes = (clave, delta) => {
 
 const hoyISO = () => new Date().toISOString().slice(0, 10);
 
+/** Totales de un mes: ingresos, gastos, categorías y ahorro. */
+export function calcularMes(datos, clave) {
+  const datosMes = { ...MES_VACIO, ...(datos.meses[clave] || {}) };
+  const sueldo = datos.sueldo.activo ? datos.sueldo.monto : 0;
+  const extras = datosMes.ingresos.reduce((s, i) => s + i.monto, 0);
+  const extrasRecibidos = datosMes.ingresos
+    .filter((i) => i.recibido)
+    .reduce((s, i) => s + i.monto, 0);
+  const ingresosPrevistos = sueldo + extras;
+  const ingresosRecibidos =
+    (datosMes.sueldoRecibido ? sueldo : 0) + extrasRecibidos;
+
+  const totalFijos = datos.fijos.reduce((s, f) => s + f.monto, 0);
+  const fijosPagados = datos.fijos
+    .filter((f) => datosMes.fijosPagados[f.id])
+    .reduce((s, f) => s + f.monto, 0);
+  const totalVariables = datosMes.gastos.reduce((s, g) => s + g.monto, 0);
+  const gastosTotales = totalFijos + totalVariables;
+  const gastado = fijosPagados + totalVariables;
+
+  const porCategoria = {};
+  [...datos.fijos, ...datosMes.gastos].forEach((g) => {
+    porCategoria[g.categoria] = (porCategoria[g.categoria] || 0) + g.monto;
+  });
+
+  const porTipo = { necesidad: 0, gusto: 0, ahorro: 0 };
+  Object.entries(porCategoria).forEach(([cat, monto]) => {
+    porTipo[categoriaPorId[cat]?.tipo || "gusto"] += monto;
+  });
+
+  const metaAhorro = (ingresosPrevistos * datos.metaAhorroPct) / 100;
+  const disponible = ingresosPrevistos - gastosTotales;
+  // Lo que sobra + lo que el usuario ya destina explícitamente a ahorro
+  const ahorroReal = Math.max(disponible, 0) + porTipo.ahorro;
+
+  return {
+    sueldo,
+    ingresosPrevistos,
+    ingresosRecibidos,
+    totalFijos,
+    totalVariables,
+    gastosTotales,
+    gastado,
+    disponible,
+    saldoActual: ingresosRecibidos - gastado,
+    porCategoria,
+    porTipo,
+    metaAhorro,
+    ahorroReal,
+  };
+}
+
 // ── Campos ──────────────────────────────────────────────────────────────────
 
 const inputCls =
@@ -240,6 +294,7 @@ export default function Presupuesto() {
   const [cargado, setCargado] = useState(false);
   const [mes, setMes] = useState(() => claveMes(new Date()));
   const archivoRef = useRef(null);
+  const [generando, setGenerando] = useState(false);
 
   // Formularios
   const [nuevoIngreso, setNuevoIngreso] = useState({ concepto: "", monto: 0 });
@@ -282,55 +337,7 @@ export default function Presupuesto() {
     });
 
   // ── Cálculos del mes ──
-  const calc = useMemo(() => {
-    const sueldo = datos.sueldo.activo ? datos.sueldo.monto : 0;
-    const extras = datosMes.ingresos.reduce((s, i) => s + i.monto, 0);
-    const extrasRecibidos = datosMes.ingresos
-      .filter((i) => i.recibido)
-      .reduce((s, i) => s + i.monto, 0);
-    const ingresosPrevistos = sueldo + extras;
-    const ingresosRecibidos =
-      (datosMes.sueldoRecibido ? sueldo : 0) + extrasRecibidos;
-
-    const totalFijos = datos.fijos.reduce((s, f) => s + f.monto, 0);
-    const fijosPagados = datos.fijos
-      .filter((f) => datosMes.fijosPagados[f.id])
-      .reduce((s, f) => s + f.monto, 0);
-    const totalVariables = datosMes.gastos.reduce((s, g) => s + g.monto, 0);
-    const gastosTotales = totalFijos + totalVariables;
-    const gastado = fijosPagados + totalVariables;
-
-    const porCategoria = {};
-    [...datos.fijos, ...datosMes.gastos].forEach((g) => {
-      porCategoria[g.categoria] = (porCategoria[g.categoria] || 0) + g.monto;
-    });
-
-    const porTipo = { necesidad: 0, gusto: 0, ahorro: 0 };
-    Object.entries(porCategoria).forEach(([cat, monto]) => {
-      porTipo[categoriaPorId[cat]?.tipo || "gusto"] += monto;
-    });
-
-    const metaAhorro = (ingresosPrevistos * datos.metaAhorroPct) / 100;
-    const disponible = ingresosPrevistos - gastosTotales;
-    // Lo que sobra + lo que el usuario ya destina explícitamente a ahorro
-    const ahorroReal = Math.max(disponible, 0) + porTipo.ahorro;
-
-    return {
-      sueldo,
-      ingresosPrevistos,
-      ingresosRecibidos,
-      totalFijos,
-      totalVariables,
-      gastosTotales,
-      gastado,
-      disponible,
-      saldoActual: ingresosRecibidos - gastado,
-      porCategoria,
-      porTipo,
-      metaAhorro,
-      ahorroReal,
-    };
-  }, [datos, datosMes]);
+  const calc = useMemo(() => calcularMes(datos, mes), [datos, mes]);
 
   const pctGastado =
     calc.ingresosPrevistos > 0
@@ -395,6 +402,25 @@ export default function Presupuesto() {
     setNuevoGasto((g) => ({ ...g, concepto: "", monto: 0 }));
   };
 
+  const descargarInforme = async () => {
+    setGenerando(true);
+    try {
+      const { generarInformePDF } = await import("./informePdf");
+      await generarInformePDF({
+        datos,
+        mes,
+        calcularMes,
+        categoriaPorId,
+        nombreMes,
+      });
+    } catch (err) {
+      console.error(err);
+      window.alert("No se pudo generar el informe. Intenta de nuevo.");
+    } finally {
+      setGenerando(false);
+    }
+  };
+
   const exportar = () => {
     const blob = new Blob([JSON.stringify(datos, null, 2)], {
       type: "application/json",
@@ -402,7 +428,7 @@ export default function Presupuesto() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `presupuesto-neurai-${claveMes(new Date())}.json`;
+    a.download = `copia-presupuesto-neurai-${claveMes(new Date())}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -479,8 +505,8 @@ export default function Presupuesto() {
           </p>
           <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
             <Info className="w-3.5 h-3.5" />
-            Tus datos se guardan solo en este navegador. Usa “Exportar” para
-            tener una copia o pasarlos a otro dispositivo.
+            Tus datos se guardan solo en este navegador. Usa “Guardar copia”
+            para pasarlos a otro dispositivo.
           </p>
         </header>
 
@@ -583,6 +609,29 @@ export default function Presupuesto() {
               style={{ width: `${pctGastado}%` }}
             />
           </div>
+        </div>
+
+        {/* Informe descargable */}
+        <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-blue-600 to-emerald-600 p-5 text-white shadow-sm">
+          <div>
+            <p className="font-bold text-lg">Descarga tu informe del mes</p>
+            <p className="text-sm text-white/90">
+              Un PDF con tu resumen, gráficas de en qué gastas, cómo vas en el
+              año y recomendaciones. Ideal para guardar, imprimir o compartir.
+            </p>
+          </div>
+          <button
+            onClick={descargarInforme}
+            disabled={generando}
+            className="shrink-0 inline-flex items-center gap-2 rounded-xl bg-white text-blue-700 font-semibold px-5 py-3 hover:bg-blue-50 disabled:opacity-70 transition-colors"
+          >
+            {generando ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <FileDown className="w-5 h-5" />
+            )}
+            {generando ? "Generando…" : "Descargar informe (PDF)"}
+          </button>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
@@ -1048,33 +1097,43 @@ export default function Presupuesto() {
               )}
             </Tarjeta>
 
-            {/* Copias de seguridad */}
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={exportar}
-                className="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <Download className="w-4 h-4" /> Exportar copia
-              </button>
-              <button
-                onClick={() => archivoRef.current?.click()}
-                className="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                <Upload className="w-4 h-4" /> Importar copia
-              </button>
-              <input
-                ref={archivoRef}
-                type="file"
-                accept="application/json,.json"
-                className="hidden"
-                onChange={importar}
-              />
-              <button
-                onClick={reiniciar}
-                className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30"
-              >
-                <RotateCcw className="w-4 h-4" /> Borrar todo
-              </button>
+            {/* Copia de seguridad (para pasar los datos a otro dispositivo) */}
+            <div className="rounded-2xl border border-dashed border-gray-300 dark:border-gray-600 p-4">
+              <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                Copia de seguridad
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                ¿Vas a cambiar de celular o de computador? Guarda una copia y
+                luego ábrela en el otro equipo con “Restaurar copia”. Este
+                archivo no es para leerlo: para eso usa el informe PDF.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={exportar}
+                  className="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
+                  <Download className="w-4 h-4" /> Guardar copia
+                </button>
+                <button
+                  onClick={() => archivoRef.current?.click()}
+                  className="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
+                  <Upload className="w-4 h-4" /> Restaurar copia
+                </button>
+                <input
+                  ref={archivoRef}
+                  type="file"
+                  accept="application/json,.json"
+                  className="hidden"
+                  onChange={importar}
+                />
+                <button
+                  onClick={reiniciar}
+                  className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30"
+                >
+                  <RotateCcw className="w-4 h-4" /> Borrar todo
+                </button>
+              </div>
             </div>
           </div>
         </div>
