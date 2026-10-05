@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import {
   X,
@@ -14,8 +15,10 @@ import {
 export const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=com.neurai";
 
-// Clave en localStorage: si existe, el anuncio emergente ya se mostró una vez
-const STORAGE_KEY = "neurai-app-android-anuncio-visto";
+// localStorage: el usuario pidió no volver a ver el anuncio (o fue a instalarla)
+const STORAGE_KEY = "neurai-app-android-anuncio-oculto";
+// sessionStorage: ya se mostró en esta sesión, no repetir en cada visita al home
+const SESSION_KEY = "neurai-app-android-anuncio-sesion";
 
 const beneficios = [
   {
@@ -83,69 +86,86 @@ function BotonPlayStore({ className = "", onClick }) {
 }
 
 /**
- * Anuncio emergente: se muestra solo la primera vez que el usuario entra al
- * home. Al pulsarlo lleva a Play Store; al cerrarlo no vuelve a aparecer.
+ * Anuncio emergente de la app. Se muestra una vez por sesión de navegación
+ * hasta que el usuario marca "No volver a mostrar" o pulsa para ir a Play
+ * Store. Se renderiza en un portal sobre document.body para quedar por
+ * encima de carruseles y demás capas del home.
  */
 export function AppAndroidModal() {
   const [visible, setVisible] = useState(false);
+  const [noVolver, setNoVolver] = useState(false);
 
   useEffect(() => {
-    let yaVisto = false;
     try {
-      yaVisto = !!localStorage.getItem(STORAGE_KEY);
+      if (localStorage.getItem(STORAGE_KEY)) return;
+      if (sessionStorage.getItem(SESSION_KEY)) return;
     } catch {
-      // Sin acceso a localStorage (modo privado estricto): no molestamos
+      // Sin acceso al almacenamiento (modo privado estricto): no molestamos
       return;
     }
-    if (yaVisto) return;
 
     // Pequeño retraso para no competir con la carga inicial del home
     const t = setTimeout(() => {
       setVisible(true);
       try {
-        localStorage.setItem(STORAGE_KEY, new Date().toISOString());
+        sessionStorage.setItem(SESSION_KEY, "1");
       } catch {}
     }, 1500);
     return () => clearTimeout(t);
   }, []);
 
+  const cerrar = (ocultarSiempre) => {
+    if (ocultarSiempre) {
+      try {
+        localStorage.setItem(STORAGE_KEY, new Date().toISOString());
+      } catch {}
+    }
+    setVisible(false);
+  };
+
   useEffect(() => {
     if (!visible) return;
-    const onKey = (e) => e.key === "Escape" && setVisible(false);
+    const onKey = (e) => e.key === "Escape" && cerrar(noVolver);
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [visible]);
+    // Evita que el home se desplace por detrás del anuncio
+    const overflowPrevio = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = overflowPrevio;
+    };
+  }, [visible, noVolver]);
 
   if (!visible) return null;
 
-  const cerrar = () => setVisible(false);
-
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[100000] flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-      onClick={cerrar}
+      className="fixed inset-0 flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      style={{ zIndex: 2147483000 }}
+      onClick={() => cerrar(noVolver)}
       role="dialog"
       aria-modal="true"
       aria-labelledby="app-android-titulo"
     >
       <div
-        className="relative w-full max-w-md rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-blue-600 to-purple-700 text-white"
+        className="relative w-full max-w-md max-h-[90dvh] overflow-y-auto rounded-2xl shadow-2xl bg-gradient-to-br from-blue-600 to-purple-700 text-white"
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          onClick={cerrar}
+          onClick={() => cerrar(noVolver)}
           className="absolute top-3 right-3 p-1.5 rounded-full bg-white/15 hover:bg-white/25 transition-colors"
           aria-label="Cerrar anuncio"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Toda la tarjeta lleva a Play Store */}
+        {/* Toda la tarjeta lleva a Play Store; quien va a instalarla no
+            necesita volver a ver el anuncio */}
         <a
           href={PLAY_STORE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={cerrar}
+          onClick={() => cerrar(true)}
           className="block p-6 pt-8 text-center"
         >
           <div className="mx-auto mb-4 w-20 h-20 rounded-2xl bg-white p-2 shadow-lg">
@@ -172,14 +192,26 @@ export function AppAndroidModal() {
           </span>
         </a>
 
-        <button
-          onClick={cerrar}
-          className="block w-full pb-5 text-sm text-white/75 hover:text-white underline-offset-2 hover:underline"
-        >
-          Ahora no
-        </button>
+        <div className="flex items-center justify-between gap-4 px-6 pb-5">
+          <label className="flex items-center gap-2 text-sm text-white/85 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={noVolver}
+              onChange={(e) => setNoVolver(e.target.checked)}
+              className="w-4 h-4 rounded accent-white cursor-pointer"
+            />
+            No volver a mostrar
+          </label>
+          <button
+            onClick={() => cerrar(noVolver)}
+            className="text-sm font-semibold bg-white/15 hover:bg-white/25 rounded-lg px-4 py-2 transition-colors"
+          >
+            Ahora no
+          </button>
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
