@@ -15,10 +15,8 @@ import {
 export const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=com.neurai";
 
-// localStorage: el usuario pidió no volver a ver el anuncio (o fue a instalarla)
-const STORAGE_KEY = "neurai-app-android-anuncio-oculto";
-// sessionStorage: ya se mostró en esta sesión, no repetir en cada visita al home
-const SESSION_KEY = "neurai-app-android-anuncio-sesion";
+// localStorage: el usuario eligió "No volver a mostrar"
+const STORAGE_KEY = "neurai-app-android-no-mostrar";
 
 const beneficios = [
   {
@@ -86,46 +84,39 @@ function BotonPlayStore({ className = "", onClick }) {
 }
 
 /**
- * Anuncio emergente de la app. Se muestra una vez por sesión de navegación
- * hasta que el usuario marca "No volver a mostrar" o pulsa para ir a Play
- * Store. Se renderiza en un portal sobre document.body para quedar por
+ * Anuncio emergente de la app. Se muestra cada vez que se carga el home hasta
+ * que el usuario elige "No volver a mostrar". Se renderiza en un portal sobre document.body para quedar por
  * encima de carruseles y demás capas del home.
  */
 export function AppAndroidModal() {
   const [visible, setVisible] = useState(false);
-  const [noVolver, setNoVolver] = useState(false);
 
   useEffect(() => {
     try {
       if (localStorage.getItem(STORAGE_KEY)) return;
-      if (sessionStorage.getItem(SESSION_KEY)) return;
     } catch {
       // Sin acceso al almacenamiento (modo privado estricto): no molestamos
       return;
     }
 
     // Pequeño retraso para no competir con la carga inicial del home
-    const t = setTimeout(() => {
-      setVisible(true);
-      try {
-        sessionStorage.setItem(SESSION_KEY, "1");
-      } catch {}
-    }, 1500);
+    const t = setTimeout(() => setVisible(true), 1500);
     return () => clearTimeout(t);
   }, []);
 
-  const cerrar = (ocultarSiempre) => {
-    if (ocultarSiempre) {
-      try {
-        localStorage.setItem(STORAGE_KEY, new Date().toISOString());
-      } catch {}
-    }
+  // Cerrar sin más: el anuncio vuelve a salir la próxima vez que cargue el home
+  const cerrar = () => setVisible(false);
+
+  const ocultarParaSiempre = () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, new Date().toISOString());
+    } catch {}
     setVisible(false);
   };
 
   useEffect(() => {
     if (!visible) return;
-    const onKey = (e) => e.key === "Escape" && cerrar(noVolver);
+    const onKey = (e) => e.key === "Escape" && cerrar();
     window.addEventListener("keydown", onKey);
     // Evita que el home se desplace por detrás del anuncio
     const overflowPrevio = document.body.style.overflow;
@@ -134,7 +125,7 @@ export function AppAndroidModal() {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = overflowPrevio;
     };
-  }, [visible, noVolver]);
+  }, [visible]);
 
   if (!visible) return null;
 
@@ -142,7 +133,7 @@ export function AppAndroidModal() {
     <div
       className="fixed inset-0 flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
       style={{ zIndex: 2147483000 }}
-      onClick={() => cerrar(noVolver)}
+      onClick={() => cerrar()}
       role="dialog"
       aria-modal="true"
       aria-labelledby="app-android-titulo"
@@ -152,20 +143,19 @@ export function AppAndroidModal() {
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          onClick={() => cerrar(noVolver)}
+          onClick={() => cerrar()}
           className="absolute top-3 right-3 p-1.5 rounded-full bg-white/15 hover:bg-white/25 transition-colors"
           aria-label="Cerrar anuncio"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Toda la tarjeta lleva a Play Store; quien va a instalarla no
-            necesita volver a ver el anuncio */}
+        {/* Toda la tarjeta lleva a Play Store */}
         <a
           href={PLAY_STORE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => cerrar(true)}
+          onClick={cerrar}
           className="block p-6 pt-8 text-center"
         >
           <div className="mx-auto mb-4 w-20 h-20 rounded-2xl bg-white p-2 shadow-lg">
@@ -192,21 +182,18 @@ export function AppAndroidModal() {
           </span>
         </a>
 
-        <div className="flex items-center justify-between gap-4 px-6 pb-5">
-          <label className="flex items-center gap-2 text-sm text-white/85 cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={noVolver}
-              onChange={(e) => setNoVolver(e.target.checked)}
-              className="w-4 h-4 rounded accent-white cursor-pointer"
-            />
-            No volver a mostrar
-          </label>
+        <div className="grid grid-cols-2 gap-3 px-6 pb-6">
           <button
-            onClick={() => cerrar(noVolver)}
-            className="text-sm font-semibold bg-white/15 hover:bg-white/25 rounded-lg px-4 py-2 transition-colors"
+            onClick={cerrar}
+            className="text-sm font-semibold bg-white text-blue-700 hover:bg-blue-50 rounded-lg px-3 py-2.5 transition-colors"
           >
-            Ahora no
+            Seguir viéndolo
+          </button>
+          <button
+            onClick={ocultarParaSiempre}
+            className="text-sm font-semibold bg-white/15 hover:bg-white/25 rounded-lg px-3 py-2.5 transition-colors"
+          >
+            No volver a mostrar
           </button>
         </div>
       </div>
