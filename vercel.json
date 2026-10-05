@@ -9,6 +9,14 @@
       "maxDuration": 30
     }
   },
+  "redirects": [
+    {
+      "source": "/:path((?!\\.well-known/).*)",
+      "has": [{ "type": "host", "value": "www.neurai.dev" }],
+      "destination": "https://neurai.dev/:path",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/api/payments/(.*)",
