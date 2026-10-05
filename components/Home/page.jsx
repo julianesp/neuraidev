@@ -13,6 +13,10 @@ import CategoryCard from "@/components/CategoryCard";
 import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
 import { shouldShowCategory } from "@/utils/categoriesWithStock";
 import {
+  AppAndroidModal,
+  AppAndroidSection,
+} from "@/components/AppAndroidPromo/AppAndroidPromo";
+import {
   Smartphone,
   Monitor,
   BookOpen,
@@ -299,6 +303,9 @@ export default function Inicio() {
           <PresentationCarousel />
         </div>
 
+        {/* Anuncio de la app Android — solo la primera visita */}
+        <AppAndroidModal />
+
         {/* Banner de sugerencia del asistente IA */}
         <AIChatBanner />
 
@@ -323,6 +330,9 @@ export default function Inicio() {
           <AccesoriosDestacados />
           <ProductosRecientes />
         </section>
+
+        {/* App móvil Android — descripción fija en el home */}
+        <AppAndroidSection />
 
         {/* Productos Más Visitados - Diseño Bento Grid */}
         <MostVisitedProducts />
