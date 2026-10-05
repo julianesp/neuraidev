@@ -27,9 +27,10 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "https://media.neurai.dev/logo_1200_630.png",
+        url: "https://neurai.dev/og-home.jpg",
         width: 1200,
         height: 630,
+        type: "image/jpeg",
         alt: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
       },
     ],
@@ -40,7 +41,7 @@ export const metadata = {
     description:
       "Compra celulares, computadoras, accesorios y más. Servicios profesionales de desarrollo web y soporte técnico.",
     images: [
-      "https://media.neurai.dev/logo_1200_630.png",
+      "https://neurai.dev/og-home.jpg",
     ],
   },
   robots: {
