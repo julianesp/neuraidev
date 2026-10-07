@@ -4,79 +4,51 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./ProductSearch.module.scss";
 
-const PRODUCT_FILES = [
-  "celulares.json",
-  "computadoras.json",
-  "damas.json",
-  "libros-nuevos.json",
-  "libros-usados.json",
-  "generales.json",
-  "accesoriosDestacados.json",
-  "productosRecientes.json",
-];
-
 export default function ProductSearch() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
+  const [total, setTotal] = useState(0);
 
-  // Cargar todos los productos al inicio
+  // Busca en el catálogo real (D1) con una pausa corta entre teclas.
+  // Antes leía JSON viejos de /public con ids que ya no existen (enlaces 404).
   useEffect(() => {
-    const loadAllProducts = async () => {
-      const products = [];
-
-      for (const file of PRODUCT_FILES) {
-        try {
-          const response = await fetch(`/${file}`);
-          const data = await response.json();
-          const productList = data.accesorios || data.productos || [];
-
-          // Agregar información de la categoría a cada producto
-          const productsWithCategory = productList.map(product => ({
-            ...product,
-            sourceFile: file.replace('.json', ''),
-          }));
-
-          products.push(...productsWithCategory);
-        } catch (error) {
-          console.error(`Error cargando ${file}:`, error);
-        }
-      }
-
-      setAllProducts(products);
-    };
-
-    loadAllProducts();
-  }, []);
-
-  // Función de búsqueda
-  const handleSearch = (term) => {
-    setSearchTerm(term);
-
-    if (term.trim() === "") {
-      setShowResults(false);
+    const term = searchTerm.trim();
+    if (term.length < 2) {
       setSearchResults([]);
+      setTotal(0);
+      setIsSearching(false);
       return;
     }
-
     setIsSearching(true);
+    const control = new AbortController();
+    const t = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/productos/buscar?q=${encodeURIComponent(term)}`, {
+          signal: control.signal,
+        });
+        const data = await res.json();
+        setSearchResults(Array.isArray(data.productos) ? data.productos : []);
+        setTotal(data.total || 0);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setSearchResults([]);
+          setTotal(0);
+        }
+      } finally {
+        if (!control.signal.aborted) setIsSearching(false);
+      }
+    }, 250);
+    return () => {
+      clearTimeout(t);
+      control.abort();
+    };
+  }, [searchTerm]);
 
-    // Buscar en todos los productos cargados
-    const results = allProducts.filter(product => {
-      const searchLower = term.toLowerCase();
-      return (
-        product.nombre?.toLowerCase().includes(searchLower) ||
-        product.descripcion?.toLowerCase().includes(searchLower) ||
-        product.categoria?.toLowerCase().includes(searchLower) ||
-        (product.id && String(product.id).toLowerCase().includes(searchLower))
-      );
-    });
-
-    setSearchResults(results);
-    setShowResults(true);
-    setIsSearching(false);
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setShowResults(term.trim().length >= 2);
   };
 
   // Función para solicitar producto no encontrado
@@ -84,20 +56,6 @@ export default function ProductSearch() {
     const message = `Hola, estoy buscando: "${searchTerm}" pero no lo encontré en el catálogo. ¿Podrían ayudarme a conseguirlo?`;
     const whatsappUrl = `https://wa.me/573174503604?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
-  };
-
-  // Función para obtener la URL de la página del producto
-  const getProductUrl = (product) => {
-    // Usar categoria del producto, o sourceFile si no tiene categoria
-    let categoria = product.categoria || product.sourceFile;
-
-    // Si el sourceFile es de los archivos "especiales", usar la categoria del producto
-    if (categoria === 'accesoriosDestacados' || categoria === 'productosRecientes') {
-      categoria = product.categoria || 'celulares'; // fallback a celulares si no tiene categoria
-    }
-
-    // Construir URL usando la ruta dinámica con slug
-    return `/accesorios/${categoria}/${product.id}`;
   };
 
   return (
@@ -154,13 +112,13 @@ export default function ProductSearch() {
           ) : searchResults.length > 0 ? (
             <div className={styles.results}>
               <div className={styles.resultsHeader}>
-                Encontrados {searchResults.length} producto{searchResults.length !== 1 ? 's' : ''}
+                Encontrados {total} producto{total !== 1 ? 's' : ''}
               </div>
               {searchResults.slice(0, 5).map((product, index) => (
-                <div key={`${product.sourceFile || product.categoria}-${product.id}-${index}`} className={styles.resultItem}>
+                <div key={product.id} className={styles.resultItem}>
                   <div className={styles.productImage}>
                     <Image
-                      src={product.imagenPrincipal || product.imagenes?.[0]?.url || 'https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen'}
+                      src={product.imagen || 'https://placehold.co/400x400/e5e7eb/9ca3af?text=Sin+imagen'}
                       alt={product.nombre}
                       width={80}
                       height={80}
@@ -174,7 +132,7 @@ export default function ProductSearch() {
                     </p>
                     <div className={styles.productMeta}>
                       <span className={styles.productCategory}>
-                        {product.categoria || product.sourceFile}
+                        {product.categoria}
                       </span>
                       {product.precio && (
                         <span className={styles.productPrice}>
@@ -184,7 +142,7 @@ export default function ProductSearch() {
                     </div>
                   </div>
                   <a
-                    href={getProductUrl(product)}
+                    href={product.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.viewButton}
@@ -206,9 +164,9 @@ export default function ProductSearch() {
                   </a>
                 </div>
               ))}
-              {searchResults.length > 5 && (
+              {total > 5 && (
                 <div className={styles.moreResults}>
-                  Y {searchResults.length - 5} producto{searchResults.length - 5 !== 1 ? 's' : ''} más...
+                  Y {total - 5} producto{total - 5 !== 1 ? 's' : ''} más...
                 </div>
               )}
             </div>
