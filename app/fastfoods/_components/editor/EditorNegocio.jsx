@@ -913,7 +913,7 @@ function PestanaApariencia({ negocio, guardar }) {
           ))}
         </ul>
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">
-          «Productos neurai.dev» solo aparece en plan gratis.
+          «Productos neurai.dev» siempre va al final, junto al pie de página (solo en plan gratis).
         </p>
       </div>
 

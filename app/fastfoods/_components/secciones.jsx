@@ -243,43 +243,36 @@ export function SeccionInfo({ negocio }) {
   );
 }
 
-/** Productos de neurai.dev sobre el footer (solo plan gratis). */
+/**
+ * Productos de neurai.dev: una fila discreta pegada al pie de página
+ * (solo plan gratis). Va siempre al final para no competir con la comida.
+ */
 export function SeccionNeurai({ negocio, productos }) {
   if (negocio.plan !== "gratis" || productos.length === 0) return null;
   const utm = `utm_source=fastfoods&utm_medium=pagina&utm_campaign=${encodeURIComponent(negocio.slug)}`;
 
   return (
-    <section className="max-w-3xl mx-auto px-4 pt-14">
-      <div className="rounded-2xl border border-[var(--ff-borde)] p-4 sm:p-5">
-        <p className="text-xs font-semibold uppercase tracking-wide text-[var(--ff-texto-suave)]">
-          Mientras esperas tu pedido
-        </p>
-        <h2 className="text-lg font-bold mt-0.5">Accesorios en neurai.dev</h2>
-        <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {productos.map((p) => (
-            <Link
-              key={p.id}
-              href={`${p.href}?${utm}`}
-              className="group rounded-xl overflow-hidden bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)]"
-            >
-              <div className="aspect-square bg-white overflow-hidden">
-                {p.imagen && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={p.imagen}
-                    alt=""
-                    loading="lazy"
-                    className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
-                  />
-                )}
-              </div>
-              <div className="p-2">
-                <p className="text-xs leading-snug line-clamp-2">{p.nombre}</p>
-                <p className="text-sm font-bold mt-0.5">{formatoPrecio(p.precio)}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+    <section className="max-w-3xl mx-auto px-4 pt-12" aria-label="Accesorios en neurai.dev">
+      <p className="text-xs text-[var(--ff-texto-suave)] mb-2">Accesorios en neurai.dev</p>
+      <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {productos.map((p) => (
+          <Link
+            key={p.id}
+            href={`${p.href}?${utm}`}
+            className="snap-start flex-shrink-0 w-52 sm:w-auto sm:flex-1 sm:min-w-0 flex items-center gap-2 rounded-xl border border-[var(--ff-borde)] bg-[var(--ff-tarjeta)] p-1.5 pr-3 opacity-90 hover:opacity-100 transition-opacity"
+          >
+            <span className="w-10 h-10 flex-shrink-0 rounded-lg bg-white overflow-hidden">
+              {p.imagen && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={p.imagen} alt="" loading="lazy" className="w-full h-full object-contain" />
+              )}
+            </span>
+            <span className="min-w-0">
+              <span className="block text-xs truncate">{p.nombre}</span>
+              <span className="block text-xs font-semibold">{formatoPrecio(p.precio)}</span>
+            </span>
+          </Link>
+        ))}
       </div>
     </section>
   );
@@ -287,7 +280,7 @@ export function SeccionNeurai({ negocio, productos }) {
 
 export function PiePagina() {
   return (
-    <footer className="max-w-3xl mx-auto px-4 py-10 text-center text-sm text-[var(--ff-texto-suave)]">
+    <footer className="max-w-3xl mx-auto px-4 pt-5 pb-10 text-center text-sm text-[var(--ff-texto-suave)]">
       Página creada con{" "}
       <Link href="/" className="font-semibold text-[var(--ff-texto)] hover:underline">
         neurai.dev

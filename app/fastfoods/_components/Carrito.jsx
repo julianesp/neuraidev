@@ -142,7 +142,7 @@ export function BarraPedido() {
   return (
     <>
       {/* Espacio para que la barra no tape el final de la página */}
-      <div className="h-40" aria-hidden />
+      <div className="h-36" aria-hidden />
 
       {/* Va por encima de los botones flotantes del sitio (compartir / chat IA,
           z-index 9998+), que ocupan las esquinas inferiores. */}
