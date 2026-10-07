@@ -559,8 +559,14 @@ export default function Inicio() {
               </Link>
             </h1>
 
-            {/* Buscador de productos */}
-            <div className="max-w-3xl mx-auto mb-8" data-aos="fade-up">
+            {/* Buscador de productos. position + zIndex: el transform de AOS crea una
+                capa propia que encerraba el z-index de los resultados, y las tarjetas
+                de categorías (backdrop-blur / hover:scale) quedaban por encima. */}
+            <div
+              className="max-w-3xl mx-auto mb-8"
+              style={{ position: "relative", zIndex: 30 }}
+              data-aos="fade-up"
+            >
               <ProductSearch />
             </div>
 
