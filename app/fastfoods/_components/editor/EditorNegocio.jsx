@@ -12,7 +12,6 @@ import {
   Loader2,
   Pencil,
   Plus,
-  Star,
   Share2,
   Trash2,
   Upload,
@@ -24,6 +23,7 @@ import {
   PLANES,
   PLANTILLAS,
   SECCIONES,
+  TAMANOS,
   formatoPrecio,
   horaLegible,
   slugify,
@@ -258,22 +258,6 @@ function PestanaEspecial({ api, id, especiales, recargar }) {
     }
   };
 
-  const cambiarPorciones = async (e) => {
-    const valor = window.prompt(
-      "¿Cuántas porciones hay en total? (déjalo vacío para no limitar)",
-      e.porciones ?? ""
-    );
-    if (valor === null) return;
-    try {
-      await api("PATCH", {
-        body: { tipo: "especial", fastfood_id: id, id: e.id, porciones: valor.trim() === "" ? null : valor.trim() },
-      });
-      await recargar();
-    } catch (err) {
-      window.alert(err.message);
-    }
-  };
-
   const borrar = async (especialId) => {
     if (!window.confirm("¿Quitar este especial ya?")) return;
     setBorrando(especialId);
@@ -292,43 +276,17 @@ function PestanaEspecial({ api, id, especiales, recargar }) {
       {especiales.length > 0 && (
         <div className={tarjeta}>
           <h3 className="font-bold text-gray-900 dark:text-white mb-3">Publicados ahora</h3>
-          <ul className="space-y-3">
+          <ul className="divide-y divide-gray-100 dark:divide-gray-700">
             {especiales.map((e) => (
-              <li key={e.id} className="flex items-center gap-3">
-                <div className="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0">
-                  {e.foto_url && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={e.foto_url} alt="" className="w-full h-full object-cover" />
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-gray-900 dark:text-white truncate">{e.titulo}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {e.precio ? `${formatoPrecio(e.precio)} · ` : ""}Se oculta a las {horaLegible(e.expira_en)}
-                  </p>
-                  <p className="text-sm text-gray-700 dark:text-gray-300">
-                    {e.porciones == null
-                      ? `${e.vendidas || 0} pedidas · sin límite`
-                      : `${e.vendidas || 0} de ${e.porciones} pedidas${e.vendidas >= e.porciones ? " · agotado" : ""}`}
-                    <button
-                      type="button"
-                      onClick={() => cambiarPorciones(e)}
-                      className="ml-2 text-blue-600 dark:text-blue-400 hover:underline"
-                    >
-                      Cambiar porciones
-                    </button>
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => borrar(e.id)}
-                  disabled={borrando === e.id}
-                  className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
-                  aria-label="Quitar especial"
-                >
-                  {borrando === e.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                </button>
-              </li>
+              <EspecialPublicado
+                key={e.id}
+                api={api}
+                negocioId={id}
+                especial={e}
+                recargar={recargar}
+                onBorrar={() => borrar(e.id)}
+                borrando={borrando === e.id}
+              />
             ))}
           </ul>
         </div>
@@ -423,6 +381,191 @@ function PestanaEspecial({ api, id, especiales, recargar }) {
         </button>
       </form>
     </div>
+  );
+}
+
+/** "HH:MM" en hora de Bogotá a partir de un ISO (para el campo hora). */
+function horaInput(iso) {
+  return new Date(iso).toLocaleTimeString("en-GB", {
+    timeZone: "America/Bogota",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+
+/** Un especial publicado: vista con "Editar" / quitar, o formulario de edición. */
+function EspecialPublicado({ api, negocioId, especial: e, recargar, onBorrar, borrando }) {
+  const [editando, setEditando] = useState(false);
+  const [form, setForm] = useState(null);
+  const [foto, setFoto] = useState(null); // { file, preview }
+  const [guardando, setGuardando] = useState(false);
+  const fotoInput = useRef(null);
+
+  const abrir = () => {
+    setForm({
+      titulo: e.titulo,
+      descripcion: e.descripcion || "",
+      precio: e.precio ? String(e.precio) : "",
+      hasta: horaInput(e.expira_en),
+      porciones: e.porciones == null ? "" : String(e.porciones),
+    });
+    setFoto(null);
+    setEditando(true);
+  };
+
+  const guardar = async (ev) => {
+    ev.preventDefault();
+    setGuardando(true);
+    try {
+      const imagen = foto ? await subirFoto(foto.file, negocioId) : null;
+      await api("PATCH", {
+        body: {
+          tipo: "especial",
+          fastfood_id: negocioId,
+          id: e.id,
+          ...form,
+          porciones: form.porciones === "" ? null : form.porciones,
+          ...(imagen ? { foto_path: imagen.path } : {}),
+        },
+      });
+      setEditando(false);
+      await recargar();
+    } catch (err) {
+      window.alert(err.message);
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  const fotoActual = foto?.preview || e.foto_url;
+
+  if (!editando) {
+    return (
+      <li className="flex flex-wrap items-center gap-3 py-3 first:pt-0 last:pb-0">
+        <div className="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0">
+          {e.foto_url && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={e.foto_url} alt="" className="w-full h-full object-cover" />
+          )}
+        </div>
+        <div className="flex-1 min-w-[10rem]">
+          <p className="font-medium text-gray-900 dark:text-white truncate">{e.titulo}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {e.precio ? `${formatoPrecio(e.precio)} · ` : ""}Se oculta a las {horaLegible(e.expira_en)}
+          </p>
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            {e.porciones == null
+              ? `${e.vendidas || 0} pedidas · sin límite`
+              : `${e.vendidas || 0} de ${e.porciones} pedidas${e.vendidas >= e.porciones ? " · agotado" : ""}`}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button type="button" onClick={abrir} className={botonSecundario}>
+            <Pencil className="w-4 h-4" /> Editar
+          </button>
+          <button
+            type="button"
+            onClick={onBorrar}
+            disabled={borrando}
+            className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
+            aria-label={`Quitar ${e.titulo}`}
+            title="Quitar especial"
+          >
+            {borrando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+          </button>
+        </div>
+      </li>
+    );
+  }
+
+  return (
+    <li className="py-3 first:pt-0 last:pb-0">
+      <form onSubmit={guardar} className="space-y-3 rounded-lg border border-blue-200 dark:border-blue-900 p-3">
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => fotoInput.current?.click()}
+            className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 flex-shrink-0 flex items-center justify-center text-gray-400"
+            aria-label="Cambiar foto"
+          >
+            {fotoActual && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={fotoActual} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            )}
+            <span className="relative bg-black/50 text-white rounded-full p-1.5">
+              <Upload className="w-4 h-4" />
+            </span>
+          </button>
+          <input
+            ref={fotoInput}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(ev) => {
+              const file = ev.target.files?.[0];
+              ev.target.value = "";
+              if (file) setFoto({ file, preview: URL.createObjectURL(file) });
+            }}
+          />
+          <div className="flex-1 min-w-0">
+            <label className={label}>Plato</label>
+            <input
+              required
+              value={form.titulo}
+              onChange={(ev) => setForm({ ...form, titulo: ev.target.value })}
+              className={input}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          <div>
+            <label className={label}>Precio</label>
+            <input
+              inputMode="numeric"
+              value={form.precio}
+              onChange={(ev) => setForm({ ...form, precio: ev.target.value.replace(/\D/g, "") })}
+              className={input}
+            />
+          </div>
+          <div>
+            <label className={label}>Porciones</label>
+            <input
+              inputMode="numeric"
+              value={form.porciones}
+              onChange={(ev) => setForm({ ...form, porciones: ev.target.value.replace(/\D/g, "") })}
+              placeholder="Sin límite"
+              className={input}
+            />
+          </div>
+          <div>
+            <label className={label}>Hasta las</label>
+            <input
+              required
+              type="time"
+              value={form.hasta}
+              onChange={(ev) => setForm({ ...form, hasta: ev.target.value })}
+              className={input}
+            />
+          </div>
+        </div>
+        <input
+          value={form.descripcion}
+          onChange={(ev) => setForm({ ...form, descripcion: ev.target.value })}
+          placeholder="Descripción (opcional)"
+          className={input}
+        />
+        <div className="flex gap-2">
+          <button type="submit" disabled={guardando} className={botonPrimario}>
+            {guardando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+            Guardar cambios
+          </button>
+          <button type="button" onClick={() => setEditando(false)} className={botonSecundario}>
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </li>
   );
 }
 
@@ -535,9 +678,9 @@ function PestanaMenu({ api, id, menu, recargar }) {
 
       <div className={tarjeta}>
         {menu.length > 0 && (
-          <p className="mb-2 flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-300">
-            <Star className="w-4 h-4 fill-amber-400 text-amber-500" />
-            Toca la estrella para destacar tus mejores platos: se ven más grandes en tu página.
+          <p className="mb-2 text-sm text-gray-600 dark:text-gray-300">
+            Elige el tamaño de cada plato en tu página: <strong>normal</strong>, <strong>ancho</strong>,{" "}
+            <strong>alto</strong> o <strong>grande</strong> (este último sale como «Recomendado»).
           </p>
         )}
         {menu.length === 0 ? (
@@ -545,7 +688,7 @@ function PestanaMenu({ api, id, menu, recargar }) {
         ) : (
           <ul className="divide-y divide-gray-100 dark:divide-gray-700">
             {menu.map((item, i) => (
-              <li key={item.id} className={`py-3 flex gap-3 items-start ${item.disponible ? "" : "opacity-50"}`}>
+              <li key={item.id} className={`py-3 flex flex-wrap gap-3 items-start ${item.disponible ? "" : "opacity-50"}`}>
                 <button
                   type="button"
                   onClick={() => fotoInputs.current[item.id]?.click()}
@@ -615,7 +758,8 @@ function PestanaMenu({ api, id, menu, recargar }) {
                   </div>
                 )}
 
-                <div className="flex items-center gap-0.5 flex-shrink-0">
+                {/* En celular las acciones bajan a su propia fila para no amontonarse */}
+                <div className="flex items-center gap-0.5 flex-shrink-0 w-full sm:w-auto justify-end">
                   {ocupado === item.id ? (
                     <Loader2 className="w-4 h-4 animate-spin text-gray-400 m-2" />
                   ) : editando === item.id ? (
@@ -643,14 +787,10 @@ function PestanaMenu({ api, id, menu, recargar }) {
                       <IconoBoton etiqueta="Bajar" onClick={() => mover(i, 1)} disabled={i === menu.length - 1}>
                         <ArrowDown className="w-4 h-4" />
                       </IconoBoton>
-                      <IconoBoton
-                        etiqueta={item.destacado ? "Quitar de destacados" : "Destacar (se ve más grande)"}
-                        onClick={() => accion(item.id, () => patchItem(item.id, { destacado: !item.destacado }))}
-                      >
-                        <Star
-                          className={`w-4 h-4 ${item.destacado ? "fill-amber-400 text-amber-500" : "fill-none"}`}
-                        />
-                      </IconoBoton>
+                      <SelectorTamano
+                        valor={item.tamano || "normal"}
+                        onCambio={(tamano) => accion(item.id, () => patchItem(item.id, { tamano }))}
+                      />
                       <IconoBoton
                         etiqueta={item.disponible ? "Marcar agotado" : "Marcar disponible"}
                         onClick={() =>
@@ -661,8 +801,8 @@ function PestanaMenu({ api, id, menu, recargar }) {
                       >
                         {item.disponible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                       </IconoBoton>
-                      <IconoBoton
-                        etiqueta="Editar"
+                      <button
+                        type="button"
                         onClick={() => {
                           setEditando(item.id);
                           setEdicion({
@@ -672,9 +812,10 @@ function PestanaMenu({ api, id, menu, recargar }) {
                             descripcion: item.descripcion || "",
                           });
                         }}
+                        className={`${botonSecundario} mx-1`}
                       >
-                        <Pencil className="w-4 h-4" />
-                      </IconoBoton>
+                        <Pencil className="w-4 h-4" /> Editar
+                      </button>
                       <IconoBoton
                         etiqueta="Eliminar"
                         onClick={() => {
@@ -694,6 +835,60 @@ function PestanaMenu({ api, id, menu, recargar }) {
         )}
       </div>
     </div>
+  );
+}
+
+// Celdas rellenas (de una cuadrícula 2×2) que dibujan cada tamaño.
+const DIBUJO_TAMANO = {
+  normal: [[0, 0]],
+  ancho: [[0, 0], [1, 0]],
+  alto: [[0, 0], [0, 1]],
+  grande: [[0, 0], [1, 0], [0, 1], [1, 1]],
+};
+
+/** Tamaño del plato en la cuadrícula pública: 4 botones con un dibujo de la forma. */
+function SelectorTamano({ valor, onCambio }) {
+  return (
+    <span role="radiogroup" aria-label="Tamaño en tu página" className="inline-flex rounded-lg border border-gray-200 dark:border-gray-600 p-0.5 mr-1">
+      {TAMANOS.map((t) => {
+        const activo = valor === t.key;
+        return (
+          <button
+            key={t.key}
+            type="button"
+            role="radio"
+            aria-checked={activo}
+            title={t.nombre}
+            aria-label={`Tamaño ${t.nombre.toLowerCase()}`}
+            onClick={() => !activo && onCambio(t.key)}
+            className={`p-1.5 rounded-md ${
+              activo ? "bg-blue-600 text-white" : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+            }`}
+          >
+            <svg viewBox="0 0 20 20" className="w-4 h-4" aria-hidden="true">
+              {[0, 1].flatMap((x) =>
+                [0, 1].map((y) => {
+                  const lleno = DIBUJO_TAMANO[t.key].some(([cx, cy]) => cx === x && cy === y);
+                  return (
+                    <rect
+                      key={`${x}${y}`}
+                      x={1 + x * 10}
+                      y={1 + y * 10}
+                      width="8"
+                      height="8"
+                      rx="1.5"
+                      fill={lleno ? "currentColor" : "none"}
+                      stroke="currentColor"
+                      strokeOpacity={lleno ? 1 : 0.35}
+                    />
+                  );
+                })
+              )}
+            </svg>
+          </button>
+        );
+      })}
+    </span>
   );
 }
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Bike, Clock, ImagePlus, MapPin, Star, UtensilsCrossed } from "lucide-react";
 import { BotonAgregar } from "./Carrito";
+import BotonCompartir from "./BotonCompartir";
 import {
   ANCHO,
   DIAS,
@@ -8,6 +9,7 @@ import {
   estaAbierto,
   formatoPrecio,
   horaLegible,
+  urlPlato,
 } from "@/lib/fastfoods/utils";
 
 /**
@@ -123,7 +125,7 @@ export function Encabezado({ negocio, esDueno = false }) {
   );
 }
 
-export function SeccionEspecial({ especiales }) {
+export function SeccionEspecial({ negocio, especiales }) {
   if (especiales.length === 0) return null;
   return (
     <section className={`${ANCHO} pt-8`}>
@@ -162,6 +164,15 @@ export function SeccionEspecial({ especiales }) {
                     </span>
                     <Porciones especial={e} />
                   </div>
+                  <div className="mt-3">
+                    <BotonCompartir
+                      url={urlPlato(negocio.slug, e.id)}
+                      titulo={e.titulo}
+                      texto={`${e.titulo}${e.precio ? ` a ${formatoPrecio(e.precio)}` : ""} — especial de hoy en ${negocio.nombre}`}
+                      conTexto
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--ff-borde)] px-3 py-1.5 hover:bg-[var(--ff-borde)]"
+                    />
+                  </div>
                 </div>
                 {e.precio ? <BotonAgregar id={e.id} nombre={e.titulo} /> : null}
               </div>
@@ -173,19 +184,32 @@ export function SeccionEspecial({ especiales }) {
   );
 }
 
+// Celdas que ocupa cada tamaño y cómo se dimensiona su foto. "alto" y
+// "grande" tienen una proporción mínima propia (para verse así aunque no
+// tengan vecinos, p. ej. en la última fila) y crecen (flex-1) para llenar
+// las dos filas cuando los vecinos son más altos.
+const TAMANO_CELDA = {
+  normal: { celda: "", foto: "aspect-square" },
+  ancho: { celda: "col-span-2", foto: "aspect-[2/1]" },
+  alto: { celda: "row-span-2", foto: "flex-1 aspect-[1/2]" },
+  grande: { celda: "col-span-2 row-span-2", foto: "flex-1 aspect-square" },
+};
+
 /**
- * Un plato en la cuadrícula. Los destacados (el dueño los marca con la
- * estrella) ocupan 2×2 celdas y se ven más grandes.
+ * Un plato en la cuadrícula. El dueño elige su tamaño: normal (1×1),
+ * ancho (2×1), alto (1×2) o grande (2×2, con etiqueta "Recomendado").
  */
-function TarjetaPlato({ item }) {
-  const destacado = !!item.destacado;
+function TarjetaPlato({ negocio, item }) {
+  const tamano = TAMANO_CELDA[item.tamano] ? item.tamano : "normal";
+  // Los formatos grandes llevan textos más grandes.
+  const destacado = tamano === "grande";
   return (
     <li
       className={`group flex flex-col rounded-2xl overflow-hidden bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] ${
-        destacado ? "col-span-2 row-span-2" : ""
+        TAMANO_CELDA[tamano].celda
       }`}
     >
-      <div className={`relative overflow-hidden ${destacado ? "flex-1 min-h-[16rem]" : "aspect-square"}`}>
+      <div className={`relative overflow-hidden ${TAMANO_CELDA[tamano].foto}`}>
         {item.foto_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -201,6 +225,13 @@ function TarjetaPlato({ item }) {
             />
           </div>
         )}
+        <span className="absolute top-2 right-2">
+          <BotonCompartir
+            url={urlPlato(negocio.slug, item.id)}
+            titulo={item.nombre}
+            texto={`${item.nombre} a ${formatoPrecio(item.precio)} en ${negocio.nombre}`}
+          />
+        </span>
         {destacado && (
           <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-[var(--ff-primario)] text-[var(--ff-sobre-primario)] px-3 py-1 text-xs font-bold uppercase tracking-wide shadow">
             <Star className="w-3.5 h-3.5" /> Recomendado
@@ -209,13 +240,14 @@ function TarjetaPlato({ item }) {
       </div>
       <div className={`flex items-end gap-2 ${destacado ? "p-4 sm:p-5" : "p-3"}`}>
         <div className="flex-1 min-w-0">
-          <p
-            className={`leading-tight ${
+          <Link
+            href={`/fastfoods/${negocio.slug}/plato/${item.id}`}
+            className={`block leading-tight hover:underline underline-offset-4 ${
               destacado ? "text-lg sm:text-2xl font-bold" : "text-sm sm:text-base font-semibold"
             }`}
           >
             {item.nombre}
-          </p>
+          </Link>
           {item.descripcion && (
             <p
               className={`text-[var(--ff-texto-suave)] mt-0.5 ${
@@ -233,7 +265,7 @@ function TarjetaPlato({ item }) {
   );
 }
 
-export function SeccionMenu({ menu }) {
+export function SeccionMenu({ negocio, menu }) {
   if (menu.length === 0) return null;
 
   // Agrupa por categoría conservando el orden en que vienen los platos.
@@ -262,7 +294,7 @@ export function SeccionMenu({ menu }) {
             {/* grid-flow-dense: los platos pequeños rellenan los huecos junto a los destacados */}
             <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 grid-flow-dense gap-3 sm:gap-4">
               {porCategoria[cat].map((item) => (
-                <TarjetaPlato key={item.id} item={item} />
+                <TarjetaPlato key={item.id} negocio={negocio} item={item} />
               ))}
             </ul>
           </div>

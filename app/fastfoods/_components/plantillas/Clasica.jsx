@@ -26,8 +26,8 @@ export default function Clasica({ negocio, menu, especiales, productosNeurai, Se
   for (const m of menu) pedibles[m.id] = { id: m.id, nombre: m.nombre, precio: m.precio, quedan: null };
 
   const secciones = {
-    especial: <SeccionEspecial especiales={especiales} />,
-    menu: <SeccionMenu menu={menu} />,
+    especial: <SeccionEspecial negocio={negocio} especiales={especiales} />,
+    menu: <SeccionMenu negocio={negocio} menu={menu} />,
     info: <SeccionInfo negocio={negocio} />,
   };
 

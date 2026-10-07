@@ -10,11 +10,11 @@ import {
   getDetalleNegocio,
   responderError,
   validarSlugDisponible,
+  actualizarEspecial,
 } from "@/lib/fastfoods/acciones";
 import { getDuenoYNegocio, requireNegocioDelDueno } from "@/lib/fastfoods/dueno";
 import { notifyNewFastfood } from "@/lib/notificationService";
 import {
-  actualizarPorciones,
   cambiarEstadoPedido,
   canjearPremio,
   listarClientes,
@@ -119,7 +119,7 @@ export async function POST(request) {
 //   'negocio' { ...campos }       (sin enlace, plantilla, estado ni plan)
 //   'item'    { id, ...campos }
 //   'pedido'  { id, estado }
-//   'especial' { id, porciones }   (null = sin límite)
+//   'especial' { id, titulo?, descripcion?, precio?, hasta?, porciones?, foto_path? }
 export async function PATCH(request) {
   try {
     const { negocio } = await requireNegocioDelDueno();
@@ -133,7 +133,7 @@ export async function PATCH(request) {
     } else if (body.tipo === "pedido") {
       await cambiarEstadoPedido(negocio.id, body.id, body.estado);
     } else if (body.tipo === "especial") {
-      await actualizarPorciones(negocio.id, body.id, body.porciones);
+      await actualizarEspecial(negocio.id, body.id, body);
     } else {
       throw new ErrorFastfood(400, "Tipo no reconocido");
     }

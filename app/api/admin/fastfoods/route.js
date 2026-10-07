@@ -13,9 +13,9 @@ import {
   eliminarNegocio,
   getDetalleNegocio,
   responderError,
+  actualizarEspecial,
 } from "@/lib/fastfoods/acciones";
 import {
-  actualizarPorciones,
   cambiarEstadoPedido,
   canjearPremio,
   listarClientes,
@@ -101,7 +101,7 @@ export async function PATCH(request) {
     } else if (body.tipo === "pedido") {
       await cambiarEstadoPedido(body.fastfood_id, body.id, body.estado);
     } else if (body.tipo === "especial") {
-      await actualizarPorciones(body.fastfood_id, body.id, body.porciones);
+      await actualizarEspecial(body.fastfood_id, body.id, body);
     } else {
       throw new ErrorFastfood(400, "Tipo no reconocido");
     }
