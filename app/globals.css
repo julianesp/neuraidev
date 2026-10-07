@@ -627,3 +627,73 @@ select,
     page-break-inside: avoid;
   }
 }
+
+/* ── Cambio de tema: amanecer / anochecer (components/ThemeSwitcher.jsx) ──
+   La "foto" nueva aparece detrás de un borde suave que recorre la pantalla:
+   hacia arriba al pasar a claro (sale el sol) y hacia abajo al pasar a oscuro
+   (cae la noche). La máscara mide 3 pantallas: un tercio visible, un tercio de
+   degradado (el borde) y un tercio oculto; moverla desplaza el borde. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-transicion-tema]::view-transition-new(root) {
+  -webkit-mask-size: 100% 300%;
+  mask-size: 100% 300%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+html[data-transicion-tema="amanecer"]::view-transition-new(root) {
+  -webkit-mask-image: linear-gradient(to top, #000 33.3%, transparent 66.6%);
+  mask-image: linear-gradient(to top, #000 33.3%, transparent 66.6%);
+  animation: tema-amanecer 1.6s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+
+html[data-transicion-tema="anochecer"]::view-transition-new(root) {
+  -webkit-mask-image: linear-gradient(to bottom, #000 33.3%, transparent 66.6%);
+  mask-image: linear-gradient(to bottom, #000 33.3%, transparent 66.6%);
+  animation: tema-anochecer 1.6s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+
+@keyframes tema-amanecer {
+  from {
+    -webkit-mask-position: 0 0%;
+    mask-position: 0 0%;
+    filter: sepia(0.45) saturate(1.5) brightness(1.12);
+  }
+  60% {
+    filter: sepia(0.2) saturate(1.2) brightness(1.05);
+  }
+  to {
+    -webkit-mask-position: 0 100%;
+    mask-position: 0 100%;
+    filter: none;
+  }
+}
+
+@keyframes tema-anochecer {
+  from {
+    -webkit-mask-position: 0 100%;
+    mask-position: 0 100%;
+    filter: hue-rotate(-15deg) saturate(0.7) brightness(0.75);
+  }
+  60% {
+    filter: hue-rotate(-6deg) saturate(0.85) brightness(0.9);
+  }
+  to {
+    -webkit-mask-position: 0 0%;
+    mask-position: 0 0%;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

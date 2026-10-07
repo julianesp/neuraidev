@@ -79,7 +79,7 @@ const input =
 const label = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
 
 /**
- * Muestra con qué cuenta se está entrando y permite cambiarla: si alguien ya
+ * Muestra con qué cuenta se está entrando y permite cerrar sesión: si alguien ya
  * tenía la sesión abierta, el negocio quedaría en esa cuenta sin preguntar.
  */
 function CuentaActual() {
@@ -96,10 +96,10 @@ function CuentaActual() {
       </span>
       <button
         type="button"
-        onClick={() => signOut({ redirectUrl: "/sign-in?redirect_url=/mi-negocio" })}
+        onClick={() => signOut({ redirectUrl: "/fastfoods" })}
         className="ml-auto font-medium text-blue-600 dark:text-blue-400 hover:underline"
       >
-        Usar otra cuenta
+        Cerrar sesión
       </button>
     </div>
   );
@@ -170,7 +170,7 @@ function Registro({ onCreado }) {
           <p className="font-semibold">Estás con tu cuenta de administrador.</p>
           <p className="mt-1">
             Si el negocio es de otra persona, créalo desde el panel de Fastfoods del dashboard y
-            asígnale su correo, o pulsa «Usar otra cuenta» y que ella entre con la suya.
+            asígnale su correo, o pulsa «Cerrar sesión» y que ella entre con la suya.
           </p>
         </div>
       )}
