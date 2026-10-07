@@ -7,6 +7,8 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{html,js}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    // Clases compartidas de /fastfoods (p. ej. ANCHO en lib/fastfoods/utils.js)
+    "./lib/fastfoods/**/*.js",
   ],
   theme: {
     container: {

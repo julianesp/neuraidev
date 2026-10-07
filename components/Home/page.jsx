@@ -7,7 +7,6 @@ import styles from "./Home.module.scss";
 import Script from "next/script";
 import PresentationCarousel from "@/components/PresentationCarousel/PresentationCarousel";
 import OfertasBanner from "@/components/OfertasBanner/OfertasBanner";
-import EspecialesHoyHome from "@/app/fastfoods/_components/EspecialesHoyHome";
 import NotificationsBanner from "@/components/NotificationsBanner";
 import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import CategoryCard from "@/components/CategoryCard";
@@ -309,9 +308,6 @@ export default function Inicio() {
 
         {/* Banner de ofertas activas - se cierra por el día al hacer clic en X */}
         <OfertasBanner />
-
-        {/* Especiales de hoy de los negocios de comidas (/fastfoods) — oculto si no hay */}
-        <EspecialesHoyHome />
 
         {/* Banner de notificaciones - solo en página de inicio */}
         <div className="mt-4">

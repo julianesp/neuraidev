@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Minus, Plus, RotateCcw, ShoppingBag, X } from "lucide-react";
-import { formatoPrecio } from "@/lib/fastfoods/utils";
+import { ANCHO, formatoPrecio } from "@/lib/fastfoods/utils";
 
 /**
  * Carrito de un negocio: el cliente elige platos y cantidades y hace el pedido
@@ -162,7 +162,7 @@ export function PedirLoMismo() {
     .join(", ");
 
   return (
-    <div className="max-w-3xl mx-auto px-4 pt-6">
+    <div className={`${ANCHO} pt-6`}>
       <button
         type="button"
         onClick={() => {

@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Bike, Clock, ImagePlus, MapPin, UtensilsCrossed } from "lucide-react";
+import { Bike, Clock, ImagePlus, MapPin, Star, UtensilsCrossed } from "lucide-react";
 import { BotonAgregar } from "./Carrito";
 import {
+  ANCHO,
   DIAS,
   enlaceWhatsapp,
   estaAbierto,
@@ -41,7 +42,7 @@ export function Encabezado({ negocio, esDueno = false }) {
 
   return (
     <header>
-      <div className="relative h-44 sm:h-64 bg-[var(--ff-primario)] overflow-hidden">
+      <div className="relative h-44 sm:h-64 lg:h-80 bg-[var(--ff-primario)] overflow-hidden">
         {negocio.portada_url && (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={negocio.portada_url} alt="" className="w-full h-full object-cover" />
@@ -57,7 +58,7 @@ export function Encabezado({ negocio, esDueno = false }) {
           </div>
         )}
       </div>
-      <div className="max-w-3xl mx-auto px-4">
+      <div className={ANCHO}>
         <div className="relative -mt-12 sm:-mt-14 flex items-end gap-4">
           <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl overflow-hidden border-4 border-[var(--ff-fondo)] bg-[var(--ff-tarjeta)] flex items-center justify-center flex-shrink-0 shadow-lg">
             {negocio.logo_url ? (
@@ -87,11 +88,11 @@ export function Encabezado({ negocio, esDueno = false }) {
           )}
         </div>
 
-        <h1 className="mt-3 text-3xl sm:text-4xl font-extrabold tracking-tight text-balance">
+        <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-balance">
           {negocio.nombre}
         </h1>
         {negocio.descripcion && (
-          <p className="mt-1 text-[var(--ff-texto-suave)] text-pretty">{negocio.descripcion}</p>
+          <p className="mt-1 max-w-3xl text-[var(--ff-texto-suave)] text-pretty">{negocio.descripcion}</p>
         )}
 
         <div className="mt-4 flex flex-wrap gap-2">
@@ -125,29 +126,37 @@ export function Encabezado({ negocio, esDueno = false }) {
 export function SeccionEspecial({ especiales }) {
   if (especiales.length === 0) return null;
   return (
-    <section className="max-w-3xl mx-auto px-4 pt-8">
+    <section className={`${ANCHO} pt-8`}>
       <div className="space-y-4">
         {especiales.map((e) => (
           <article
             key={e.id}
-            className="rounded-3xl overflow-hidden bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] shadow-sm"
+            className={`rounded-3xl overflow-hidden bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] shadow-sm ${
+              e.foto_url ? "lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]" : ""
+            }`}
           >
             {e.foto_url && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={e.foto_url} alt={e.titulo} className="w-full aspect-[4/3] sm:aspect-[16/9] object-cover" />
+              <img
+                src={e.foto_url}
+                alt={e.titulo}
+                className="w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto lg:h-[26rem] object-cover"
+              />
             )}
-            <div className="p-4 sm:p-5">
-              <span className="inline-block rounded-full bg-[var(--ff-primario)] text-[var(--ff-sobre-primario)] px-3 py-1 text-xs font-bold uppercase tracking-wide">
+            <div className="p-4 sm:p-5 lg:p-8 lg:flex lg:flex-col lg:justify-center">
+              <span className="self-start inline-block rounded-full bg-[var(--ff-primario)] text-[var(--ff-sobre-primario)] px-3 py-1 text-xs font-bold uppercase tracking-wide">
                 Especial de hoy
               </span>
               <div className="mt-2 flex items-start gap-3">
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-2xl font-bold leading-tight text-balance">{e.titulo}</h2>
+                  <h2 className="text-2xl lg:text-4xl font-bold leading-tight text-balance">{e.titulo}</h2>
                   {e.descripcion && (
-                    <p className="mt-1 text-[var(--ff-texto-suave)] text-pretty">{e.descripcion}</p>
+                    <p className="mt-1 lg:mt-2 lg:text-lg text-[var(--ff-texto-suave)] text-pretty">{e.descripcion}</p>
                   )}
-                  <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-                    {e.precio ? <span className="text-xl font-extrabold">{formatoPrecio(e.precio)}</span> : null}
+                  <div className="mt-2 lg:mt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
+                    {e.precio ? (
+                      <span className="text-xl lg:text-3xl font-extrabold">{formatoPrecio(e.precio)}</span>
+                    ) : null}
                     <span className="text-sm text-[var(--ff-texto-suave)] inline-flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5 fill-none" /> Hasta las {horaLegible(e.expira_en)}
                     </span>
@@ -161,6 +170,66 @@ export function SeccionEspecial({ especiales }) {
         ))}
       </div>
     </section>
+  );
+}
+
+/**
+ * Un plato en la cuadrícula. Los destacados (el dueño los marca con la
+ * estrella) ocupan 2×2 celdas y se ven más grandes.
+ */
+function TarjetaPlato({ item }) {
+  const destacado = !!item.destacado;
+  return (
+    <li
+      className={`group flex flex-col rounded-2xl overflow-hidden bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] ${
+        destacado ? "col-span-2 row-span-2" : ""
+      }`}
+    >
+      <div className={`relative overflow-hidden ${destacado ? "flex-1 min-h-[16rem]" : "aspect-square"}`}>
+        {item.foto_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={item.foto_url}
+            alt={item.nombre}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover motion-safe:group-hover:scale-105 transition-transform duration-500"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-[var(--ff-borde)]">
+            <UtensilsCrossed
+              className={`${destacado ? "w-16 h-16" : "w-9 h-9"} text-[var(--ff-primario)] opacity-60 fill-none`}
+            />
+          </div>
+        )}
+        {destacado && (
+          <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-[var(--ff-primario)] text-[var(--ff-sobre-primario)] px-3 py-1 text-xs font-bold uppercase tracking-wide shadow">
+            <Star className="w-3.5 h-3.5" /> Recomendado
+          </span>
+        )}
+      </div>
+      <div className={`flex items-end gap-2 ${destacado ? "p-4 sm:p-5" : "p-3"}`}>
+        <div className="flex-1 min-w-0">
+          <p
+            className={`leading-tight ${
+              destacado ? "text-lg sm:text-2xl font-bold" : "text-sm sm:text-base font-semibold"
+            }`}
+          >
+            {item.nombre}
+          </p>
+          {item.descripcion && (
+            <p
+              className={`text-[var(--ff-texto-suave)] mt-0.5 ${
+                destacado ? "text-sm sm:text-base line-clamp-3" : "text-xs sm:text-sm line-clamp-2"
+              }`}
+            >
+              {item.descripcion}
+            </p>
+          )}
+          <p className={`font-bold mt-1 ${destacado ? "text-lg sm:text-xl" : ""}`}>{formatoPrecio(item.precio)}</p>
+        </div>
+        <BotonAgregar id={item.id} nombre={item.nombre} />
+      </div>
+    </li>
   );
 }
 
@@ -180,39 +249,20 @@ export function SeccionMenu({ menu }) {
   }
 
   return (
-    <section id="menu" className="max-w-3xl mx-auto px-4 pt-10">
-      <h2 className="text-2xl font-bold mb-4">Menú</h2>
-      <div className="space-y-7">
+    <section id="menu" className={`${ANCHO} pt-10`}>
+      <h2 className="text-2xl lg:text-3xl font-bold mb-4">Menú</h2>
+      <div className="space-y-8">
         {categorias.map((cat) => (
           <div key={cat}>
             {categorias.length > 1 && (
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--ff-texto-suave)] mb-2">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--ff-texto-suave)] mb-3">
                 {cat}
               </h3>
             )}
-            <ul className="divide-y divide-[var(--ff-borde)] rounded-2xl bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] overflow-hidden">
+            {/* grid-flow-dense: los platos pequeños rellenan los huecos junto a los destacados */}
+            <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 grid-flow-dense gap-3 sm:gap-4">
               {porCategoria[cat].map((item) => (
-                <li key={item.id} className="flex gap-3 p-3 sm:p-4 items-center">
-                  {item.foto_url && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={item.foto_url}
-                      alt=""
-                      loading="lazy"
-                      className="w-20 h-20 rounded-xl object-cover flex-shrink-0"
-                    />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold leading-tight">{item.nombre}</p>
-                    {item.descripcion && (
-                      <p className="text-sm text-[var(--ff-texto-suave)] mt-0.5 line-clamp-2">
-                        {item.descripcion}
-                      </p>
-                    )}
-                    <p className="font-bold mt-1">{formatoPrecio(item.precio)}</p>
-                  </div>
-                  <BotonAgregar id={item.id} nombre={item.nombre} />
-                </li>
+                <TarjetaPlato key={item.id} item={item} />
               ))}
             </ul>
           </div>
@@ -229,9 +279,10 @@ export function SeccionInfo({ negocio }) {
   if (!tieneHorario && !ubicacion && !negocio.domicilio) return null;
 
   return (
-    <section className="max-w-3xl mx-auto px-4 pt-10">
-      <h2 className="text-2xl font-bold mb-4">Ubicación y horario</h2>
-      <div className="rounded-2xl bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] p-4 sm:p-5 space-y-4">
+    <section className={`${ANCHO} pt-10`}>
+      <h2 className="text-2xl lg:text-3xl font-bold mb-4">Ubicación y horario</h2>
+      <div className="rounded-2xl bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] p-4 sm:p-6 grid gap-4 md:grid-cols-2 md:gap-8">
+        <div className="space-y-4">
         {ubicacion && (
           <a
             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ubicacion)}`}
@@ -248,6 +299,7 @@ export function SeccionInfo({ negocio }) {
             <Bike className="w-5 h-5 text-[var(--ff-primario)]" /> Hacemos domicilios
           </p>
         )}
+        </div>
         {tieneHorario && (
           <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm">
             {DIAS.map((d) => (
@@ -274,7 +326,7 @@ export function SeccionNeurai({ negocio, productos }) {
   const utm = `utm_source=fastfoods&utm_medium=pagina&utm_campaign=${encodeURIComponent(negocio.slug)}`;
 
   return (
-    <section className="max-w-3xl mx-auto px-4 pt-12" aria-label="Accesorios en neurai.dev">
+    <section className={`${ANCHO} pt-12`} aria-label="Accesorios en neurai.dev">
       <p className="text-xs text-[var(--ff-texto-suave)] mb-2">Accesorios en neurai.dev</p>
       <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {productos.map((p) => (
@@ -302,7 +354,7 @@ export function SeccionNeurai({ negocio, productos }) {
 
 export function PiePagina() {
   return (
-    <footer className="max-w-3xl mx-auto px-4 pt-5 pb-10 text-center text-sm text-[var(--ff-texto-suave)]">
+    <footer className={`${ANCHO} pt-5 pb-10 text-center text-sm text-[var(--ff-texto-suave)]`}>
       Página creada con{" "}
       <Link href="/" className="font-semibold text-[var(--ff-texto)] hover:underline">
         neurai.dev
@@ -333,7 +385,7 @@ export function Porciones({ especial }) {
 export function AvisoSellos({ negocio }) {
   if (!negocio.sellos_activo) return null;
   return (
-    <div className="max-w-3xl mx-auto px-4 pt-4">
+    <div className={`${ANCHO} pt-4`}>
       <p className="rounded-2xl border border-dashed border-[var(--ff-primario)] px-4 py-3 text-sm">
         <strong>Tarjeta de sellos:</strong> cada {negocio.sellos_meta} pedidos entregados,{" "}
         {negocio.sellos_premio}. Se cuentan con tu número de celular.
@@ -344,7 +396,7 @@ export function AvisoSellos({ negocio }) {
 
 export function SinContenido() {
   return (
-    <section className="max-w-3xl mx-auto px-4 pt-12 text-center text-[var(--ff-texto-suave)]">
+    <section className={`${ANCHO} pt-12 text-center text-[var(--ff-texto-suave)]`}>
       <UtensilsCrossed className="w-10 h-10 mx-auto mb-2 opacity-50" />
       <p>Muy pronto publicaremos nuestro menú.</p>
     </section>

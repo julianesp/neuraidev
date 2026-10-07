@@ -12,6 +12,7 @@ import {
   Loader2,
   Pencil,
   Plus,
+  Star,
   Share2,
   Trash2,
   Upload,
@@ -533,6 +534,12 @@ function PestanaMenu({ api, id, menu, recargar }) {
       </form>
 
       <div className={tarjeta}>
+        {menu.length > 0 && (
+          <p className="mb-2 flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-300">
+            <Star className="w-4 h-4 fill-amber-400 text-amber-500" />
+            Toca la estrella para destacar tus mejores platos: se ven más grandes en tu página.
+          </p>
+        )}
         {menu.length === 0 ? (
           <p className="text-center text-gray-400 py-6 text-sm">El menú está vacío.</p>
         ) : (
@@ -635,6 +642,14 @@ function PestanaMenu({ api, id, menu, recargar }) {
                       </IconoBoton>
                       <IconoBoton etiqueta="Bajar" onClick={() => mover(i, 1)} disabled={i === menu.length - 1}>
                         <ArrowDown className="w-4 h-4" />
+                      </IconoBoton>
+                      <IconoBoton
+                        etiqueta={item.destacado ? "Quitar de destacados" : "Destacar (se ve más grande)"}
+                        onClick={() => accion(item.id, () => patchItem(item.id, { destacado: !item.destacado }))}
+                      >
+                        <Star
+                          className={`w-4 h-4 ${item.destacado ? "fill-amber-400 text-amber-500" : "fill-none"}`}
+                        />
                       </IconoBoton>
                       <IconoBoton
                         etiqueta={item.disponible ? "Marcar agotado" : "Marcar disponible"}
