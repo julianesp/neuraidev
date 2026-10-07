@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, Loader2, X } from "lucide-react";
+import { useClerk, useUser } from "@clerk/nextjs";
+import { Check, Loader2, UserRound, X } from "lucide-react";
+import { isAdmin } from "@/lib/auth/roles";
 import { slugify } from "@/lib/fastfoods/utils";
 import EditorNegocio from "@/app/fastfoods/_components/editor/EditorNegocio";
 
@@ -32,6 +34,7 @@ export default function MiNegocioPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 pt-28 pb-16 sm:pt-32">
+        <CuentaActual />
         {estado.cargando ? (
           <div className="flex justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
@@ -72,7 +75,36 @@ const input =
   "w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-3 text-base";
 const label = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
 
+/**
+ * Muestra con qué cuenta se está entrando y permite cambiarla: si alguien ya
+ * tenía la sesión abierta, el negocio quedaría en esa cuenta sin preguntar.
+ */
+function CuentaActual() {
+  const { user } = useUser();
+  const { signOut } = useClerk();
+  if (!user) return null;
+  const correo = user.primaryEmailAddress?.emailAddress;
+
+  return (
+    <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm">
+      <UserRound className="w-4 h-4 text-gray-500 dark:text-gray-400 fill-none" />
+      <span className="text-gray-600 dark:text-gray-300">
+        Cuenta: <strong className="text-gray-900 dark:text-white break-all">{correo}</strong>
+      </span>
+      <button
+        type="button"
+        onClick={() => signOut({ redirectUrl: "/sign-in?redirect_url=/mi-negocio" })}
+        className="ml-auto font-medium text-blue-600 dark:text-blue-400 hover:underline"
+      >
+        Usar otra cuenta
+      </button>
+    </div>
+  );
+}
+
 function Registro({ onCreado }) {
+  const { user } = useUser();
+  const correo = user?.primaryEmailAddress?.emailAddress;
   const [form, setForm] = useState({ nombre: "", slug: "", whatsapp: "", ciudad: "" });
   const [slugEditado, setSlugEditado] = useState(false);
   const [slugEstado, setSlugEstado] = useState(null); // { disponible, error? } | null
@@ -129,6 +161,16 @@ function Registro({ onCreado }) {
         Menú, especial del día y pedidos por WhatsApp. Queda publicada apenas la crees y la
         puedes editar cuando quieras desde aquí.
       </p>
+
+      {isAdmin(user) && (
+        <div className="mt-4 rounded-xl border border-amber-300 bg-amber-50 dark:bg-amber-900/30 dark:border-amber-700 p-4 text-sm text-amber-900 dark:text-amber-200">
+          <p className="font-semibold">Estás con tu cuenta de administrador.</p>
+          <p className="mt-1">
+            Si el negocio es de otra persona, créalo desde el panel de Fastfoods del dashboard y
+            asígnale su correo, o pulsa «Usar otra cuenta» y que ella entre con la suya.
+          </p>
+        </div>
+      )}
 
       <form onSubmit={enviar} className="mt-6 space-y-4 bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5">
         <div>
@@ -201,6 +243,11 @@ function Registro({ onCreado }) {
             className={input}
           />
         </div>
+
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          El negocio quedará en la cuenta <strong className="break-all">{correo}</strong>. Solo
+          entrando con ella podrás editarlo.
+        </p>
 
         {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
 
