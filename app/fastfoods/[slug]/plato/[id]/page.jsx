@@ -5,6 +5,7 @@ import { getPlato, negocioPublico } from "@/lib/fastfoods/data";
 import { formatoPrecio, horaLegible, urlPlato, variablesTema } from "@/lib/fastfoods/utils";
 import { BarraPedido, BotonAgregar, CarritoProvider } from "@/app/fastfoods/_components/Carrito";
 import BotonCompartir from "@/app/fastfoods/_components/BotonCompartir";
+import Galeria from "@/app/fastfoods/_components/Galeria";
 
 export const dynamic = "force-dynamic";
 
@@ -66,10 +67,7 @@ export default async function PlatoPage({ params }) {
 
           <article className="rounded-3xl overflow-hidden bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] md:grid md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
             <div className="relative bg-[var(--ff-borde)] aspect-square md:aspect-auto md:min-h-[28rem]">
-              {plato.foto_url && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={plato.foto_url} alt={plato.nombre} className="absolute inset-0 w-full h-full object-cover" />
-              )}
+              <Galeria fotos={plato.fotos} alt={plato.nombre} className="absolute inset-0" />
             </div>
             <div className="p-5 sm:p-8 flex flex-col justify-center">
               {plato.tipo === "especial" && (

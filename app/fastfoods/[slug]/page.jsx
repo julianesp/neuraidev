@@ -57,7 +57,7 @@ export default async function FastfoodPage({ params }) {
     getMenu(negocio.id),
     getEspecialesVigentes(negocio.id),
     negocio.plan === "gratis" && negocio.tema.secciones.includes("neurai")
-      ? getProductosNeurai(4)
+      ? getProductosNeurai(4, negocio.slug)
       : [],
   ]);
 

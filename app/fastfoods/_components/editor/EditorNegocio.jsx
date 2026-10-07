@@ -30,17 +30,8 @@ import {
 } from "@/lib/fastfoods/utils";
 import { PestanaClientes, PestanaPedidos, usePedidos } from "./Pedidos";
 import Interruptor from "./Interruptor";
-
-// Sube una foto a la carpeta del negocio en R2. Devuelve { url, path }.
-async function subirFoto(file, negocioId) {
-  const fd = new FormData();
-  fd.append("file", file);
-  fd.append("negocio", negocioId);
-  const res = await fetch("/api/fastfoods/imagen", { method: "POST", body: fd });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok || !data.path) throw new Error(data.error || "No se pudo subir la foto");
-  return data;
-}
+import EditorFotos from "./EditorFotos";
+import { subirFoto } from "./subirFoto";
 
 // Cliente de la API según el modo: el admin usa /api/admin/fastfoods y el
 // dueño /api/mi-negocio (mismo formato de acciones). Lanza el error del servidor.
@@ -222,34 +213,24 @@ export default function EditorNegocio({
 function PestanaEspecial({ api, id, especiales, recargar }) {
   const vacio = { titulo: "", descripcion: "", precio: "", hasta: "23:00", porciones: "" };
   const [form, setForm] = useState(vacio);
-  const [foto, setFoto] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [fotos, setFotos] = useState([]); // ya subidas a R2: [{ url, path }]
   const [guardando, setGuardando] = useState(false);
   const [borrando, setBorrando] = useState(null);
-  const fotoInput = useRef(null);
-
-  const elegirFoto = (file) => {
-    if (!file) return;
-    setFoto(file);
-    setPreview(URL.createObjectURL(file));
-  };
 
   const publicar = async (e) => {
     e.preventDefault();
     setGuardando(true);
     try {
-      const imagen = foto ? await subirFoto(foto, id) : null;
       await api("POST", {
         body: {
           accion: "crear_especial",
           fastfood_id: id,
           ...form,
-          foto_path: imagen?.path,
+          fotos_paths: fotos.map((f) => f.path),
         },
       });
       setForm(vacio);
-      setFoto(null);
-      setPreview(null);
+      setFotos([]);
       await recargar();
     } catch (err) {
       window.alert(err.message);
@@ -295,30 +276,13 @@ function PestanaEspecial({ api, id, especiales, recargar }) {
       <form onSubmit={publicar} className={`${tarjeta} space-y-4`}>
         <h3 className="font-bold text-gray-900 dark:text-white">Publicar especial</h3>
 
-        <button
-          type="button"
-          onClick={() => fotoInput.current?.click()}
-          className="relative w-full aspect-[16/9] max-h-72 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center text-gray-500 dark:text-gray-400"
-        >
-          {preview ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={preview} alt="" className="absolute inset-0 w-full h-full object-cover" />
-          ) : (
-            <span className="flex flex-col items-center gap-1 text-sm">
-              <Upload className="w-6 h-6" /> Foto del plato (JPG o PNG para que se vea al compartir)
-            </span>
-          )}
-        </button>
-        <input
-          ref={fotoInput}
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={(e) => {
-            elegirFoto(e.target.files?.[0]);
-            e.target.value = "";
-          }}
-        />
+        <div>
+          <p className={label}>Fotos del plato (hasta 4, la primera es la portada)</p>
+          <EditorFotos negocioId={id} fotos={fotos} onCambio={setFotos} deshabilitado={guardando} />
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            Usa JPG o PNG en la portada para que se vea al compartir.
+          </p>
+        </div>
 
         <div className="grid sm:grid-cols-[1fr_120px_110px_110px] gap-3">
           <div>
@@ -398,9 +362,8 @@ function horaInput(iso) {
 function EspecialPublicado({ api, negocioId, especial: e, recargar, onBorrar, borrando }) {
   const [editando, setEditando] = useState(false);
   const [form, setForm] = useState(null);
-  const [foto, setFoto] = useState(null); // { file, preview }
+  const [fotos, setFotos] = useState([]);
   const [guardando, setGuardando] = useState(false);
-  const fotoInput = useRef(null);
 
   const abrir = () => {
     setForm({
@@ -410,7 +373,7 @@ function EspecialPublicado({ api, negocioId, especial: e, recargar, onBorrar, bo
       hasta: horaInput(e.expira_en),
       porciones: e.porciones == null ? "" : String(e.porciones),
     });
-    setFoto(null);
+    setFotos(e.fotos || []);
     setEditando(true);
   };
 
@@ -418,7 +381,6 @@ function EspecialPublicado({ api, negocioId, especial: e, recargar, onBorrar, bo
     ev.preventDefault();
     setGuardando(true);
     try {
-      const imagen = foto ? await subirFoto(foto.file, negocioId) : null;
       await api("PATCH", {
         body: {
           tipo: "especial",
@@ -426,7 +388,8 @@ function EspecialPublicado({ api, negocioId, especial: e, recargar, onBorrar, bo
           id: e.id,
           ...form,
           porciones: form.porciones === "" ? null : form.porciones,
-          ...(imagen ? { foto_path: imagen.path } : {}),
+          // path, o la url si es una foto antigua sin path (el servidor la reconoce)
+          fotos_paths: fotos.map((f) => f.path || f.url),
         },
       });
       setEditando(false);
@@ -437,8 +400,6 @@ function EspecialPublicado({ api, negocioId, especial: e, recargar, onBorrar, bo
       setGuardando(false);
     }
   };
-
-  const fotoActual = foto?.preview || e.foto_url;
 
   if (!editando) {
     return (
@@ -482,41 +443,18 @@ function EspecialPublicado({ api, negocioId, especial: e, recargar, onBorrar, bo
   return (
     <li className="py-3 first:pt-0 last:pb-0">
       <form onSubmit={guardar} className="space-y-3 rounded-lg border border-blue-200 dark:border-blue-900 p-3">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => fotoInput.current?.click()}
-            className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 flex-shrink-0 flex items-center justify-center text-gray-400"
-            aria-label="Cambiar foto"
-          >
-            {fotoActual && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={fotoActual} alt="" className="absolute inset-0 w-full h-full object-cover" />
-            )}
-            <span className="relative bg-black/50 text-white rounded-full p-1.5">
-              <Upload className="w-4 h-4" />
-            </span>
-          </button>
+        <div>
+          <label className={label}>Plato</label>
           <input
-            ref={fotoInput}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={(ev) => {
-              const file = ev.target.files?.[0];
-              ev.target.value = "";
-              if (file) setFoto({ file, preview: URL.createObjectURL(file) });
-            }}
+            required
+            value={form.titulo}
+            onChange={(ev) => setForm({ ...form, titulo: ev.target.value })}
+            className={input}
           />
-          <div className="flex-1 min-w-0">
-            <label className={label}>Plato</label>
-            <input
-              required
-              value={form.titulo}
-              onChange={(ev) => setForm({ ...form, titulo: ev.target.value })}
-              className={input}
-            />
-          </div>
+        </div>
+        <div>
+          <p className={label}>Fotos (hasta 4, la primera es la portada)</p>
+          <EditorFotos negocioId={negocioId} fotos={fotos} onCambio={setFotos} deshabilitado={guardando} />
         </div>
         <div className="grid grid-cols-3 gap-2">
           <div>
@@ -580,7 +518,7 @@ function PestanaMenu({ api, id, menu, recargar }) {
   const [ocupado, setOcupado] = useState(null);
   const [editando, setEditando] = useState(null);
   const [edicion, setEdicion] = useState(vacio);
-  const fotoInputs = useRef({});
+  const [fotosAbiertas, setFotosAbiertas] = useState(null); // id del plato con su galería abierta
 
   const categorias = [...new Set(menu.map((m) => m.categoria).filter(Boolean))];
 
@@ -691,9 +629,11 @@ function PestanaMenu({ api, id, menu, recargar }) {
               <li key={item.id} className={`py-3 flex flex-wrap gap-3 items-start ${item.disponible ? "" : "opacity-50"}`}>
                 <button
                   type="button"
-                  onClick={() => fotoInputs.current[item.id]?.click()}
+                  onClick={() => setFotosAbiertas(fotosAbiertas === item.id ? null : item.id)}
+                  aria-expanded={fotosAbiertas === item.id}
                   className="relative w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0 flex items-center justify-center text-gray-400"
-                  aria-label="Cambiar foto"
+                  aria-label="Fotos del plato"
+                  title="Fotos del plato"
                 >
                   {item.foto_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -701,22 +641,10 @@ function PestanaMenu({ api, id, menu, recargar }) {
                   ) : (
                     <Upload className="w-4 h-4" />
                   )}
+                  <span className="absolute bottom-0 inset-x-0 bg-black/55 text-white text-[10px] font-semibold text-center py-0.5">
+                    {item.fotos?.length || 0}/4 fotos
+                  </span>
                 </button>
-                <input
-                  ref={(el) => (fotoInputs.current[item.id] = el)}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    e.target.value = "";
-                    if (!file) return;
-                    accion(item.id, async () => {
-                      const { path } = await subirFoto(file, id);
-                      await patchItem(item.id, { foto_path: path });
-                    });
-                  }}
-                />
 
                 {editando === item.id ? (
                   <div className="flex-1 grid sm:grid-cols-[140px_1fr_110px] gap-2">
@@ -829,6 +757,19 @@ function PestanaMenu({ api, id, menu, recargar }) {
                     </>
                   )}
                 </div>
+                {fotosAbiertas === item.id && (
+                  <div className="w-full rounded-lg bg-gray-50 dark:bg-gray-900/40 p-3">
+                    <p className={label}>Fotos de «{item.nombre}» (hasta 4, la primera es la portada)</p>
+                    <EditorFotos
+                      negocioId={id}
+                      fotos={item.fotos || []}
+                      deshabilitado={ocupado === item.id}
+                      onCambio={(lista) =>
+                        accion(item.id, () => patchItem(item.id, { fotos_paths: lista.map((f) => f.path || f.url) }))
+                      }
+                    />
+                  </div>
+                )}
               </li>
             ))}
           </ul>

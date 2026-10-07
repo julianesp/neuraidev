@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Bike, Clock, ImagePlus, MapPin, Star, UtensilsCrossed } from "lucide-react";
 import { BotonAgregar } from "./Carrito";
 import BotonCompartir from "./BotonCompartir";
+import Galeria from "./Galeria";
 import {
   ANCHO,
   DIAS,
@@ -134,15 +135,14 @@ export function SeccionEspecial({ negocio, especiales }) {
           <article
             key={e.id}
             className={`rounded-3xl overflow-hidden bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] shadow-sm ${
-              e.foto_url ? "lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]" : ""
+              e.fotos?.length ? "lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]" : ""
             }`}
           >
-            {e.foto_url && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={e.foto_url}
+            {e.fotos?.length > 0 && (
+              <Galeria
+                fotos={e.fotos}
                 alt={e.titulo}
-                className="w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto lg:h-[26rem] object-cover"
+                className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto lg:h-[26rem]"
               />
             )}
             <div className="p-4 sm:p-5 lg:p-8 lg:flex lg:flex-col lg:justify-center">
@@ -210,14 +210,8 @@ function TarjetaPlato({ negocio, item }) {
       }`}
     >
       <div className={`relative overflow-hidden ${TAMANO_CELDA[tamano].foto}`}>
-        {item.foto_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={item.foto_url}
-            alt={item.nombre}
-            loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover motion-safe:group-hover:scale-105 transition-transform duration-500"
-          />
+        {item.fotos?.length ? (
+          <Galeria fotos={item.fotos} alt={item.nombre} className="absolute inset-0" />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-[var(--ff-borde)]">
             <UtensilsCrossed
@@ -313,7 +307,8 @@ export function SeccionInfo({ negocio }) {
   return (
     <section className={`${ANCHO} pt-10`}>
       <h2 className="text-2xl lg:text-3xl font-bold mb-4">Ubicación y horario</h2>
-      <div className="rounded-2xl bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] p-4 sm:p-6 grid gap-4 md:grid-cols-2 md:gap-8">
+      {/* Desde 768 px: tarjeta compacta (no a todo el ancho), dirección y horario lado a lado */}
+      <div className="rounded-2xl bg-[var(--ff-tarjeta)] border border-[var(--ff-borde)] p-4 sm:p-5 grid gap-4 md:max-w-3xl md:grid-cols-[minmax(0,1fr)_auto] md:gap-10 md:text-sm">
         <div className="space-y-4">
         {ubicacion && (
           <a
