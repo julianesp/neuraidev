@@ -13,10 +13,7 @@ import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import CategoryCard from "@/components/CategoryCard";
 import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
 import { shouldShowCategory } from "@/utils/categoriesWithStock";
-import {
-  AppAndroidModal,
-  AppAndroidSection,
-} from "@/components/AppAndroidPromo/AppAndroidPromo";
+import AppAndroidPestana from "@/app/_components/AppAndroidPestana";
 import {
   Smartphone,
   Monitor,
@@ -304,8 +301,8 @@ export default function Inicio() {
           <PresentationCarousel />
         </div>
 
-        {/* Anuncio de la app Android — solo la primera visita */}
-        <AppAndroidModal />
+        {/* App Android: pestaña discreta en el borde izquierdo (medio logo) */}
+        <AppAndroidPestana />
 
         {/* Banner de sugerencia del asistente IA */}
         <AIChatBanner />
@@ -334,9 +331,6 @@ export default function Inicio() {
           <AccesoriosDestacados />
           <ProductosRecientes />
         </section>
-
-        {/* App móvil Android — descripción fija en el home */}
-        <AppAndroidSection />
 
         {/* Productos Más Visitados - Diseño Bento Grid */}
         <MostVisitedProducts />
