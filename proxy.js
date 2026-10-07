@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 // Proteger rutas del dashboard y admin
 const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
-  "/admin(.*)"
+  "/admin(.*)",
+  "/mi-negocio(.*)"
 ]);
 
 // Rutas de pago que deben ser completamente públicas (bypass completo)

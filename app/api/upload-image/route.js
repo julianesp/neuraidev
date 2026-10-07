@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { isAdminServer } from "@/lib/auth/server-roles";
 
 const r2 = new S3Client({
   region: "auto",
@@ -221,35 +222,19 @@ export async function POST(request) {
 // Endpoint para eliminar imágenes
 export async function DELETE(request) {
   try {
-    // Verificar autenticación con múltiples métodos
-    let userId;
-    let isAuthenticated = false;
-
-    try {
-      const authResult = await auth();
-      userId = authResult?.userId;
-      if (userId) isAuthenticated = true;
-    } catch (authError) {
-      try {
-        const user = await currentUser();
-        if (user) {
-          userId = user.id;
-          isAuthenticated = true;
-        }
-      } catch (userError) {
-        // Verificar si viene de dashboard
-        const referer = request.headers.get("referer") || "";
-        if (referer.includes("/dashboard/")) {
-          isAuthenticated = true;
-          userId = "dashboard-user";
-        }
-      }
-    }
-
-    if (!isAuthenticated) {
+    // Borrar es solo para admins: cualquier cuenta de Clerk podía borrar
+    // cualquier archivo del bucket (fotos de productos incluidas).
+    const user = await currentUser().catch(() => null);
+    if (!user) {
       return NextResponse.json(
         { error: "No autenticado. Por favor, inicia sesión nuevamente." },
         { status: 401, headers: jsonHeaders }
+      );
+    }
+    if (!isAdminServer(user)) {
+      return NextResponse.json(
+        { error: "No autorizado" },
+        { status: 403, headers: jsonHeaders }
       );
     }
 

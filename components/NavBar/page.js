@@ -371,6 +371,15 @@ const NavBar = () => {
                     Desarrollador Web
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/fastfoods"
+                    onClick={handleLinkClick}
+                    title="Negocios de comidas: menú, especial del día y pedidos por WhatsApp"
+                  >
+                    Negocios
+                  </Link>
+                </li>
                 {/* Submenú de herramientas */}
                 <li>
                   <a

@@ -292,6 +292,10 @@ export function PiePagina() {
       <Link href="/" className="font-semibold text-[var(--ff-texto)] hover:underline">
         neurai.dev
       </Link>
+      <br />
+      <Link href="/fastfoods" className="inline-block mt-1 underline underline-offset-4 hover:text-[var(--ff-texto)]">
+        ¿Tienes un negocio de comidas? Crea su página gratis
+      </Link>
     </footer>
   );
 }
