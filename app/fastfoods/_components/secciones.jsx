@@ -10,7 +10,7 @@ import {
   estaAbierto,
   formatoPrecio,
   horaLegible,
-  urlPlato,
+  urlCompartirPlato,
 } from "@/lib/fastfoods/utils";
 
 /**
@@ -166,7 +166,7 @@ export function SeccionEspecial({ negocio, especiales }) {
                   </div>
                   <div className="mt-3">
                     <BotonCompartir
-                      url={urlPlato(negocio.slug, e.id)}
+                      url={urlCompartirPlato(negocio.slug, e.id)}
                       titulo={e.titulo}
                       texto={`${e.titulo}${e.precio ? ` a ${formatoPrecio(e.precio)}` : ""} — especial de hoy en ${negocio.nombre}`}
                       conTexto
@@ -221,7 +221,7 @@ function TarjetaPlato({ negocio, item }) {
         )}
         <span className="absolute top-2 right-2">
           <BotonCompartir
-            url={urlPlato(negocio.slug, item.id)}
+            url={urlCompartirPlato(negocio.slug, item.id)}
             titulo={item.nombre}
             texto={`${item.nombre} a ${formatoPrecio(item.precio)} en ${negocio.nombre}`}
           />

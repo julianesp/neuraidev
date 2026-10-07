@@ -1,18 +1,15 @@
 import { ImageResponse } from "next/og";
 import { getEspecialesVigentes, getFastfoodPorSlug } from "@/lib/fastfoods/data";
 import { formatoPrecio, horaLegible } from "@/lib/fastfoods/utils";
+import { comoJpeg, fotoParaOg } from "@/lib/fastfoods/og";
 
 // Vista previa que aparece al compartir el enlace por WhatsApp: si hay especial
 // vigente muestra su foto y precio; si no, la portada con el nombre del negocio.
 export const alt = "Menú y especial del día";
 export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+// JPEG comprimido: WhatsApp descarta vistas previas pesadas (ver lib/fastfoods/og.js).
+export const contentType = "image/jpeg";
 export const dynamic = "force-dynamic";
-
-// next/og no decodifica WebP/SVG: solo usamos fotos JPG o PNG.
-function imagenCompatible(url) {
-  return url && /\.(jpe?g|png)(\?|$)/i.test(url) ? url : null;
-}
 
 export default async function Image({ params }) {
   const { slug } = await params;
@@ -22,7 +19,7 @@ export default async function Image({ params }) {
 
   const nombre = visible ? negocio.nombre : "neurai.dev";
   const primario = negocio?.tema?.colorPrimario || "#e11d48";
-  const foto = imagenCompatible(especial?.foto_url) || imagenCompatible(negocio?.portada_url);
+  const foto = (await fotoParaOg(especial?.foto_url)) || (await fotoParaOg(negocio?.portada_url));
   const titulo = especial ? especial.titulo : nombre;
   const detalle = especial
     ? [especial.precio ? formatoPrecio(especial.precio) : null, `Hoy hasta las ${horaLegible(especial.expira_en)}`]
@@ -30,7 +27,7 @@ export default async function Image({ params }) {
         .join("  ·  ")
     : "Menú y pedidos por WhatsApp";
 
-  return new ImageResponse(
+  return comoJpeg(new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", background: primario }}>
         {foto && (
@@ -84,5 +81,5 @@ export default async function Image({ params }) {
       </div>
     ),
     size
-  );
+  ));
 }

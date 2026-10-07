@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock } from "lucide-react";
 import { getPlato, negocioPublico } from "@/lib/fastfoods/data";
-import { formatoPrecio, horaLegible, urlPlato, variablesTema } from "@/lib/fastfoods/utils";
+import { formatoPrecio, horaLegible, urlCompartirPlato, urlPlato, variablesTema } from "@/lib/fastfoods/utils";
 import { BarraPedido, BotonAgregar, CarritoProvider } from "@/app/fastfoods/_components/Carrito";
 import BotonCompartir from "@/app/fastfoods/_components/BotonCompartir";
 import Galeria from "@/app/fastfoods/_components/Galeria";
@@ -22,11 +22,8 @@ export async function generateMetadata({ params }) {
   const titulo = `${plato.nombre}${plato.precio ? ` — ${formatoPrecio(plato.precio)}` : ""} | ${negocio.nombre}`;
   const descripcion =
     plato.descripcion || `Pídelo en ${negocio.nombre}${negocio.ciudad ? `, ${negocio.ciudad}` : ""}.`;
-  // JPG/PNG: imagen armada con nombre y precio. WebP: la foto tal cual (next/og no la lee).
-  const imagen =
-    plato.foto_url && !/\.(jpe?g|png)(\?|$)/i.test(plato.foto_url)
-      ? plato.foto_url
-      : `https://neurai.dev/fastfoods/${slug}/plato/${id}/imagen`;
+  // Foto del plato con nombre y precio, en JPEG liviano (ver lib/fastfoods/og.js).
+  const imagen = `https://neurai.dev/fastfoods/${slug}/plato/${id}/imagen`;
 
   return {
     title: titulo,
@@ -37,7 +34,7 @@ export async function generateMetadata({ params }) {
       description: descripcion,
       url: urlPlato(slug, id),
       type: "website",
-      images: [{ url: imagen, width: 1200, height: 630, alt: plato.nombre }],
+      images: [{ url: imagen, width: 1200, height: 630, alt: plato.nombre, type: "image/jpeg" }],
     },
     twitter: { card: "summary_large_image", title: titulo, description: descripcion, images: [imagen] },
   };
@@ -103,7 +100,7 @@ export default async function PlatoPage({ params }) {
                     </span>
                   ) : null}
                   <BotonCompartir
-                    url={urlPlato(negocio.slug, plato.id)}
+                    url={urlCompartirPlato(negocio.slug, plato.id)}
                     titulo={plato.nombre}
                     texto={`${plato.nombre}${plato.precio ? ` a ${formatoPrecio(plato.precio)}` : ""} en ${negocio.nombre}`}
                     conTexto

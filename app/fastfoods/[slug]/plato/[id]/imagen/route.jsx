@@ -1,17 +1,9 @@
 import { ImageResponse } from "next/og";
 import { getPlato } from "@/lib/fastfoods/data";
 import { formatoPrecio } from "@/lib/fastfoods/utils";
+import { OG_ALTO as ALTO, OG_ANCHO as ANCHO, comoJpeg, fotoParaOg } from "@/lib/fastfoods/og";
 
 export const dynamic = "force-dynamic";
-
-const ANCHO = 1200;
-const ALTO = 630;
-
-// next/og no decodifica WebP/SVG: con esas fotos usamos la foto tal cual
-// como og:image (ver generateMetadata de la página) y aquí solo el texto.
-function fotoCompatible(url) {
-  return url && /\.(jpe?g|png)(\?|$)/i.test(url) ? url : null;
-}
 
 // GET /fastfoods/<slug>/plato/<id>/imagen — vista previa al compartir un plato:
 // la foto del plato con su nombre, precio y el negocio (no el logo de neurai.dev).
@@ -21,9 +13,11 @@ export async function GET(request, { params }) {
   const negocio = datos?.negocio;
   const plato = datos?.plato;
   const primario = negocio?.tema?.colorPrimario || "#e11d48";
-  const foto = fotoCompatible(plato?.foto_url);
+  // JPEG ya recortado a 1200×630 (también sirve para fotos WebP).
+  const foto = await fotoParaOg(plato?.foto_url);
 
-  return new ImageResponse(
+  // JPEG comprimido: WhatsApp descarta vistas previas de más de ~300 KB.
+  return comoJpeg(new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", background: primario }}>
         {foto && (
@@ -79,6 +73,6 @@ export async function GET(request, { params }) {
         </div>
       </div>
     ),
-    { width: ANCHO, height: ALTO, headers: { "Cache-Control": "public, max-age=300, s-maxage=300" } }
-  );
+    { width: ANCHO, height: ALTO }
+  ));
 }
