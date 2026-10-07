@@ -4,6 +4,24 @@ import { buildProductUrl, generateProductSlug } from "@/utils/slugify";
 
 export const dynamic = "force-dynamic";
 
+// Las descripciones se guardan con HTML del editor (<ul><li><p>…, &amp;):
+// para el buscador se muestran como texto plano.
+const ENTIDADES = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
+function textoPlano(html) {
+  return String(html || "")
+    .replace(/<(br|\/p|\/li|\/h\d|\/div)[^>]*>/gi, " ")
+    .replace(/<[^>]*>/g, "")
+    .replace(/&(#\d+|#x[0-9a-f]+|[a-z]+);/gi, (m, e) => {
+      if (e[0] === "#") {
+        const n = e[1] === "x" || e[1] === "X" ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+        return Number.isFinite(n) ? String.fromCodePoint(n) : m;
+      }
+      return ENTIDADES[e.toLowerCase()] ?? m;
+    })
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 // GET /api/productos/buscar?q=mouse — búsqueda pública del catálogo real (D1)
 // para el buscador del home. Devuelve hasta 20 productos disponibles + el total,
 // con el enlace armado igual que en el resto del sitio (/accesorios/<cat>/<slug>).
@@ -44,7 +62,7 @@ export async function GET(request) {
       return {
         id: p.id,
         nombre: p.nombre,
-        descripcion: (p.descripcion || "").slice(0, 160),
+        descripcion: textoPlano(p.descripcion).slice(0, 160),
         precio: p.precio_oferta || p.precio,
         categoria: p.categoria,
         imagen: p.imagen_principal || (typeof primera === "string" ? primera : primera?.url) || null,
