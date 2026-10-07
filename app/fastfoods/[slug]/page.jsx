@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
+import Link from "next/link";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { isAdminServer } from "@/lib/auth/server-roles";
 import {
   getEspecialesVigentes,
@@ -55,12 +56,28 @@ export default async function FastfoodPage({ params }) {
   ]);
 
   const Plantilla = getPlantilla(negocio.plantilla);
+  // El dueño ve un acceso directo a su panel (si no, no hay cómo volver a editar).
+  const { userId } = await auth();
+  const esDueno = !!userId && userId === negocio.owner_clerk_id;
 
   return (
     <div
       style={variablesTema(negocio.tema)}
       className="min-h-screen bg-[var(--ff-fondo)] text-[var(--ff-texto)]"
     >
+      {esDueno && (
+        <div className="relative z-10 bg-stone-900 text-white text-sm pt-24 sm:pt-28 pb-3 px-4">
+          <div className="max-w-3xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <span>Esta es tu página. Así la ven tus clientes.</span>
+            <Link
+              href="/mi-negocio"
+              className="rounded-full bg-white text-stone-900 font-semibold px-4 py-1.5 hover:bg-stone-200"
+            >
+              Editar mi negocio
+            </Link>
+          </div>
+        </div>
+      )}
       {negocio.estado !== "publicado" && (
         <div className="bg-amber-400 text-amber-950 text-center text-sm font-semibold py-2 px-4">
           Vista previa: esta página está «{negocio.estado}» y solo tú (admin) puedes verla.

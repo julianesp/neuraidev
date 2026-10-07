@@ -45,6 +45,12 @@ export default async function FastfoodsPage() {
           >
             Crear la página de mi negocio
           </Link>
+          <Link
+            href="/mi-negocio"
+            className="inline-flex items-center justify-center rounded-2xl border border-stone-300 dark:border-stone-700 font-semibold px-6 py-3.5 text-lg"
+          >
+            Ya tengo mi negocio: administrarlo
+          </Link>
           {negocios.length > 0 && (
             <a
               href="#negocios"
