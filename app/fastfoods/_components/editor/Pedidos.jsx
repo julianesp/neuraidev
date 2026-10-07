@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Bike, Check, Loader2, MessageCircle, Store, X } from "lucide-react";
 import { enlaceWhatsapp, formatoPrecio, horaLegible } from "@/lib/fastfoods/utils";
+import Interruptor from "./Interruptor";
 
 const tarjeta = "bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5";
 const input =
@@ -307,15 +308,9 @@ export function PestanaClientes({ api, id, consultar, negocio, guardar }) {
             cada cuántos pedidos y qué premio das.
           </p>
         </div>
-        <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-          <input
-            type="checkbox"
-            checked={sellos.activo}
-            onChange={(e) => setSellos({ ...sellos, activo: e.target.checked })}
-            className="w-4 h-4"
-          />
+        <Interruptor activo={sellos.activo} onCambio={(valor) => setSellos({ ...sellos, activo: valor })}>
           Usar tarjeta de sellos
-        </label>
+        </Interruptor>
         {sellos.activo && (
           <div className="grid sm:grid-cols-[140px_1fr] gap-3">
             <div>

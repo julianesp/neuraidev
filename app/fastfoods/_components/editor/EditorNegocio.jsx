@@ -28,6 +28,7 @@ import {
   slugify,
 } from "@/lib/fastfoods/utils";
 import { PestanaClientes, PestanaPedidos, usePedidos } from "./Pedidos";
+import Interruptor from "./Interruptor";
 
 // Sube una foto a la carpeta del negocio en R2. Devuelve { url, path }.
 async function subirFoto(file, negocioId) {
@@ -832,15 +833,13 @@ function PestanaDatos({ modo, negocio, guardar }) {
         {campo("instagram", "Instagram", { placeholder: "@negocio" })}
         {campo("facebook", "Facebook")}
         {campo("tiktok", "TikTok")}
-        <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 self-end pb-2">
-          <input
-            type="checkbox"
-            checked={form.domicilio}
-            onChange={(e) => setForm({ ...form, domicilio: e.target.checked })}
-            className="w-4 h-4"
-          />
+        <Interruptor
+          activo={form.domicilio}
+          onCambio={(valor) => setForm({ ...form, domicilio: valor })}
+          className="self-end pb-2"
+        >
           Hace domicilios
-        </label>
+        </Interruptor>
       </div>
 
       <div className={tarjeta}>
@@ -853,20 +852,15 @@ function PestanaDatos({ modo, negocio, guardar }) {
             const turno = horario[d.key];
             return (
               <div key={d.key} className="flex flex-wrap items-center gap-3">
-                <label className="flex items-center gap-2 w-32 text-sm text-gray-700 dark:text-gray-300">
-                  <input
-                    type="checkbox"
-                    checked={!!turno}
-                    onChange={(e) =>
-                      setHorario({
-                        ...horario,
-                        [d.key]: e.target.checked ? { abre: "17:00", cierra: "23:00" } : null,
-                      })
-                    }
-                    className="w-4 h-4"
-                  />
+                <Interruptor
+                  activo={!!turno}
+                  onCambio={(valor) =>
+                    setHorario({ ...horario, [d.key]: valor ? { abre: "17:00", cierra: "23:00" } : null })
+                  }
+                  className="w-36"
+                >
                   {d.nombre}
-                </label>
+                </Interruptor>
                 {turno ? (
                   <>
                     <input
@@ -942,7 +936,10 @@ function PestanaApariencia({ negocio, guardar }) {
                 type="color"
                 value={tema[key]}
                 onChange={(e) => setTema({ ...tema, [key]: e.target.value })}
-                className="w-12 h-10 rounded border border-gray-300 dark:border-gray-600 bg-transparent"
+                // El fondo muestra el color aunque el appearance:none global oculte la muestra nativa.
+                style={{ background: tema[key] }}
+                aria-label={texto}
+                className="w-12 h-10 rounded-lg border-2 border-gray-300 dark:border-gray-600 cursor-pointer"
               />
               <code className="text-sm text-gray-600 dark:text-gray-300">{tema[key]}</code>
             </div>
