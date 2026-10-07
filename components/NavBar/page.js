@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/components/NavBar/NavBar.module.scss";
-import ThemeSwitcher from "../ThemeSwitcher";
+import ThemeSwitcher from "@/app/_components/ThemeSwitcher";
 import StoreStatus from "../StoreStatus";
 import {
   SignInButton,

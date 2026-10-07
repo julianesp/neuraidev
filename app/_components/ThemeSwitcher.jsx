@@ -3,7 +3,6 @@
 import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
 import { Sun, Moon } from "lucide-react";
-import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 
 /**
@@ -51,17 +50,22 @@ export default function ThemeSwitcher() {
 
   if (!mounted) return null;
 
+  const oscuro = resolvedTheme === "dark";
+
+  // Botón propio (sin la variante "outline" de ui/button, que imponía su fondo
+  // y color). Siempre contrasta con la barra: oscuro con luna en modo claro,
+  // ámbar con sol en modo oscuro.
   return (
-    <Button
+    <button
+      type="button"
       onClick={handleToggle}
-      variant="outline"
-      className="w-10 h-10 p-0 rounded-full border-2 shadow-lg hover:scale-110 transition-all duration-200
-        bg-gray-800 text-yellow-400 border-gray-700
-        dark:bg-yellow-400 dark:text-gray-900 dark:border-yellow-500"
-      aria-label={resolvedTheme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-      title={resolvedTheme === "dark" ? "Modo claro" : "Modo oscuro"}
+      aria-label={oscuro ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+      title={oscuro ? "Modo claro" : "Modo oscuro"}
+      className="w-10 h-10 inline-flex items-center justify-center rounded-full border-2 shadow-lg transition-[transform,background-color,box-shadow] duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-400
+        bg-slate-900 text-amber-300 border-slate-700 hover:bg-slate-800
+        dark:bg-amber-300 dark:text-slate-900 dark:border-amber-100 dark:hover:bg-amber-200 dark:shadow-[0_0_14px_rgba(252,211,77,0.55)]"
     >
-      {resolvedTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-    </Button>
+      {oscuro ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+    </button>
   );
 }

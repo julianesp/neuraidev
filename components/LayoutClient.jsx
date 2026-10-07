@@ -4,7 +4,7 @@ import React from "react";
 import NavBar from "./NavBar/page";
 import Footer from "../containers/Footer/page";
 import styles from "../styles/components/Layout.module.scss";
-import ThemeSwitcher from "./ThemeSwitcher";
+import ThemeSwitcher from "@/app/_components/ThemeSwitcher";
 
 export default function LayoutClient({ children }) {
   return (
