@@ -1,49 +1,80 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { Minus, Plus, ShoppingBag, X } from "lucide-react";
-import { enlaceWhatsapp, formatoPrecio } from "@/lib/fastfoods/utils";
+import { useRouter } from "next/navigation";
+import { Loader2, Minus, Plus, RotateCcw, ShoppingBag, X } from "lucide-react";
+import { formatoPrecio } from "@/lib/fastfoods/utils";
 
 /**
- * Carrito sencillo de un negocio: el cliente elige platos y cantidades, y el
- * pedido se envía armado por WhatsApp. Las secciones de la plantilla son de
- * servidor; solo <BotonAgregar> y <BarraPedido> viven en el cliente.
+ * Carrito de un negocio: el cliente elige platos y cantidades y hace el pedido
+ * en la plataforma (/api/fastfoods/pedidos). Luego ve su seguimiento en
+ * /fastfoods/pedido/<token>, desde donde también puede avisar por WhatsApp.
  *
- * Se recuerda por negocio en localStorage; si el navegador no lo permite,
- * el carrito funciona igual pero no sobrevive a una recarga.
+ * Las secciones de la plantilla son de servidor; aquí solo viven los botones
+ * de agregar, "pedir lo mismo" y la barra/hoja del pedido.
+ *
+ * En localStorage (si el navegador lo permite) se recuerdan: el carrito por
+ * negocio, el último pedido por negocio y los datos del cliente.
  */
 const CarritoContext = createContext(null);
 
+const claveCarrito = (slug) => `fastfood-carrito:${slug}`;
+const claveUltimo = (slug) => `fastfood-ultimo:${slug}`;
+const CLAVE_CLIENTE = "fastfood-cliente";
+
+function leer(clave, porDefecto) {
+  try {
+    return JSON.parse(localStorage.getItem(clave) || "null") ?? porDefecto;
+  } catch {
+    return porDefecto;
+  }
+}
+
+function guardar(clave, valor) {
+  try {
+    localStorage.setItem(clave, JSON.stringify(valor));
+  } catch {}
+}
+
+/** Máximo que se puede pedir de algo: lo que queda del especial, o 20. */
+function maximo(pedible) {
+  return pedible?.quedan == null ? 20 : Math.min(20, pedible.quedan);
+}
+
 export function CarritoProvider({ negocio, pedibles, children }) {
-  // pedibles: { [id]: { id, nombre, precio } } — platos del menú y especiales con precio
-  const claveStorage = `fastfood-carrito:${negocio.slug}`;
+  // pedibles: { [id]: { id, nombre, precio, quedan } } — quedan null = sin límite
   const [carrito, setCarrito] = useState({}); // { [id]: cantidad }
+  const [abierto, setAbierto] = useState(false);
+
+  // Ajusta un carrito a lo que hoy se puede pedir (platos borrados, especiales vencidos o agotados).
+  const ajustar = (c) =>
+    Object.fromEntries(
+      Object.entries(c || {})
+        .map(([id, n]) => [id, Math.min(Number(n) || 0, maximo(pedibles[id]))])
+        .filter(([id, n]) => pedibles[id] && n > 0)
+    );
 
   useEffect(() => {
-    try {
-      const guardado = JSON.parse(localStorage.getItem(claveStorage) || "{}");
-      // Descarta platos borrados y especiales que ya vencieron.
-      setCarrito(
-        Object.fromEntries(Object.entries(guardado).filter(([id, n]) => pedibles[id] && n > 0))
-      );
-    } catch {}
-  }, [claveStorage, pedibles]);
+    setCarrito(ajustar(leer(claveCarrito(negocio.slug), {})));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [negocio.slug, pedibles]);
 
-  const actualizar = (id, delta) => {
-    setCarrito((prev) => {
-      const siguiente = { ...prev, [id]: Math.max(0, (prev[id] || 0) + delta) };
-      if (siguiente[id] === 0) delete siguiente[id];
-      try {
-        localStorage.setItem(claveStorage, JSON.stringify(siguiente));
-      } catch {}
-      return siguiente;
-    });
+  const fijar = (siguiente) => {
+    setCarrito(siguiente);
+    guardar(claveCarrito(negocio.slug), siguiente);
   };
 
-  const puedePedir = !!enlaceWhatsapp(negocio.whatsapp);
+  const actualizar = (id, delta) => {
+    const n = Math.max(0, Math.min((carrito[id] || 0) + delta, maximo(pedibles[id])));
+    const siguiente = { ...carrito, [id]: n };
+    if (n === 0) delete siguiente[id];
+    fijar(siguiente);
+  };
 
   return (
-    <CarritoContext.Provider value={{ negocio, pedibles, carrito, actualizar, puedePedir }}>
+    <CarritoContext.Provider
+      value={{ negocio, pedibles, carrito, actualizar, fijar, ajustar, abierto, setAbierto }}
+    >
       {children}
     </CarritoContext.Provider>
   );
@@ -55,10 +86,20 @@ function useCarrito() {
 
 export function BotonAgregar({ id, nombre }) {
   const ctx = useCarrito();
-  if (!ctx?.puedePedir || !ctx.pedibles[id]) return null;
+  const pedible = ctx?.pedibles[id];
+  if (!pedible) return null;
+  if (pedible.quedan === 0) {
+    return (
+      <span className="flex-shrink-0 rounded-full bg-stone-200 text-stone-700 px-3 py-1.5 text-sm font-semibold">
+        Agotado
+      </span>
+    );
+  }
+  const cantidad = ctx.carrito[id] || 0;
   return (
     <Contador
-      cantidad={ctx.carrito[id] || 0}
+      cantidad={cantidad}
+      tope={cantidad >= maximo(pedible)}
       onMas={() => ctx.actualizar(id, 1)}
       onMenos={() => ctx.actualizar(id, -1)}
       nombre={nombre}
@@ -66,7 +107,7 @@ export function BotonAgregar({ id, nombre }) {
   );
 }
 
-function Contador({ cantidad, onMas, onMenos, nombre }) {
+function Contador({ cantidad, tope, onMas, onMenos, nombre }) {
   if (cantidad === 0) {
     return (
       <button
@@ -93,10 +134,50 @@ function Contador({ cantidad, onMas, onMenos, nombre }) {
       <button
         type="button"
         onClick={onMas}
+        disabled={tope}
         aria-label={`Agregar otro ${nombre}`}
-        className="w-9 h-9 rounded-full flex items-center justify-center bg-[var(--ff-primario)] text-[var(--ff-sobre-primario)] active:scale-90 transition-transform"
+        className="w-9 h-9 rounded-full flex items-center justify-center bg-[var(--ff-primario)] text-[var(--ff-sobre-primario)] active:scale-90 transition-transform disabled:opacity-40"
       >
         <Plus className="w-4 h-4" />
+      </button>
+    </div>
+  );
+}
+
+/** "Pedir lo mismo de la vez pasada" (último pedido en este negocio, en este navegador). */
+export function PedirLoMismo() {
+  const ctx = useCarrito();
+  const [ultimo, setUltimo] = useState(null);
+
+  useEffect(() => {
+    if (!ctx) return;
+    const ajustado = ctx.ajustar(leer(claveUltimo(ctx.negocio.slug), {}));
+    setUltimo(Object.keys(ajustado).length ? ajustado : null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ctx?.negocio.slug, ctx?.pedibles]);
+
+  if (!ultimo) return null;
+  const texto = Object.entries(ultimo)
+    .map(([id, n]) => `${n}× ${ctx.pedibles[id].nombre}`)
+    .join(", ");
+
+  return (
+    <div className="max-w-3xl mx-auto px-4 pt-6">
+      <button
+        type="button"
+        onClick={() => {
+          ctx.fijar(ultimo);
+          ctx.setAbierto(true);
+        }}
+        className="w-full flex items-center gap-3 rounded-2xl border border-[var(--ff-borde)] bg-[var(--ff-tarjeta)] p-3 text-left"
+      >
+        <span className="w-10 h-10 flex-shrink-0 rounded-full bg-[var(--ff-primario)] text-[var(--ff-sobre-primario)] flex items-center justify-center">
+          <RotateCcw className="w-5 h-5 fill-none" />
+        </span>
+        <span className="min-w-0">
+          <span className="block font-semibold">Pedir lo mismo de la vez pasada</span>
+          <span className="block text-sm text-[var(--ff-texto-suave)] truncate">{texto}</span>
+        </span>
       </button>
     </div>
   );
@@ -105,14 +186,27 @@ function Contador({ cantidad, onMas, onMenos, nombre }) {
 const inputClase =
   "w-full rounded-xl border border-[var(--ff-borde)] bg-[var(--ff-tarjeta)] text-[var(--ff-texto)] px-4 py-3 text-base placeholder:text-[var(--ff-texto-suave)]";
 
-/** Barra flotante "Ver pedido" + hoja con el resumen y los datos de entrega. */
+/** Barra flotante "Ver pedido" + hoja con el resumen, los datos y "Hacer pedido". */
 export function BarraPedido() {
   const ctx = useCarrito();
-  const [abierto, setAbierto] = useState(false);
-  const [datos, setDatos] = useState({ nombre: "", entrega: "recoger", direccion: "", nota: "" });
+  const router = useRouter();
+  const [datos, setDatos] = useState({ nombre: "", telefono: "", entrega: "recoger", direccion: "", nota: "" });
+  const [enviando, setEnviando] = useState(false);
+  const [error, setError] = useState("");
 
-  if (!ctx?.puedePedir) return null;
-  const { negocio, pedibles, carrito, actualizar } = ctx;
+  // Datos del cliente recordados de pedidos anteriores (en cualquier negocio).
+  useEffect(() => {
+    const c = leer(CLAVE_CLIENTE, {});
+    setDatos((d) => ({
+      ...d,
+      nombre: c.nombre || "",
+      telefono: c.telefono || "",
+      direccion: c.direccion || "",
+    }));
+  }, []);
+
+  if (!ctx) return null;
+  const { negocio, pedibles, carrito, actualizar, fijar, abierto, setAbierto } = ctx;
 
   const lineas = Object.entries(carrito)
     .filter(([id]) => pedibles[id])
@@ -121,23 +215,42 @@ export function BarraPedido() {
   const total = lineas.reduce((s, l) => s + l.cantidad * l.precio, 0);
   if (totalItems === 0) return null;
 
-  const mensaje = [
-    `¡Hola ${negocio.nombre}! Quiero hacer este pedido (lo armé en neurai.dev):`,
-    "",
-    ...lineas.map((l) => `• ${l.cantidad} x ${l.nombre} — ${formatoPrecio(l.cantidad * l.precio)}`),
-    "",
-    `*Total: ${formatoPrecio(total)}*`,
-    "",
-    datos.nombre.trim() && `Nombre: ${datos.nombre.trim()}`,
-    negocio.domicilio &&
-      (datos.entrega === "domicilio"
-        ? `Entrega: domicilio — ${datos.direccion.trim() || "(dirección por confirmar)"}`
-        : "Entrega: recojo en el local"),
-    datos.nota.trim() && `Nota: ${datos.nota.trim()}`,
-  ]
-    .filter((l) => typeof l === "string")
-    .join("\n")
-    .trim();
+  const esDomicilio = negocio.domicilio && datos.entrega === "domicilio";
+
+  const hacerPedido = async (e) => {
+    e.preventDefault();
+    setError("");
+    setEnviando(true);
+    try {
+      const res = await fetch("/api/fastfoods/pedidos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slug: negocio.slug,
+          items: lineas.map((l) => ({ id: l.id, cantidad: l.cantidad })),
+          nombre: datos.nombre,
+          telefono: datos.telefono,
+          entrega: esDomicilio ? "domicilio" : "recoger",
+          direccion: esDomicilio ? datos.direccion : "",
+          nota: datos.nota,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "No se pudo hacer el pedido");
+
+      guardar(CLAVE_CLIENTE, {
+        nombre: datos.nombre.trim(),
+        telefono: datos.telefono.trim(),
+        direccion: datos.direccion.trim(),
+      });
+      guardar(claveUltimo(negocio.slug), carrito);
+      fijar({});
+      router.push(`/fastfoods/pedido/${data.token}`);
+    } catch (err) {
+      setError(err.message);
+      setEnviando(false);
+    }
+  };
 
   return (
     <>
@@ -168,7 +281,8 @@ export function BarraPedido() {
             className="absolute inset-0 bg-black/50"
             onClick={() => setAbierto(false)}
           />
-          <div
+          <form
+            onSubmit={hacerPedido}
             role="dialog"
             aria-modal="true"
             aria-label="Tu pedido"
@@ -193,10 +307,12 @@ export function BarraPedido() {
                     <p className="font-medium truncate">{l.nombre}</p>
                     <p className="text-sm text-[var(--ff-texto-suave)]">
                       {formatoPrecio(l.precio * l.cantidad)}
+                      {l.quedan != null && ` · quedan ${l.quedan}`}
                     </p>
                   </div>
                   <Contador
                     cantidad={l.cantidad}
+                    tope={l.cantidad >= maximo(l)}
                     onMas={() => actualizar(l.id, 1)}
                     onMenos={() => actualizar(l.id, -1)}
                     nombre={l.nombre}
@@ -210,12 +326,24 @@ export function BarraPedido() {
               <span>{formatoPrecio(total)}</span>
             </div>
 
-            <div className="space-y-3 mb-5">
+            <div className="space-y-3 mb-4">
               <input
+                required
                 value={datos.nombre}
                 onChange={(e) => setDatos({ ...datos, nombre: e.target.value })}
                 placeholder="Tu nombre"
                 autoComplete="name"
+                maxLength={60}
+                className={inputClase}
+              />
+              <input
+                required
+                type="tel"
+                inputMode="tel"
+                value={datos.telefono}
+                onChange={(e) => setDatos({ ...datos, telefono: e.target.value })}
+                placeholder="Tu celular (para avisarte)"
+                autoComplete="tel"
                 className={inputClase}
               />
               {negocio.domicilio && (
@@ -239,12 +367,14 @@ export function BarraPedido() {
                       </button>
                     ))}
                   </div>
-                  {datos.entrega === "domicilio" && (
+                  {esDomicilio && (
                     <input
+                      required
                       value={datos.direccion}
                       onChange={(e) => setDatos({ ...datos, direccion: e.target.value })}
                       placeholder="Dirección de entrega"
                       autoComplete="street-address"
+                      maxLength={160}
                       className={inputClase}
                     />
                   )}
@@ -255,22 +385,29 @@ export function BarraPedido() {
                 onChange={(e) => setDatos({ ...datos, nota: e.target.value })}
                 placeholder="Nota (sin cebolla, salsas aparte…)"
                 rows={2}
+                maxLength={200}
                 className={inputClase}
               />
             </div>
 
-            <a
-              href={enlaceWhatsapp(negocio.whatsapp, mensaje)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center w-full rounded-2xl bg-[#25D366] text-white font-semibold py-4 text-lg"
+            {error && (
+              <p role="alert" className="mb-3 rounded-xl bg-red-100 text-red-800 px-4 py-3 text-sm">
+                {error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={enviando}
+              className="flex items-center justify-center gap-2 w-full rounded-2xl bg-[var(--ff-primario)] text-[var(--ff-sobre-primario)] font-semibold py-4 text-lg disabled:opacity-60"
             >
-              Enviar pedido por WhatsApp
-            </a>
+              {enviando && <Loader2 className="w-5 h-5 animate-spin" />}
+              Hacer pedido · {formatoPrecio(total)}
+            </button>
             <p className="text-xs text-center text-[var(--ff-texto-suave)] mt-2">
-              Se abre WhatsApp con tu pedido listo para enviar.
+              Pagas al recibir. Verás cómo va tu pedido en la siguiente pantalla.
             </p>
-          </div>
+          </form>
         </div>
       )}
     </>

@@ -13,6 +13,13 @@ import {
 } from "@/lib/fastfoods/acciones";
 import { getDuenoYNegocio, requireNegocioDelDueno } from "@/lib/fastfoods/dueno";
 import { notifyNewFastfood } from "@/lib/notificationService";
+import {
+  actualizarPorciones,
+  cambiarEstadoPedido,
+  canjearPremio,
+  listarClientes,
+  listarPedidos,
+} from "@/lib/fastfoods/pedidos";
 
 export const dynamic = "force-dynamic";
 
@@ -23,6 +30,8 @@ export const dynamic = "force-dynamic";
  */
 
 // GET /api/mi-negocio             → { negocio, menu, especiales } o { negocio: null }
+// GET /api/mi-negocio?pedidos=1   → { pedidos } abiertos + cerrados de las últimas 24 h
+// GET /api/mi-negocio?clientes=1  → { clientes } con pedidos entregados y sellos
 // GET /api/mi-negocio?slug=<x>    → { disponible, slug, error? } para el formulario de registro
 export async function GET(request) {
   try {
@@ -40,6 +49,9 @@ export async function GET(request) {
 
     const { negocio, correo } = await getDuenoYNegocio();
     if (!negocio) return NextResponse.json({ negocio: null, correo });
+    const q = new URL(request.url).searchParams;
+    if (q.get("pedidos")) return NextResponse.json({ pedidos: await listarPedidos(negocio.id) });
+    if (q.get("clientes")) return NextResponse.json({ clientes: await listarClientes(negocio.id) });
     return NextResponse.json(await getDetalleNegocio(negocio.id));
   } catch (error) {
     return responderError(error, "GET /api/mi-negocio");
@@ -49,7 +61,8 @@ export async function GET(request) {
 // POST /api/mi-negocio — según body.accion:
 //   'crear_negocio'   { nombre, slug, whatsapp, ciudad? }  → queda publicado de una vez
 //   'crear_item'      { nombre, precio, categoria?, descripcion? }
-//   'crear_especial'  { titulo, hasta: "HH:MM", precio?, descripcion?, foto_path? }
+//   'crear_especial'  { titulo, hasta: "HH:MM", precio?, descripcion?, foto_path?, porciones? }
+//   'canjear'         { telefono }  → entrega el premio de la tarjeta de sellos
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -88,6 +101,10 @@ export async function POST(request) {
     if (body.accion === "crear_especial") {
       return NextResponse.json({ success: true, ...(await crearEspecial(negocio.id, body)) });
     }
+    if (body.accion === "canjear") {
+      await canjearPremio(negocio.id, body.telefono);
+      return NextResponse.json({ success: true });
+    }
     throw new ErrorFastfood(400, "Acción no reconocida");
   } catch (error) {
     // El índice único de owner_clerk_id frena una doble creación simultánea.
@@ -101,6 +118,8 @@ export async function POST(request) {
 // PATCH /api/mi-negocio — según body.tipo:
 //   'negocio' { ...campos }       (sin enlace, plantilla, estado ni plan)
 //   'item'    { id, ...campos }
+//   'pedido'  { id, estado }
+//   'especial' { id, porciones }   (null = sin límite)
 export async function PATCH(request) {
   try {
     const { negocio } = await requireNegocioDelDueno();
@@ -111,6 +130,10 @@ export async function PATCH(request) {
     } else if (body.tipo === "item") {
       if (!body.id) throw new ErrorFastfood(400, "ID requerido");
       await actualizarItem(negocio.id, body.id, body);
+    } else if (body.tipo === "pedido") {
+      await cambiarEstadoPedido(negocio.id, body.id, body.estado);
+    } else if (body.tipo === "especial") {
+      await actualizarPorciones(negocio.id, body.id, body.porciones);
     } else {
       throw new ErrorFastfood(400, "Tipo no reconocido");
     }

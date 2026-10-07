@@ -27,6 +27,7 @@ import {
   horaLegible,
   slugify,
 } from "@/lib/fastfoods/utils";
+import { PestanaClientes, PestanaPedidos, usePedidos } from "./Pedidos";
 
 // Sube una foto a la carpeta del negocio en R2. Devuelve { url, path }.
 async function subirFoto(file, negocioId) {
@@ -66,9 +67,11 @@ const botonSecundario =
 
 
 const PESTANAS = [
+  ["pedidos", "Pedidos"],
   ["especial", "Especial de hoy"],
   ["menu", "Menú"],
-  ["datos", "Datos y horario"],
+  ["clientes", "Clientes"],
+  ["datos", "Fotos y datos"],
   ["apariencia", "Apariencia"],
   ["estado", "Estado y plan", "admin"],
 ];
@@ -79,10 +82,18 @@ const PESTANAS = [
  * El dueño no ve "Estado y plan" ni puede cambiar el enlace; el servidor
  * lo vuelve a validar en /api/mi-negocio.
  */
-export default function EditorNegocio({ modo = "admin", id, onCambioLista = () => {}, onEliminado = () => {} }) {
+export default function EditorNegocio({
+  modo = "admin",
+  id,
+  pestanaInicial,
+  onCambioLista = () => {},
+  onEliminado = () => {},
+}) {
   const api = useMemo(() => crearApi(modo), [modo]);
   const [datos, setDatos] = useState(null);
-  const [pestana, setPestana] = useState("especial");
+  const [pestana, setPestana] = useState(
+    PESTANAS.some(([key]) => key === pestanaInicial) ? pestanaInicial : "pedidos"
+  );
   const [copiado, setCopiado] = useState(false);
 
   const cargar = useCallback(async () => {
@@ -96,6 +107,14 @@ export default function EditorNegocio({ modo = "admin", id, onCambioLista = () =
   useEffect(() => {
     cargar();
   }, [cargar]);
+
+  // GET con parámetros extra (pedidos / clientes) respetando el modo.
+  const consultar = useCallback(
+    (extra) => api("GET", { query: modo === "admin" ? `id=${id}&${extra}` : extra }),
+    [api, id, modo]
+  );
+  // Los pedidos se consultan siempre (no solo en su pestaña) para avisar de los nuevos.
+  const { pedidos, cargar: cargarPedidos, cantidadNuevos } = usePedidos(consultar);
 
   if (!datos) {
     return (
@@ -164,10 +183,27 @@ export default function EditorNegocio({ modo = "admin", id, onCambioLista = () =
             }`}
           >
             {nombre}
+            {key === "pedidos" && cantidadNuevos > 0 && (
+              <span className="ml-1.5 inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-rose-600 text-white text-xs font-bold">
+                {cantidadNuevos}
+              </span>
+            )}
           </button>
         ))}
       </div>
 
+      {pestana === "pedidos" && (
+        <PestanaPedidos api={api} id={negocio.id} pedidos={pedidos} recargar={cargarPedidos} />
+      )}
+      {pestana === "clientes" && (
+        <PestanaClientes
+          api={api}
+          id={negocio.id}
+          consultar={consultar}
+          negocio={negocio}
+          guardar={guardarNegocio}
+        />
+      )}
       {pestana === "especial" && <PestanaEspecial api={api} id={negocio.id} especiales={datos.especiales} recargar={cargar} />}
       {pestana === "menu" && <PestanaMenu api={api} id={negocio.id} menu={datos.menu} recargar={cargar} />}
       {pestana === "datos" && <PestanaDatos modo={modo} negocio={negocio} guardar={guardarNegocio} />}
@@ -182,7 +218,7 @@ export default function EditorNegocio({ modo = "admin", id, onCambioLista = () =
 // ─────────────────────────── Especial de hoy ───────────────────────────
 
 function PestanaEspecial({ api, id, especiales, recargar }) {
-  const vacio = { titulo: "", descripcion: "", precio: "", hasta: "23:00" };
+  const vacio = { titulo: "", descripcion: "", precio: "", hasta: "23:00", porciones: "" };
   const [form, setForm] = useState(vacio);
   const [foto, setFoto] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -220,6 +256,22 @@ function PestanaEspecial({ api, id, especiales, recargar }) {
     }
   };
 
+  const cambiarPorciones = async (e) => {
+    const valor = window.prompt(
+      "¿Cuántas porciones hay en total? (déjalo vacío para no limitar)",
+      e.porciones ?? ""
+    );
+    if (valor === null) return;
+    try {
+      await api("PATCH", {
+        body: { tipo: "especial", fastfood_id: id, id: e.id, porciones: valor.trim() === "" ? null : valor.trim() },
+      });
+      await recargar();
+    } catch (err) {
+      window.alert(err.message);
+    }
+  };
+
   const borrar = async (especialId) => {
     if (!window.confirm("¿Quitar este especial ya?")) return;
     setBorrando(especialId);
@@ -251,6 +303,18 @@ function PestanaEspecial({ api, id, especiales, recargar }) {
                   <p className="font-medium text-gray-900 dark:text-white truncate">{e.titulo}</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     {e.precio ? `${formatoPrecio(e.precio)} · ` : ""}Se oculta a las {horaLegible(e.expira_en)}
+                  </p>
+                  <p className="text-sm text-gray-700 dark:text-gray-300">
+                    {e.porciones == null
+                      ? `${e.vendidas || 0} pedidas · sin límite`
+                      : `${e.vendidas || 0} de ${e.porciones} pedidas${e.vendidas >= e.porciones ? " · agotado" : ""}`}
+                    <button
+                      type="button"
+                      onClick={() => cambiarPorciones(e)}
+                      className="ml-2 text-blue-600 dark:text-blue-400 hover:underline"
+                    >
+                      Cambiar porciones
+                    </button>
                   </p>
                 </div>
                 <button
@@ -296,7 +360,7 @@ function PestanaEspecial({ api, id, especiales, recargar }) {
           }}
         />
 
-        <div className="grid sm:grid-cols-[1fr_140px_120px] gap-3">
+        <div className="grid sm:grid-cols-[1fr_120px_110px_110px] gap-3">
           <div>
             <label className={label}>Plato</label>
             <input
@@ -314,6 +378,16 @@ function PestanaEspecial({ api, id, especiales, recargar }) {
               value={form.precio}
               onChange={(e) => setForm({ ...form, precio: e.target.value.replace(/\D/g, "") })}
               placeholder="18000"
+              className={input}
+            />
+          </div>
+          <div>
+            <label className={label}>Porciones</label>
+            <input
+              inputMode="numeric"
+              value={form.porciones}
+              onChange={(e) => setForm({ ...form, porciones: e.target.value.replace(/\D/g, "") })}
+              placeholder="Sin límite"
               className={input}
             />
           </div>
@@ -339,7 +413,7 @@ function PestanaEspecial({ api, id, especiales, recargar }) {
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400">
           Hora de Colombia. Si la hora ya pasó hoy, se toma la de mañana (p. ej. publicar a las 11 p. m.
-          «hasta la 01:00»). Sin precio, el especial se muestra pero no se puede agregar al pedido.
+          «hasta la 01:00»). Sin precio, el especial se muestra pero no se puede pedir. Con porciones, se descuentan solas con cada pedido y se muestra «Quedan N» o «Agotado».
         </p>
         <button type="submit" disabled={guardando} className={botonPrimario}>
           {guardando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
@@ -692,7 +766,13 @@ function PestanaDatos({ modo, negocio, guardar }) {
   return (
     <form onSubmit={enviar} className="space-y-4">
       <div className={`${tarjeta} space-y-4`}>
-        <h3 className="font-bold text-gray-900 dark:text-white">Imágenes</h3>
+        <div>
+          <h3 className="font-bold text-gray-900 dark:text-white">Fotos</h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+            Portada: una foto horizontal del local o de tus mejores platos (va en la franja de arriba).
+            Logo: cuadrado, se ve en el círculo. JPG o PNG, máximo 4 MB.
+          </p>
+        </div>
         <div className="flex flex-wrap gap-6">
           {[
             ["logo", "Logo", logoInput, "w-24 h-24 rounded-2xl"],

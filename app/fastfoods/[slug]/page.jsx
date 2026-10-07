@@ -7,6 +7,7 @@ import {
   getFastfoodPorSlug,
   getMenu,
   getProductosNeurai,
+  negocioPublico,
 } from "@/lib/fastfoods/data";
 import { variablesTema } from "@/lib/fastfoods/utils";
 import { getPlantilla } from "@/app/fastfoods/_components/plantillas";
@@ -44,8 +45,13 @@ export async function generateMetadata({ params }) {
 
 export default async function FastfoodPage({ params }) {
   const { slug } = await params;
-  const negocio = await getNegocioVisible(slug);
-  if (!negocio) notFound();
+  const completo = await getNegocioVisible(slug);
+  if (!completo) notFound();
+  // El dueño ve un acceso directo a su panel (si no, no hay cómo volver a editar).
+  const { userId } = await auth();
+  const esDueno = !!userId && userId === completo.owner_clerk_id;
+  // Desde aquí solo datos públicos: el negocio llega al carrito (navegador).
+  const negocio = negocioPublico(completo);
 
   const [menu, especiales, productosNeurai] = await Promise.all([
     getMenu(negocio.id),
@@ -56,9 +62,6 @@ export default async function FastfoodPage({ params }) {
   ]);
 
   const Plantilla = getPlantilla(negocio.plantilla);
-  // El dueño ve un acceso directo a su panel (si no, no hay cómo volver a editar).
-  const { userId } = await auth();
-  const esDueno = !!userId && userId === negocio.owner_clerk_id;
 
   return (
     <div
@@ -89,6 +92,7 @@ export default async function FastfoodPage({ params }) {
         especiales={especiales}
         productosNeurai={productosNeurai}
         SeccionCustom={getSeccionCustom(negocio.slug)}
+        esDueno={esDueno}
       />
     </div>
   );

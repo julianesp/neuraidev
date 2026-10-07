@@ -28,6 +28,16 @@ export default async function FastfoodsPage() {
   return (
     <div className="min-h-screen bg-orange-50 text-stone-900 dark:bg-stone-950 dark:text-stone-100">
       <section className="max-w-5xl mx-auto px-4 pt-28 pb-12 sm:pt-32">
+        <Link
+          href="/fastfoods/hoy"
+          className="mb-8 flex items-center justify-between gap-3 rounded-2xl bg-stone-900 text-white dark:bg-white dark:text-stone-900 px-5 py-4 hover:opacity-90 transition-opacity"
+        >
+          <span>
+            <span className="block font-bold">¿Buscas qué comer hoy?</span>
+            <span className="block text-sm opacity-80">Mira los especiales de esta noche y pide en línea</span>
+          </span>
+          <span aria-hidden className="text-2xl">→</span>
+        </Link>
         <p className="text-sm font-semibold uppercase tracking-wide text-rose-600 dark:text-rose-400">
           Para negocios de comidas
         </p>

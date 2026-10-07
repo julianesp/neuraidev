@@ -56,7 +56,10 @@ export default function MiNegocioPage() {
                 Publica el especial de hoy, edita tu menú y comparte tu enlace.
               </p>
             )}
-            <EditorNegocio modo="dueno" />
+            <EditorNegocio
+              modo="dueno"
+              pestanaInicial={new URLSearchParams(window.location.search).get("pestana")}
+            />
           </>
         ) : (
           <Registro

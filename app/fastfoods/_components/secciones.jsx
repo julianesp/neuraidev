@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bike, Clock, MapPin, UtensilsCrossed } from "lucide-react";
+import { Bike, Clock, ImagePlus, MapPin, UtensilsCrossed } from "lucide-react";
 import { BotonAgregar } from "./Carrito";
 import {
   DIAS,
@@ -25,7 +25,10 @@ function enlaceRed(red, valor) {
   }[red];
 }
 
-export function Encabezado({ negocio }) {
+// Atajo del dueño a la pestaña donde se suben portada y logo.
+const EDITAR_FOTOS = "/mi-negocio?pestana=datos";
+
+export function Encabezado({ negocio, esDueno = false }) {
   const abierto = estaAbierto(negocio.horario);
   const whatsapp = enlaceWhatsapp(negocio.whatsapp, `¡Hola ${negocio.nombre}! Vi su página en neurai.dev`);
   const redes = [
@@ -43,6 +46,16 @@ export function Encabezado({ negocio }) {
           // eslint-disable-next-line @next/next/no-img-element
           <img src={negocio.portada_url} alt="" className="w-full h-full object-cover" />
         )}
+        {esDueno && !negocio.portada_url && (
+          <div className="absolute inset-0 flex items-center justify-center p-4">
+            <Link
+              href={EDITAR_FOTOS}
+              className="inline-flex items-center gap-2 rounded-full bg-black/40 hover:bg-black/55 backdrop-blur-sm text-white font-semibold px-5 py-2.5 transition-colors"
+            >
+              <ImagePlus className="w-5 h-5 fill-none" /> Agregar foto de portada
+            </Link>
+          </div>
+        )}
       </div>
       <div className="max-w-3xl mx-auto px-4">
         <div className="relative -mt-12 sm:-mt-14 flex items-end gap-4">
@@ -50,6 +63,14 @@ export function Encabezado({ negocio }) {
             {negocio.logo_url ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={negocio.logo_url} alt={negocio.nombre} className="w-full h-full object-cover" />
+            ) : esDueno ? (
+              <Link
+                href={EDITAR_FOTOS}
+                className="w-full h-full flex flex-col items-center justify-center gap-1 text-[var(--ff-primario)] text-xs font-semibold text-center"
+              >
+                <ImagePlus className="w-7 h-7 fill-none" />
+                Agregar logo
+              </Link>
             ) : (
               <UtensilsCrossed className="w-10 h-10 text-[var(--ff-primario)]" />
             )}
@@ -130,6 +151,7 @@ export function SeccionEspecial({ especiales }) {
                     <span className="text-sm text-[var(--ff-texto-suave)] inline-flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5 fill-none" /> Hasta las {horaLegible(e.expira_en)}
                     </span>
+                    <Porciones especial={e} />
                   </div>
                 </div>
                 {e.precio ? <BotonAgregar id={e.id} nombre={e.titulo} /> : null}
@@ -290,6 +312,33 @@ export function PiePagina() {
         ¿Tienes un negocio de comidas? Crea su página gratis
       </Link>
     </footer>
+  );
+}
+
+/** "Quedan 5" / "Últimas 2" / "Agotado" según las porciones del especial. */
+export function Porciones({ especial }) {
+  if (especial.porciones == null) return null;
+  const quedan = Math.max(0, especial.porciones - (especial.vendidas || 0));
+  if (quedan === 0) {
+    return <span className="text-sm font-bold text-red-600">Agotado</span>;
+  }
+  return (
+    <span className={`text-sm font-semibold ${quedan <= 3 ? "text-red-600" : "text-[var(--ff-primario)]"}`}>
+      {quedan <= 3 ? `¡Últimas ${quedan}!` : `Quedan ${quedan}`}
+    </span>
+  );
+}
+
+/** Aviso de la tarjeta de sellos (si el dueño la activó). */
+export function AvisoSellos({ negocio }) {
+  if (!negocio.sellos_activo) return null;
+  return (
+    <div className="max-w-3xl mx-auto px-4 pt-4">
+      <p className="rounded-2xl border border-dashed border-[var(--ff-primario)] px-4 py-3 text-sm">
+        <strong>Tarjeta de sellos:</strong> cada {negocio.sellos_meta} pedidos entregados,{" "}
+        {negocio.sellos_premio}. Se cuentan con tu número de celular.
+      </p>
+    </div>
   );
 }
 

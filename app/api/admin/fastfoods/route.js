@@ -14,6 +14,13 @@ import {
   getDetalleNegocio,
   responderError,
 } from "@/lib/fastfoods/acciones";
+import {
+  actualizarPorciones,
+  cambiarEstadoPedido,
+  canjearPremio,
+  listarClientes,
+  listarPedidos,
+} from "@/lib/fastfoods/pedidos";
 
 export const dynamic = "force-dynamic";
 
@@ -24,10 +31,14 @@ async function requireAdmin() {
 
 // GET /api/admin/fastfoods          → lista de negocios
 // GET /api/admin/fastfoods?id=<id>  → negocio + menú completo + especiales vigentes
+// GET /api/admin/fastfoods?id=<id>&pedidos=1 | &clientes=1
 export async function GET(request) {
   try {
     await requireAdmin();
-    const id = new URL(request.url).searchParams.get("id");
+    const q = new URL(request.url).searchParams;
+    const id = q.get("id");
+    if (id && q.get("pedidos")) return NextResponse.json({ pedidos: await listarPedidos(id) });
+    if (id && q.get("clientes")) return NextResponse.json({ clientes: await listarClientes(id) });
     if (id) return NextResponse.json(await getDetalleNegocio(id));
 
     const negocios = await d1Select(
@@ -64,6 +75,10 @@ export async function POST(request) {
     if (body.accion === "crear_especial") {
       return NextResponse.json({ success: true, ...(await crearEspecial(body.fastfood_id, body)) });
     }
+    if (body.accion === "canjear") {
+      await canjearPremio(body.fastfood_id, body.telefono);
+      return NextResponse.json({ success: true });
+    }
     throw new ErrorFastfood(400, "Acción no reconocida");
   } catch (error) {
     return responderError(error, "POST /api/admin/fastfoods");
@@ -83,6 +98,10 @@ export async function PATCH(request) {
       await actualizarNegocio(body.id, body, { admin: true });
     } else if (body.tipo === "item") {
       await actualizarItem(body.fastfood_id, body.id, body);
+    } else if (body.tipo === "pedido") {
+      await cambiarEstadoPedido(body.fastfood_id, body.id, body.estado);
+    } else if (body.tipo === "especial") {
+      await actualizarPorciones(body.fastfood_id, body.id, body.porciones);
     } else {
       throw new ErrorFastfood(400, "Tipo no reconocido");
     }
