@@ -29,6 +29,7 @@ import {
   Star,
   Wrench,
   MapPin,
+  UtensilsCrossed,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -155,6 +156,13 @@ export default function DashboardLayout({ children }) {
       href: "/dashboard/colon",
       icon: MapPin,
       current: pathname?.startsWith("/dashboard/colon"),
+      badge: "Nuevo",
+    },
+    {
+      name: "Fastfoods",
+      href: "/dashboard/fastfoods",
+      icon: UtensilsCrossed,
+      current: pathname?.startsWith("/dashboard/fastfoods"),
       badge: "Nuevo",
     },
     {
