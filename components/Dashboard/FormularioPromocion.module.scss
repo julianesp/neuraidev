@@ -55,8 +55,8 @@
 
   &:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
   }
 }
 
@@ -76,7 +76,7 @@
 
   &:hover {
     background: #edf2f7;
-    border-color: #667eea;
+    border-color: #60a5fa;
   }
 }
 
@@ -102,12 +102,12 @@
   transition: all 0.2s;
 
   &:hover {
-    border-color: #667eea;
+    border-color: #60a5fa;
     transform: scale(1.1);
   }
 
   &.active {
-    border-color: #667eea;
+    border-color: #60a5fa;
     background: #f0f4ff;
   }
 }
@@ -167,11 +167,11 @@
 }
 
 .btnGuardar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
   color: white;
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+    box-shadow: 0 6px 20px rgba(96, 165, 250, 0.35);
   }
 }

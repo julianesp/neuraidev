@@ -343,7 +343,7 @@ export default function Inicio() {
         <BlogDestacado />
 
         {/* Negocios Locales */}
-        {/* <section className="py-16 px-4 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
+        {/* <section className="py-16 px-4 bg-gradient-to-br from-blue-50 to-blue-50 dark:from-gray-800 dark:to-gray-900">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 flex items-center justify-center gap-3">
@@ -379,7 +379,7 @@ export default function Inicio() {
                       Miles de productos: mercado, aseo, mecato, tecnología, ropa y más
                     </p>
                     <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-2 py-1 rounded">
+                      <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-1 rounded">
                         🛒 Mercado
                       </span>
                       <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-1 rounded">
@@ -420,7 +420,7 @@ export default function Inicio() {
                       <span className="text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 px-2 py-1 rounded">
                         🥐 Panadería
                       </span>
-                      <span className="text-xs bg-pink-100 dark:bg-pink-900 text-pink-700 dark:text-pink-300 px-2 py-1 rounded">
+                      <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-1 rounded">
                         🎂 Tortas
                       </span>
                       <span className="text-xs bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 px-2 py-1 rounded">
@@ -606,7 +606,7 @@ export default function Inicio() {
 
         {/* Acceso directo a la página de servicio técnico / formateo */}
         <section className="w-full px-4 my-10" data-aos="fade-up">
-          <div className="max-w-4xl mx-auto bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl shadow-lg p-8 text-center text-white">
+          <div className="max-w-4xl mx-auto bg-gradient-to-br from-blue-600 to-blue-600 rounded-2xl shadow-lg p-8 text-center text-white">
             <h2 className="text-2xl md:text-3xl font-bold mb-2">
               Servicio técnico y formateo de computadores
             </h2>

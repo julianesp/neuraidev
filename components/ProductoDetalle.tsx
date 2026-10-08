@@ -132,7 +132,7 @@ export default function ProductoDetalle({ producto }: Props) {
                 title="Ver video del producto"
               >
                 {/* Fondo con degradado */}
-                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
                   {/* Icono de play */}
                   <svg
                     className="w-8 h-8 text-white"

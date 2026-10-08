@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #2563eb 100%);
   position: relative;
   overflow: hidden;
 
@@ -35,7 +35,7 @@
 
   // Modo oscuro
   :global(.dark) & {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: linear-gradient(135deg, #1e3a8a 0%, #16213e 100%);
   }
 }
 
@@ -137,7 +137,7 @@
 }
 
 .keyword {
-  color: #c586c0;
+  color: #60a5fa;
   font-weight: 600;
 }
 
@@ -364,12 +364,12 @@
   }
 
   :global(.dark) & {
-    background: #4c1d95;
+    background: #1d4ed8;
     color: white;
-    box-shadow: 0 4px 15px rgba(76, 29, 149, 0.5);
+    box-shadow: 0 4px 15px rgba(29, 78, 216, 0.5);
 
     &:hover {
-      box-shadow: 0 6px 20px rgba(76, 29, 149, 0.7);
+      box-shadow: 0 6px 20px rgba(29, 78, 216, 0.7);
     }
   }
 }

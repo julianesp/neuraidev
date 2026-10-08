@@ -36,7 +36,7 @@
 
 /* Header con información del usuario */
 .header {
-  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #2563eb 100%);
   border-radius: 16px;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -161,20 +161,20 @@
     color: #9ca3af;
 
     &:hover {
-      color: #818cf8;
-      background-color: rgba(129, 140, 248, 0.1);
+      color: #93c5fd;
+      background-color: rgba(147, 197, 253, 0.1);
     }
 
     &.active {
-      color: #818cf8;
-      border-bottom-color: #818cf8;
-      background-color: rgba(129, 140, 248, 0.15);
+      color: #93c5fd;
+      border-bottom-color: #93c5fd;
+      background-color: rgba(147, 197, 253, 0.15);
     }
   }
 
   .spinner {
     border-color: rgba(255, 255, 255, 0.1);
-    border-top-color: #818cf8;
+    border-top-color: #93c5fd;
   }
 
   .loadingContainer p {

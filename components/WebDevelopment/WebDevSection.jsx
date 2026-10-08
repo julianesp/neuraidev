@@ -23,7 +23,7 @@ export default function WebDevSection() {
       icon: <Package size={36} />,
       titulo: "Publica fácil",
       descripcion: "Tus productos aparecen visibles al instante para todos",
-      color: "#764ba2",
+      color: "#2563eb",
     },
     {
       icon: <ShoppingCart size={36} />,

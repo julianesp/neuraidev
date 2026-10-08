@@ -369,7 +369,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  // background: rgba(255, 107, 157, 0.1);
+  // background: rgba(147, 197, 253, 0.1);
 
   padding: 0.3rem 0.8rem;
 
@@ -481,7 +481,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  // box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+  // box-shadow: 0 4px 15px rgba(147, 197, 253, 0.3);
   box-shadow: 0px 10px 1px var.$color-primario;
   text-decoration: none;
   text-align: center;
@@ -558,7 +558,7 @@
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+  box-shadow: 0 4px 15px rgba(147, 197, 253, 0.3);
 
   :global(.dark) & {
     background: #0070f3;
@@ -568,7 +568,7 @@
 
 .primaryButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+  box-shadow: 0 8px 25px rgba(147, 197, 253, 0.4);
 
   :global(.dark) & {
     box-shadow: 0 8px 25px rgba(0, 112, 243, 0.5);

@@ -34,7 +34,7 @@ export default function NequiPaymentButton({
       title: '💜 Pagar con Nequi',
       html: `
         <div class="text-left">
-          <div class="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 p-4 rounded-lg mb-4">
+          <div class="bg-gradient-to-r from-blue-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 p-4 rounded-lg mb-4">
             <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">
               <strong>Producto:</strong> ${producto?.nombre || 'Producto'}
             </p>
@@ -42,7 +42,7 @@ export default function NequiPaymentButton({
               <strong>Precio original:</strong>
               <span class="line-through ml-2">$${precioOriginal.toLocaleString('es-CO')}</span>
             </p>
-            <p class="text-lg font-bold text-purple-700 dark:text-purple-300 mb-2">
+            <p class="text-lg font-bold text-blue-700 dark:text-blue-300 mb-2">
               <strong>Precio con descuento:</strong> $${precioConDescuento.toLocaleString('es-CO')}
             </p>
             <p class="text-sm text-green-600 dark:text-green-400 font-semibold">
@@ -50,16 +50,16 @@ export default function NequiPaymentButton({
             </p>
           </div>
 
-          <div class="bg-white dark:bg-gray-800 border-2 border-purple-300 dark:border-purple-600 rounded-lg p-4 mb-4">
+          <div class="bg-white dark:bg-gray-800 border-2 border-blue-300 dark:border-blue-600 rounded-lg p-4 mb-4">
             <h3 class="font-bold text-gray-900 dark:text-white mb-3">Instrucciones:</h3>
             <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700 dark:text-gray-300">
               <li>Abre tu app de <strong>Nequi</strong></li>
               <li>Envía <strong>$${precioConDescuento.toLocaleString('es-CO')}</strong> al número:</li>
             </ol>
 
-            <div class="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3 mt-3 text-center">
+            <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 mt-3 text-center">
               <p class="text-xs text-gray-600 dark:text-gray-400 mb-1">Número Nequi:</p>
-              <p class="text-2xl font-bold text-purple-700 dark:text-purple-300 mb-2">
+              <p class="text-2xl font-bold text-blue-700 dark:text-blue-300 mb-2">
                 ${numeroNequi}
               </p>
               <p class="text-sm text-gray-700 dark:text-gray-300">
@@ -86,7 +86,7 @@ export default function NequiPaymentButton({
       confirmButtonText: 'Copiar número',
       denyButtonText: 'WhatsApp',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#9333ea',
+      confirmButtonColor: '#2563eb',
       denyButtonColor: '#25D366',
       width: '600px',
       customClass: {
@@ -115,7 +115,7 @@ export default function NequiPaymentButton({
   return (
     <button
       onClick={handleNequiPayment}
-      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+      className="w-full bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
     >
       <Zap className="w-5 h-5 mr-2 group-hover:animate-bounce" />
       <div className="text-left flex-1">
@@ -151,7 +151,7 @@ export function NequiPaymentButtonCompact({
   return (
     <button
       onClick={handleClick}
-      className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center"
+      className="flex-1 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center"
     >
       <Zap className="w-4 h-4 mr-2" />
       <span className="text-sm">

@@ -20,7 +20,7 @@ export default function RAMDDR4vsDDR5() {
         </nav>
 
         <header className="mb-8">
-          <span className="inline-block bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-3 py-1 rounded-full text-sm font-medium mb-4">
+          <span className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium mb-4">
             Hardware
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
@@ -33,7 +33,7 @@ export default function RAMDDR4vsDDR5() {
           </div>
         </header>
 
-        <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-lg h-96 flex items-center justify-center text-white text-6xl mb-8">
+        <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg h-96 flex items-center justify-center text-white text-6xl mb-8">
           🧠
         </div>
 
@@ -64,8 +64,8 @@ export default function RAMDDR4vsDDR5() {
               <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
                   <th className="px-6 py-3 text-left text-gray-900 dark:text-white">Característica</th>
-                  <th className="px-6 py-3 text-left text-purple-700 dark:text-purple-300">DDR4</th>
-                  <th className="px-6 py-3 text-left text-indigo-700 dark:text-indigo-300">DDR5</th>
+                  <th className="px-6 py-3 text-left text-blue-700 dark:text-blue-300">DDR4</th>
+                  <th className="px-6 py-3 text-left text-blue-700 dark:text-blue-300">DDR5</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -308,26 +308,26 @@ export default function RAMDDR4vsDDR5() {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-purple-50 dark:bg-purple-900/20 p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-purple-900 dark:text-purple-300 mb-4">DDR4</h3>
-              <ul className="space-y-2 text-purple-800 dark:text-purple-200">
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-blue-900 dark:text-blue-300 mb-4">DDR4</h3>
+              <ul className="space-y-2 text-blue-800 dark:text-blue-200">
                 <li>• 8GB (1x8GB): $90.000 - $120.000</li>
                 <li>• 16GB (2x8GB): $180.000 - $250.000</li>
                 <li>• 32GB (2x16GB): $350.000 - $480.000</li>
               </ul>
-              <p className="mt-4 text-sm text-purple-600 dark:text-purple-400">
+              <p className="mt-4 text-sm text-blue-600 dark:text-blue-400">
                 Excelente relación precio-rendimiento
               </p>
             </div>
 
-            <div className="bg-indigo-50 dark:bg-indigo-900/20 p-6 rounded-lg">
-              <h3 className="text-xl font-bold text-indigo-900 dark:text-indigo-300 mb-4">DDR5</h3>
-              <ul className="space-y-2 text-indigo-800 dark:text-indigo-200">
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
+              <h3 className="text-xl font-bold text-blue-900 dark:text-blue-300 mb-4">DDR5</h3>
+              <ul className="space-y-2 text-blue-800 dark:text-blue-200">
                 <li>• 16GB (2x8GB): $350.000 - $480.000</li>
                 <li>• 32GB (2x16GB): $650.000 - $900.000</li>
                 <li>• 64GB (2x32GB): $1.400.000+</li>
               </ul>
-              <p className="mt-4 text-sm text-indigo-600 dark:text-indigo-400">
+              <p className="mt-4 text-sm text-blue-600 dark:text-blue-400">
                 Premium price, tecnología reciente
               </p>
             </div>
@@ -353,7 +353,7 @@ export default function RAMDDR4vsDDR5() {
             considera DDR5. Para todo lo demás, ahorra el dinero e invierte en un mejor CPU, GPU o SSD.
           </p>
 
-          <div className="bg-gradient-to-r from-purple-500 to-indigo-600 p-8 rounded-lg text-white mt-12">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-8 rounded-lg text-white mt-12">
             <h3 className="text-2xl font-bold mb-4">¿Necesitas RAM para tu PC?</h3>
             <p className="mb-6 text-lg">
               En Neurai.dev tenemos memoria RAM DDR4 de calidad marca Puskill. También te asesoramos
@@ -362,7 +362,7 @@ export default function RAMDDR4vsDDR5() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/accesorios/computadoras"
-                className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block"
+                className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block"
               >
                 Ver Memorias RAM
               </Link>

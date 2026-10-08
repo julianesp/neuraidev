@@ -154,7 +154,7 @@
 
 /* Error display */
 .video-js .vjs-error-display {
-  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #2563eb 100%);
 }
 
 .video-js .vjs-error-display::before {

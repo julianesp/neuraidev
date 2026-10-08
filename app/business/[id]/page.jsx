@@ -368,12 +368,12 @@ Opciones de pago:
                   onClick={() => handlePaymentMethodSelect("nequi")}
                   className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
                     selectedPaymentMethod === "nequi"
-                      ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20"
-                      : "border-gray-200 dark:border-gray-700 hover:border-purple-300"
+                      ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                      : "border-gray-200 dark:border-gray-700 hover:border-blue-300"
                   }`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0">
                       <svg
                         className="w-7 h-7 text-white"
                         viewBox="0 0 24 24"
@@ -389,7 +389,7 @@ Opciones de pago:
                       <div className="text-sm text-gray-600 dark:text-gray-400">
                         Pago instantáneo desde tu app Nequi
                       </div>
-                      <div className="text-xs text-purple-600 dark:text-purple-400 mt-1">
+                      <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
                         {paymentMethods.nequi.accountName} •{" "}
                         {paymentMethods.nequi.phoneNumber}
                       </div>
@@ -461,36 +461,36 @@ Opciones de pago:
             <div className="sticky bottom-0 bg-white dark:bg-gray-800 pt-4 border-t border-gray-200 dark:border-gray-700 -mx-6 px-6 -mb-6 pb-6">
               {selectedPaymentMethod === "nequi" && (
                 <div className="space-y-3">
-                  <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-4">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
                     <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                      <CreditCard className="w-5 h-5 text-purple-600" />
+                      <CreditCard className="w-5 h-5 text-blue-600" />
                       Instrucciones de pago con Nequi
                     </h4>
 
                     <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                       <div className="flex items-start gap-2">
-                        <div className="w-6 h-6 rounded-full bg-purple-500 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold">
+                        <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold">
                           1
                         </div>
-                        <p>Abre tu app de <span className="font-semibold text-purple-600 dark:text-purple-400">Nequi</span></p>
+                        <p>Abre tu app de <span className="font-semibold text-blue-600 dark:text-blue-400">Nequi</span></p>
                       </div>
 
                       <div className="flex items-start gap-2">
-                        <div className="w-6 h-6 rounded-full bg-purple-500 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold">
+                        <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold">
                           2
                         </div>
                         <p>Selecciona <span className="font-semibold">"Enviar plata"</span> o <span className="font-semibold">"Enviar dinero"</span></p>
                       </div>
 
                       <div className="flex items-start gap-2">
-                        <div className="w-6 h-6 rounded-full bg-purple-500 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold">
+                        <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold">
                           3
                         </div>
                         <div className="flex-1">
                           <p className="mb-1">Ingresa los siguientes datos:</p>
-                          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 space-y-1 text-xs border border-purple-200 dark:border-purple-700">
-                            <p>📱 <span className="font-medium">Número:</span> <span className="font-bold text-purple-600 dark:text-purple-400">{paymentMethods.nequi.phoneNumber}</span></p>
-                            <p>💰 <span className="font-medium">Monto:</span> <span className="font-bold text-purple-600 dark:text-purple-400">{formatPrice(totalAmount)}</span></p>
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 space-y-1 text-xs border border-blue-200 dark:border-blue-700">
+                            <p>📱 <span className="font-medium">Número:</span> <span className="font-bold text-blue-600 dark:text-blue-400">{paymentMethods.nequi.phoneNumber}</span></p>
+                            <p>💰 <span className="font-medium">Monto:</span> <span className="font-bold text-blue-600 dark:text-blue-400">{formatPrice(totalAmount)}</span></p>
                             <p>👤 <span className="font-medium">Destinatario:</span> {paymentMethods.nequi.accountName}</p>
                             <p>📝 <span className="font-medium">Concepto:</span> {product.nombre}</p>
                           </div>
@@ -498,7 +498,7 @@ Opciones de pago:
                       </div>
 
                       <div className="flex items-start gap-2">
-                        <div className="w-6 h-6 rounded-full bg-purple-500 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold">
+                        <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold">
                           4
                         </div>
                         <p>Confirma el pago y envía el comprobante al WhatsApp del negocio</p>
@@ -508,7 +508,7 @@ Opciones de pago:
 
                   <button
                     onClick={handlePayWithNequi}
-                    className="w-full bg-purple-500 hover:bg-purple-600 text-white py-4 px-6 rounded-xl font-bold text-lg transition-colors flex items-center justify-center gap-2 shadow-lg"
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 px-6 rounded-xl font-bold text-lg transition-colors flex items-center justify-center gap-2 shadow-lg"
                   >
                     <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
@@ -1109,8 +1109,8 @@ export default function BusinessPage() {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {business.paymentMethods.nequi?.enabled && (
-                <div className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-                  <div className="w-10 h-10 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0">
+                <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <div className="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
                     </svg>
@@ -1341,7 +1341,7 @@ export default function BusinessPage() {
               Recibe tu pedido en 24-48 horas
             </p>
           </div>
-          <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-xl p-6 shadow-lg">
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl p-6 shadow-lg">
             <Star className="w-12 h-12 mb-3" />
             <h3 className="text-xl font-bold mb-2">Calidad Garantizada</h3>
             <p className="text-sm opacity-90">Productos de la mejor calidad</p>

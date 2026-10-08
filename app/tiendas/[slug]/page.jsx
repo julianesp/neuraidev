@@ -55,7 +55,7 @@ export default async function TiendaPublicaPage({ params }) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header de la tienda */}
-      <div className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
+      <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white">
         <div className="max-w-5xl mx-auto px-4 py-12">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
             <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
@@ -89,7 +89,7 @@ export default async function TiendaPublicaPage({ params }) {
                 {tienda.instagram && (
                   <a href={tienda.instagram.startsWith("http") ? tienda.instagram : `https://instagram.com/${tienda.instagram.replace("@","")}`}
                     target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-1 bg-pink-500/80 hover:bg-pink-500 px-2.5 py-0.5 rounded-full text-white text-xs transition-colors">
+                    className="flex items-center gap-1 bg-blue-500/80 hover:bg-blue-500 px-2.5 py-0.5 rounded-full text-white text-xs transition-colors">
                     📸 Instagram
                   </a>
                 )}

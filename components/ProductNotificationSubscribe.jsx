@@ -124,9 +124,9 @@ export default function ProductNotificationSubscribe({ className = "" }) {
   }
 
   return (
-    <div className={`bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-200 dark:border-purple-800 rounded-xl p-6 ${className}`}>
+    <div className={`bg-gradient-to-br from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl p-6 ${className}`}>
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
+        <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-600 rounded-full flex items-center justify-center">
           <Bell className="w-6 h-6 text-white" />
         </div>
         <div>
@@ -162,7 +162,7 @@ export default function ProductNotificationSubscribe({ className = "" }) {
               placeholder="tu@email.com"
               required
               disabled={user && email} // Deshabilitar si el email viene de Clerk
-              className="w-full pl-10 pr-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-800 dark:text-white disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full pl-10 pr-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white disabled:opacity-60 disabled:cursor-not-allowed"
             />
           </div>
           {user && email && (
@@ -182,7 +182,7 @@ export default function ProductNotificationSubscribe({ className = "" }) {
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
             placeholder="Tu nombre"
-            className="w-full px-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-800 dark:text-white"
+            className="w-full px-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
           />
         </div>
 
@@ -193,7 +193,7 @@ export default function ProductNotificationSubscribe({ className = "" }) {
               type="checkbox"
               checked={notificarTodos}
               onChange={(e) => setNotificarTodos(e.target.checked)}
-              className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
+              className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
             />
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Notificarme de todos los productos nuevos
@@ -212,7 +212,7 @@ export default function ProductNotificationSubscribe({ className = "" }) {
                       type="checkbox"
                       checked={categoriasInteres.includes(cat.value)}
                       onChange={() => handleCategoriaToggle(cat.value)}
-                      className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
+                      className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                     />
                     <span className="text-sm text-gray-700 dark:text-gray-300">
                       {cat.label}
@@ -236,7 +236,7 @@ export default function ProductNotificationSubscribe({ className = "" }) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
         >
           {loading ? (
             <>

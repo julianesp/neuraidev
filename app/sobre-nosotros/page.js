@@ -77,7 +77,7 @@ export default function SobreNosotros() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20 px-4">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-600 text-white py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl font-bold mb-6">Sobre Neurai.dev</h1>
           <p className="text-xl mb-8 max-w-3xl mx-auto">
@@ -286,7 +286,7 @@ export default function SobreNosotros() {
       </section>
 
       {/* Estadísticas */}
-      {/* <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      {/* <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-blue-600 text-white">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>

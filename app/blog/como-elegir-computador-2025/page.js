@@ -613,7 +613,7 @@ export default function ComoElegirComputador2025() {
           sabiamente según tus necesidades y presupuesto 💲.
         </p>
 
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-8 rounded-lg text-white mt-12">
+        <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-8 rounded-lg text-white mt-12">
           <h3 className="text-2xl font-bold mb-4">
             ¿Necesitas Ayuda para Elegir?
           </h3>

@@ -192,7 +192,7 @@ export default function Servicios() {
             </div>
 
             
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 text-white">
+            <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-8 text-white">
               <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mb-6">
                 <Store className="w-7 h-7 text-white" />
               </div>

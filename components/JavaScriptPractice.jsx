@@ -23,7 +23,7 @@ export default function JavaScriptPractice() {
           programación.
         </p>
 
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-4 rounded-lg border-l-4 border-blue-500">
+        <div className="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 p-4 rounded-lg border-l-4 border-blue-500">
           <p className="text-gray-800 dark:text-gray-200 font-medium mb-2">
             📚 Lo que encontrarás:
           </p>

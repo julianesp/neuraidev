@@ -139,24 +139,24 @@ export default function PaymentMethodModal({
             disabled={requiereColor}
             className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
               metodoSeleccionado === "nequi"
-                ? "border-purple-600 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30"
-                : "border-gray-200 dark:border-gray-600 hover:border-purple-300 dark:hover:border-purple-700"
+                ? "border-blue-600 bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/30 dark:to-blue-900/30"
+                : "border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-700"
             } ${requiereColor ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-2 rounded-lg">
+                <div className="bg-gradient-to-r from-blue-600 to-blue-600 p-2 rounded-lg">
                   <Zap className="w-5 h-5 text-white" />
                 </div>
                 <span className="font-bold text-gray-900 dark:text-white">
                   Nequi
                 </span>
-                <span className="bg-purple-600 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full font-bold">
                   -{descuento}%
                 </span>
               </div>
               <div className="text-right">
-                <p className="text-lg font-bold text-purple-700 dark:text-purple-300">
+                <p className="text-lg font-bold text-blue-700 dark:text-blue-300">
                   ${totalConDescuento.toLocaleString('es-CO')}
                 </p>
               </div>
@@ -226,7 +226,7 @@ export default function PaymentMethodModal({
               !metodoSeleccionado || requiereColor
                 ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
                 : metodoSeleccionado === "nequi"
-                  ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                  ? "bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white"
                   : "bg-blue-600 hover:bg-blue-700 text-white"
             }`}
           >

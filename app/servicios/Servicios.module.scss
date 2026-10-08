@@ -7,7 +7,7 @@
 .hero {
   width: 100%;
   min-height: 50vh;
-  background: linear-gradient(135deg, #0070f3 0%, #764ba2 50%, #0070f3 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #2563eb 50%, #0070f3 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -205,7 +205,7 @@
   background: linear-gradient(
     135deg,
     rgba(0, 112, 243, 0.3) 0%,
-    rgba(118, 75, 162, 0.3) 100%
+    rgba(37, 99, 235, 0.3) 100%
   );
 }
 
@@ -289,7 +289,7 @@
 .verMasButton {
   display: inline-block;
   padding: 14px 32px;
-  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #2563eb 100%);
   color: white;
   font-size: 1.1rem;
   font-weight: 600;
@@ -306,7 +306,7 @@
 
 .cta {
   padding: 100px 20px;
-  background: linear-gradient(135deg, #0070f3 0%, #764ba2 50%, #0070f3 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #2563eb 50%, #0070f3 100%);
   text-align: center;
 }
 

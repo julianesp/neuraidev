@@ -18,7 +18,7 @@ export default function SignUpPage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-50 px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-8 mt-8 sm:mt-12">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">

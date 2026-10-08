@@ -55,7 +55,7 @@ export default function PortafolioSitios() {
                 href={sitio.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2.5 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all shadow-sm"
+                className="inline-flex items-center justify-center gap-2 w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2.5 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all shadow-sm"
               >
                 Visitar sitio
                 <ExternalLink className="w-4 h-4" />

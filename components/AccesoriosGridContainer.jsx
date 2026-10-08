@@ -222,7 +222,7 @@ const ModernProductGrid = (props) => {
           <h2 className="text-4xl font-bold text-gray-800 mb-3">
             Nuestros Productos
           </h2>
-          <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
+          <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-blue-500 mx-auto rounded-full"></div>
           <p className="text-gray-600 mt-4">
             Descubre nuestra selección exclusiva
           </p>

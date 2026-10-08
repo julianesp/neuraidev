@@ -63,7 +63,7 @@ export default function ExternalNews() {
   }
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
+    <section className="py-16 px-4 bg-gradient-to-br from-blue-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">

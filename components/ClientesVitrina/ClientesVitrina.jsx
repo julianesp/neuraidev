@@ -76,7 +76,7 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
   if (!hayContenido && !siempreFormulario) return null;
 
   return (
-    <section className="w-full py-16 px-4 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
+    <section className="w-full py-16 px-4 bg-gradient-to-br from-blue-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -97,7 +97,7 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
                 key={c.id}
                 className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 flex flex-col items-center text-center hover:shadow-md transition-shadow"
               >
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold mb-3 overflow-hidden">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl font-bold mb-3 overflow-hidden">
                   {c.avatar_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img

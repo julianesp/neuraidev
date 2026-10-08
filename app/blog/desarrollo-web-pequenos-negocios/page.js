@@ -26,7 +26,7 @@ export default function DesarrolloWebNegocios() {
             Descubre todo lo que necesitas saber sobre crear un sitio web para tu negocio.
           </p>
 
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-8 rounded-lg text-white mt-12">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-8 rounded-lg text-white mt-12">
             <h3 className="text-2xl font-bold mb-4">¿Necesitas un Sitio Web?</h3>
             <p className="mb-6">Contáctanos para una consulta gratuita.</p>
             <Link href="/servicios/tecnicos" className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold inline-block">

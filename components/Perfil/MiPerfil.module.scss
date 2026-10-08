@@ -184,7 +184,7 @@
 
 .btnPrimary {
   padding: 0.75rem 2rem;
-  background: linear-gradient(135deg, #0070f3 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0070f3 0%, #2563eb 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -231,8 +231,8 @@
     color: white;
 
     &:focus {
-      border-color: #818cf8;
-      box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1);
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.1);
     }
   }
 
@@ -246,7 +246,7 @@
     border-color: #374151;
 
     &:hover {
-      border-color: #818cf8;
+      border-color: #93c5fd;
     }
   }
 

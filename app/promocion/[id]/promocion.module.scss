@@ -20,8 +20,8 @@
   .spinner {
     width: 60px;
     height: 60px;
-    border: 5px solid rgba(102, 126, 234, 0.2);
-    border-top-color: #667eea;
+    border: 5px solid rgba(96, 165, 250, 0.2);
+    border-top-color: #60a5fa;
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -175,7 +175,7 @@
   align-items: center;
   justify-content: center;
   font-size: 4rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
 }
 
 .productoInfo {
@@ -273,7 +273,7 @@
 .total {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #667eea;
+  color: #60a5fa;
 
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -294,7 +294,7 @@
 .btnAgregar {
   width: 100%;
   padding: 1.25rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -302,12 +302,12 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
   margin-bottom: 1rem;
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
   }
 
   &:disabled {

@@ -257,7 +257,7 @@ export default function NequiPaymentModal({
           {/* Header */}
           <div className="mb-6">
             <div className="flex items-center justify-center mb-3">
-              <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-3 rounded-full">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-600 p-3 rounded-full">
                 <UserPlus className="w-8 h-8 text-white" />
               </div>
             </div>
@@ -270,7 +270,7 @@ export default function NequiPaymentModal({
           </div>
 
           {/* Beneficios */}
-          <div className="bg-purple-50 dark:bg-purple-900/20 border-2 border-purple-300 dark:border-purple-700 rounded-xl p-4 mb-6">
+          <div className="bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-300 dark:border-blue-700 rounded-xl p-4 mb-6">
             <h3 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
               <Check className="w-5 h-5 text-green-600" />
               Beneficios de registrarte:
@@ -307,7 +307,7 @@ export default function NequiPaymentModal({
           <div className="space-y-3">
             <a
               href={`/sign-up?redirect_url=${encodeURIComponent(window.location.pathname)}`}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2"
             >
               <UserPlus className="w-5 h-5" />
               Crear cuenta gratis
@@ -356,7 +356,7 @@ export default function NequiPaymentModal({
           {/* Header */}
           <div className="mb-6">
             <div className="flex items-center justify-center mb-3">
-              <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-3 rounded-full">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-600 p-3 rounded-full">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
@@ -385,7 +385,7 @@ export default function NequiPaymentModal({
                   setEmailError('');
                 }}
                 placeholder="tu@email.com"
-                className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:border-purple-600 dark:focus:border-purple-400 focus:outline-none transition-colors"
+                className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:border-blue-600 dark:focus:border-blue-400 focus:outline-none transition-colors"
                 disabled={creatingOrder}
                 autoFocus
               />
@@ -425,7 +425,7 @@ export default function NequiPaymentModal({
               <button
                 onClick={createNequiOrder}
                 disabled={creatingOrder || !email}
-                className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {creatingOrder ? 'Procesando...' : 'Continuar'}
               </button>
@@ -458,7 +458,7 @@ export default function NequiPaymentModal({
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-center mb-3">
-            <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-3 rounded-full">
+            <div className="bg-gradient-to-r from-blue-600 to-blue-600 p-3 rounded-full">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
@@ -470,7 +470,7 @@ export default function NequiPaymentModal({
         </div>
 
         {/* Resumen del producto */}
-        <div className="bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg p-4 mb-6">
+        <div className="bg-gradient-to-r from-blue-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 rounded-lg p-4 mb-6">
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-sm text-gray-700 dark:text-gray-300">
@@ -502,15 +502,15 @@ export default function NequiPaymentModal({
             </div>
 
             <div className="flex justify-between items-center">
-              <span className="text-lg font-bold text-purple-700 dark:text-purple-300">
+              <span className="text-lg font-bold text-blue-700 dark:text-blue-300">
                 <strong>Total a pagar:</strong>
               </span>
-              <span className="text-lg font-bold text-purple-700 dark:text-purple-300">
+              <span className="text-lg font-bold text-blue-700 dark:text-blue-300">
                 ${totalConDescuento.toLocaleString('es-CO')}
               </span>
             </div>
 
-            <div className="pt-2 border-t border-purple-300 dark:border-purple-600">
+            <div className="pt-2 border-t border-blue-300 dark:border-blue-600">
               <p className="text-sm text-center text-green-600 dark:text-green-400 font-semibold">
                 ✓ Ahorras: ${ahorro.toLocaleString('es-CO')} ({descuento}%)
               </p>
@@ -519,9 +519,9 @@ export default function NequiPaymentModal({
         </div>
 
         {/* Instrucciones */}
-        <div className="bg-white dark:bg-gray-700 border-2 border-purple-300 dark:border-purple-600 rounded-lg p-4 mb-6">
+        <div className="bg-white dark:bg-gray-700 border-2 border-blue-300 dark:border-blue-600 rounded-lg p-4 mb-6">
           <h3 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center">
-            <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">
+            <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">
               📲
             </span>
             Instrucciones:
@@ -530,14 +530,14 @@ export default function NequiPaymentModal({
           <ol className="list-decimal list-inside space-y-3 text-sm text-gray-700 dark:text-gray-300">
             <li>Abre tu app de <strong>Nequi</strong></li>
             <li>
-              Envía <strong className="text-purple-700 dark:text-purple-300">${totalConDescuento.toLocaleString('es-CO')}</strong> al número:
+              Envía <strong className="text-blue-700 dark:text-blue-300">${totalConDescuento.toLocaleString('es-CO')}</strong> al número:
             </li>
           </ol>
 
           {/* Número de Nequi */}
-          <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 my-4 text-center">
+          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 my-4 text-center">
             <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Número Nequi:</p>
-            <p className="text-3xl font-bold text-purple-700 dark:text-purple-300 mb-2">
+            <p className="text-3xl font-bold text-blue-700 dark:text-blue-300 mb-2">
               {numeroNequi}
             </p>
             <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
@@ -546,7 +546,7 @@ export default function NequiPaymentModal({
 
             <button
               onClick={copiarNumero}
-              className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mx-auto"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mx-auto"
             >
               {copiado ? (
                 <>
@@ -585,7 +585,7 @@ export default function NequiPaymentModal({
             className={`w-full font-semibold py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2 ${
               pdfGenerado
                 ? "bg-green-600 hover:bg-green-700 text-white"
-                : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl"
+                : "bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl"
             }`}
           >
             <Download size={20} />

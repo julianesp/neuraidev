@@ -154,7 +154,7 @@ export default function NequiPaymentDemo() {
           </section>
 
           {/* Info */}
-          <section className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+          <section className="bg-gradient-to-r from-blue-600 to-blue-600 rounded-xl shadow-lg p-6 text-white">
             <h2 className="text-2xl font-bold mb-4">
               ℹ️ Información de Implementación
             </h2>

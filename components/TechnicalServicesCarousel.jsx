@@ -156,7 +156,7 @@ const TechnicalServicesCarousel = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[300px]">
           {/* Image Section */}
           <div className="relative overflow-hidden flex items-center justify-center">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-600/20"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-600/20"></div>
             <Image
               src={currentService.image}
               alt={currentService.title}
@@ -215,7 +215,7 @@ const TechnicalServicesCarousel = () => {
               </div>
               <Link
                 href="/servicios/tecnicos"
-                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 Solicitar Servicio
               </Link>
@@ -273,7 +273,7 @@ const TechnicalServicesCarousel = () => {
       </div>
 
       {/* Call to Action Section */}
-      <div className="mt-4 text-center bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-4">
+      <div className="mt-4 text-center bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-xl p-4">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
           ¿Necesitas alguno de estos servicios?
         </h3>

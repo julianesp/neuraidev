@@ -84,7 +84,7 @@ export default async function ParaTiendasPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white py-20 px-4">
+      <section className="bg-gradient-to-br from-blue-600 to-blue-700 text-white py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl mb-6">
             <Store className="w-10 h-10 text-white" />
@@ -200,7 +200,7 @@ export default async function ParaTiendasPage() {
                     className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md hover:border-blue-300 transition-all group flex flex-col"
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
                         {tienda.logo_url ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={tienda.logo_url} alt={tienda.nombre} className="w-full h-full object-cover" />
@@ -241,7 +241,7 @@ export default async function ParaTiendasPage() {
       )}
 
       {/* CTA final */}
-      <section className="py-20 px-4 bg-gradient-to-br from-blue-600 to-indigo-700 text-white text-center">
+      <section className="py-20 px-4 bg-gradient-to-br from-blue-600 to-blue-700 text-white text-center">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             ¿Listo para empezar?

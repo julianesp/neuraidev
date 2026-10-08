@@ -26,7 +26,7 @@ export default function MantenimientoComputador() {
         </nav>
 
         <header className="mb-8">
-          <span className="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium mb-4">
+          <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mb-4">
             Tutoriales
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
@@ -39,7 +39,7 @@ export default function MantenimientoComputador() {
           </div>
         </header>
 
-        <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg h-96 flex items-center justify-center text-white text-6xl mb-8">
+        <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg h-96 flex items-center justify-center text-white text-6xl mb-8">
           🛠️
         </div>
 
@@ -287,7 +287,7 @@ export default function MantenimientoComputador() {
             Calendario de Mantenimiento Recomendado
           </h2>
 
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-lg mb-8">
+          <div className="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 p-6 rounded-lg mb-8">
             <h3 className="font-bold text-gray-900 dark:text-white mb-4">
               Cada Mes:
             </h3>
@@ -392,7 +392,7 @@ export default function MantenimientoComputador() {
             </li>
           </ul>
 
-          <div className="bg-gradient-to-r from-purple-500 to-pink-600 p-8 rounded-lg text-white mt-12">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-8 rounded-lg text-white mt-12">
             <h3 className="text-2xl font-bold mb-4">
               ¿Necesitas Ayuda con el Mantenimiento?
             </h3>
@@ -404,7 +404,7 @@ export default function MantenimientoComputador() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/servicios/tecnicos"
-                className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block"
+                className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block"
               >
                 Ver Servicios Técnicos
               </Link>

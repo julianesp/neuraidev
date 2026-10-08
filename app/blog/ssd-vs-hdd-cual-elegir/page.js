@@ -304,7 +304,7 @@ export default function SSDvsHDD() {
               </p>
             </div>
 
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-6 rounded-lg border-l-4 border-purple-500">
+            <div className="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 p-6 rounded-lg border-l-4 border-blue-500">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
                 🎮 Gamer
               </h3>
@@ -317,7 +317,7 @@ export default function SSDvsHDD() {
               </p>
             </div>
 
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-lg border-l-4 border-blue-500">
+            <div className="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 p-6 rounded-lg border-l-4 border-blue-500">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
                 🎬 Editor de Video / Creador de Contenido
               </h3>
@@ -343,7 +343,7 @@ export default function SSDvsHDD() {
               </p>
             </div>
 
-            <div className="bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 p-6 rounded-lg border-l-4 border-red-500">
+            <div className="bg-gradient-to-r from-red-50 to-blue-50 dark:from-red-900/20 dark:to-blue-900/20 p-6 rounded-lg border-l-4 border-red-500">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
                 💼 Laptop / Trabajo Móvil
               </h3>

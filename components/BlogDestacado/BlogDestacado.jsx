@@ -73,7 +73,7 @@ export default function BlogDestacado() {
                   href={`/blog/${post.slug}`}
                   className="group block bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
                 >
-                  <div className="relative h-44 bg-gradient-to-br from-blue-400 to-indigo-500 overflow-hidden">
+                  <div className="relative h-44 bg-gradient-to-br from-blue-400 to-blue-500 overflow-hidden">
                     {img ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img

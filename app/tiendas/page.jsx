@@ -57,7 +57,7 @@ export default async function TiendasPage() {
                   href={`/tiendas/${slug}`}
                   className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 hover:shadow-md hover:border-blue-300 transition-all group"
                 >
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
+                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
                     {tienda.logo_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img

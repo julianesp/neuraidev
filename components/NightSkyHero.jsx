@@ -277,7 +277,7 @@ const NightSkyHero = () => {
       <style jsx>{`
         .nightSky-btn:hover {
           background-color: white;
-          color: #121839;
+          color: #1e3a8a;
         }
 
         .nightSky-star {

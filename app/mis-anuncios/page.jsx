@@ -250,7 +250,7 @@ export default function MisAnunciosPage() {
     switch (type) {
       case 'alert': return <AlertCircle className="w-5 h-5 text-red-600" />;
       case 'warning': return <AlertTriangle className="w-5 h-5 text-yellow-600" />;
-      case 'maintenance': return <Wrench className="w-5 h-5 text-purple-600" />;
+      case 'maintenance': return <Wrench className="w-5 h-5 text-blue-600" />;
       case 'event': return <Calendar className="w-5 h-5 text-blue-600" />;
       default: return <Info className="w-5 h-5 text-green-600" />;
     }
@@ -261,7 +261,7 @@ export default function MisAnunciosPage() {
       alert: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
       warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
       info: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-      maintenance: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+      maintenance: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
       event: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
     };
     return styles[type] || styles.info;
@@ -330,12 +330,12 @@ export default function MisAnunciosPage() {
 
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
-                <Eye className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+              <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Total Vistas</div>
-                <div className="text-2xl font-bold text-purple-600">
+                <div className="text-2xl font-bold text-blue-600">
                   {anuncios.reduce((sum, a) => sum + (a.view_count || 0), 0)}
                 </div>
               </div>

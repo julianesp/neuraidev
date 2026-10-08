@@ -172,14 +172,14 @@ export default function SelectaFMPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 mt-14">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 mt-14">
       {/* Fondo con patrón */}
       <div className="fixed inset-0 opacity-5">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 20% 50%, #ff00ff, transparent 50%), radial-gradient(circle at 80% 80%, #00ffff, transparent 50%)",
+              "radial-gradient(circle at 20% 50%, #2563eb, transparent 50%), radial-gradient(circle at 80% 80%, #00ffff, transparent 50%)",
           }}
         />
       </div>
@@ -190,7 +190,7 @@ export default function SelectaFMPage() {
         <header className="border-b border-white/10 bg-black/30 backdrop-blur">
           <div className="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center">
                 <Radio className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -216,7 +216,7 @@ export default function SelectaFMPage() {
           <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-12 mb-8 shadow-2xl">
             {/* Albumart / Logo */}
             <div className="flex justify-center mb-10">
-              <div className="w-auto h-auto rounded-2xl bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 shadow-2xl flex items-center justify-center overflow-hidden relative group">
+              <div className="w-auto h-auto rounded-2xl bg-gradient-to-br from-blue-500 via-blue-500 to-red-500 shadow-2xl flex items-center justify-center overflow-hidden relative group">
                 <img
                   src={SELECTA_FM.image}
                   alt={SELECTA_FM.name}
@@ -233,7 +233,7 @@ export default function SelectaFMPage() {
               <h2 className="text-4xl font-bold text-white mb-2">
                 {SELECTA_FM.name}
               </h2>
-              <p className="text-lg text-purple-300 font-semibold mb-4">
+              <p className="text-lg text-blue-300 font-semibold mb-4">
                 {SELECTA_FM.frequency}
               </p>
               <p className="text-gray-300 max-w-2xl mx-auto">
@@ -262,9 +262,9 @@ export default function SelectaFMPage() {
               <button
                 onClick={togglePlay}
                 disabled={isLoading}
-                className="group relative w-24 h-24 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-2xl hover:shadow-purple-500/50 flex items-center justify-center"
+                className="group relative w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-blue-500 hover:from-blue-600 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-2xl hover:shadow-blue-500/50 flex items-center justify-center"
               >
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-100 blur-xl transition-opacity -z-10" />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-blue-400 opacity-0 group-hover:opacity-100 blur-xl transition-opacity -z-10" />
 
                 {isLoading ? (
                   <div className="animate-spin">
@@ -297,7 +297,7 @@ export default function SelectaFMPage() {
                   max="100"
                   value={volume}
                   onChange={handleVolumeChange}
-                  className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                  className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
                 />
                 <span className="text-gray-400 text-sm w-8 text-right">
                   {volume}%
@@ -321,7 +321,7 @@ export default function SelectaFMPage() {
               {typeof window !== 'undefined' && 'share' in navigator && (
                 <button
                   onClick={handleNativeShare}
-                  className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-semibold transition-all flex items-center gap-2 shadow-lg"
+                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white rounded-lg font-semibold transition-all flex items-center gap-2 shadow-lg"
                 >
                   <Share2 className="w-5 h-5" />
                   Compartir
@@ -451,7 +451,7 @@ export default function SelectaFMPage() {
                   href={SELECTA_FM.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white rounded-lg font-semibold transition-colors flex items-center gap-2"
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors flex items-center gap-2"
                 >
                   📷 Instagram
                 </a>
@@ -471,7 +471,7 @@ export default function SelectaFMPage() {
                   href={SELECTA_FM.social.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors flex items-center gap-2"
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors flex items-center gap-2"
                 >
                   🌐 Sitio Web
                 </a>

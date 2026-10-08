@@ -130,7 +130,7 @@ export default function CalificacionFormateoModal() {
         ) : (
           <>
             {/* Cabecera */}
-            <div className="bg-gradient-to-br from-blue-600 to-purple-600 px-6 py-6 text-center text-white">
+            <div className="bg-gradient-to-br from-blue-600 to-blue-600 px-6 py-6 text-center text-white">
               <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3">
                 <Wrench className="w-7 h-7" />
               </div>

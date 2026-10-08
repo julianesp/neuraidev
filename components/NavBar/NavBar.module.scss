@@ -870,7 +870,7 @@
 }
 
 .registerBtn {
-  background: linear-gradient(135deg, #0070f3, #8b5cf6);
+  background: #2563eb;
   color: #ffffff;
   text-decoration: none;
   padding: 8px 16px;
@@ -880,7 +880,7 @@
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
   }
 }
 
@@ -930,7 +930,7 @@
 .avatar {
   width: 28px;
   height: 28px;
-  background: linear-gradient(135deg, #0070f3, #8b5cf6);
+  background: #2563eb;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1043,7 +1043,7 @@
 
 .registerButton {
   display: block;
-  background: linear-gradient(135deg, #0070f3, #8b5cf6);
+  background: #2563eb;
   color: #ffffff;
   text-decoration: none;
   padding: 10px 15px;
@@ -1055,7 +1055,7 @@
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
   }
 }
 

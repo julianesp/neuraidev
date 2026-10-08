@@ -72,11 +72,11 @@ export default function AnnouncementsModal({ announcements, onClose }) {
         };
       case 'maintenance':
         return {
-          bg: 'from-purple-500 to-purple-600',
-          lightBg: 'bg-purple-50 dark:bg-purple-900/20',
-          border: 'border-purple-200 dark:border-purple-800',
+          bg: 'from-blue-500 to-blue-600',
+          lightBg: 'bg-blue-50 dark:bg-blue-900/20',
+          border: 'border-blue-200 dark:border-blue-800',
           icon: Wrench,
-          iconColor: 'text-purple-600 dark:text-purple-400'
+          iconColor: 'text-blue-600 dark:text-blue-400'
         };
       case 'event':
         return {
