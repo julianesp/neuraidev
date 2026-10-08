@@ -104,6 +104,8 @@ const nextConfig = {
 
   // Configuración de imágenes remotas
   images: {
+    loader: "custom",
+    loaderFile: "./lib/imageLoader.js",
     remotePatterns: [
       {
         protocol: "https",

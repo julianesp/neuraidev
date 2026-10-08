@@ -1,6 +1,7 @@
 import { getSupabaseServerClient } from "@/lib/db";
 import { findProductBySlug, generateProductSlug } from "./slugify";
 import { htmlToPlainText } from "./htmlToText";
+import { cloudflareImageUrl } from "@/lib/imageLoader";
 
 const SITE_TITLE = "Productos y servicios tecnológicos";
 
@@ -49,9 +50,9 @@ export async function generateProductMetadata(slug, categoria) {
         "https://images.neurai.dev"
       );
 
-    // Optimizar la imagen OG vía Next.js Image API para reducir tamaño
+    // Reducir la imagen OG con Cloudflare Image Transformations
     // (WhatsApp/Telegram rechazan imágenes >~500 KB en previsualizaciones)
-    const imagen = `https://neurai.dev/_next/image?url=${encodeURIComponent(imagenCdn)}&w=1200&q=75`;
+    const imagen = cloudflareImageUrl(imagenCdn, { width: 1200, quality: 75 });
 
     // URL canónica: siempre el slug generado del producto, aunque se haya
     // entrado por una variante (id, sku o slug antiguo)
