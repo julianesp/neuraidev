@@ -1,7 +1,7 @@
 import React from "react";
 
 export const metadata = {
-  title: "Política de Cookies | Neurai.dev",
+  title: "Política de Cookies",
   description: "Política de cookies de Neurai.dev. Información sobre el uso de cookies y tecnologías similares en nuestro sitio web.",
   robots: {
     index: true,

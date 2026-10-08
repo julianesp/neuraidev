@@ -1,395 +1,111 @@
-"use client";
+// Datos estructurados globales (Organization + LocalBusiness + WebSite).
+// La ubicación debe coincidir exactamente con la del mapa del home y la de
+// Google Business Profile: Colón, Putumayo (1.189785, -76.970495).
 
-export default function StructuredData() {
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Neurai.dev",
-    alternateName: "Neurai",
-    url: "https://neurai.dev",
-    logo: {
-      "@type": "ImageObject",
-      url: "https://media.neurai.dev/logo.png",
-      width: 512,
-      height: 512,
-    },
-    image: "https://media.neurai.dev/logo.png",
-    description:
-      "Tienda online de accesorios tecnológicos, servicios de desarrollo web y soporte técnico en sistemas. Venta de accesorios para celulares, computadoras, libros y más.",
-    sameAs: [
-      "https://www.facebook.com/neuraidev",
-      "https://www.instagram.com/neuraidev",
-      "https://twitter.com/neuraidev",
-    ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "+57-317-450-3604",
-      contactType: "customer service",
-      availableLanguage: ["es", "Spanish"],
-      areaServed: "CO",
-    },
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "CO",
-      addressLocality: "Valle de Sibundoy",
-      addressRegion: "Putumayo",
-    },
-    makesOffer: [
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Desarrollo Web",
-          description: "Desarrollo de sitios web, tiendas online y aplicaciones",
-          url: "https://neurai.dev/servicios/desarrollador-software",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Soporte Técnico",
-          description: "Mantenimiento y reparación de computadoras",
-          url: "https://neurai.dev/servicios/tecnico-sistemas",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Product",
-          name: "Accesorios para Celulares",
-          url: "https://neurai.dev/accesorios/celulares",
-          offers: {
-            "@type": "AggregateOffer",
-            priceCurrency: "COP",
-            availability: "https://schema.org/InStock",
-            seller: { "@type": "Organization", name: "Neurai.dev" },
-          },
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Product",
-          name: "Accesorios para Computadoras",
-          url: "https://neurai.dev/accesorios/computadoras",
-          offers: {
-            "@type": "AggregateOffer",
-            priceCurrency: "COP",
-            availability: "https://schema.org/InStock",
-            seller: { "@type": "Organization", name: "Neurai.dev" },
-          },
-        },
-      },
-    ],
-  };
+const SITE_URL = "https://neurai.dev";
+const LOGO_URL = "https://media.neurai.dev/logo.png";
 
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Neurai.dev",
-    url: "https://neurai.dev",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: "https://neurai.dev/accesorios?search={search_term_string}",
-      },
-      "query-input": "required name=search_term_string",
-    },
-  };
+const address = {
+  "@type": "PostalAddress",
+  addressLocality: "Colón",
+  addressRegion: "Putumayo",
+  addressCountry: "CO",
+};
 
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": ["Store", "OnlineStore"],
-    name: "Neurai.dev",
-    image: "https://media.neurai.dev/logo.png",
-    "@id": "https://neurai.dev",
-    url: "https://neurai.dev",
-    telephone: "+57-317-450-3604",
-    priceRange: "$$",
-    paymentAccepted: "Cash, Credit Card, Debit Card, Online Payment",
-    currenciesAccepted: "COP",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Valle de Sibundoy",
-      addressRegion: "Putumayo",
-      addressCountry: "CO",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: "1.1333",
-      longitude: "-76.9",
-    },
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        opens: "08:00",
-        closes: "18:00",
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["Store", "ComputerStore"],
+      "@id": `${SITE_URL}/#negocio`,
+      name: "neurai.dev",
+      alternateName: "Neurai",
+      description:
+        "Tienda de tecnología y técnico en sistemas en Colón, Putumayo: accesorios para celulares y computadoras, formateo y mantenimiento de computadores y desarrollo web. Envío gratis en todo el Alto Putumayo.",
+      url: SITE_URL,
+      logo: LOGO_URL,
+      image: LOGO_URL,
+      telephone: "+57 317 450 3604",
+      priceRange: "$$",
+      currenciesAccepted: "COP",
+      paymentAccepted: "Efectivo, Nequi, tarjeta de crédito, tarjeta débito, PSE",
+      address,
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 1.189785,
+        longitude: -76.970495,
       },
-    ],
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: "Catálogo de Productos",
-      itemListElement: [
+      hasMap: "https://www.google.com/maps?q=1.189785,-76.970495",
+      areaServed: [
+        { "@type": "AdministrativeArea", name: "Alto Putumayo" },
+        { "@type": "AdministrativeArea", name: "Valle de Sibundoy" },
+        { "@type": "City", name: "Colón" },
+        { "@type": "City", name: "Sibundoy" },
+        { "@type": "City", name: "Santiago" },
+        { "@type": "City", name: "San Francisco" },
+        { "@type": "Country", name: "Colombia" },
+      ],
+      openingHoursSpecification: [
         {
-          "@type": "OfferCatalog",
-          name: "Accesorios para Celulares",
-          itemListElement: [
-            {
-              "@type": "Offer",
-              itemOffered: {
-                "@type": "Product",
-                name: "Accesorios para Celulares",
-                offers: {
-                  "@type": "AggregateOffer",
-                  priceCurrency: "COP",
-                  availability: "https://schema.org/InStock",
-                  seller: { "@type": "Organization", name: "Neurai.dev" },
-                },
-              },
-            },
-          ],
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          opens: "08:00",
+          closes: "18:00",
         },
         {
-          "@type": "OfferCatalog",
-          name: "Accesorios para Computadoras",
-          itemListElement: [
-            {
-              "@type": "Offer",
-              itemOffered: {
-                "@type": "Product",
-                name: "Accesorios para Computadoras",
-                offers: {
-                  "@type": "AggregateOffer",
-                  priceCurrency: "COP",
-                  availability: "https://schema.org/InStock",
-                  seller: { "@type": "Organization", name: "Neurai.dev" },
-                },
-              },
-            },
-          ],
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: "Saturday",
+          opens: "08:00",
+          closes: "14:00",
+        },
+      ],
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+57 317 450 3604",
+        contactType: "customer service",
+        availableLanguage: "es",
+        areaServed: "CO",
+      },
+      sameAs: [
+        "https://www.facebook.com/profile.php?id=100085485673809",
+        "https://www.instagram.com/julianrio95/",
+        "https://www.tiktok.com/@julii1295",
+      ],
+      makesOffer: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Soporte técnico y mantenimiento de computadores",
+            url: `${SITE_URL}/servicios/tecnico-sistemas`,
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Desarrollo web",
+            url: `${SITE_URL}/servicios/desarrollador-software`,
+          },
         },
       ],
     },
-  };
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: "neurai.dev",
+      url: SITE_URL,
+      inLanguage: "es-CO",
+      publisher: { "@id": `${SITE_URL}/#negocio` },
+    },
+  ],
+};
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Inicio",
-        item: "https://neurai.dev",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Accesorios",
-        item: "https://neurai.dev/accesorios",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Celulares",
-        item: "https://neurai.dev/accesorios/celulares",
-      },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: "Computadoras",
-        item: "https://neurai.dev/accesorios/computadoras",
-      },
-      {
-        "@type": "ListItem",
-        position: 5,
-        name: "Libros Nuevos",
-        item: "https://neurai.dev/accesorios/libros-nuevos",
-      },
-      {
-        "@type": "ListItem",
-        position: 8,
-        name: "Libros Usados",
-        item: "https://neurai.dev/accesorios/libros-usados",
-      },
-      {
-        "@type": "ListItem",
-        position: 9,
-        name: "Generales",
-        item: "https://neurai.dev/accesorios/generales",
-      },
-      {
-        "@type": "ListItem",
-        position: 10,
-        name: "Servicios",
-        item: "https://neurai.dev/servicios",
-      },
-      {
-        "@type": "ListItem",
-        position: 11,
-        name: "Blog",
-        item: "https://neurai.dev/Blog",
-      },
-    ],
-  };
-
-  // Schema para servicios profesionales
-  const servicesSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Servicios Profesionales",
-    description: "Servicios de desarrollo web, soporte técnico en sistemas y más",
-    url: "https://neurai.dev/servicios",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        item: {
-          "@type": "Service",
-          "@id": "https://neurai.dev/servicios/desarrollador-software",
-          name: "Desarrollo Web",
-          description: "Desarrollo de páginas web, aplicaciones web, tiendas online y sistemas a medida",
-          url: "https://neurai.dev/servicios/desarrollador-software",
-          provider: {
-            "@type": "Organization",
-            name: "Neurai.dev",
-          },
-          areaServed: "CO",
-          availableChannel: {
-            "@type": "ServiceChannel",
-            serviceUrl: "https://neurai.dev/servicios/desarrollador-software",
-          },
-        },
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        item: {
-          "@type": "Service",
-          "@id": "https://neurai.dev/servicios/tecnico-sistemas",
-          name: "Soporte Técnico en Sistemas",
-          description: "Mantenimiento y reparación de computadoras, instalación de software, soporte técnico",
-          url: "https://neurai.dev/servicios/tecnico-sistemas",
-          provider: {
-            "@type": "Organization",
-            name: "Neurai.dev",
-          },
-          areaServed: "CO",
-          availableChannel: {
-            "@type": "ServiceChannel",
-            serviceUrl: "https://neurai.dev/servicios/tecnico-sistemas",
-          },
-        },
-      },
-    ],
-  };
-
-  // Schema para categorías de productos
-  const productCategoriesSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Categorías de Productos",
-    description: "Accesorios tecnológicos, celulares, computadoras, libros y más",
-    url: "https://neurai.dev/accesorios",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        item: {
-          "@type": "CollectionPage",
-          "@id": "https://neurai.dev/accesorios/celulares",
-          name: "Accesorios para Celulares",
-          description: "Fundas, protectores, cargadores y accesorios para celulares",
-          url: "https://neurai.dev/accesorios/celulares",
-        },
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        item: {
-          "@type": "CollectionPage",
-          "@id": "https://neurai.dev/accesorios/computadoras",
-          name: "Accesorios para Computadoras",
-          description: "Teclados, mouse, memorias RAM, discos duros y más accesorios para computadoras",
-          url: "https://neurai.dev/accesorios/computadoras",
-        },
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        item: {
-          "@type": "CollectionPage",
-          "@id": "https://neurai.dev/accesorios/libros-nuevos",
-          name: "Libros Nuevos",
-          description: "Libros nuevos de diversas categorías y temáticas",
-          url: "https://neurai.dev/accesorios/libros-nuevos",
-        },
-      },
-      {
-        "@type": "ListItem",
-        position: 4,
-        item: {
-          "@type": "CollectionPage",
-          "@id": "https://neurai.dev/accesorios/libros-usados",
-          name: "Libros Usados",
-          description: "Libros usados en buen estado, diversas categorías",
-          url: "https://neurai.dev/accesorios/libros-usados",
-        },
-      },
-      {
-        "@type": "ListItem",
-        position: 5,
-        item: {
-          "@type": "CollectionPage",
-          "@id": "https://neurai.dev/accesorios/generales",
-          name: "Productos Generales",
-          description: "Productos varios y accesorios generales",
-          url: "https://neurai.dev/accesorios/generales",
-        },
-      },
-      {
-        "@type": "ListItem",
-        position: 6,
-        item: {
-          "@type": "CollectionPage",
-          "@id": "https://neurai.dev/accesorios/generales",
-          name: "Accesorios Generales",
-          description: "Accesorios variados y productos generales",
-          url: "https://neurai.dev/accesorios/generales",
-        },
-      },
-    ],
-  };
-
+export default function StructuredData() {
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productCategoriesSchema) }}
-      />
-    </>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
+    />
   );
 }

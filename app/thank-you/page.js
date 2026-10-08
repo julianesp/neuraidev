@@ -386,7 +386,7 @@ function ThankYouContent() {
       <footer className="bg-white border-t border-gray-200">
         <div className="max-w-4xl mx-auto px-4 py-8 text-center">
           <p className="text-gray-500 text-sm">
-            © 2025 Neurai.dev. Todos los derechos reservados.
+            © {new Date().getFullYear()} Neurai.dev. Todos los derechos reservados.
           </p>
           <p className="text-gray-400 text-xs mt-2">
             Tienda Online de Tecnología y Servicios Profesionales

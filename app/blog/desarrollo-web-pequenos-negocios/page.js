@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Desarrollo Web para Pequeños Negocios 2025 | Neurai.dev",
+  title: "Desarrollo Web para Pequeños Negocios 2025",
   description: "Guía completa: tipos de sitios web, costos, beneficios y cómo elegir la mejor opción para tu negocio en Colombia.",
   keywords: "desarrollo web Colombia, sitio web negocio, tienda online, página web empresa",
 };

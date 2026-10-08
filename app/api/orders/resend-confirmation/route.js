@@ -191,7 +191,7 @@ export async function POST(request) {
   </div>
 
   <div class="footer">
-    <p>© 2025 Neurai.dev - Tienda Online de Tecnología</p>
+    <p>© ${new Date().getFullYear()} Neurai.dev - Tienda Online de Tecnología</p>
     <p>Este es un email automático, por favor no responder.</p>
   </div>
 </body>

@@ -28,6 +28,12 @@ const CATEGORY_INFO = {
     keywords:
       "libros nuevos, literatura, desarrollo personal, biografías, libros Valle de Sibundoy",
   },
+  belleza: {
+    title: "Belleza y Cuidado Personal",
+    description:
+      "Productos de belleza y cuidado personal con envío gratis en el Valle de Sibundoy (Colón, Sibundoy, Santiago, San Francisco) y envíos a toda Colombia.",
+    keywords: "belleza, cuidado personal, Putumayo",
+  },
   "libros-usados": {
     title: "Libros Usados",
     description:
@@ -51,15 +57,17 @@ export function generateCategoryMetadata(categoria) {
 
   const canonicalUrl = `https://neurai.dev/accesorios/${categoria}`;
 
+  const fullTitle = `${info.title} | neurai.dev`;
+
   return {
-    title: `neurai.dev - Productos y servicios tecnologicos`,
+    title: info.title,
     description: info.description,
     keywords: info.keywords,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `neurai.dev - Productos y servicios tecnologicos`,
+      title: fullTitle,
       description: info.description,
       type: "website",
       siteName: "neurai.dev",
@@ -70,13 +78,13 @@ export function generateCategoryMetadata(categoria) {
           url: "/og-image.png",
           width: 1200,
           height: 630,
-          alt: `neurai.dev - Productos y servicios tecnologicos`,
+          alt: fullTitle,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `neurai.dev - Productos y servicios tecnologicos`,
+      title: fullTitle,
       description: info.description,
       images: ["/og-image.png"],
       creator: "@neuraidev",

@@ -9,6 +9,7 @@ export function htmlToPlainText(html, maxLength = null) {
 
   // Eliminar todas las etiquetas HTML
   let text = html
+    .replace(/<\/(p|li|h[1-6]|div|blockquote)>|<br\s*\/?>/gi, " ") // Separar bloques con espacio
     .replace(/<[^>]*>/g, "") // Remover etiquetas HTML
     .replace(/&nbsp;/g, " ") // Reemplazar &nbsp; con espacio
     .replace(/&amp;/g, "&") // Reemplazar &amp; con &

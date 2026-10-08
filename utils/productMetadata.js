@@ -1,7 +1,16 @@
 import { getSupabaseServerClient } from "@/lib/db";
-import { findProductBySlug } from "./slugify";
+import { findProductBySlug, generateProductSlug } from "./slugify";
+import { htmlToPlainText } from "./htmlToText";
 
-const SITE_TITLE = "neurai.dev - Productos y servicios tecnologicos";
+const SITE_TITLE = "Productos y servicios tecnológicos";
+
+// Corta en el último espacio antes del límite para no partir palabras
+function recortar(texto, max) {
+  if (texto.length <= max) return texto;
+  const corte = texto.slice(0, max);
+  const ultimoEspacio = corte.lastIndexOf(" ");
+  return `${(ultimoEspacio > max * 0.6 ? corte.slice(0, ultimoEspacio) : corte).replace(/[\s,.;:–-]+$/, "")}…`;
+}
 
 export async function findProductById(id) {
   const db = getSupabaseServerClient();
@@ -28,11 +37,7 @@ export async function generateProductMetadata(slug, categoria) {
       };
     }
 
-    const descripcion =
-      (producto.descripcion || "")
-        .replace(/<[^>]*>/g, "")
-        .slice(0, 160) ||
-      `${producto.nombre} - ${producto.categoria}`;
+    const descripcion = htmlToPlainText(producto.descripcion || "");
 
     const rawImagen =
       producto.imagen_principal ||
@@ -48,16 +53,20 @@ export async function generateProductMetadata(slug, categoria) {
     // (WhatsApp/Telegram rechazan imágenes >~500 KB en previsualizaciones)
     const imagen = `https://neurai.dev/_next/image?url=${encodeURIComponent(imagenCdn)}&w=1200&q=75`;
 
-    const url = `https://neurai.dev/accesorios/${producto.categoria}/${slug}`;
+    // URL canónica: siempre el slug generado del producto, aunque se haya
+    // entrado por una variante (id, sku o slug antiguo)
+    const path = `/accesorios/${producto.categoria}/${generateProductSlug(producto) || slug}`;
+    const url = `https://neurai.dev${path}`;
 
     const productoTitle = `${producto.nombre} | neurai.dev`;
     const metaDescription = descripcion
-      ? `${descripcion.slice(0, 140)} | Compra en neurai.dev ✓ Envíos a todo Colombia`
-      : `Compra ${producto.nombre} en neurai.dev. Envíos a todo Colombia.`;
+      ? recortar(descripcion, 155)
+      : `Compra ${producto.nombre} en neurai.dev. Envío gratis en el Valle de Sibundoy y envíos a toda Colombia.`;
 
     return {
-      title: productoTitle,
+      title: producto.nombre,
       description: metaDescription,
+      alternates: { canonical: path },
       openGraph: {
         title: productoTitle,
         description: metaDescription,

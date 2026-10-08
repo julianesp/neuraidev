@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { htmlToPlainText } from "@/utils/htmlToText";
 // dompurify solo corre en el cliente; no usar isomorphic-dompurify porque
 // jsdom (su dependencia de servidor) tiene un módulo ESM incompatible en Vercel
 let DOMPurify = null;
@@ -8,9 +9,22 @@ if (typeof window !== "undefined") {
   DOMPurify = require("dompurify");
 }
 
+// Texto plano por párrafos para el render del servidor: así el HTML inicial
+// (lo que leen Google y las vistas previas) trae la descripción real.
+function htmlToParagraphs(html) {
+  return html
+    .replace(/<\/(p|li|h[1-6]|div|blockquote)>|<br\s*\/?>/gi, "\n")
+    .split("\n")
+    .map((linea) => htmlToPlainText(linea))
+    .filter(Boolean);
+}
+
 export default function SafeHtmlRenderer({ html, className = "" }) {
+  const [montado, setMontado] = useState(false);
+  useEffect(() => setMontado(true), []);
+
   const sanitizedHtml = useMemo(() => {
-    if (!html || !DOMPurify) return "";
+    if (!html || !DOMPurify || !montado) return "";
 
     // Configuración de DOMPurify para permitir estilos y formatos comunes
     const config = {
@@ -51,10 +65,20 @@ export default function SafeHtmlRenderer({ html, className = "" }) {
     };
 
     return DOMPurify.sanitize(html, config);
-  }, [html]);
+  }, [html, montado]);
 
   if (!sanitizedHtml) {
-    return <p className={className}>Sin descripción disponible</p>;
+    const parrafos = html ? htmlToParagraphs(html) : [];
+    if (parrafos.length === 0) {
+      return <p className={className}>Sin descripción disponible</p>;
+    }
+    return (
+      <div className={`safe-html-content ${className}`}>
+        {parrafos.map((parrafo, index) => (
+          <p key={index}>{parrafo}</p>
+        ))}
+      </div>
+    );
   }
 
   return (

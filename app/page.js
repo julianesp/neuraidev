@@ -1,11 +1,12 @@
 import Home from "@/components/Home/page";
 
 export const metadata = {
-  title: "Neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
+  title: {
+    absolute:
+      "neurai.dev | Tienda de tecnología y técnico en sistemas en Colón, Putumayo",
+  },
   description:
-    "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
-  keywords:
-    "tienda online, celulares, computadoras, accesorios tecnológicos, desarrollo web, soporte técnico, Colombia, libros, damas, belleza, generales",
+    "Tienda de tecnología en Colón, Putumayo: accesorios para celulares y computadoras, formateo y mantenimiento de computadores y desarrollo web. Envío gratis en todo el Alto Putumayo.",
   authors: [{ name: "neurai.dev" }],
   creator: "neurai.dev",
   publisher: "neurai.dev",
@@ -21,8 +22,9 @@ export const metadata = {
   openGraph: {
     title: "neurai.dev | Tienda Online de Tecnología y Servicios Profesionales",
     description:
-      "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
+      "Tienda de tecnología en Colón, Putumayo: accesorios para celulares y computadoras, formateo y mantenimiento de computadores y desarrollo web. Envío gratis en todo el Alto Putumayo.",
     siteName: "neurai.dev",
+    url: "https://neurai.dev",
     locale: "es_CO",
     type: "website",
     images: [

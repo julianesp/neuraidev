@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CheckCircle, Store, Package, ShoppingCart, TrendingUp, ArrowRight } from "lucide-react";
 
 export const metadata = {
-  title: "Servicios Profesionales | Neurai.dev",
+  title: "Servicios Profesionales",
   description:
     "Servicios de desarrollo web, soporte técnico en sistemas y mantenimiento de computadores. Soluciones tecnológicas profesionales en el Valle de Sibundoy.",
   keywords:

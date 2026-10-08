@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Store, MapPin, ArrowRight } from "lucide-react";
 
 export const metadata = {
-  title: "Tiendas | Neurai.dev",
+  title: "Tiendas",
   description: "Descubre todos los negocios y tiendas que venden en Neurai.dev",
 };
 

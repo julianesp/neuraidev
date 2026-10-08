@@ -48,63 +48,6 @@ export const metadata = {
   },
   description:
     "Accesorios para celulares y computadoras. Servicios de desarrollo web y soporte técnico en sistemas.",
-  keywords: [
-    // Servicios principales (long-tail keywords para mejor posicionamiento)
-    "desarrollo web Colombia",
-    "desarrollador web Putumayo",
-    "crear página web económica",
-    "tienda online para negocio",
-    "técnico en sistemas Valle de Sibundoy",
-    "soporte técnico computadoras Colombia",
-    "mantenimiento PC Putumayo",
-    "reparación computadores Valle de Sibundoy",
-
-    // Productos - Celulares (con intención de compra)
-    "comprar accesorios celulares Colombia",
-    "fundas celular baratas",
-    "protectores pantalla originales",
-    "cargadores rápidos celular",
-    "cargador tipo C original",
-    "auriculares bluetooth económicos",
-    "manos libres para celular",
-    "cables USB tipo C baratos",
-    "fundas Samsung Xiaomi iPhone",
-
-    // Productos - Computadoras (keywords específicos)
-    "comprar memorias RAM DDR3 DDR4",
-    "discos SSD baratos Colombia",
-    "SSD M.2 NVME precio",
-    "SSD SATA 256GB 512GB",
-    "disco duro externo",
-    "teclado gamer económico",
-    "mouse inalámbrico Bluetooth",
-    "mouse gamer barato",
-    "memorias RAM portátil",
-    "HUB USB tipo C",
-    "adaptador SATA USB",
-    "webcam HD 720p",
-
-    // Productos - Libros y otros
-    "libros técnicos programación",
-    "libros usados baratos",
-    "libros universitarios usados",
-
-    // Ubicación geográfica (SEO local)
-    "tienda tecnología Valle de Sibundoy",
-    "accesorios computadoras Putumayo",
-    "tienda online Sibundoy",
-    "envíos Putumayo Colombia",
-    "Colón Putumayo",
-    "San Francisco Putumayo",
-
-    // Marca y términos comerciales
-    "neurai.dev",
-    "tienda tecnología online Colombia",
-    "ofertas accesorios tecnología",
-    "precios bajos accesorios",
-    "envío gratis Colombia",
-    "comprar tecnología online",
-  ],
   authors: [{ name: "neurai.dev" }],
   creator: "neurai.dev",
   publisher: "neurai.dev",
@@ -112,9 +55,6 @@ export const metadata = {
     email: false,
     address: false,
     telephone: false,
-  },
-  alternates: {
-    canonical: "/",
   },
   icons: {
     icon: [
@@ -172,7 +112,6 @@ export const metadata = {
     ],
     locale: "es_CO",
     type: "website",
-    url: "https://neurai.dev",
   },
   twitter: {
     card: "summary_large_image",
@@ -198,11 +137,10 @@ export const metadata = {
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
     "twitter:domain": "neurai.dev",
-    "twitter:url": "https://neurai.dev/",
     "geo.region": "CO-PUT",
-    "geo.placename": "Valle de Sibundoy, Putumayo",
-    "geo.position": "1.1333;-76.9",
-    ICBM: "1.1333, -76.9",
+    "geo.placename": "Colón, Putumayo",
+    "geo.position": "1.189785;-76.970495",
+    ICBM: "1.189785, -76.970495",
   },
 };
 

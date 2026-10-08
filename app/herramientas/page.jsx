@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Wallet, ArrowRight } from "lucide-react";
 
 export const metadata = {
-  title: "Herramientas gratuitas | neurai.dev",
+  title: "Herramientas gratuitas",
   description:
     "Herramientas gratuitas de neurai.dev para organizar tu día a día, como el presupuesto personal mensual.",
   alternates: { canonical: "/herramientas" },

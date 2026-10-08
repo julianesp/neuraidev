@@ -5,7 +5,7 @@ import Image from "next/image";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Productos en Oferta | Neurai.dev",
+  title: "Productos en Oferta",
   description: "Encuentra los mejores descuentos en productos de tecnología, accesorios y más.",
 };
 

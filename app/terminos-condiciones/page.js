@@ -1,7 +1,7 @@
 import React from "react";
 
 export const metadata = {
-  title: "Términos y Condiciones | Neurai.dev",
+  title: "Términos y Condiciones",
   description: "Términos y condiciones de uso del sitio web Neurai.dev. Lee nuestros términos antes de realizar compras o utilizar nuestros servicios.",
   robots: {
     index: true,

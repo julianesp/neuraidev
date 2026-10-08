@@ -488,7 +488,7 @@ export default function SelectaFMPage() {
               <span className="font-semibold text-white">neurai.dev</span>
             </p>
             <p className="text-sm mt-2">
-              © 2025 Selecta FM • Todos los derechos reservados
+              © {new Date().getFullYear()} Selecta FM • Todos los derechos reservados
             </p>
           </div>
         </footer>

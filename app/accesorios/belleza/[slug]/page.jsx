@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import AccesoriosContainer from "@/containers/AccesoriosContainer/page";
-import ProductSchema from "@/components/ProductSchema";
 import { loadProductBySlug } from "@/utils/loadCategoryProducts";
 import { generateProductMetadata } from "@/utils/productMetadata";
 
@@ -31,7 +30,6 @@ export default async function BellezaProductPage({ params }) {
 
   return (
     <>
-      <ProductSchema producto={producto} />
       <main className="py-14">
         <div className="max-w-6xl mx-auto px-4">
           <AccesoriosContainer

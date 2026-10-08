@@ -3,6 +3,10 @@ import { notFound } from 'next/navigation';
 import AccesoriosContainer from '@/containers/AccesoriosContainer/page';
 import ViewTracker from '@/components/ViewTracker/ViewTracker';
 import { d1SelectOne, d1Select } from '@/lib/db';
+// @ts-ignore - utils en JS sin tipos
+import { generateProductSlug } from '@/utils/slugify';
+// @ts-ignore - utils en JS sin tipos
+import { htmlToPlainText } from '@/utils/htmlToText';
 
 async function getProductoById(id: string) {
   return d1SelectOne('SELECT * FROM products WHERE id = ?', [id]);
@@ -28,14 +32,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     if (!producto) {
       return {
-        title: 'Producto no encontrado | Neurai.dev',
+        title: 'Producto no encontrado',
       };
     }
 
   // Limpiar descripción para meta tags
-  const descripcionLimpia = producto.descripcion
-    ?.replace(/[^\w\s\-.,áéíóúñü]/gi, '')
-    .slice(0, 160) || '';
+  const descripcionLimpia = htmlToPlainText(producto.descripcion || '', 155);
 
   const precio = typeof producto.precio === 'object' ?
     parseFloat(producto.precio.toString()) :
@@ -70,15 +72,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   // Meta description optimizada con CTA
   const metaDescription = descripcionLimpia
-    ? `${descripcionLimpia.slice(0, 140)} | Compra en neurai.dev ✓ Envíos a todo Colombia ✓ Precios bajos ✓ Calidad garantizada`
-    : `Compra ${producto.nombre} en neurai.dev. Envíos a todo Colombia. Precios competitivos y calidad garantizada. ¡Visítanos ahora!`;
+    ? descripcionLimpia
+    : `Compra ${producto.nombre} en neurai.dev. Envío gratis en el Valle de Sibundoy y envíos a toda Colombia.`;
+
+  // Esta ruta duplica la ficha de /accesorios/[categoria]/[slug]: esa es la canónica
+  const canonicalUrl = `${baseUrl}/accesorios/${producto.categoria}/${generateProductSlug(producto)}`;
 
   return {
-    title: `${producto.nombre} | Comprar Online en Neurai.dev`,
+    title: producto.nombre,
     description: metaDescription,
     keywords: seoKeywords,
     alternates: {
-      canonical: `https://neurai.dev/producto/${id}`,
+      canonical: canonicalUrl,
     },
     openGraph: {
       title: `${producto.nombre} | Neurai.dev`,
@@ -86,7 +91,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Neurai.dev',
       locale: 'es_CO',
-      url: `https://neurai.dev/producto/${id}`,
+      url: canonicalUrl,
       images: [
         {
           url: ogImageUrl,
@@ -115,7 +120,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   } catch (err) {
     console.error('Error generating metadata:', err);
     return {
-      title: 'Producto | Neurai.dev',
+      title: 'Producto',
       description: 'Explora nuestro catálogo de productos.',
     };
   }
@@ -175,49 +180,8 @@ export default async function ProductoPage({ params }: Props) {
       disponible: p.disponible && p.stock > 0,
     }));
 
-    // Schema.org Product structured data para Google Rich Snippets
-    const productSchema = {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      name: producto.nombre,
-      description: producto.descripcion || '',
-      image: productoNormalizado.imagenes?.map((img: any) => img.url) || [],
-      sku: producto.sku || producto.id,
-      brand: {
-        "@type": "Brand",
-        name: producto.marca || "Neurai.dev"
-      },
-      offers: {
-        "@type": "Offer",
-        url: `https://neurai.dev/producto/${id}`,
-        priceCurrency: "COP",
-        price: parseFloat(producto.precio),
-        priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        itemCondition: producto.condicion === 'usado' ? "https://schema.org/UsedCondition" : "https://schema.org/NewCondition",
-        availability: producto.disponible && producto.stock > 0
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-        seller: {
-          "@type": "Organization",
-          name: "Neurai.dev"
-        }
-      },
-      aggregateRating: producto.calificacion_promedio ? {
-        "@type": "AggregateRating",
-        ratingValue: producto.calificacion_promedio,
-        reviewCount: producto.total_resenas || 1
-      } : undefined,
-      category: producto.categoria
-    };
-
     return (
       <>
-        {/* Schema.org JSON-LD para el producto */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-        />
-
         <main className="py-14">
           {/* Registra la visita silenciosamente al cargar la página */}
           <ViewTracker productId={id} />

@@ -336,7 +336,7 @@ const Footer = () => {
             <Link href="/clientes">Clientes</Link>
           </div>
           <p className={styles.copyright}>
-            © 2025 Neurai.dev • NIT: 1124315657-2 • Todos los derechos
+            © {new Date().getFullYear()} Neurai.dev • NIT: 1124315657-2 • Todos los derechos
             reservados
           </p>
 

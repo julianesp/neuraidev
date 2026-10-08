@@ -3,7 +3,7 @@ import Link from "next/link";
 import BlogArticle from "@/components/BlogArticle";
 
 export const metadata = {
-  title: "Cómo Elegir el Mejor Computador en 2025: Guía Completa | Neurai.dev",
+  title: "Cómo Elegir el Mejor Computador en 2025: Guía Completa",
   description:
     "Guía completa para elegir el computador perfecto en 2025. Aprende sobre procesadores, RAM, discos SSD, tarjetas gráficas y más. Consejos de expertos para tomar la mejor decisión de compra.",
   keywords:
