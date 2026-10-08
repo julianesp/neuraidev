@@ -6,9 +6,32 @@ import { X } from "lucide-react";
 
 export const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.neurai";
 
-// localStorage: el usuario cerró el aviso con la X (misma clave que el anuncio
-// anterior, para respetar a quien ya eligió "No volver a mostrar").
+// localStorage: fecha en que el usuario cerró el aviso con la X. El aviso
+// vuelve a aparecer al día siguiente, hasta que se detecte la app instalada.
 const STORAGE_KEY = "neurai-app-android-no-mostrar";
+// localStorage: la app ya se detectó instalada; no se vuelve a mostrar.
+const INSTALADA_KEY = "neurai-app-android-instalada";
+
+const hoy = () => new Date().toLocaleDateString("en-CA"); // AAAA-MM-DD local
+
+function cerradoHoy() {
+  const valor = localStorage.getItem(STORAGE_KEY);
+  if (!valor) return false;
+  const fecha = new Date(valor);
+  return !Number.isNaN(fecha.getTime()) && fecha.toLocaleDateString("en-CA") === hoy();
+}
+
+// Chrome Android: true si la app com.neurai está instalada (requiere
+// related_applications en el manifest y asset_statements en la app).
+async function appInstalada() {
+  try {
+    if (!("getInstalledRelatedApps" in navigator)) return false;
+    const apps = await navigator.getInstalledRelatedApps();
+    return apps.some((app) => app.id === "com.neurai");
+  } catch {
+    return false;
+  }
+}
 
 function LogoPlay() {
   return (
@@ -24,8 +47,8 @@ function LogoPlay() {
 /**
  * Aviso discreto de la app Android: una pestaña en el borde izquierdo donde
  * solo asoma medio logo. Al tocarla se despliega el botón de Google Play y una
- * X que oculta el aviso para siempre (en este navegador). Igual en todas las
- * resoluciones.
+ * X que oculta el aviso por el resto del día. Deja de mostrarse del todo
+ * cuando se detecta la app instalada. Igual en todas las resoluciones.
  */
 export default function AppAndroidPestana() {
   const [visible, setVisible] = useState(false);
@@ -33,11 +56,22 @@ export default function AppAndroidPestana() {
   const ref = useRef(null);
 
   useEffect(() => {
-    try {
-      if (!localStorage.getItem(STORAGE_KEY)) setVisible(true);
-    } catch {
-      // Sin acceso al almacenamiento: no mostramos nada antes que molestar.
-    }
+    let cancelado = false;
+    (async () => {
+      try {
+        if (localStorage.getItem(INSTALADA_KEY) || cerradoHoy()) return;
+        if (await appInstalada()) {
+          localStorage.setItem(INSTALADA_KEY, new Date().toISOString());
+          return;
+        }
+        if (!cancelado) setVisible(true);
+      } catch {
+        // Sin acceso al almacenamiento: no mostramos nada antes que molestar.
+      }
+    })();
+    return () => {
+      cancelado = true;
+    };
   }, []);
 
   // Tocar fuera o Escape la vuelve a plegar (sin ocultarla para siempre).
@@ -53,7 +87,7 @@ export default function AppAndroidPestana() {
     };
   }, [abierta]);
 
-  const cerrarParaSiempre = () => {
+  const cerrarPorHoy = () => {
     try {
       localStorage.setItem(STORAGE_KEY, new Date().toISOString());
     } catch {}
@@ -100,10 +134,10 @@ export default function AppAndroidPestana() {
         </a>
         <button
           type="button"
-          onClick={cerrarParaSiempre}
+          onClick={cerrarPorHoy}
           tabIndex={abierta ? 0 : -1}
-          aria-label="No volver a mostrar el aviso de la app"
-          title="No volver a mostrar"
+          aria-label="Ocultar el aviso de la app por hoy"
+          title="Ocultar por hoy"
           className="w-9 h-9 flex-shrink-0 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
         >
           <X className="w-5 h-5" />

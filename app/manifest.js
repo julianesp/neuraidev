@@ -38,5 +38,14 @@ export default function manifest() {
     orientation: "portrait-primary",
     scope: "/",
     prefer_related_applications: false,
+    // Permite a navigator.getInstalledRelatedApps() saber si la app Android
+    // está instalada (la app declara neurai.dev en sus asset_statements)
+    related_applications: [
+      {
+        platform: "play",
+        id: "com.neurai",
+        url: "https://play.google.com/store/apps/details?id=com.neurai",
+      },
+    ],
   };
 }

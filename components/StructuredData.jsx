@@ -28,7 +28,8 @@ const graph = {
       telephone: "+57 317 450 3604",
       priceRange: "$$",
       currenciesAccepted: "COP",
-      paymentAccepted: "Efectivo, Nequi, tarjeta de crédito, tarjeta débito, PSE",
+      paymentAccepted:
+        "Efectivo, Nequi, tarjeta de crédito, tarjeta débito, PSE",
       address,
       geo: {
         "@type": "GeoCoordinates",
