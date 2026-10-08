@@ -184,8 +184,13 @@ function RespuestaPagoContent() {
       "response",
     );
 
+    // ePayco a veces vuelve a /respuesta-pago SIN ningún parámetro. En ese caso
+    // (y si tampoco es Wompi) la referencia de la orden sale de la cookie
+    // epayco_ref que dejó create-session; reconcile la lee en el servidor.
+    const sinParametros = !epaycoRef && !epaycoState && !searchParams.get("id");
+
     // Si es un redirect de ePayco, leer los parámetros directamente de la URL
-    if (epaycoRef || epaycoState) {
+    if (epaycoRef || epaycoState || sinParametros) {
       const stateMap = {
         "Aceptada": "APPROVED",
         "Rechazada": "DECLINED",
@@ -199,7 +204,7 @@ function RespuestaPagoContent() {
 
       const data = {
         transactionId: epaycoRef || p("x_transaction_id", "transaction_id") || "",
-        reference: reference,
+        reference: referenceUrl,
         amount: parseFloat(p("x_amount", "amount", "x_amount_ok") || 0),
         currency: p("x_currency_code", "currency_code") || "COP",
         // Si por algún motivo no llega el estado en la URL pero sí la referencia,
@@ -207,7 +212,7 @@ function RespuestaPagoContent() {
         // en la BD en vez de afirmar que el pago se canceló.
         status: rawState
           ? (stateMap[rawState] || "ERROR")
-          : (epaycoRef ? "PENDING" : "CANCELLED"),
+          : (epaycoRef || sinParametros ? "PENDING" : "CANCELLED"),
         statusMessage: rawState,
         paymentMethod: p("x_franchise", "franchise") || "ePayco",
         customerEmail: p("x_customer_email", "customer_email") || "",
@@ -224,7 +229,7 @@ function RespuestaPagoContent() {
       // Consultar la orden desde nuestra base de datos. ePayco Smart Checkout
       // suele volver SOLO con ?ref_payco= (sin x_id_invoice): en ese caso la
       // referencia de la orden la resuelve el servidor con ese ref_payco.
-      if (referenceUrl || epaycoRef) {
+      if (referenceUrl || epaycoRef || sinParametros) {
         if (referenceUrl) setRefEnCurso(referenceUrl);
         // epaycoRef es el x_ref_payco: guardarlo para poder reconciliar.
         if (epaycoRef) setRefPaycoEnCurso(epaycoRef);
@@ -241,6 +246,7 @@ function RespuestaPagoContent() {
                 if (!reference && info?.reference) {
                   reference = info.reference;
                   setRefEnCurso(reference);
+                  setPaymentData((prev) => (prev ? { ...prev, reference } : prev));
                 }
               } catch (recErr) {
                 console.error("Error en reconciliación de pago:", recErr);
@@ -267,6 +273,14 @@ function RespuestaPagoContent() {
             const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
             if (!reference) await reconciliar();
+
+            // Sin parámetros y sin cookie (o sin orden): no hubo un pago en
+            // curso desde este navegador → página de "no completaste el pago".
+            if (sinParametros && !reference) {
+              setPaymentData(null);
+              return;
+            }
+
             let order = await fetchOrder();
 
             // Polling con reconciliación: los pagos Nequi/PSE por ePayco se
@@ -703,11 +717,13 @@ function RespuestaPagoContent() {
                 </span>
               </div>
             )}
-            {paymentData.amount && (
+            {/* El monto puede no venir en la URL (ePayco a veces vuelve sin
+                parámetros): en ese caso usamos el total de la orden. */}
+            {(paymentData.amount || Number(orderData?.total)) > 0 && (
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">Monto:</span>
                 <span className="font-bold text-lg text-gray-900 dark:text-white">
-                  ${parseFloat(paymentData.amount).toFixed(2)}{" "}
+                  ${Number(paymentData.amount || orderData?.total).toLocaleString("es-CO")}{" "}
                   {paymentData.currency || "COP"}
                 </span>
               </div>

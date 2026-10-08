@@ -96,11 +96,14 @@ export async function GET(request) {
     // intentamos recuperarlo del transaction_id guardado antes en la orden.
     const refPaycoParam = searchParams.get("ref_payco");
 
+    // ePayco a veces vuelve sin ningún parámetro: usamos la referencia que
+    // create-session dejó en la cookie epayco_ref al iniciar el pago.
     if (!reference && !refPaycoParam) {
-      return NextResponse.json(
-        { error: "Se requiere 'reference' o 'ref_payco'" },
-        { status: 400 },
-      );
+      reference = request.cookies?.get("epayco_ref")?.value || null;
+    }
+
+    if (!reference && !refPaycoParam) {
+      return NextResponse.json({ status: "NONE", reason: "sin-referencia" });
     }
 
     // ePayco Smart Checkout suele volver a /respuesta-pago SOLO con ?ref_payco=

@@ -339,7 +339,7 @@ export async function POST(request) {
     log("  - Todos los campos sanitizados para evitar errores");
 
     // Retornar configuración para el frontend
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         success: true,
         config: sanitizedConfig,
@@ -347,6 +347,19 @@ export async function POST(request) {
       },
       { headers: corsHeaders },
     );
+
+    // ePayco a veces vuelve a /respuesta-pago SIN ningún parámetro (ni
+    // ref_payco ni x_id_invoice). Guardamos la referencia de la orden en una
+    // cookie para que esa página sepa qué orden verificar de todos modos.
+    response.cookies.set("epayco_ref", String(reference), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60, // 1 hora: cubre de sobra lo que tarda PSE/Nequi
+    });
+
+    return response;
   } catch (error) {
     logError("❌ Error en create-session ePayco:", error);
     return NextResponse.json(
