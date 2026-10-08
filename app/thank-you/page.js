@@ -144,7 +144,7 @@ function ThankYouContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+      <div className="min-h-screen flex items-center justify-center bg-blue-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Cargando información...</p>
@@ -167,14 +167,14 @@ function ThankYouContent() {
       });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+    <div className="min-h-screen bg-blue-50">
       {/* Header animado */}
       <div className="relative overflow-hidden bg-white shadow-sm">
-        <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 opacity-5"></div>
+        <div className="absolute inset-0 bg-blue-600 opacity-5"></div>
         <div className="relative px-4 py-8">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 mb-4 bg-green-100 rounded-full animate-pulse">
-              <CheckCircle className="w-10 h-10 text-green-600" />
+            <div className="inline-flex items-center justify-center w-20 h-20 mb-4 bg-blue-100 rounded-full animate-pulse">
+              <CheckCircle className="w-10 h-10 text-blue-600" />
             </div>
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
               ¡Compra Exitosa!
@@ -222,7 +222,7 @@ function ThankYouContent() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <Package className="w-5 h-5 text-purple-500" />
+                    <Package className="w-5 h-5 text-blue-500" />
                     <div>
                       <p className="text-sm text-gray-500">Entrega estimada</p>
                       <p className="font-medium text-gray-900">
@@ -279,9 +279,9 @@ function ThankYouContent() {
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4 p-4 bg-purple-50 rounded-lg">
-                  <div className="flex-shrink-0 w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                    <span className="text-purple-600 font-semibold text-sm">
+                <div className="flex items-start space-x-4 p-4 bg-blue-50 rounded-lg">
+                  <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span className="text-blue-600 font-semibold text-sm">
                       2
                     </span>
                   </div>
@@ -296,9 +296,9 @@ function ThankYouContent() {
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4 p-4 bg-green-50 rounded-lg">
-                  <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                    <span className="text-green-600 font-semibold text-sm">
+                <div className="flex items-start space-x-4 p-4 bg-blue-50 rounded-lg">
+                  <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span className="text-blue-600 font-semibold text-sm">
                       3
                     </span>
                   </div>
@@ -331,7 +331,7 @@ function ThankYouContent() {
                 href="https://wa.me/573174503604?text=Hola,%20tengo%20una%20pregunta%20sobre%20mi%20pedido"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm font-medium"
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-medium"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
                 Contactar por WhatsApp
@@ -339,7 +339,7 @@ function ThankYouContent() {
             </div>
 
             {/* Continuar comprando */}
-            <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-lg p-6 text-white">
+            <div className="bg-blue-600 rounded-2xl shadow-lg p-6 text-white">
               <h3 className="text-lg font-semibold mb-2">¡Sigue explorando!</h3>
               <p className="text-blue-100 text-sm mb-4">
                 Descubre más productos que podrían interesarte.
@@ -413,7 +413,7 @@ export default function ThankYouPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+        <div className="min-h-screen flex items-center justify-center bg-blue-50">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Cargando...</p>

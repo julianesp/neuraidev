@@ -313,25 +313,8 @@ export default function FacturaPage() {
 
             {/* Totales */}
             <div className="flex justify-end mb-8">
+              {/* Comprobante de compra: solo el total, sin subtotal ni impuestos. */}
               <div className="w-full md:w-1/2 space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400">
-                    Subtotal:
-                  </span>
-                  <span className="font-medium text-gray-900 dark:text-white">
-                    {formatCurrency(invoice.subtotal)}
-                  </span>
-                </div>
-                {invoice.tax > 0 && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600 dark:text-gray-400">
-                      Impuestos:
-                    </span>
-                    <span className="font-medium text-gray-900 dark:text-white">
-                      {formatCurrency(invoice.tax)}
-                    </span>
-                  </div>
-                )}
                 <div className="flex justify-between text-lg font-bold pt-3 border-t border-gray-300 dark:border-gray-600">
                   <span className="text-blue-600 dark:text-blue-400">TOTAL:</span>
                   <span className="text-blue-600 dark:text-blue-400">

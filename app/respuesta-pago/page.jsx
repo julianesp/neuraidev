@@ -560,16 +560,24 @@ function RespuestaPagoContent() {
       <div className="max-w-2xl w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8">
         {/* Icono y título */}
         <div className="text-center mb-6">
-          <div className="text-6xl mb-4">{status.icon}</div>
+          {status.type === "success" ? (
+            <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+          ) : (
+            <div className="text-6xl mb-4">{status.icon}</div>
+          )}
           <h1
             className={`text-3xl font-bold mb-2 ${
               status.color === "green"
-                ? "text-green-600 dark:text-green-400"
+                ? "text-blue-600 dark:text-blue-400"
                 : status.color === "red"
                   ? "text-red-600 dark:text-red-400"
                   : status.color === "orange"
-                    ? "text-orange-500 dark:text-orange-400"
-                    : "text-yellow-600 dark:text-yellow-400"
+                    ? "text-blue-600 dark:text-blue-400"
+                    : "text-blue-600 dark:text-blue-400"
             }`}
           >
             {status.title}
@@ -743,7 +751,7 @@ function RespuestaPagoContent() {
 
         {/* Invitación a crear cuenta (solo para usuarios no registrados) */}
         {isLoaded && !isSignedIn && status.type === "success" && (
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 mb-6 text-white shadow-lg">
+          <div className="bg-blue-600 rounded-lg p-6 mb-6 text-white shadow-lg">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -774,7 +782,7 @@ function RespuestaPagoContent() {
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center gap-2">
                     <svg
-                      className="w-5 h-5 text-green-300"
+                      className="w-5 h-5 text-blue-200"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -790,7 +798,7 @@ function RespuestaPagoContent() {
                   </div>
                   <div className="flex items-center gap-2">
                     <svg
-                      className="w-5 h-5 text-green-300"
+                      className="w-5 h-5 text-blue-200"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -806,7 +814,7 @@ function RespuestaPagoContent() {
                   </div>
                   <div className="flex items-center gap-2">
                     <svg
-                      className="w-5 h-5 text-green-300"
+                      className="w-5 h-5 text-blue-200"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -822,7 +830,7 @@ function RespuestaPagoContent() {
                   </div>
                   <div className="flex items-center gap-2">
                     <svg
-                      className="w-5 h-5 text-green-300"
+                      className="w-5 h-5 text-blue-200"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -864,7 +872,7 @@ function RespuestaPagoContent() {
               {orderData && paymentData.reference && (
                 <Link
                   href={`/thank-you?ref=${paymentData.reference}`}
-                  className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-bold py-4 px-6 rounded-lg transition-all duration-200 text-center flex items-center justify-center gap-2 shadow-lg"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg transition-all duration-200 text-center flex items-center justify-center gap-2 shadow-lg"
                 >
                   <svg
                     className="w-6 h-6"
@@ -890,7 +898,7 @@ function RespuestaPagoContent() {
                     orderData.estado_pago === "completado") && (
                     <Link
                       href={`/factura/${paymentData.reference}`}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
                     >
                       <svg
                         className="w-5 h-5"
@@ -946,7 +954,7 @@ function RespuestaPagoContent() {
               <button
                 onClick={verificarPagoAhora}
                 disabled={verificandoManual}
-                className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold py-3 px-6 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
               >
                 {verificandoManual ? (
                   <>

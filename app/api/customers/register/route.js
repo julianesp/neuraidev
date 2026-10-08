@@ -1,18 +1,26 @@
 import { NextResponse } from "next/server";
-import { getSupabaseClient } from "@/lib/db";
+import { d1SelectOne, d1Execute } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+const normalizarEmail = (email) => String(email || "").trim().toLowerCase();
 
 /**
  * API Route para registrar cliente voluntariamente
  * POST /api/customers/register
  *
  * Body: { email, name, phone (opcional) }
+ *
+ * Antes llamaba a la función RPC `register_customer` de Supabase, que no
+ * existe en D1 (fallaba siempre con "Error interno del servidor").
  */
 export async function POST(request) {
   try {
-    const { email, name, phone } = await request.json();
+    const body = await request.json();
+    const email = normalizarEmail(body.email);
+    const name = String(body.name || "").trim();
+    const phone = String(body.phone || "").trim() || null;
 
     if (!email || !name) {
       return NextResponse.json(
@@ -30,37 +38,36 @@ export async function POST(request) {
       );
     }
 
-    const supabase = getSupabaseClient();
-
-    // Llamar a la función de Supabase para registrar cliente
-    const { data, error } = await supabase
-      .rpc('register_customer', {
-        p_email: email,
-        p_name: name,
-        p_phone: phone || null
-      });
-
-    if (error) {
-      console.error("Error registrando cliente:", error);
-      return NextResponse.json(
-        { error: "Error al registrar cliente", details: error.message },
-        { status: 500 }
-      );
-    }
-
-    const result = data[0];
-
-    if (!result.success) {
+    const existente = await d1SelectOne(
+      "SELECT id FROM customers WHERE lower(email) = ? LIMIT 1",
+      [email]
+    );
+    if (existente) {
       return NextResponse.json({
-        success: false,
-        error: result.message
-      }, { status: 400 });
+        success: true,
+        customerId: existente.id,
+        message: "Ya estabas registrado con este correo",
+      });
     }
+
+    // customers.id es INTEGER NOT NULL sin autoincremento en D1: lo
+    // calculamos en el mismo INSERT para no chocar con otro registro.
+    const ahora = new Date().toISOString();
+    await d1Execute(
+      `INSERT INTO customers (id, email, name, phone, total_orders, total_spent, status, created_at, updated_at)
+       SELECT COALESCE(MAX(id), 0) + 1, ?, ?, ?, 0, 0, 'active', ?, ? FROM customers`,
+      [email, name, phone, ahora, ahora]
+    );
+
+    const creado = await d1SelectOne(
+      "SELECT id FROM customers WHERE lower(email) = ? LIMIT 1",
+      [email]
+    );
 
     return NextResponse.json({
       success: true,
-      customerId: result.customer_id,
-      message: result.message
+      customerId: creado?.id ?? null,
+      message: "¡Registro exitoso!",
     }, { status: 201 });
 
   } catch (error) {
@@ -79,7 +86,7 @@ export async function POST(request) {
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const email = searchParams.get('email');
+    const email = normalizarEmail(searchParams.get('email'));
 
     if (!email) {
       return NextResponse.json(
@@ -88,26 +95,15 @@ export async function GET(request) {
       );
     }
 
-    const supabase = getSupabaseClient();
-
-    const { data, error } = await supabase
-      .from('customers')
-      .select('id, email, name')
-      .eq('email', email)
-      .single();
-
-    if (error && error.code !== 'PGRST116') { // PGRST116 = no rows found
-      console.error("Error verificando cliente:", error);
-      return NextResponse.json(
-        { error: "Error al verificar cliente", details: error.message },
-        { status: 500 }
-      );
-    }
+    const customer = await d1SelectOne(
+      "SELECT id, email, name FROM customers WHERE lower(email) = ? LIMIT 1",
+      [email]
+    );
 
     return NextResponse.json({
       success: true,
-      registered: !!data,
-      customer: data || null
+      registered: !!customer,
+      customer: customer || null
     });
 
   } catch (error) {
