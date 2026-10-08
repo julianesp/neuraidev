@@ -131,7 +131,8 @@ function RespuestaPagoContent() {
   // Construye la URL de reconcile pasando SIEMPRE que se pueda el ref_payco, que
   // es lo que ePayco necesita para validar el estado real de la transacción.
   const reconcileUrl = (reference, refPayco) => {
-    const params = new URLSearchParams({ reference });
+    const params = new URLSearchParams();
+    if (reference) params.set("reference", reference);
     if (refPayco) params.set("ref_payco", refPayco);
     return `/api/payments/epayco/reconcile?${params.toString()}`;
   };
@@ -139,12 +140,16 @@ function RespuestaPagoContent() {
   // Verificación manual: el cliente confirma que ya pagó. Pedimos a ePayco el
   // estado real (reconcile completa la orden si está Aceptada) y releemos.
   const verificarPagoAhora = async () => {
-    if (!refEnCurso || verificandoManual) return;
+    if ((!refEnCurso && !refPaycoEnCurso) || verificandoManual) return;
     setVerificandoManual(true);
     try {
-      await fetch(reconcileUrl(refEnCurso, refPaycoEnCurso));
+      const rec = await fetch(reconcileUrl(refEnCurso, refPaycoEnCurso));
+      const recData = rec.ok ? await rec.json() : null;
+      const ref = refEnCurso || recData?.reference;
+      if (!ref) return;
+      if (!refEnCurso) setRefEnCurso(ref);
       const res = await fetch(
-        `/api/orders/get-by-reference?reference=${refEnCurso}`,
+        `/api/orders/get-by-reference?reference=${encodeURIComponent(ref)}`,
       );
       if (res.ok) {
         const info = await res.json();
@@ -190,7 +195,7 @@ function RespuestaPagoContent() {
       };
 
       const rawState = epaycoState || "";
-      const reference = p("x_id_invoice", "id_invoice", "x_extra1", "extra1");
+      const referenceUrl = p("x_id_invoice", "id_invoice", "x_extra1", "extra1");
 
       const data = {
         transactionId: epaycoRef || p("x_transaction_id", "transaction_id") || "",
@@ -216,16 +221,36 @@ function RespuestaPagoContent() {
 
       setPaymentData(data);
 
-      // Consultar la orden desde nuestra base de datos
-      if (reference) {
-        setRefEnCurso(reference);
+      // Consultar la orden desde nuestra base de datos. ePayco Smart Checkout
+      // suele volver SOLO con ?ref_payco= (sin x_id_invoice): en ese caso la
+      // referencia de la orden la resuelve el servidor con ese ref_payco.
+      if (referenceUrl || epaycoRef) {
+        if (referenceUrl) setRefEnCurso(referenceUrl);
         // epaycoRef es el x_ref_payco: guardarlo para poder reconciliar.
         if (epaycoRef) setRefPaycoEnCurso(epaycoRef);
         (async () => {
           try {
+            let reference = referenceUrl;
+
+            // Llama a reconcile (consulta ePayco y completa la orden si está
+            // Aceptada) y, si aún no teníamos referencia, la toma de la respuesta.
+            const reconciliar = async () => {
+              try {
+                const res = await fetch(reconcileUrl(reference, epaycoRef));
+                const info = res.ok ? await res.json() : null;
+                if (!reference && info?.reference) {
+                  reference = info.reference;
+                  setRefEnCurso(reference);
+                }
+              } catch (recErr) {
+                console.error("Error en reconciliación de pago:", recErr);
+              }
+            };
+
             const fetchOrder = async () => {
+              if (!reference) return null;
               const res = await fetch(
-                `/api/orders/get-by-reference?reference=${reference}`,
+                `/api/orders/get-by-reference?reference=${encodeURIComponent(reference)}`,
               );
               return res.ok ? (await res.json())?.order : null;
             };
@@ -241,6 +266,7 @@ function RespuestaPagoContent() {
 
             const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
+            if (!reference) await reconciliar();
             let order = await fetchOrder();
 
             // Polling con reconciliación: los pagos Nequi/PSE por ePayco se
@@ -252,20 +278,17 @@ function RespuestaPagoContent() {
             // el cliente tenga que recargar. Máx ~5 min (60 intentos x 5s) para
             // cubrir con margen la latencia de PSE.
             const MAX_INTENTOS = 60;
+            // Si aún no se conoce la referencia (ePayco tarda en reportar la
+            // transacción), también seguimos intentando: reconcile la resuelve
+            // en cuanto ePayco responde o el webhook marca la orden.
             for (
               let intento = 0;
               intento < MAX_INTENTOS &&
-              order &&
-              !estaCompletada(order) &&
-              !estaRechazada(order);
+              (!order || (!estaCompletada(order) && !estaRechazada(order)));
               intento++
             ) {
               setVerificandoPago(true);
-              try {
-                await fetch(reconcileUrl(reference, epaycoRef));
-              } catch (recErr) {
-                console.error("Error en reconciliación de pago:", recErr);
-              }
+              await reconciliar();
               order = (await fetchOrder()) || order;
               if (estaCompletada(order) || estaRechazada(order)) break;
               await wait(5000);
@@ -390,7 +413,7 @@ function RespuestaPagoContent() {
   // Al reactivar la pestaña reconsultamos la orden (y disparamos el reconcile);
   // si el webhook ya la completó, la vista pasa a "¡Pago exitoso!".
   useEffect(() => {
-    if (!refEnCurso) return;
+    if (!refEnCurso && !refPaycoEnCurso) return;
 
     const yaCompletada = () =>
       orderData &&
@@ -399,20 +422,11 @@ function RespuestaPagoContent() {
         orderData.estado_pago === "completado");
 
     const revisar = async () => {
-      if (document.visibilityState !== "visible" || yaCompletada()) return;
-      try {
-        // Pedir a ePayco que confirme (completa la orden si ya está Aceptada)
-        await fetch(reconcileUrl(refEnCurso, refPaycoEnCurso));
-        const res = await fetch(
-          `/api/orders/get-by-reference?reference=${refEnCurso}`,
-        );
-        if (res.ok) {
-          const info = await res.json();
-          if (info?.order) setOrderData(info.order);
-        }
-      } catch (e) {
-        console.error("Error re-verificando pago al volver a la pestaña:", e);
-      }
+      // Mientras corre el polling inicial no duplicamos la reconciliación.
+      if (document.visibilityState !== "visible" || yaCompletada() || verificandoPago) return;
+      // Pedir a ePayco que confirme (completa la orden si ya está Aceptada)
+      // y releer la orden; resuelve la referencia si solo hay ref_payco.
+      await verificarPagoAhora();
     };
 
     document.addEventListener("visibilitychange", revisar);
@@ -422,7 +436,7 @@ function RespuestaPagoContent() {
       document.removeEventListener("visibilitychange", revisar);
       window.removeEventListener("focus", revisar);
     };
-  }, [refEnCurso, refPaycoEnCurso, orderData]);
+  }, [refEnCurso, refPaycoEnCurso, orderData, verificandoPago]);
 
   // Determinar el estado del pago
   const getPaymentStatus = () => {

@@ -1,5 +1,5 @@
 import { NextResponse, after } from "next/server";
-import { getSupabaseClient } from "@/lib/db";
+import { getSupabaseClient, d1Select } from "@/lib/db";
 import { decrementMultipleProductsStock } from "@/lib/productService";
 import { createInvoiceRecord } from "@/lib/invoiceGenerator";
 import { notifyNewSale } from "@/lib/notificationService";
@@ -27,19 +27,97 @@ export const runtime = "nodejs";
  *
  * GET /api/payments/epayco/reconcile?reference=NRD-...
  */
+/**
+ * Consulta el estado real de una transacción en ePayco por su ref_payco.
+ * Endpoint público (sin credenciales). Devuelve el objeto `data` o null.
+ */
+async function consultarEpayco(refPayco) {
+  try {
+    const resp = await fetch(
+      `https://secure.epayco.co/validation/v1/reference/${encodeURIComponent(refPayco)}`,
+      { headers: { Accept: "application/json" }, cache: "no-store" },
+    );
+    if (!resp.ok) {
+      log("ePayco validation devolvió HTTP", resp.status);
+      return null;
+    }
+    const json = await resp.json();
+    if (json?.success && json?.data?.x_id_invoice !== undefined) return json.data;
+    log("ePayco validation sin éxito:", json?.text_response || json?.message || "sin detalle");
+    return null;
+  } catch (e) {
+    logError("Error consultando ePayco:", e.message);
+    return null;
+  }
+}
+
+/**
+ * Estado de ePayco a partir del código numérico (más robusto que el texto):
+ * 1 = Aceptada, 2 = Rechazada, 3 = Pendiente, 4 = Fallida.
+ */
+function estadoEpayco(tx) {
+  const cod = Number(tx?.x_cod_response ?? tx?.x_cod_respuesta ?? tx?.x_cod_transaction_state);
+  const texto = tx?.x_response || tx?.x_respuesta || tx?.x_transaction_state || "";
+  if (cod === 1 || texto === "Aceptada") return "Aceptada";
+  if (cod === 2 || texto === "Rechazada") return "Rechazada";
+  if (cod === 4 || texto === "Fallida") return "Fallida";
+  if (cod === 3 || texto === "Pendiente") return "Pendiente";
+  return texto || null;
+}
+
+/**
+ * Busca en D1 la orden cuyo pago guardó este ref_payco (lo deja el webhook en
+ * informacion_pago.x_ref_payco y transaction_id empieza por él).
+ */
+async function buscarReferenciaPorRefPayco(refPayco) {
+  try {
+    const rows = await d1Select(
+      `SELECT numero_orden FROM orders
+       WHERE json_extract(informacion_pago, '$.x_ref_payco') = ?
+          OR transaction_id = ?
+       ORDER BY created_at DESC LIMIT 1`,
+      [String(refPayco), String(refPayco)],
+    );
+    return rows?.[0]?.numero_orden || null;
+  } catch (e) {
+    logError("Error buscando orden por ref_payco:", e.message);
+    return null;
+  }
+}
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const reference = searchParams.get("reference");
+    let reference = searchParams.get("reference");
     // ref_payco es el ID interno de la transacción en ePayco. Es el ÚNICO
     // identificador que acepta el endpoint de validación de ePayco
     // (/validation/v1/reference/{ref_payco}); NO acepta nuestro numero_orden.
-    // Llega desde la URL de retorno (x_ref_payco). Si no viene, intentamos
-    // recuperarlo del transaction_id que se haya guardado antes en la orden.
+    // Llega desde la URL de retorno (x_ref_payco / ref_payco). Si no viene,
+    // intentamos recuperarlo del transaction_id guardado antes en la orden.
     const refPaycoParam = searchParams.get("ref_payco");
 
+    if (!reference && !refPaycoParam) {
+      return NextResponse.json(
+        { error: "Se requiere 'reference' o 'ref_payco'" },
+        { status: 400 },
+      );
+    }
+
+    // ePayco Smart Checkout suele volver a /respuesta-pago SOLO con ?ref_payco=
+    // (sin x_id_invoice ni estado). Sin referencia la página no sabía qué
+    // orden revisar y se quedaba en "Pago pendiente" para siempre. Aquí la
+    // resolvemos: primero preguntando a ePayco (devuelve x_id_invoice) y, si
+    // aún no responde, buscando la orden que el webhook ya marcó con ese ref.
+    let transaction = null;
     if (!reference) {
-      return NextResponse.json({ error: "Se requiere 'reference'" }, { status: 400 });
+      transaction = await consultarEpayco(refPaycoParam);
+      reference =
+        transaction?.x_id_invoice ||
+        transaction?.x_extra1 ||
+        (await buscarReferenciaPorRefPayco(refPaycoParam));
+      if (!reference) {
+        return NextResponse.json({ status: "PENDING", verified: false, reason: "referencia-no-resuelta" });
+      }
     }
 
     const supabase = getSupabaseClient();
@@ -61,7 +139,7 @@ export async function GET(request) {
       order.estado === "pagado" ||
       order.estado_pago === "completado"
     ) {
-      return NextResponse.json({ status: "APPROVED", alreadyProcessed: true });
+      return NextResponse.json({ status: "APPROVED", alreadyProcessed: true, reference });
     }
 
     // Resolver el ref_payco: preferimos el de la URL; si no, el transaction_id
@@ -72,38 +150,18 @@ export async function GET(request) {
       // Sin ref_payco no podemos consultar a ePayco. No es un error del flujo:
       // simplemente aún no tenemos con qué validar. Reportamos pendiente.
       log("Sin ref_payco para reconciliar la referencia", reference);
-      return NextResponse.json({ status: "PENDING", verified: false, reason: "sin-ref-payco" });
+      return NextResponse.json({ status: "PENDING", verified: false, reason: "sin-ref-payco", reference });
     }
 
-    // 2. Consultar el estado real en ePayco.
+    // 2. Consultar el estado real en ePayco (si no se consultó ya arriba).
     // El endpoint de validación NO usa Authorization: Bearer; espera el
     // ref_payco en la ruta y responde { success, data: { x_response, ... } }.
-    let epaycoState = null;
-    let transaction = null;
-    try {
-      const resp = await fetch(
-        `https://secure.epayco.co/validation/v1/reference/${encodeURIComponent(refPayco)}`,
-        { headers: { "Content-Type": "application/json" } },
-      );
-      if (resp.ok) {
-        const data = await resp.json();
-        // Formato de ePayco: { success: true, data: { x_response, x_transaction_state, ... } }
-        transaction = data?.data || null;
-        if (data?.success && transaction) {
-          epaycoState = transaction.x_response || transaction.x_transaction_state || null;
-        } else {
-          log("ePayco validation sin éxito:", data?.text_response || data?.title_response || "sin detalle");
-        }
-      } else {
-        log("ePayco validation devolvió HTTP", resp.status);
-      }
-    } catch (e) {
-      logError("Error consultando ePayco:", e.message);
-    }
+    if (!transaction) transaction = await consultarEpayco(refPayco);
+    const epaycoState = transaction ? estadoEpayco(transaction) : null;
 
     // Sin respuesta de ePayco no cambiamos nada: seguimos reportando pendiente.
     if (!epaycoState) {
-      return NextResponse.json({ status: "PENDING", verified: false });
+      return NextResponse.json({ status: "PENDING", verified: false, reference });
     }
 
     // Blindaje anti-suplantación: el x_id_invoice que devuelve ePayco debe
@@ -114,13 +172,13 @@ export async function GET(request) {
       logError(
         `🚫 ref_payco ${refPayco} corresponde a la factura ${invoiceEpayco}, no a ${reference}. Se ignora.`,
       );
-      return NextResponse.json({ status: "PENDING", verified: false, reason: "invoice-mismatch" });
+      return NextResponse.json({ status: "PENDING", verified: false, reason: "invoice-mismatch", reference });
     }
 
     if (epaycoState !== "Aceptada") {
       // Rechazada / Pendiente / Fallida: reportamos sin completar.
       const map = { Rechazada: "DECLINED", Pendiente: "PENDING", Fallida: "ERROR" };
-      return NextResponse.json({ status: map[epaycoState] || "PENDING", verified: true });
+      return NextResponse.json({ status: map[epaycoState] || "PENDING", verified: true, reference });
     }
 
     // 3. Verificar monto antes de completar (misma protección que el webhook).
@@ -141,7 +199,7 @@ export async function GET(request) {
           updated_at: new Date().toISOString(),
         })
         .eq("numero_orden", reference);
-      return NextResponse.json({ status: "PENDING", verified: true, mismatch: true });
+      return NextResponse.json({ status: "PENDING", verified: true, mismatch: true, reference });
     }
 
     // 4. Completar la orden (mismo efecto que el webhook)
@@ -248,7 +306,7 @@ export async function GET(request) {
       }
     });
 
-    return NextResponse.json({ status: "APPROVED", verified: true, reconciled: true });
+    return NextResponse.json({ status: "APPROVED", verified: true, reconciled: true, reference });
   } catch (error) {
     logError("Error en reconcile ePayco:", error);
     return NextResponse.json(
