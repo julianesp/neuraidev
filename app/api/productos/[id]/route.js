@@ -67,7 +67,7 @@ export async function PUT(request, { params }) {
     // Preparar campos a actualizar
     const allowed = [
       'nombre', 'descripcion', 'precio', 'precio_oferta', 'categoria',
-      'marca', 'stock', 'sku', 'disponible', 'destacado', 'vista_horizontal',
+      'marca', 'stock', 'sku', 'codigo_barras', 'disponible', 'destacado', 'vista_horizontal',
       'garantia', 'imagen_principal', 'imagenes', 'video_url', 'video_type', 'metadata',
     ];
 

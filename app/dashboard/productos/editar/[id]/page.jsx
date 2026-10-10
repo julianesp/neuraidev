@@ -8,6 +8,7 @@ import VideoUploader from "@/components/VideoUploader";
 import RichTextEditor from "@/components/RichTextEditor";
 import ColorSelector from "@/components/ColorSelector";
 import Swal from "sweetalert2";
+import BarcodeScannerInput from "@/components/dashboard/BarcodeScannerInput";
 
 export default function EditarProductoPage() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function EditarProductoPage() {
     marca: "",
     stock: 0,
     sku: "",
+    codigo_barras: "",
     disponible: true,
     destacado: false,
     vista_horizontal: false,
@@ -68,6 +70,7 @@ export default function EditarProductoPage() {
         marca: producto.marca || "",
         stock: producto.stock || 0,
         sku: producto.sku || "",
+        codigo_barras: producto.codigo_barras || "",
         disponible: producto.disponible ?? true,
         destacado: producto.destacado ?? false,
         vista_horizontal: producto.vista_horizontal ?? false,
@@ -161,6 +164,7 @@ export default function EditarProductoPage() {
         marca: formData.marca || null,
         stock: parseInt(formData.stock) || 0,
         sku: formData.sku || null,
+        codigo_barras: formData.codigo_barras.replace(/\s/g, "") || null,
         disponible: formData.disponible,
         destacado: formData.destacado,
         vista_horizontal: formData.vista_horizontal,
@@ -335,6 +339,25 @@ export default function EditarProductoPage() {
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="codigo_barras"
+                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
+                  >
+                    Código de barras (GTIN/EAN)
+                  </label>
+                  <BarcodeScannerInput
+                    id="codigo_barras"
+                    name="codigo_barras"
+                    value={formData.codigo_barras}
+                    onChange={handleChange}
+                    className="flex-1 min-w-0 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    El número bajo las barras del empaque. Google lo usa para identificar el producto.
+                  </p>
                 </div>
 
                 <div>
