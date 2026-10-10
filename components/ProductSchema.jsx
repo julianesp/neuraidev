@@ -3,6 +3,34 @@ import { htmlToPlainText } from "@/utils/htmlToText";
 
 const R2_URL = "https://pub-c0883d14d3e84a69bf84546fa108aa0b.r2.dev";
 
+// Envío gratis en el Alto Putumayo (CO-PUT); el checkout no cobra envío
+const SHIPPING_DETAILS = {
+  "@type": "OfferShippingDetails",
+  shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "COP" },
+  shippingDestination: {
+    "@type": "DefinedRegion",
+    addressCountry: "CO",
+    addressRegion: "PUT",
+  },
+  deliveryTime: {
+    "@type": "ShippingDeliveryTime",
+    handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 1, unitCode: "DAY" },
+    transitTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 2, unitCode: "DAY" },
+  },
+};
+
+// Debe coincidir con /politica-devoluciones (7 días, envío de vuelta a cargo del cliente)
+const RETURN_POLICY = {
+  "@type": "MerchantReturnPolicy",
+  applicableCountry: "CO",
+  returnPolicyCountry: "CO",
+  returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+  merchantReturnDays: 7,
+  returnMethod: ["https://schema.org/ReturnInStore", "https://schema.org/ReturnByMail"],
+  returnFees: "https://schema.org/ReturnFeesCustomerResponsibility",
+  merchantReturnLink: "https://neurai.dev/politica-devoluciones",
+};
+
 /**
  * Componente para generar Schema.org de tipo Product
  * Mejora el SEO y permite rich snippets en resultados de búsqueda
@@ -65,6 +93,8 @@ export default function ProductSchema({ producto }) {
         name: "neurai.dev",
         url: "https://neurai.dev",
       },
+      shippingDetails: SHIPPING_DETAILS,
+      hasMerchantReturnPolicy: RETURN_POLICY,
     },
     // Solo calificaciones reales: Google sanciona reseñas inventadas
     ...(Number(producto.calificacion_promedio) > 0 &&
