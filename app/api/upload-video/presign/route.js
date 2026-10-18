@@ -13,6 +13,8 @@ const r2 = new S3Client({
     accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID,
     secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY,
   },
+  // Sin esto el SDK firma un checksum CRC32 del cuerpo vacío en la URL
+  requestChecksumCalculation: 'WHEN_REQUIRED',
 });
 
 const validExtensions = ['mp4', 'webm', 'mov', 'mkv', 'avi', '3gp'];
