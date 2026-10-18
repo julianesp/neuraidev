@@ -53,57 +53,54 @@ export default function VideoUploader({
     }
   };
 
-  // Subir video a Supabase Storage
+  // Subir video directo a Cloudflare R2 con URL prefirmada (sin límite de tamaño)
   const handleFileUpload = async (file: File) => {
     try {
       setUploading(true);
       setError('');
       setUploadProgress(0);
 
-      // Validar tamaño (máximo 50MB)
-      const maxSize = 50 * 1024 * 1024; // 50MB
-      if (file.size > maxSize) {
-        throw new Error('El video es muy pesado. Máximo 50MB. Por favor comprímelo primero.');
-      }
-
-      // Validar tipo de archivo
-      const validTypes = ['video/mp4', 'video/webm', 'video/quicktime'];
-      if (!validTypes.includes(file.type)) {
+      // Validar tipo de archivo (algunos celulares no reportan el MIME, se mira la extensión)
+      const extension = file.name.split('.').pop()?.toLowerCase() || '';
+      const validExtensions = ['mp4', 'webm', 'mov', 'mkv', 'avi', '3gp'];
+      if (!file.type.startsWith('video/') && !validExtensions.includes(extension)) {
         throw new Error('Formato no soportado. Usa MP4, WebM o MOV.');
       }
 
-      // Crear FormData
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('bucket', 'product-videos');
-
-      // Simular progreso
-      const progressInterval = setInterval(() => {
-        setUploadProgress((prev) => Math.min(prev + 10, 90));
-      }, 200);
-
-      // Subir a Supabase vía API
-      const response = await fetch('/api/upload-video', {
+      const presignResponse = await fetch('/api/upload-video/presign', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileName: file.name, contentType: file.type }),
       });
 
-      clearInterval(progressInterval);
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error subiendo el video');
+      if (!presignResponse.ok) {
+        const errorData = await presignResponse.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Error preparando la subida del video');
       }
 
-      const { url } = await response.json();
+      const { uploadUrl, url, contentType } = await presignResponse.json();
 
-      console.log('✅ Video subido exitosamente:', url);
+      // XHR en vez de fetch para tener progreso real de subida
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', uploadUrl);
+        xhr.setRequestHeader('Content-Type', contentType);
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            setUploadProgress(Math.min(99, Math.round((e.loaded / e.total) * 100)));
+          }
+        };
+        xhr.onload = () =>
+          xhr.status >= 200 && xhr.status < 300
+            ? resolve()
+            : reject(new Error(`Error subiendo el video (${xhr.status})`));
+        xhr.onerror = () => reject(new Error('Error de red subiendo el video. Revisa tu conexión.'));
+        xhr.send(file);
+      });
 
       setUploadProgress(100);
       setVideoUrl(url);
       onChange(url, 'direct');
-
-      console.log('Estado actualizado con URL:', url);
 
       // Resetear progreso después de 2 segundos
       setTimeout(() => {
@@ -232,7 +229,7 @@ export default function VideoUploader({
           <input
             ref={fileInputRef}
             type="file"
-            accept="video/mp4,video/webm,video/quicktime"
+            accept="video/*"
             onChange={handleFileSelect}
             className="hidden"
           />
@@ -251,7 +248,7 @@ export default function VideoUploader({
                     Click para subir video
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    MP4, WebM, MOV • Máximo 50MB
+                    MP4, WebM, MOV • Videos del celular en cualquier resolución
                   </p>
                 </div>
               </div>
@@ -296,18 +293,6 @@ export default function VideoUploader({
             </div>
           )}
 
-          {/* Consejos */}
-          <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
-            <p className="text-xs text-amber-800 dark:text-amber-300 mb-2">
-              ⚠️ <strong>Consejos importantes:</strong>
-            </p>
-            <ul className="text-xs text-amber-700 dark:text-amber-400 space-y-1 ml-4">
-              <li>• Comprime el video antes de subir (usa Handbrake o FFmpeg)</li>
-              <li>• Resolución recomendada: 720p o 1080p</li>
-              <li>• Duración ideal: 15-60 segundos</li>
-              <li>• Para videos largos, usa YouTube</li>
-            </ul>
-          </div>
         </div>
       )}
 

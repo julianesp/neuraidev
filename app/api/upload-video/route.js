@@ -25,14 +25,6 @@ export async function POST(request) {
       );
     }
 
-    const maxSize = 50 * 1024 * 1024;
-    if (file.size > maxSize) {
-      return NextResponse.json(
-        { error: 'El archivo es muy pesado. Máximo 50MB.' },
-        { status: 400 }
-      );
-    }
-
     const validTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-matroska', 'video/avi', 'video/x-msvideo'];
     const validExtensions = ['mp4', 'webm', 'mov', 'mkv', 'avi'];
     const extension = file.name.split('.').pop()?.toLowerCase() || '';
