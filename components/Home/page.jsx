@@ -311,34 +311,6 @@ export default function Inicio() {
           <ProductosRecientes />
         </section>
 
-        {/* Guía de compra con ePayco: demo animada en un celular */}
-        <section
-          id="como-comprar"
-          className={`${styles.guiaCompra} w-full px-4 py-12`}
-        >
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 text-gray-900 dark:text-white">
-              ¿Cómo comprar? Paga seguro con ePayco
-            </h2>
-            <p className="text-center text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-              Tarjeta, PSE o Nequi en pocos minutos. Mira el proceso paso a
-              paso o toca un paso para verlo.
-            </p>
-            <GuiaCompraEpayco />
-            <div className="mt-10">
-              <FacturaElectronicaAviso />
-            </div>
-            <div className="mt-8 text-center">
-              <Link
-                href="/como-comprar"
-                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
-              >
-                Ver la guía completa →
-              </Link>
-            </div>
-          </div>
-        </section>
-
         {/* Productos Más Visitados - Diseño Bento Grid */}
         <MostVisitedProducts />
 
@@ -586,6 +558,34 @@ export default function Inicio() {
               {categoriasVisibles.map((categoria) => (
                 <CategoryCard key={categoria.id} categoria={categoria} />
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Guía de compra con ePayco: demo animada en un celular */}
+        <section
+          id="como-comprar"
+          className={`${styles.guiaCompra} w-full px-4 py-12`}
+        >
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 text-gray-900 dark:text-white">
+              ¿Cómo comprar? Paga seguro con ePayco
+            </h2>
+            <p className="text-center text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+              Tarjeta, PSE o Nequi en pocos minutos. Mira el proceso paso a
+              paso o toca un paso para verlo.
+            </p>
+            <GuiaCompraEpayco />
+            <div className="mt-10">
+              <FacturaElectronicaAviso />
+            </div>
+            <div className="mt-8 text-center">
+              <Link
+                href="/como-comprar"
+                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+              >
+                Ver la guía completa →
+              </Link>
             </div>
           </div>
         </section>
