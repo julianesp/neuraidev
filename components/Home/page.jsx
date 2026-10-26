@@ -111,6 +111,19 @@ const SidebarContent = dynamic(
   { ssr: false },
 );
 const FAQ = dynamic(() => import("@/components/FAQ"), { ssr: false });
+// Chart.js solo se descarga en el cliente, sin cargar el bundle inicial del home.
+const GuiaCompraEpayco = dynamic(
+  () => import("@/app/_components/GuiaCompraEpayco"),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="rounded-2xl bg-gray-100 dark:bg-gray-700 animate-pulse"
+        style={{ height: 420 }}
+      />
+    ),
+  },
+);
 const TechnicalServicesCarousel = dynamic(
   () => import("@/components/TechnicalServicesCarousel"),
   { ssr: false },
@@ -307,6 +320,31 @@ export default function Inicio() {
         >
           <AccesoriosDestacados />
           <ProductosRecientes />
+        </section>
+
+        {/* Guía de compra con ePayco (línea de tiempo con Chart.js) */}
+        <section
+          id="como-comprar"
+          className={`${styles.guiaCompra} w-full px-4 py-12`}
+        >
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 text-gray-900 dark:text-white">
+              ¿Cómo comprar? Paga seguro con ePayco
+            </h2>
+            <p className="text-center text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+              Tarjeta, PSE o Nequi en pocos minutos. Toca una barra del gráfico
+              o un paso para ver qué pasa en cada momento.
+            </p>
+            <GuiaCompraEpayco />
+            <div className="text-center">
+              <Link
+                href="/como-comprar"
+                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+              >
+                Ver la guía completa →
+              </Link>
+            </div>
+          </div>
         </section>
 
         {/* Productos Más Visitados - Diseño Bento Grid */}

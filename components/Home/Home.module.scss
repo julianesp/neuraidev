@@ -632,6 +632,7 @@ $primary: $color-primario;
     grid-template-areas:
       "presentacion"
       "destacados"
+      "guiaCompra"
       "accesories"
       "tiendasDestacadas"
       "contactWhatsApp"
@@ -650,6 +651,10 @@ $primary: $color-primario;
 
     .container {
       min-height: auto;
+    }
+
+    & .guiaCompra {
+      grid-area: guiaCompra;
     }
 
     & .faq {
