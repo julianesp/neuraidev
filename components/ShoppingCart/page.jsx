@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
@@ -372,6 +373,16 @@ export default function ShoppingCart() {
                         ? `Pagar Neurai (${itemsPropios.length} producto${itemsPropios.length > 1 ? "s" : ""})`
                         : "Proceder al Pago"}
                     </button>
+                  )}
+
+                  {itemsPropios.length > 0 && (
+                    <Link
+                      href="/como-comprar"
+                      onClick={toggleCart}
+                      className="block text-center text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                    >
+                      ¿Cómo funciona el pago con ePayco?
+                    </Link>
                   )}
 
                   {/* Botón WhatsApp para tiendas */}

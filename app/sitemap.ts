@@ -40,6 +40,7 @@ const STATIC_PATHS: { path: string; priority: number }[] = [
   { path: "/noticias", priority: 0.5 },
   { path: "/sobre-nosotros", priority: 0.6 },
   { path: "/preguntas-frecuentes", priority: 0.6 },
+  { path: "/como-comprar", priority: 0.5 },
   { path: "/tiendas", priority: 0.5 },
   { path: "/para-tiendas", priority: 0.5 },
   { path: "/fastfoods", priority: 0.5 },

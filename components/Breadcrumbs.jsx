@@ -132,4 +132,5 @@ export const CATEGORY_NAMES = {
   "politica-privacidad": "Política de Privacidad",
   "terminos-condiciones": "Términos y Condiciones",
   "preguntas-frecuentes": "Preguntas Frecuentes",
+  "como-comprar": "Cómo comprar",
 };
