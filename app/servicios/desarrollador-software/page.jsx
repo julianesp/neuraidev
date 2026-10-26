@@ -3,8 +3,8 @@
 import React from "react";
 import styles from "./DesarrolladorSoftware.module.scss";
 import Link from "next/link";
-import Image from "next/image";
 import { portafolioSitios } from "@/data/portafolioSitios";
+import LogoSitio from "@/components/PortafolioSitios/LogoSitio";
 
 export default function DesarrolladorSoftware() {
   const tecnologias = [
@@ -149,17 +149,10 @@ export default function DesarrolladorSoftware() {
               className={styles.portfolioCard}
             >
               <div className={styles.portfolioIcon}>
-                {sitio.imagen.startsWith("http") ? (
-                  <Image
-                    src={sitio.imagen}
-                    alt={sitio.nombre}
-                    width={80}
-                    height={80}
-                    style={{ objectFit: "contain", borderRadius: "8px" }}
-                  />
-                ) : (
-                  sitio.imagen
-                )}
+                <LogoSitio
+                  sitio={sitio}
+                  className="bg-white border-2 border-gray-200"
+                />
               </div>
               <h3 className={styles.portfolioName}>{sitio.nombre}</h3>
               <p className={styles.portfolioDescription}>{sitio.descripcion}</p>

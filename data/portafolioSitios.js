@@ -10,14 +10,16 @@ export const portafolioSitios = [
     nombre: "posib.dev",
     url: "https://posib.dev/",
     descripcion: "Plataforma de desarrollo web y servicios digitales",
-    imagen: "🌐",
+    imagen: "https://pub-ea40242d92ce470fbb6e43d46f01cefe.r2.dev/images/logo.png",
+    // Ícono con fondo transparente: completo dentro del círculo, sin recortar.
+    ajuste: "contain",
   },
   {
     id: 2,
     nombre: "ipsinka.com",
     url: "https://ipsinka.com/",
     descripcion: "Sistema de gestión y servicios administrativos",
-    imagen: "💼",
+    imagen: "https://pub-1180f62273e4461daa58e3267d5d7b32.r2.dev/logo.jpg",
   },
   {
     id: 3,
@@ -25,13 +27,15 @@ export const portafolioSitios = [
     url: "https://neurai.dev/",
     descripcion: "E-commerce de tecnología y servicios profesionales",
     imagen: "https://media.neurai.dev/logo.png",
+    // Retrato vertical: encuadre arriba para que se vea la cara.
+    posicion: "top",
   },
   {
     id: 4,
     nombre: "motaxi.dev",
     url: "https://motaxi.dev/",
     descripcion: "Plataforma de servicios de transporte y movilidad",
-    imagen: "https://media.neurai.dev/motaxi/logo.png",
+    imagen: "/portafolio/motaxi.png",
   },
 ];
 

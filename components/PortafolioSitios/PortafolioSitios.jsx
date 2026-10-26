@@ -2,9 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { portafolioSitios } from "@/data/portafolioSitios";
+import LogoSitio from "./LogoSitio";
 
 /**
  * Sección de la página de inicio que muestra los sitios web / PWAs del
@@ -31,20 +31,7 @@ export default function PortafolioSitios() {
               key={sitio.id}
               className="flex flex-col items-center text-center bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-shadow border border-gray-100 dark:border-gray-700 p-6"
             >
-              <div className="flex items-center justify-center w-20 h-20 mb-4">
-                {sitio.imagen.startsWith("http") ? (
-                  <Image
-                    src={sitio.imagen}
-                    alt={sitio.nombre}
-                    width={80}
-                    height={80}
-                    style={{ objectFit: "contain", borderRadius: "8px" }}
-                    unoptimized
-                  />
-                ) : (
-                  <span className="text-5xl">{sitio.imagen}</span>
-                )}
-              </div>
+              <LogoSitio sitio={sitio} className="mb-4 bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600" />
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
                 {sitio.nombre}
               </h3>
