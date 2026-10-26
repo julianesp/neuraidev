@@ -23,7 +23,7 @@ const PASOS = [
   {
     titulo: "Completa tus datos de envío",
     texto:
-      "Nombre, correo, teléfono y dirección. Tu factura llega a ese correo. El precio se verifica en nuestro servidor antes de cobrar.",
+      "Nombre, correo, teléfono y dirección para la entrega. El precio se verifica en nuestro servidor antes de cobrar.",
     ms: 5600,
   },
   {
@@ -47,7 +47,7 @@ const PASOS = [
   {
     titulo: "Factura y entrega",
     texto:
-      "Te llega la factura al correo y te escribimos por el chat de soporte o WhatsApp para coordinar la entrega.",
+      "Descarga tu factura de compra como comprobante. ¿Necesitas factura electrónica? ¡Pídela por WhatsApp! Además te escribimos para coordinar la entrega.",
     ms: 4600,
   },
 ];

@@ -14,6 +14,7 @@ import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
 import { shouldShowCategory } from "@/utils/categoriesWithStock";
 import AppAndroidPestana from "@/app/_components/AppAndroidPestana";
 import GuiaCompraEpayco from "@/app/_components/guia-compra/GuiaCompraEpayco";
+import FacturaElectronicaAviso from "@/app/_components/guia-compra/FacturaElectronicaAviso";
 import {
   Smartphone,
   Monitor,
@@ -324,7 +325,10 @@ export default function Inicio() {
               paso o toca un paso para verlo.
             </p>
             <GuiaCompraEpayco />
-            <div className="mt-10 text-center">
+            <div className="mt-10">
+              <FacturaElectronicaAviso />
+            </div>
+            <div className="mt-8 text-center">
               <Link
                 href="/como-comprar"
                 className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"

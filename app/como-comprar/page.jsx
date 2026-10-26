@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import GuiaCompraEpayco from "@/app/_components/guia-compra/GuiaCompraEpayco";
+import FacturaElectronicaAviso from "@/app/_components/guia-compra/FacturaElectronicaAviso";
 
 export default function ComoComprarPage() {
   return (
@@ -30,8 +31,8 @@ export default function ComoComprarPage() {
                 Aceptada
               </p>
               <p className="text-sm text-gray-700 dark:text-gray-300">
-                El pago quedó aprobado. Tu pedido se confirma y la factura llega
-                a tu correo.
+                El pago quedó aprobado. Tu pedido se confirma y puedes descargar
+                tu factura de compra con el botón “Ver Factura”.
               </p>
             </div>
             <div className="rounded-xl border border-gray-200 dark:border-gray-700 p-4">
@@ -54,6 +55,10 @@ export default function ComoComprarPage() {
             </div>
           </div>
         </section>
+
+        <div className="mb-12">
+          <FacturaElectronicaAviso />
+        </div>
 
         <div className="text-center">
           <p className="text-gray-700 dark:text-gray-300 mb-4">

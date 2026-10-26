@@ -5,7 +5,9 @@ import {
   Building2,
   CheckCircle2,
   CreditCard,
+  Download,
   FileText,
+  Receipt,
   Mouse,
   ShieldCheck,
   ShoppingCart,
@@ -183,7 +185,7 @@ export default function PantallaCompra({ step }) {
           <Field label="Nombre completo *" active={step === 2}>
             {step === 2 && <Typed text="Ana Gómez" />}
           </Field>
-          <Field label="Correo (aquí llega tu factura) *" active={step === 2}>
+          <Field label="Correo electrónico *" active={step === 2}>
             {step === 2 && <Typed text="ana@correo.com" delayMs={700} />}
           </Field>
           <Field label="Teléfono *" active={step === 2}>
@@ -268,27 +270,45 @@ export default function PantallaCompra({ step }) {
         <div className="flex-1 p-3">{step === 5 && <EstadoPago />}</div>
       </Layer>
 
-      {/* 6. Factura y coordinación */}
+      {/* 6. Factura de compra, factura electrónica a pedido y coordinación */}
       <Layer active={step === 6}>
         <AppBar title="Tu pedido" />
         <div className="flex-1 space-y-3 p-3">
           {step === 6 && (
             <>
-              <Pop className="flex items-center gap-2.5 rounded-lg border border-slate-200 bg-white p-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-md bg-blue-50 text-blue-600">
-                  <FileText className="h-4 w-4" />
-                </span>
-                <span className="flex-1">
-                  <span className="block text-[12px] font-semibold">
-                    Factura electrónica
+              <Pop className="rounded-lg border border-slate-200 bg-white p-2.5">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-md bg-blue-50 text-blue-600">
+                    <FileText className="h-4 w-4" />
                   </span>
-                  <span className="block text-[10px] text-slate-500">
-                    Enviada a ana@correo.com · PDF
+                  <span className="flex-1">
+                    <span className="block text-[12px] font-semibold">
+                      Factura de compra
+                    </span>
+                    <span className="block text-[10px] text-slate-500">
+                      Comprobante en PDF de tu pago
+                    </span>
                   </span>
+                </div>
+                <Btn tap tapDelay={700} className="mt-2">
+                  <Download className="h-3.5 w-3.5" />
+                  Descargar factura
+                </Btn>
+              </Pop>
+              <Pop
+                delay={1700}
+                className="flex items-center gap-2.5 rounded-lg border border-dashed border-blue-400 bg-blue-50 p-2.5"
+              >
+                <Receipt className="h-5 w-5 shrink-0 text-blue-600" />
+                <span className="text-[11px] leading-snug text-slate-700">
+                  <span className="block font-semibold text-slate-900">
+                    ¿Necesitas factura electrónica?
+                  </span>
+                  ¡Pídela por WhatsApp y te la enviamos!
                 </span>
               </Pop>
               <Pop
-                delay={900}
+                delay={2600}
                 className="mr-6 rounded-2xl rounded-tl-sm bg-blue-600 p-3 text-[12px] text-white"
               >
                 <span className="mb-1 block text-[10px] font-semibold text-blue-100">
@@ -297,17 +317,11 @@ export default function PantallaCompra({ step }) {
                 ¡Hola Ana! Recibimos tu pago. ¿A qué hora te queda bien la
                 entrega?
               </Pop>
-              <Pop
-                delay={1900}
-                className="ml-10 rounded-2xl rounded-tr-sm bg-white p-3 text-[12px] text-slate-800 ring-1 ring-slate-200"
-              >
-                Hoy en la tarde, ¡gracias! 🙌
-              </Pop>
             </>
           )}
         </div>
-        <Toast show={step === 6} delay={2800}>
-          Pedido confirmado
+        <Toast show={step === 6} delay={1400}>
+          Factura descargada
         </Toast>
       </Layer>
     </>
