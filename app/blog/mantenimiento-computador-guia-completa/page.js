@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 export const metadata = {
+  alternates: { canonical: "/blog/mantenimiento-computador-guia-completa" },
   title: "Mantenimiento de Computadores: Guía Completa 2025",
   description:
     "Guía completa de mantenimiento preventivo y correctivo para computadores. Aprende a mantener tu PC funcionando como nuevo, mejorar el rendimiento y prolongar su vida útil.",

@@ -26,7 +26,6 @@ async function loadAllProducts() {
   const productFiles = [
     "celulares.json",
     "computadoras.json",
-    "damas.json",
     "libros-nuevos.json",
     "libros-usados.json",
     "generales.json",
@@ -65,7 +64,6 @@ async function getProductsContext() {
     computadoras: products.filter(
       (p) => p.categoria === "computadoras" && isAvailable(p),
     ),
-    damas: products.filter((p) => p.categoria === "damas" && isAvailable(p)),
     "libros-nuevos": products.filter(
       (p) => p.categoria === "libros-nuevos" && isAvailable(p),
     ),
@@ -110,10 +108,9 @@ const systemPrompt = `Eres un asistente virtual de ventas de Neurai.dev, una tie
 **CATEGORÍAS DE PRODUCTOS:**
 1. Accesorios para celulares: fundas, cargadores, cables, protectores de pantalla, manos libres, controles de juego
 2. Accesorios para computadoras: teclados, mouse, memorias RAM DDR4, discos SSD, pendrives, cables USB, Hub USB-C
-3. Productos para damas: accesorios y productos de cuidado personal
-4. Libros nuevos: diferentes géneros literarios
-5. Libros usados: a precios más accesibles
-6. Productos generales: gadgets, accesorios para mascotas, ciclismo, karaoke, drones y más
+3. Libros nuevos: diferentes géneros literarios
+4. Libros usados: a precios más accesibles
+5. Productos generales: gadgets, accesorios para mascotas, ciclismo, karaoke, drones y más
 
 **ENVÍOS:**
 - Cobertura nacional en Colombia
@@ -217,7 +214,6 @@ ${productsContext.expensiveProducts
 **Productos por categoría:**
 - Celulares: ${productsContext.categories.celulares.length} productos
 - Computadoras: ${productsContext.categories.computadoras.length} productos
-- Damas: ${productsContext.categories.damas.length} productos
 - Libros nuevos: ${productsContext.categories["libros-nuevos"].length} productos
 - Libros usados: ${productsContext.categories["libros-usados"].length} productos
 - Generales: ${productsContext.categories.generales.length} productos

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
+  alternates: { canonical: "/para-tiendas" },
   title: "Vende en Neurai | Espacio para Tiendas",
   description:
     "Consigue tu espacio de venta en Neurai. Tu tienda lista, activa y publicando productos desde el primer día.",

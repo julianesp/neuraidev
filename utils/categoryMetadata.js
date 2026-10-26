@@ -28,12 +28,6 @@ const CATEGORY_INFO = {
     keywords:
       "libros nuevos, literatura, desarrollo personal, biografías, libros Valle de Sibundoy",
   },
-  belleza: {
-    title: "Belleza y Cuidado Personal",
-    description:
-      "Productos de belleza y cuidado personal con envío gratis en el Valle de Sibundoy (Colón, Sibundoy, Santiago, San Francisco) y envíos a toda Colombia.",
-    keywords: "belleza, cuidado personal, Putumayo",
-  },
   "libros-usados": {
     title: "Libros Usados",
     description:

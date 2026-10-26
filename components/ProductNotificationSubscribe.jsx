@@ -35,8 +35,6 @@ export default function ProductNotificationSubscribe({ className = "" }) {
     { value: "celulares", label: "Celulares" },
     { value: "computadoras", label: "Computadoras" },
     { value: "gadgets", label: "Gadgets y Accesorios" },
-    { value: "damas", label: "Productos para Damas" },
-    { value: "belleza", label: "Belleza y Cuidado Personal" },
     { value: "libros", label: "Libros" },
   ];
 

@@ -1,6 +1,7 @@
 import React from "react";
 
 export const metadata = {
+  alternates: { canonical: "/politica-privacidad" },
   title: "Política de Privacidad",
   description: "Política de privacidad y protección de datos de Neurai.dev. Conoce cómo recopilamos, usamos y protegemos tu información personal.",
   robots: {

@@ -1,6 +1,7 @@
 import React from "react";
 
 export const metadata = {
+  alternates: { canonical: "/terminos-condiciones" },
   title: "Términos y Condiciones",
   description: "Términos y condiciones de uso del sitio web Neurai.dev. Lee nuestros términos antes de realizar compras o utilizar nuestros servicios.",
   robots: {
@@ -48,7 +49,6 @@ export default function TerminosCondiciones() {
             <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-4 space-y-2">
               <li>Venta de productos tecnológicos (celulares, computadores, accesorios)</li>
               <li>Venta de libros nuevos y usados</li>
-              <li>Productos para damas</li>
               <li>Artículos generales</li>
               <li>Servicios profesionales (desarrollo web, soporte técnico, servicios contables, transporte)</li>
             </ul>

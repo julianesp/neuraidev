@@ -36,10 +36,8 @@ export async function GET(request) {
       'computadoras': 'computadoras',
       'libros-nuevos': 'libros-nuevos',
       'libros-usados': 'libros-usados',
-      'belleza': 'belleza',
       'generales': 'generales',
-      'destacados': 'destacados',
-      'damas': 'damas'
+      'destacados': 'destacados'
     };
 
     const dbCategory = categoryMap[category] || category;

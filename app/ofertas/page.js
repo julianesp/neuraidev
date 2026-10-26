@@ -1,6 +1,7 @@
 import OfertasEspeciales from "@/components/OfertasEspeciales";
 
 export const metadata = {
+  alternates: { canonical: "/ofertas" },
   title: "Ofertas Especiales",
   description:
     "Descubre nuestras ofertas especiales en servicios tecnológicos. Mantenimiento de computadores, desarrollo web y más con descuentos increíbles.",

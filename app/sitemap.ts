@@ -13,7 +13,6 @@ const BASE_URL = "https://neurai.dev";
 const PRODUCT_CATEGORIES = [
   "celulares",
   "computadoras",
-  "belleza",
   "generales",
   "libros-nuevos",
   "libros-usados",

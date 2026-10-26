@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 export const metadata = {
+  alternates: { canonical: "/blog/ssd-vs-hdd-cual-elegir" },
   title: "SSD vs HDD: ¿Cuál Necesitas Realmente en 2025?",
   description: "Comparativa completa entre discos SSD y HDD. Descubre las diferencias, ventajas, desventajas y cuál es la mejor opción según tu uso. Guía actualizada 2025 para Colombia.",
   keywords: "SSD vs HDD, disco duro, disco sólido, almacenamiento PC, upgrade SSD, Colombia",

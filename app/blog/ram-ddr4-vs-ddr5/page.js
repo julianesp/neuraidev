@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 export const metadata = {
+  alternates: { canonical: "/blog/ram-ddr4-vs-ddr5" },
   title: "RAM DDR4 vs DDR5: ¿Vale la Pena el Upgrade en 2025?",
   description: "Comparativa completa entre memoria RAM DDR4 y DDR5. Diferencias de velocidad, compatibilidad, precios y si realmente vale la pena actualizar en 2025.",
   keywords: "RAM DDR4, DDR5, memoria RAM, upgrade PC, Colombia",

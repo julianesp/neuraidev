@@ -122,10 +122,7 @@ const Footer = () => {
                 <Link href="/accesorios/computadoras">Computadoras</Link>
               </li>
               <li>
-                <Link href="/accesorios/damas">Damas</Link>
-              </li>
-              <li>
-                <Link href="/accesorios/belleza">Belleza</Link>
+                <Link href="/accesorios/generales">Generales</Link>
               </li>
               {librosHref && (
                 <li>

@@ -8,13 +8,13 @@ import { getCategoriesWithStock, shouldShowCategory } from "@/utils/categoriesWi
 export const metadata = {
   title: "Accesorios y Productos | Tienda Online Neurai.dev",
   description:
-    "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos de belleza, libros nuevos y usados. Envíos a toda Colombia.",
+    "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos generales, libros nuevos y usados. Envíos a toda Colombia.",
   keywords:
-    "accesorios celulares, accesorios computadoras, productos belleza, libros nuevos, libros usados, gadgets tecnológicos",
+    "accesorios celulares, accesorios computadoras, productos generales, libros nuevos, libros usados, gadgets tecnológicos",
   openGraph: {
     title: "Accesorios y Productos | Tienda Online Neurai.dev",
     description:
-      "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos de belleza, libros nuevos y usados.",
+      "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos generales, libros nuevos y usados.",
     url: "https://neurai.dev/accesorios",
     type: "website",
     images: [
@@ -30,7 +30,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Accesorios y Productos | Neurai.dev",
     description:
-      "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos de belleza, libros.",
+      "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos generales y libros.",
   },
   alternates: {
     canonical: "/accesorios",
@@ -77,14 +77,6 @@ const categorias = [
     icono: <BookOpen className="w-8 h-8" />,
     color: "bg-amber-600",
   },
-  // {
-  //   id: "belleza",
-  //   nombre: "Productos de Belleza",
-  //   descripcion: "Accesorios y productos de belleza y cuidado personal",
-  //   ruta: "/accesorios/belleza",
-  //   icono: <Heart className="w-8 h-8" />,
-  //   color: "bg-rose-500",
-  // },
   {
     id: "generales",
     nombre: "Accesorios Generales",

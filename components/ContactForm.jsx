@@ -48,7 +48,6 @@ Presupuesto aproximado: ${formData.budget}`;
               <Dropdown.Item eventKey="celulares">Celulares</Dropdown.Item>
               <Dropdown.Item eventKey="computadoras">Computadoras</Dropdown.Item>
               <Dropdown.Item eventKey="accesorios">Accesorios</Dropdown.Item>
-              <Dropdown.Item eventKey="damas">Ropa Damas</Dropdown.Item>
               <Dropdown.Item eventKey="otros">Otros productos</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

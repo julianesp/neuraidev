@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Sobre Nosotros",
   description: "Conoce la historia de Neurai.dev, tu tienda de tecnología y servicios profesionales en Colombia. Más de 6 años ofreciendo productos de calidad y servicios excepcionales.",
+  alternates: { canonical: "/sobre-nosotros" },
   keywords: "sobre neurai.dev, quiénes somos, tienda tecnología Colombia, servicios profesionales, historia empresa",
   openGraph: {
     title: "Sobre Nosotros - Neurai.dev",
@@ -30,3 +31,7 @@ export const metadata = {
     follow: true,
   },
 };
+
+export default function Layout({ children }) {
+  return children;
+}

@@ -281,10 +281,8 @@ export default function AdminOfertas() {
       celulares: "📱",
       computadoras: "💻",
       generales: "🔧",
-      belleza: "💄",
       "libros-nuevos": "📚",
       "libros-usados": "📖",
-      damas: "👗",
     };
     return emojis[categoria] || "📦";
   };

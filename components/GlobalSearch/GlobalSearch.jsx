@@ -49,7 +49,6 @@ export default function GlobalSearch() {
         files: [
           "celulares.json",
           "computadoras.json",
-          "damas.json",
           "libros-nuevos.json",
           "libros-usados.json",
           "generales.json",
@@ -76,22 +75,6 @@ export default function GlobalSearch() {
         files: ["computadoras.json"],
         placeholder: "Buscar accesorios para computadoras...",
         category: "computadoras",
-      };
-    }
-
-    if (pathname.includes("/damas")) {
-      return {
-        files: ["damas.json"],
-        placeholder: "Buscar accesorios para damas...",
-        category: "damas",
-      };
-    }
-
-    if (pathname.includes("/belleza")) {
-      return {
-        files: ["belleza.json"],
-        placeholder: "Buscar productos de belleza...",
-        category: "belleza",
       };
     }
 
@@ -125,7 +108,6 @@ export default function GlobalSearch() {
         files: [
           "celulares.json",
           "computadoras.json",
-          "damas.json",
           "libros-nuevos.json",
           "libros-usados.json",
           "generales.json",
@@ -158,7 +140,6 @@ export default function GlobalSearch() {
       files: [
         "celulares.json",
         "computadoras.json",
-        "damas.json",
         "libros-nuevos.json",
         "libros-usados.json",
         "generales.json",

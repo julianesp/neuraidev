@@ -42,7 +42,6 @@ export default function EditarProductoPage() {
   const categorias = [
     "celulares",
     "computadoras",
-    "damas",
     "libros-nuevos",
     "libros-usados",
     "generales",

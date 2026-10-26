@@ -14,6 +14,7 @@ export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
 export const metadata = {
+  alternates: { canonical: "/blog" },
   title: "Blog de Tecnología",
   description:
     "Artículos, guías y consejos sobre tecnología, computadores, celulares, desarrollo web y más. Mantente actualizado con las últimas tendencias tecnológicas.",

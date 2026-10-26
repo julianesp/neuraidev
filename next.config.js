@@ -230,6 +230,18 @@ const nextConfig = {
         destination: "/accesorios/libros-usados/:slug*",
         permanent: true,
       },
+      // "damas" y "belleza" ya no existen: sus productos pasan a "generales"
+      {
+        source: "/accesorios/:cat(damas|belleza)/:slug*",
+        destination: "/accesorios/generales/:slug*",
+        permanent: true,
+      },
+      // URL antigua de la home que Google aún rastrea
+      {
+        source: "/Home",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
 };
