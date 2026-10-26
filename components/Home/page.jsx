@@ -16,7 +16,6 @@ import AppAndroidPestana from "@/app/_components/AppAndroidPestana";
 import {
   Smartphone,
   Monitor,
-  BookOpen,
   Package,
   MessageCircle,
   X,
@@ -150,22 +149,6 @@ const categorias = [
     color: "bg-green-500",
   },
   {
-    id: "libros-nuevos",
-    nombre: "Libros nuevos",
-    descripcion: "Colección de libros nuevos de diferentes géneros",
-    ruta: "/accesorios/libros-nuevos",
-    icono: <BookOpen className="w-8 h-8" />,
-    color: "bg-orange-500",
-  },
-  {
-    id: "libros-usados",
-    nombre: "Libros usados",
-    descripcion: "Libros de segunda mano en excelente estado",
-    ruta: "/accesorios/libros-usados",
-    icono: <BookOpen className="w-8 h-8" />,
-    color: "bg-amber-600",
-  },
-  {
     id: "generales",
     nombre: "Generales",
     descripcion: "Variedad de productos para diferentes necesidades",
@@ -180,7 +163,7 @@ export default function Inicio() {
 
   // Categorías con stock real en D1. Empezamos con null: hasta saber el stock
   // ocultamos las categorías controladas por stock, así no parpadea una
-  // categoría (p. ej. libros) que luego resultaría estar vacía.
+  // categoría que luego resultaría estar vacía.
   const [categoriasConStock, setCategoriasConStock] = useState(null);
 
   useEffect(() => {
@@ -212,8 +195,6 @@ export default function Inicio() {
   const linkDirectRef = useRef(null);
   const celularesRef = useRef(null);
   const computadoresRef = useRef(null);
-  const librosNuevosRef = useRef(null);
-  const librosUsadosRef = useRef(null);
   const accesoriosRef = useRef(null);
 
   useEffect(() => {
@@ -255,10 +236,10 @@ export default function Inicio() {
       publicidadRef,
       linkDirectRef,
     ].forEach((r) => r.current && fadeInObserver.observe(r.current));
-    [celularesRef, librosUsadosRef, accesoriosRef].forEach(
+    [celularesRef, accesoriosRef].forEach(
       (r) => r.current && fadeLeftObserver.observe(r.current),
     );
-    [computadoresRef, librosNuevosRef].forEach(
+    [computadoresRef].forEach(
       (r) => r.current && fadeRightObserver.observe(r.current),
     );
 

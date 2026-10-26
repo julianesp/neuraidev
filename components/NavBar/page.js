@@ -38,11 +38,6 @@ const NavBar = () => {
 
   const [mounted, setMounted] = useState(false);
 
-  // Categorías de libros con stock real: solo se muestran en el menú si hay
-  // al menos un producto en existencia. Se resuelve tras montar.
-  const [librosNuevosConStock, setLibrosNuevosConStock] = useState(false);
-  const [librosUsadosConStock, setLibrosUsadosConStock] = useState(false);
-
   // Verificar si el usuario es administrador o dueño de tienda
   const userIsAdmin = user && isAdmin(user);
   const userIsTienda = user?.publicMetadata?.role === "tienda";
@@ -149,22 +144,6 @@ const NavBar = () => {
     document.addEventListener("click", handleOutsideClick);
     return () => {
       document.removeEventListener("click", handleOutsideClick);
-    };
-  }, []);
-
-  useEffect(() => {
-    let activo = true;
-    fetch("/api/categorias/stock")
-      .then((r) => r.json())
-      .then((data) => {
-        if (!activo || !data.success) return;
-        const set = new Set(data.categorias);
-        setLibrosNuevosConStock(set.has("libros-nuevos"));
-        setLibrosUsadosConStock(set.has("libros-usados"));
-      })
-      .catch(() => {});
-    return () => {
-      activo = false;
     };
   }, []);
 
@@ -283,26 +262,6 @@ const NavBar = () => {
                   </Link>
                 </li>
 
-                {librosNuevosConStock && (
-                  <li>
-                    <Link
-                      href="/accesorios/libros-nuevos"
-                      onClick={handleLinkClick}
-                    >
-                      Libros Nuevos
-                    </Link>
-                  </li>
-                )}
-                {librosUsadosConStock && (
-                  <li>
-                    <Link
-                      href="/accesorios/libros-usados"
-                      onClick={handleLinkClick}
-                    >
-                      Libros Usados
-                    </Link>
-                  </li>
-                )}
                 <li>
                   <Link href="/accesorios/generales" onClick={handleLinkClick}>
                     Generales

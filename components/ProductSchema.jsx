@@ -56,8 +56,7 @@ export default function ProductSchema({ producto }) {
   const url = `https://neurai.dev/accesorios/${producto.categoria}/${generateProductSlug(producto)}`;
   const usado =
     producto.condicion === "usado" ||
-    producto.estado === "usado" ||
-    producto.categoria === "libros-usados";
+    producto.estado === "usado";
   const agotado =
     !producto.disponible ||
     (producto.stock !== undefined && producto.stock !== null && Number(producto.stock) <= 0);

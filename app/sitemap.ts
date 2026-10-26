@@ -14,8 +14,6 @@ const PRODUCT_CATEGORIES = [
   "celulares",
   "computadoras",
   "generales",
-  "libros-nuevos",
-  "libros-usados",
 ] as const;
 
 // Páginas estáticas públicas (sin admin/dashboard/api/auth).

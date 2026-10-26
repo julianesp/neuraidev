@@ -176,8 +176,6 @@ Hola, me gustaría obtener información sobre este producto:
               <option value="">Selecciona una categoría</option>
               <option value="Celulares">Celulares</option>
               <option value="Computadores">Computadores</option>
-              <option value="Libros Nuevos">Libros Nuevos</option>
-              <option value="Libros Usados">Libros Usados</option>
               <option value="Accesorios Generales">Accesorios Generales</option>
               <option value="Desarrollo Web">Desarrollo Web</option>
               <option value="Servicios Técnicos">Servicios Técnicos</option>

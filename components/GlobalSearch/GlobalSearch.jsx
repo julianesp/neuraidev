@@ -49,8 +49,6 @@ export default function GlobalSearch() {
         files: [
           "celulares.json",
           "computadoras.json",
-          "libros-nuevos.json",
-          "libros-usados.json",
           "generales.json",
           "accesoriosDestacados.json",
           "productosRecientes.json",
@@ -78,22 +76,6 @@ export default function GlobalSearch() {
       };
     }
 
-    if (pathname.includes("/libros-nuevos")) {
-      return {
-        files: ["libros-nuevos.json"],
-        placeholder: "Buscar libros nuevos...",
-        category: "libros-nuevos",
-      };
-    }
-
-    if (pathname.includes("/libros-usados")) {
-      return {
-        files: ["libros-usados.json"],
-        placeholder: "Buscar libros usados...",
-        category: "libros-usados",
-      };
-    }
-
     if (pathname.includes("/generales")) {
       return {
         files: ["generales.json"],
@@ -108,8 +90,6 @@ export default function GlobalSearch() {
         files: [
           "celulares.json",
           "computadoras.json",
-          "libros-nuevos.json",
-          "libros-usados.json",
           "generales.json",
         ],
         placeholder: "Buscar productos...",
@@ -140,8 +120,6 @@ export default function GlobalSearch() {
       files: [
         "celulares.json",
         "computadoras.json",
-        "libros-nuevos.json",
-        "libros-usados.json",
         "generales.json",
       ],
       placeholder: "Buscar productos...",

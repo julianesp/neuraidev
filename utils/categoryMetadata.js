@@ -21,20 +21,6 @@ const CATEGORY_INFO = {
     keywords:
       "accesorios generales, gadgets, herramientas, productos deportivos, mascotas",
   },
-  "libros-nuevos": {
-    title: "Libros Nuevos",
-    description:
-      "Libros nuevos de diferentes géneros: desarrollo personal, biografías, literatura clásica y más. Amplía tu biblioteca personal.",
-    keywords:
-      "libros nuevos, literatura, desarrollo personal, biografías, libros Valle de Sibundoy",
-  },
-  "libros-usados": {
-    title: "Libros Usados",
-    description:
-      "Libros universitarios usados: programación, matemáticas, ingeniería, circuitos electrónicos y más. Ahorra en libros académicos.",
-    keywords:
-      "libros usados, libros universitarios, programación, matemáticas, ingeniería, textos académicos",
-  },
 };
 
 /**

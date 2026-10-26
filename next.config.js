@@ -219,20 +219,10 @@ const nextConfig = {
         destination: "/accesorios/computadoras/:slug*",
         permanent: true,
       },
-      // Redirecciones para libros
+      // Libros, damas y belleza ya no existen: sus productos pasan a "generales"
       {
-        source: "/accesorios/librosnuevos/:slug*",
-        destination: "/accesorios/libros-nuevos/:slug*",
-        permanent: true,
-      },
-      {
-        source: "/accesorios/librosusados/:slug*",
-        destination: "/accesorios/libros-usados/:slug*",
-        permanent: true,
-      },
-      // "damas" y "belleza" ya no existen: sus productos pasan a "generales"
-      {
-        source: "/accesorios/:cat(damas|belleza)/:slug*",
+        source:
+          "/accesorios/:cat(damas|belleza|libros-nuevos|libros-usados|librosnuevos|librosusados)/:slug*",
         destination: "/accesorios/generales/:slug*",
         permanent: true,
       },

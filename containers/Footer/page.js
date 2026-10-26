@@ -11,9 +11,6 @@ const Footer = () => {
   const [menuOption, setMenuOptions] = useState(false);
   const { isMinecraftTheme, toggleMinecraftTheme } = useMinecraftTheme();
   const [isClient, setIsClient] = useState(false);
-  // Ruta de "Libros" en el footer: la categoría de libros con stock, o null si
-  // ninguna tiene existencias (en cuyo caso no se muestra el enlace).
-  const [librosHref, setLibrosHref] = useState(null);
   const menuRef = useRef(null);
   const flechaRef = useRef(null);
 
@@ -23,23 +20,6 @@ const Footer = () => {
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    let activo = true;
-    fetch("/api/categorias/stock")
-      .then((r) => r.json())
-      .then((data) => {
-        if (!activo || !data.success) return;
-        const set = new Set(data.categorias);
-        if (set.has("libros-nuevos")) setLibrosHref("/accesorios/libros-nuevos");
-        else if (set.has("libros-usados")) setLibrosHref("/accesorios/libros-usados");
-        else setLibrosHref(null);
-      })
-      .catch(() => {});
-    return () => {
-      activo = false;
-    };
   }, []);
 
   useEffect(() => {
@@ -124,11 +104,6 @@ const Footer = () => {
               <li>
                 <Link href="/accesorios/generales">Generales</Link>
               </li>
-              {librosHref && (
-                <li>
-                  <Link href={librosHref}>Libros</Link>
-                </li>
-              )}
             </ul>
           </div>
 

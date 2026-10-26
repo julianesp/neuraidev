@@ -20,18 +20,6 @@ const categories = [
     subcategories: ["Mouse", "Teclados", "Webcam", "Memorias USB"]
   },
   {
-    name: "Libros Nuevos",
-    slug: "libros-nuevos",
-    icon: "📚",
-    subcategories: ["Ficción", "No Ficción", "Educación", "Técnicos"]
-  },
-  {
-    name: "Libros Usados",
-    slug: "libros-usados",
-    icon: "📖",
-    subcategories: ["Ficción", "No Ficción", "Educación", "Técnicos"]
-  },
-  {
     name: "Generales",
     slug: "generales",
     icon: "🎯",

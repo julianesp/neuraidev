@@ -26,8 +26,6 @@ async function loadAllProducts() {
   const productFiles = [
     "celulares.json",
     "computadoras.json",
-    "libros-nuevos.json",
-    "libros-usados.json",
     "generales.json",
   ];
 
@@ -63,12 +61,6 @@ async function getProductsContext() {
     ),
     computadoras: products.filter(
       (p) => p.categoria === "computadoras" && isAvailable(p),
-    ),
-    "libros-nuevos": products.filter(
-      (p) => p.categoria === "libros-nuevos" && isAvailable(p),
-    ),
-    "libros-usados": products.filter(
-      (p) => p.categoria === "libros-usados" && isAvailable(p),
     ),
     generales: products.filter(
       (p) => p.categoria === "generales" && isAvailable(p),
@@ -108,9 +100,7 @@ const systemPrompt = `Eres un asistente virtual de ventas de Neurai.dev, una tie
 **CATEGORÍAS DE PRODUCTOS:**
 1. Accesorios para celulares: fundas, cargadores, cables, protectores de pantalla, manos libres, controles de juego
 2. Accesorios para computadoras: teclados, mouse, memorias RAM DDR4, discos SSD, pendrives, cables USB, Hub USB-C
-3. Libros nuevos: diferentes géneros literarios
-4. Libros usados: a precios más accesibles
-5. Productos generales: gadgets, accesorios para mascotas, ciclismo, karaoke, drones y más
+3. Productos generales: gadgets, accesorios para mascotas, ciclismo, karaoke, drones y más
 
 **ENVÍOS:**
 - Cobertura nacional en Colombia
@@ -214,8 +204,6 @@ ${productsContext.expensiveProducts
 **Productos por categoría:**
 - Celulares: ${productsContext.categories.celulares.length} productos
 - Computadoras: ${productsContext.categories.computadoras.length} productos
-- Libros nuevos: ${productsContext.categories["libros-nuevos"].length} productos
-- Libros usados: ${productsContext.categories["libros-usados"].length} productos
 - Generales: ${productsContext.categories.generales.length} productos
 
 **Catálogo completo de productos disponibles:**
@@ -298,7 +286,7 @@ async function fallbackResponse(request) {
           "económico",
         ],
         response:
-          "💰 Para ver los precios de nuestros productos, te recomiendo explorar nuestras categorías:\n\n📱 Celulares: /accesorios/celulares\n💻 Computadoras: /accesorios/computadoras\n📚 Libros: /accesorios/libros-nuevos\n\nTambién puedes contactarnos por WhatsApp: +57 317 450 3604",
+          "💰 Para ver los precios de nuestros productos, te recomiendo explorar nuestras categorías:\n\n📱 Celulares: /accesorios/celulares\n💻 Computadoras: /accesorios/computadoras\n📦 Generales: /accesorios/generales\n\nTambién puedes contactarnos por WhatsApp: +57 317 450 3604",
       },
       envio: {
         keywords: ["envío", "envio", "entrega", "domicilio", "despacho"],

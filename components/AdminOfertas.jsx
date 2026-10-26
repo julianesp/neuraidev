@@ -281,8 +281,6 @@ export default function AdminOfertas() {
       celulares: "📱",
       computadoras: "💻",
       generales: "🔧",
-      "libros-nuevos": "📚",
-      "libros-usados": "📖",
     };
     return emojis[categoria] || "📦";
   };

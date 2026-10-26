@@ -9,8 +9,6 @@ import { d1Select } from "@/lib/db-d1";
 export const STOCK_CONTROLLED_CATEGORIES = [
   "celulares",
   "computadoras",
-  "libros-nuevos",
-  "libros-usados",
   "generales",
 ];
 
@@ -19,8 +17,7 @@ export const STOCK_CONTROLLED_CATEGORIES = [
  * producto disponible con stock (mismo criterio que normalizarProducto:
  * disponible = 1 AND stock > 0).
  *
- * Se usa para no mostrar al usuario categorías vacías (p. ej. libros cuando
- * no hay ningún ejemplar en existencia). En cuanto se agrega un producto con
+ * Se usa para no mostrar al usuario categorías vacías. En cuanto se agrega un producto con
  * stock, la categoría vuelve a aparecer automáticamente.
  *
  * @returns {Promise<Set<string>>} Set de slugs de categoría con existencias.
@@ -46,7 +43,7 @@ export async function getCategoriesWithStock() {
  * - Categorías fuera de STOCK_CONTROLLED_CATEGORIES siempre se muestran.
  * - Las controladas por stock solo se muestran si están en el set con stock.
  *
- * @param {string} categoriaId - slug de la categoría (p. ej. "libros-nuevos")
+ * @param {string} categoriaId - slug de la categoría (p. ej. "celulares")
  * @param {Set<string>} categoriasConStock - resultado de getCategoriesWithStock
  * @returns {boolean}
  */

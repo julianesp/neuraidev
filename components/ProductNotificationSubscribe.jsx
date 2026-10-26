@@ -35,7 +35,6 @@ export default function ProductNotificationSubscribe({ className = "" }) {
     { value: "celulares", label: "Celulares" },
     { value: "computadoras", label: "Computadoras" },
     { value: "gadgets", label: "Gadgets y Accesorios" },
-    { value: "libros", label: "Libros" },
   ];
 
   const handleCategoriaToggle = (categoria) => {

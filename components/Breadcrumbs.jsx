@@ -121,8 +121,6 @@ export const CATEGORY_NAMES = {
   "accesorios": "Accesorios",
   "celulares": "Celulares",
   "computadoras": "Computadoras",
-  "libros-nuevos": "Libros Nuevos",
-  "libros-usados": "Libros Usados",
   "generales": "Generales",
   "destacados": "Destacados",
   "nuevos": "Nuevos",

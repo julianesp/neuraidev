@@ -34,8 +34,6 @@ export async function GET(request) {
     const categoryMap = {
       'celulares': 'celulares',
       'computadoras': 'computadoras',
-      'libros-nuevos': 'libros-nuevos',
-      'libros-usados': 'libros-usados',
       'generales': 'generales',
       'destacados': 'destacados'
     };

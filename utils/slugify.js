@@ -116,12 +116,13 @@ export function getCategorySlug(apiUrl) {
     accesoriosNuevos: "nuevos",
     accesorios_generales: "generales",
     accesories: "computadoras", // Este archivo parece contener accesorios de computadoras
-    accesoriesBooksNew: "libros-nuevos",
-    accesoriesBooksOld: "libros-usados",
-    librosnuevos: "libros-nuevos",
-    librosusados: "libros-usados",
-    "libros-nuevos": "libros-nuevos",
-    "libros-usados": "libros-usados",
+    // Las categorías de libros ya no existen: sus productos están en generales
+    accesoriesBooksNew: "generales",
+    accesoriesBooksOld: "generales",
+    librosnuevos: "generales",
+    librosusados: "generales",
+    "libros-nuevos": "generales",
+    "libros-usados": "generales",
   };
 
   return categoryMapping[categoryName] || categoryName;
@@ -131,17 +132,8 @@ export function getCategorySlug(apiUrl) {
  * Construye la URL completa del producto
  * @param {string} categorySlug - Slug de la categoría
  * @param {string} productSlug - Slug del producto
- * @param {object} product - Objeto del producto (opcional, para casos especiales como libros)
  * @returns {string} - URL completa del producto
  */
-export function buildProductUrl(categorySlug, productSlug, product = null) {
-  // Caso especial: si es categoría "libros", determinar si es nuevo o usado
-  if (categorySlug === "libros" && product) {
-    const condicion = product.condicion || "nuevo"; // Default a 'nuevo' si no está especificado
-    const subcategorySlug =
-      condicion === "usado" ? "libros-usados" : "libros-nuevos";
-    return `/accesorios/${subcategorySlug}/${productSlug}`;
-  }
-
+export function buildProductUrl(categorySlug, productSlug) {
   return `/accesorios/${categorySlug}/${productSlug}`;
 }

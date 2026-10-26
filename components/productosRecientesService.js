@@ -7,8 +7,6 @@
 const CATEGORIAS_ARCHIVOS = {
   celulares: "/celulares.json",
   computadoras: "/computadoras.json",
-  "libros-nuevos": "/libros-nuevos.json",
-  "libros-usados": "/libros-usados.json",
   generales: "/generales.json",
 };
 

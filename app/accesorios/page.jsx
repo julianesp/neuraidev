@@ -8,13 +8,13 @@ import { getCategoriesWithStock, shouldShowCategory } from "@/utils/categoriesWi
 export const metadata = {
   title: "Accesorios y Productos | Tienda Online Neurai.dev",
   description:
-    "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos generales, libros nuevos y usados. Envíos a toda Colombia.",
+    "Explora nuestra amplia selección de accesorios para celulares, computadoras y productos generales. Envíos a toda Colombia.",
   keywords:
-    "accesorios celulares, accesorios computadoras, productos generales, libros nuevos, libros usados, gadgets tecnológicos",
+    "accesorios celulares, accesorios computadoras, productos generales, gadgets tecnológicos",
   openGraph: {
     title: "Accesorios y Productos | Tienda Online Neurai.dev",
     description:
-      "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos generales, libros nuevos y usados.",
+      "Explora nuestra amplia selección de accesorios para celulares, computadoras y productos generales.",
     url: "https://neurai.dev/accesorios",
     type: "website",
     images: [
@@ -30,7 +30,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Accesorios y Productos | Neurai.dev",
     description:
-      "Explora nuestra amplia selección de accesorios para celulares, computadoras, productos generales y libros.",
+      "Explora nuestra amplia selección de accesorios para celulares, computadoras y productos generales.",
   },
   alternates: {
     canonical: "/accesorios",
@@ -39,7 +39,6 @@ export const metadata = {
 import {
   Smartphone,
   Monitor,
-  BookOpen,
   Package,
   Star,
 } from "lucide-react";
@@ -60,22 +59,6 @@ const categorias = [
     ruta: "/accesorios/computadoras",
     icono: <Monitor className="w-8 h-8" />,
     color: "bg-green-500",
-  },
-  {
-    id: "libros-nuevos",
-    nombre: "Libros Nuevos",
-    descripcion: "Colección de libros nuevos de diferentes géneros",
-    ruta: "/accesorios/libros-nuevos",
-    icono: <BookOpen className="w-8 h-8" />,
-    color: "bg-orange-500",
-  },
-  {
-    id: "libros-usados",
-    nombre: "Libros Usados",
-    descripcion: "Libros de segunda mano en excelente estado",
-    ruta: "/accesorios/libros-usados",
-    icono: <BookOpen className="w-8 h-8" />,
-    color: "bg-amber-600",
   },
   {
     id: "generales",
