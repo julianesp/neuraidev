@@ -13,6 +13,7 @@ import CategoryCard from "@/components/CategoryCard";
 import ContactWhatsApp from "@/components/ContactWhatsApp/ContactWhatsApp";
 import { shouldShowCategory } from "@/utils/categoriesWithStock";
 import AppAndroidPestana from "@/app/_components/AppAndroidPestana";
+import GuiaCompraEpayco from "@/app/_components/guia-compra/GuiaCompraEpayco";
 import {
   Smartphone,
   Monitor,
@@ -111,19 +112,6 @@ const SidebarContent = dynamic(
   { ssr: false },
 );
 const FAQ = dynamic(() => import("@/components/FAQ"), { ssr: false });
-// Chart.js solo se descarga en el cliente, sin cargar el bundle inicial del home.
-const GuiaCompraEpayco = dynamic(
-  () => import("@/app/_components/GuiaCompraEpayco"),
-  {
-    ssr: false,
-    loading: () => (
-      <div
-        className="rounded-2xl bg-gray-100 dark:bg-gray-700 animate-pulse"
-        style={{ height: 420 }}
-      />
-    ),
-  },
-);
 const TechnicalServicesCarousel = dynamic(
   () => import("@/components/TechnicalServicesCarousel"),
   { ssr: false },
@@ -322,7 +310,7 @@ export default function Inicio() {
           <ProductosRecientes />
         </section>
 
-        {/* Guía de compra con ePayco (línea de tiempo con Chart.js) */}
+        {/* Guía de compra con ePayco: demo animada en un celular */}
         <section
           id="como-comprar"
           className={`${styles.guiaCompra} w-full px-4 py-12`}
@@ -332,11 +320,11 @@ export default function Inicio() {
               ¿Cómo comprar? Paga seguro con ePayco
             </h2>
             <p className="text-center text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-              Tarjeta, PSE o Nequi en pocos minutos. Toca una barra del gráfico
-              o un paso para ver qué pasa en cada momento.
+              Tarjeta, PSE o Nequi en pocos minutos. Mira el proceso paso a
+              paso o toca un paso para verlo.
             </p>
             <GuiaCompraEpayco />
-            <div className="text-center">
+            <div className="mt-10 text-center">
               <Link
                 href="/como-comprar"
                 className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"

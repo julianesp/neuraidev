@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import GuiaCompraEpayco from "@/app/_components/GuiaCompraEpayco";
+import GuiaCompraEpayco from "@/app/_components/guia-compra/GuiaCompraEpayco";
 
 export default function ComoComprarPage() {
   return (
@@ -12,10 +12,12 @@ export default function ComoComprarPage() {
         </h1>
         <p className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
           Así funciona una compra en neurai.dev, desde el carrito hasta la
-          factura. Toca una barra del gráfico o un paso para ver el detalle.
+          factura. Mira el proceso paso a paso o toca un paso para verlo.
         </p>
 
-        <GuiaCompraEpayco />
+        <div className="mb-14">
+          <GuiaCompraEpayco />
+        </div>
 
         {/* Estados del pago */}
         <section className="mb-12">
