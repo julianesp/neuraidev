@@ -14,6 +14,16 @@ const TIPOS_PROMOCION = [
 
 const ICONOS = ["🎁", "🎉", "⭐", "💝", "🔥", "⚡", "🎯", "💰", "🏷️", "✨"];
 
+// ISO (UTC) → valor para <input type="datetime-local"> en hora del navegador
+function aInputLocal(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 16);
+}
+
 export default function FormularioPromocion({ promocion, onGuardar, onCancelar }) {
   const [formData, setFormData] = useState({
     nombre: "",
@@ -42,12 +52,8 @@ export default function FormularioPromocion({ promocion, onGuardar, onCancelar }
         ...promocion,
         descuento_valor: promocion.descuento_valor || "",
         cantidad_maxima: promocion.cantidad_maxima || "",
-        fecha_inicio: promocion.fecha_inicio
-          ? new Date(promocion.fecha_inicio).toISOString().slice(0, 16)
-          : "",
-        fecha_fin: promocion.fecha_fin
-          ? new Date(promocion.fecha_fin).toISOString().slice(0, 16)
-          : "",
+        fecha_inicio: aInputLocal(promocion.fecha_inicio),
+        fecha_fin: aInputLocal(promocion.fecha_fin),
       });
     }
   }, [promocion]);
@@ -92,6 +98,13 @@ export default function FormularioPromocion({ promocion, onGuardar, onCancelar }
             : null,
           posicion_orden: parseInt(formData.posicion_orden) || 0,
           precio_combo: null, // Siempre null, no lo usamos
+          // El input datetime-local está en hora del navegador: se envía en UTC
+          fecha_inicio: formData.fecha_inicio
+            ? new Date(formData.fecha_inicio).toISOString()
+            : null,
+          fecha_fin: formData.fecha_fin
+            ? new Date(formData.fecha_fin).toISOString()
+            : null,
         }),
       });
 

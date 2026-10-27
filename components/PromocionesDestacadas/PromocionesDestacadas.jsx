@@ -15,43 +15,30 @@ export default function PromocionesDestacadas() {
     cargarPromociones();
   }, []);
 
+  // /api/promociones ya trae los productos de cada promoción con su precio
+  // vigente y su precio en la promo (D1 no se consulta desde el navegador).
   const cargarPromociones = async () => {
     try {
-      // Cargar promociones activas
       const response = await fetch("/api/promociones?activas=true");
       const data = await response.json();
 
-      if (data.success && data.promociones.length > 0) {
-        setPromociones(data.promociones);
-
-        // Cargar información de productos
-        const productosIds = data.promociones.flatMap(p => p.productos_ids);
-        await cargarProductos(productosIds);
+      if (data.success) {
+        const conProductos = (data.promociones || []).filter(
+          (p) => p.productos?.length > 0
+        );
+        setPromociones(conProductos);
+        const productosMap = {};
+        conProductos.forEach((p) =>
+          p.productos.forEach((prod) => {
+            productosMap[prod.id] = prod;
+          })
+        );
+        setProductos(productosMap);
       }
     } catch (error) {
       console.error("Error al cargar promociones:", error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const cargarProductos = async (productosIds) => {
-    try {
-      const supabase = (await import('@/lib/db')).getSupabaseBrowserClient();
-      const { data, error } = await supabase
-        .from('products')
-        .select('id, nombre, precio, precio_oferta, imagen_principal, imagenes')
-        .in('id', productosIds);
-
-      if (!error && data) {
-        const productosMap = {};
-        data.forEach(p => {
-          productosMap[p.id] = p;
-        });
-        setProductos(productosMap);
-      }
-    } catch (error) {
-      console.error("Error al cargar productos:", error);
     }
   };
 
@@ -62,32 +49,10 @@ export default function PromocionesDestacadas() {
     return `-${promo.descuento_valor}%`;
   };
 
-  const calcularPrecioCombo = (promo) => {
-    // Calcular precio sumando productos
-    let precioTotal = 0;
-    promo.productos_ids.forEach(id => {
-      const producto = productos[id];
-      if (producto) {
-        precioTotal += producto.precio_oferta || producto.precio;
-      }
-    });
+  const calcularPrecioCombo = (promo) => promo.precio_promocion || 0;
 
-    // Aplicar descuento por porcentaje
-    return precioTotal * (1 - promo.descuento_valor / 100);
-  };
-
-  const calcularAhorro = (promo) => {
-    let precioOriginal = 0;
-    promo.productos_ids.forEach(id => {
-      const producto = productos[id];
-      if (producto) {
-        precioOriginal += producto.precio_oferta || producto.precio;
-      }
-    });
-
-    const precioFinal = calcularPrecioCombo(promo);
-    return precioOriginal - precioFinal;
-  };
+  const calcularAhorro = (promo) =>
+    (promo.precio_total || 0) - (promo.precio_promocion || 0);
 
   const handleVerPromocion = (promo) => {
     // Redirigir a la página de checkout de la promoción
@@ -171,10 +136,10 @@ export default function PromocionesDestacadas() {
               {/* Precios */}
               <div className={styles.precios}>
                 <div className={styles.precioFinal}>
-                  ${Math.round(calcularPrecioCombo(promo)).toLocaleString()}
+                  ${Math.round(calcularPrecioCombo(promo)).toLocaleString("es-CO")}
                 </div>
                 <div className={styles.ahorro}>
-                  Ahorras: ${Math.round(calcularAhorro(promo)).toLocaleString()}
+                  Ahorras: ${Math.round(calcularAhorro(promo)).toLocaleString("es-CO")}
                 </div>
               </div>
 

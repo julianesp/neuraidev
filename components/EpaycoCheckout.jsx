@@ -280,6 +280,7 @@ export default function EpaycoCheckout({ onClose }) {
             name: item.nombre,
             quantity: item.cantidad,
             price: item.precio,
+            promocion_id: item.promocion_id || null,
           })),
         }),
       });

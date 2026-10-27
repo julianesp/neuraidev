@@ -39,6 +39,7 @@ export function CartProvider({ children }) {
       const existingItemIndex = prevCart.findIndex(
         (item) =>
           item.id === producto.id &&
+          (item.promocion_id || null) === (producto.promocion_id || null) &&
           JSON.stringify(item.variacion) === JSON.stringify(variacion),
       );
 
@@ -84,6 +85,9 @@ export function CartProvider({ children }) {
         categoria: producto.categoria,
         stock: producto.stock ?? 999,
         metadata: producto.metadata || {},
+        // Si entró desde una promoción (/promocion/[id]): el checkout aplica
+        // ese descuento en el servidor.
+        promocion_id: producto.promocion_id || null,
         // seller_clerk_user_id solo aplica a tiendas externas (tienen seller_whatsapp)
         seller_clerk_user_id: producto.seller_whatsapp ? (producto.seller_clerk_user_id || null) : null,
         seller_whatsapp: producto.seller_whatsapp || null,

@@ -13,20 +13,21 @@ export default function SelectorProductos({ productosSeleccionados = [], onConfi
     cargarProductos();
   }, []);
 
+  // D1 solo se consulta desde el servidor: se usa la API de productos del admin.
   const cargarProductos = async () => {
     try {
-      const supabase = (await import('@/lib/db')).getSupabaseBrowserClient();
-      const { data, error } = await supabase
-        .from('products')
-        .select('id, nombre, precio, imagen_principal, stock, disponible')
-        .eq('disponible', true)
-        .order('nombre');
-
-      if (!error && data) {
-        setProductos(data);
-      }
+      const res = await fetch("/api/productos");
+      const data = await res.json();
+      const lista = (data.productos || [])
+        .filter(
+          (p) =>
+            (p.disponible === 1 || p.disponible === true) &&
+            p.categoria !== "servicios",
+        )
+        .sort((a, b) => (a.nombre || "").localeCompare(b.nombre || "", "es"));
+      setProductos(lista);
     } catch (error) {
-      console.error('Error al cargar productos:', error);
+      console.error("Error al cargar productos:", error);
     } finally {
       setLoading(false);
     }
@@ -39,7 +40,7 @@ export default function SelectorProductos({ productosSeleccionados = [], onConfi
   };
 
   const productosFiltrados = productos.filter(p =>
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase())
+    (p.nombre || "").toLowerCase().includes(busqueda.toLowerCase())
   );
 
   return (
@@ -81,7 +82,7 @@ export default function SelectorProductos({ productosSeleccionados = [], onConfi
                   )}
                   <div>
                     <p className={styles.nombre}>{producto.nombre}</p>
-                    <p className={styles.precio}>${producto.precio.toLocaleString()}</p>
+                    <p className={styles.precio}>${Number(producto.precio).toLocaleString("es-CO")}</p>
                   </div>
                 </div>
               </label>

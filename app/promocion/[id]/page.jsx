@@ -32,17 +32,9 @@ export default function PromocionCheckoutPage() {
       }
 
       setPromocion(dataPromo.promocion);
-
-      // Cargar productos
-      const supabase = (await import('@/lib/db')).getSupabaseBrowserClient();
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .in('id', dataPromo.promocion.productos_ids);
-
-      if (!error && data) {
-        setProductos(data);
-      }
+      // La API ya trae los productos con precio vigente y precio en la promo
+      // (D1 no se consulta desde el navegador).
+      setProductos(dataPromo.promocion.productos || []);
     } catch (error) {
       console.error("Error al cargar promoción:", error);
       router.push('/');
@@ -51,49 +43,31 @@ export default function PromocionCheckoutPage() {
     }
   };
 
-  const calcularPrecioOriginal = () => {
-    return productos.reduce((sum, p) => sum + (p.precio_oferta || p.precio), 0);
-  };
+  const calcularPrecioOriginal = () =>
+    productos.reduce((sum, p) => sum + p.precio, 0);
 
-  const calcularDescuento = () => {
-    const precioOriginal = calcularPrecioOriginal();
-    // Siempre es descuento por porcentaje
-    return precioOriginal * (promocion.descuento_valor / 100);
-  };
+  const calcularPrecioFinal = () =>
+    productos.reduce((sum, p) => sum + p.precio_promocion, 0);
 
-  const calcularPrecioFinal = () => {
-    return calcularPrecioOriginal() - calcularDescuento();
-  };
+  const calcularDescuento = () => calcularPrecioOriginal() - calcularPrecioFinal();
 
   const handleAgregarAlCarrito = async () => {
     setAgregando(true);
 
     try {
-      // Calcular el precio original total de todos los productos
-      const precioOriginalTotal = productos.reduce(
-        (sum, p) => sum + (p.precio_oferta || p.precio),
-        0
-      );
-
-      // Calcular el precio con descuento total
-      const precioConDescuentoTotal = precioOriginalTotal * (1 - promocion.descuento_valor / 100);
-
-      // Calcular el factor de descuento para aplicar proporcionalmente a cada producto
-      const factorDescuento = precioConDescuentoTotal / precioOriginalTotal;
-
-      // Agregar todos los productos al carrito con el precio con descuento
+      // Cada producto entra al carrito con su precio en la promoción y la
+      // marca promocion_id: el checkout vuelve a calcular ese mismo precio en
+      // el servidor (solo si la promo sigue vigente e incluye el producto).
       for (const producto of productos) {
-        const precioOriginal = producto.precio_oferta || producto.precio;
-        const precioConDescuento = Math.round(precioOriginal * factorDescuento);
-
-        // Crear una copia del producto con el precio con descuento
-        const productoConDescuento = {
-          ...producto,
-          precio: precioConDescuento,
-          precio_original: precioOriginal, // Guardar el precio original por referencia
-        };
-
-        await addToCart(productoConDescuento, 1);
+        await addToCart(
+          {
+            ...producto,
+            precio: producto.precio_promocion,
+            precio_original: producto.precio,
+            promocion_id: promocion.id,
+          },
+          1
+        );
       }
 
       // Abrir el modal del carrito
@@ -197,8 +171,9 @@ export default function PromocionCheckoutPage() {
 
                   <div className={styles.productoPrecio}>
                     <span className={styles.precioTachado}>
-                      ${(producto.precio_oferta || producto.precio).toLocaleString()}
-                    </span>
+                      ${producto.precio.toLocaleString("es-CO")}
+                    </span>{" "}
+                    <strong>${producto.precio_promocion.toLocaleString("es-CO")}</strong>
                   </div>
                 </div>
               </motion.div>
@@ -218,14 +193,14 @@ export default function PromocionCheckoutPage() {
             <div className={styles.resumenLinea}>
               <span>Precio original:</span>
               <span className={styles.precioOriginal}>
-                ${calcularPrecioOriginal().toLocaleString()}
+                ${calcularPrecioOriginal().toLocaleString("es-CO")}
               </span>
             </div>
 
             <div className={styles.resumenLinea}>
               <span>Descuento aplicado:</span>
               <span className={styles.descuento}>
-                -${calcularDescuento().toLocaleString()}
+                -${calcularDescuento().toLocaleString("es-CO")}
               </span>
             </div>
 
@@ -234,12 +209,12 @@ export default function PromocionCheckoutPage() {
             <div className={styles.resumenTotal}>
               <span>Total a pagar:</span>
               <span className={styles.total}>
-                ${Math.round(calcularPrecioFinal()).toLocaleString()}
+                ${Math.round(calcularPrecioFinal()).toLocaleString("es-CO")}
               </span>
             </div>
 
             <div className={styles.ahorro}>
-              ¡Ahorras ${Math.round(calcularDescuento()).toLocaleString()}!
+              ¡Ahorras ${Math.round(calcularDescuento()).toLocaleString("es-CO")}!
             </div>
 
             <button

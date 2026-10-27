@@ -1,44 +1,33 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseClient } from '@/lib/db';
+import { d1Execute } from '@/lib/db';
+import { getCurrentUserWithRole } from '@/lib/auth/server-roles';
+import {
+  conProductos,
+  datosPromocion,
+  obtenerPromocion,
+  promocionVigente,
+} from '@/lib/promociones-server';
+
+export const dynamic = 'force-dynamic';
 
 /**
- * GET /api/promociones/[id]
- * Obtiene una promoción específica
+ * GET /api/promociones/[id] → la promoción con sus productos y precios
  */
 export async function GET(request, { params }) {
   try {
-    // Unwrap params Promise (Next.js 15+)
     const { id } = await params;
-
-    const supabase = getSupabaseClient();
-
-    const { data, error } = await supabase
-      .from('promociones')
-      .select('*')
-      .eq('id', id)
-      .single();
-
-    if (error) {
-      if (error.code === 'PGRST116') {
-        return NextResponse.json(
-          { success: false, error: 'Promoción no encontrada' },
-          { status: 404 }
-        );
-      }
-      console.error('[GET /api/promociones/[id]] Error:', error);
+    const promo = await obtenerPromocion(id);
+    // Vencida o desactivada: para el público ya no existe
+    if (!promo || !promocionVigente(promo)) {
       return NextResponse.json(
-        { success: false, error: error.message },
-        { status: 500 }
+        { success: false, error: 'Promoción no encontrada' },
+        { status: 404 }
       );
     }
-
-    return NextResponse.json({
-      success: true,
-      promocion: data,
-    });
-
+    const [promocion] = await conProductos([promo]);
+    return NextResponse.json({ success: true, promocion });
   } catch (error) {
-    console.error('[GET /api/promociones/[id]] Error inesperado:', error);
+    console.error('[GET /api/promociones/[id]] Error:', error);
     return NextResponse.json(
       { success: false, error: 'Error interno del servidor' },
       { status: 500 }
@@ -47,79 +36,50 @@ export async function GET(request, { params }) {
 }
 
 /**
- * PUT /api/promociones/[id]
- * Actualiza una promoción existente
+ * PUT /api/promociones/[id] (solo admin)
  */
 export async function PUT(request, { params }) {
   try {
-    // Unwrap params Promise (Next.js 15+)
-    const { id } = await params;
-    const body = await request.json();
-
-    const supabase = getSupabaseClient();
-
-    const { data, error } = await supabase
-      .from('promociones')
-      .update(body)
-      .eq('id', id)
-      .select()
-      .single();
-
-    if (error) {
-      console.error('[PUT /api/promociones/[id]] Error:', error);
-      return NextResponse.json(
-        { success: false, error: error.message },
-        { status: 500 }
-      );
+    const { isAdmin } = await getCurrentUserWithRole();
+    if (!isAdmin) {
+      return NextResponse.json({ success: false, error: 'No autorizado' }, { status: 403 });
     }
 
-    return NextResponse.json({
-      success: true,
-      promocion: data,
-    });
+    const { id } = await params;
+    const datos = { ...datosPromocion(await request.json()), updated_at: new Date().toISOString() };
+    const cols = Object.keys(datos);
+    await d1Execute(
+      `UPDATE promociones SET ${cols.map((c) => `${c} = ?`).join(', ')} WHERE id = ?`,
+      [...Object.values(datos), id]
+    );
 
+    return NextResponse.json({ success: true, promocion: await obtenerPromocion(id) });
   } catch (error) {
-    console.error('[PUT /api/promociones/[id]] Error inesperado:', error);
+    console.error('[PUT /api/promociones/[id]] Error:', error);
     return NextResponse.json(
-      { success: false, error: 'Error interno del servidor' },
+      { success: false, error: 'Error al actualizar la promoción' },
       { status: 500 }
     );
   }
 }
 
 /**
- * DELETE /api/promociones/[id]
- * Elimina una promoción
+ * DELETE /api/promociones/[id] (solo admin)
  */
 export async function DELETE(request, { params }) {
   try {
-    // Unwrap params Promise (Next.js 15+)
-    const { id } = await params;
-
-    const supabase = getSupabaseClient();
-
-    const { error } = await supabase
-      .from('promociones')
-      .delete()
-      .eq('id', id);
-
-    if (error) {
-      console.error('[DELETE /api/promociones/[id]] Error:', error);
-      return NextResponse.json(
-        { success: false, error: error.message },
-        { status: 500 }
-      );
+    const { isAdmin } = await getCurrentUserWithRole();
+    if (!isAdmin) {
+      return NextResponse.json({ success: false, error: 'No autorizado' }, { status: 403 });
     }
 
-    return NextResponse.json({
-      success: true,
-      message: 'Promoción eliminada correctamente',
-    });
-
+    const { id } = await params;
+    await d1Execute('DELETE FROM promociones WHERE id = ?', [id]);
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('[DELETE /api/promociones/[id]] Error inesperado:', error);
+    console.error('[DELETE /api/promociones/[id]] Error:', error);
     return NextResponse.json(
-      { success: false, error: 'Error interno del servidor' },
+      { success: false, error: 'Error al eliminar la promoción' },
       { status: 500 }
     );
   }

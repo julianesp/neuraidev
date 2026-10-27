@@ -3,6 +3,11 @@ import crypto from "crypto";
 import { getSupabaseClient, d1Select } from "@/lib/db";
 import { obtenerCampanasVigentes } from "@/lib/ofertas-server";
 import { calcularPrecioVigente } from "@/lib/precios";
+import {
+  obtenerPromocion,
+  promocionVigente,
+  precioEnPromocion,
+} from "@/lib/promociones-server";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -64,7 +69,12 @@ async function recalcularTotalServidor(items) {
       return { ok: false, error: "Hay productos sin identificador en el carrito" };
     }
     const cantidad = Math.min(Math.max(parseInt(item.quantity || item.cantidad, 10) || 1, 1), 999);
-    normalizados.push({ id, name: item.name || item.nombre, cantidad });
+    normalizados.push({
+      id,
+      name: item.name || item.nombre,
+      cantidad,
+      promocionId: item.promocion_id || null,
+    });
   }
 
   const ids = [...new Set(normalizados.map((i) => i.id))];
@@ -76,6 +86,20 @@ async function recalcularTotalServidor(items) {
   // Oferta / precio de lanzamiento / campaña vigente: el mismo cálculo que
   // usan las páginas, para cobrar exactamente lo que el cliente vio.
   const campanas = await obtenerCampanasVigentes();
+
+  // Promociones (combos): el descuento solo vale si la promo sigue vigente y
+  // TODOS sus productos están en el carrito marcados con esa promoción.
+  const promosValidas = new Map();
+  for (const promoId of new Set(normalizados.map((i) => i.promocionId).filter(Boolean))) {
+    const promo = await obtenerPromocion(promoId).catch(() => null);
+    if (!promo || !promocionVigente(promo)) continue;
+    const enCarrito = new Set(
+      normalizados.filter((i) => i.promocionId === promoId).map((i) => String(i.id)),
+    );
+    if (promo.productos_ids.length > 0 && promo.productos_ids.every((id) => enCarrito.has(String(id)))) {
+      promosValidas.set(promoId, promo);
+    }
+  }
   const porId = new Map((rows || []).map((p) => [String(p.id), p]));
 
   let total = 0;
@@ -83,7 +107,11 @@ async function recalcularTotalServidor(items) {
 
   for (const item of normalizados) {
     const producto = porId.get(String(item.id));
-    const precio = producto ? calcularPrecioVigente(producto, campanas).precio : NaN;
+    let precio = producto ? calcularPrecioVigente(producto, campanas).precio : NaN;
+    const promo = promosValidas.get(item.promocionId);
+    if (producto && promo && promo.productos_ids.includes(String(item.id))) {
+      precio = precioEnPromocion(precio, promo);
+    }
 
     if (!producto || !Number.isFinite(precio) || precio <= 0) {
       return {
