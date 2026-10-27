@@ -130,14 +130,65 @@
   border-radius: 50%;
 }
 
+// "neurai.dev" iluminado con colores del arcoíris que rebotan dentro de las
+// letras: el degradado es más grande que el texto y su posición va y vuelve en
+// X y en Y con duraciones distintas (como un rebote encerrado). Excepción
+// pedida por el usuario a la regla de "solo azul" (ver CLAUDE.md).
+@property --brand-x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+@property --brand-y {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+@keyframes brandRebotaX {
+  to {
+    --brand-x: 100%;
+  }
+}
+
+@keyframes brandRebotaY {
+  to {
+    --brand-y: 100%;
+  }
+}
+
 .brandName {
   font-size: 2rem;
   font-weight: 700;
   margin: 15px 0;
-  background: linear-gradient(135deg, #eeeeee 50%, #0059c9 80%);
+  background-image: linear-gradient(
+    120deg,
+    #ff1744,
+    #ff9100,
+    #ffea00,
+    #00e676,
+    #00e5ff,
+    #2979ff,
+    #d500f9,
+    #ff1744
+  );
+  background-size: 170% 170%;
+  background-position: var(--brand-x) var(--brand-y);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  // Resplandor para que se vea iluminado
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35))
+    drop-shadow(0 0 14px rgba(120, 160, 255, 0.35));
+  animation:
+    brandRebotaX 5.3s linear infinite alternate,
+    brandRebotaY 3.7s linear infinite alternate;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    background-position: 50% 50%;
+  }
 }
 
 .brandTagline {
