@@ -89,7 +89,7 @@ export default function PromocionesDestacadas() {
             {/* Badge de tipo de promoción */}
             <div
               className={styles.badge}
-              style={{ backgroundColor: promo.color_badge }}
+              style={{ backgroundColor: "#2563eb" }}
             >
               <span className={styles.badgeIcon}>{promo.icono}</span>
               <span className={styles.badgeTexto}>{calcularDescuento(promo)}</span>

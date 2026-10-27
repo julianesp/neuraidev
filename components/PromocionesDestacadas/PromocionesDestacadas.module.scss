@@ -82,7 +82,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: #0070f3;
+    background: #2563eb;
   }
 
   &:hover {
@@ -154,14 +154,14 @@
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
-  background: #0070f3;
+  background: #2563eb;
 }
 
 .masProductos {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: #0070f3;
+  background: #2563eb;
   color: white;
   display: flex;
   align-items: center;
@@ -169,7 +169,7 @@
   font-weight: 700;
   font-size: 0.875rem;
   margin-left: -10px;
-  box-shadow: 0 4px 12px rgba(0, 112, 243, 0.4);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
 }
 
 .info {
@@ -194,14 +194,14 @@
 .precios {
   margin-bottom: 1rem;
   padding: 1rem;
-  background: #f0f4ff;
+  background: #eff6ff;
   border-radius: 12px;
 }
 
 .precioFinal {
   font-size: 2rem;
   font-weight: 800;
-  color: #0070f3;
+  color: #2563eb;
   margin-bottom: 0.25rem;
 
   @media (max-width: 768px) {
@@ -211,14 +211,14 @@
 
 .ahorro {
   font-size: 0.95rem;
-  color: #0070f3;
+  color: #2563eb;
   font-weight: 600;
 }
 
 .precioEspecial {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #0070f3;
+  color: #2563eb;
   padding: 0.75rem;
 }
 
@@ -242,27 +242,27 @@
 
 .minimo {
   font-size: 0.875rem;
-  color: #e53e3e;
+  color: #2563eb;
   font-weight: 600;
   padding: 0.375rem 0.875rem;
-  background: #fed7d7;
+  background: #eff6ff;
   border-radius: 20px;
 }
 
 .expira {
   font-size: 0.875rem;
-  color: #ed8936;
+  color: #2563eb;
   font-weight: 600;
   margin-bottom: 1.25rem;
   padding: 0.5rem;
-  background: #feebc8;
+  background: #eff6ff;
   border-radius: 8px;
 }
 
 .btnVerMas {
   width: 100%;
   padding: 0.875rem 1.5rem;
-  background: #0070f3;
+  background: #2563eb;
   color: white;
   border: none;
   border-radius: 10px;
@@ -270,12 +270,12 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 112, 243, 0.3);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 112, 243, 0.4);
-    background: #005ed3;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    background: #1d4ed8;
   }
 
   &:active {

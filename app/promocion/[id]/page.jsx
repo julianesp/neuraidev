@@ -96,7 +96,7 @@ export default function PromocionCheckoutPage() {
           animate={{ opacity: 1, y: 0 }}
           className={styles.header}
         >
-          <div className={styles.badge} style={{ backgroundColor: promocion.color_badge }}>
+          <div className={styles.badge} style={{ backgroundColor: "#2563eb" }}>
             <span className={styles.icon}>{promocion.icono}</span>
             <span className={styles.badgeText}>
               -{promocion.descuento_valor}%

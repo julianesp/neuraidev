@@ -38,7 +38,7 @@ export default function FormularioPromocion({ promocion, onGuardar, onCancelar }
     fecha_inicio: "",
     fecha_fin: "",
     imagen_url: "",
-    color_badge: "#FF6B6B",
+    color_badge: "#2563eb",
     icono: "🎁",
     posicion_orden: 0,
   });
@@ -314,17 +314,7 @@ export default function FormularioPromocion({ promocion, onGuardar, onCancelar }
           </div>
         </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="color_badge">Color del Badge</label>
-          <input
-            type="color"
-            id="color_badge"
-            name="color_badge"
-            value={formData.color_badge}
-            onChange={handleChange}
-            className={styles.colorPicker}
-          />
-        </div>
+        {/* Sin selector de color: el badge usa siempre el azul principal del sitio */}
 
         <div className={styles.formGroup}>
           <label htmlFor="posicion_orden">Orden de Visualización</label>

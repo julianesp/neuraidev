@@ -20,8 +20,8 @@
   .spinner {
     width: 60px;
     height: 60px;
-    border: 5px solid rgba(96, 165, 250, 0.2);
-    border-top-color: #60a5fa;
+    border: 5px solid rgba(37, 99, 235, 0.2);
+    border-top-color: #2563eb;
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -94,9 +94,9 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+  background: #eff6ff;
   border-radius: 12px;
-  border: 2px solid #fc8181;
+  border: 2px solid #bfdbfe;
 
   .reloj {
     font-size: 2rem;
@@ -105,12 +105,12 @@
   .tiempo {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #c53030;
+    color: #2563eb;
   }
 
   .fecha {
     font-size: 0.95rem;
-    color: #742a2a;
+    color: #1e3a8a;
   }
 }
 
@@ -175,7 +175,7 @@
   align-items: center;
   justify-content: center;
   font-size: 4rem;
-  background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+  background: #2563eb;
 }
 
 .productoInfo {
@@ -251,7 +251,7 @@
 
 .descuento {
   font-weight: 700;
-  color: #48bb78;
+  color: #2563eb;
 }
 
 .separador {
@@ -273,7 +273,7 @@
 .total {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #60a5fa;
+  color: #2563eb;
 
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -283,18 +283,18 @@
 .ahorro {
   text-align: center;
   padding: 1rem;
-  background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+  background: #eff6ff;
   border-radius: 12px;
   font-size: 1.25rem;
   font-weight: 700;
-  color: #22543d;
+  color: #1d4ed8;
   margin-bottom: 1.5rem;
 }
 
 .btnAgregar {
   width: 100%;
   padding: 1.25rem;
-  background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+  background: #2563eb;
   color: white;
   border: none;
   border-radius: 12px;
@@ -302,12 +302,12 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
   margin-bottom: 1rem;
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
   }
 
   &:disabled {
