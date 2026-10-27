@@ -9,12 +9,14 @@ import { useCart } from "@/context/CartContext";
 export default function PromocionCheckoutPage() {
   const params = useParams();
   const router = useRouter();
-  const { addToCart, toggleCart } = useCart();
+  const { addToCart, toggleCart, cart } = useCart();
 
   const [promocion, setPromocion] = useState(null);
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [agregando, setAgregando] = useState(false);
+  // Unidades (o juegos, si es un combo) que el cliente quiere llevar
+  const [cantidad, setCantidad] = useState(1);
 
   useEffect(() => {
     cargarPromocion();
@@ -35,6 +37,7 @@ export default function PromocionCheckoutPage() {
       // La API ya trae los productos con precio vigente y precio en la promo
       // (D1 no se consulta desde el navegador).
       setProductos(dataPromo.promocion.productos || []);
+      setCantidad(dataPromo.promocion.unidades || 1);
     } catch (error) {
       console.error("Error al cargar promoción:", error);
       router.push('/');
@@ -43,10 +46,31 @@ export default function PromocionCheckoutPage() {
     }
   };
 
-  // Totales para la cantidad que activa la promoción (p. ej. 5 unidades)
-  const calcularPrecioOriginal = () => promocion?.precio_total || 0;
+  // Rango permitido: desde el mínimo de la promoción hasta su máximo, sin
+  // pasar de la existencia de cada producto (descontando lo que ya está en
+  // el carrito).
+  const minimo = promocion?.cantidad_minima || 1;
+  const disponible = productos.length
+    ? Math.min(
+        ...productos.map((p) => {
+          const enCarrito = cart
+            .filter((i) => String(i.id) === String(p.id))
+            .reduce((s, i) => s + i.cantidad, 0);
+          return Math.max((Number(p.stock) || 0) - enCarrito, 0);
+        })
+      )
+    : 0;
+  const maximo = Math.min(promocion?.cantidad_maxima || Infinity, disponible);
+  const sinExistencias = maximo < minimo;
+  const cantidadFinal = Math.min(Math.max(cantidad, minimo), Math.max(maximo, minimo));
 
-  const calcularPrecioFinal = () => promocion?.precio_promocion || 0;
+  // Totales para la cantidad elegida (el descuento por unidad no cambia
+  // dentro del rango mínimo–máximo)
+  const calcularPrecioOriginal = () =>
+    productos.reduce((sum, p) => sum + p.precio, 0) * cantidadFinal;
+
+  const calcularPrecioFinal = () =>
+    productos.reduce((sum, p) => sum + p.precio_promocion, 0) * cantidadFinal;
 
   const calcularDescuento = () => calcularPrecioOriginal() - calcularPrecioFinal();
 
@@ -56,8 +80,9 @@ export default function PromocionCheckoutPage() {
     try {
       // Se agregan a precio normal en la cantidad que activa la promoción;
       // el carrito y el checkout aplican el descuento automáticamente.
+      if (sinExistencias) return;
       for (const producto of productos) {
-        await addToCart(producto, promocion.unidades || 1);
+        await addToCart(producto, cantidadFinal);
       }
 
       // Abrir el modal del carrito
@@ -164,7 +189,7 @@ export default function PromocionCheckoutPage() {
                       ${producto.precio.toLocaleString("es-CO")}
                     </span>{" "}
                     <strong>${producto.precio_promocion.toLocaleString("es-CO")}</strong>
-                    {promocion.unidades > 1 && ` c/u × ${promocion.unidades} unidades`}
+                    {cantidadFinal > 1 && ` c/u × ${cantidadFinal}`}
                   </div>
                 </div>
               </motion.div>
@@ -180,6 +205,39 @@ export default function PromocionCheckoutPage() {
         >
           <div className={styles.resumenCard}>
             <h2 className={styles.resumenTitulo}>Resumen de tu compra</h2>
+
+            {/* Cantidad: entre el mínimo y el máximo de la promoción, según existencias */}
+            <div className={styles.cantidad}>
+              <span>{productos.length > 1 ? "Combos:" : "Unidades:"}</span>
+              <div className={styles.cantidadControles}>
+                <button
+                  type="button"
+                  onClick={() => setCantidad(Math.max(cantidadFinal - 1, minimo))}
+                  disabled={sinExistencias || cantidadFinal <= minimo}
+                  aria-label="Disminuir cantidad"
+                >
+                  −
+                </button>
+                <span>{sinExistencias ? 0 : cantidadFinal}</span>
+                <button
+                  type="button"
+                  onClick={() => setCantidad(Math.min(cantidadFinal + 1, maximo))}
+                  disabled={sinExistencias || cantidadFinal >= maximo}
+                  aria-label="Aumentar cantidad"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <p className={styles.cantidadAyuda}>
+              {sinExistencias
+                ? "No hay existencias suficientes para esta promoción en este momento."
+                : `Puedes llevar de ${minimo} a ${maximo} con descuento${
+                    promocion.cantidad_maxima && maximo < promocion.cantidad_maxima
+                      ? " (según existencias)"
+                      : ""
+                  }.`}
+            </p>
 
             <div className={styles.resumenLinea}>
               <span>Precio original:</span>
@@ -210,7 +268,7 @@ export default function PromocionCheckoutPage() {
 
             <button
               onClick={handleAgregarAlCarrito}
-              disabled={agregando}
+              disabled={agregando || sinExistencias}
               className={styles.btnAgregar}
             >
               {agregando ? 'Agregando...' : 'Agregar al carrito y continuar'}

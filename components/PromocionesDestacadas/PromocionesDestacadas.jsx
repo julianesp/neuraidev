@@ -148,9 +148,11 @@ export default function PromocionesDestacadas() {
                 <span className={styles.cantidadProductos}>
                   {promo.productos_ids.length} {promo.productos_ids.length === 1 ? 'producto' : 'productos'}
                 </span>
-                {promo.cantidad_minima > 1 && (
+                {(promo.cantidad_minima > 1 || promo.cantidad_maxima) && (
                   <span className={styles.minimo}>
-                    Mín. {promo.cantidad_minima} unidades
+                    {promo.cantidad_maxima
+                      ? `De ${promo.cantidad_minima} a ${promo.cantidad_maxima} unidades`
+                      : `Mín. ${promo.cantidad_minima} unidades`}
                   </span>
                 )}
               </div>

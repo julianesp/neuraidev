@@ -234,6 +234,55 @@
   text-align: center;
 }
 
+.cantidad {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.cantidadControles {
+  display: flex;
+  align-items: center;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+
+  button {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2563eb;
+    background: #fff;
+    border: none;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background: #eff6ff;
+    }
+
+    &:disabled {
+      color: #a0aec0;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    min-width: 3rem;
+    text-align: center;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+}
+
+.cantidadAyuda {
+  font-size: 0.875rem;
+  color: #718096;
+  margin: 0.5rem 0 1.5rem;
+}
+
 .resumenLinea {
   display: flex;
   justify-content: space-between;
