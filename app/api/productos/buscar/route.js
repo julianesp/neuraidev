@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { d1Select, d1SelectOne } from "@/lib/db-d1";
 import { buildProductUrl, generateProductSlug } from "@/utils/slugify";
+import { obtenerCampanasVigentes } from "@/lib/ofertas-server";
+import { calcularPrecioVigente } from "@/lib/precios";
 
 export const dynamic = "force-dynamic";
 
@@ -32,14 +34,15 @@ export async function GET(request) {
 
     // % y _ son comodines de LIKE: se escapan para buscar el texto tal cual.
     const patron = `%${q.toLowerCase().replace(/[\\%_]/g, (c) => `\\${c}`)}%`;
-    const where = `disponible = 1 AND (
+    // Los servicios técnicos (combo) no se venden solos: no salen en el buscador.
+    const where = `disponible = 1 AND COALESCE(categoria, '') != 'servicios' AND (
       LOWER(nombre) LIKE ? ESCAPE '\\' OR LOWER(descripcion) LIKE ? ESCAPE '\\'
       OR LOWER(categoria) LIKE ? ESCAPE '\\' OR LOWER(COALESCE(marca, '')) LIKE ? ESCAPE '\\')`;
     const params = [patron, patron, patron, patron];
 
     const [filas, conteo] = await Promise.all([
       d1Select(
-        `SELECT id, nombre, descripcion, precio, precio_oferta, categoria, imagen_principal, imagenes
+        `SELECT id, nombre, descripcion, precio, precio_oferta, metadata, categoria, imagen_principal, imagenes
          FROM products WHERE ${where}
          -- Primero los que coinciden en el nombre
          ORDER BY (LOWER(nombre) LIKE ? ESCAPE '\\') DESC, COALESCE(created_at, '') DESC
@@ -49,7 +52,9 @@ export async function GET(request) {
       d1SelectOne(`SELECT COUNT(*) AS n FROM products WHERE ${where}`, params),
     ]);
 
+    const campanas = await obtenerCampanasVigentes();
     const productos = filas.map((p) => {
+      const vigente = calcularPrecioVigente(p, campanas);
       let imagenes = p.imagenes;
       if (typeof imagenes === "string") {
         try {
@@ -63,7 +68,9 @@ export async function GET(request) {
         id: p.id,
         nombre: p.nombre,
         descripcion: textoPlano(p.descripcion).slice(0, 160),
-        precio: p.precio_oferta || p.precio,
+        precio: vigente.precio,
+        precioAnterior: vigente.tipo ? vigente.precioNormal : null,
+        ofertaTipo: vigente.tipo,
         categoria: p.categoria,
         imagen: p.imagen_principal || (typeof primera === "string" ? primera : primera?.url) || null,
         href: buildProductUrl(p.categoria, generateProductSlug(p), p),

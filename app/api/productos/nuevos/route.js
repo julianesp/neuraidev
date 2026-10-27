@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { d1Select } from '@/lib/db';
+import { conPreciosVigentes } from '@/lib/ofertas-server';
 
 async function obtenerProductosRecientes(limit = 10) {
   // Ordenamos por created_at DESC, pero tratamos NULL como "muy reciente"
@@ -7,7 +8,7 @@ async function obtenerProductosRecientes(limit = 10) {
   // created_at no queden al final del listado e invisibles bajo el LIMIT.
   const sql = `
     SELECT * FROM products
-    WHERE disponible = 1
+    WHERE disponible = 1 AND COALESCE(categoria, '') != 'servicios'
     ORDER BY COALESCE(created_at, '9999-12-31') DESC, rowid DESC
     LIMIT ?
   `;
@@ -34,7 +35,7 @@ export async function GET() {
       // ("Hoy", "Ayer", "Hace N días") refleje la fecha real de alta.
       return { ...p, imagenes: imagenes || [], fechaIngreso: p.fechaIngreso || p.created_at || null };
     });
-    return NextResponse.json(normalized);
+    return NextResponse.json(await conPreciosVigentes(normalized));
   } catch (e) {
     console.error('[nuevos]', e);
     return NextResponse.json([], { status: 500 });

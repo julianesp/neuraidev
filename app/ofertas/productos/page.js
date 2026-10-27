@@ -1,52 +1,43 @@
-import { getSupabaseClient } from "@/lib/db";
 import Link from "next/link";
 import Image from "next/image";
+import { obtenerProductosConOferta } from "@/lib/ofertas-server";
+import { TIPOS_OFERTA } from "@/lib/precios";
+import { generateProductSlug, buildProductUrl } from "@/utils/slugify";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Productos en Oferta",
-  description: "Encuentra los mejores descuentos en productos de tecnología, accesorios y más.",
+  alternates: { canonical: "/ofertas/productos" },
+  title: "Ofertas y precios de lanzamiento",
+  description:
+    "Productos de tecnología con descuento y precios de lanzamiento por tiempo limitado en neurai.dev.",
 };
 
-function calcularPrecioFinal(precio, porcentaje) {
-  return Math.round(precio * (1 - porcentaje / 100));
-}
-
-async function getOfertasActivas() {
-  const supabase = getSupabaseClient();
-  const ahora = new Date().toISOString();
-  const { data, error } = await supabase
-    .from("ofertas")
-    .select("*")
-    .eq("activa", true)
-    .lte("fecha_inicio", ahora)
-    .gte("fecha_fin", ahora)
-    .order("porcentaje_descuento", { ascending: false });
-
-  if (error) {
-    console.error("Error cargando ofertas:", error);
-    return [];
+function primeraImagen(p) {
+  if (p.imagen_principal) return p.imagen_principal;
+  let imgs = p.imagenes;
+  if (typeof imgs === "string") {
+    try { imgs = JSON.parse(imgs); } catch { imgs = []; }
   }
-  return data || [];
+  const img = Array.isArray(imgs) ? imgs[0] : null;
+  return typeof img === "string" ? img : img?.url || null;
 }
 
 export default async function ProductosEnOfertaPage() {
-  const ofertas = await getOfertasActivas();
+  const productos = await obtenerProductosConOferta();
 
-  if (ofertas.length === 0) {
+  if (productos.length === 0) {
     return (
       <main className="max-w-4xl mx-auto px-4 py-16 text-center">
         <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
-          Productos en Oferta
+          Ofertas y lanzamientos
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
           No hay ofertas activas en este momento. ¡Vuelve pronto!
         </p>
         <Link
           href="/"
-          className="mt-8 inline-block text-white px-6 py-3 rounded-lg font-semibold transition-opacity hover:opacity-90"
-          style={{ backgroundColor: "#0070f3" }}
+          className="mt-8 inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
         >
           Volver al inicio
         </Link>
@@ -54,128 +45,81 @@ export default async function ProductosEnOfertaPage() {
     );
   }
 
-  // Recopilar todos los IDs únicos de productos
-  const todosLosIds = [...new Set(ofertas.flatMap((o) => o.productos_ids))];
-
-  // Consultar productos con el cliente server-side (service role)
-  const supabase = getSupabaseClient();
-  const { data: productos } = await supabase
-    .from("products")
-    .select("id, nombre, precio, precio_oferta, imagen_principal, imagenes, categoria, slug")
-    .in("id", todosLosIds);
-
-  const productosMap = {};
-  (productos || []).forEach((p) => {
-    productosMap[p.id] = p;
-  });
-
   return (
     <main className="max-w-7xl mx-auto px-4 py-10">
       <div className="mb-8">
-        <Link
-          href="/"
-          className="text-sm font-medium hover:underline"
-          style={{ color: "#0070f3" }}
-        >
+        <Link href="/" className="text-sm font-medium text-blue-600 hover:underline">
           ← Volver al inicio
         </Link>
         <h1 className="text-3xl font-bold mt-3 text-gray-900 dark:text-white">
-          Productos en Oferta
+          Ofertas y precios de lanzamiento
         </h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">
-          Aprovecha estos descuentos por tiempo limitado
+          Precios especiales por tiempo limitado
         </p>
       </div>
 
-      {ofertas.map((oferta) => {
-        const productosDeOferta = oferta.productos_ids
-          .map((id) => productosMap[id])
-          .filter(Boolean);
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        {productos.map((producto) => {
+          const imagen = primeraImagen(producto);
+          const tipo = TIPOS_OFERTA[producto.ofertaTipo];
+          const pct = Math.round((1 - producto.precio / producto.precioAnterior) * 100);
+          const href = buildProductUrl(producto.categoria, generateProductSlug(producto));
 
-        if (productosDeOferta.length === 0) return null;
-
-        return (
-          <section key={oferta.id} className="mb-12">
-            <div className="flex items-center gap-3 mb-5">
-              <span
-                className="text-white text-sm font-bold px-3 py-1 rounded-full"
-                style={{ backgroundColor: "#0070f3" }}
-              >
-                {oferta.porcentaje_descuento}% OFF
-              </span>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                {oferta.nombre}
-              </h2>
-              {oferta.fecha_fin && (
-                <span className="text-xs text-gray-500 dark:text-gray-400">
-                  Válido hasta{" "}
-                  {new Date(oferta.fecha_fin).toLocaleDateString("es-CO", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
+          return (
+            <Link
+              key={producto.id}
+              href={href}
+              className="group rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white dark:bg-gray-800 hover:shadow-lg transition-shadow"
+            >
+              <div className="relative aspect-square bg-gray-100 dark:bg-gray-700">
+                {imagen ? (
+                  <Image
+                    src={imagen}
+                    alt={producto.nombre}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-4xl">
+                    📦
+                  </div>
+                )}
+                <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                  -{pct}%
                 </span>
-              )}
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {productosDeOferta.map((producto) => {
-                const precioBase = producto.precio_oferta || producto.precio;
-                const precioFinal = calcularPrecioFinal(precioBase, oferta.porcentaje_descuento);
-                const imagen =
-                  producto.imagen_principal ||
-                  (Array.isArray(producto.imagenes) && producto.imagenes[0]?.url) ||
-                  (Array.isArray(producto.imagenes) && producto.imagenes[0]) ||
-                  null;
-
-                const href = producto.slug && producto.categoria
-                  ? `/accesorios/${producto.categoria}/${producto.slug}`
-                  : "#";
-
-                return (
-                  <Link
-                    key={producto.id}
-                    href={href}
-                    className="group rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white dark:bg-gray-800 hover:shadow-lg transition-shadow"
-                  >
-                    <div className="relative aspect-square bg-gray-100 dark:bg-gray-700">
-                      {imagen ? (
-                        <Image
-                          src={imagen}
-                          alt={producto.nombre}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-4xl">
-                          📦
-                        </div>
-                      )}
-                      <span className="absolute top-2 left-2 text-white text-xs font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: "#0070f3" }}>
-                        -{oferta.porcentaje_descuento}%
-                      </span>
-                    </div>
-                    <div className="p-3">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2 mb-2">
-                        {producto.nombre}
-                      </p>
-                      <div className="flex items-baseline gap-2 flex-wrap">
-                        <span className="text-base font-bold text-gray-900 dark:text-white">
-                          ${precioFinal.toLocaleString("es-CO")}
-                        </span>
-                        <span className="text-xs text-gray-400 line-through">
-                          ${precioBase.toLocaleString("es-CO")}
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-        );
-      })}
+              </div>
+              <div className="p-3">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400 mb-1">
+                  {tipo.emoji} {producto.ofertaNombre || tipo.etiqueta}
+                </p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2 mb-2">
+                  {producto.nombre}
+                </p>
+                <div className="flex items-baseline gap-2 flex-wrap">
+                  <span className="text-base font-bold text-gray-900 dark:text-white">
+                    ${producto.precio.toLocaleString("es-CO")}
+                  </span>
+                  <span className="text-xs text-gray-400 line-through">
+                    ${producto.precioAnterior.toLocaleString("es-CO")}
+                  </span>
+                </div>
+                {producto.ofertaHasta && (
+                  <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1">
+                    Hasta el{" "}
+                    {new Date(producto.ofertaHasta).toLocaleDateString("es-CO", {
+                      day: "numeric",
+                      month: "long",
+                      timeZone: "America/Bogota",
+                    })}
+                  </p>
+                )}
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </main>
   );
 }

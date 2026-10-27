@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 import { d1Select, d1Execute } from '@/lib/db-d1';
 import { isAdminServer } from '@/lib/auth/server-roles';
 import { currentUser } from '@clerk/nextjs/server';
+import { notifyNuevaCalificacion } from '@/lib/notificationService';
+
+// producto = compra en la tienda · formateo = servicio técnico · web = desarrollo web
+const TIPOS = ['producto', 'formateo', 'web'];
 
 // GET /api/testimonios
 // Público: devuelve solo los testimonios aprobados (para la vitrina).
@@ -51,11 +55,20 @@ export async function POST(request) {
     const body = await request.json();
     const { cliente_nombre, cliente_email, mensaje, producto_relacionado, calificacion } = body;
 
+    // Campo trampa invisible del formulario /calificar: solo lo llenan los bots.
+    if (body.website) {
+      return NextResponse.json({ success: true }, { status: 201 });
+    }
+    const tipo = TIPOS.includes(body.tipo) ? body.tipo : 'producto';
+
     if (!cliente_nombre || !cliente_nombre.trim()) {
       return NextResponse.json({ error: 'El nombre es requerido' }, { status: 400 });
     }
     if (!mensaje || !mensaje.trim()) {
       return NextResponse.json({ error: 'El mensaje es requerido' }, { status: 400 });
+    }
+    if (cliente_nombre.length > 80) {
+      return NextResponse.json({ error: 'El nombre es demasiado largo' }, { status: 400 });
     }
     if (mensaje.length > 1000) {
       return NextResponse.json(
@@ -71,18 +84,29 @@ export async function POST(request) {
 
     await d1Execute(
       `INSERT INTO testimonios
-         (id, cliente_email, cliente_nombre, mensaje, producto_relacionado, calificacion, estado, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, 'pendiente', ?)`,
+         (id, cliente_email, cliente_nombre, mensaje, producto_relacionado, calificacion, tipo, estado, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, 'pendiente', ?)`,
       [
         id,
         cliente_email?.trim() || null,
         cliente_nombre.trim(),
         mensaje.trim(),
-        producto_relacionado?.trim() || null,
+        producto_relacionado?.trim().slice(0, 120) || null,
         calif,
+        tipo,
         ahora,
       ]
     );
+
+    // Aviso a Telegram para revisarla y publicarla desde el panel
+    notifyNuevaCalificacion({
+      nombre: cliente_nombre.trim(),
+      email: cliente_email?.trim() || null,
+      calificacion: calif,
+      mensaje: mensaje.trim(),
+      tipo,
+      producto: producto_relacionado?.trim() || null,
+    }).catch(() => {});
 
     return NextResponse.json(
       {

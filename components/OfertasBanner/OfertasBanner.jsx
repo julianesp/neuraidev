@@ -4,22 +4,21 @@ import { useState, useEffect } from "react";
 import { X, Tag } from "lucide-react";
 import Link from "next/link";
 
+// Banner de la home: aparece solo si hay productos con oferta, precio de
+// lanzamiento o campaña vigente (ver /api/productos/ofertas).
 export default function OfertasBanner() {
-  const [ofertas, setOfertas] = useState([]);
-  const [visible, setVisible] = useState(false);
+  const [resumen, setResumen] = useState(null);
 
   useEffect(() => {
     const hoy = new Date().toDateString();
-    const cerradoEn = localStorage.getItem("ofertasBannerCerrado");
-    if (cerradoEn === hoy) return;
+    try {
+      if (localStorage.getItem("ofertasBannerCerrado") === hoy) return;
+    } catch {}
 
-    fetch("/api/ofertas?activas=true")
+    fetch("/api/productos/ofertas")
       .then((r) => r.json())
       .then((data) => {
-        if (data.ofertas && data.ofertas.length > 0) {
-          setOfertas(data.ofertas);
-          setVisible(true);
-        }
+        if (data.total > 0) setResumen(data);
       })
       .catch(() => {});
   }, []);
@@ -27,44 +26,50 @@ export default function OfertasBanner() {
   const cerrar = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const hoy = new Date().toDateString();
-    localStorage.setItem("ofertasBannerCerrado", hoy);
-    setVisible(false);
+    try {
+      localStorage.setItem("ofertasBannerCerrado", new Date().toDateString());
+    } catch {}
+    setResumen(null);
   };
 
-  if (!visible || ofertas.length === 0) return null;
+  if (!resumen) return null;
+
+  const partes = [];
+  if (resumen.lanzamientos > 0) {
+    partes.push(
+      `🚀 ${resumen.lanzamientos} ${resumen.lanzamientos === 1 ? "precio" : "precios"} de lanzamiento`,
+    );
+  }
+  if (resumen.ofertas > 0) {
+    partes.push(
+      `🔥 ${resumen.ofertas} ${resumen.ofertas === 1 ? "producto" : "productos"} en oferta`,
+    );
+  }
 
   return (
-    <Link href="/ofertas/productos" className="block w-full" style={{ backgroundColor: "#0070f3" }}>
+    <Link href="/ofertas/productos" className="block w-full" style={{ backgroundColor: "#2563eb" }}>
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 flex-wrap text-white">
             <Tag className="w-5 h-5 shrink-0" />
-            <span className="font-bold text-sm uppercase tracking-wide">
-              Ofertas activas:
-            </span>
-            <div className="flex flex-wrap gap-3">
-              {ofertas.map((oferta) => (
-                <span
-                  key={oferta.id}
-                  className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-semibold"
-                >
-                  {oferta.nombre} — {oferta.porcentaje_descuento}% OFF
-                  {oferta.fecha_fin && (
-                    <span className="ml-1 opacity-80 text-xs font-normal">
-                      (hasta{" "}
-                      {new Date(oferta.fecha_fin).toLocaleDateString("es-CO", {
-                        day: "numeric",
-                        month: "short",
-                      })}
-                      )
-                    </span>
-                  )}
-                </span>
-              ))}
-            </div>
-            <span className="bg-white font-semibold text-xs px-3 py-1 rounded-full hidden sm:inline transition-opacity hover:opacity-90" style={{ color: "#0070f3" }}>
-              Ver oferta →
+            {partes.map((texto) => (
+              <span
+                key={texto}
+                className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-semibold"
+              >
+                {texto}
+              </span>
+            ))}
+            {resumen.mayorDescuento > 0 && (
+              <span className="text-sm font-semibold">
+                Hasta {resumen.mayorDescuento}% de descuento
+              </span>
+            )}
+            <span
+              className="bg-white font-semibold text-xs px-3 py-1 rounded-full hidden sm:inline transition-opacity hover:opacity-90"
+              style={{ color: "#2563eb" }}
+            >
+              Ver ofertas →
             </span>
           </div>
           <button

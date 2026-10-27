@@ -9,6 +9,10 @@ import RichTextEditor from "@/components/RichTextEditor";
 import ColorSelector from "@/components/ColorSelector";
 import Swal from "sweetalert2";
 import BarcodeScannerInput from "@/components/dashboard/BarcodeScannerInput";
+import PrecioEspecialFields, {
+  ServicioAplicaAFields,
+  camposPrecioEspecial,
+} from "@/app/_components/dashboard/PrecioEspecialFields";
 
 export default function EditarProductoPage() {
   const router = useRouter();
@@ -20,6 +24,9 @@ export default function EditarProductoPage() {
     descripcion: "",
     precio: "",
     precio_oferta: "",
+    oferta_tipo: "",
+    oferta_hasta: "",
+    aplica_a: [],
     categoria: "celulares",
     marca: "",
     stock: 0,
@@ -43,6 +50,7 @@ export default function EditarProductoPage() {
     "celulares",
     "computadoras",
     "generales",
+    "servicios", // servicio técnico que se vende en combo con productos
   ];
 
   const cargarProducto = useCallback(async () => {
@@ -63,6 +71,9 @@ export default function EditarProductoPage() {
         descripcion: producto.descripcion || "",
         precio: producto.precio || "",
         precio_oferta: producto.precio_oferta || "",
+        oferta_tipo: producto.metadata?.oferta_tipo || (producto.precio_oferta ? "oferta" : ""),
+        oferta_hasta: producto.metadata?.oferta_hasta || "",
+        aplica_a: producto.metadata?.aplica_a || [],
         categoria: producto.categoria || "celulares",
         marca: producto.marca || "",
         stock: producto.stock || 0,
@@ -138,8 +149,9 @@ export default function EditarProductoPage() {
       // Limpiar y preparar datos para la tabla products de Supabase
       // Preservar metadata existente y actualizar payment_link y colores_disponibles
       const paymentLink = String(formData.payment_link || '').trim();
+      const especial = camposPrecioEspecial(formData, formData.metadata);
       const metadataActualizado = {
-        ...formData.metadata,
+        ...especial.metadata,
         payment_link: paymentLink || null,
         colores_disponibles: formData.colores_disponibles.length > 0 ? formData.colores_disponibles : null,
       };
@@ -157,6 +169,7 @@ export default function EditarProductoPage() {
         nombre: formData.nombre,
         descripcion: formData.descripcion,
         precio: parseFloat(formData.precio) || 0,
+        precio_oferta: especial.precio_oferta,
         categoria: formData.categoria,
         marca: formData.marca || null,
         stock: parseInt(formData.stock) || 0,
@@ -315,10 +328,13 @@ export default function EditarProductoPage() {
                   >
                     {categorias.map((cat) => (
                       <option key={cat} value={cat}>
-                        {cat}
+                        {cat === "servicios" ? "servicios (servicio técnico en combo)" : cat}
                       </option>
                     ))}
                   </select>
+                  {formData.categoria === "servicios" && (
+                    <ServicioAplicaAFields formData={formData} setFormData={setFormData} />
+                  )}
                 </div>
 
                 <div>
@@ -423,25 +439,6 @@ export default function EditarProductoPage() {
 
                 <div>
                   <label
-                    htmlFor="precio_oferta"
-                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
-                  >
-                    Precio en Oferta
-                  </label>
-                  <input
-                    id="precio_oferta"
-                    type="number"
-                    name="precio_oferta"
-                    min="0"
-                    step="0.01"
-                    value={formData.precio_oferta}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  />
-                </div>
-
-                <div>
-                  <label
                     htmlFor="stock"
                     className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
                   >
@@ -492,6 +489,8 @@ export default function EditarProductoPage() {
                   />
                 </div>
               </div>
+
+              <PrecioEspecialFields formData={formData} setFormData={setFormData} />
             </div>
 
             {/* Imágenes */}

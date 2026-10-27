@@ -1,5 +1,7 @@
 import { findProductBySlug, generateProductSlug } from "./slugify";
 import { getSupabaseServerClient } from "../lib/db";
+import { obtenerCampanasVigentes } from "../lib/ofertas-server";
+import { aplicarPrecioVigente } from "../lib/precios";
 
 async function obtenerProductos(filtros = {}) {
   const db = getSupabaseServerClient();
@@ -18,7 +20,7 @@ async function obtenerProductoPorId(id) {
 /**
  * Normaliza un producto de D1 para compatibilidad con el resto del código
  */
-function normalizarProducto(p) {
+function normalizarProducto(p, campanas = []) {
   let imagenes = p.imagenes;
   if (typeof imagenes === "string") {
     try { imagenes = JSON.parse(imagenes); } catch { imagenes = []; }
@@ -33,12 +35,12 @@ function normalizarProducto(p) {
     return null;
   }).filter(Boolean);
 
+  // precio = lo que se cobra hoy; precioAnterior = precio normal tachado
+  // (solo si hay oferta o precio de lanzamiento vigente).
   return {
-    ...p,
+    ...aplicarPrecioVigente({ ...p, precio: parseFloat(p.precio) }, campanas),
     imagenPrincipal: p.imagen_principal,
     imagenes,
-    precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
-    precio: parseFloat(p.precio),
     cantidad: p.stock || 0,
     disponible: (p.disponible === 1 || p.disponible === true) && p.stock > 0,
     createdAt: p.created_at,
@@ -55,8 +57,11 @@ function normalizarProducto(p) {
  */
 export async function loadCategoryProducts(categoria) {
   try {
-    const data = await obtenerProductos({ categoria });
-    return (data || []).map(normalizarProducto);
+    const [data, campanas] = await Promise.all([
+      obtenerProductos({ categoria }),
+      obtenerCampanasVigentes(),
+    ]);
+    return (data || []).map((p) => normalizarProducto(p, campanas));
   } catch (error) {
     console.error(
       `[loadCategoryProducts] Error loading ${categoria} products:`,

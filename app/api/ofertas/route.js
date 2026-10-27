@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import { getCurrentUserWithRole } from "@/lib/auth/server-roles";
 import { getSupabaseServerClient } from "@/lib/db";
+import { parseIds } from "@/lib/precios";
+
+// D1 guarda productos_ids como texto JSON y activa como 0/1.
+const normalizar = (o) => ({
+  ...o,
+  productos_ids: parseIds(o.productos_ids),
+  activa: o.activa === 1 || o.activa === true,
+});
 
 async function obtenerTodasLasOfertas() {
   const db = getSupabaseServerClient();
   const { data } = await db.from('ofertas').select('*').order('created_at', { ascending: false });
-  return data || [];
+  return (data || []).map(normalizar);
 }
 
 // Devuelve solo las ofertas VIGENTES para el público: además del flag
@@ -23,13 +31,30 @@ async function obtenerOfertasActivas() {
     .lte('fecha_inicio', ahora)
     .gte('fecha_fin', ahora)
     .order('created_at', { ascending: false });
-  return data || [];
+  return (data || []).map(normalizar);
 }
 
 async function crearOferta(ofertaData) {
   const db = getSupabaseServerClient();
-  const { data } = await db.from('ofertas').insert(ofertaData).select().single();
-  return data;
+  const ahora = new Date().toISOString();
+  const { data } = await db
+    .from('ofertas')
+    .insert({
+      id: crypto.randomUUID(),
+      nombre: ofertaData.nombre,
+      descripcion: ofertaData.descripcion || null,
+      porcentaje_descuento: Number(ofertaData.porcentaje_descuento),
+      productos_ids: ofertaData.productos_ids,
+      fecha_inicio: new Date(ofertaData.fecha_inicio).toISOString(),
+      fecha_fin: new Date(ofertaData.fecha_fin).toISOString(),
+      activa: ofertaData.activa !== false,
+      tipo_oferta: ofertaData.tipo_oferta || 'individual',
+      created_at: ahora,
+      updated_at: ahora,
+    })
+    .select()
+    .single();
+  return data ? normalizar(data) : data;
 }
 
 /**

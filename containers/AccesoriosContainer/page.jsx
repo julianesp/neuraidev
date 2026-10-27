@@ -21,6 +21,8 @@ import ShareButton from "@/components/ShareButton";
 // import ProductMetaTags from "@/components/ProductMetaTags"; // REMOVIDO: Causa conflictos con generateMetadata
 import PriceWithDiscount from "@/components/PriceWithDiscount";
 import AddToCartButton from "@/components/AddToCartButton";
+import EtiquetaOferta from "@/app/_components/precios/EtiquetaOferta";
+import ServiciosCombo from "@/app/_components/servicios/ServiciosCombo";
 import ProductSchema from "@/components/ProductSchema";
 import Breadcrumbs, { CATEGORY_NAMES } from "@/components/Breadcrumbs";
 import { useCart } from "@/context/CartContext";
@@ -689,11 +691,23 @@ const AccesoriosContainer = ({
     );
   }
 
-  // Formatear correctamente el mensaje para WhatsApp
-  const mensajeBase = `Hola, estoy interesado en el accesorio: ${accesorio?.nombre || ""}`;
-  const whatsappUrl = currentUrl
-    ? `https://wa.me/${telefono}?text=${encodeURIComponent(mensajeBase)}%0A%0A${encodeURIComponent("Puedes verlo aquí: ")}${encodeURIComponent(currentUrl)}`
-    : "#";
+  // Mensaje para WhatsApp: nombre, precio y enlace del producto, así sé de
+  // cuál me preguntan sin que el cliente tenga que explicarlo.
+  // wa.me exige el número solo con dígitos (sin "+", espacios ni guiones).
+  const telefonoWa = String(telefono || "573174503604").replace(/\D/g, "");
+  const precioWa = Number(accesorio?.precio);
+  const mensajeWa = [
+    "¡Hola! 👋 Tengo una pregunta sobre este producto:",
+    "",
+    `📦 ${accesorio?.nombre || ""}`,
+    Number.isFinite(precioWa) && precioWa > 0
+      ? `💰 $${precioWa.toLocaleString("es-CO")}`
+      : null,
+    currentUrl ? `🔗 ${currentUrl}` : null,
+  ]
+    .filter((linea) => linea !== null)
+    .join("\n");
+  const whatsappUrl = `https://wa.me/${telefonoWa}?text=${encodeURIComponent(mensajeWa)}`;
 
   // Determinar si hay imágenes para mostrar
   const tieneImagenes =
@@ -1147,6 +1161,7 @@ const AccesoriosContainer = ({
                     </span>
                   )}
                 </div>
+                <EtiquetaOferta producto={accesorio} />
                 {/* Botón para compartir el producto */}
                 <div className="mt-4 ">
                   <ShareButton product={accesorio} />
@@ -1203,6 +1218,9 @@ const AccesoriosContainer = ({
                   {/* Botón de agregar al carrito con selección de método de pago */}
                   <AddToCartButton producto={accesorio} />
 
+                  {/* Producto + servicio técnico (instalación, configuración…) */}
+                  <ServiciosCombo producto={accesorio} />
+
                   {/* Enlace de pago específico para el libro de Cálculo */}
                   {accesorio?.id === "cmfew2nv3000rs0jpmwvzv6ue" && (
                     <Link
@@ -1235,7 +1253,7 @@ const AccesoriosContainer = ({
                     className="bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg flex items-center justify-center transition-colors font-medium"
                   >
                     <MessageCircle className="mr-2" />
-                    Consultar por WhatsApp
+                    Preguntar por WhatsApp
                   </Link>
                 </div>
               )}

@@ -5,6 +5,7 @@ import styles from "./DesarrolladorSoftware.module.scss";
 import Link from "next/link";
 import { portafolioSitios } from "@/data/portafolioSitios";
 import LogoSitio from "@/components/PortafolioSitios/LogoSitio";
+import OpinionesFormateo from "@/components/CalificacionFormateo/OpinionesFormateo";
 
 export default function DesarrolladorSoftware() {
   const tecnologias = [
@@ -208,6 +209,7 @@ export default function DesarrolladorSoftware() {
           </Link>
         </div>
       </section>
+      <OpinionesFormateo tipo="web" />
     </main>
   );
 }

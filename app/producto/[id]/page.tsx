@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import AccesoriosContainer from '@/containers/AccesoriosContainer/page';
 import ViewTracker from '@/components/ViewTracker/ViewTracker';
 import { d1SelectOne, d1Select } from '@/lib/db';
+import { obtenerCampanasVigentes } from '@/lib/ofertas-server';
+import { aplicarPrecioVigente } from '@/lib/precios';
 // @ts-ignore - utils en JS sin tipos
 import { generateProductSlug } from '@/utils/slugify';
 // @ts-ignore - utils en JS sin tipos
@@ -138,15 +140,26 @@ export default async function ProductoPage({ params }: Props) {
       notFound();
     }
 
-    // Normalizar estructura de datos para compatibilidad con AccesoriosContainer
+    const campanas = await obtenerCampanasVigentes();
+
+    // Normalizar estructura de datos para compatibilidad con AccesoriosContainer.
+    // precio = lo que se cobra hoy; precioAnterior = precio normal si hay oferta.
     const productoNormalizado = {
-      ...producto,
+      ...aplicarPrecioVigente({ ...producto, precio: parseFloat(producto.precio) }, campanas),
       imagenPrincipal: producto.imagen_principal,
-      precioAnterior: producto.precio_oferta ? parseFloat(producto.precio_oferta) : null,
-      precio: parseFloat(producto.precio),
       cantidad: producto.stock || 0,
       disponible: producto.disponible && producto.stock > 0,
     };
+
+    // D1 guarda `imagenes` como texto JSON
+    if (typeof productoNormalizado.imagenes === 'string') {
+      try {
+        productoNormalizado.imagenes = JSON.parse(productoNormalizado.imagenes);
+      } catch {
+        productoNormalizado.imagenes = [];
+      }
+    }
+    if (!Array.isArray(productoNormalizado.imagenes)) productoNormalizado.imagenes = [];
 
     // Normalizar imágenes: convertir array de strings a array de objetos con url y alt
     if (!productoNormalizado.imagenes || productoNormalizado.imagenes.length === 0) {
@@ -172,10 +185,8 @@ export default async function ProductoPage({ params }: Props) {
 
     // Normalizar otros productos también
     const otrosProductosNormalizados = (otrosProductos || []).map((p: any) => ({
-      ...p,
+      ...aplicarPrecioVigente({ ...p, precio: parseFloat(p.precio) }, campanas),
       imagenPrincipal: p.imagen_principal,
-      precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
-      precio: parseFloat(p.precio),
       cantidad: p.stock || 0,
       disponible: p.disponible && p.stock > 0,
     }));

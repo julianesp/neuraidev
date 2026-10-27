@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { getSupabaseClient, d1Select } from "@/lib/db";
+import { obtenerCampanasVigentes } from "@/lib/ofertas-server";
+import { calcularPrecioVigente } from "@/lib/precios";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -68,9 +70,12 @@ async function recalcularTotalServidor(items) {
   const ids = [...new Set(normalizados.map((i) => i.id))];
   const placeholders = ids.map(() => "?").join(", ");
   const rows = await d1Select(
-    `SELECT id, nombre, precio FROM products WHERE id IN (${placeholders})`,
+    `SELECT id, nombre, precio, precio_oferta, metadata FROM products WHERE id IN (${placeholders})`,
     ids,
   );
+  // Oferta / precio de lanzamiento / campaña vigente: el mismo cálculo que
+  // usan las páginas, para cobrar exactamente lo que el cliente vio.
+  const campanas = await obtenerCampanasVigentes();
   const porId = new Map((rows || []).map((p) => [String(p.id), p]));
 
   let total = 0;
@@ -78,7 +83,7 @@ async function recalcularTotalServidor(items) {
 
   for (const item of normalizados) {
     const producto = porId.get(String(item.id));
-    const precio = producto ? Number(producto.precio) : NaN;
+    const precio = producto ? calcularPrecioVigente(producto, campanas).precio : NaN;
 
     if (!producto || !Number.isFinite(precio) || precio <= 0) {
       return {

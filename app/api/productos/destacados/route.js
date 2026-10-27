@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/db';
+import { conPreciosVigentes } from '@/lib/ofertas-server';
 
 async function obtenerProductosDestacados(limit = 10) {
   const db = getSupabaseServerClient();
@@ -20,7 +21,7 @@ export async function GET() {
       }
       return { ...p, imagenes: imagenes || [] };
     });
-    return NextResponse.json(normalized);
+    return NextResponse.json(await conPreciosVigentes(normalized));
   } catch (e) {
     console.error('[destacados]', e);
     return NextResponse.json([], { status: 500 });

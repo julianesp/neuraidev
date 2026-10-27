@@ -10,6 +10,7 @@ import { generateProductSlug, buildProductUrl } from "../../utils/slugify";
 import { useCart } from "../../context/CartContext";
 import { useToast } from "../../contexts/ToastContext";
 import styles from "./ProductoCascada.module.scss";
+import EtiquetaOferta from "../../app/_components/precios/EtiquetaOferta";
 
 export default function ProductoCascada({
   productos,
@@ -292,6 +293,11 @@ export default function ProductoCascada({
 
                 {/* Información del producto - Posicionada en la parte inferior */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
+                  {producto.ofertaTipo && (
+                    <div className="mb-2">
+                      <EtiquetaOferta producto={producto} variante="tarjeta" />
+                    </div>
+                  )}
                   {/* Título con fondo oscuro difuminado */}
                   <div className="bg-black/40 backdrop-blur-sm px-3 py-2 rounded-lg">
                     <h3 className="text-lg font-bold text-white line-clamp-2">

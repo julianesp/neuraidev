@@ -9,6 +9,10 @@ import ColorSelector from "@/components/ColorSelector";
 import RichTextEditor from "@/components/RichTextEditor";
 import Swal from "sweetalert2";
 import BarcodeScannerInput from "@/components/dashboard/BarcodeScannerInput";
+import PrecioEspecialFields, {
+  ServicioAplicaAFields,
+  camposPrecioEspecial,
+} from "@/app/_components/dashboard/PrecioEspecialFields";
 
 export default function NuevoProductoPage() {
   const router = useRouter();
@@ -18,6 +22,9 @@ export default function NuevoProductoPage() {
     descripcion: "",
     precio: "",
     precio_oferta: "",
+    oferta_tipo: "",
+    oferta_hasta: "",
+    aplica_a: [],
     categoria: "celulares",
     marca: "",
     stock: 0,
@@ -40,6 +47,7 @@ export default function NuevoProductoPage() {
     "celulares",
     "computadoras",
     "generales",
+    "servicios", // servicio técnico que se vende en combo con productos
   ];
 
   const handleChange = (e) => {
@@ -76,7 +84,8 @@ export default function NuevoProductoPage() {
 
     try {
       // Limpiar y preparar datos para la tabla products de Supabase
-      const metadata = {};
+      const especial = camposPrecioEspecial(formData);
+      const metadata = { ...especial.metadata };
       if (formData.payment_link.trim()) {
         metadata.payment_link = formData.payment_link.trim();
       }
@@ -88,6 +97,7 @@ export default function NuevoProductoPage() {
         nombre: formData.nombre,
         descripcion: formData.descripcion,
         precio: parseFloat(formData.precio) || 0,
+        precio_oferta: especial.precio_oferta,
         categoria: formData.categoria,
         marca: formData.marca || null,
         stock: parseInt(formData.stock) || 0,
@@ -221,10 +231,13 @@ export default function NuevoProductoPage() {
                   >
                     {categorias.map((cat) => (
                       <option key={cat} value={cat}>
-                        {cat}
+                        {cat === "servicios" ? "servicios (servicio técnico en combo)" : cat}
                       </option>
                     ))}
                   </select>
+                  {formData.categoria === "servicios" && (
+                    <ServicioAplicaAFields formData={formData} setFormData={setFormData} />
+                  )}
                 </div>
 
                 <div>
@@ -329,25 +342,6 @@ export default function NuevoProductoPage() {
 
                 <div>
                   <label
-                    htmlFor="precio_oferta"
-                    className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
-                  >
-                    Precio en Oferta
-                  </label>
-                  <input
-                    id="precio_oferta"
-                    type="number"
-                    name="precio_oferta"
-                    min="0"
-                    step="0.01"
-                    value={formData.precio_oferta}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  />
-                </div>
-
-                <div>
-                  <label
                     htmlFor="stock"
                     className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
                   >
@@ -398,6 +392,8 @@ export default function NuevoProductoPage() {
                   />
                 </div>
               </div>
+
+              <PrecioEspecialFields formData={formData} setFormData={setFormData} />
             </div>
 
             {/* Imágenes */}

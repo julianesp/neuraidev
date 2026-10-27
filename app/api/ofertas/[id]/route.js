@@ -56,7 +56,16 @@ export async function PUT(request, { params }) {
       }
     }
 
-    const oferta = await actualizarOferta(id, body);
+    // Solo columnas reales de la tabla; fechas siempre en ISO UTC.
+    const cambios = {};
+    for (const k of ["nombre", "descripcion", "porcentaje_descuento", "productos_ids", "activa", "tipo_oferta"]) {
+      if (k in body) cambios[k] = body[k];
+    }
+    if (body.fecha_inicio) cambios.fecha_inicio = new Date(body.fecha_inicio).toISOString();
+    if (body.fecha_fin) cambios.fecha_fin = new Date(body.fecha_fin).toISOString();
+    cambios.updated_at = new Date().toISOString();
+
+    const oferta = await actualizarOferta(id, cambios);
 
     return NextResponse.json(
       { message: "Oferta actualizada exitosamente", oferta },

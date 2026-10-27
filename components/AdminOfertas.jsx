@@ -14,6 +14,16 @@ import {
   Layers,
 } from "lucide-react";
 
+// ISO (UTC) → valor para <input type="datetime-local"> en hora del navegador.
+function aInputLocal(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 16);
+}
+
 export default function AdminOfertas() {
   const [ofertas, setOfertas] = useState([]);
   const [productos, setProductos] = useState([]);
@@ -89,12 +99,8 @@ export default function AdminOfertas() {
         descripcion: oferta.descripcion || "",
         porcentaje_descuento: oferta.porcentaje_descuento,
         productos_ids: oferta.productos_ids || [],
-        fecha_inicio: oferta.fecha_inicio
-          ? new Date(oferta.fecha_inicio).toISOString().slice(0, 16)
-          : "",
-        fecha_fin: oferta.fecha_fin
-          ? new Date(oferta.fecha_fin).toISOString().slice(0, 16)
-          : "",
+        fecha_inicio: aInputLocal(oferta.fecha_inicio),
+        fecha_fin: aInputLocal(oferta.fecha_fin),
         activa: oferta.activa,
         tipo_oferta: oferta.tipo_oferta || "individual",
       });
@@ -133,6 +139,13 @@ export default function AdminOfertas() {
       ...formData,
       productos_ids: selectedProducts.map((p) => p.id),
       porcentaje_descuento: parseFloat(formData.porcentaje_descuento),
+      // El input datetime-local está en hora del navegador: se envía en UTC.
+      fecha_inicio: formData.fecha_inicio
+        ? new Date(formData.fecha_inicio).toISOString()
+        : "",
+      fecha_fin: formData.fecha_fin
+        ? new Date(formData.fecha_fin).toISOString()
+        : "",
     };
 
     try {
@@ -153,7 +166,7 @@ export default function AdminOfertas() {
         cerrarModal();
       } else {
         const error = await res.json();
-        alert(`Error: ${error.message}`);
+        alert(`Error: ${error.error || error.message}`);
       }
     } catch (error) {
       console.error("Error guardando oferta:", error);

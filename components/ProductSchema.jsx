@@ -81,6 +81,10 @@ export default function ProductSchema({ producto }) {
       url,
       priceCurrency: "COP",
       price: precio.toFixed(0),
+      // Oferta / precio de lanzamiento con fecha de fin
+      ...(producto.ofertaHasta && {
+        priceValidUntil: String(producto.ofertaHasta).slice(0, 10),
+      }),
       itemCondition: usado
         ? "https://schema.org/UsedCondition"
         : "https://schema.org/NewCondition",

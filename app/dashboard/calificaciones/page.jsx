@@ -2,10 +2,17 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Star, Trash2, Mail, UserPlus, Clock, CheckCircle2 } from "lucide-react";
+import EnlaceCalificar from "@/app/_components/calificar/EnlaceCalificar";
+
+const NOMBRE_TIPO = {
+  producto: "Compra",
+  formateo: "Servicio técnico",
+  web: "Desarrollo web",
+};
 
 export default function CalificacionesPage() {
-  // Pestaña activa: invitaciones (emails) | calificaciones (moderación)
-  const [tab, setTab] = useState("invitaciones");
+  // Pestaña activa: enlace (compartir por WhatsApp) | invitaciones (emails) | calificaciones (moderación)
+  const [tab, setTab] = useState("enlace");
 
   // ── Invitaciones (emails cargados) ──
   const [invitaciones, setInvitaciones] = useState([]);
@@ -38,9 +45,8 @@ export default function CalificacionesPage() {
       setLoadingTest(true);
       const res = await fetch("/api/testimonios?estado=todos");
       const data = await res.json();
-      // Solo los de tipo formateo/servicio técnico.
-      const solo = (data.testimonios || []).filter((t) => t.tipo === "formateo");
-      setTestimonios(solo);
+      // Todas: compras, servicio técnico y desarrollo web.
+      setTestimonios(data.testimonios || []);
     } catch {
       setTestimonios([]);
     } finally {
@@ -154,16 +160,25 @@ export default function CalificacionesPage() {
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-        Calificaciones de formateo
+        Calificaciones de clientes
       </h1>
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-        Carga los emails de Google de tus clientes de servicio técnico. Cuando
-        inicien sesión, se les pedirá calificar tu trabajo. Tú apruebas qué se
-        publica.
+        Envía a tus clientes un enlace para que te califiquen con estrellas y
+        un comentario. Te llega un aviso a Telegram y tú decides qué se publica.
       </p>
 
       {/* Pestañas */}
-      <div className="flex gap-2 mb-6 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex gap-2 mb-6 border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
+        <button
+          onClick={() => setTab("enlace")}
+          className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px whitespace-nowrap ${
+            tab === "enlace"
+              ? "border-blue-600 text-blue-600"
+              : "border-transparent text-gray-500 hover:text-gray-700"
+          }`}
+        >
+          Enviar enlace
+        </button>
         <button
           onClick={() => setTab("invitaciones")}
           className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
@@ -190,6 +205,9 @@ export default function CalificacionesPage() {
           )}
         </button>
       </div>
+
+      {/* ── Tab: Enlace para calificar ── */}
+      {tab === "enlace" && <EnlaceCalificar />}
 
       {/* ── Tab: Emails ── */}
       {tab === "invitaciones" && (
@@ -289,7 +307,7 @@ export default function CalificacionesPage() {
             <p className="text-center text-gray-400 py-8">Cargando…</p>
           ) : testimonios.length === 0 ? (
             <p className="text-center text-gray-400 py-8">
-              Todavía no has recibido calificaciones de formateo.
+              Todavía no has recibido calificaciones.
             </p>
           ) : (
             <div className="space-y-4">
@@ -306,6 +324,10 @@ export default function CalificacionesPage() {
                       {t.cliente_email && (
                         <p className="text-xs text-gray-400">{t.cliente_email}</p>
                       )}
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        {NOMBRE_TIPO[t.tipo] || "Compra"}
+                        {t.producto_relacionado && ` · ${t.producto_relacionado}`}
+                      </p>
                     </div>
                     <span
                       className={`text-xs px-2 py-0.5 rounded-full ${

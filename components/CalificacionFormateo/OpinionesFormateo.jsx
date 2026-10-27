@@ -11,7 +11,13 @@ import { Star, Quote } from "lucide-react";
  * Se apoya en /api/testimonios (solo devuelve los 'aprobado') y filtra por
  * tipo === 'formateo'. Si no hay ninguna aprobada, no renderiza nada.
  */
-export default function OpinionesFormateo() {
+const TEXTOS = {
+  formateo:
+    "Opiniones reales de personas a quienes les hice el servicio de formateo y mantenimiento.",
+  web: "Opiniones reales de clientes para quienes desarrollé su página web o software.",
+};
+
+export default function OpinionesFormateo({ tipo = "formateo" }) {
   const [opiniones, setOpiniones] = useState([]);
   const [cargado, setCargado] = useState(false);
 
@@ -22,7 +28,7 @@ export default function OpinionesFormateo() {
       .then((data) => {
         if (!activo) return;
         const lista = (data.testimonios || []).filter(
-          (t) => t.tipo === "formateo"
+          (t) => t.tipo === tipo
         );
         setOpiniones(lista);
         setCargado(true);
@@ -31,7 +37,7 @@ export default function OpinionesFormateo() {
     return () => {
       activo = false;
     };
-  }, []);
+  }, [tipo]);
 
   if (!cargado || opiniones.length === 0) return null;
 
@@ -52,8 +58,7 @@ export default function OpinionesFormateo() {
             Lo que dicen mis clientes
           </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            Opiniones reales de personas a quienes les hice el servicio de
-            formateo y mantenimiento.
+            {TEXTOS[tipo] || TEXTOS.formateo}
           </p>
           {promedio && (
             <div className="inline-flex items-center gap-2 mt-4 bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm">

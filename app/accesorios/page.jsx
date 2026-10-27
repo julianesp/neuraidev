@@ -3,6 +3,8 @@ import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import CategoryCard from "@/components/CategoryCard";
 import CategoryProductGrid from "@/components/CategoryProductGrid";
 import { getSupabaseClient } from "@/lib/db";
+import { obtenerCampanasVigentes } from "@/lib/ofertas-server";
+import { aplicarPrecioVigente } from "@/lib/precios";
 import { getCategoriesWithStock, shouldShowCategory } from "@/utils/categoriesWithStock";
 
 export const metadata = {
@@ -88,9 +90,6 @@ async function loadFilteredProducts({ filters, min, max }) {
 
     // Siempre filtrar productos disponibles
     query = query.eq("disponible", true);
-    if (hasDescuento) {
-      query = query.not("precio_oferta", "is", null);
-    }
     if (hasDestacado) {
       query = query.eq("destacado", true);
     }
@@ -100,17 +99,21 @@ async function loadFilteredProducts({ filters, min, max }) {
       query = query.gte("precio", min);
     }
 
-    const { data, error } = await query;
+    const [{ data, error }, campanas] = await Promise.all([query, obtenerCampanasVigentes()]);
     if (error) throw error;
 
-    return (data || []).map((p) => ({
-      ...p,
-      imagenPrincipal: p.imagen_principal,
-      precioAnterior: p.precio_oferta ? parseFloat(p.precio_oferta) : null,
-      precio: parseFloat(p.precio),
-      cantidad: p.stock || 0,
-      disponible: p.disponible && p.stock > 0,
-    }));
+    const productos = (data || [])
+      // Los servicios técnicos se venden en combo, no en el catálogo
+      .filter((p) => p.categoria !== "servicios")
+      .map((p) => ({
+        ...aplicarPrecioVigente({ ...p, precio: parseFloat(p.precio) }, campanas),
+        imagenPrincipal: p.imagen_principal,
+        cantidad: p.stock || 0,
+        disponible: p.disponible && p.stock > 0,
+      }));
+
+    // "descuento" = oferta, precio de lanzamiento o campaña vigente
+    return hasDescuento ? productos.filter((p) => p.ofertaTipo) : productos;
   } catch (e) {
     console.error("[loadFilteredProducts]", e);
     return [];

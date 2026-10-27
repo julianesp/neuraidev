@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseClient } from "@/lib/db";
+import { conPreciosVigentes } from "@/lib/ofertas-server";
 
 /**
  * GET /api/products/most-visited
@@ -44,7 +45,7 @@ export async function GET(request) {
 
     // Filtrar solo los que tienen visitas reales (views_count > 0 en metadata)
     const withViews = products
-      .filter((p) => p.metadata?.views_count > 0)
+      .filter((p) => p.categoria !== "servicios" && p.metadata?.views_count > 0)
       .sort((a, b) => (b.metadata?.views_count || 0) - (a.metadata?.views_count || 0))
       .slice(0, MAX_PRODUCTS);
 
@@ -55,7 +56,7 @@ export async function GET(request) {
 
     return NextResponse.json({
       success: true,
-      products: withViews,
+      products: await conPreciosVigentes(withViews),
     });
   } catch (error) {
     console.error('[most-visited] Error inesperado:', {

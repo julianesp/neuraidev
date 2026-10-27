@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseClient } from "@/lib/db";
+import { conPreciosVigentes } from "@/lib/ofertas-server";
 
 /**
  * GET /api/products/visited-by-users
@@ -45,7 +46,10 @@ export async function GET(request) {
     }
 
     // En ocasiones products puede venir "undefined" o no ser un array
-    const productosArray = Array.isArray(products) ? products : [];
+    // Los servicios técnicos (combo) no se muestran como productos sueltos
+    const productosArray = (Array.isArray(products) ? products : []).filter(
+      (p) => p?.categoria !== "servicios",
+    );
 
     // Filtrar productos con al menos 2 visitantes únicos
     const withEnoughVisitors = productosArray
@@ -77,7 +81,7 @@ export async function GET(request) {
 
     return NextResponse.json({
       success: true,
-      products: withEnoughVisitors,
+      products: await conPreciosVigentes(withEnoughVisitors),
       count: withEnoughVisitors.length,
     });
   } catch (error) {
