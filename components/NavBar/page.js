@@ -25,7 +25,6 @@ const NavBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [serviciosDropdownOpen, setServiciosDropdownOpen] = useState(false);
   const [negociosDropdownOpen, setNegociosDropdownOpen] = useState(false);
-  const [herramientasOpen, setHerramientasOpen] = useState(false);
   const [imageError, setImageError] = useState({});
   const [showAccessibilityPanel, setShowAccessibilityPanel] = useState(false);
   const menuRef = useRef(null);
@@ -109,7 +108,6 @@ const NavBar = () => {
     setDropdownOpen(false); // Close the dropdown when a link is clicked
     setServiciosDropdownOpen(false); // Close the servicios dropdown when a link is clicked
     setNegociosDropdownOpen(false); // Close the negocios dropdown when a link is clicked
-    setHerramientasOpen(false);
   };
 
   const handleOutsideClick = (event) => {
@@ -330,50 +328,6 @@ const NavBar = () => {
                     Desarrollador Web
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/fastfoods"
-                    onClick={handleLinkClick}
-                    title="Negocios de comidas: menú, especial del día y pedidos por WhatsApp"
-                  >
-                    Negocios
-                  </Link>
-                </li>
-                {/* Submenú de herramientas */}
-                <li>
-                  <a
-                    href="/herramientas"
-                    role="button"
-                    aria-expanded={herramientasOpen}
-                    className={styles.submenuToggle}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setHerramientasOpen((v) => !v);
-                    }}
-                  >
-                    Herramientas
-                    <span
-                      className={`${styles.dropdown_arrow} ${herramientasOpen ? styles.rotated : ""}`}
-                    >
-                      ▾
-                    </span>
-                  </a>
-                  {herramientasOpen && (
-                    <ul className={styles.submenu}>
-                      <li>
-                        <Link
-                          href="/herramientas/presupuesto"
-                          onClick={handleLinkClick}
-                          title="Presupuesto personal mensual"
-                        >
-                          Presupuesto
-                        </Link>
-                      </li>
-                    </ul>
-                  )}
-                </li>
-
-
                 {/* <li>
                   <Link
                     href="/para-tiendas"
