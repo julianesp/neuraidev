@@ -161,6 +161,14 @@ export default function FacturaPage() {
     );
   }
 
+  // Descuento de promoción: los productos van a precio normal y el total ya
+  // viene con el descuento aplicado.
+  const sumaItems = (Array.isArray(invoice.items) ? invoice.items : []).reduce(
+    (s, i) => s + (Number(i.price ?? i.precio) || 0) * (Number(i.quantity ?? i.cantidad) || 1),
+    0,
+  );
+  const descuentoPromo = Math.max(0, Math.round(sumaItems - (Number(invoice.total) || 0)));
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
       <div className="max-w-4xl mx-auto">
@@ -315,6 +323,12 @@ export default function FacturaPage() {
             <div className="flex justify-end mb-8">
               {/* Comprobante de compra: solo el total, sin subtotal ni impuestos. */}
               <div className="w-full md:w-1/2 space-y-3">
+                {descuentoPromo > 0 && (
+                  <div className="flex justify-between text-sm text-gray-700 dark:text-gray-300">
+                    <span>Descuento promoción:</span>
+                    <span>-{formatCurrency(descuentoPromo)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-lg font-bold pt-3 border-t border-gray-300 dark:border-gray-600">
                   <span className="text-blue-600 dark:text-blue-400">TOTAL:</span>
                   <span className="text-blue-600 dark:text-blue-400">

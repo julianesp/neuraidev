@@ -9,6 +9,7 @@ import { getProductImage, PLACEHOLDER_IMAGE } from "@/lib/constants";
 import EpaycoCheckout from "../EpaycoCheckout";
 import CartPaymentMethodModal from "../CartPaymentMethodModal";
 import styles from "./ShoppingCart.module.scss";
+import ResumenPromociones from "@/app/_components/carrito/ResumenPromociones";
 
 export default function ShoppingCart() {
   const {
@@ -19,6 +20,7 @@ export default function ShoppingCart() {
     removeFromCart,
     getTotalPrice,
     clearCart,
+    descuentosPromociones,
   } = useCart();
   const toast = useToast();
   const [showCheckout, setShowCheckout] = useState(false);
@@ -119,7 +121,10 @@ export default function ShoppingCart() {
     }
   };
 
-  const totalPropios = itemsPropios.reduce((s, i) => s + i.precio * i.cantidad, 0);
+  // Las promociones solo aplican a productos propios: se descuentan aquí
+  const totalPropios =
+    itemsPropios.reduce((s, i) => s + i.precio * i.cantidad, 0) -
+    descuentosPromociones.reduce((s, d) => s + d.monto, 0);
   const bajoMinimo = totalPropios < 5000;
 
   return (
@@ -326,6 +331,9 @@ export default function ShoppingCart() {
                       Otros destinos: se coordina por WhatsApp
                     </p>
                   </div>
+
+                  {/* Promociones aplicadas / por activar */}
+                  <ResumenPromociones />
 
                   {/* Total */}
                   <div className="flex items-center justify-between">

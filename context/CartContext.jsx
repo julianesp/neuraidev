@@ -1,14 +1,25 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { useToast } from "@/contexts/ToastContext";
+import { calcularDescuentosPromociones } from "@/lib/promociones";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  // Promociones vigentes (p. ej. "10% llevando 5 o más"): el descuento se
+  // calcula con lo que hay en el carrito, igual que el checkout en el servidor.
+  const [promociones, setPromociones] = useState([]);
   const toast = useToast();
+
+  useEffect(() => {
+    fetch("/api/promociones?activas=true")
+      .then((r) => r.json())
+      .then((d) => setPromociones(d.promociones || []))
+      .catch(() => {});
+  }, []);
 
   // Cargar carrito del localStorage al iniciar
   useEffect(() => {
@@ -39,7 +50,6 @@ export function CartProvider({ children }) {
       const existingItemIndex = prevCart.findIndex(
         (item) =>
           item.id === producto.id &&
-          (item.promocion_id || null) === (producto.promocion_id || null) &&
           JSON.stringify(item.variacion) === JSON.stringify(variacion),
       );
 
@@ -85,9 +95,6 @@ export function CartProvider({ children }) {
         categoria: producto.categoria,
         stock: producto.stock ?? 999,
         metadata: producto.metadata || {},
-        // Si entró desde una promoción (/promocion/[id]): el checkout aplica
-        // ese descuento en el servidor.
-        promocion_id: producto.promocion_id || null,
         // seller_clerk_user_id solo aplica a tiendas externas (tienen seller_whatsapp)
         seller_clerk_user_id: producto.seller_whatsapp ? (producto.seller_clerk_user_id || null) : null,
         seller_whatsapp: producto.seller_whatsapp || null,
@@ -141,10 +148,25 @@ export function CartProvider({ children }) {
     return cart.reduce((total, item) => total + item.cantidad, 0);
   };
 
-  // Obtener precio total
-  const getTotalPrice = () => {
+  // Subtotal sin promociones
+  const getSubtotal = () => {
     return cart.reduce((total, item) => total + item.precio * item.cantidad, 0);
   };
+
+  // Descuentos de promociones sobre los productos propios del carrito
+  const promosCarrito = useMemo(
+    () =>
+      calcularDescuentosPromociones(
+        cart
+          .filter((item) => !item.seller_clerk_user_id)
+          .map((item) => ({ id: item.id, cantidad: item.cantidad, precio: item.precio })),
+        promociones,
+      ),
+    [cart, promociones],
+  );
+
+  // Total a pagar (con descuentos de promociones)
+  const getTotalPrice = () => getSubtotal() - promosCarrito.total;
 
   // Abrir/cerrar carrito
   const toggleCart = () => {
@@ -159,6 +181,9 @@ export function CartProvider({ children }) {
     clearCart,
     getTotalItems,
     getTotalPrice,
+    getSubtotal,
+    descuentosPromociones: promosCarrito.descuentos,
+    promociones,
     checkStock,
     isOpen,
     toggleCart,

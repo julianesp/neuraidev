@@ -3,11 +3,8 @@ import crypto from "crypto";
 import { getSupabaseClient, d1Select } from "@/lib/db";
 import { obtenerCampanasVigentes } from "@/lib/ofertas-server";
 import { calcularPrecioVigente } from "@/lib/precios";
-import {
-  obtenerPromocion,
-  promocionVigente,
-  precioEnPromocion,
-} from "@/lib/promociones-server";
+import { obtenerPromocionesVigentes } from "@/lib/promociones-server";
+import { calcularDescuentosPromociones } from "@/lib/promociones";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -58,7 +55,7 @@ function getClientIp(request) {
  * enviados por el cliente (cualquiera puede manipularlos desde el navegador o
  * la app). Si algún producto no existe en el catálogo, la sesión se rechaza.
  *
- * @returns {{ ok: true, total: number, items: Array } | { ok: false, error: string }}
+ * @returns {{ ok: true, total: number, items: Array, descuento: number, promociones: Array } | { ok: false, error: string }}
  */
 async function recalcularTotalServidor(items) {
   const normalizados = [];
@@ -69,12 +66,7 @@ async function recalcularTotalServidor(items) {
       return { ok: false, error: "Hay productos sin identificador en el carrito" };
     }
     const cantidad = Math.min(Math.max(parseInt(item.quantity || item.cantidad, 10) || 1, 1), 999);
-    normalizados.push({
-      id,
-      name: item.name || item.nombre,
-      cantidad,
-      promocionId: item.promocion_id || null,
-    });
+    normalizados.push({ id, name: item.name || item.nombre, cantidad });
   }
 
   const ids = [...new Set(normalizados.map((i) => i.id))];
@@ -87,19 +79,6 @@ async function recalcularTotalServidor(items) {
   // usan las páginas, para cobrar exactamente lo que el cliente vio.
   const campanas = await obtenerCampanasVigentes();
 
-  // Promociones (combos): el descuento solo vale si la promo sigue vigente y
-  // TODOS sus productos están en el carrito marcados con esa promoción.
-  const promosValidas = new Map();
-  for (const promoId of new Set(normalizados.map((i) => i.promocionId).filter(Boolean))) {
-    const promo = await obtenerPromocion(promoId).catch(() => null);
-    if (!promo || !promocionVigente(promo)) continue;
-    const enCarrito = new Set(
-      normalizados.filter((i) => i.promocionId === promoId).map((i) => String(i.id)),
-    );
-    if (promo.productos_ids.length > 0 && promo.productos_ids.every((id) => enCarrito.has(String(id)))) {
-      promosValidas.set(promoId, promo);
-    }
-  }
   const porId = new Map((rows || []).map((p) => [String(p.id), p]));
 
   let total = 0;
@@ -107,11 +86,7 @@ async function recalcularTotalServidor(items) {
 
   for (const item of normalizados) {
     const producto = porId.get(String(item.id));
-    let precio = producto ? calcularPrecioVigente(producto, campanas).precio : NaN;
-    const promo = promosValidas.get(item.promocionId);
-    if (producto && promo && promo.productos_ids.includes(String(item.id))) {
-      precio = precioEnPromocion(precio, promo);
-    }
+    const precio = producto ? calcularPrecioVigente(producto, campanas).precio : NaN;
 
     if (!producto || !Number.isFinite(precio) || precio <= 0) {
       return {
@@ -129,7 +104,22 @@ async function recalcularTotalServidor(items) {
     });
   }
 
-  return { ok: true, total: Math.round(total), items: itemsVerificados };
+  // Promociones por cantidad / combos (p. ej. "10% llevando 5 o más"): se
+  // calculan con las cantidades del carrito, igual que en el carrito del cliente.
+  const promos = await obtenerPromocionesVigentes();
+  const { total: descuento, descuentos } = calcularDescuentosPromociones(
+    itemsVerificados.map((i) => ({ id: i.id, cantidad: i.quantity, precio: i.price })),
+    promos,
+  );
+  total -= descuento;
+
+  return {
+    ok: true,
+    total: Math.round(total),
+    items: itemsVerificados,
+    descuento,
+    promociones: descuentos,
+  };
 }
 
 /**
@@ -205,6 +195,8 @@ export async function POST(request) {
     // manipulación. Sin items (flujos legacy) se mantiene el amount recibido.
     let finalAmount = Math.round(Number(amount));
     let verifiedItems = null;
+    let descuentoPromos = 0;
+    let promocionesAplicadas = [];
 
     if (Array.isArray(items) && items.length > 0) {
       const recalculo = await recalcularTotalServidor(items);
@@ -224,6 +216,8 @@ export async function POST(request) {
 
       finalAmount = recalculo.total;
       verifiedItems = recalculo.items;
+      descuentoPromos = recalculo.descuento || 0;
+      promocionesAplicadas = recalculo.promociones || [];
     } else {
       logError(
         `⚠️ Sesión ePayco sin items (ref ${reference}); no se puede verificar el monto ${amount} contra el catálogo.`,
@@ -277,12 +271,13 @@ export async function POST(request) {
         subtotal: taxBase,
         impuestos: tax,
         costo_envio: 0,
-        descuentos: 0,
+        descuentos: descuentoPromos,
         estado_pago: "pendiente",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
         metadata: {
           productos: normalizedItems,
+          promociones: promocionesAplicadas,
           source: "epayco_checkout",
           customer_city: customerCity,
           customer_region: customerRegion,

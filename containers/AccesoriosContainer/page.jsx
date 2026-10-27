@@ -22,6 +22,7 @@ import ShareButton from "@/components/ShareButton";
 import PriceWithDiscount from "@/components/PriceWithDiscount";
 import AddToCartButton from "@/components/AddToCartButton";
 import EtiquetaOferta from "@/app/_components/precios/EtiquetaOferta";
+import AvisoPromocion from "@/app/_components/precios/AvisoPromocion";
 import ServiciosCombo from "@/app/_components/servicios/ServiciosCombo";
 import ProductSchema from "@/components/ProductSchema";
 import Breadcrumbs, { CATEGORY_NAMES } from "@/components/Breadcrumbs";
@@ -1162,6 +1163,7 @@ const AccesoriosContainer = ({
                   )}
                 </div>
                 <EtiquetaOferta producto={accesorio} />
+                <AvisoPromocion producto={accesorio} />
                 {/* Botón para compartir el producto */}
                 <div className="mt-4 ">
                   <ShareButton product={accesorio} />

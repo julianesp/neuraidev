@@ -43,11 +43,10 @@ export default function PromocionCheckoutPage() {
     }
   };
 
-  const calcularPrecioOriginal = () =>
-    productos.reduce((sum, p) => sum + p.precio, 0);
+  // Totales para la cantidad que activa la promoción (p. ej. 5 unidades)
+  const calcularPrecioOriginal = () => promocion?.precio_total || 0;
 
-  const calcularPrecioFinal = () =>
-    productos.reduce((sum, p) => sum + p.precio_promocion, 0);
+  const calcularPrecioFinal = () => promocion?.precio_promocion || 0;
 
   const calcularDescuento = () => calcularPrecioOriginal() - calcularPrecioFinal();
 
@@ -55,19 +54,10 @@ export default function PromocionCheckoutPage() {
     setAgregando(true);
 
     try {
-      // Cada producto entra al carrito con su precio en la promoción y la
-      // marca promocion_id: el checkout vuelve a calcular ese mismo precio en
-      // el servidor (solo si la promo sigue vigente e incluye el producto).
+      // Se agregan a precio normal en la cantidad que activa la promoción;
+      // el carrito y el checkout aplican el descuento automáticamente.
       for (const producto of productos) {
-        await addToCart(
-          {
-            ...producto,
-            precio: producto.precio_promocion,
-            precio_original: producto.precio,
-            promocion_id: promocion.id,
-          },
-          1
-        );
+        await addToCart(producto, promocion.unidades || 1);
       }
 
       // Abrir el modal del carrito
@@ -174,6 +164,7 @@ export default function PromocionCheckoutPage() {
                       ${producto.precio.toLocaleString("es-CO")}
                     </span>{" "}
                     <strong>${producto.precio_promocion.toLocaleString("es-CO")}</strong>
+                    {promocion.unidades > 1 && ` c/u × ${promocion.unidades} unidades`}
                   </div>
                 </div>
               </motion.div>
