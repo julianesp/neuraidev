@@ -3,15 +3,15 @@ import { d1Select, d1Execute } from '@/lib/db-d1';
 import { isAdminServer } from '@/lib/auth/server-roles';
 import { currentUser } from '@clerk/nextjs/server';
 import { notifyNuevaCalificacion } from '@/lib/notificationService';
-import { normalizarFacebookUrl } from '@/lib/facebook';
 import { copiarImagenAR2 } from '@/lib/r2-copiar-imagen';
 import { activarDescuentoCliente } from '@/lib/descuento-cliente-server';
 
 // Columnas que se pueden mostrar al público (nunca email ni user_id)
 const COLUMNAS_PUBLICAS =
-  'id, cliente_nombre, mensaje, producto_relacionado, calificacion, tipo, avatar_url, facebook_url, created_at';
+  'id, cliente_nombre, mensaje, producto_relacionado, calificacion, tipo, avatar_url, created_at';
 
-// D1 responde "no such column" si aún no se aplicó migrations/add-testimonios-facebook.sql
+// D1 responde "no such column" porque facebook_url nunca se creó (la migración
+// add-testimonios-facebook.sql quedó descartada: el enlace ya no se pide)
 const faltaColumnaFacebook = (e) => /facebook_url/.test(String(e?.message || e));
 
 // producto = compra en la tienda · formateo = servicio técnico · web = desarrollo web
@@ -43,15 +43,10 @@ export async function GET(request) {
       const filtro = estado || 'aprobado';
       // El público solo recibe columnas seguras; el admin (otros estados) todo
       const columnas = filtro === 'aprobado' ? COLUMNAS_PUBLICAS : '*';
-      const consultar = (cols) =>
-        d1Select(
-          `SELECT ${cols} FROM testimonios WHERE estado = ? ORDER BY created_at DESC`,
-          [filtro]
-        );
-      testimonios = await consultar(columnas).catch((e) => {
-        if (!faltaColumnaFacebook(e)) throw e;
-        return consultar(columnas.replace(', facebook_url', ''));
-      });
+      testimonios = await d1Select(
+        `SELECT ${columnas} FROM testimonios WHERE estado = ? ORDER BY created_at DESC`,
+        [filtro]
+      );
     }
 
     return NextResponse.json({ testimonios });
@@ -99,25 +94,22 @@ export async function POST(request) {
     let calif = parseInt(calificacion);
     if (isNaN(calif) || calif < 1 || calif > 5) calif = null;
 
-    // Foto y Facebook: solo con el consentimiento del cliente. La foto sale de
-    // la cuenta de Facebook conectada en Clerk (nunca de una URL que mande el
-    // navegador) y se copia a R2 porque las URLs de Facebook caducan.
     // Si inició sesión (Facebook o Google) se guarda su cuenta: así, al
     // aprobar una calificación de servicio técnico, se le activa el 15%.
     const user = await currentUser().catch(() => null);
     const userId = user?.id || null;
     const emailCuenta = user?.primaryEmailAddress?.emailAddress || null;
 
+    // Foto: la de su cuenta de Facebook si la conectó; si no, la de su cuenta
+    // (p. ej. Google). Se toma de Clerk (nunca de una URL que mande el
+    // navegador) y se copia a R2 porque las URLs de Facebook caducan.
+    // El formulario avisa que la foto se publica con el comentario.
     let avatarUrl = null;
-    let facebookUrl = null;
-    if (body.consentimiento_publicar === true) {
-      facebookUrl = normalizarFacebookUrl(body.facebook_url);
-      const fb = user?.externalAccounts?.find((a) => /facebook/.test(a.provider || ''));
-      if (fb) {
-        avatarUrl = await copiarImagenAR2(fb.imageUrl || user.imageUrl, `testimonios/${id}`);
-      }
+    if (user) {
+      const fb = user.externalAccounts?.find((a) => /facebook/.test(a.provider || ''));
+      const origen = fb ? fb.imageUrl || user.imageUrl : user.hasImage ? user.imageUrl : null;
+      if (origen) avatarUrl = await copiarImagenAR2(origen, `testimonios/${id}`);
     }
-
     const fila = {
       id,
       cliente_email: emailCuenta || cliente_email?.trim() || null,
@@ -130,7 +122,6 @@ export async function POST(request) {
       created_at: ahora,
       avatar_url: avatarUrl,
       user_id: userId,
-      facebook_url: facebookUrl,
     };
     const insertar = (datos) => {
       const cols = Object.keys(datos);
@@ -139,11 +130,7 @@ export async function POST(request) {
         Object.values(datos)
       );
     };
-    await insertar(fila).catch((e) => {
-      if (!faltaColumnaFacebook(e)) throw e;
-      const { facebook_url, ...sinFacebook } = fila;
-      return insertar(sinFacebook);
-    });
+    await insertar(fila);
 
     // Aviso a Telegram para revisarla y publicarla desde el panel
     notifyNuevaCalificacion({
@@ -155,7 +142,6 @@ export async function POST(request) {
       producto: producto_relacionado?.trim() || null,
       conFoto: Boolean(avatarUrl),
       pideDescuento: tipo === 'formateo' && Boolean(userId),
-      facebook: facebookUrl,
     }).catch(() => {});
 
     return NextResponse.json(

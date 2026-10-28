@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Star, CheckCircle2 } from "lucide-react";
 import { useClerk, useReverification, useSignIn, useUser } from "@clerk/nextjs";
-import { normalizarFacebookUrl } from "@/lib/facebook";
 
-// Borrador del formulario mientras el cliente va y vuelve de Facebook
+// Borrador del formulario mientras el cliente va y vuelve de Facebook/Google
 const BORRADOR = "neurai-calificar-borrador";
 
 const TIPOS = [
@@ -17,6 +16,31 @@ const TIPOS = [
 
 const ETIQUETAS = ["", "Malo", "Regular", "Bueno", "Muy bueno", "¡Excelente!"];
 
+function IconoFacebook({ className }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z" />
+    </svg>
+  );
+}
+
+function IconoGoogle({ className }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
+      <path fill="#4285F4" d="M23.5 12.27c0-.79-.07-1.54-.2-2.27H12v4.3h6.45a5.5 5.5 0 0 1-2.4 3.62v3h3.88c2.27-2.09 3.57-5.17 3.57-8.65Z" />
+      <path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.9l-3.88-3a7.2 7.2 0 0 1-10.73-3.78H1.33v3.1A12 12 0 0 0 12 24Z" />
+      <path fill="#FBBC05" d="M5.34 14.32a7.2 7.2 0 0 1 0-4.64v-3.1H1.33a12 12 0 0 0 0 10.84l4.01-3.1Z" />
+      <path fill="#EA4335" d="M12 4.77c1.76 0 3.34.6 4.59 1.8l3.44-3.44A12 12 0 0 0 1.33 6.58l4.01 3.1A7.17 7.17 0 0 1 12 4.77Z" />
+    </svg>
+  );
+}
+
+/**
+ * Formulario para calificar (en /calificar y en la home). El cliente entra con
+ * Facebook o Google con un toque: su foto de perfil y su nombre se toman de la
+ * cuenta y la foto se muestra junto al comentario cuando el admin lo aprueba.
+ * También se puede calificar sin cuenta (sin foto y sin el 15%).
+ */
 export default function FormularioCalificar({
   nombreInicial = "",
   tipoInicial = "",
@@ -35,8 +59,6 @@ export default function FormularioCalificar({
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
   const [enviado, setEnviado] = useState(false);
-  const [facebookUrl, setFacebookUrl] = useState("");
-  const [consentimiento, setConsentimiento] = useState(false);
   const [conectando, setConectando] = useState(false);
 
   const { isLoaded: signInListo, signIn } = useSignIn();
@@ -47,18 +69,24 @@ export default function FormularioCalificar({
   const vincularCuentaExterna = useReverification((params) =>
     user.createExternalAccount(params)
   );
-  // Solo se ofrece el botón si en Clerk está activo "iniciar sesión con
-  // Facebook" (Dashboard de Clerk → SSO connections → Facebook).
+
+  // Solo se ofrece Facebook si en Clerk está activo para iniciar sesión
   const facebookSocial = clerk?.__unstable__environment?.userSettings?.social?.oauth_facebook;
   const facebookDisponible = facebookSocial
     ? Boolean(facebookSocial.enabled && (facebookSocial.authenticatable || isSignedIn))
     : true;
+
   const cuentaFacebook = user?.externalAccounts?.find((a) =>
     /facebook/.test(a.provider || "")
   );
-  const fotoFacebook = cuentaFacebook ? cuentaFacebook.imageUrl || user.imageUrl : null;
+  // Foto que se publicará: la de Facebook si la conectó; si no, la de su cuenta
+  const foto = cuentaFacebook
+    ? cuentaFacebook.imageUrl || user.imageUrl
+    : user?.hasImage
+      ? user.imageUrl
+      : null;
 
-  // Al volver de Facebook se recupera lo que el cliente ya había escrito
+  // Al volver de Facebook/Google se recupera lo que ya había escrito
   useEffect(() => {
     try {
       const b = JSON.parse(sessionStorage.getItem(BORRADOR) || "null");
@@ -69,16 +97,19 @@ export default function FormularioCalificar({
       if (b.producto) setProducto(b.producto);
       if (b.estrellas) setEstrellas(b.estrellas);
       if (b.mensaje) setMensaje(b.mensaje);
-      if (b.facebookUrl) setFacebookUrl(b.facebookUrl);
-      if (b.consentimiento) setConsentimiento(true);
     } catch {}
   }, []);
+
+  // Con sesión iniciada, el nombre se completa con el de su cuenta
+  useEffect(() => {
+    if (user?.fullName) setNombre((actual) => actual || user.fullName);
+  }, [user?.fullName]);
 
   const guardarBorrador = () => {
     try {
       sessionStorage.setItem(
         BORRADOR,
-        JSON.stringify({ nombre, tipo, producto, estrellas, mensaje, facebookUrl, consentimiento })
+        JSON.stringify({ nombre, tipo, producto, estrellas, mensaje })
       );
     } catch {}
   };
@@ -90,7 +121,7 @@ export default function FormularioCalificar({
     return u.toString();
   };
 
-  // Iniciar sesión (Google o Facebook) para que el 15% quede en su cuenta
+  // Entrar con Facebook o Google (redirige y vuelve aquí)
   const iniciarSesion = async (strategy) => {
     setError("");
     setConectando(true);
@@ -108,39 +139,22 @@ export default function FormularioCalificar({
     }
   };
 
-  // Con sesión iniciada, el nombre se completa con el de su cuenta
-  useEffect(() => {
-    if (user?.fullName) setNombre((actual) => actual || user.fullName);
-  }, [user?.fullName]);
-
-  // Inicia sesión con Facebook (o la vincula si ya tiene cuenta) para tomar
-  // la foto de perfil real de Facebook.
-  const conectarFacebook = async () => {
+  // Ya tiene sesión (p. ej. con Google) y quiere usar su foto de Facebook
+  const vincularFacebook = async () => {
     setError("");
     setConectando(true);
     guardarBorrador();
-    const volver = urlDeVuelta();
     try {
-      if (isSignedIn && user) {
-        const cuenta = await vincularCuentaExterna({
-          strategy: "oauth_facebook",
-          redirectUrl: volver,
-        });
-        const destino = cuenta?.verification?.externalVerificationRedirectURL;
-        if (destino) window.location.href = destino.toString();
-        else setConectando(false);
-      } else {
-        await signIn.authenticateWithRedirect({
-          strategy: "oauth_facebook",
-          redirectUrl: "/calificar/sso-callback",
-          redirectUrlComplete: volver,
-        });
-      }
+      const cuenta = await vincularCuentaExterna({
+        strategy: "oauth_facebook",
+        redirectUrl: urlDeVuelta(),
+      });
+      const destino = cuenta?.verification?.externalVerificationRedirectURL;
+      if (destino) window.location.href = destino.toString();
+      else setConectando(false);
     } catch (err) {
-      console.error("[calificar] Facebook:", err);
-      setError(
-        "No se pudo conectar con Facebook en este momento. Puedes enviar tu calificación sin foto."
-      );
+      console.error("[calificar] vincular Facebook:", err);
+      setError("No se pudo conectar con Facebook en este momento.");
       setConectando(false);
     }
   };
@@ -151,9 +165,6 @@ export default function FormularioCalificar({
     if (!estrellas) return setError("Toca las estrellas para calificar.");
     if (!nombre.trim()) return setError("Escribe tu nombre.");
     if (!mensaje.trim()) return setError("Cuéntanos en pocas palabras cómo te fue.");
-    if (facebookUrl.trim() && !normalizarFacebookUrl(facebookUrl)) {
-      return setError("El enlace de Facebook no es válido. Cópialo desde tu perfil (ej.: facebook.com/tu.usuario).");
-    }
 
     setEnviando(true);
     try {
@@ -166,8 +177,6 @@ export default function FormularioCalificar({
           calificacion: estrellas,
           tipo,
           producto_relacionado: producto,
-          facebook_url: facebookUrl,
-          consentimiento_publicar: consentimiento,
           website: trampa,
         }),
       });
@@ -222,10 +231,80 @@ export default function FormularioCalificar({
             ? "Califica tu experiencia"
             : "¿Cómo te fue?"}
       </Titulo>
-      <p className="text-gray-600 dark:text-gray-300 text-center mt-2 mb-6">
-        Califica tu experiencia con neurai.dev. Tu comentario se publicará en el
-        sitio con tu nombre.
+      <p className="text-gray-600 dark:text-gray-300 text-center mt-2 mb-5">
+        Tu comentario se publicará en neurai.dev cuando lo revise.
       </p>
+
+      {/* Cuenta: entrar con Facebook o Google (foto y nombre automáticos) */}
+      <div className="mb-6 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+        {userListo && isSignedIn ? (
+          <div className="flex items-center gap-3">
+            {foto ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={foto}
+                alt="Tu foto de perfil"
+                className="w-14 h-14 rounded-full object-cover border-2 border-blue-600 shrink-0"
+              />
+            ) : (
+              <div className="w-14 h-14 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl font-bold shrink-0">
+                {(user?.fullName || "?").charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div className="min-w-0">
+              <p className="font-semibold text-gray-900 dark:text-white truncate">
+                {user?.fullName || user?.primaryEmailAddress?.emailAddress}
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {foto
+                  ? "Tu foto aparecerá junto a tu comentario."
+                  : "Tu comentario se publicará con tu nombre."}
+              </p>
+              {!cuentaFacebook && facebookDisponible && (
+                <button
+                  type="button"
+                  onClick={vincularFacebook}
+                  disabled={conectando}
+                  className="mt-1 text-xs font-semibold text-blue-600 hover:underline disabled:opacity-60"
+                >
+                  Usar mi foto de Facebook
+                </button>
+              )}
+            </div>
+          </div>
+        ) : (
+          <>
+            <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-3 text-center">
+              Entra con un toque para que tu foto aparezca con tu comentario
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              {facebookDisponible && (
+                <button
+                  type="button"
+                  onClick={() => iniciarSesion("oauth_facebook")}
+                  disabled={conectando || !signInListo}
+                  className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-60"
+                >
+                  <IconoFacebook className="w-5 h-5" />
+                  Continuar con Facebook
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => iniciarSesion("oauth_google")}
+                disabled={conectando || !signInListo}
+                className="inline-flex items-center justify-center gap-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100 font-semibold py-3 rounded-lg transition-colors disabled:opacity-60"
+              >
+                <IconoGoogle className="w-5 h-5" />
+                Continuar con Google
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+              Si prefieres, también puedes calificar sin entrar (sin foto).
+            </p>
+          </>
+        )}
+      </div>
 
       {/* Estrellas */}
       <div className="flex justify-center gap-1" onMouseLeave={() => setHover(0)}>
@@ -276,36 +355,10 @@ export default function FormularioCalificar({
             🎁 15% de descuento en tu próxima compra
           </p>
           <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
-            Si ya te hice formateo o mantenimiento, califícame con tu cuenta.
-            Cuando revise y apruebe tu comentario tendrás 15% de descuento en
-            una compra de la tienda, aplicado solo en el carrito.
+            {isSignedIn
+              ? "Cuando revise y apruebe tu comentario, tu cuenta tendrá 15% de descuento en una compra de la tienda, aplicado solo en el carrito."
+              : "Si ya te hice formateo o mantenimiento, entra arriba con Facebook o Google: cuando apruebe tu comentario tendrás 15% de descuento en una compra de la tienda."}
           </p>
-          {userListo && isSignedIn ? (
-            <p className="text-sm font-medium text-blue-700 dark:text-blue-300 mt-3">
-              ✓ Calificarás como {user?.fullName || user?.primaryEmailAddress?.emailAddress}
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">
-              <button
-                type="button"
-                onClick={() => iniciarSesion("oauth_google")}
-                disabled={conectando || !signInListo}
-                className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100 font-semibold py-2.5 rounded-lg disabled:opacity-60"
-              >
-                Continuar con Google
-              </button>
-              {facebookDisponible && (
-                <button
-                  type="button"
-                  onClick={() => iniciarSesion("oauth_facebook")}
-                  disabled={conectando || !signInListo}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg disabled:opacity-60"
-                >
-                  Continuar con Facebook
-                </button>
-              )}
-            </div>
-          )}
         </div>
       )}
 
@@ -345,73 +398,6 @@ export default function FormularioCalificar({
         placeholder="¿Qué te gustó? ¿Lo recomendarías?"
         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white resize-none"
       />
-
-      {/* Foto de perfil de Facebook + enlace para que otros le escriban */}
-      <div className="mt-6 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
-        <p className="font-semibold text-gray-900 dark:text-white">
-          {facebookDisponible ? "Muestra tu foto de Facebook (opcional)" : "Tu Facebook (opcional)"}
-        </p>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 mb-3">
-          Así otras personas saben que eres un cliente real y pueden escribirte
-          para preguntarte por el servicio.
-        </p>
-
-        {fotoFacebook ? (
-          <div className="flex items-center gap-3 mb-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={fotoFacebook}
-              alt="Tu foto de Facebook"
-              className="w-14 h-14 rounded-full object-cover border-2 border-blue-600"
-            />
-            <p className="text-sm text-gray-700 dark:text-gray-300">
-              Se usará tu foto de perfil de Facebook.
-            </p>
-          </div>
-        ) : !facebookDisponible ? null : (
-          <button
-            type="button"
-            onClick={conectarFacebook}
-            disabled={conectando || !signInListo || !userListo}
-            className="w-full mb-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-60"
-          >
-            {conectando ? "Abriendo Facebook…" : "Conectar con Facebook para usar mi foto"}
-          </button>
-        )}
-
-        <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Enlace a tu perfil de Facebook
-        </label>
-        <input
-          id="facebook"
-          value={facebookUrl}
-          onChange={(e) => setFacebookUrl(e.target.value)}
-          inputMode="url"
-          placeholder="facebook.com/tu.usuario"
-          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-        />
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-          En la app de Facebook: tu perfil → ⋯ → Copiar enlace del perfil.
-        </p>
-
-        <label className="flex items-start gap-2 mt-3 text-sm text-gray-700 dark:text-gray-300">
-          <input
-            type="checkbox"
-            checked={consentimiento}
-            onChange={(e) => setConsentimiento(e.target.checked)}
-            className="mt-1 w-4 h-4"
-            // El CSS global quita la apariencia de los checkbox: se restaura aquí
-            style={{ appearance: "auto", WebkitAppearance: "checkbox", accentColor: "#2563eb" }}
-          />
-          Acepto que mi foto y mi perfil de Facebook se muestren en neurai.dev
-          junto a mi calificación.
-        </label>
-        {(fotoFacebook || facebookUrl.trim()) && !consentimiento && (
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            Sin esta casilla tu calificación se publica sin foto ni Facebook.
-          </p>
-        )}
-      </div>
 
       {/* Campo trampa para bots: invisible para personas */}
       <input
