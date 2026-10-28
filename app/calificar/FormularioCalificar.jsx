@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Star, CheckCircle2 } from "lucide-react";
-import { useClerk, useSignIn, useUser } from "@clerk/nextjs";
+import { useClerk, useReverification, useSignIn, useUser } from "@clerk/nextjs";
 import { normalizarFacebookUrl } from "@/lib/facebook";
 
 // Borrador del formulario mientras el cliente va y vuelve de Facebook
@@ -35,6 +35,11 @@ export default function FormularioCalificar({ nombreInicial, tipoInicial, produc
   const { isLoaded: signInListo, signIn } = useSignIn();
   const { isLoaded: userListo, isSignedIn, user } = useUser();
   const clerk = useClerk();
+  // Vincular Facebook a una cuenta ya iniciada es una acción sensible: Clerk
+  // pide verificar de nuevo la identidad (abre su propio modal) antes de seguir.
+  const vincularCuentaExterna = useReverification((params) =>
+    user.createExternalAccount(params)
+  );
   // Solo se ofrece el botón si en Clerk está activo "iniciar sesión con
   // Facebook" (Dashboard de Clerk → SSO connections → Facebook).
   const facebookSocial = clerk?.__unstable__environment?.userSettings?.social?.oauth_facebook;
@@ -76,7 +81,7 @@ export default function FormularioCalificar({ nombreInicial, tipoInicial, produc
     const volver = window.location.href;
     try {
       if (isSignedIn && user) {
-        const cuenta = await user.createExternalAccount({
+        const cuenta = await vincularCuentaExterna({
           strategy: "oauth_facebook",
           redirectUrl: volver,
         });
