@@ -3,6 +3,8 @@
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { useToast } from "@/contexts/ToastContext";
 import { calcularDescuentosPromociones } from "@/lib/promociones";
+import { useUser } from "@clerk/nextjs";
+import { montoDescuentoCliente, descuentoUsable } from "@/lib/descuento-cliente";
 
 const CartContext = createContext();
 
@@ -13,6 +15,8 @@ export function CartProvider({ children }) {
   // calcula con lo que hay en el carrito, igual que el checkout en el servidor.
   const [promociones, setPromociones] = useState([]);
   const toast = useToast();
+  // 15% de cliente de servicio técnico (una compra), activado por el admin
+  const { user } = useUser();
 
   useEffect(() => {
     fetch("/api/promociones?activas=true")
@@ -165,8 +169,16 @@ export function CartProvider({ children }) {
     [cart, promociones],
   );
 
-  // Total a pagar (con descuentos de promociones)
-  const getTotalPrice = () => getSubtotal() - promosCarrito.total;
+  // 15% de cliente de servicio técnico sobre los productos propios (después de
+  // promociones), igual que en el checkout del servidor
+  const baseDescuentoCliente =
+    cart
+      .filter((item) => !item.seller_clerk_user_id)
+      .reduce((total, item) => total + item.precio * item.cantidad, 0) - promosCarrito.total;
+  const descuentoCliente = montoDescuentoCliente(baseDescuentoCliente, user?.publicMetadata);
+
+  // Total a pagar (con promociones y descuento de cliente)
+  const getTotalPrice = () => getSubtotal() - promosCarrito.total - descuentoCliente;
 
   // Abrir/cerrar carrito
   const toggleCart = () => {
@@ -183,6 +195,9 @@ export function CartProvider({ children }) {
     getTotalPrice,
     getSubtotal,
     descuentosPromociones: promosCarrito.descuentos,
+    descuentoCliente: descuentoCliente > 0
+      ? { monto: descuentoCliente, porcentaje: descuentoUsable(user?.publicMetadata)?.porcentaje }
+      : null,
     promociones,
     checkStock,
     isOpen,

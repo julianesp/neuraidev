@@ -21,6 +21,7 @@ export default function ShoppingCart() {
     getTotalPrice,
     clearCart,
     descuentosPromociones,
+    descuentoCliente,
   } = useCart();
   const toast = useToast();
   const [showCheckout, setShowCheckout] = useState(false);
@@ -124,7 +125,8 @@ export default function ShoppingCart() {
   // Las promociones solo aplican a productos propios: se descuentan aquí
   const totalPropios =
     itemsPropios.reduce((s, i) => s + i.precio * i.cantidad, 0) -
-    descuentosPromociones.reduce((s, d) => s + d.monto, 0);
+    descuentosPromociones.reduce((s, d) => s + d.monto, 0) -
+    (descuentoCliente?.monto || 0);
   const bajoMinimo = totalPropios < 5000;
 
   return (

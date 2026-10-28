@@ -17,7 +17,14 @@ const TIPOS = [
 
 const ETIQUETAS = ["", "Malo", "Regular", "Bueno", "Muy bueno", "¡Excelente!"];
 
-export default function FormularioCalificar({ nombreInicial, tipoInicial, productoInicial }) {
+export default function FormularioCalificar({
+  nombreInicial = "",
+  tipoInicial = "",
+  productoInicial = "",
+  // En la home el formulario va dentro de una sección: título como <h2>
+  embebido = false,
+}) {
+  const Titulo = embebido ? "h2" : "h1";
   const [nombre, setNombre] = useState(nombreInicial);
   const [tipo, setTipo] = useState(tipoInicial || "producto");
   const [producto, setProducto] = useState(productoInicial);
@@ -67,18 +74,52 @@ export default function FormularioCalificar({ nombreInicial, tipoInicial, produc
     } catch {}
   }, []);
 
-  // Inicia sesión con Facebook (o la vincula si ya tiene cuenta) para tomar
-  // la foto de perfil real de Facebook.
-  const conectarFacebook = async () => {
-    setError("");
-    setConectando(true);
+  const guardarBorrador = () => {
     try {
       sessionStorage.setItem(
         BORRADOR,
         JSON.stringify({ nombre, tipo, producto, estrellas, mensaje, facebookUrl, consentimiento })
       );
     } catch {}
-    const volver = window.location.href;
+  };
+
+  // Vuelve al formulario (en la home, a su sección)
+  const urlDeVuelta = () => {
+    const u = new URL(window.location.href);
+    u.hash = "calificar";
+    return u.toString();
+  };
+
+  // Iniciar sesión (Google o Facebook) para que el 15% quede en su cuenta
+  const iniciarSesion = async (strategy) => {
+    setError("");
+    setConectando(true);
+    guardarBorrador();
+    try {
+      await signIn.authenticateWithRedirect({
+        strategy,
+        redirectUrl: "/calificar/sso-callback",
+        redirectUrlComplete: urlDeVuelta(),
+      });
+    } catch (err) {
+      console.error("[calificar] login:", err);
+      setError("No se pudo iniciar sesión en este momento. Intenta de nuevo.");
+      setConectando(false);
+    }
+  };
+
+  // Con sesión iniciada, el nombre se completa con el de su cuenta
+  useEffect(() => {
+    if (user?.fullName) setNombre((actual) => actual || user.fullName);
+  }, [user?.fullName]);
+
+  // Inicia sesión con Facebook (o la vincula si ya tiene cuenta) para tomar
+  // la foto de perfil real de Facebook.
+  const conectarFacebook = async () => {
+    setError("");
+    setConectando(true);
+    guardarBorrador();
+    const volver = urlDeVuelta();
     try {
       if (isSignedIn && user) {
         const cuenta = await vincularCuentaExterna({
@@ -144,12 +185,19 @@ export default function FormularioCalificar({ nombreInicial, tipoInicial, produc
     return (
       <div className="max-w-lg mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md p-8 text-center">
         <CheckCircle2 className="w-14 h-14 text-blue-600 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+        <Titulo className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
           ¡Gracias, {nombre.split(" ")[0]}!
-        </h1>
+        </Titulo>
         <p className="text-gray-600 dark:text-gray-300 mb-6">
           Tu opinión me ayuda muchísimo a que más personas confíen en neurai.dev.
         </p>
+        {tipo === "formateo" && isSignedIn && (
+          <p className="text-sm text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/40 rounded-lg px-4 py-3 mb-6">
+            🎁 Cuando revise y apruebe tu comentario, tu cuenta tendrá un{" "}
+            <strong>15% de descuento</strong> para una compra en la tienda. Se
+            aplica solo en el carrito, iniciando sesión con esta misma cuenta.
+          </p>
+        )}
         <Link
           href="/"
           className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
@@ -167,9 +215,13 @@ export default function FormularioCalificar({ nombreInicial, tipoInicial, produc
       onSubmit={enviar}
       className="max-w-lg mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 sm:p-8"
     >
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center">
-        {nombreInicial ? `Hola ${nombreInicial.split(" ")[0]}, ¿cómo te fue?` : "¿Cómo te fue?"}
-      </h1>
+      <Titulo className="text-2xl font-bold text-gray-900 dark:text-white text-center">
+        {nombreInicial
+          ? `Hola ${nombreInicial.split(" ")[0]}, ¿cómo te fue?`
+          : embebido
+            ? "Califica tu experiencia"
+            : "¿Cómo te fue?"}
+      </Titulo>
       <p className="text-gray-600 dark:text-gray-300 text-center mt-2 mb-6">
         Califica tu experiencia con neurai.dev. Tu comentario se publicará en el
         sitio con tu nombre.
@@ -216,6 +268,46 @@ export default function FormularioCalificar({ nombreInicial, tipoInicial, produc
           </button>
         ))}
       </div>
+
+      {/* 15% para clientes de formateo/mantenimiento (se activa al aprobar) */}
+      {tipo === "formateo" && (
+        <div className="mb-4 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/40 p-4">
+          <p className="font-semibold text-blue-700 dark:text-blue-300">
+            🎁 15% de descuento en tu próxima compra
+          </p>
+          <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
+            Si ya te hice formateo o mantenimiento, califícame con tu cuenta.
+            Cuando revise y apruebe tu comentario tendrás 15% de descuento en
+            una compra de la tienda, aplicado solo en el carrito.
+          </p>
+          {userListo && isSignedIn ? (
+            <p className="text-sm font-medium text-blue-700 dark:text-blue-300 mt-3">
+              ✓ Calificarás como {user?.fullName || user?.primaryEmailAddress?.emailAddress}
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">
+              <button
+                type="button"
+                onClick={() => iniciarSesion("oauth_google")}
+                disabled={conectando || !signInListo}
+                className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100 font-semibold py-2.5 rounded-lg disabled:opacity-60"
+              >
+                Continuar con Google
+              </button>
+              {facebookDisponible && (
+                <button
+                  type="button"
+                  onClick={() => iniciarSesion("oauth_facebook")}
+                  disabled={conectando || !signInListo}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg disabled:opacity-60"
+                >
+                  Continuar con Facebook
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       <label htmlFor="producto" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
         Producto o servicio (opcional)

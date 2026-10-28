@@ -26,6 +26,7 @@ export default function CalificacionesPage() {
   const [testimonios, setTestimonios] = useState([]);
   const [loadingTest, setLoadingTest] = useState(true);
   const [actionId, setActionId] = useState(null);
+  const [avisoModeracion, setAvisoModeracion] = useState("");
 
   const cargarInvitaciones = useCallback(async () => {
     try {
@@ -130,9 +131,20 @@ export default function CalificacionesPage() {
         body: JSON.stringify({ id, estado }),
       });
       if (res.ok) {
+        const data = await res.json().catch(() => ({}));
         setTestimonios((prev) =>
           prev.map((t) => (t.id === id ? { ...t, estado } : t))
         );
+        const nombre = testimonios.find((t) => t.id === id)?.cliente_nombre || "El cliente";
+        if (data.descuento === "activado") {
+          setAvisoModeracion(`✅ Publicada. ${nombre} ya tiene su 15% de descuento para una compra en la tienda.`);
+        } else if (data.descuento === "ya_tenia") {
+          setAvisoModeracion(`Publicada. ${nombre} ya había recibido su 15% antes (es uno por cliente).`);
+        } else if (data.descuento === "error") {
+          setAvisoModeracion("Publicada, pero no se pudo activar el 15%. Intenta ocultarla y publicarla de nuevo.");
+        } else {
+          setAvisoModeracion("");
+        }
       }
     } finally {
       setActionId(null);
@@ -323,6 +335,11 @@ export default function CalificacionesPage() {
       {/* ── Tab: Calificaciones recibidas ── */}
       {tab === "calificaciones" && (
         <div>
+          {avisoModeracion && (
+            <p className="mb-4 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 text-sm px-4 py-3">
+              {avisoModeracion}
+            </p>
+          )}
           {loadingTest ? (
             <p className="text-center text-gray-400 py-8">Cargando…</p>
           ) : testimonios.length === 0 ? (
@@ -359,6 +376,13 @@ export default function CalificacionesPage() {
                         {NOMBRE_TIPO[t.tipo] || "Compra"}
                         {t.producto_relacionado && ` · ${t.producto_relacionado}`}
                       </p>
+                      {t.tipo === "formateo" && t.estado !== "aprobado" && (
+                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-0.5">
+                          {t.user_id
+                            ? "🎁 Al publicarla se le activa el 15% (verifica que sí te contrató formateo o mantenimiento)"
+                            : "Sin cuenta: no recibe el 15%"}
+                        </p>
+                      )}
                       {t.facebook_url && (
                         <a
                           href={t.facebook_url}

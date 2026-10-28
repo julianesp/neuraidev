@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Star, ShoppingBag, Quote, Send, CheckCircle } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import TarjetaOpinion from "@/app/_components/calificar/TarjetaOpinion";
+import FormularioCalificar from "@/app/calificar/FormularioCalificar";
 
 // `siempreFormulario`: cuando es true, la sección se muestra aunque no haya
 // clientes ni testimonios todavía (para que siempre exista el formulario donde
@@ -12,18 +13,6 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
   const [clientes, setClientes] = useState([]);
   const [testimonios, setTestimonios] = useState([]);
   const [cargado, setCargado] = useState(false);
-
-  // Formulario
-  const [form, setForm] = useState({
-    cliente_nombre: "",
-    cliente_email: "",
-    mensaje: "",
-    producto_relacionado: "",
-    calificacion: 5,
-  });
-  const [enviando, setEnviando] = useState(false);
-  const [enviado, setEnviado] = useState(false);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     let activo = true;
@@ -40,33 +29,6 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
       activo = false;
     };
   }, []);
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setError("");
-    setEnviando(true);
-    try {
-      const res = await fetch("/api/testimonios", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "No se pudo enviar");
-      setEnviado(true);
-      setForm({
-        cliente_nombre: "",
-        cliente_email: "",
-        mensaje: "",
-        producto_relacionado: "",
-        calificacion: 5,
-      });
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setEnviando(false);
-    }
-  }
 
   // No renderizar hasta cargar. Luego: si hay clientes/testimonios se muestra
   // la vitrina completa; si no hay nada, solo se muestra cuando el contenedor
@@ -145,115 +107,10 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
           </div>
         )}
 
-        {/* Formulario para dejar testimonio */}
-        <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 md:p-8">
-          {enviado ? (
-            <div className="text-center py-6">
-              <CheckCircle className="w-14 h-14 text-green-500 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                ¡Gracias por tu comentario!
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Lo revisaremos y, una vez aprobado, aparecerá aquí en la web.
-              </p>
-              <button
-                onClick={() => setEnviado(false)}
-                className="mt-4 text-blue-600 hover:text-blue-700 font-medium"
-              >
-                Dejar otro comentario
-              </button>
-            </div>
-          ) : (
-            <>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-                ¿Compraste con nosotros? Cuéntanos tu experiencia
-              </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
-                Tu comentario se publicará después de ser revisado.
-              </p>
-
-              {error && (
-                <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-                  {error}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    required
-                    placeholder="Tu nombre *"
-                    value={form.cliente_nombre}
-                    onChange={(e) =>
-                      setForm({ ...form, cliente_nombre: e.target.value })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Tu email (opcional)"
-                    value={form.cliente_email}
-                    onChange={(e) =>
-                      setForm({ ...form, cliente_email: e.target.value })
-                    }
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  />
-                </div>
-
-                <input
-                  type="text"
-                  placeholder="¿Qué producto compraste? (opcional)"
-                  value={form.producto_relacionado}
-                  onChange={(e) =>
-                    setForm({ ...form, producto_relacionado: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                />
-
-                <textarea
-                  required
-                  rows={4}
-                  maxLength={1000}
-                  placeholder="Escribe tu comentario *"
-                  value={form.mensaje}
-                  onChange={(e) => setForm({ ...form, mensaje: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white resize-none"
-                />
-
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
-                    Tu calificación:
-                  </span>
-                  <div className="flex">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => setForm({ ...form, calificacion: i + 1 })}
-                        className="p-0.5"
-                        aria-label={`${i + 1} estrellas`}
-                      >
-                        <Star
-                          className="w-6 h-6 text-amber-400"
-                          fill={i < form.calificacion ? "currentColor" : "none"}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={enviando}
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 font-medium"
-                >
-                  <Send className="w-4 h-4" />
-                  {enviando ? "Enviando..." : "Enviar comentario"}
-                </button>
-              </form>
-            </>
-          )}
+        {/* Formulario para calificar (con login Google/Facebook, foto y el
+            15% para clientes de servicio técnico): el mismo de /calificar */}
+        <div id="calificar" className="scroll-mt-24">
+          <FormularioCalificar embebido />
         </div>
       </div>
     </section>

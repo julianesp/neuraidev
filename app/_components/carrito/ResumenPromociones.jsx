@@ -7,7 +7,7 @@ import { useCart } from "@/context/CartContext";
  * aplicados y, si falta poco, cuántas unidades faltan para activar una.
  */
 export default function ResumenPromociones() {
-  const { cart, getSubtotal, descuentosPromociones, promociones } = useCart();
+  const { cart, getSubtotal, descuentosPromociones, promociones, descuentoCliente } = useCart();
 
   // "Lleva 2 más y obtén 10%": promos de un solo producto que aún no se activan
   const pistas = [];
@@ -26,7 +26,8 @@ export default function ResumenPromociones() {
     }
   }
 
-  if (descuentosPromociones.length === 0 && pistas.length === 0) return null;
+  const hayDescuentos = descuentosPromociones.length > 0 || Boolean(descuentoCliente);
+  if (!hayDescuentos && pistas.length === 0) return null;
 
   return (
     <div className="space-y-1 text-sm">
@@ -38,7 +39,7 @@ export default function ResumenPromociones() {
           🔥 {texto}
         </p>
       ))}
-      {descuentosPromociones.length > 0 && (
+      {hayDescuentos && (
         <>
           <div className="flex items-center justify-between text-gray-500 dark:text-gray-400">
             <span>Subtotal</span>
@@ -53,6 +54,12 @@ export default function ResumenPromociones() {
               <span>-${d.monto.toLocaleString("es-CO")}</span>
             </div>
           ))}
+          {descuentoCliente && (
+            <div className="flex items-center justify-between text-blue-700 dark:text-blue-300 font-medium">
+              <span>⭐ Descuento cliente ({descuentoCliente.porcentaje}%)</span>
+              <span>-${descuentoCliente.monto.toLocaleString("es-CO")}</span>
+            </div>
+          )}
         </>
       )}
     </div>

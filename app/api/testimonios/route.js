@@ -5,6 +5,7 @@ import { currentUser } from '@clerk/nextjs/server';
 import { notifyNuevaCalificacion } from '@/lib/notificationService';
 import { normalizarFacebookUrl } from '@/lib/facebook';
 import { copiarImagenAR2 } from '@/lib/r2-copiar-imagen';
+import { activarDescuentoCliente } from '@/lib/descuento-cliente-server';
 
 // Columnas que se pueden mostrar al público (nunca email ni user_id)
 const COLUMNAS_PUBLICAS =
@@ -101,22 +102,25 @@ export async function POST(request) {
     // Foto y Facebook: solo con el consentimiento del cliente. La foto sale de
     // la cuenta de Facebook conectada en Clerk (nunca de una URL que mande el
     // navegador) y se copia a R2 porque las URLs de Facebook caducan.
+    // Si inició sesión (Facebook o Google) se guarda su cuenta: así, al
+    // aprobar una calificación de servicio técnico, se le activa el 15%.
+    const user = await currentUser().catch(() => null);
+    const userId = user?.id || null;
+    const emailCuenta = user?.primaryEmailAddress?.emailAddress || null;
+
     let avatarUrl = null;
     let facebookUrl = null;
-    let userId = null;
     if (body.consentimiento_publicar === true) {
       facebookUrl = normalizarFacebookUrl(body.facebook_url);
-      const user = await currentUser().catch(() => null);
       const fb = user?.externalAccounts?.find((a) => /facebook/.test(a.provider || ''));
       if (fb) {
-        userId = user.id;
         avatarUrl = await copiarImagenAR2(fb.imageUrl || user.imageUrl, `testimonios/${id}`);
       }
     }
 
     const fila = {
       id,
-      cliente_email: cliente_email?.trim() || null,
+      cliente_email: emailCuenta || cliente_email?.trim() || null,
       cliente_nombre: cliente_nombre.trim(),
       mensaje: mensaje.trim(),
       producto_relacionado: producto_relacionado?.trim().slice(0, 120) || null,
@@ -150,6 +154,7 @@ export async function POST(request) {
       tipo,
       producto: producto_relacionado?.trim() || null,
       conFoto: Boolean(avatarUrl),
+      pideDescuento: tipo === 'formateo' && Boolean(userId),
       facebook: facebookUrl,
     }).catch(() => {});
 
@@ -209,7 +214,17 @@ export async function PATCH(request) {
       [estado, new Date().toISOString(), id]
     );
 
-    return NextResponse.json({ success: true });
+    // Aprobar a un cliente de formateo/mantenimiento con cuenta le activa el
+    // 15% en una compra de la tienda (uno por cliente)
+    let descuento = null;
+    if (estado === 'aprobado') {
+      const t = await d1Select(`SELECT tipo, user_id FROM testimonios WHERE id = ?`, [id]);
+      if (t[0]?.tipo === 'formateo' && t[0]?.user_id) {
+        descuento = await activarDescuentoCliente(t[0].user_id, id);
+      }
+    }
+
+    return NextResponse.json({ success: true, descuento });
   } catch (error) {
     console.error('Error en PATCH /api/testimonios:', error);
     return NextResponse.json(

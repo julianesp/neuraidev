@@ -6,6 +6,7 @@ import { notifyNewSale } from "@/lib/notificationService";
 import { validarFirmaEpayco } from "@/lib/epayco/signature";
 import { notificarPagoAprobado, notificarNuevaVentaAdmin } from "@/lib/pushService";
 import { crearMensajeSistemaPedido } from "@/lib/chatSoporte";
+import { marcarDescuentoClienteUsado } from "@/lib/descuento-cliente-server";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -237,6 +238,9 @@ export async function POST(request) {
         } else {
           log("✅ Orden marcada como pagada");
         }
+
+        // 15% de cliente de servicio técnico: con el pago confirmado queda gastado
+        await marcarDescuentoClienteUsado(metadata?.descuento_cliente, reference);
 
         // 4-7. Trabajo NO crítico y pesado (factura con PDF + email, Telegram,
         // push, chat). ePayco exige que el webhook responda 200 en menos de 30s;

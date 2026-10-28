@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@clerk/nextjs";
 import { useToast } from "@/contexts/ToastContext";
 
 /**
@@ -10,6 +11,7 @@ import { useToast } from "@/contexts/ToastContext";
  */
 export default function EpaycoCheckout({ onClose }) {
   const { cart, getTotalPrice, clearCart } = useCart();
+  const { getToken } = useAuth();
   const toast = useToast();
 
   // Envío gratis al Alto Putumayo solo desde este monto.
@@ -257,10 +259,14 @@ export default function EpaycoCheckout({ onClose }) {
           : `${cart.length} productos de Neurai.dev`;
 
       // Crear transacción en el backend y obtener configuración
+      // Token de sesión: el servidor lo usa para aplicar el 15% de cliente de
+      // servicio técnico (la cookie de Clerk puede venir vencida).
+      const token = await getToken().catch(() => null);
       const response = await fetch("/api/payments/epayco/create-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({
           amount: total,

@@ -5,6 +5,11 @@ import { obtenerCampanasVigentes } from "@/lib/ofertas-server";
 import { calcularPrecioVigente } from "@/lib/precios";
 import { obtenerPromocionesVigentes } from "@/lib/promociones-server";
 import { calcularDescuentosPromociones } from "@/lib/promociones";
+import { montoDescuentoCliente, descuentoUsable } from "@/lib/descuento-cliente";
+import {
+  usuarioDePeticion,
+  reservarDescuentoCliente,
+} from "@/lib/descuento-cliente-server";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -197,6 +202,8 @@ export async function POST(request) {
     let verifiedItems = null;
     let descuentoPromos = 0;
     let promocionesAplicadas = [];
+    let usuarioCheckout = null;
+    let descuentoCliente = null;
 
     if (Array.isArray(items) && items.length > 0) {
       const recalculo = await recalcularTotalServidor(items);
@@ -208,16 +215,32 @@ export async function POST(request) {
         );
       }
 
-      if (Math.abs(recalculo.total - Number(amount)) > 1) {
-        logError(
-          `⚠️ Monto del cliente (${amount}) difiere del calculado en servidor (${recalculo.total}) para ref ${reference}. Se usa el del servidor.`,
-        );
-      }
-
       finalAmount = recalculo.total;
       verifiedItems = recalculo.items;
       descuentoPromos = recalculo.descuento || 0;
       promocionesAplicadas = recalculo.promociones || [];
+
+      // 15% de cliente de servicio técnico (una compra), si su cuenta lo tiene
+      // activo: se identifica con el token/cookie de Clerk, no con el body.
+      usuarioCheckout = await usuarioDePeticion(request);
+      const montoCliente = usuarioCheckout
+        ? montoDescuentoCliente(finalAmount, usuarioCheckout.publicMetadata)
+        : 0;
+      if (montoCliente > 0) {
+        finalAmount -= montoCliente;
+        descuentoCliente = {
+          user_id: usuarioCheckout.id,
+          porcentaje: descuentoUsable(usuarioCheckout.publicMetadata).porcentaje,
+          monto: montoCliente,
+        };
+        await reservarDescuentoCliente(usuarioCheckout, reference);
+      }
+
+      if (Math.abs(finalAmount - Number(amount)) > 1) {
+        logError(
+          `⚠️ Monto del cliente (${amount}) difiere del calculado en servidor (${finalAmount}) para ref ${reference}. Se usa el del servidor.`,
+        );
+      }
     } else {
       logError(
         `⚠️ Sesión ePayco sin items (ref ${reference}); no se puede verificar el monto ${amount} contra el catálogo.`,
@@ -258,7 +281,7 @@ export async function POST(request) {
       const { error: orderError } = await supabase.from("orders").insert({
         // orders.id es TEXT NOT NULL sin default en D1: hay que generarlo aquí
         id: crypto.randomUUID(),
-        clerk_user_id: clerkUserId,
+        clerk_user_id: usuarioCheckout?.id || clerkUserId,
         numero_orden: reference,
         estado: "pendiente",
         customer_name: customerName || "Cliente",
@@ -271,13 +294,14 @@ export async function POST(request) {
         subtotal: taxBase,
         impuestos: tax,
         costo_envio: 0,
-        descuentos: descuentoPromos,
+        descuentos: descuentoPromos + (descuentoCliente?.monto || 0),
         estado_pago: "pendiente",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
         metadata: {
           productos: normalizedItems,
           promociones: promocionesAplicadas,
+          descuento_cliente: descuentoCliente,
           source: "epayco_checkout",
           customer_city: customerCity,
           customer_region: customerRegion,

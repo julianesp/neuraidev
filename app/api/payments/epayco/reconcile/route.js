@@ -5,6 +5,7 @@ import { createInvoiceRecord } from "@/lib/invoiceGenerator";
 import { notifyNewSale } from "@/lib/notificationService";
 import { notificarPagoAprobado, notificarNuevaVentaAdmin } from "@/lib/pushService";
 import { crearMensajeSistemaPedido } from "@/lib/chatSoporte";
+import { marcarDescuentoClienteUsado } from "@/lib/descuento-cliente-server";
 
 // Solo loguear en desarrollo
 const isDev = process.env.NODE_ENV === "development";
@@ -242,6 +243,9 @@ export async function GET(request) {
       .eq("numero_orden", reference);
 
     log("✅ Orden completada por reconciliación:", reference);
+
+    // 15% de cliente de servicio técnico: con el pago confirmado queda gastado
+    await marcarDescuentoClienteUsado(metadata?.descuento_cliente, reference);
 
     // La orden ya quedó completada arriba: eso es lo que el frontend necesita
     // para pasar a "¡Pago exitoso!". El resto (factura con PDF+email, Telegram,
