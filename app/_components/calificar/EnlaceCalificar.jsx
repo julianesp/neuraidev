@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Copy, Check, Send } from "lucide-react";
+import CompartirCalificar from "@/app/_components/calificar/CompartirCalificar";
 
 const TIPOS = [
   { valor: "producto", texto: "Compra de producto" },
@@ -36,6 +37,9 @@ export default function EnlaceCalificar() {
     "",
     `¿Me ayudas calificando ${producto.trim() ? `tu ${producto.trim()}` : "tu experiencia"} con estrellas? Es menos de 1 minuto:`,
     enlace,
+    ...(tipo === "formateo"
+      ? ["", "🎁 Entra con tu Facebook o Google al calificar y ganas 15% de descuento en tu próxima compra de la tienda."]
+      : []),
     "",
     "¡Tu opinión me ayuda muchísimo! 🙏",
   ].join("\n");
@@ -131,6 +135,10 @@ export default function EnlaceCalificar() {
           {copiado ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
           {copiado ? "¡Copiado!" : "Copiar solo el enlace"}
         </button>
+      </div>
+
+      <div className="mt-6">
+        <CompartirCalificar titulo="Enlace general con el 15% (para estados y grupos)" />
       </div>
 
       <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">

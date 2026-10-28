@@ -1,66 +1,32 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
-import { getSupabaseClient } from "@/lib/db";
+import { auth, currentUser } from "@clerk/nextjs/server";
+import { buscarComprasCliente, itemsDePedido } from "@/lib/compras-cliente";
 
 /**
  * GET /api/perfil/pedidos
- * Obtiene todos los pedidos del usuario actual con sus items
+ * Pedidos del usuario actual con sus productos. Busca por su cuenta y por sus
+ * correos verificados: casi ningún pedido guarda clerk_user_id, así que solo
+ * por cuenta el historial salía vacío.
  */
 export async function GET() {
   try {
     const { userId } = await auth();
-
     if (!userId) {
-      return NextResponse.json(
-        { error: "No autenticado" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
-    const supabase = getSupabaseClient();
+    const user = await currentUser();
+    const emails = (user?.emailAddresses || [])
+      .filter((e) => e.verification?.status === "verified")
+      .map((e) => e.emailAddress);
 
-    // Obtener pedidos del usuario
-    const { data: pedidos, error: pedidosError } = await supabase
-      .from("orders")
-      .select("*")
-      .eq("clerk_user_id", userId)
-      .order("created_at", { ascending: false });
+    const { pedidos } = await buscarComprasCliente({ userId, emails });
 
-    if (pedidosError) {
-      console.error("Error al obtener pedidos:", pedidosError);
-      return NextResponse.json(
-        { error: "Error al obtener pedidos" },
-        { status: 500 }
-      );
-    }
-
-    if (!pedidos || pedidos.length === 0) {
-      return NextResponse.json([]);
-    }
-
-    // Obtener items para cada pedido
-    const pedidosConItems = await Promise.all(
-      pedidos.map(async (pedido) => {
-        const { data: items, error: itemsError } = await supabase
-          .from("order_items")
-          .select("*")
-          .eq("order_id", pedido.id);
-
-        if (itemsError) {
-          console.error("Error al obtener items del pedido:", itemsError);
-          return { ...pedido, items: [] };
-        }
-
-        return { ...pedido, items: items || [] };
-      })
+    return NextResponse.json(
+      pedidos.map(({ metadata, ...p }) => ({ ...p, items: itemsDePedido({ ...p, metadata }) }))
     );
-
-    return NextResponse.json(pedidosConItems);
   } catch (error) {
     console.error("Error en GET /api/perfil/pedidos:", error);
-    return NextResponse.json(
-      { error: "Error interno del servidor" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Error al obtener pedidos" }, { status: 500 });
   }
 }

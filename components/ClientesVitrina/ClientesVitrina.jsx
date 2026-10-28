@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ShoppingBag } from "lucide-react";
 import TarjetaOpinion from "@/app/_components/calificar/TarjetaOpinion";
 import FormularioCalificar from "@/app/calificar/FormularioCalificar";
+import CompartirCalificar from "@/app/_components/calificar/CompartirCalificar";
 
 // `siempreFormulario`: cuando es true, la sección se muestra aunque no haya
 // clientes ni testimonios todavía (para que siempre exista el formulario donde
@@ -111,6 +112,9 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
             15% para clientes de servicio técnico): el mismo de /calificar */}
         <div id="calificar" className="scroll-mt-24">
           <FormularioCalificar embebido />
+          <div className="max-w-lg mx-auto mt-6">
+            <CompartirCalificar />
+          </div>
         </div>
       </div>
     </section>

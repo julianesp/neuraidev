@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Star, Trash2, Mail, UserPlus, Clock, CheckCircle2 } from "lucide-react";
 import EnlaceCalificar from "@/app/_components/calificar/EnlaceCalificar";
+import VerificarCompras from "@/app/_components/calificar/VerificarCompras";
 
 const NOMBRE_TIPO = {
   producto: "Compra",
@@ -427,6 +428,9 @@ export default function CalificacionesPage() {
                   <p className="text-gray-700 dark:text-gray-300 italic">
                     &ldquo;{t.mensaje}&rdquo;
                   </p>
+
+                  {/* ¿Ha comprado en neurai? (pedidos, ventas y ficha de cliente) */}
+                  <VerificarCompras testimonioId={t.id} />
 
                   <div className="flex flex-wrap gap-2 mt-4">
                     {t.estado !== "aprobado" && (
