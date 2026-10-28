@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Star, ShoppingBag, Quote, Send, CheckCircle } from "lucide-react";
+import TarjetaOpinion from "@/app/_components/calificar/TarjetaOpinion";
 
 // `siempreFormulario`: cuando es true, la sección se muestra aunque no haya
 // clientes ni testimonios todavía (para que siempre exista el formulario donde
@@ -139,37 +140,7 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
         {testimonios.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
             {testimonios.map((t) => (
-              <div
-                key={t.id}
-                className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 relative"
-              >
-                <Quote className="w-8 h-8 text-blue-200 dark:text-blue-900 mb-2" />
-                {t.calificacion && (
-                  <div className="flex text-amber-400 mb-2">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-4 h-4"
-                        fill={i < t.calificacion ? "currentColor" : "none"}
-                      />
-                    ))}
-                  </div>
-                )}
-                <p className="text-gray-700 dark:text-gray-300 italic mb-4">
-                  &ldquo;{t.mensaje}&rdquo;
-                </p>
-                <div className="flex items-center justify-between">
-                  <p className="font-semibold text-gray-900 dark:text-white">
-                    — {t.cliente_nombre}
-                  </p>
-                  {t.producto_relacionado && (
-                    <span className="text-xs text-gray-400 flex items-center gap-1">
-                      <ShoppingBag className="w-3 h-3" />
-                      {t.producto_relacionado}
-                    </span>
-                  )}
-                </div>
-              </div>
+              <TarjetaOpinion key={t.id} opinion={t} />
             ))}
           </div>
         )}

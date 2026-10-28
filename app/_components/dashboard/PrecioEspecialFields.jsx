@@ -129,6 +129,7 @@ export function ServicioAplicaAFields({ formData, setFormData }) {
               checked={seleccion.includes(cat)}
               onChange={() => toggle(cat)}
               className="w-4 h-4"
+              style={{ appearance: "auto", WebkitAppearance: "checkbox", accentColor: "#2563eb" }}
             />
             {cat}
           </label>

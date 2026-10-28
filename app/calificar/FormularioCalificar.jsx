@@ -1,8 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Star, CheckCircle2 } from "lucide-react";
+import { useClerk, useSignIn, useUser } from "@clerk/nextjs";
+import { normalizarFacebookUrl } from "@/lib/facebook";
+
+// Borrador del formulario mientras el cliente va y vuelve de Facebook
+const BORRADOR = "neurai-calificar-borrador";
 
 const TIPOS = [
   { valor: "producto", texto: "Compré un producto" },
@@ -23,6 +28,76 @@ export default function FormularioCalificar({ nombreInicial, tipoInicial, produc
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
   const [enviado, setEnviado] = useState(false);
+  const [facebookUrl, setFacebookUrl] = useState("");
+  const [consentimiento, setConsentimiento] = useState(false);
+  const [conectando, setConectando] = useState(false);
+
+  const { isLoaded: signInListo, signIn } = useSignIn();
+  const { isLoaded: userListo, isSignedIn, user } = useUser();
+  const clerk = useClerk();
+  // Solo se ofrece el botón si en Clerk está activo "iniciar sesión con
+  // Facebook" (Dashboard de Clerk → SSO connections → Facebook).
+  const facebookSocial = clerk?.__unstable__environment?.userSettings?.social?.oauth_facebook;
+  const facebookDisponible = facebookSocial
+    ? Boolean(facebookSocial.enabled && (facebookSocial.authenticatable || isSignedIn))
+    : true;
+  const cuentaFacebook = user?.externalAccounts?.find((a) =>
+    /facebook/.test(a.provider || "")
+  );
+  const fotoFacebook = cuentaFacebook ? cuentaFacebook.imageUrl || user.imageUrl : null;
+
+  // Al volver de Facebook se recupera lo que el cliente ya había escrito
+  useEffect(() => {
+    try {
+      const b = JSON.parse(sessionStorage.getItem(BORRADOR) || "null");
+      if (!b) return;
+      sessionStorage.removeItem(BORRADOR);
+      if (b.nombre) setNombre(b.nombre);
+      if (b.tipo) setTipo(b.tipo);
+      if (b.producto) setProducto(b.producto);
+      if (b.estrellas) setEstrellas(b.estrellas);
+      if (b.mensaje) setMensaje(b.mensaje);
+      if (b.facebookUrl) setFacebookUrl(b.facebookUrl);
+      if (b.consentimiento) setConsentimiento(true);
+    } catch {}
+  }, []);
+
+  // Inicia sesión con Facebook (o la vincula si ya tiene cuenta) para tomar
+  // la foto de perfil real de Facebook.
+  const conectarFacebook = async () => {
+    setError("");
+    setConectando(true);
+    try {
+      sessionStorage.setItem(
+        BORRADOR,
+        JSON.stringify({ nombre, tipo, producto, estrellas, mensaje, facebookUrl, consentimiento })
+      );
+    } catch {}
+    const volver = window.location.href;
+    try {
+      if (isSignedIn && user) {
+        const cuenta = await user.createExternalAccount({
+          strategy: "oauth_facebook",
+          redirectUrl: volver,
+        });
+        const destino = cuenta?.verification?.externalVerificationRedirectURL;
+        if (destino) window.location.href = destino.toString();
+        else setConectando(false);
+      } else {
+        await signIn.authenticateWithRedirect({
+          strategy: "oauth_facebook",
+          redirectUrl: "/calificar/sso-callback",
+          redirectUrlComplete: volver,
+        });
+      }
+    } catch (err) {
+      console.error("[calificar] Facebook:", err);
+      setError(
+        "No se pudo conectar con Facebook en este momento. Puedes enviar tu calificación sin foto."
+      );
+      setConectando(false);
+    }
+  };
 
   const enviar = async (e) => {
     e.preventDefault();
@@ -30,6 +105,9 @@ export default function FormularioCalificar({ nombreInicial, tipoInicial, produc
     if (!estrellas) return setError("Toca las estrellas para calificar.");
     if (!nombre.trim()) return setError("Escribe tu nombre.");
     if (!mensaje.trim()) return setError("Cuéntanos en pocas palabras cómo te fue.");
+    if (facebookUrl.trim() && !normalizarFacebookUrl(facebookUrl)) {
+      return setError("El enlace de Facebook no es válido. Cópialo desde tu perfil (ej.: facebook.com/tu.usuario).");
+    }
 
     setEnviando(true);
     try {
@@ -42,6 +120,8 @@ export default function FormularioCalificar({ nombreInicial, tipoInicial, produc
           calificacion: estrellas,
           tipo,
           producto_relacionado: producto,
+          facebook_url: facebookUrl,
+          consentimiento_publicar: consentimiento,
           website: trampa,
         }),
       });
@@ -168,6 +248,73 @@ export default function FormularioCalificar({ nombreInicial, tipoInicial, produc
         placeholder="¿Qué te gustó? ¿Lo recomendarías?"
         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white resize-none"
       />
+
+      {/* Foto de perfil de Facebook + enlace para que otros le escriban */}
+      <div className="mt-6 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+        <p className="font-semibold text-gray-900 dark:text-white">
+          {facebookDisponible ? "Muestra tu foto de Facebook (opcional)" : "Tu Facebook (opcional)"}
+        </p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 mb-3">
+          Así otras personas saben que eres un cliente real y pueden escribirte
+          para preguntarte por el servicio.
+        </p>
+
+        {fotoFacebook ? (
+          <div className="flex items-center gap-3 mb-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={fotoFacebook}
+              alt="Tu foto de Facebook"
+              className="w-14 h-14 rounded-full object-cover border-2 border-blue-600"
+            />
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+              Se usará tu foto de perfil de Facebook.
+            </p>
+          </div>
+        ) : !facebookDisponible ? null : (
+          <button
+            type="button"
+            onClick={conectarFacebook}
+            disabled={conectando || !signInListo || !userListo}
+            className="w-full mb-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-60"
+          >
+            {conectando ? "Abriendo Facebook…" : "Conectar con Facebook para usar mi foto"}
+          </button>
+        )}
+
+        <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Enlace a tu perfil de Facebook
+        </label>
+        <input
+          id="facebook"
+          value={facebookUrl}
+          onChange={(e) => setFacebookUrl(e.target.value)}
+          inputMode="url"
+          placeholder="facebook.com/tu.usuario"
+          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+        />
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          En la app de Facebook: tu perfil → ⋯ → Copiar enlace del perfil.
+        </p>
+
+        <label className="flex items-start gap-2 mt-3 text-sm text-gray-700 dark:text-gray-300">
+          <input
+            type="checkbox"
+            checked={consentimiento}
+            onChange={(e) => setConsentimiento(e.target.checked)}
+            className="mt-1 w-4 h-4"
+            // El CSS global quita la apariencia de los checkbox: se restaura aquí
+            style={{ appearance: "auto", WebkitAppearance: "checkbox", accentColor: "#2563eb" }}
+          />
+          Acepto que mi foto y mi perfil de Facebook se muestren en neurai.dev
+          junto a mi calificación.
+        </label>
+        {(fotoFacebook || facebookUrl.trim()) && !consentimiento && (
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            Sin esta casilla tu calificación se publica sin foto ni Facebook.
+          </p>
+        )}
+      </div>
 
       {/* Campo trampa para bots: invisible para personas */}
       <input

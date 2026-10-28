@@ -139,6 +139,26 @@ export default function CalificacionesPage() {
     }
   };
 
+  // Quita la foto o el Facebook de una calificación (accion: quitar_foto | quitar_facebook)
+  const quitarDato = async (id, accion) => {
+    setActionId(id);
+    try {
+      const res = await fetch("/api/testimonios", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, [accion]: true }),
+      });
+      if (res.ok) {
+        const campo = accion === "quitar_foto" ? "avatar_url" : "facebook_url";
+        setTestimonios((prev) =>
+          prev.map((t) => (t.id === id ? { ...t, [campo]: null } : t))
+        );
+      }
+    } finally {
+      setActionId(null);
+    }
+  };
+
   const eliminarTestimonio = async (id) => {
     if (!window.confirm("¿Eliminar esta calificación de forma permanente?")) return;
     setActionId(id);
@@ -317,7 +337,18 @@ export default function CalificacionesPage() {
                   className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div>
+                    <div className="flex items-start gap-3 min-w-0">
+                    {t.avatar_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={t.avatar_url}
+                        alt=""
+                        className="w-12 h-12 rounded-full object-cover border-2 border-blue-600 shrink-0"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 shrink-0" />
+                    )}
+                    <div className="min-w-0">
                       <p className="font-semibold text-gray-900 dark:text-white">
                         {t.cliente_nombre}
                       </p>
@@ -328,6 +359,17 @@ export default function CalificacionesPage() {
                         {NOMBRE_TIPO[t.tipo] || "Compra"}
                         {t.producto_relacionado && ` · ${t.producto_relacionado}`}
                       </p>
+                      {t.facebook_url && (
+                        <a
+                          href={t.facebook_url}
+                          target="_blank"
+                          rel="noopener noreferrer nofollow"
+                          className="text-xs text-blue-600 hover:underline break-all"
+                        >
+                          {t.facebook_url}
+                        </a>
+                      )}
+                    </div>
                     </div>
                     <span
                       className={`text-xs px-2 py-0.5 rounded-full ${
@@ -388,6 +430,24 @@ export default function CalificacionesPage() {
                         className="px-4 py-1.5 text-sm border border-gray-300 dark:border-gray-600 text-gray-600 rounded-lg disabled:opacity-60"
                       >
                         Rechazar
+                      </button>
+                    )}
+                    {t.avatar_url && (
+                      <button
+                        onClick={() => quitarDato(t.id, "quitar_foto")}
+                        disabled={actionId === t.id}
+                        className="px-4 py-1.5 text-sm border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-lg disabled:opacity-60"
+                      >
+                        Quitar foto
+                      </button>
+                    )}
+                    {t.facebook_url && (
+                      <button
+                        onClick={() => quitarDato(t.id, "quitar_facebook")}
+                        disabled={actionId === t.id}
+                        className="px-4 py-1.5 text-sm border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-lg disabled:opacity-60"
+                      >
+                        Quitar Facebook
                       </button>
                     )}
                     <button

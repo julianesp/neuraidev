@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Star, Quote } from "lucide-react";
+import TarjetaOpinion from "@/app/_components/calificar/TarjetaOpinion";
 
 /**
- * Muestra en la página del servicio técnico las opiniones (comentarios +
- * nombres + estrellas) que los clientes dejaron sobre el formateo y que el
- * admin ya aprobó. No muestra fotos ni emails.
+ * Muestra en la página del servicio técnico las opiniones (comentario,
+ * nombre, estrellas y, si el cliente lo autorizó, su foto y Facebook) que el
+ * admin ya aprobó. Nunca muestra emails.
  *
  * Se apoya en /api/testimonios (solo devuelve los 'aprobado') y filtra por
  * tipo === 'formateo'. Si no hay ninguna aprobada, no renderiza nada.
@@ -75,29 +76,7 @@ export default function OpinionesFormateo({ tipo = "formateo" }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {opiniones.map((o) => (
-            <div
-              key={o.id}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 relative"
-            >
-              <Quote className="w-8 h-8 text-blue-200 dark:text-blue-900 mb-2" />
-              {o.calificacion && (
-                <div className="flex text-amber-400 mb-2">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4"
-                      fill={i < o.calificacion ? "currentColor" : "none"}
-                    />
-                  ))}
-                </div>
-              )}
-              <p className="text-gray-700 dark:text-gray-300 italic mb-4">
-                &ldquo;{o.mensaje}&rdquo;
-              </p>
-              <p className="font-semibold text-gray-900 dark:text-white">
-                — {o.cliente_nombre}
-              </p>
-            </div>
+            <TarjetaOpinion key={o.id} opinion={o} />
           ))}
         </div>
       </div>
