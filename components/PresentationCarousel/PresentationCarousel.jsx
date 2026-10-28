@@ -14,7 +14,7 @@ const DEFAULT_SLIDES = [
     titulo: "Accesorios para Celulares",
     descripcion: "Cables, cargadores, fundas y más para tu smartphone",
     link: "/accesorios/celulares",
-    boton_texto: "Ver celulares",
+    boton_texto: "Ver productos",
   },
   {
     id: "default-2",
@@ -22,7 +22,7 @@ const DEFAULT_SLIDES = [
     titulo: "Accesorios para Computadores",
     descripcion: "Teclados, mouse, cables y componentes para PC",
     link: "/accesorios/computadoras",
-    boton_texto: "Ver computadores",
+    boton_texto: "Ver productos",
   },
   {
     id: "default-3",
@@ -30,7 +30,7 @@ const DEFAULT_SLIDES = [
     titulo: "Técnico en Sistemas",
     descripcion: "Soluciones profesionales para todos tus problemas informáticos",
     link: "/servicios/tecnico-sistemas",
-    boton_texto: "Ver más",
+    boton_texto: "Ver servicios",
   },
   {
     id: "default-4",

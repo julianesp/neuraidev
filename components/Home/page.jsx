@@ -15,6 +15,7 @@ import { shouldShowCategory } from "@/utils/categoriesWithStock";
 import AppAndroidPestana from "@/app/_components/AppAndroidPestana";
 import GuiaCompraEpayco from "@/app/_components/guia-compra/GuiaCompraEpayco";
 import FacturaElectronicaAviso from "@/app/_components/guia-compra/FacturaElectronicaAviso";
+import VitrinaTecnico from "@/app/_components/home/VitrinaTecnico";
 import {
   Smartphone,
   Monitor,
@@ -313,6 +314,9 @@ export default function Inicio() {
 
         {/* Productos Más Visitados - Diseño Bento Grid */}
         <MostVisitedProducts />
+
+        {/* Trabajos reales como técnico en sistemas → /servicios/tecnico-sistemas */}
+        <VitrinaTecnico />
 
         {/* Tiendas registradas en Neurai */}
         <section className={`${styles.tiendasDestacadas}`}>
@@ -613,26 +617,6 @@ export default function Inicio() {
         {/* Section Technical Services Carousel */}
         <section className={`${styles.technicalServices}`}>
           <TechnicalServicesCarousel />
-        </section>
-
-        {/* Acceso directo a la página de servicio técnico / formateo */}
-        <section className="w-full px-4 my-10" data-aos="fade-up">
-          <div className="max-w-4xl mx-auto bg-gradient-to-br from-blue-600 to-blue-600 rounded-2xl shadow-lg p-8 text-center text-white">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">
-              Servicio técnico y formateo de computadores
-            </h2>
-            <p className="text-white/90 mb-6 max-w-2xl mx-auto">
-              Mira los trabajos que he entregado y las opiniones de mis clientes
-              sobre el servicio de formateo y mantenimiento.
-            </p>
-            <Link
-              href="/servicios/tecnico-sistemas"
-              className="inline-flex items-center gap-2 bg-white text-blue-700 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors"
-              title="Ir a servicio técnico y formateo"
-            >
-              Ver servicio técnico y opiniones →
-            </Link>
-          </div>
         </section>
 
         {/* Portafolio de sitios web / PWAs desarrollados */}

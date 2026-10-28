@@ -1,63 +1,22 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Footer.module.scss";
+import RedesFlotantes from "@/app/_components/RedesFlotantes";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useMinecraftTheme } from "@/contexts/MinecraftThemeContext";
 
 const Footer = () => {
-  const [menuOption, setMenuOptions] = useState(false);
   const { isMinecraftTheme, toggleMinecraftTheme } = useMinecraftTheme();
-  const [isClient, setIsClient] = useState(false);
-  const menuRef = useRef(null);
-  const flechaRef = useRef(null);
-
-  const switchOptions = () => {
-    setMenuOptions(!menuOption);
-  };
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isClient) return;
-
-    const handleClickOutside = (event) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        flechaRef.current &&
-        !flechaRef.current.contains(event.target)
-      ) {
-        setMenuOptions(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-    };
-  }, [isClient]);
 
   return (
     <footer
-      className={`${styles.footer} ${menuOption ? styles.active : ""} dark:bg-gray-900`}
+      className={`${styles.footer} dark:bg-gray-900`}
     >
-      {/* Botón flotante de redes sociales */}
-      <button
-        ref={flechaRef}
-        className={`${styles.flecha} ${menuOption ? styles.active : ''}`}
-        onClick={switchOptions}
-        aria-label={menuOption ? "Cerrar menú de redes sociales" : "Abrir menú de redes sociales"}
-      >
-        <span className={styles.flechaIcon} />
-      </button>
+      {/* Botón flotante de redes sociales (con nombre y usuario de cada red) */}
+      <RedesFlotantes />
 
       {/* Contenedor principal del footer */}
       <div className={styles.footerContent}>
@@ -323,76 +282,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Redes sociales flotantes */}
-      {isClient && (
-        <div
-          ref={menuRef}
-          className={`${styles.redes} ${menuOption ? styles.open : styles.closed}`}
-        >
-          <ul>
-            <li>
-              <Link
-                href="https://www.facebook.com/profile.php?id=100085485673809"
-                target="_blank"
-                rel="noreferrer"
-                title="Facebook"
-              >
-                <Image
-                  alt="Facebook"
-                  src="/images/social/facebook.png"
-                  width={40}
-                  height={40}
-                />
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="https://www.instagram.com/julianrio95/"
-                target="_blank"
-                rel="noreferrer"
-                title="Instagram"
-              >
-                <Image
-                  alt="Instagram"
-                  src="/images/social/instagram.png"
-                  width={40}
-                  height={40}
-                />
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="https://wa.me/573174503604"
-                target="_blank"
-                rel="noreferrer"
-                title="WhatsApp"
-              >
-                <Image
-                  alt="Whatsapp"
-                  src="/images/social/whatsapp.png"
-                  width={40}
-                  height={40}
-                />
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="https://www.tiktok.com/@julii1295?_t=8n2OQ52Q4aD&_r=1"
-                target="_blank"
-                rel="noreferrer"
-                title="TikTok"
-              >
-                <Image
-                  alt="TikTok"
-                  src="/images/social/tiktok.png"
-                  width={40}
-                  height={40}
-                />
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )}
     </footer>
   );
 };

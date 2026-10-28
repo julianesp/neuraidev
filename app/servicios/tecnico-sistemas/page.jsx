@@ -284,7 +284,7 @@ export default function TecnicoSistemas() {
       </section>
 
       {/* Trabajos realizados */}
-      <section className={styles.trabajos}>
+      <section id="trabajos" className={styles.trabajos} style={{ scrollMarginTop: "6rem" }}>
         <h2 className={styles.sectionTitle}>Trabajos Realizados</h2>
         <p className={styles.trabajosIntro}>
           Evidencia fotográfica de algunos de los trabajos de mantenimiento y
