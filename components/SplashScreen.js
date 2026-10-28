@@ -112,21 +112,21 @@ export default function SplashScreen() {
       role="status"
       aria-label={`Cargando neurai.dev, ${progreso}%`}
     >
-      {/* Capa lejana: nubes grandes y muy borrosas */}
+      {/* Capa lejana: manchas de luz y sombra enormes y muy difusas */}
       <div className={`${styles.capa} ${styles.capaLejana}`} aria-hidden="true">
         <span className={`${styles.nube} ${styles.l1}`} />
-        <span className={`${styles.nube} ${styles.l2}`} />
+        <span className={`${styles.nube} ${styles.l2} ${styles.sombra}`} />
         <span className={`${styles.nube} ${styles.l3}`} />
       </div>
 
       {/* Velo borroso de fondo (backdrop-blur-sm) */}
       <div className={styles.velo} aria-hidden="true" />
 
-      {/* Capa cercana: nubes nítidas que cruzan por detrás del logo */}
+      {/* Capa cercana: manchas borrosas que cruzan por detrás del logo */}
       <div className={`${styles.capa} ${styles.capaCercana}`} aria-hidden="true">
-        <span className={`${styles.nube} ${styles.c1}`} />
+        <span className={`${styles.nube} ${styles.c1} ${styles.sombra}`} />
         <span className={`${styles.nube} ${styles.c2}`} />
-        <span className={`${styles.nube} ${styles.c3}`} />
+        <span className={`${styles.nube} ${styles.c3} ${styles.sombra}`} />
       </div>
 
       <div className={styles.tarjeta}>

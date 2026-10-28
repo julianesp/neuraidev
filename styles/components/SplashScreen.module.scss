@@ -32,7 +32,7 @@
   }
 }
 
-/* ---------- Nubes ---------- */
+/* ---------- Sombras borrosas de fondo ---------- */
 
 .capa {
   position: absolute;
@@ -40,103 +40,94 @@
   pointer-events: none;
 }
 
-// Lejanas: grandes, tenues y desenfocadas
+// Lejanas: enormes y muy difusas
 .capaLejana {
-  filter: blur(10px);
-  opacity: 0.5;
+  filter: blur(60px);
 }
 
-// Cercanas: nítidas, pasan por detrás de la tarjeta (que las desenfoca)
+// Cercanas: algo más definidas, pero siempre borrosas, sin bordes
 .capaCercana {
-  opacity: 0.95;
+  filter: blur(36px);
 }
 
-// Una nube = cuerpo redondeado + dos "bultos" (::before / ::after)
+// Cada "nube" es una mancha ovalada de luz o de sombra que cruza la pantalla
 .nube {
-  --w: 220px;
+  --w: 300px;
   position: absolute;
   left: 0;
   width: var(--w);
-  height: calc(var(--w) * 0.3);
-  border-radius: 999px;
-  background: #ffffff;
-  box-shadow: 0 calc(var(--w) * 0.06) calc(var(--w) * 0.12)
-    rgba(30, 58, 138, 0.25); // blue-900
+  height: calc(var(--w) * 0.62);
+  border-radius: 50%;
+  // Luz por defecto (blanco tenue)
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.25) 45%,
+    rgba(255, 255, 255, 0) 72%
+  );
   will-change: transform;
   animation: cruzar 6s linear infinite;
+}
 
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    background: inherit;
-  }
-
-  &::before {
-    width: calc(var(--w) * 0.38);
-    height: calc(var(--w) * 0.38);
-    left: calc(var(--w) * 0.16);
-    top: calc(var(--w) * -0.2);
-  }
-
-  &::after {
-    width: calc(var(--w) * 0.5);
-    height: calc(var(--w) * 0.5);
-    left: calc(var(--w) * 0.4);
-    top: calc(var(--w) * -0.3);
-  }
+// Sombra (azul oscuro de la marca, blue-900)
+.sombra {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(30, 58, 138, 0.65) 0%,
+    rgba(30, 58, 138, 0.3) 45%,
+    rgba(30, 58, 138, 0) 72%
+  );
 }
 
 // Lejanas (lentas)
 .l1 {
-  --w: 70vmax;
-  top: 8%;
-  animation-duration: 14s;
-  animation-delay: -5s;
+  --w: 90vmax;
+  top: -10%;
+  animation-duration: 12s;
+  animation-delay: -4s;
 }
 
 .l2 {
-  --w: 55vmax;
-  top: 62%;
-  animation-duration: 18s;
-  animation-delay: -12s;
+  --w: 80vmax;
+  top: 50%;
+  animation-duration: 15s;
+  animation-delay: -10s;
 }
 
 .l3 {
-  --w: 45vmax;
-  top: 35%;
-  animation-duration: 16s;
-  animation-delay: -2s;
+  --w: 70vmax;
+  top: 20%;
+  animation-duration: 13s;
+  animation-delay: -1s;
 }
 
-// Cercanas (rápidas). La c1 arranca ya cerca del centro, detrás del logo.
+// Cercanas (más rápidas). La c1 arranca ya cerca del centro, tras el logo.
 .c1 {
-  --w: 260px;
-  top: calc(50% - 40px);
+  --w: 380px;
+  top: calc(50% - 120px);
   animation-duration: 4.5s;
-  animation-delay: -1.9s;
+  animation-delay: -1.7s;
 }
 
 .c2 {
-  --w: 180px;
-  top: 18%;
-  animation-duration: 6s;
-  animation-delay: -4.2s;
+  --w: 300px;
+  top: 8%;
+  animation-duration: 5.5s;
+  animation-delay: -3.8s;
 }
 
 .c3 {
-  --w: 210px;
-  top: 74%;
-  animation-duration: 5.2s;
-  animation-delay: -0.6s;
+  --w: 340px;
+  top: 66%;
+  animation-duration: 5s;
+  animation-delay: -0.8s;
 }
 
 /* Velo borroso de fondo: backdrop-blur-sm (4px) sobre las nubes lejanas */
 .velo {
   position: absolute;
   inset: 0;
-  background: rgba(37, 99, 235, 0.12);
+  background: rgba(37, 99, 235, 0.08);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   pointer-events: none;
@@ -294,6 +285,6 @@
   }
 
   .c1 {
-    transform: translate3d(calc(50vw - var(--w) * 0.8), 0, 0);
+    transform: translate3d(calc(50vw - var(--w) * 0.5), 0, 0);
   }
 }
