@@ -1,354 +1,242 @@
 /* ============================================
-   MINECRAFT THEME
-   Aplica estética pixelada (bordes, sombras, fuente en títulos/botones)
-   pero respeta los colores blanco/negro del modo claro y oscuro del sitio.
-   ============================================ */
+   MINECRAFT THEME (opcional, se activa desde el footer)
+   html.minecraft-theme — convive con html.dark (modo oscuro).
 
-/* ============================================
-   VARIABLES DE EFECTOS (no colores de fondo)
-   ============================================ */
+   Idea: la interfaz del juego, SIN cambiar el azul de la marca (#2563eb):
+   menú como bloque de lapislázuli (azul con franja oscura), títulos con la
+   fuente pixelada (a tamaño reducido para que no se desborden), botones y
+   tarjetas con contorno negro y bisel de luz/sombra, fondo con rejilla de
+   bloques y footer con franja de lapislázuli y piedra. Nada de verde.
+   Las fotos NO se pixelan.
 
-/* Fuente base del sitio — todo hereda esto, solo h1-h6 y button la sobreescriben */
-html.minecraft-theme,
-html.minecraft-theme body {
-  font-family: "Lato", sans-serif !important;
-}
+   Ojo con selectores [class*="..."]: los módulos SCSS generan clases como
+   "NavBar-module-scss-module__x__enlace", así que [class*="NavBar"]
+   coincide con TODO lo de adentro. Aquí se apunta solo a la raíz.
+   ============================================ */
 
 .minecraft-theme {
-  --mc-shadow:       3px 3px 0px rgba(0,0,0,0.5);
-  --mc-shadow-sm:    2px 2px 0px rgba(0,0,0,0.35);
-  --mc-inset-light:  inset 1px 1px 0px rgba(255,255,255,0.3);
-  --mc-inset-dark:   inset -1px -1px 0px rgba(0,0,0,0.4);
+  --mc-outline:      #111111;
+  --mc-bevel-light:  rgba(255, 255, 255, 0.45);
+  --mc-bevel-dark:   rgba(0, 0, 0, 0.38);
+  /* Bloque de lapislázuli con el azul de la marca */
+  --mc-lapis:        #2563eb;
+  --mc-lapis-dark:   #1e3a8a;
+  --mc-stone:        #7f7f7f;
+  --mc-panel-border: #1d1d1d;
+  --mc-grid:         rgba(0, 0, 0, 0.045);
+  --mc-text-shadow:  rgba(0, 0, 0, 0.35);
 
-  /* Colores de minerales solo para acentos (bordes focus, glow) */
-  --mc-diamond:      #56D8E4;
-  --mc-diamond-glow: rgba(86,216,228,0.45);
-  --mc-emerald:      #40C832;
-  --mc-emerald-glow: rgba(64,200,50,0.45);
-  --mc-gold:         #FCEE4B;
-  --mc-gold-dark:    #B8A020;
-  --mc-gold-glow:    rgba(252,238,75,0.4);
-  --mc-redstone:     #CC0000;
-  --mc-lapis:        #1B44B8;
-  --mc-text-shadow-light: rgba(0,0,0,0.4);
-  --mc-text-shadow-dark:  rgba(0,0,0,0.7);
-
-  /* Curvas de animación (del sistema del skill /animate)
-     ease-out fuerte para entradas; ease-in-out fuerte para movimiento en pantalla. */
+  /* Curvas de animación */
   --mc-ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
   --mc-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
+.minecraft-theme.dark {
+  --mc-bevel-light:  rgba(255, 255, 255, 0.16);
+  --mc-bevel-dark:   rgba(0, 0, 0, 0.55);
+  --mc-panel-border: #000000;
+  --mc-grid:         rgba(255, 255, 255, 0.035);
+  --mc-text-shadow:  rgba(0, 0, 0, 0.75);
+}
+
 /* ============================================
-   BORDES PIXELADOS GLOBALES
+   BASE: esquinas cuadradas y fondo con rejilla de bloques
    ============================================ */
 
-.minecraft-theme * {
+.minecraft-theme *:not(svg):not(svg *) {
   border-radius: 0 !important;
+}
+
+.minecraft-theme body {
+  background-image:
+    linear-gradient(var(--mc-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mc-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* ============================================
    TIPOGRAFÍA
-   Fuente pixelada SOLO en títulos y botones.
-   Todo lo demás hereda la fuente del sitio.
+   Pixelada solo en títulos. Press Start 2P es muy ancha: tamaños reducidos
+   con clamp para que no ocupe media pantalla ni parta palabras.
    ============================================ */
-
-/* Reset explícito: párrafos y texto de contenido NUNCA usan fuente pixelada */
-.minecraft-theme p,
-.minecraft-theme span,
-.minecraft-theme div,
-.minecraft-theme li,
-.minecraft-theme label,
-.minecraft-theme td,
-.minecraft-theme th,
-.minecraft-theme a {
-  font-family: inherit !important;
-}
 
 .minecraft-theme h1,
 .minecraft-theme h2,
 .minecraft-theme h3,
-.minecraft-theme h4,
+.minecraft-theme h4 {
+  font-family: var(--font-press-start), monospace !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.5 !important;
+  text-shadow: 2px 2px 0 var(--mc-text-shadow) !important;
+  overflow-wrap: break-word;
+}
+
+.minecraft-theme h1 { font-size: clamp(1.05rem, 2.4vw, 1.75rem) !important; }
+.minecraft-theme h2 { font-size: clamp(0.95rem, 2vw, 1.4rem) !important; }
+.minecraft-theme h3 { font-size: clamp(0.72rem, 1.3vw, 0.95rem) !important; }
+.minecraft-theme h4 { font-size: 0.72rem !important; }
+
+/* El nombre arcoíris del footer usa texto transparente con degradado: la
+   sombra de los títulos se vería por encima y lo ensuciaría */
+.minecraft-theme footer h3[class*="brandName"] {
+  text-shadow: none !important;
+}
+
+/* h5/h6 y todo el texto de lectura conservan la fuente del sitio */
 .minecraft-theme h5,
 .minecraft-theme h6 {
-  font-family: var(--font-press-start), monospace !important;
-  text-shadow: 2px 2px 0px var(--mc-text-shadow-light) !important;
-  letter-spacing: 1px;
-}
-
-/* Modo oscuro — sombra más pronunciada */
-.dark .minecraft-theme h1,
-.dark .minecraft-theme h2,
-.dark .minecraft-theme h3,
-.dark .minecraft-theme h4,
-.dark .minecraft-theme h5,
-.dark .minecraft-theme h6 {
-  text-shadow: 2px 2px 0px var(--mc-text-shadow-dark) !important;
+  font-weight: 700 !important;
 }
 
 /* ============================================
-   NAVBAR — borde pixelado inferior
+   MENÚ: bloque de lapislázuli (azul de la marca, franja azul oscuro abajo)
+   Solo la raíz del NavBar ("...__container dark:text-white").
    ============================================ */
 
-.minecraft-theme nav,
-.minecraft-theme header,
-.minecraft-theme [class*="navbar"],
-.minecraft-theme [class*="NavBar"] {
-  border-bottom: 3px solid rgba(0,0,0,0.5) !important;
-  box-shadow: 0 3px 0px rgba(0,0,0,0.3), var(--mc-inset-light) !important;
+.minecraft-theme [class*="NavBar-module"][class*="__container "] {
+  background:
+    linear-gradient(to bottom, var(--mc-lapis) 0, var(--mc-lapis) calc(100% - 8px), var(--mc-lapis-dark) calc(100% - 8px)) !important;
+  border-bottom: 3px solid var(--mc-outline) !important;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.25), 0 3px 0 rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: none !important;
+}
+
+
+.minecraft-theme [class*="NavBar-module"][class*="__container "] a {
+  color: #ffffff !important;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.45) !important;
 }
 
 /* ============================================
-   BOTONES
-   Fuente pixelada. Colores propios de cada botón
-   se mantienen (azul, verde, rojo, gris, etc.)
-   Solo se añade la apariencia de bloque.
+   BOTONES: estilo de la interfaz del juego
+   Contorno negro + bisel (luz arriba-izquierda, sombra abajo-derecha).
+   Conservan su color y su fuente; se excluyen los puntos de los carruseles.
    ============================================ */
 
-.minecraft-theme button,
+.minecraft-theme button:not([aria-label^="Ir a"]):not([aria-label^="Ir al"]),
 .minecraft-theme [role="button"],
-.minecraft-theme a.button,
-.minecraft-theme .btn {
-  font-family: var(--font-press-start), monospace !important;
-  font-size: 0.6rem !important;
-  border-width: 2px !important;
-  border-style: solid !important;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: none !important;
-  font-weight: normal !important;
-  box-shadow: var(--mc-shadow), var(--mc-inset-light), var(--mc-inset-dark) !important;
-  text-shadow: 1px 1px 0px rgba(0,0,0,0.5) !important;
+.minecraft-theme a[class*="bg-blue-6"],
+.minecraft-theme a[class*="Button"],
+.minecraft-theme a[class*="button"] {
+  border: 2px solid var(--mc-outline) !important;
+  box-shadow:
+    inset 2px 2px 0 var(--mc-bevel-light),
+    inset -2px -3px 0 var(--mc-bevel-dark) !important;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
+  transition: filter 0.1s ease !important;
 }
 
-.minecraft-theme button:hover,
-.minecraft-theme [role="button"]:hover {
-  transform: translateY(-1px);
-  box-shadow: 4px 4px 0px rgba(0,0,0,0.5), var(--mc-inset-light) !important;
+.minecraft-theme button:not([aria-label^="Ir a"]):not([aria-label^="Ir al"]):hover,
+.minecraft-theme a[class*="bg-blue-6"]:hover {
   filter: brightness(1.12);
 }
 
-.minecraft-theme button:active,
-.minecraft-theme [role="button"]:active {
-  transform: translateY(1px) !important;
-  box-shadow: 1px 1px 0px rgba(0,0,0,0.4) !important;
-  filter: brightness(0.9);
+/* Al presionar: el bisel se invierte (el botón "se hunde") */
+.minecraft-theme button:not([aria-label^="Ir a"]):not([aria-label^="Ir al"]):active,
+.minecraft-theme a[class*="bg-blue-6"]:active {
+  box-shadow:
+    inset 2px 3px 0 var(--mc-bevel-dark),
+    inset -2px -2px 0 var(--mc-bevel-light) !important;
+  filter: brightness(0.95);
+}
+
+/* Puntos de los carruseles: bloques pequeños sin bisel */
+.minecraft-theme button[aria-label^="Ir a"],
+.minecraft-theme button[aria-label^="Ir al"] {
+  box-shadow: none !important;
+  border: 1px solid var(--mc-outline) !important;
 }
 
 /* ============================================
-   INPUTS Y FORMULARIOS
-   Mantienen colores del sitio, solo borde pixelado
-   y sombra interior de bloque.
+   TARJETAS Y PANELES: como los paneles del inventario
+   Mantienen su fondo (claro u oscuro); contorno y bisel de bloque.
    ============================================ */
 
-.minecraft-theme input,
-.minecraft-theme input[type="text"],
-.minecraft-theme input[type="email"],
-.minecraft-theme input[type="password"],
-.minecraft-theme input[type="number"],
-.minecraft-theme input[type="search"],
-.minecraft-theme input[type="url"],
+.minecraft-theme .bg-white.shadow-sm,
+.minecraft-theme .bg-white.shadow-md,
+.minecraft-theme .bg-white.shadow-lg,
+.minecraft-theme .bg-white.shadow-xl,
+.minecraft-theme .bg-white.shadow-2xl,
+.minecraft-theme [class*="module__"][class*="__card"],
+.minecraft-theme [class*="module__"][class*="Card "] {
+  border: 2px solid var(--mc-panel-border) !important;
+  box-shadow:
+    inset 3px 3px 0 var(--mc-bevel-light),
+    inset -3px -3px 0 var(--mc-bevel-dark),
+    4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ============================================
+   CAMPOS DE TEXTO: como la caja de texto del juego (hundida)
+   ============================================ */
+
+.minecraft-theme input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
 .minecraft-theme textarea,
 .minecraft-theme select {
-  border-width: 2px !important;
-  border-style: solid !important;
-  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.35) !important;
+  border: 2px solid var(--mc-outline) !important;
+  box-shadow: inset 2px 2px 0 var(--mc-bevel-dark) !important;
 }
 
 .minecraft-theme input:focus,
 .minecraft-theme textarea:focus,
 .minecraft-theme select:focus {
-  outline: none !important;
-  border-color: var(--mc-diamond) !important;
-  box-shadow:
-    inset 2px 2px 5px rgba(0,0,0,0.35),
-    0 0 8px var(--mc-diamond-glow) !important;
+  outline: 2px solid var(--mc-lapis) !important;
+  outline-offset: 0;
 }
 
 /* ============================================
-   CARDS Y PANELES
-   Mantienen fondo blanco/gris claro o gris oscuro del sitio,
-   solo añadimos borde pixelado y sombra de bloque.
+   FOOTER: franja de lapislázuli y piedra arriba (solo el <footer>, no sus hijos)
    ============================================ */
 
-.minecraft-theme [class*="card"],
-.minecraft-theme [class*="Card"],
-.minecraft-theme .bg-white,
-.minecraft-theme [class*="bg-gray"] {
-  border-width: 2px !important;
-  border-style: solid !important;
-  border-color: rgba(0,0,0,0.25) !important;
-  /* Bisel de bloque: luz arriba-izquierda, sombra abajo-derecha (como una cara de bloque) */
-  box-shadow:
-    var(--mc-shadow),
-    inset 2px 2px 0px rgba(255,255,255,0.25),
-    inset -2px -2px 0px rgba(0,0,0,0.28) !important;
-}
-
-/* Modo oscuro — borde más visible */
-.dark .minecraft-theme [class*="card"],
-.dark .minecraft-theme [class*="Card"],
-.dark .minecraft-theme .bg-white,
-.dark .minecraft-theme [class*="bg-gray"] {
-  border-color: rgba(255,255,255,0.1) !important;
+.minecraft-theme footer {
+  border-top: 8px solid var(--mc-lapis) !important;
+  box-shadow: inset 0 8px 0 var(--mc-stone) !important;
 }
 
 /* ============================================
-   TABLAS
-   Mantienen colores, solo añadimos estilo pixelado.
-   ============================================ */
-
-.minecraft-theme table {
-  border: 2px solid rgba(0,0,0,0.25) !important;
-}
-
-.minecraft-theme thead,
-.minecraft-theme th {
-  border-bottom: 2px solid rgba(0,0,0,0.3) !important;
-  font-family: var(--font-press-start), monospace !important;
-  font-size: 0.5rem !important;
-  text-shadow: 1px 1px 0px rgba(0,0,0,0.3) !important;
-}
-
-.minecraft-theme tbody tr {
-  border-bottom: 1px solid rgba(0,0,0,0.12) !important;
-}
-
-.dark .minecraft-theme tbody tr {
-  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
-}
-
-/* ============================================
-   DIVISORES
-   ============================================ */
-
-.minecraft-theme hr {
-  border: none !important;
-  border-top: 2px solid rgba(0,0,0,0.2) !important;
-  box-shadow: 0 1px 0px rgba(255,255,255,0.2) !important;
-}
-
-.dark .minecraft-theme hr {
-  border-top: 2px solid rgba(255,255,255,0.12) !important;
-  box-shadow: 0 1px 0px rgba(0,0,0,0.4) !important;
-}
-
-/* ============================================
-   FOOTER
-   ============================================ */
-
-.minecraft-theme footer,
-.minecraft-theme [class*="footer"],
-.minecraft-theme [class*="Footer"] {
-  border-top: 3px solid rgba(0,0,0,0.3) !important;
-  box-shadow: inset 0 1px 0px rgba(255,255,255,0.1) !important;
-}
-
-/* ============================================
-   MODALES
-   ============================================ */
-
-.minecraft-theme [class*="modal"],
-.minecraft-theme [class*="Modal"],
-.minecraft-theme [role="dialog"] {
-  border: 3px solid rgba(0,0,0,0.4) !important;
-  box-shadow:
-    0 6px 0px rgba(0,0,0,0.6),
-    var(--mc-inset-light) !important;
-}
-
-/* ============================================
-   SCROLLBAR
+   SCROLLBAR de piedra
    ============================================ */
 
 .minecraft-theme ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 }
 
 .minecraft-theme ::-webkit-scrollbar-track {
-  border: 1px solid rgba(0,0,0,0.2);
+  background: #3a3a3a;
 }
 
 .minecraft-theme ::-webkit-scrollbar-thumb {
-  border: 1px solid rgba(0,0,0,0.3);
-  box-shadow: var(--mc-inset-light);
+  background: var(--mc-stone);
+  border: 2px solid var(--mc-outline);
+  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.35), inset -2px -2px 0 rgba(0, 0, 0, 0.4);
 }
 
 /* ============================================
-   IMÁGENES — pixeladas
+   ANIMACIONES AL ACTIVAR EL TEMA
+   .mc-activating dura ~700ms (la pone el provider al encender).
    ============================================ */
-
-.minecraft-theme img {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
-/* ============================================
-   ANIMACIÓN BOTÓN — feedback de pulsación (100-160ms)
-   ============================================ */
-
-@keyframes mc-pop {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(0.94); }
-  100% { transform: scale(1); }
-}
-
-.minecraft-theme button:active {
-  animation: mc-pop 0.15s var(--mc-ease-out) !important;
-}
-
-/* ============================================
-   ANIMACIONES TEMÁTICAS DE MINECRAFT
-   Se disparan al ACTIVAR el tema (evento raro → presupuesto de delight)
-   y al colocar bloques (cards/botones) la primera vez que aparecen.
-   Todo cortesía de transform + opacity para que corra en GPU.
-   ============================================ */
-
-/* --- 1. Entrada global al activar el tema ---
-   La clase .mc-activating la añade el provider durante ~700ms al encender.
-   Simula "colocar" la interfaz como quien pone bloques en el mundo. */
 
 @keyframes mc-block-place {
-  0%   { transform: translateY(-14px) scale(0.92); opacity: 0; }
-  55%  { transform: translateY(2px)   scale(1.02); opacity: 1; }
+  0%   { transform: translateY(-14px) scale(0.94); opacity: 0; }
+  60%  { transform: translateY(2px)   scale(1.01); opacity: 1; }
   100% { transform: translateY(0)     scale(1);    opacity: 1; }
 }
 
-.minecraft-theme.mc-activating [class*="card"],
-.minecraft-theme.mc-activating [class*="Card"],
-.minecraft-theme.mc-activating .bg-white,
-.minecraft-theme.mc-activating [class*="bg-gray"],
-.minecraft-theme.mc-activating button,
-.minecraft-theme.mc-activating [role="button"] {
+.minecraft-theme.mc-activating .bg-white.shadow-sm,
+.minecraft-theme.mc-activating .bg-white.shadow-md,
+.minecraft-theme.mc-activating .bg-white.shadow-lg,
+.minecraft-theme.mc-activating .bg-white.shadow-xl,
+.minecraft-theme.mc-activating [class*="module__"][class*="__card"] {
   animation: mc-block-place 0.42s var(--mc-ease-out) both !important;
 }
 
-/* Escalonado por columnas para que caigan como bloques, no todos a la vez.
-   Stagger de ~40-70ms (dentro del rango 30-80ms recomendado). */
-.minecraft-theme.mc-activating [class*="card"]:nth-child(2n),
-.minecraft-theme.mc-activating [class*="Card"]:nth-child(2n) {
-  animation-delay: 0.05s !important;
-}
-.minecraft-theme.mc-activating [class*="card"]:nth-child(3n),
-.minecraft-theme.mc-activating [class*="Card"]:nth-child(3n) {
-  animation-delay: 0.11s !important;
-}
-.minecraft-theme.mc-activating [class*="card"]:nth-child(4n),
-.minecraft-theme.mc-activating [class*="Card"]:nth-child(4n) {
-  animation-delay: 0.16s !important;
-}
-
-/* --- 2. Destello de "romper bloque" en los títulos al activar --- */
-
 @keyframes mc-title-shake {
   0%, 100% { transform: translateX(0); }
-  20%      { transform: translateX(-2px); }
-  40%      { transform: translateX(2px); }
-  60%      { transform: translateX(-1px); }
-  80%      { transform: translateX(1px); }
+  25%      { transform: translateX(-2px); }
+  50%      { transform: translateX(2px); }
+  75%      { transform: translateX(-1px); }
 }
 
 .minecraft-theme.mc-activating h1,
@@ -356,22 +244,16 @@ html.minecraft-theme body {
   animation: mc-title-shake 0.34s var(--mc-ease-in-out) both !important;
 }
 
-/* ============================================
-   OVERLAY DE ACTIVACIÓN — "colocando bloques"
-   Barrido de píxeles que el provider monta como <div class="mc-place-overlay">
-   sobre toda la pantalla durante la activación.
-   ============================================ */
-
+/* Barrido de bloques de lapislázuli y piedra sobre la pantalla al activar */
 .mc-place-overlay {
   position: fixed;
   inset: 0;
   z-index: 99999;
   pointer-events: none;
-  /* rejilla de bloques tipo tierra/pasto */
   background-image:
-    linear-gradient(rgba(0,0,0,0.22) 2px, transparent 2px),
-    linear-gradient(90deg, rgba(0,0,0,0.22) 2px, transparent 2px),
-    linear-gradient(135deg, #6b8e3d 0%, #5a7a33 45%, #7b5a3a 46%, #6b4a2f 100%);
+    linear-gradient(rgba(0, 0, 0, 0.22) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.22) 2px, transparent 2px),
+    linear-gradient(to bottom, #2563eb 0, #2563eb 18%, #7f7f7f 18%, #5f5f5f 100%);
   background-size: 48px 48px, 48px 48px, 100% 100%;
   transform: translateY(-100%);
   animation: mc-place-sweep 0.7s var(--mc-ease-in-out) forwards;
@@ -385,21 +267,15 @@ html.minecraft-theme body {
 }
 
 /* ============================================
-   REDUCED MOTION
-   Mantener el cambio de estado y un fade suave; quitar el movimiento.
+   MOVIMIENTO REDUCIDO
    ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .minecraft-theme button:active {
-    animation: none !important;
-  }
-
-  .minecraft-theme.mc-activating [class*="card"],
-  .minecraft-theme.mc-activating [class*="Card"],
-  .minecraft-theme.mc-activating .bg-white,
-  .minecraft-theme.mc-activating [class*="bg-gray"],
-  .minecraft-theme.mc-activating button,
-  .minecraft-theme.mc-activating [role="button"],
+  .minecraft-theme.mc-activating .bg-white.shadow-sm,
+  .minecraft-theme.mc-activating .bg-white.shadow-md,
+  .minecraft-theme.mc-activating .bg-white.shadow-lg,
+  .minecraft-theme.mc-activating .bg-white.shadow-xl,
+  .minecraft-theme.mc-activating [class*="module__"][class*="__card"],
   .minecraft-theme.mc-activating h1,
   .minecraft-theme.mc-activating h2 {
     animation: mc-reduced-fade 0.2s ease both !important;
@@ -415,17 +291,4 @@ html.minecraft-theme body {
     transform: none;
     opacity: 0;
   }
-}
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-
-@media (max-width: 768px) {
-  .minecraft-theme button {
-    font-size: 0.52rem !important;
-  }
-  .minecraft-theme h1 { font-size: 0.9rem !important; }
-  .minecraft-theme h2 { font-size: 0.75rem !important; }
-  .minecraft-theme h3 { font-size: 0.65rem !important; }
 }
