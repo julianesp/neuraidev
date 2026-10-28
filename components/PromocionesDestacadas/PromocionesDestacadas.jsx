@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import styles from "./PromocionesDestacadas.module.scss";
@@ -9,6 +9,8 @@ export default function PromocionesDestacadas() {
   const [promociones, setPromociones] = useState([]);
   const [productos, setProductos] = useState({});
   const [loading, setLoading] = useState(true);
+  const [activa, setActiva] = useState(0);
+  const carruselRef = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -54,6 +56,23 @@ export default function PromocionesDestacadas() {
   const calcularAhorro = (promo) =>
     (promo.precio_total || 0) - (promo.precio_promocion || 0);
 
+  // En móvil la lista es un carrusel deslizable: marcar el punto de la
+  // tarjeta que quedó más a la izquierda tras el gesto
+  const alDesplazar = () => {
+    const el = carruselRef.current;
+    if (!el?.children.length) return;
+    const ancho = el.children[0].offsetWidth + 12; // ancho de tarjeta + gap
+    const i = Math.round(el.scrollLeft / ancho);
+    // Al llegar al final, el último punto (la última tarjeta no alcanza la izquierda)
+    const alFinal = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+    setActiva(alFinal ? el.children.length - 1 : i);
+  };
+
+  const irA = (i) => {
+    const tarjeta = carruselRef.current?.children[i];
+    tarjeta?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+  };
+
   const handleVerPromocion = (promo) => {
     // Redirigir a la página de checkout de la promoción
     router.push(`/promocion/${promo.id}`);
@@ -76,7 +95,12 @@ export default function PromocionesDestacadas() {
         </p>
       </div>
 
-      <div className={styles.grid}>
+      <div
+        ref={carruselRef}
+        className={styles.grid}
+        onScroll={alDesplazar}
+        aria-label="Promociones, desliza para ver más"
+      >
         {promociones.map((promo, index) => (
           <motion.div
             key={promo.id}
@@ -176,6 +200,21 @@ export default function PromocionesDestacadas() {
           </motion.div>
         ))}
       </div>
+
+      {/* Puntos del carrusel (solo móvil) */}
+      {promociones.length > 1 && (
+        <div className={styles.puntos}>
+          {promociones.map((promo, i) => (
+            <button
+              key={promo.id}
+              type="button"
+              className={`${styles.punto} ${i === activa ? styles.puntoActivo : ""}`}
+              onClick={() => irA(i)}
+              aria-label={`Ver promoción ${i + 1} de ${promociones.length}`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

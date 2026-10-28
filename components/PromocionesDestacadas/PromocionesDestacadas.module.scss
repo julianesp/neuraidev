@@ -13,6 +13,10 @@
 .header {
   text-align: center;
   margin-bottom: 2.5rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.25rem;
+  }
 }
 
 .title {
@@ -26,13 +30,18 @@
   gap: 0.75rem;
 
   @media (max-width: 768px) {
-    font-size: 1.75rem;
+    font-size: 1.4rem;
+    gap: 0.5rem;
   }
 }
 
 .icon {
   font-size: 2.5rem;
   animation: bounce 2s infinite;
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
 
   @keyframes bounce {
     0%, 100% {
@@ -59,10 +68,53 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
 
+  // Móvil: carrusel horizontal que se desliza con el dedo y se detiene en
+  // cada tarjeta; la siguiente asoma por el borde para invitar al gesto
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -1rem;
+    padding: 4px 1rem 14px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
+}
+
+.puntos {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 0.25rem;
+  }
+}
+
+.punto {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition:
+    width 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.puntoActivo {
+  width: 22px;
+  background: #2563eb;
 }
 
 .card {
@@ -88,6 +140,100 @@
   &:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  // Móvil: tarjeta compacta del carrusel
+  @media (max-width: 768px) {
+    flex: 0 0 68%;
+    max-width: 280px;
+    scroll-snap-align: start;
+    padding: 1rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+
+    &:hover {
+      transform: none;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .badge {
+      top: 0.6rem;
+      right: 0.6rem;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.75rem;
+    }
+
+    .badgeIcon {
+      font-size: 0.9rem;
+    }
+
+    .productosImagenes {
+      margin: 1.5rem 0 0.75rem;
+      min-height: 80px;
+    }
+
+    .productoImagen {
+      width: 76px;
+      height: 76px;
+      margin-left: -14px;
+    }
+
+    .masProductos {
+      width: 44px;
+      height: 44px;
+      font-size: 0.75rem;
+    }
+
+    .nombre {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+
+    .descripcion {
+      font-size: 0.8rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .precios {
+      padding: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .precioFinal {
+      font-size: 1.35rem;
+      margin-bottom: 0;
+    }
+
+    .ahorro {
+      font-size: 0.8rem;
+    }
+
+    .detalle {
+      gap: 0.4rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .cantidadProductos,
+    .minimo {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+    }
+
+    .expira {
+      font-size: 0.75rem;
+      padding: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .btnVerMas {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+    }
   }
 }
 
