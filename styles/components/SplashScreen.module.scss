@@ -1,167 +1,265 @@
+// Entrada de la PWA instalada: cielo azul de marca (blue-600) con nubes
+// que cruzan por detrás de una tarjeta de vidrio esmerilado.
+
 .splashScreen {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100dvw;
   height: 100dvh;
   overflow: hidden;
-  background: #2563eb; // blue-600, color de marca
+  z-index: 9999;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  // blue-600 con un toque más profundo abajo (blue-700), sin otros colores
+  background: linear-gradient(180deg, #2563eb 0%, #2563eb 55%, #1d4ed8 100%);
   animation: fadeIn 0.3s ease-in;
 
   &.fadeOut {
-    animation: fadeOut 0.5s ease-out forwards;
+    animation: fadeOut 0.6s ease-out forwards;
+
+    .tarjeta {
+      animation: salirTarjeta 0.6s ease-in forwards;
+    }
   }
 
-  // En el navegador normal no hay entrada: solo en la PWA instalada
-  @media not all and (display-mode: standalone) {
-    display: none;
+  // En el navegador normal no hay entrada: solo en la app instalada.
+  // El JS añade .forzar para casos como la app de Android (TWA).
+  @media (display-mode: browser) {
+    &:not(.forzar) {
+      display: none;
+    }
   }
 }
 
-/* Nubes: manchas claras muy difuminadas que van y vienen */
-.clouds {
+/* ---------- Nubes ---------- */
+
+.capa {
   position: absolute;
-  inset: -20%;
+  inset: 0;
   pointer-events: none;
 }
 
-.cloud {
+// Lejanas: grandes, tenues y desenfocadas
+.capaLejana {
+  filter: blur(10px);
+  opacity: 0.5;
+}
+
+// Cercanas: nítidas, pasan por detrás de la tarjeta (que las desenfoca)
+.capaCercana {
+  opacity: 0.95;
+}
+
+// Una nube = cuerpo redondeado + dos "bultos" (::before / ::after)
+.nube {
+  --w: 220px;
   position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(191, 219, 254, 0.35) 40%,
-    rgba(255, 255, 255, 0) 70%
-  );
-  filter: blur(40px);
+  left: 0;
+  width: var(--w);
+  height: calc(var(--w) * 0.3);
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 calc(var(--w) * 0.06) calc(var(--w) * 0.12)
+    rgba(30, 58, 138, 0.25); // blue-900
   will-change: transform;
-  animation: drift 6s ease-in-out infinite alternate;
+  animation: cruzar 6s linear infinite;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: inherit;
+  }
+
+  &::before {
+    width: calc(var(--w) * 0.38);
+    height: calc(var(--w) * 0.38);
+    left: calc(var(--w) * 0.16);
+    top: calc(var(--w) * -0.2);
+  }
+
+  &::after {
+    width: calc(var(--w) * 0.5);
+    height: calc(var(--w) * 0.5);
+    left: calc(var(--w) * 0.4);
+    top: calc(var(--w) * -0.3);
+  }
 }
 
-.cloud1 {
-  width: 60vmax;
-  height: 40vmax;
-  top: 5%;
-  left: -10%;
+// Lejanas (lentas)
+.l1 {
+  --w: 70vmax;
+  top: 8%;
+  animation-duration: 14s;
+  animation-delay: -5s;
 }
 
-.cloud2 {
-  width: 50vmax;
-  height: 35vmax;
-  top: 45%;
-  left: 40%;
-  animation-duration: 7s;
+.l2 {
+  --w: 55vmax;
+  top: 62%;
+  animation-duration: 18s;
+  animation-delay: -12s;
+}
+
+.l3 {
+  --w: 45vmax;
+  top: 35%;
+  animation-duration: 16s;
   animation-delay: -2s;
-  animation-direction: alternate-reverse;
 }
 
-.cloud3 {
-  width: 45vmax;
-  height: 30vmax;
-  top: 60%;
-  left: -5%;
-  animation-duration: 5.5s;
-  animation-delay: -3s;
-}
-
-.cloud4 {
-  width: 40vmax;
-  height: 28vmax;
-  top: 0%;
-  left: 55%;
-  animation-duration: 8s;
-  animation-delay: -1.5s;
-  animation-direction: alternate-reverse;
-}
-
-.cloud5 {
-  width: 35vmax;
-  height: 25vmax;
-  top: 30%;
-  left: 20%;
-  background: radial-gradient(
-    circle,
-    rgba(29, 78, 216, 0.6) 0%,
-    rgba(29, 78, 216, 0) 70%
-  );
+// Cercanas (rápidas). La c1 arranca ya cerca del centro, detrás del logo.
+.c1 {
+  --w: 260px;
+  top: calc(50% - 40px);
   animation-duration: 4.5s;
-  animation-delay: -1.5s;
+  animation-delay: -1.9s;
 }
 
-/* Velo borroso (equivale a backdrop-blur-sm de Tailwind) */
-.veil {
+.c2 {
+  --w: 180px;
+  top: 18%;
+  animation-duration: 6s;
+  animation-delay: -4.2s;
+}
+
+.c3 {
+  --w: 210px;
+  top: 74%;
+  animation-duration: 5.2s;
+  animation-delay: -0.6s;
+}
+
+/* Velo borroso de fondo: backdrop-blur-sm (4px) sobre las nubes lejanas */
+.velo {
   position: absolute;
   inset: 0;
-  background: rgba(37, 99, 235, 0.15);
+  background: rgba(37, 99, 235, 0.12);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   pointer-events: none;
 }
 
-.logoContainer {
+/* ---------- Tarjeta de vidrio ---------- */
+
+.tarjeta {
   position: relative;
   z-index: 1;
+  width: min(300px, calc(100vw - 48px));
+  padding: 32px 28px 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
-  animation: scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 20px 50px rgba(30, 58, 138, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  animation: entrarTarjeta 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .logo {
-  width: 120px;
-  height: 120px;
-  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
-  animation: pulse 2s ease-in-out infinite;
-
-  @media (min-width: 768px) {
-    width: 150px;
-    height: 150px;
-  }
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.35),
+    0 10px 30px rgba(30, 58, 138, 0.45);
+  animation: flotar 3s ease-in-out infinite;
 }
 
 .title {
-  font-size: 1.8rem;
-  font-weight: 600;
+  margin: 18px 0 22px;
+  font-size: 1.75rem;
+  font-weight: 700;
   color: #ffffff;
-  letter-spacing: 0.05em;
-  text-shadow: 0 2px 12px rgba(30, 58, 138, 0.35); // blue-900
-  animation: slideUp 0.6s ease-out 0.2s both;
-
-  @media (min-width: 768px) {
-    font-size: 2.5rem;
-  }
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 12px rgba(30, 58, 138, 0.4);
+  animation: slideUp 0.6s ease-out 0.15s both;
 }
 
-.loader {
-  position: absolute;
-  bottom: 80px;
-  z-index: 1;
-  width: 200px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 2px;
+/* ---------- Progreso real ---------- */
+
+.progreso {
+  width: 100%;
+  animation: slideUp 0.6s ease-out 0.25s both;
+}
+
+.pista {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
   overflow: hidden;
+}
 
-  @media (min-width: 768px) {
-    width: 300px;
+.barra {
+  height: 100%;
+  border-radius: inherit;
+  background: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.15s linear;
+}
+
+.estado {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.porcentaje {
+  font-weight: 700;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Animaciones ---------- */
+
+@keyframes cruzar {
+  from {
+    transform: translate3d(calc(var(--w) * -1.1), 0, 0);
+  }
+  to {
+    transform: translate3d(calc(100vw + var(--w) * 0.1), 0, 0);
   }
 }
 
-.loaderBar {
-  height: 100%;
-  background: #ffffff;
-  border-radius: 2px;
-  animation: loading 1.5s ease-in-out infinite;
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
-/* Animaciones */
+@keyframes entrarTarjeta {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes salirTarjeta {
+  to {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -178,31 +276,9 @@
   }
 }
 
-@keyframes scaleIn {
-  from {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
-  }
-  50% {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
-  }
-}
-
 @keyframes slideUp {
   from {
-    transform: translateY(20px);
+    transform: translateY(12px);
     opacity: 0;
   }
   to {
@@ -211,31 +287,13 @@
   }
 }
 
-@keyframes drift {
-  0% {
-    transform: translate3d(-15%, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(5%, -6%, 0) scale(1.1);
-  }
-  100% {
-    transform: translate3d(22%, 4%, 0) scale(0.95);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .cloud,
-  .logo,
-  .loaderBar {
+  .nube,
+  .logo {
     animation: none;
   }
-}
 
-@keyframes loading {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(200%);
+  .c1 {
+    transform: translate3d(calc(50vw - var(--w) * 0.8), 0, 0);
   }
 }
