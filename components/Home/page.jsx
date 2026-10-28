@@ -326,8 +326,6 @@ export default function Inicio() {
         {/* Noticias Externas */}
         <ExternalNews />
 
-        {/* Últimas publicaciones del blog */}
-        <BlogDestacado />
 
         {/* Negocios Locales */}
         {/* <section className="py-16 px-4 bg-gradient-to-br from-blue-50 to-blue-50 dark:from-gray-800 dark:to-gray-900">
@@ -565,6 +563,10 @@ export default function Inicio() {
             </div>
           </div>
         </section>
+
+        {/* Últimas publicaciones del blog: en móvil va justo debajo de Accesorios
+            (orden del DOM); en desktop no tiene área en el grid y conserva su sitio */}
+        <BlogDestacado />
 
         {/* Guía de compra con ePayco: demo animada en un celular */}
         <section
