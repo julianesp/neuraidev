@@ -9,6 +9,17 @@ async function getPublishedPosts() {
   return data || [];
 }
 
+// Texto plano del contenido (sin HTML) para el adelanto del artículo principal
+function adelanto(post, max = 450) {
+  const texto = (post.content || "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!texto || texto === post.excerpt) return "";
+  return texto.length > max ? `${texto.slice(0, max)}…` : texto;
+}
+
 // Forzar revalidación para evitar caché de posts
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
@@ -135,9 +146,11 @@ export default async function Blog() {
                         <span>{articles[0].read_time} min de lectura</span>
                       )}
                     </div>
-                    <div className={styles.articleBody}>
-                      {articles[0].excerpt}
-                    </div>
+                    {adelanto(articles[0]) && (
+                      <div className={styles.articleBody}>
+                        {adelanto(articles[0])}
+                      </div>
+                    )}
                   </Link>
                 </article>
               )}
@@ -190,10 +203,10 @@ export default async function Blog() {
               )}
             </div>
 
-            {/* Ornamento decorativo */}
-            <div className={styles.ornament}>❖ ❖ ❖</div>
-
             {/* Segunda sección: 3 columnas */}
+            {articles.length > 3 && (
+              <>
+            <div className={styles.ornament}>❖ ❖ ❖</div>
             <div className={styles.articlesGrid}>
               {articles.slice(3, 6).map((article) => (
                 <article key={article.slug} className={styles.articleColumn}>
@@ -228,10 +241,13 @@ export default async function Blog() {
               ))}
             </div>
 
-            {/* Ornamento decorativo */}
-            <div className={styles.ornament}>❖ ❖ ❖</div>
+              </>
+            )}
 
             {/* Tercera sección: artículos pequeños */}
+            {articles.length > 6 && (
+              <>
+            <div className={styles.ornament}>❖ ❖ ❖</div>
             <div className={styles.articlesGrid}>
               {articles.slice(6).map((article) => (
                 <article key={article.slug} className={styles.articleSmall}>
@@ -252,6 +268,8 @@ export default async function Blog() {
                 </article>
               ))}
             </div>
+              </>
+            )}
 
             {/* Newsletter Section - estilo periódico */}
             <div className={styles.newsletterBox}>

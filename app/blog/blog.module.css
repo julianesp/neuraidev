@@ -9,12 +9,13 @@
 .newspaperContainer {
   background: #f5f1e8;
   min-height: 100vh;
-  padding: 2rem 1rem;
+  /* Deja espacio para la barra de navegación fija */
+  padding: 5.5rem 1rem 2rem;
   font-family: 'Georgia', 'Times New Roman', serif;
 }
 
 .newspaper {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   background: #faf8f3;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -43,11 +44,14 @@
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
   color: #333;
+  gap: 0.75rem;
 }
 
 .mastheadTitle {
   font-family: 'Playfair Display', 'Georgia', serif;
-  font-size: clamp(1.8rem, 4vw, 4rem);
+  font-size: clamp(1.6rem, 7vw, 3.5rem);
+  line-height: 1.1;
+  overflow-wrap: break-word;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -96,6 +100,7 @@
 
 /* Artículo principal destacado (arriba, grande) */
 .featuredMain {
+  min-width: 0;
   grid-column: 1 / 9;
   grid-row: 1 / 3;
   border: 3px solid #000;
@@ -113,6 +118,17 @@
   bottom: -6px;
   border: 1px solid #000;
   pointer-events: none;
+}
+
+/* Si solo hay un artículo, ocupa todo el ancho */
+.featuredMain:only-child {
+  grid-column: 1 / -1;
+  grid-row: auto;
+}
+
+/* Con dos artículos, el secundario acompaña al principal a lo alto */
+.featuredMain + .featuredSecondary:last-child {
+  grid-row: 1 / 3;
 }
 
 /* Artículos secundarios (columna derecha) */
@@ -156,6 +172,7 @@
    =========================== */
 
 .headline {
+  overflow-wrap: break-word;
   font-family: 'Playfair Display', 'Georgia', serif;
   font-weight: 900;
   line-height: 1.1;
@@ -166,7 +183,7 @@
 }
 
 .headlineLarge {
-  font-size: 2.5rem;
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
   border-bottom: 3px solid #000;
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
@@ -346,7 +363,7 @@
 }
 
 .articleLink:hover .headline {
-  color: #c41e3a;
+  color: #2563eb;
 }
 
 /* ===========================
@@ -358,8 +375,17 @@
     padding: 1rem;
   }
 
-  .mastheadTitle {
-    font-size: 2.5rem;
+  .mastheadTop {
+    font-size: 0.6rem;
+    letter-spacing: 0.5px;
+  }
+
+  .newsletterBox {
+    padding: 1.25rem 1rem;
+  }
+
+  .newsletterButton {
+    flex: 1 1 100%;
   }
 
   /* En móvil: todo en una columna */
@@ -368,12 +394,9 @@
     gap: 1.5rem;
   }
 
-  .featuredMain {
-    grid-column: 1;
-    grid-row: auto;
-  }
-
-  .featuredSecondary {
+  .featuredMain,
+  .featuredSecondary,
+  .featuredMain + .featuredSecondary:last-child {
     grid-column: 1;
     grid-row: auto;
   }
@@ -393,6 +416,12 @@
 
   .featuredMain .articleBody {
     columns: 1;
+  }
+
+  /* Justificado en pantallas angostas deja huecos grandes entre palabras */
+  .articleBody,
+  .articleExcerpt {
+    text-align: left;
   }
 
   .headlineLarge {
@@ -437,7 +466,8 @@
 
 .newsletterHeadline {
   font-family: 'Playfair Display', 'Georgia', serif;
-  font-size: 2rem;
+  font-size: clamp(1.25rem, 4.5vw, 2rem);
+  line-height: 1.15;
   font-weight: 900;
   text-transform: uppercase;
   margin-bottom: 1rem;
@@ -446,13 +476,15 @@
 
 .newsletterForm {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   max-width: 500px;
   margin: 0 auto;
 }
 
 .newsletterInput {
-  flex: 1;
+  flex: 1 1 220px;
+  min-width: 0;
   padding: 0.75rem;
   border: 2px solid #000;
   font-family: 'Georgia', serif;
@@ -460,6 +492,7 @@
 }
 
 .newsletterButton {
+  flex: 0 0 auto;
   padding: 0.75rem 1.5rem;
   background: #000;
   color: #fff;
@@ -473,7 +506,7 @@
 }
 
 .newsletterButton:hover {
-  background: #c41e3a;
+  background: #2563eb;
 }
 
 /* ===========================
@@ -640,5 +673,5 @@
 }
 
 .emptyStateButton:hover {
-  background: #c41e3a;
+  background: #2563eb;
 }
