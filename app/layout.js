@@ -13,6 +13,8 @@ import "../styles/minecraft-theme.css";
 // import "../styles/components/pages/darkMode.scss";
 import styles from "../styles/components/Layout.module.scss";
 import { ThemeProvider } from "next-themes";
+import { TEMA_INIT_SCRIPT } from "@/lib/tema";
+import { TemaPorHora } from "@/app/_components/ThemeSwitcher";
 import Script from "next/script";
 // import NotificationManager from "../components/NotificationManager";
 
@@ -160,6 +162,9 @@ export default function RootLayout({ children }) {
         className={pressStart2P.variable}
       >
         <head>
+          {/* Tema claro/oscuro según la hora o el modo fijado (lib/tema.js),
+              antes de pintar para que no parpadee */}
+          <script dangerouslySetInnerHTML={{ __html: TEMA_INIT_SCRIPT }} />
           <link
             rel="icon"
             type="image/png"
@@ -222,7 +227,8 @@ export default function RootLayout({ children }) {
           <StructuredData />
           <FAQSchema />
           <ClerkProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+              <TemaPorHora />
               <MinecraftThemeProvider>
                 <AOSInit />
                 <ToastProvider>
