@@ -4,7 +4,8 @@
   left: 0;
   width: 100dvw;
   height: 100dvh;
-  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  overflow: hidden;
+  background: #2563eb; // blue-600, color de marca
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,9 +16,97 @@
   &.fadeOut {
     animation: fadeOut 0.5s ease-out forwards;
   }
+
+  // En el navegador normal no hay entrada: solo en la PWA instalada
+  @media not all and (display-mode: standalone) {
+    display: none;
+  }
+}
+
+/* Nubes: manchas claras muy difuminadas que van y vienen */
+.clouds {
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+}
+
+.cloud {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(191, 219, 254, 0.35) 40%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  filter: blur(40px);
+  will-change: transform;
+  animation: drift 6s ease-in-out infinite alternate;
+}
+
+.cloud1 {
+  width: 60vmax;
+  height: 40vmax;
+  top: 5%;
+  left: -10%;
+}
+
+.cloud2 {
+  width: 50vmax;
+  height: 35vmax;
+  top: 45%;
+  left: 40%;
+  animation-duration: 7s;
+  animation-delay: -2s;
+  animation-direction: alternate-reverse;
+}
+
+.cloud3 {
+  width: 45vmax;
+  height: 30vmax;
+  top: 60%;
+  left: -5%;
+  animation-duration: 5.5s;
+  animation-delay: -3s;
+}
+
+.cloud4 {
+  width: 40vmax;
+  height: 28vmax;
+  top: 0%;
+  left: 55%;
+  animation-duration: 8s;
+  animation-delay: -1.5s;
+  animation-direction: alternate-reverse;
+}
+
+.cloud5 {
+  width: 35vmax;
+  height: 25vmax;
+  top: 30%;
+  left: 20%;
+  background: radial-gradient(
+    circle,
+    rgba(29, 78, 216, 0.6) 0%,
+    rgba(29, 78, 216, 0) 70%
+  );
+  animation-duration: 4.5s;
+  animation-delay: -1.5s;
+}
+
+/* Velo borroso (equivale a backdrop-blur-sm de Tailwind) */
+.veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(37, 99, 235, 0.15);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
 }
 
 .logoContainer {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,6 +131,7 @@
   font-weight: 600;
   color: #ffffff;
   letter-spacing: 0.05em;
+  text-shadow: 0 2px 12px rgba(30, 58, 138, 0.35); // blue-900
   animation: slideUp 0.6s ease-out 0.2s both;
 
   @media (min-width: 768px) {
@@ -52,9 +142,10 @@
 .loader {
   position: absolute;
   bottom: 80px;
+  z-index: 1;
   width: 200px;
   height: 4px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.25);
   border-radius: 2px;
   overflow: hidden;
 
@@ -65,7 +156,7 @@
 
 .loaderBar {
   height: 100%;
-  background: linear-gradient(90deg, #ffffff, #888888);
+  background: #ffffff;
   border-radius: 2px;
   animation: loading 1.5s ease-in-out infinite;
 }
@@ -117,6 +208,26 @@
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(-15%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(5%, -6%, 0) scale(1.1);
+  }
+  100% {
+    transform: translate3d(22%, 4%, 0) scale(0.95);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud,
+  .logo,
+  .loaderBar {
+    animation: none;
   }
 }
 

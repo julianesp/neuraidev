@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "@/components/NavBar/page";
 import ConditionalFooter from "@/components/ConditionalFooter";
-// import SplashScreen from "../components/SplashScreen";
+import SplashScreen from "../components/SplashScreen";
 import StructuredData from "@/components/StructuredData";
 import FAQSchema from "@/components/FAQSchema";
 import AOSInit from "@/components/AOSInit";
@@ -236,10 +236,8 @@ export default function RootLayout({ children }) {
                 <AOSInit />
                 <ToastProvider>
                   <CartProvider>
-                    {/*
-                  presentacion de mi logo
-                   <SplashScreen />
-                   */}
+                    {/* Entrada de la PWA instalada (logo sobre nubes azules) */}
+                    <SplashScreen />
                     <div className={styles.layoutContainer}>
                       <NavBar />
                       <main

@@ -6,7 +6,7 @@ export default function manifest() {
       "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
+    background_color: "#2563eb",
     theme_color: "#000000",
     icons: [
       {
