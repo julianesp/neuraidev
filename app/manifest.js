@@ -1,13 +1,14 @@
 export default function manifest() {
   return {
-    name: "neurai.dev - Tienda Online de Tecnología y Servicios Profesionales",
+    // Android muestra este nombre bajo el logo en la pantalla de arranque
+    name: "neurai.dev",
     short_name: "neurai.dev",
     description:
       "Compra accesorios para celulares, computadoras y más. Servicios profesionales de desarrollo web y soporte técnico en sistemas.",
     start_url: "/",
     display: "standalone",
     background_color: "#2563eb",
-    theme_color: "#000000",
+    theme_color: "#2563eb",
     icons: [
       {
         src: "/web-app-manifest-192x192.png",
