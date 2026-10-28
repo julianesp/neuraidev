@@ -21,6 +21,7 @@ import Script from "next/script";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { ToastContainer } from "@/components/Toast";
 import { ClerkProvider } from "@clerk/nextjs";
+import { esES } from "@clerk/localizations";
 import AIChat from "@/components/AIChat/AIChat";
 import ChatSoporte from "@/components/ChatSoporte/ChatSoporte";
 import { CartProvider } from "@/context/CartContext";
@@ -226,7 +227,9 @@ export default function RootLayout({ children }) {
         <body>
           <StructuredData />
           <FAQSchema />
-          <ClerkProvider>
+          {/* Español para todos los componentes de Clerk (inicio de sesión,
+              menú del usuario, verificación…); solo funciona aquí, no por componente */}
+          <ClerkProvider localization={esES}>
             <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
               <TemaPorHora />
               <MinecraftThemeProvider>

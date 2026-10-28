@@ -29,8 +29,8 @@ export default function MisCalificaciones({ calificaciones = [] }) {
 
       {calificaciones.length === 0 ? (
         <p className="text-gray-600 dark:text-gray-400">
-          Aún no has dejado calificaciones. Si te hice formateo o mantenimiento,
-          califícame y gana 15% de descuento en tu próxima compra.
+          Aún no has dejado calificaciones. Si compraste en neurai o pediste algún
+          servicio, califica y gana 15% de descuento en tu próxima compra.
         </p>
       ) : (
         <ul className="space-y-3">
@@ -71,7 +71,7 @@ export default function MisCalificaciones({ calificaciones = [] }) {
         </ul>
       )}
 
-      <CompartirCalificar titulo="¿Conoces a alguien a quien le hice un servicio? Compártele el enlace" />
+      <CompartirCalificar titulo="¿Conoces a alguien que haya comprado en neurai? Compártele el enlace" />
     </div>
   );
 }

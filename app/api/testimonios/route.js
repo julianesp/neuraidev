@@ -95,7 +95,7 @@ export async function POST(request) {
     if (isNaN(calif) || calif < 1 || calif > 5) calif = null;
 
     // Si inició sesión (Facebook o Google) se guarda su cuenta: así, al
-    // aprobar una calificación de servicio técnico, se le activa el 15%.
+    // aprobar su calificación, se le activa el 15%.
     const user = await currentUser().catch(() => null);
     const userId = user?.id || null;
     const emailCuenta = user?.primaryEmailAddress?.emailAddress || null;
@@ -141,7 +141,7 @@ export async function POST(request) {
       tipo,
       producto: producto_relacionado?.trim() || null,
       conFoto: Boolean(avatarUrl),
-      pideDescuento: tipo === 'formateo' && Boolean(userId),
+      pideDescuento: Boolean(userId),
     }).catch(() => {});
 
     return NextResponse.json(
@@ -200,12 +200,12 @@ export async function PATCH(request) {
       [estado, new Date().toISOString(), id]
     );
 
-    // Aprobar a un cliente de formateo/mantenimiento con cuenta le activa el
-    // 15% en una compra de la tienda (uno por cliente)
+    // Aprobar a un cliente con cuenta (compra o cualquier servicio) le activa
+    // el 15% en una compra de la tienda (uno por cliente)
     let descuento = null;
     if (estado === 'aprobado') {
       const t = await d1Select(`SELECT tipo, user_id FROM testimonios WHERE id = ?`, [id]);
-      if (t[0]?.tipo === 'formateo' && t[0]?.user_id) {
+      if (t[0]?.user_id) {
         descuento = await activarDescuentoCliente(t[0].user_id, id);
       }
     }

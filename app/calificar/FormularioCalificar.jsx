@@ -39,7 +39,8 @@ function IconoGoogle({ className }) {
  * Formulario para calificar (en /calificar y en la home). El cliente entra con
  * Facebook o Google con un toque: su foto de perfil y su nombre se toman de la
  * cuenta y la foto se muestra junto al comentario cuando el admin lo aprueba.
- * También se puede calificar sin cuenta (sin foto y sin el 15%).
+ * También se puede calificar sin cuenta (sin foto y sin el 15%). Con cuenta,
+ * al aprobarse la calificación se activa el 15% (compras y cualquier servicio).
  */
 export default function FormularioCalificar({
   nombreInicial = "",
@@ -200,7 +201,7 @@ export default function FormularioCalificar({
         <p className="text-gray-600 dark:text-gray-300 mb-6">
           Tu opinión me ayuda muchísimo a que más personas confíen en neurai.dev.
         </p>
-        {tipo === "formateo" && isSignedIn && (
+        {isSignedIn && (
           <p className="text-sm text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/40 rounded-lg px-4 py-3 mb-6">
             🎁 Cuando revise y apruebe tu comentario, tu cuenta tendrá un{" "}
             <strong>15% de descuento</strong> para una compra en la tienda. Se
@@ -348,19 +349,17 @@ export default function FormularioCalificar({
         ))}
       </div>
 
-      {/* 15% para clientes de formateo/mantenimiento (se activa al aprobar) */}
-      {tipo === "formateo" && (
-        <div className="mb-4 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/40 p-4">
-          <p className="font-semibold text-blue-700 dark:text-blue-300">
-            🎁 15% de descuento en tu próxima compra
-          </p>
-          <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
-            {isSignedIn
-              ? "Cuando revise y apruebe tu comentario, tu cuenta tendrá 15% de descuento en una compra de la tienda, aplicado solo en el carrito."
-              : "Si ya te hice formateo o mantenimiento, entra arriba con Facebook o Google: cuando apruebe tu comentario tendrás 15% de descuento en una compra de la tienda."}
-          </p>
-        </div>
-      )}
+      {/* 15% para quien compró o pidió un servicio (se activa al aprobar) */}
+      <div className="mb-4 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/40 p-4">
+        <p className="font-semibold text-blue-700 dark:text-blue-300">
+          🎁 15% de descuento en tu próxima compra
+        </p>
+        <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
+          {isSignedIn
+            ? "Cuando revise y apruebe tu comentario, tu cuenta tendrá 15% de descuento en una compra de la tienda, aplicado solo en el carrito."
+            : "Si compraste en neurai o pediste algún servicio, entra arriba con Facebook o Google: cuando apruebe tu comentario tendrás 15% de descuento en una compra de la tienda."}
+        </p>
+      </div>
 
       <label htmlFor="producto" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
         Producto o servicio (opcional)

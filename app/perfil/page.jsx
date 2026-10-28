@@ -73,7 +73,8 @@ export default function PerfilPage() {
   const compras = (resumen?.pedidosPagados || 0) + (resumen?.ventasRegistradas || 0);
   const descuento = datos?.descuento;
   const descuentoActivo = descuento && (descuento.estado === "disponible" || descuento.estado === "reservado");
-  const tieneCalificacionTecnica = (datos?.calificaciones || []).some((c) => c.tipo === "formateo");
+  const tieneCalificacionPendiente = (datos?.calificaciones || []).some((c) => c.estado === "pendiente");
+  const yaCalifico = (datos?.calificaciones || []).length > 0;
 
   const stats = [
     { valor: datos ? compras : "…", texto: compras === 1 ? "Compra" : "Compras" },
@@ -149,11 +150,11 @@ export default function PerfilPage() {
         <p className="mt-6 text-sm text-gray-600 dark:text-gray-400 text-center">
           Ya usaste tu 15% de descuento. ¡Gracias por tu calificación!
         </p>
-      ) : datos && !tieneCalificacionTecnica ? (
+      ) : datos && !yaCalifico ? (
         <div className="mt-6 rounded-2xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/40 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-700 dark:text-gray-300">
-            <strong className="text-blue-700 dark:text-blue-300">¿Te hice formateo o mantenimiento?</strong>{" "}
-            Califícame y, cuando revise tu comentario, ganas 15% de descuento en una compra.
+            <strong className="text-blue-700 dark:text-blue-300">¿Compraste en neurai o pediste algún servicio?</strong>{" "}
+            Califica y, cuando revise tu comentario, ganas 15% de descuento en una compra.
           </p>
           <Link
             href="/#calificar"
@@ -162,7 +163,7 @@ export default function PerfilPage() {
             Calificar
           </Link>
         </div>
-      ) : datos && tieneCalificacionTecnica ? (
+      ) : datos && tieneCalificacionPendiente ? (
         <p className="mt-6 text-sm text-gray-600 dark:text-gray-400 text-center">
           Tu calificación está en revisión: cuando la apruebe se activa tu 15% de descuento.
         </p>

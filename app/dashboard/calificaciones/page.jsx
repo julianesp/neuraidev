@@ -377,10 +377,10 @@ export default function CalificacionesPage() {
                         {NOMBRE_TIPO[t.tipo] || "Compra"}
                         {t.producto_relacionado && ` · ${t.producto_relacionado}`}
                       </p>
-                      {t.tipo === "formateo" && t.estado !== "aprobado" && (
+                      {t.estado !== "aprobado" && (
                         <p className="text-xs text-blue-700 dark:text-blue-300 mt-0.5">
                           {t.user_id
-                            ? "🎁 Al publicarla se le activa el 15% (verifica que sí te contrató formateo o mantenimiento)"
+                            ? "🎁 Al publicarla se le activa el 15% (usa 'Verificar compras' para confirmar que sí te compró)"
                             : "Sin cuenta: no recibe el 15%"}
                         </p>
                       )}

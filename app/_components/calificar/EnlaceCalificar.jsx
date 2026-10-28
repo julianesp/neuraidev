@@ -37,9 +37,8 @@ export default function EnlaceCalificar() {
     "",
     `¿Me ayudas calificando ${producto.trim() ? `tu ${producto.trim()}` : "tu experiencia"} con estrellas? Es menos de 1 minuto:`,
     enlace,
-    ...(tipo === "formateo"
-      ? ["", "🎁 Entra con tu Facebook o Google al calificar y ganas 15% de descuento en tu próxima compra de la tienda."]
-      : []),
+    "",
+    "🎁 Entra con tu Facebook o Google al calificar y ganas 15% de descuento en tu próxima compra de la tienda.",
     "",
     "¡Tu opinión me ayuda muchísimo! 🙏",
   ].join("\n");
@@ -138,7 +137,10 @@ export default function EnlaceCalificar() {
       </div>
 
       <div className="mt-6">
-        <CompartirCalificar titulo="Enlace general con el 15% (para estados y grupos)" />
+        <CompartirCalificar
+          titulo="Enlace general con el 15% (para estados y grupos)"
+          subtitulo="Envíalo a quien te haya comprado o a quien le hayas hecho un servicio."
+        />
       </div>
 
       <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">
