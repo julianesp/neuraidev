@@ -6,8 +6,70 @@
 /* Importar fuente Playfair Display desde Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
 
+/* ===========================
+   COLORES (claro y oscuro)
+   =========================== */
+
 .newspaperContainer {
-  background: #f5f1e8;
+  --fondo: #f5f1e8;
+  --papel: #faf8f3;
+  --borde-papel: #d4c5a9;
+  --tarjeta: #ffffff;
+  --tarjeta-suave: #f9f7f0;
+  --tinta: #000000;
+  --tinta-2: #222222;
+  --tinta-suave: #555555;
+  --tinta-tenue: #999999;
+  --linea: #cccccc;
+  --inverso-fondo: #000000;
+  --inverso-texto: #ffffff;
+  --sombra: rgba(0, 0, 0, 0.15);
+  --sombra-texto: rgba(0, 0, 0, 0.1);
+}
+
+/* Modo oscuro (next-themes pone la clase .dark en <html>) */
+:global(.dark) .newspaperContainer {
+  --fondo: #0a0a0a;
+  --papel: #171717;
+  --borde-papel: #262626;
+  --tarjeta: #1f1f1f;
+  --tarjeta-suave: #1a1a1a;
+  --tinta: #f5f5f5;
+  --tinta-2: #d4d4d4;
+  --tinta-suave: #a3a3a3;
+  --tinta-tenue: #737373;
+  --linea: #3f3f46;
+  --inverso-fondo: #f5f5f5;
+  --inverso-texto: #0a0a0a;
+  --sombra: rgba(0, 0, 0, 0.6);
+  --sombra-texto: rgba(255, 255, 255, 0.06);
+}
+
+:global(.dark) .newspaperContainer .articleLink:hover .headline {
+  color: #60a5fa; /* blue-400: el blue-600 se pierde sobre fondo oscuro */
+}
+
+.newspaperFooter {
+  border-top: 4px double var(--tinta);
+  margin-top: 2rem;
+  padding-top: 1rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--tinta-suave);
+}
+
+.newspaperFooter p + p {
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.newsletterInput {
+  background: var(--tarjeta);
+  color: var(--tinta);
+}
+
+.newspaperContainer {
+  background: var(--fondo);
   min-height: 100vh;
   /* Deja espacio para la barra de navegación fija */
   padding: 5.5rem 1rem 2rem;
@@ -17,10 +79,10 @@
 .newspaper {
   max-width: 1200px;
   margin: 0 auto;
-  background: #faf8f3;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  background: var(--papel);
+  box-shadow: 0 4px 20px var(--sombra);
   padding: 2rem;
-  border: 1px solid #d4c5a9;
+  border: 1px solid var(--borde-papel);
 }
 
 /* ===========================
@@ -28,7 +90,7 @@
    =========================== */
 
 .masthead {
-  border-bottom: 4px double #000;
+  border-bottom: 4px double var(--tinta);
   padding-bottom: 1.5rem;
   margin-bottom: 1rem;
   text-align: center;
@@ -43,7 +105,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: var(--tinta-2);
   gap: 0.75rem;
 }
 
@@ -56,14 +118,14 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 0.5rem 0;
-  color: #000;
-  text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+  color: var(--tinta);
+  text-shadow: 2px 2px 0px var(--sombra-texto);
 }
 
 .mastheadSubtitle {
   font-style: italic;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--tinta-suave);
   margin-bottom: 0.5rem;
 }
 
@@ -71,7 +133,7 @@
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #333;
+  color: var(--tinta-2);
 }
 
 .decorativeLine {
@@ -79,8 +141,8 @@
   height: 2px;
   background: repeating-linear-gradient(
     90deg,
-    #000 0px,
-    #000 10px,
+    var(--tinta) 0px,
+    var(--tinta) 10px,
     transparent 10px,
     transparent 12px
   );
@@ -103,9 +165,9 @@
   min-width: 0;
   grid-column: 1 / 9;
   grid-row: 1 / 3;
-  border: 3px solid #000;
+  border: 3px solid var(--tinta);
   padding: 1.5rem;
-  background: #fff;
+  background: var(--tarjeta);
   position: relative;
 }
 
@@ -116,7 +178,7 @@
   left: -6px;
   right: -6px;
   bottom: -6px;
-  border: 1px solid #000;
+  border: 1px solid var(--tinta);
   pointer-events: none;
 }
 
@@ -134,9 +196,9 @@
 /* Artículos secundarios (columna derecha) */
 .featuredSecondary {
   grid-column: 9 / 13;
-  border: 2px solid #000;
+  border: 2px solid var(--tinta);
   padding: 1rem;
-  background: #fff;
+  background: var(--tarjeta);
 }
 
 .featuredSecondary:nth-child(2) {
@@ -150,7 +212,7 @@
 /* Artículos en 3 columnas (parte media) */
 .articleColumn {
   grid-column: span 4;
-  border-right: 2px solid #000;
+  border-right: 2px solid var(--tinta);
   padding-right: 1rem;
 }
 
@@ -162,9 +224,9 @@
 /* Artículos pequeños en 2 columnas */
 .articleSmall {
   grid-column: span 6;
-  border-top: 2px solid #000;
+  border-top: 2px solid var(--tinta);
   padding: 1rem;
-  background: #f9f7f0;
+  background: var(--tarjeta-suave);
 }
 
 /* ===========================
@@ -177,34 +239,34 @@
   font-weight: 900;
   line-height: 1.1;
   margin: 0 0 0.75rem 0;
-  color: #000;
+  color: var(--tinta);
   text-transform: uppercase;
   letter-spacing: -0.02em;
 }
 
 .headlineLarge {
   font-size: clamp(1.6rem, 3.5vw, 2.5rem);
-  border-bottom: 3px solid #000;
+  border-bottom: 3px solid var(--tinta);
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .headlineMedium {
   font-size: 1.75rem;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--tinta);
   padding-bottom: 0.4rem;
 }
 
 .headlineSmall {
   font-size: 1.25rem;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid var(--tinta);
   padding-bottom: 0.3rem;
 }
 
 .subheadline {
   font-style: italic;
   font-size: 1rem;
-  color: #444;
+  color: var(--tinta-suave);
   margin-bottom: 0.75rem;
   line-height: 1.4;
 }
@@ -215,9 +277,9 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #666;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+  color: var(--tinta-suave);
+  border-top: 1px solid var(--linea);
+  border-bottom: 1px solid var(--linea);
   padding: 0.5rem 0;
   margin-bottom: 0.75rem;
 }
@@ -226,7 +288,7 @@
   font-family: 'Georgia', 'Times New Roman', serif;
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #222;
+  color: var(--tinta-2);
   columns: 1;
   column-gap: 1.5rem;
   text-align: justify;
@@ -240,7 +302,7 @@
   font-family: 'Georgia', 'Times New Roman', serif;
   font-size: 0.9rem;
   line-height: 1.5;
-  color: #333;
+  color: var(--tinta-2);
   text-align: justify;
 }
 
@@ -255,8 +317,8 @@
   letter-spacing: 1px;
   font-weight: 700;
   padding: 0.25rem 0.75rem;
-  background: #000;
-  color: #fff;
+  background: var(--inverso-fondo);
+  color: var(--inverso-texto);
   margin-bottom: 0.5rem;
 }
 
@@ -267,7 +329,7 @@
 .articleImage {
   width: 100%;
   height: auto;
-  border: 2px solid #000;
+  border: 2px solid var(--tinta);
   margin-bottom: 0.75rem;
   filter: grayscale(20%) contrast(1.1);
 }
@@ -275,7 +337,7 @@
 .imageCaption {
   font-size: 0.75rem;
   font-style: italic;
-  color: #555;
+  color: var(--tinta-suave);
   text-align: center;
   margin-top: 0.5rem;
   padding: 0 1rem;
@@ -288,13 +350,13 @@
 .ornament {
   text-align: center;
   font-size: 1.5rem;
-  color: #000;
+  color: var(--tinta);
   margin: 1.5rem 0;
 }
 
 .verticalDivider {
   width: 2px;
-  background: #000;
+  background: var(--inverso-fondo);
   height: 100%;
   position: absolute;
   top: 0;
@@ -318,7 +380,7 @@
   font-weight: 900;
   line-height: 1.15;
   margin: 0.5rem 0 0.75rem;
-  color: #111;
+  color: var(--tinta);
 }
 
 @media (max-width: 640px) {
@@ -330,9 +392,9 @@
 .readButton {
   display: inline-block;
   padding: 0.3rem 1.1rem;
-  border: 2px solid #000;
+  border: 2px solid var(--tinta);
   background: transparent;
-  color: #000;
+  color: var(--tinta);
   font-family: 'Georgia', 'Times New Roman', serif;
   font-size: 0.85rem;
   font-weight: 700;
@@ -343,8 +405,8 @@
 }
 
 .readButton:hover {
-  background: #000;
-  color: #fff;
+  background: var(--inverso-fondo);
+  color: var(--inverso-texto);
 }
 
 /* ===========================
@@ -404,7 +466,7 @@
   .articleColumn {
     grid-column: 1;
     border-right: none;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--tinta);
     padding-right: 0;
     padding-bottom: 1.5rem;
     margin-bottom: 1rem;
@@ -457,9 +519,9 @@
    =========================== */
 
 .newsletterBox {
-  border: 4px double #000;
+  border: 4px double var(--tinta);
   padding: 2rem;
-  background: #fff;
+  background: var(--tarjeta);
   margin: 2rem 0;
   text-align: center;
 }
@@ -471,7 +533,7 @@
   font-weight: 900;
   text-transform: uppercase;
   margin-bottom: 1rem;
-  color: #000;
+  color: var(--tinta);
 }
 
 .newsletterForm {
@@ -486,7 +548,7 @@
   flex: 1 1 220px;
   min-width: 0;
   padding: 0.75rem;
-  border: 2px solid #000;
+  border: 2px solid var(--tinta);
   font-family: 'Georgia', serif;
   font-size: 0.9rem;
 }
@@ -494,8 +556,8 @@
 .newsletterButton {
   flex: 0 0 auto;
   padding: 0.75rem 1.5rem;
-  background: #000;
-  color: #fff;
+  background: var(--inverso-fondo);
+  color: var(--inverso-texto);
   border: none;
   font-family: 'Georgia', serif;
   font-weight: 700;
@@ -507,6 +569,7 @@
 
 .newsletterButton:hover {
   background: #2563eb;
+  color: #fff;
 }
 
 /* ===========================
@@ -517,14 +580,14 @@
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #555;
+  color: var(--tinta-suave);
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--linea);
 }
 
 .breadcrumbLink {
-  color: #000;
+  color: var(--tinta);
   text-decoration: none;
   font-weight: 700;
 }
@@ -535,7 +598,7 @@
 
 .breadcrumbSep {
   margin: 0 0.5rem;
-  color: #999;
+  color: var(--tinta-tenue);
 }
 
 /* ===========================
@@ -546,7 +609,7 @@
   max-width: 860px;
   margin: 0 auto 2rem;
   padding: 2rem 0;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--tinta);
 }
 
 .articleImages {
@@ -558,9 +621,9 @@
 
 .articleFigure {
   margin: 0;
-  border: 2px solid #000;
+  border: 2px solid var(--tinta);
   padding: 0.5rem;
-  background: #fff;
+  background: var(--tarjeta);
 }
 
 .articleImage {
@@ -572,27 +635,27 @@
 .articleCaption {
   font-family: 'Georgia', 'Times New Roman', serif;
   font-size: 0.78rem;
-  color: #555;
+  color: var(--tinta-suave);
   margin-top: 0.4rem;
   font-style: italic;
   text-align: center;
 }
 
 .articleCaptionLink {
-  color: #333;
+  color: var(--tinta-2);
   text-decoration: underline;
   word-break: break-all;
 }
 
 .articleCaptionLink:hover {
-  color: #000;
+  color: var(--tinta);
 }
 
 .articleFullContent {
   font-family: 'Georgia', 'Times New Roman', serif;
   font-size: 1.05rem;
   line-height: 1.8;
-  color: #222;
+  color: var(--tinta-2);
   text-align: justify;
   margin-top: 1.5rem;
   columns: 2;
@@ -610,13 +673,13 @@
   font-weight: 900;
   text-transform: uppercase;
   margin: 1.5rem 0 0.75rem;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--tinta);
   padding-bottom: 0.3rem;
 }
 
 .articleFullContent img {
   max-width: 100%;
-  border: 2px solid #000;
+  border: 2px solid var(--tinta);
   filter: grayscale(15%) contrast(1.05);
 }
 
@@ -633,8 +696,8 @@
 .emptyState {
   text-align: center;
   padding: 4rem 2rem;
-  border: 4px double #000;
-  background: #fff;
+  border: 4px double var(--tinta);
+  background: var(--tarjeta);
   margin: 2rem 0;
 }
 
@@ -649,12 +712,12 @@
   font-weight: 900;
   text-transform: uppercase;
   margin-bottom: 1rem;
-  color: #000;
+  color: var(--tinta);
 }
 
 .emptyStateText {
   font-size: 1.1rem;
-  color: #444;
+  color: var(--tinta-suave);
   max-width: 600px;
   margin: 0 auto 2rem;
   line-height: 1.6;
@@ -663,8 +726,8 @@
 .emptyStateButton {
   display: inline-block;
   padding: 1rem 2rem;
-  background: #000;
-  color: #fff;
+  background: var(--inverso-fondo);
+  color: var(--inverso-texto);
   text-decoration: none;
   font-weight: 700;
   text-transform: uppercase;
@@ -674,4 +737,5 @@
 
 .emptyStateButton:hover {
   background: #2563eb;
+  color: #fff;
 }

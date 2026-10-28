@@ -79,13 +79,13 @@ export default function BlogReader({ title, excerpt, contentSelector = "[itempro
       gap: "0.5rem",
       margin: "1rem 0",
       padding: "0.75rem 1rem",
-      background: isPlaying ? "#f0fdf4" : "#fff8e1",
-      border: `2px solid ${isPlaying ? "#16a34a" : "#d97706"}`,
+      background: "var(--tarjeta, #fff)",
+      border: "2px solid #2563eb",
       borderRadius: "8px",
       fontFamily: "Georgia, 'Times New Roman', serif",
     }}>
       <span style={{ fontSize: "1.3rem" }}>🔊</span>
-      <span style={{ fontWeight: 600, fontSize: "0.9rem", color: "#333", flex: 1 }}>
+      <span style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--tinta-2, #333)", flex: 1 }}>
         {isPlaying && !isPaused ? "Leyendo artículo..." : isPaused ? "En pausa" : "Escuchar este artículo"}
       </span>
 
@@ -94,7 +94,7 @@ export default function BlogReader({ title, excerpt, contentSelector = "[itempro
           onClick={speak}
           title="Leer en voz alta"
           style={{
-            background: "#d97706",
+            background: "#2563eb",
             color: "#fff",
             border: "none",
             borderRadius: "6px",
@@ -114,7 +114,7 @@ export default function BlogReader({ title, excerpt, contentSelector = "[itempro
               onClick={resume}
               title="Continuar"
               style={{
-                background: "#16a34a",
+                background: "#2563eb",
                 color: "#fff",
                 border: "none",
                 borderRadius: "6px",
@@ -148,9 +148,9 @@ export default function BlogReader({ title, excerpt, contentSelector = "[itempro
             onClick={stop}
             title="Detener"
             style={{
-              background: "#dc2626",
-              color: "#fff",
-              border: "none",
+              background: "transparent",
+              color: "var(--tinta, #000)",
+              border: "2px solid var(--tinta-suave, #555)",
               borderRadius: "6px",
               padding: "0.4rem 0.9rem",
               fontWeight: 700,

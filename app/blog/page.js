@@ -295,20 +295,11 @@ export default async function Blog() {
         )}
 
         {/* Footer del periódico */}
-        <footer
-          style={{
-            borderTop: "4px double #000",
-            marginTop: "2rem",
-            paddingTop: "1rem",
-            textAlign: "center",
-            fontSize: "0.75rem",
-            color: "#666",
-          }}
-        >
+        <footer className={styles.newspaperFooter}>
           <p>
             © {new Date().getFullYear()} El Diario Tecnológico - Neurai.dev
           </p>
-          <p style={{ fontStyle: "italic", marginTop: "0.5rem" }}>
+          <p>
             "Todas las noticias que merecen ser impresas"
           </p>
         </footer>
