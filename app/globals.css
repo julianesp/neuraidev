@@ -697,3 +697,15 @@ html[data-transicion-tema="anochecer"]::view-transition-new(root) {
     animation: none !important;
   }
 }
+
+/* Productos girando alrededor de la foto del cliente (TarjetaOpinion) */
+@keyframes orbita {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes contraorbita {
+  to {
+    transform: rotate(-360deg);
+  }
+}

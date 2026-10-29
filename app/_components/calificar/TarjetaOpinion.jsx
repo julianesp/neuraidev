@@ -9,6 +9,66 @@ function IconoFacebook({ className }) {
   );
 }
 
+function leerProductos(json) {
+  try {
+    const lista = JSON.parse(json || "[]");
+    return Array.isArray(lista) ? lista.filter((p) => p?.imagen) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Foto del cliente con los productos que compró girando a su alrededor, cada
+ * uno en un círculo. La órbita gira y cada imagen gira al revés para seguir
+ * derecha. Se pausa al pasar el mouse; sin animación con "reducir movimiento".
+ */
+function FotoConProductos({ foto, inicial, nombre, productos }) {
+  const radio = 50; // px desde el centro hasta cada círculo
+  return (
+    <div className="group relative w-[136px] h-[136px] shrink-0">
+      {/* Anillo guía */}
+      <div className="absolute inset-[18px] rounded-full border border-dashed border-blue-200 dark:border-blue-900" />
+      <div className="absolute inset-0 rounded-full animate-[orbita_24s_linear_infinite] group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+        {productos.map((p, i) => {
+          const angulo = (360 / productos.length) * i;
+          return (
+            <div
+              key={p.id}
+              className="absolute left-1/2 top-1/2 -ml-[17px] -mt-[17px]"
+              style={{ transform: `rotate(${angulo}deg) translateY(-${radio}px) rotate(-${angulo}deg)` }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={p.imagen}
+                alt={p.nombre}
+                title={p.nombre}
+                loading="lazy"
+                className="w-[34px] h-[34px] rounded-full object-cover bg-white border-2 border-white dark:border-gray-800 shadow-md ring-1 ring-blue-600/30 animate-[contraorbita_24s_linear_infinite] group-hover:[animation-play-state:paused] motion-reduce:animate-none"
+              />
+            </div>
+          );
+        })}
+      </div>
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        {foto ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={foto}
+            alt={`Foto de ${nombre}`}
+            className="w-16 h-16 rounded-full object-cover border-2 border-blue-600 shadow"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold shadow">
+            {inicial}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /**
  * Opinión aprobada de un cliente: foto de Facebook (si autorizó), estrellas,
  * comentario, nombre y botón para escribirle en Facebook.
@@ -16,11 +76,19 @@ function IconoFacebook({ className }) {
 export default function TarjetaOpinion({ opinion }) {
   const o = opinion;
   const inicial = (o.cliente_nombre || "?").trim().charAt(0).toUpperCase();
+  const productos = leerProductos(o.productos_json);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 flex flex-col">
       <div className="flex items-center gap-3 mb-3">
-        {o.avatar_url ? (
+        {productos.length > 0 ? (
+          <FotoConProductos
+            foto={o.avatar_url}
+            inicial={inicial}
+            nombre={o.cliente_nombre}
+            productos={productos}
+          />
+        ) : o.avatar_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={o.avatar_url}

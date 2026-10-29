@@ -29,13 +29,17 @@ function textoPlano(html) {
 // con el enlace armado igual que en el resto del sitio (/accesorios/<cat>/<slug>).
 export async function GET(request) {
   try {
-    const q = (new URL(request.url).searchParams.get("q") || "").trim().slice(0, 60);
+    const { searchParams } = new URL(request.url);
+    const q = (searchParams.get("q") || "").trim().slice(0, 60);
+    // ?calificar=1: el formulario de calificaciones también busca agotados
+    // (lo que el cliente compró puede ya no estar disponible)
+    const soloDisponibles = searchParams.get("calificar") !== "1";
     if (q.length < 2) return NextResponse.json({ productos: [], total: 0 });
 
     // % y _ son comodines de LIKE: se escapan para buscar el texto tal cual.
     const patron = `%${q.toLowerCase().replace(/[\\%_]/g, (c) => `\\${c}`)}%`;
     // Los servicios técnicos (combo) no se venden solos: no salen en el buscador.
-    const where = `disponible = 1 AND COALESCE(categoria, '') != 'servicios' AND (
+    const where = `${soloDisponibles ? "disponible = 1 AND " : ""}COALESCE(categoria, '') != 'servicios' AND (
       LOWER(nombre) LIKE ? ESCAPE '\\' OR LOWER(descripcion) LIKE ? ESCAPE '\\'
       OR LOWER(categoria) LIKE ? ESCAPE '\\' OR LOWER(COALESCE(marca, '')) LIKE ? ESCAPE '\\')`;
     const params = [patron, patron, patron, patron];

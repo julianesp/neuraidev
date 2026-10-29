@@ -8,7 +8,7 @@ import { activarDescuentoCliente } from '@/lib/descuento-cliente-server';
 
 // Columnas que se pueden mostrar al público (nunca email ni user_id)
 const COLUMNAS_PUBLICAS =
-  'id, cliente_nombre, mensaje, producto_relacionado, calificacion, tipo, avatar_url, created_at';
+  'id, cliente_nombre, mensaje, producto_relacionado, calificacion, tipo, avatar_url, productos_json, created_at';
 
 // D1 responde "no such column" porque facebook_url nunca se creó (la migración
 // add-testimonios-facebook.sql quedó descartada: el enlace ya no se pide)
@@ -16,6 +16,37 @@ const faltaColumnaFacebook = (e) => /facebook_url/.test(String(e?.message || e))
 
 // producto = compra en la tienda · formateo = servicio técnico · web = desarrollo web
 const TIPOS = ['producto', 'formateo', 'web'];
+const MAX_PRODUCTOS = 6;
+
+// Primera imagen de un producto del catálogo (imagen_principal o imagenes[0])
+function imagenDeProducto(p) {
+  if (p.imagen_principal) return p.imagen_principal;
+  let imagenes = p.imagenes;
+  if (typeof imagenes === 'string') {
+    try {
+      imagenes = JSON.parse(imagenes);
+    } catch {
+      imagenes = [];
+    }
+  }
+  const primera = Array.isArray(imagenes) ? imagenes[0] : null;
+  return (typeof primera === 'string' ? primera : primera?.url) || null;
+}
+
+// El navegador solo manda ids: nombre e imagen salen del catálogo (D1)
+async function productosDelCatalogo(ids) {
+  const unicos = [...new Set((Array.isArray(ids) ? ids : []).map(String))].slice(0, MAX_PRODUCTOS);
+  if (unicos.length === 0) return [];
+  const filas = await d1Select(
+    `SELECT id, nombre, imagen_principal, imagenes FROM products WHERE id IN (${unicos.map(() => '?').join(', ')})`,
+    unicos
+  );
+  const porId = new Map(filas.map((f) => [String(f.id), f]));
+  return unicos
+    .map((id) => porId.get(id))
+    .filter(Boolean)
+    .map((f) => ({ id: f.id, nombre: f.nombre, imagen: imagenDeProducto(f) }));
+}
 
 // GET /api/testimonios
 // Público: devuelve solo los testimonios aprobados (para la vitrina).
@@ -73,6 +104,31 @@ export async function POST(request) {
     }
     const tipo = TIPOS.includes(body.tipo) ? body.tipo : 'producto';
 
+    // Solo se califica con cuenta (Google o Facebook): así la opinión lleva
+    // la foto real del cliente y queda ligada a su cuenta
+    const user = await currentUser().catch(() => null);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Entra con Google o Facebook para calificar' },
+        { status: 401 }
+      );
+    }
+
+    // Obligatorio decir qué compró o qué servicio pidió
+    const productos = tipo === 'producto' ? await productosDelCatalogo(body.productos) : [];
+    if (tipo === 'producto' && productos.length === 0) {
+      return NextResponse.json(
+        { error: 'Elige el producto o los productos que compraste' },
+        { status: 400 }
+      );
+    }
+    if (tipo !== 'producto' && !producto_relacionado?.trim()) {
+      return NextResponse.json(
+        { error: 'Escribe qué servicio te hicimos' },
+        { status: 400 }
+      );
+    }
+
     if (!cliente_nombre || !cliente_nombre.trim()) {
       return NextResponse.json({ error: 'El nombre es requerido' }, { status: 400 });
     }
@@ -94,10 +150,8 @@ export async function POST(request) {
     let calif = parseInt(calificacion);
     if (isNaN(calif) || calif < 1 || calif > 5) calif = null;
 
-    // Si inició sesión (Facebook o Google) se guarda su cuenta: así, al
-    // aprobar su calificación, se le activa el 15%.
-    const user = await currentUser().catch(() => null);
-    const userId = user?.id || null;
+    // Se guarda su cuenta: al aprobar su calificación se le activa el 15%
+    const userId = user.id;
     const emailCuenta = user?.primaryEmailAddress?.emailAddress || null;
 
     // Foto: la de su cuenta de Facebook si la conectó; si no, la de su cuenta
@@ -105,17 +159,21 @@ export async function POST(request) {
     // navegador) y se copia a R2 porque las URLs de Facebook caducan.
     // El formulario avisa que la foto se publica con el comentario.
     let avatarUrl = null;
-    if (user) {
-      const fb = user.externalAccounts?.find((a) => /facebook/.test(a.provider || ''));
-      const origen = fb ? fb.imageUrl || user.imageUrl : user.hasImage ? user.imageUrl : null;
-      if (origen) avatarUrl = await copiarImagenAR2(origen, `testimonios/${id}`);
-    }
+    const fb = user.externalAccounts?.find((a) => /facebook/.test(a.provider || ''));
+    const origen = fb ? fb.imageUrl || user.imageUrl : user.hasImage ? user.imageUrl : null;
+    if (origen) avatarUrl = await copiarImagenAR2(origen, `testimonios/${id}`);
+
+    const productoTexto =
+      tipo === 'producto'
+        ? productos.map((p) => p.nombre).join(', ')
+        : producto_relacionado.trim();
     const fila = {
       id,
       cliente_email: emailCuenta || cliente_email?.trim() || null,
       cliente_nombre: cliente_nombre.trim(),
       mensaje: mensaje.trim(),
-      producto_relacionado: producto_relacionado?.trim().slice(0, 120) || null,
+      producto_relacionado: productoTexto.slice(0, 120),
+      productos_json: productos.length ? JSON.stringify(productos) : null,
       calificacion: calif,
       tipo,
       estado: 'pendiente',
@@ -139,7 +197,7 @@ export async function POST(request) {
       calificacion: calif,
       mensaje: mensaje.trim(),
       tipo,
-      producto: producto_relacionado?.trim() || null,
+      producto: productoTexto,
       conFoto: Boolean(avatarUrl),
       pideDescuento: Boolean(userId),
     }).catch(() => {});

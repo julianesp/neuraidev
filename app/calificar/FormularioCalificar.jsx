@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Star, CheckCircle2 } from "lucide-react";
+import { Star, CheckCircle2, Search, X } from "lucide-react";
 import { useClerk, useReverification, useSignIn, useUser } from "@clerk/nextjs";
 
 // Borrador del formulario mientras el cliente va y vuelve de Facebook/Google
@@ -15,6 +15,7 @@ const TIPOS = [
 ];
 
 const ETIQUETAS = ["", "Malo", "Regular", "Bueno", "Muy bueno", "¡Excelente!"];
+const MAX_PRODUCTOS = 6;
 
 function IconoFacebook({ className }) {
   return (
@@ -39,8 +40,9 @@ function IconoGoogle({ className }) {
  * Formulario para calificar (en /calificar y en la home). El cliente entra con
  * Facebook o Google con un toque: su foto de perfil y su nombre se toman de la
  * cuenta y la foto se muestra junto al comentario cuando el admin lo aprueba.
- * También se puede calificar sin cuenta (sin foto y sin el 15%). Con cuenta,
- * al aprobarse la calificación se activa el 15% (compras y cualquier servicio).
+ * Entrar es obligatorio, igual que decir qué compró (productos del catálogo,
+ * que se muestran girando alrededor de su foto) o qué servicio pidió. Al
+ * aprobarse la calificación se activa el 15% (compras y cualquier servicio).
  */
 export default function FormularioCalificar({
   nombreInicial = "",
@@ -53,6 +55,10 @@ export default function FormularioCalificar({
   const [nombre, setNombre] = useState(nombreInicial);
   const [tipo, setTipo] = useState(tipoInicial || "producto");
   const [producto, setProducto] = useState(productoInicial);
+  const [productos, setProductos] = useState([]);
+  const [busqueda, setBusqueda] = useState("");
+  const [resultados, setResultados] = useState([]);
+  const [buscando, setBuscando] = useState(false);
   const [estrellas, setEstrellas] = useState(0);
   const [hover, setHover] = useState(0);
   const [mensaje, setMensaje] = useState("");
@@ -96,6 +102,7 @@ export default function FormularioCalificar({
       if (b.nombre) setNombre(b.nombre);
       if (b.tipo) setTipo(b.tipo);
       if (b.producto) setProducto(b.producto);
+      if (Array.isArray(b.productos)) setProductos(b.productos);
       if (b.estrellas) setEstrellas(b.estrellas);
       if (b.mensaje) setMensaje(b.mensaje);
     } catch {}
@@ -106,11 +113,56 @@ export default function FormularioCalificar({
     if (user?.fullName) setNombre((actual) => actual || user.fullName);
   }, [user?.fullName]);
 
+  // Buscador del catálogo (incluye agotados: lo que compró puede ya no estar)
+  useEffect(() => {
+    const q = busqueda.trim();
+    if (q.length < 2) {
+      setResultados([]);
+      return;
+    }
+    const control = new AbortController();
+    const t = setTimeout(async () => {
+      setBuscando(true);
+      try {
+        const res = await fetch(
+          `/api/productos/buscar?calificar=1&q=${encodeURIComponent(q)}`,
+          { signal: control.signal }
+        );
+        const data = await res.json();
+        setResultados(data.productos || []);
+      } catch {
+        // búsqueda cancelada o sin conexión: se deja la lista como estaba
+      } finally {
+        setBuscando(false);
+      }
+    }, 300);
+    return () => {
+      clearTimeout(t);
+      control.abort();
+    };
+  }, [busqueda]);
+
+  const elegido = (id) => productos.some((p) => p.id === id);
+  const alternarProducto = (p) => {
+    setError("");
+    if (elegido(p.id)) {
+      setProductos((lista) => lista.filter((x) => x.id !== p.id));
+      return;
+    }
+    if (productos.length >= MAX_PRODUCTOS) {
+      setError(`Puedes elegir hasta ${MAX_PRODUCTOS} productos.`);
+      return;
+    }
+    setProductos((lista) => [...lista, { id: p.id, nombre: p.nombre, imagen: p.imagen }]);
+    setBusqueda("");
+    setResultados([]);
+  };
+
   const guardarBorrador = () => {
     try {
       sessionStorage.setItem(
         BORRADOR,
-        JSON.stringify({ nombre, tipo, producto, estrellas, mensaje })
+        JSON.stringify({ nombre, tipo, producto, productos, estrellas, mensaje })
       );
     } catch {}
   };
@@ -164,6 +216,11 @@ export default function FormularioCalificar({
     e.preventDefault();
     setError("");
     if (!estrellas) return setError("Toca las estrellas para calificar.");
+    if (!isSignedIn) return setError("Entra con Facebook o Google para calificar.");
+    if (tipo === "producto" && productos.length === 0)
+      return setError("Elige el producto o los productos que compraste.");
+    if (tipo !== "producto" && !producto.trim())
+      return setError("Escribe qué servicio te hicimos.");
     if (!nombre.trim()) return setError("Escribe tu nombre.");
     if (!mensaje.trim()) return setError("Cuéntanos en pocas palabras cómo te fue.");
 
@@ -177,7 +234,8 @@ export default function FormularioCalificar({
           mensaje,
           calificacion: estrellas,
           tipo,
-          producto_relacionado: producto,
+          producto_relacionado: tipo === "producto" ? "" : producto,
+          productos: tipo === "producto" ? productos.map((p) => p.id) : [],
           website: trampa,
         }),
       });
@@ -201,7 +259,7 @@ export default function FormularioCalificar({
         <p className="text-gray-600 dark:text-gray-300 mb-6">
           Tu opinión me ayuda muchísimo a que más personas confíen en neurai.dev.
         </p>
-        {isSignedIn && (
+        {(
           <p className="text-sm text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/40 rounded-lg px-4 py-3 mb-6">
             🎁 Cuando revise y apruebe tu comentario, tu cuenta tendrá un{" "}
             <strong>15% de descuento</strong> para una compra en la tienda. Se
@@ -276,7 +334,8 @@ export default function FormularioCalificar({
         ) : (
           <>
             <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-3 text-center">
-              Entra con un toque para que tu foto aparezca con tu comentario
+              Para calificar, entra con un toque. Tu foto y tu nombre aparecerán
+              junto a tu comentario.
             </p>
             <div className="grid grid-cols-1 gap-2">
               {facebookDisponible && (
@@ -300,13 +359,14 @@ export default function FormularioCalificar({
                 Continuar con Google
               </button>
             </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
-              Si prefieres, también puedes calificar sin entrar (sin foto).
-            </p>
           </>
         )}
       </div>
 
+      {!(userListo && isSignedIn) ? (
+        error && <p className="text-sm text-red-600 mt-3 text-center">{error}</p>
+      ) : (
+      <>
       {/* Estrellas */}
       <div className="flex justify-center gap-1" onMouseLeave={() => setHover(0)}>
         {[1, 2, 3, 4, 5].map((n) => (
@@ -355,23 +415,110 @@ export default function FormularioCalificar({
           🎁 15% de descuento en tu próxima compra
         </p>
         <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
-          {isSignedIn
-            ? "Cuando revise y apruebe tu comentario, tu cuenta tendrá 15% de descuento en una compra de la tienda, aplicado solo en el carrito."
-            : "Si compraste en neurai o pediste algún servicio, entra arriba con Facebook o Google: cuando apruebe tu comentario tendrás 15% de descuento en una compra de la tienda."}
+          Cuando revise y apruebe tu comentario, tu cuenta tendrá 15% de
+          descuento en una compra de la tienda, aplicado solo en el carrito.
         </p>
       </div>
 
-      <label htmlFor="producto" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        Producto o servicio (opcional)
-      </label>
-      <input
-        id="producto"
-        value={producto}
-        onChange={(e) => setProducto(e.target.value)}
-        maxLength={120}
-        placeholder="Ej.: Audífonos Bluetooth, formateo de portátil…"
-        className="w-full px-4 py-2 mb-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-      />
+      {tipo === "producto" ? (
+        <div className="mb-4">
+          <label htmlFor="buscar-producto" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            ¿Qué compraste? <span className="text-blue-600">*</span>
+          </label>
+
+          {productos.length > 0 && (
+            <ul className="flex flex-wrap gap-3 mb-3">
+              {productos.map((p) => (
+                <li key={p.id} className="relative w-16 text-center">
+                  {p.imagen ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.imagen}
+                      alt={p.nombre}
+                      className="w-14 h-14 mx-auto rounded-full object-cover border-2 border-blue-600 bg-white"
+                    />
+                  ) : (
+                    <div className="w-14 h-14 mx-auto rounded-full border-2 border-blue-600 bg-blue-50 dark:bg-blue-950/40" />
+                  )}
+                  <p className="text-[11px] leading-tight text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">
+                    {p.nombre}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => alternarProducto(p)}
+                    aria-label={`Quitar ${p.nombre}`}
+                    className="absolute -top-1 right-0 w-5 h-5 rounded-full bg-gray-900/80 text-white flex items-center justify-center"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {productos.length < MAX_PRODUCTOS && (
+            <div className="relative">
+              <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                id="buscar-producto"
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                maxLength={60}
+                autoComplete="off"
+                placeholder={productos.length ? "Agregar otro producto…" : "Busca el producto: audífonos, cargador…"}
+                className="w-full pl-9 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              />
+              {busqueda.trim().length >= 2 && (
+                <ul className="absolute z-20 left-0 right-0 mt-1 max-h-64 overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
+                  {buscando && resultados.length === 0 && (
+                    <li className="px-4 py-3 text-sm text-gray-500">Buscando…</li>
+                  )}
+                  {!buscando && resultados.length === 0 && (
+                    <li className="px-4 py-3 text-sm text-gray-500">
+                      No encontré ese producto. Prueba con otra palabra.
+                    </li>
+                  )}
+                  {resultados.map((p) => (
+                    <li key={p.id}>
+                      <button
+                        type="button"
+                        onClick={() => alternarProducto(p)}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-blue-50 dark:hover:bg-blue-950/40"
+                      >
+                        {p.imagen ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={p.imagen} alt="" className="w-10 h-10 rounded-full object-cover bg-white shrink-0" />
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 shrink-0" />
+                        )}
+                        <span className="text-sm text-gray-800 dark:text-gray-100 flex-1">{p.nombre}</span>
+                        {elegido(p.id) && <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            Puedes elegir varios. Sus fotos aparecerán alrededor de la tuya.
+          </p>
+        </div>
+      ) : (
+        <>
+          <label htmlFor="producto" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            ¿Qué servicio te hicimos? <span className="text-blue-600">*</span>
+          </label>
+          <input
+            id="producto"
+            value={producto}
+            onChange={(e) => setProducto(e.target.value)}
+            maxLength={120}
+            placeholder={tipo === "web" ? "Ej.: página web para mi negocio…" : "Ej.: formateo de portátil, cambio de pantalla…"}
+            className="w-full px-4 py-2 mb-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+          />
+        </>
+      )}
 
       <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
         Tu nombre
@@ -419,6 +566,8 @@ export default function FormularioCalificar({
       >
         {enviando ? "Enviando…" : "Enviar calificación"}
       </button>
+      </>
+      )}
     </form>
   );
 }
