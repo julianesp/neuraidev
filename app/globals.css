@@ -106,14 +106,16 @@ body {
 /* Estilos de accesibilidad */
 /* Mejorar el focus visible para navegación por teclado */
 *:focus-visible {
-  outline: 2px solid #0070f3;
+  outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
 
-/* Asegurar que los links tengan buen contraste */
+/* Links: anillo azul suave y redondeado en vez del contorno cuadrado */
 a:focus-visible {
-  outline: 2px solid #0070f3;
-  outline-offset: 2px;
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+  border-radius: 8px;
+  box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.2);
 }
 
 /* Mejorar visibilidad de elementos interactivos */
@@ -121,7 +123,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #0070f3;
+  outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
 
@@ -305,11 +307,9 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: inherit;
 }
 
-/* Normalizar focus outline en Firefox */
-:focus {
-  outline-color: -webkit-focus-ring-color;
-  outline-style: auto;
-  outline-width: 1px;
+/* Sin contorno al hacer clic con el mouse/dedo; el anillo azul queda solo para teclado (:focus-visible) */
+:focus:not(:focus-visible) {
+  outline: none;
 }
 
 ::-moz-focus-inner {
