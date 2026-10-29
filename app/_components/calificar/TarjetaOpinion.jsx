@@ -9,6 +9,13 @@ function IconoFacebook({ className }) {
   );
 }
 
+// Qué hizo el cliente: compra o servicio
+const TIPO_TEXTO = {
+  producto: "Compra",
+  formateo: "Formateo / mantenimiento",
+  web: "Página web",
+};
+
 function leerProductos(json) {
   try {
     const lista = JSON.parse(json || "[]");
@@ -79,7 +86,7 @@ export default function TarjetaOpinion({ opinion }) {
   const productos = leerProductos(o.productos_json);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 flex flex-col">
+    <div className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 flex flex-col">
       <div className="flex items-center gap-3 mb-3">
         {productos.length > 0 ? (
           <FotoConProductos
@@ -105,6 +112,11 @@ export default function TarjetaOpinion({ opinion }) {
           <p className="font-semibold text-gray-900 dark:text-white truncate">
             {o.cliente_nombre}
           </p>
+          {TIPO_TEXTO[o.tipo] && (
+            <span className="inline-block text-[11px] font-semibold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/50 px-2 py-0.5 rounded-full mb-1">
+              {TIPO_TEXTO[o.tipo]}
+            </span>
+          )}
           {o.calificacion > 0 && (
             <div className="flex text-amber-400">
               {Array.from({ length: 5 }).map((_, i) => (

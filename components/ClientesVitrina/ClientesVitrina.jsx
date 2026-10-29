@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ShoppingBag } from "lucide-react";
 import TarjetaOpinion from "@/app/_components/calificar/TarjetaOpinion";
+import CintaMovil from "@/app/_components/calificar/CintaMovil";
 import FormularioCalificar from "@/app/calificar/FormularioCalificar";
 import CompartirCalificar from "@/app/_components/calificar/CompartirCalificar";
 
@@ -55,11 +56,14 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
 
         {/* Clientes publicados */}
         {clientes.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-14">
-            {clientes.map((c) => (
+          <div className="mb-14">
+            <CintaMovil
+              items={clientes}
+              etiqueta="clientes"
+              segundosPorItem={4}
+              render={(c) => (
               <div
-                key={c.id}
-                className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 flex flex-col items-center text-center hover:shadow-md transition-shadow"
+                className="w-44 bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 flex flex-col items-center text-center hover:shadow-md transition-shadow"
               >
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl font-bold mb-3 overflow-hidden">
                   {c.avatar_url ? (
@@ -95,16 +99,26 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
                   </div>
                 )}
               </div>
-            ))}
+              )}
+            />
           </div>
         )}
 
-        {/* Testimonios aprobados */}
+        {/* Testimonios aprobados: fila que se desplaza para que todos vean
+            quién compró o pidió un servicio */}
         {testimonios.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
-            {testimonios.map((t) => (
-              <TarjetaOpinion key={t.id} opinion={t} />
-            ))}
+          <div className="mb-14">
+            <CintaMovil
+              items={testimonios}
+              etiqueta="opiniones"
+              minimo={6}
+              segundosPorItem={8}
+              render={(t) => (
+                <div className="w-[300px] sm:w-[340px] flex">
+                  <TarjetaOpinion opinion={t} />
+                </div>
+              )}
+            />
           </div>
         )}
 

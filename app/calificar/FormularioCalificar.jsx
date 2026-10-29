@@ -111,6 +111,17 @@ export default function FormularioCalificar({
     } catch {}
   }, []);
 
+  // Al volver de iniciar sesión (redirección) la página carga arriba: la
+  // sección de la home aparece después de cargar, así que el navegador no
+  // alcanza a bajar a #calificar. Se baja aquí, ya con el formulario visible.
+  useEffect(() => {
+    if (!embebido || window.location.hash !== "#calificar") return;
+    const t = setTimeout(() => {
+      document.getElementById("calificar")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
+    return () => clearTimeout(t);
+  }, [embebido]);
+
   // Con sesión iniciada, el nombre se completa con el de su cuenta
   useEffect(() => {
     if (user?.fullName) setNombre((actual) => actual || user.fullName);
@@ -187,21 +198,55 @@ export default function FormularioCalificar({
     return u.toString();
   };
 
-  // Entrar con Facebook o Google (redirige y vuelve aquí)
+  // Entrar con Facebook o Google en una ventana emergente: la página no se
+  // recarga y el formulario sigue tal cual. Si el navegador bloquea la
+  // ventana, se usa la redirección (vuelve a #calificar con el borrador).
   const iniciarSesion = async (strategy) => {
     setError("");
     setConectando(true);
     guardarBorrador();
+    const params = {
+      strategy,
+      redirectUrl: "/calificar/sso-callback",
+      redirectUrlComplete: urlDeVuelta(),
+    };
+    // La ventana se abre aquí mismo (en el clic) para que no la bloqueen
+    const ancho = 500;
+    const alto = 650;
+    const conVentana = typeof signIn.authenticateWithPopup === "function";
+    const popup = conVentana
+      ? window.open(
+          "",
+          "neurai-login",
+          `width=${ancho},height=${alto},left=${Math.max(0, (window.screen.width - ancho) / 2)},top=${Math.max(0, (window.screen.height - alto) / 2)}`
+        )
+      : null;
+    // Si la cierra sin terminar, se reactivan los botones
+    const vigilar = popup
+      ? setInterval(() => {
+          if (popup.closed) {
+            clearInterval(vigilar);
+            setConectando(false);
+          }
+        }, 800)
+      : null;
     try {
-      await signIn.authenticateWithRedirect({
-        strategy,
-        redirectUrl: "/calificar/sso-callback",
-        redirectUrlComplete: urlDeVuelta(),
-      });
+      if (popup) {
+        await signIn.authenticateWithPopup({ ...params, popup });
+        try {
+          sessionStorage.removeItem(BORRADOR);
+        } catch {}
+        setConectando(false);
+      } else {
+        await signIn.authenticateWithRedirect(params);
+      }
     } catch (err) {
       console.error("[calificar] login:", err);
+      popup?.close();
       setError("No se pudo iniciar sesión en este momento. Intenta de nuevo.");
       setConectando(false);
+    } finally {
+      if (vigilar) clearInterval(vigilar);
     }
   };
 
