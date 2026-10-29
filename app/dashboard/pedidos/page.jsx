@@ -21,7 +21,6 @@ export default function PedidosPage() {
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [deleting, setDeleting] = useState(false);
   const [checkingPayments, setCheckingPayments] = useState(false);
-  const [forcingUpdate, setForcingUpdate] = useState(false);
 
   // Obtener pedidos de la base de datos
   const fetchOrders = async () => {
@@ -157,43 +156,6 @@ export default function PedidosPage() {
     }
   };
 
-  // Force update old pending orders
-  const handleForceUpdateOrders = async () => {
-    if (!confirm('¿Estás seguro de marcar como completados todos los pedidos pendientes antiguos (más de 1 hora)?')) {
-      return;
-    }
-
-    try {
-      setForcingUpdate(true);
-      const response = await fetch('/api/dashboard/force-update-orders');
-
-      if (!response.ok) {
-        throw new Error('Error al forzar actualización');
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-        alert(
-          `✅ Actualización completada:\n` +
-          `- Pedidos actualizados: ${data.updated}\n` +
-          `${data.errors.length > 0 ? `\n⚠️ Errores: ${data.errors.length}` : ''}\n\n` +
-          `Detalles:\n${data.details.map(d => `- ${d.numero_orden}: ${d.customer_name} ($${d.total.toLocaleString('es-CO')})`).join('\n')}`
-        );
-
-        // Reload orders
-        if (data.updated > 0) {
-          await fetchOrders();
-        }
-      }
-    } catch (err) {
-      console.error('Error forcing update:', err);
-      alert('Error al forzar actualización: ' + err.message);
-    } finally {
-      setForcingUpdate(false);
-    }
-  };
-
   // Función para formatear fecha
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -280,8 +242,8 @@ export default function PedidosPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={handleCheckPendingPayments}
-              disabled={checkingPayments || forcingUpdate}
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg"
+              disabled={checkingPayments}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg"
               title="Verificar estados de pago pendientes en Wompi/ePayco"
             >
               {checkingPayments ? (
@@ -293,24 +255,6 @@ export default function PedidosPage() {
                 <>
                   <CheckCheck className="w-5 h-5" />
                   Verificar Pagos
-                </>
-              )}
-            </button>
-            <button
-              onClick={handleForceUpdateOrders}
-              disabled={forcingUpdate || checkingPayments}
-              className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg"
-              title="Forzar actualización de pedidos pendientes antiguos (>1 hora)"
-            >
-              {forcingUpdate ? (
-                <>
-                  <RefreshCw className="w-5 h-5 animate-spin" />
-                  Actualizando...
-                </>
-              ) : (
-                <>
-                  <CheckCircle className="w-5 h-5" />
-                  Aprobar Antiguos
                 </>
               )}
             </button>
