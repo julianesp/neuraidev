@@ -116,10 +116,11 @@ export default function FormularioCalificar({
   // alcanza a bajar a #calificar. Se baja aquí, ya con el formulario visible.
   useEffect(() => {
     if (!embebido || window.location.hash !== "#calificar") return;
-    const t = setTimeout(() => {
-      document.getElementById("calificar")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 150);
-    return () => clearTimeout(t);
+    // Instantáneo (el suave no avanza en la home) y otra vez al segundo, porque
+    // lo de arriba (carruseles, imágenes) sigue creciendo mientras carga
+    const bajar = () => document.getElementById("calificar")?.scrollIntoView({ block: "start" });
+    const tiempos = [setTimeout(bajar, 150), setTimeout(bajar, 1200)];
+    return () => tiempos.forEach(clearTimeout);
   }, [embebido]);
 
   // Con sesión iniciada, el nombre se completa con el de su cuenta

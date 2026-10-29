@@ -5,8 +5,10 @@ import { Pause, Play } from "lucide-react";
 
 /**
  * Fila que se desplaza sola en el eje X (clientes y opiniones de la vitrina).
- * Se detiene con el mouse encima; en celular hay un botón de pausa. Si hay
- * pocos elementos se repiten para llenar la fila, y la lista va dos veces
+ * Se detiene con el mouse encima; en celular hay un botón de pausa. Con menos
+ * de `minimoParaMover` elementos se muestran quietos y centrados (repetir a
+ * la misma persona parece relleno). Si hay pocos se repiten para llenar la
+ * fila, y la lista va dos veces
  * para que la vuelta sea continua (keyframes `cinta` en globals.css).
  */
 export default function CintaMovil({
@@ -16,11 +18,24 @@ export default function CintaMovil({
   minimo = 8, // elementos mínimos por vuelta para que la fila no quede corta
   segundosPorItem = 6,
   etiqueta,
+  minimoParaMover = 3,
 }) {
   const [pausada, setPausada] = useState(false);
   const [mouseEncima, setMouseEncima] = useState(false);
 
   if (!items?.length) return null;
+
+  if (items.length < minimoParaMover) {
+    return (
+      <ul className="flex flex-wrap justify-center gap-6">
+        {items.map((item) => (
+          <li key={claveDe(item)} className="flex">
+            {render(item)}
+          </li>
+        ))}
+      </ul>
+    );
+  }
 
   const repeticiones = Math.max(1, Math.ceil(minimo / items.length));
   const vuelta = Array.from({ length: repeticiones }, () => items).flat();
