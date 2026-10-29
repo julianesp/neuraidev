@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Star, CheckCircle2, Search, X } from "lucide-react";
+import { Star, CheckCircle2, Search, X, Pause, Play } from "lucide-react";
 import { useClerk, useReverification, useSignIn, useUser } from "@clerk/nextjs";
 
 // Borrador del formulario mientras el cliente va y vuelve de Facebook/Google
@@ -59,6 +59,9 @@ export default function FormularioCalificar({
   const [busqueda, setBusqueda] = useState("");
   const [resultados, setResultados] = useState([]);
   const [buscando, setBuscando] = useState(false);
+  const [catalogo, setCatalogo] = useState([]);
+  const [cintaPausada, setCintaPausada] = useState(false); // botón (celular)
+  const [mouseEncima, setMouseEncima] = useState(false); // hover (computador)
   const [estrellas, setEstrellas] = useState(0);
   const [hover, setHover] = useState(0);
   const [mensaje, setMensaje] = useState("");
@@ -141,6 +144,16 @@ export default function FormularioCalificar({
       control.abort();
     };
   }, [busqueda]);
+
+  // Todo el catálogo para la cinta de productos (se carga una sola vez)
+  const mostrarCinta = userListo && isSignedIn && tipo === "producto";
+  useEffect(() => {
+    if (!mostrarCinta || catalogo.length) return;
+    fetch("/api/productos/buscar?calificar=1&todos=1")
+      .then((r) => r.json())
+      .then((d) => setCatalogo(d.productos || []))
+      .catch(() => {});
+  }, [mostrarCinta, catalogo.length]);
 
   const elegido = (id) => productos.some((p) => p.id === id);
   const alternarProducto = (p) => {
@@ -501,8 +514,92 @@ export default function FormularioCalificar({
             </div>
           )}
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            Puedes elegir varios. Sus fotos aparecerán alrededor de la tuya.
+            Búscalo arriba o tócalo en la lista de abajo. Puedes elegir varios: sus
+            fotos aparecerán alrededor de la tuya.
           </p>
+
+          {/* Cinta con todo el catálogo: se detiene con el mouse encima o con
+              el botón de pausa (celular); al tocar un producto queda elegido */}
+          {catalogo.length > 0 && (
+            <div className="mt-3">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                  Todos los productos
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setCintaPausada((v) => !v)}
+                  aria-pressed={cintaPausada}
+                  className="[@media(hover:hover)]:hidden inline-flex items-center gap-1 text-xs font-semibold text-white bg-blue-600 active:bg-blue-700 px-3 py-1.5 rounded-full"
+                >
+                  {cintaPausada ? (
+                    <>
+                      <Play className="w-3.5 h-3.5" /> Seguir
+                    </>
+                  ) : (
+                    <>
+                      <Pause className="w-3.5 h-3.5" /> Pausa
+                    </>
+                  )}
+                </button>
+              </div>
+              <div
+                className="overflow-hidden motion-reduce:overflow-x-auto rounded-xl bg-gray-50 dark:bg-gray-900/40 py-3 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+                onPointerEnter={(e) => e.pointerType === "mouse" && setMouseEncima(true)}
+                onPointerLeave={(e) => e.pointerType === "mouse" && setMouseEncima(false)}
+              >
+                <ul
+                  className="flex w-max animate-[cinta_var(--duracion)_linear_infinite] motion-reduce:animate-none"
+                  style={{
+                    "--duracion": `${Math.max(catalogo.length * 2.5, 20)}s`,
+                    animationPlayState: cintaPausada || mouseEncima ? "paused" : "running",
+                  }}
+                >
+                  {/* La lista va dos veces para que la vuelta sea continua */}
+                  {[...catalogo, ...catalogo].map((p, i) => {
+                    const marcado = elegido(p.id);
+                    const copia = i >= catalogo.length;
+                    return (
+                      <li key={`${p.id}-${i}`} className="w-20 shrink-0 px-1" aria-hidden={copia || undefined}>
+                        <button
+                          type="button"
+                          onClick={() => alternarProducto(p)}
+                          tabIndex={copia ? -1 : undefined}
+                          aria-pressed={marcado}
+                          title={p.nombre}
+                          className="w-full flex flex-col items-center"
+                        >
+                          <span className="relative">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={p.imagen}
+                              alt={p.nombre}
+                              loading="lazy"
+                              className={`w-14 h-14 rounded-full object-cover bg-white border-2 transition-transform ${
+                                marcado
+                                  ? "border-blue-600 ring-2 ring-blue-600/40 scale-105"
+                                  : "border-white dark:border-gray-700"
+                              }`}
+                            />
+                            {marcado && (
+                              <CheckCircle2 className="absolute -top-1 -right-1 w-5 h-5 text-white bg-blue-600 rounded-full" />
+                            )}
+                          </span>
+                          <span
+                            className={`text-[11px] leading-tight mt-1 line-clamp-2 ${
+                              marcado ? "text-blue-700 dark:text-blue-300 font-semibold" : "text-gray-600 dark:text-gray-300"
+                            }`}
+                          >
+                            {p.nombre}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <>

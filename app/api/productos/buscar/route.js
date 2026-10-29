@@ -24,6 +24,21 @@ function textoPlano(html) {
     .trim();
 }
 
+// Imagen principal o la primera de la galería
+function primeraImagen(p) {
+  if (p.imagen_principal) return p.imagen_principal;
+  let imagenes = p.imagenes;
+  if (typeof imagenes === "string") {
+    try {
+      imagenes = JSON.parse(imagenes);
+    } catch {
+      imagenes = [];
+    }
+  }
+  const primera = Array.isArray(imagenes) ? imagenes[0] : null;
+  return (typeof primera === "string" ? primera : primera?.url) || null;
+}
+
 // GET /api/productos/buscar?q=mouse — búsqueda pública del catálogo real (D1)
 // para el buscador del home. Devuelve hasta 20 productos disponibles + el total,
 // con el enlace armado igual que en el resto del sitio (/accesorios/<cat>/<slug>).
@@ -34,6 +49,25 @@ export async function GET(request) {
     // ?calificar=1: el formulario de calificaciones también busca agotados
     // (lo que el cliente compró puede ya no estar disponible)
     const soloDisponibles = searchParams.get("calificar") !== "1";
+
+    // ?calificar=1&todos=1: todo el catálogo (nombre + imagen) para la cinta
+    // de productos del formulario de calificaciones
+    if (!soloDisponibles && searchParams.get("todos") === "1") {
+      const filas = await d1Select(
+        `SELECT id, nombre, imagen_principal, imagenes FROM products
+         WHERE COALESCE(categoria, '') != 'servicios'
+         ORDER BY disponible DESC, COALESCE(created_at, '') DESC
+         LIMIT 300`
+      );
+      const productos = filas
+        .map((p) => ({ id: p.id, nombre: p.nombre, imagen: primeraImagen(p) }))
+        .filter((p) => p.imagen);
+      return NextResponse.json(
+        { productos, total: productos.length },
+        { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" } }
+      );
+    }
+
     if (q.length < 2) return NextResponse.json({ productos: [], total: 0 });
 
     // % y _ son comodines de LIKE: se escapan para buscar el texto tal cual.
@@ -59,15 +93,6 @@ export async function GET(request) {
     const campanas = await obtenerCampanasVigentes();
     const productos = filas.map((p) => {
       const vigente = calcularPrecioVigente(p, campanas);
-      let imagenes = p.imagenes;
-      if (typeof imagenes === "string") {
-        try {
-          imagenes = JSON.parse(imagenes);
-        } catch {
-          imagenes = [];
-        }
-      }
-      const primera = Array.isArray(imagenes) ? imagenes[0] : null;
       return {
         id: p.id,
         nombre: p.nombre,
@@ -76,7 +101,7 @@ export async function GET(request) {
         precioAnterior: vigente.tipo ? vigente.precioNormal : null,
         ofertaTipo: vigente.tipo,
         categoria: p.categoria,
-        imagen: p.imagen_principal || (typeof primera === "string" ? primera : primera?.url) || null,
+        imagen: primeraImagen(p),
         href: buildProductUrl(p.categoria, generateProductSlug(p), p),
       };
     });

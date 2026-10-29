@@ -709,3 +709,10 @@ html[data-transicion-tema="anochecer"]::view-transition-new(root) {
     transform: rotate(-360deg);
   }
 }
+
+/* Cinta de productos del formulario de calificaciones (lista duplicada) */
+@keyframes cinta {
+  to {
+    transform: translateX(-50%);
+  }
+}
