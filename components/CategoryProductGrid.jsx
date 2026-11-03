@@ -18,9 +18,6 @@ export default function CategoryProductGrid({
           <p className="text-gray-600 dark:text-gray-300 text-xl font-light">
             No hay productos disponibles
           </p>
-          <p className="text-white dark:text-gray-400 mt-2">
-            Vuelve más tarde para ver nuestras novedades
-          </p>
         </div>
       </div>
     );

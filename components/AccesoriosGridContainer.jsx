@@ -84,9 +84,6 @@ const ModernProductGrid = (props) => {
           <p className="text-gray-600 text-xl font-light">
             No hay productos disponibles
           </p>
-          <p className="text-gray-500 mt-2">
-            Vuelve más tarde para ver nuestras novedades
-          </p>
         </div>
       </div>
     );
