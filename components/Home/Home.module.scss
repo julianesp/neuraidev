@@ -858,8 +858,7 @@ $primary: $color-primario;
     & .aside {
       padding: 1rem;
       max-width: 400px; // Aside más ancho en pantallas grandes
-      height: auto; // Altura automática basada en el contenido
-      min-height: 100%; // Mínimo toda la altura disponible
+      // Sin height: auto: el panel debe medir 100dvh y tener su propio scroll
     }
   }
 }

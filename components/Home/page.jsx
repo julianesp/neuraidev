@@ -528,6 +528,7 @@ export default function Inicio() {
         {/* Sección lateral - Buscador, Categorías, Publicidad y Enlaces */}
         <section
           className={`${styles.aside} ${sidebarOpen ? styles.asideOpen : ""}`}
+          data-panel-lateral
         >
           <SidebarContent />
         </section>

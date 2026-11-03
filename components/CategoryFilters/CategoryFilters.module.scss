@@ -252,13 +252,21 @@
   }
 }
 
-// Va entre los filtros y el precio; el relleno (no margen) deja que la
-// animación de altura sea suave
+// Barra pegada al fondo del panel lateral. Se monta como último hijo del
+// panel (portal en CategoryFilters.jsx), así "sticky" la deja siempre visible
+// mientras se hace scroll. Los márgenes negativos cubren el relleno del panel.
 .actionsSection {
+  position: sticky;
+  bottom: -1rem;
+  z-index: 5;
+  margin: 16px -1rem -1rem;
   display: flex;
   gap: 10px;
-  overflow: hidden;
-  padding-top: 14px;
+  // a la derecha queda libre el botón flotante del chat IA
+  padding: 12px 84px calc(12px + env(safe-area-inset-bottom)) 16px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .applyButton,
@@ -294,6 +302,12 @@
 
 // Dark mode
 :global(.dark) {
+  .actionsSection {
+    background: #1f2937;
+    border-top-color: #374151;
+    box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.4);
+  }
+
   .container {
     background: #1f2937;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);

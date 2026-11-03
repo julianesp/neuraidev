@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./CategoryFilters.module.scss";
@@ -46,6 +47,13 @@ export default function CategoryFilters() {
   const [expandedCategory, setExpandedCategory] = useState(null);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState(null);
+  // Panel lateral donde se monta la barra de "Aplicar filtros" (ver scss)
+  const contenedorRef = useRef(null);
+  const [panel, setPanel] = useState(null);
+
+  useEffect(() => {
+    setPanel(contenedorRef.current?.closest("[data-panel-lateral]") || null);
+  }, []);
   const router = useRouter();
 
   const toggleCategory = (slug) => {
@@ -94,8 +102,30 @@ export default function CategoryFilters() {
     setSelectedPriceRange(null);
   };
 
+  const barraAcciones = (
+    <AnimatePresence>
+      {(selectedFilters.length > 0 || selectedPriceRange) && (
+        <motion.div
+          className={styles.actionsSection}
+          data-barra-filtros
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 24 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+        >
+          <button onClick={handleApplyFilters} className={styles.applyButton}>
+            Aplicar filtros
+          </button>
+          <button onClick={clearFilters} className={styles.clearButton}>
+            Limpiar
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
   return (
-    <div className={styles.container}>
+    <div ref={contenedorRef} className={styles.container}>
       <div className={styles.header}>
         <h3 className={styles.title}>Categorías</h3>
       </div>
@@ -188,26 +218,9 @@ export default function CategoryFilters() {
         </div>
       </div>
 
-      {/* Botones de acción: justo debajo de los filtros para que se vean
-          sin tener que bajar */}
-      <AnimatePresence>
-        {(selectedFilters.length > 0 || selectedPriceRange) && (
-          <motion.div
-            className={styles.actionsSection}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-          >
-            <button onClick={handleApplyFilters} className={styles.applyButton}>
-              Aplicar filtros
-            </button>
-            <button onClick={clearFilters} className={styles.clearButton}>
-              Limpiar
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Botones de acción: barra pegada al fondo del panel lateral mientras
+          haya algo marcado, para que siempre se vea sin tener que bajar */}
+      {panel ? createPortal(barraAcciones, panel) : barraAcciones}
 
       {/* Rango de precio */}
       <div className={styles.priceSection}>
