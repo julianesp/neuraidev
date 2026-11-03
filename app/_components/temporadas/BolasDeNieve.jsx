@@ -39,8 +39,11 @@ export default function BolasDeNieve() {
         ],
       });
 
-      // La misma bola se aplasta contra la pantalla, se escurre y se derrite
+      // La misma bola se aplasta contra la pantalla y, como si estuviera
+      // pegada a un vidrio, se escurre rápido hacia abajo estirándose como
+      // una gota y dejando un rastro húmedo
       const tam = 50;
+      const caida = 110; // cuánto baja deslizándose
       gsap.set(bola, {
         x: x - tam / 2,
         y: y - tam / 2,
@@ -48,18 +51,53 @@ export default function BolasDeNieve() {
         height: tam,
         scale: 1,
         rotation: 0,
+        transformOrigin: "50% 15%",
         borderRadius: "48% 52% 45% 55% / 55% 45% 55% 45%",
       });
+
+      const rastro = document.createElement("div");
+      Object.assign(rastro.style, {
+        position: "absolute",
+        left: `${x - 13}px`,
+        top: `${y - 6}px`,
+        width: "26px",
+        height: "0px",
+        borderRadius: "13px",
+        background:
+          "linear-gradient(to bottom, rgba(248,250,252,0.15), rgba(219,234,254,0.75))",
+        boxShadow: "0 0 4px rgba(30,58,138,0.2)",
+      });
+      capa.insertBefore(rastro, bola);
+
       gsap
-        .timeline({ onComplete: () => bola.remove() })
+        .timeline({
+          onComplete: () => {
+            bola.remove();
+            rastro.remove();
+          },
+        })
         .fromTo(
           bola,
           { scaleX: 0.6, scaleY: 0.6 },
           { scaleX: 1.15, scaleY: 0.9, duration: 0.12, ease: "power2.out" },
         )
-        .to(bola, { scaleX: 1, scaleY: 1, duration: 0.25, ease: "back.out(2)" })
-        .to(bola, { y: "+=17", scaleY: 1.12, duration: 2.4, ease: "power1.in" }, 0.9)
-        .to(bola, { opacity: 0, duration: 1.1, ease: "power1.in" }, 2.2);
+        .to(bola, { scaleX: 1, scaleY: 1, duration: 0.2, ease: "back.out(2)" })
+        // pegada un instante y luego se desliza rápido, cada vez más estirada
+        .to(
+          bola,
+          {
+            y: `+=${caida}`,
+            scaleY: 2.4,
+            scaleX: 0.7,
+            borderRadius: "50% 50% 46% 46% / 30% 30% 70% 70%",
+            duration: 0.7,
+            ease: "power1.in",
+          },
+          0.35,
+        )
+        .to(rastro, { height: caida + 30, duration: 0.7, ease: "power1.in" }, 0.35)
+        .to(bola, { opacity: 0, duration: 0.4, ease: "power1.in" }, 0.8)
+        .to(rastro, { opacity: 0, duration: 0.8, ease: "power1.out" }, 0.95);
     };
 
     const lanzar = (x, y) => {
