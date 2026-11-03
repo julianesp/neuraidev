@@ -169,7 +169,12 @@ export default function CategoryFilters() {
         <h4 className={styles.filterTitle}>Filtros</h4>
         <div className={styles.filtersList}>
           {filters.map((filter) => (
-            <label key={filter.id} className={styles.filterItem}>
+            <label
+              key={filter.id}
+              className={`${styles.filterItem} ${
+                selectedFilters.includes(filter.id) ? styles.filterItemActive : ""
+              }`}
+            >
               <input
                 type="checkbox"
                 checked={selectedFilters.includes(filter.id)}
