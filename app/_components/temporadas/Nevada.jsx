@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import useTemporadas, { useMovimientoReducido } from "./useTemporadas";
 import { COPOS_MAX } from "@/lib/temporadas";
@@ -10,9 +9,6 @@ import { COPOS_MAX } from "@/lib/temporadas";
 // (se posan sobre su borde y se derriten). La cantidad la da la fecha
 // (lib/temporadas.js). Canvas 2D con sprites pre-dibujados: es lo más liviano
 // para tenerlo en todas las páginas.
-
-// Bolas de nieve al hacer clic (GSAP): se descargan solo en temporada
-const BolasDeNieve = dynamic(() => import("./BolasDeNieve"), { ssr: false });
 
 const ALTO_NAVBAR = 60;
 const RUTAS_SIN_NIEVE = ["/dashboard", "/admin", "/sign-in", "/sign-up"];
@@ -292,20 +288,17 @@ export default function Nevada() {
   if (!activa) return null;
 
   return (
-    <>
-      <canvas
-        ref={canvasRef}
-        aria-hidden="true"
-        style={{
-          position: "fixed",
-          top: ALTO_NAVBAR,
-          left: 0,
-          // Debajo del navbar (2002), menús, carrito y modales
-          zIndex: 900,
-          pointerEvents: "none",
-        }}
-      />
-      <BolasDeNieve />
-    </>
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      style={{
+        position: "fixed",
+        top: ALTO_NAVBAR,
+        left: 0,
+        // Debajo del navbar (2002), menús, carrito y modales
+        zIndex: 900,
+        pointerEvents: "none",
+      }}
+    />
   );
 }
