@@ -34,6 +34,7 @@ import { Analytics } from "@vercel/analytics/next";
 import VisitasTracker from "@/components/VisitasTracker";
 import LoginTracker from "@/components/LoginTracker/LoginTracker";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import Nevada from "@/app/_components/temporadas/Nevada";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -256,6 +257,8 @@ export default function RootLayout({ children }) {
                       <ConditionalFooter />
                       {/* <StoreStatus /> */}
                     </div>
+                    {/* Nieve del 15 nov al 31 dic (lib/temporadas.js) */}
+                    <Nevada />
                     <ShoppingCart />
                     <AIChat />
                     <ChatSoporte />

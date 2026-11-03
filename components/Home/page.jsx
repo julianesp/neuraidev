@@ -16,6 +16,7 @@ import AppAndroidPestana from "@/app/_components/AppAndroidPestana";
 import GuiaCompraEpayco from "@/app/_components/guia-compra/GuiaCompraEpayco";
 import FacturaElectronicaAviso from "@/app/_components/guia-compra/FacturaElectronicaAviso";
 import VitrinaTecnico from "@/app/_components/home/VitrinaTecnico";
+import Carnaval from "@/app/_components/temporadas/Carnaval";
 import {
   Smartphone,
   Monitor,
@@ -283,6 +284,10 @@ export default function Inicio() {
         <div className={`${styles.presentacion}`}>
           <PresentationCarousel />
         </div>
+
+        {/* Carnaval de Negros y Blancos: solo del 1° al 7 de enero
+            (o en vista previa desde /dashboard/configuracion) */}
+        <Carnaval />
 
         {/* App Android: pestaña discreta en el borde izquierdo (medio logo) */}
         <AppAndroidPestana />

@@ -1,0 +1,300 @@
+// Carnaval de Negros y Blancos: negro, blanco y grises (colores propios del
+// carnaval y neutros de la paleta) con el azul de marca como acento.
+
+.banner {
+  position: relative;
+  overflow: hidden;
+  margin: 16px auto 0;
+  width: calc(100% - 32px);
+  max-width: 1200px;
+  border-radius: 20px;
+  border: 2px solid #111827;
+  background-color: #ffffff;
+  color: #111827;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+  :global(.dark) & {
+    border-color: #f9fafb;
+    background-color: #0b0b0c;
+    color: #f9fafb;
+  }
+}
+
+// Día de Negros: todo en negro
+.bannerNegros {
+  background-color: #0b0b0c;
+  color: #f9fafb;
+  border-color: #0b0b0c;
+
+  :global(.dark) & {
+    border-color: #f9fafb;
+  }
+}
+
+// Día de Blancos: todo en blanco
+.bannerBlancos {
+  background-color: #ffffff;
+  color: #111827;
+  border-color: #d1d5db;
+
+  :global(.dark) & {
+    background-color: #f9fafb;
+    color: #111827;
+    border-color: #f9fafb;
+  }
+}
+
+// Rombos de arlequín, mitad negro / mitad blanco
+.rombos {
+  position: absolute;
+  inset: 0;
+  opacity: 0.09;
+  pointer-events: none;
+  background-image:
+    linear-gradient(45deg, currentColor 25%, transparent 25%),
+    linear-gradient(-45deg, currentColor 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, currentColor 75%),
+    linear-gradient(-45deg, transparent 75%, currentColor 75%);
+  background-size: 36px 36px;
+  background-position: 0 0, 0 18px, 18px -18px, -18px 0;
+}
+
+.mitades {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 0 62%,
+    rgba(17, 24, 39, 0.92) 62% 100%
+  );
+
+  :global(.dark) & {
+    background: linear-gradient(
+      100deg,
+      transparent 0 62%,
+      rgba(249, 250, 251, 0.94) 62% 100%
+    );
+  }
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.serpentinas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.contenido {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+  padding: 28px 32px;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    padding: 22px 18px 20px;
+    text-align: center;
+  }
+}
+
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.titulo {
+  margin: 10px 0 6px;
+  font-size: clamp(1.4rem, 3.4vw, 2.3rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.palabraNegros,
+.palabraBlancos {
+  display: inline-block;
+  padding: 0 8px;
+  border-radius: 8px;
+}
+
+.palabraNegros {
+  background: #0b0b0c;
+  color: #ffffff;
+  box-shadow: inset 0 0 0 2px #0b0b0c;
+
+  :global(.dark) & {
+    box-shadow: inset 0 0 0 2px #f9fafb;
+  }
+}
+
+.palabraBlancos {
+  background: #ffffff;
+  color: #0b0b0c;
+  box-shadow: inset 0 0 0 2px #0b0b0c;
+}
+
+.mensaje {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.85;
+  max-width: 52ch;
+
+  @media (max-width: 767px) {
+    margin: 0 auto;
+  }
+}
+
+.lugar {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+  transition: background 0.2s, transform 0.15s;
+
+  &:hover {
+    background: #1d4ed8;
+  }
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.cuenta {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+// En escritorio las acciones quedan sobre la mitad contraria (oscura en modo
+// claro, clara en modo oscuro)
+.acciones {
+  @media (min-width: 768px) {
+    color: #f9fafb;
+    :global(.dark) & {
+      color: #111827;
+    }
+  }
+}
+
+.cerrar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.85);
+  color: #111827;
+
+  &:hover {
+    background: #ffffff;
+  }
+}
+
+.vistaPrevia {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  z-index: 2;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+
+  @media (max-width: 767px) {
+    position: static;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+}
+
+// Capa fija sobre la página de inicio para el confeti y el talco
+.capa {
+  position: fixed;
+  inset: 60px 0 0 0;
+  z-index: 900;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particula {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+
+.talco {
+  background: #ffffff;
+  box-shadow: 0 0 6px rgba(17, 24, 39, 0.25);
+}
+
+.cosmetico {
+  background: #0b0b0c;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.35);
+}
+
+.nube {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  filter: blur(10px);
+  will-change: transform, opacity;
+}
+
+.nubeTalco {
+  background: radial-gradient(circle, #ffffff 0%, rgba(243, 244, 246, 0.9) 45%, rgba(229, 231, 235, 0) 70%);
+}
+
+.nubeCosmetico {
+  background: radial-gradient(circle, #111827 0%, rgba(17, 24, 39, 0.75) 45%, rgba(17, 24, 39, 0) 70%);
+}

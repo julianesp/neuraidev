@@ -13,6 +13,7 @@ const Footer = () => {
 
   return (
     <footer
+      data-pie-sitio
       className={`${styles.footer} dark:bg-gray-900`}
     >
       {/* Botón flotante de redes sociales (con nombre y usuario de cada red) */}

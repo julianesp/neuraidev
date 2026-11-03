@@ -4,6 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { Settings, User, Bell, Shield, Palette, Database } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/contexts/ToastContext";
+import TemporadasConfig from "@/app/_components/dashboard/TemporadasConfig";
 
 export default function ConfiguracionPage() {
   const { user } = useUser();
@@ -191,6 +192,9 @@ export default function ConfiguracionPage() {
               )}
             </div>
           </div>
+
+          {/* Nieve y carnaval: vista previa antes de las fechas */}
+          <TemporadasConfig />
 
           {/* Appearance */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">

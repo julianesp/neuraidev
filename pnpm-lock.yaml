@@ -92,9 +92,24 @@ importers:
       '@tsparticles/all':
         specifier: ^3.8.1
         version: 3.9.1
+      '@tsparticles/engine':
+        specifier: 3.9.1
+        version: 3.9.1
       '@tsparticles/react':
         specifier: ^3.0.0
         version: 3.0.0(@tsparticles/engine@3.9.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@tsparticles/slim':
+        specifier: 3.9.1
+        version: 3.9.1
+      '@tsparticles/updater-roll':
+        specifier: 3.9.1
+        version: 3.9.1
+      '@tsparticles/updater-tilt':
+        specifier: 3.9.1
+        version: 3.9.1
+      '@tsparticles/updater-wobble':
+        specifier: 3.9.1
+        version: 3.9.1
       '@types/jsonwebtoken':
         specifier: ^9.0.10
         version: 9.0.10
