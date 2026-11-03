@@ -48,7 +48,7 @@ const TechnicalServicesCarousel = () => {
     },
     {
       id: 3,
-      title: "Upgrade de Componentes",
+      title: "Actualización de Componentes",
       description:
         "Mejora tu PC con nuevos componentes: RAM DDR4, discos SSD, y más.",
       image:
