@@ -3,6 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { ShoppingCart, Check } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import { useToast } from "@/contexts/ToastContext";
 import styles from "./PromocionesDestacadas.module.scss";
 
 export default function PromocionesDestacadas() {
@@ -12,6 +15,10 @@ export default function PromocionesDestacadas() {
   const [activa, setActiva] = useState(0);
   const carruselRef = useRef(null);
   const router = useRouter();
+  const { addToCart } = useCart();
+  const toast = useToast();
+  // id de la promo recién agregada, para mostrar "Agregado" un momento
+  const [agregada, setAgregada] = useState(null);
 
   useEffect(() => {
     cargarPromociones();
@@ -71,6 +78,44 @@ export default function PromocionesDestacadas() {
   const irA = (i) => {
     const tarjeta = carruselRef.current?.children[i];
     tarjeta?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+  };
+
+  // Agrega los productos de la promo con la cantidad mínima que activa el
+  // descuento (el carrito calcula el descuento solo). Respeta el stock.
+  const agregarAlCarrito = async (e, promo) => {
+    e.stopPropagation();
+    const unidades = Math.max(1, Number(promo.unidades || promo.cantidad_minima) || 1);
+    let agregados = 0;
+    let sinStock = 0;
+    for (const producto of promo.productos || []) {
+      const stock = Number(producto.stock ?? 999);
+      if (stock <= 0) {
+        sinStock += 1;
+        continue;
+      }
+      await addToCart(producto, Math.min(unidades, stock));
+      agregados += 1;
+    }
+
+    if (agregados === 0) {
+      toast?.warning?.("Los productos de esta promoción están agotados", {
+        title: "Sin stock",
+      });
+      return;
+    }
+    toast?.success?.(
+      unidades > 1
+        ? `Se agregaron ${unidades} unidades para activar el descuento`
+        : "Se agregó al carrito con el descuento",
+      { title: promo.nombre, duration: 3000 },
+    );
+    if (sinStock > 0) {
+      toast?.warning?.(`${sinStock} producto(s) de la promoción no tienen stock`, {
+        title: "Stock limitado",
+      });
+    }
+    setAgregada(promo.id);
+    setTimeout(() => setAgregada((id) => (id === promo.id ? null : id)), 2000);
   };
 
   const handleVerPromocion = (promo) => {
@@ -181,10 +226,27 @@ export default function PromocionesDestacadas() {
                 )}
               </div>
 
-              {/* Botón CTA */}
-              <button className={styles.btnVerMas}>
-                Ver productos →
-              </button>
+              {/* Botones */}
+              <div className={styles.botones}>
+                <button
+                  type="button"
+                  className={styles.btnCarrito}
+                  onClick={(e) => agregarAlCarrito(e, promo)}
+                >
+                  {agregada === promo.id ? (
+                    <>
+                      <Check size={18} /> Agregado
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart size={18} /> Agregar al carrito
+                    </>
+                  )}
+                </button>
+                <button type="button" className={styles.btnVerMas}>
+                  Ver productos →
+                </button>
+              </div>
             </div>
           </motion.div>
         ))}
