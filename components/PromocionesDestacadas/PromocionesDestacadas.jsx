@@ -181,17 +181,6 @@ export default function PromocionesDestacadas() {
                 )}
               </div>
 
-              {/* Fecha de expiración */}
-              {promo.fecha_fin && (
-                <div className={styles.expira}>
-                  ⏰ Válido hasta: {new Date(promo.fecha_fin).toLocaleDateString('es-CO', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric'
-                  })}
-                </div>
-              )}
-
               {/* Botón CTA */}
               <button className={styles.btnVerMas}>
                 Ver productos →

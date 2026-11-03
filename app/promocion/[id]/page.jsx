@@ -108,10 +108,6 @@ export default function PromocionCheckoutPage() {
     return null;
   }
 
-  const fechaFin = new Date(promocion.fecha_fin);
-  const hoy = new Date();
-  const diasRestantes = Math.ceil((fechaFin - hoy) / (1000 * 60 * 60 * 24));
-
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -132,23 +128,6 @@ export default function PromocionCheckoutPage() {
           {promocion.descripcion && (
             <p className={styles.descripcion}>{promocion.descripcion}</p>
           )}
-
-          {/* Contador de tiempo */}
-          <div className={styles.tiempoRestante}>
-            <span className={styles.reloj}>⏰</span>
-            <span className={styles.tiempo}>
-              {diasRestantes > 0
-                ? `¡Solo ${diasRestantes} ${diasRestantes === 1 ? 'día' : 'días'} restantes!`
-                : '¡Última oportunidad!'}
-            </span>
-            <span className={styles.fecha}>
-              Válido hasta: {fechaFin.toLocaleDateString('es-CO', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-              })}
-            </span>
-          </div>
         </motion.div>
 
         {/* Lista de productos */}
