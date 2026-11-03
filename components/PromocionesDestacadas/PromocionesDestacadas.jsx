@@ -7,13 +7,13 @@ import { ShoppingCart, Check } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import styles from "./PromocionesDestacadas.module.scss";
+import usePistaRebote from "./usePistaRebote";
 
 export default function PromocionesDestacadas() {
   const [promociones, setPromociones] = useState([]);
   const [productos, setProductos] = useState({});
   const [loading, setLoading] = useState(true);
-  const [activa, setActiva] = useState(0);
-  const carruselRef = useRef(null);
+  const pistaRef = useRef(null);
   const router = useRouter();
   const { addToCart } = useCart();
   const toast = useToast();
@@ -63,23 +63,6 @@ export default function PromocionesDestacadas() {
   const calcularAhorro = (promo) =>
     (promo.precio_total || 0) - (promo.precio_promocion || 0);
 
-  // En móvil la lista es un carrusel deslizable: marcar el punto de la
-  // tarjeta que quedó más a la izquierda tras el gesto
-  const alDesplazar = () => {
-    const el = carruselRef.current;
-    if (!el?.children.length) return;
-    const ancho = el.children[0].offsetWidth + 12; // ancho de tarjeta + gap
-    const i = Math.round(el.scrollLeft / ancho);
-    // Al llegar al final, el último punto (la última tarjeta no alcanza la izquierda)
-    const alFinal = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
-    setActiva(alFinal ? el.children.length - 1 : i);
-  };
-
-  const irA = (i) => {
-    const tarjeta = carruselRef.current?.children[i];
-    tarjeta?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-  };
-
   // Agrega los productos de la promo con la cantidad mínima que activa el
   // descuento (el carrito calcula el descuento solo). Respeta el stock.
   const agregarAlCarrito = async (e, promo) => {
@@ -123,6 +106,9 @@ export default function PromocionesDestacadas() {
     router.push(`/promocion/${promo.id}`);
   };
 
+  // Las tarjetas van de un lado al otro, chocan y rebotan
+  const pistaActiva = usePistaRebote(pistaRef, loading ? 0 : promociones.length);
+
   // Si no hay promociones o está cargando, no mostrar nada
   if (loading || promociones.length === 0) {
     return null;
@@ -141,14 +127,13 @@ export default function PromocionesDestacadas() {
       </div>
 
       <div
-        ref={carruselRef}
-        className={styles.grid}
-        onScroll={alDesplazar}
-        aria-label="Promociones, desliza para ver más"
+        ref={pistaRef}
+        className={`${styles.pista} ${pistaActiva ? styles.pistaActiva : ""}`}
+        aria-label="Promociones"
       >
         {promociones.map((promo, index) => (
+          <div key={promo.id} className={styles.movil} data-rebote>
           <motion.div
-            key={promo.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: index * 0.1 }}
@@ -235,37 +220,26 @@ export default function PromocionesDestacadas() {
                 >
                   {agregada === promo.id ? (
                     <>
-                      <Check size={18} /> Agregado
+                      <Check size={16} /> Agregado
                     </>
                   ) : (
                     <>
-                      <ShoppingCart size={18} /> Agregar al carrito
+                      <ShoppingCart size={16} />
+                      <span className={styles.textoLargo}>Agregar al carrito</span>
+                      <span className={styles.textoCorto}>Agregar</span>
                     </>
                   )}
                 </button>
                 <button type="button" className={styles.btnVerMas}>
-                  Ver productos →
+                  <span className={styles.textoLargo}>Ver productos →</span>
+                  <span className={styles.textoCorto}>Ver →</span>
                 </button>
               </div>
             </div>
           </motion.div>
+          </div>
         ))}
       </div>
-
-      {/* Puntos del carrusel (solo móvil) */}
-      {promociones.length > 1 && (
-        <div className={styles.puntos}>
-          {promociones.map((promo, i) => (
-            <button
-              key={promo.id}
-              type="button"
-              className={`${styles.punto} ${i === activa ? styles.puntoActivo : ""}`}
-              onClick={() => irA(i)}
-              aria-label={`Ver promoción ${i + 1} de ${promociones.length}`}
-            />
-          ))}
-        </div>
-      )}
     </section>
   );
 }
