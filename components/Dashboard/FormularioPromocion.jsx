@@ -373,6 +373,7 @@ export default function FormularioPromocion({ promocion, onGuardar, onCancelar }
       {showSelectorProductos && (
         <SelectorProductos
           productosSeleccionados={formData.productos_ids}
+          promocionId={promocion?.id}
           onConfirmar={handleProductosSeleccionados}
           onCancelar={() => setShowSelectorProductos(false)}
         />

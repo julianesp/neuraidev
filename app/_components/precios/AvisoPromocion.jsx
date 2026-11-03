@@ -10,7 +10,7 @@ export default function AvisoPromocion({ producto }) {
   const id = String(producto?.id || "");
   const textos = (promociones || [])
     .filter((p) => (p.productos_ids || []).map(String).includes(id))
-    .map((p) => ({ id: p.id, texto: textoPromocion(p), hasta: p.fecha_fin }))
+    .map((p) => ({ id: p.id, texto: textoPromocion(p) }))
     .filter((p) => p.texto);
 
   if (textos.length === 0) return null;
@@ -24,14 +24,7 @@ export default function AvisoPromocion({ producto }) {
         >
           <p className="font-bold text-blue-700 dark:text-blue-300">🔥 {p.texto}</p>
           <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
-            El descuento se aplica automáticamente en el carrito
-            {p.hasta &&
-              ` · hasta el ${new Date(p.hasta).toLocaleDateString("es-CO", {
-                day: "numeric",
-                month: "long",
-                timeZone: "America/Bogota",
-              })}`}
-            .
+            El descuento se aplica automáticamente en el carrito.
           </p>
         </div>
       ))}

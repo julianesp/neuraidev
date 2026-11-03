@@ -105,16 +105,6 @@ export default async function ProductosEnOfertaPage() {
                     ${producto.precioAnterior.toLocaleString("es-CO")}
                   </span>
                 </div>
-                {producto.ofertaHasta && (
-                  <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1">
-                    Hasta el{" "}
-                    {new Date(producto.ofertaHasta).toLocaleDateString("es-CO", {
-                      day: "numeric",
-                      month: "long",
-                      timeZone: "America/Bogota",
-                    })}
-                  </p>
-                )}
               </div>
             </Link>
           );
