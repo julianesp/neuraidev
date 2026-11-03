@@ -9,7 +9,7 @@ import gsap from "gsap";
 // un clic nuevo quita la anterior.
 
 const ALTO_NAVBAR = 60;
-const TAM_BOLA = 90;
+const TAM_BOLA = 30;
 const INTERACTIVOS =
   "a, button, input, textarea, select, label, summary, video, iframe, [role='button'], [contenteditable='true']";
 
@@ -33,14 +33,14 @@ export default function BolasDeNieve() {
       // Sacudida corta del "vidrio"
       gsap.to(capa, {
         keyframes: [
-          { x: -5, y: 3, duration: 0.04 },
-          { x: 4, y: -3, duration: 0.04 },
+          { x: -2, y: 1, duration: 0.04 },
+          { x: 2, y: -1, duration: 0.04 },
           { x: 0, y: 0, duration: 0.05 },
         ],
       });
 
       // La misma bola se aplasta contra la pantalla, se escurre y se derrite
-      const tam = 150;
+      const tam = 50;
       gsap.set(bola, {
         x: x - tam / 2,
         y: y - tam / 2,
@@ -58,7 +58,7 @@ export default function BolasDeNieve() {
           { scaleX: 1.15, scaleY: 0.9, duration: 0.12, ease: "power2.out" },
         )
         .to(bola, { scaleX: 1, scaleY: 1, duration: 0.25, ease: "back.out(2)" })
-        .to(bola, { y: "+=50", scaleY: 1.12, duration: 2.4, ease: "power1.in" }, 0.9)
+        .to(bola, { y: "+=17", scaleY: 1.12, duration: 2.4, ease: "power1.in" }, 0.9)
         .to(bola, { opacity: 0, duration: 1.1, ease: "power1.in" }, 2.2);
     };
 
@@ -78,7 +78,7 @@ export default function BolasDeNieve() {
         borderRadius: "50%",
         background: FONDO_BOLA,
         boxShadow:
-          "inset -6px -8px 14px rgba(59,130,246,0.25), 0 6px 18px rgba(30,58,138,0.35)",
+          "inset -2px -3px 5px rgba(59,130,246,0.25), 0 2px 6px rgba(30,58,138,0.35)",
       });
       capa.appendChild(bola);
 
