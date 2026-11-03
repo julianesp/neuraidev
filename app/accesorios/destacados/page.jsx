@@ -12,7 +12,6 @@ async function getFeaturedProducts(limit = 20) {
 }
 import AddToCartButton from "@/components/AddToCartButton";
 import FavoriteButton from "@/components/FavoriteButton";
-import Advertisement from "@/components/Advertisement";
 import { LayoutGrid, Columns } from "lucide-react";
 import ProductoCascada from "@/components/ProductoCascada/page";
 
@@ -35,43 +34,6 @@ export default function AccesoriosDestacadosPage() {
     setViewMode(mode);
     localStorage.setItem("productViewMode", mode);
   };
-
-  // Anuncios de negocios locales
-  const ads = [
-    {
-      businessName: "Tienda Local",
-      description:
-        "Abarrotes y productos básicos para tu hogar. Servicio a domicilio disponible.",
-      imageUrl:
-        "https://media.neurai.dev/Others/store.png",
-      businessId: "tienda-local",
-    },
-    {
-      businessName: "Panadería El Trigal",
-      description:
-        "Pan fresco todos los días. Especialistas en productos artesanales.",
-      imageUrl:
-        "https://media.neurai.dev/Others/store.png",
-      businessId: "panaderia-el-trigal",
-    },
-    {
-      businessName: "Ferretería Martínez",
-      description:
-        "Todo para construcción y reparaciones. Más de 20 años de experiencia.",
-      imageUrl:
-        "https://media.neurai.dev/Others/store.png",
-      businessId: "ferreteria-martinez",
-    },
-    {
-      businessName: "¿Tienes un negocio?",
-      description:
-        "Solicita tu espacio publicitario aquí y llega a más clientes en tu zona.",
-      imageUrl:
-        "https://media.neurai.dev/Others/store.png",
-      linkUrl:
-        "https://wa.me/573174503604?text=Hola,%20me%20interesa%20solicitar%20un%20espacio%20publicitario%20para%20mi%20negocio%20en%20NeuraIdev",
-    },
-  ];
 
   useEffect(() => {
     const cargarAccesorios = async () => {
@@ -352,11 +314,6 @@ export default function AccesoriosDestacadosPage() {
               </div>
             </div>
           </div>
-
-          {/* Sidebar - Advertisement */}
-          <aside className="lg:w-80 flex-shrink-0">
-            <Advertisement ads={ads} />
-          </aside>
         </div>
       </div>
     </main>
