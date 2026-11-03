@@ -188,6 +188,27 @@ export default function CategoryFilters() {
         </div>
       </div>
 
+      {/* Botones de acción: justo debajo de los filtros para que se vean
+          sin tener que bajar */}
+      <AnimatePresence>
+        {(selectedFilters.length > 0 || selectedPriceRange) && (
+          <motion.div
+            className={styles.actionsSection}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+          >
+            <button onClick={handleApplyFilters} className={styles.applyButton}>
+              Aplicar filtros
+            </button>
+            <button onClick={clearFilters} className={styles.clearButton}>
+              Limpiar
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Rango de precio */}
       <div className={styles.priceSection}>
         <h4 className={styles.filterTitle}>Precio</h4>
@@ -205,18 +226,6 @@ export default function CategoryFilters() {
           ))}
         </div>
       </div>
-
-      {/* Botones de acción */}
-      {(selectedFilters.length > 0 || selectedPriceRange) && (
-        <div className={styles.actionsSection}>
-          <button onClick={handleApplyFilters} className={styles.applyButton}>
-            Aplicar filtros
-          </button>
-          <button onClick={clearFilters} className={styles.clearButton}>
-            Limpiar
-          </button>
-        </div>
-      )}
     </div>
   );
 }

@@ -252,10 +252,13 @@
   }
 }
 
+// Va entre los filtros y el precio; el relleno (no margen) deja que la
+// animación de altura sea suave
 .actionsSection {
-  margin-top: 20px;
   display: flex;
   gap: 10px;
+  overflow: hidden;
+  padding-top: 14px;
 }
 
 .applyButton,
