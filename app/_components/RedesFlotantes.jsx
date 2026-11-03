@@ -20,8 +20,8 @@ const REDES = [
   },
   {
     nombre: "Instagram",
-    detalle: "@julianrio95",
-    href: "https://www.instagram.com/julianrio95/",
+    detalle: "@neurai_dev",
+    href: "https://www.instagram.com/neurai_dev/",
     icono: "/images/social/instagram.png",
   },
   {
