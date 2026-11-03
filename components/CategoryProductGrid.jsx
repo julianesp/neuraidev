@@ -87,7 +87,7 @@ export default function CategoryProductGrid({
                   d="m1 9 4-4-4-4"
                 />
               </svg>
-              <span className="ml-1 text-sm font-medium text-white dark:text-gray-400 md:ml-2">
+              <span className="ml-1 text-xl font-medium text-blue-600 dark:text-blue-400 md:ml-2">
                 {categoryName}
               </span>
             </div>

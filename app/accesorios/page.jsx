@@ -4,6 +4,7 @@ import CategoryCard from "@/components/CategoryCard";
 import CategoryProductGrid from "@/components/CategoryProductGrid";
 import { getSupabaseClient } from "@/lib/db";
 import { obtenerCampanasVigentes } from "@/lib/ofertas-server";
+import { obtenerPromocionesVigentes } from "@/lib/promociones-server";
 import { aplicarPrecioVigente } from "@/lib/precios";
 import { getCategoriesWithStock, shouldShowCategory } from "@/utils/categoriesWithStock";
 
@@ -99,8 +100,17 @@ async function loadFilteredProducts({ filters, min, max }) {
       query = query.gte("precio", min);
     }
 
-    const [{ data, error }, campanas] = await Promise.all([query, obtenerCampanasVigentes()]);
+    const [{ data, error }, campanas, promociones] = await Promise.all([
+      query,
+      obtenerCampanasVigentes(),
+      hasDescuento ? obtenerPromocionesVigentes() : [],
+    ]);
     if (error) throw error;
+
+    // Productos que participan en alguna promoción vigente (combos, 2x1, % por cantidad)
+    const enPromocion = new Set(
+      promociones.flatMap((promo) => (promo.productos_ids || []).map(String)),
+    );
 
     const productos = (data || [])
       // Los servicios técnicos se venden en combo, no en el catálogo
@@ -112,8 +122,10 @@ async function loadFilteredProducts({ filters, min, max }) {
         disponible: p.disponible && p.stock > 0,
       }));
 
-    // "descuento" = oferta, precio de lanzamiento o campaña vigente
-    return hasDescuento ? productos.filter((p) => p.ofertaTipo) : productos;
+    // "descuento" = oferta, precio de lanzamiento, campaña o promoción vigente
+    return hasDescuento
+      ? productos.filter((p) => p.ofertaTipo || enPromocion.has(String(p.id)))
+      : productos;
   } catch (e) {
     console.error("[loadFilteredProducts]", e);
     return [];
