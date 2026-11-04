@@ -47,6 +47,21 @@ export default function NuevoArticulo() {
 
   });
 
+  // Actualiza un campo sobre el estado más reciente (evita perder otros campos)
+  const setField = (campo, valor) =>
+    setFormData((prev) => ({ ...prev, [campo]: valor }));
+
+  // Campos obligatorios vacíos (el editor deja "<p></p>" cuando no hay texto)
+  const camposFaltantes = () => {
+    const textoContenido = (formData.content || "").replace(/<[^>]*>/g, "").trim();
+    return [
+      !formData.title?.trim() && "Título",
+      !formData.slug?.trim() && "Slug",
+      !formData.excerpt?.trim() && "Extracto",
+      !textoContenido && "Contenido",
+    ].filter(Boolean);
+  };
+
   React.useEffect(() => {
   }, []);
 
@@ -85,21 +100,21 @@ export default function NuevoArticulo() {
 
   const handleTitleChange = (e) => {
     const title = e.target.value;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       title,
       slug: generateSlug(title),
       meta_title: title,
-    });
+    }));
   };
 
   const handleExcerptChange = (e) => {
     const excerpt = e.target.value;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       excerpt,
       meta_description: excerpt,
-    });
+    }));
   };
 
   const handleSubmit = async (e, publish = false) => {
@@ -108,11 +123,12 @@ export default function NuevoArticulo() {
 
     try {
       // Validar campos requeridos
-      if (!formData.title || !formData.slug || !formData.excerpt || !formData.content) {
+      const faltan = camposFaltantes();
+      if (faltan.length > 0) {
         await Swal.fire({
           icon: "error",
           title: "Campos requeridos",
-          text: "Por favor completa todos los campos requeridos: Título, Slug, Extracto y Contenido",
+          text: `Falta completar: ${faltan.join(", ")}`,
         });
         setLoading(false);
         return;
@@ -210,7 +226,7 @@ export default function NuevoArticulo() {
                   type="text"
                   value={formData.slug}
                   onChange={(e) =>
-                    setFormData({ ...formData, slug: e.target.value })
+                    setField("slug", e.target.value)
                   }
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white font-mono text-sm"
                   placeholder="las-mejores-laptops-2025"
@@ -229,7 +245,7 @@ export default function NuevoArticulo() {
                   <select
                     value={formData.category}
                     onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
+                      setField("category", e.target.value)
                     }
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     required
@@ -250,7 +266,7 @@ export default function NuevoArticulo() {
                     type="number"
                     value={formData.read_time}
                     onChange={(e) =>
-                      setFormData({ ...formData, read_time: e.target.value })
+                      setField("read_time", e.target.value)
                     }
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="Ej: 5"
@@ -267,7 +283,7 @@ export default function NuevoArticulo() {
                   type="text"
                   value={formData.author}
                   onChange={(e) =>
-                    setFormData({ ...formData, author: e.target.value })
+                    setField("author", e.target.value)
                   }
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
@@ -341,7 +357,7 @@ export default function NuevoArticulo() {
                     type="checkbox"
                     checked={formData.featured}
                     onChange={(e) =>
-                      setFormData({ ...formData, featured: e.target.checked })
+                      setField("featured", e.target.checked)
                     }
                     className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                   />
@@ -360,7 +376,7 @@ export default function NuevoArticulo() {
             </h2>
             <BlogEditor
               content={formData.content}
-              onChange={(content) => setFormData({ ...formData, content })}
+              onChange={(content) => setField("content", content)}
             />
           </div>
 
@@ -378,7 +394,7 @@ export default function NuevoArticulo() {
                   type="text"
                   value={formData.meta_title}
                   onChange={(e) =>
-                    setFormData({ ...formData, meta_title: e.target.value })
+                    setField("meta_title", e.target.value)
                   }
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="Se usará el título si está vacío"
@@ -392,10 +408,7 @@ export default function NuevoArticulo() {
                 <textarea
                   value={formData.meta_description}
                   onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      meta_description: e.target.value,
-                    })
+                    setField("meta_description", e.target.value)
                   }
                   rows="2"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
@@ -411,7 +424,7 @@ export default function NuevoArticulo() {
                   type="text"
                   value={formData.meta_keywords}
                   onChange={(e) =>
-                    setFormData({ ...formData, meta_keywords: e.target.value })
+                    setField("meta_keywords", e.target.value)
                   }
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="tecnología, laptops, guía de compra"

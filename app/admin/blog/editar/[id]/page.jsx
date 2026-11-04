@@ -50,6 +50,21 @@ export default function EditarArticulo() {
     meta_keywords: "",
   });
 
+  // Actualiza un campo sobre el estado más reciente (evita perder otros campos)
+  const setField = (campo, valor) =>
+    setFormData((prev) => ({ ...prev, [campo]: valor }));
+
+  // Campos obligatorios vacíos (el editor deja "<p></p>" cuando no hay texto)
+  const camposFaltantes = () => {
+    const textoContenido = (formData.content || "").replace(/<[^>]*>/g, "").trim();
+    return [
+      !formData.title?.trim() && "Título",
+      !formData.slug?.trim() && "Slug",
+      !formData.excerpt?.trim() && "Extracto",
+      !textoContenido && "Contenido",
+    ].filter(Boolean);
+  };
+
   useEffect(() => {
     fetchPost();
   }, [postId]);
@@ -106,11 +121,12 @@ export default function EditarArticulo() {
     setSaving(true);
 
     try {
-      if (!formData.title || !formData.slug || !formData.excerpt || !formData.content) {
+      const faltan = camposFaltantes();
+      if (faltan.length > 0) {
         await Swal.fire({
           icon: "error",
           title: "Campos requeridos",
-          text: "Por favor completa todos los campos requeridos",
+          text: `Falta completar: ${faltan.join(", ")}`,
         });
         setSaving(false);
         return;
@@ -300,7 +316,7 @@ export default function EditarArticulo() {
                   type="text"
                   value={formData.title}
                   onChange={(e) =>
-                    setFormData({ ...formData, title: e.target.value })
+                    setField("title", e.target.value)
                   }
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   required
@@ -315,7 +331,7 @@ export default function EditarArticulo() {
                   type="text"
                   value={formData.slug}
                   onChange={(e) =>
-                    setFormData({ ...formData, slug: e.target.value })
+                    setField("slug", e.target.value)
                   }
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white font-mono text-sm"
                   required
@@ -330,7 +346,7 @@ export default function EditarArticulo() {
                   <select
                     value={formData.category}
                     onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
+                      setField("category", e.target.value)
                     }
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     required
@@ -351,7 +367,7 @@ export default function EditarArticulo() {
                     type="number"
                     value={formData.read_time}
                     onChange={(e) =>
-                      setFormData({ ...formData, read_time: e.target.value })
+                      setField("read_time", e.target.value)
                     }
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     min="1"
@@ -367,7 +383,7 @@ export default function EditarArticulo() {
                   type="text"
                   value={formData.author}
                   onChange={(e) =>
-                    setFormData({ ...formData, author: e.target.value })
+                    setField("author", e.target.value)
                   }
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
@@ -380,7 +396,7 @@ export default function EditarArticulo() {
                 <textarea
                   value={formData.excerpt}
                   onChange={(e) =>
-                    setFormData({ ...formData, excerpt: e.target.value })
+                    setField("excerpt", e.target.value)
                   }
                   rows="3"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
@@ -441,7 +457,7 @@ export default function EditarArticulo() {
                     type="checkbox"
                     checked={formData.featured}
                     onChange={(e) =>
-                      setFormData({ ...formData, featured: e.target.checked })
+                      setField("featured", e.target.checked)
                     }
                     className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                   />
@@ -459,7 +475,7 @@ export default function EditarArticulo() {
             </h2>
             <BlogEditor
               content={formData.content}
-              onChange={(content) => setFormData({ ...formData, content })}
+              onChange={(content) => setField("content", content)}
             />
           </div>
 
