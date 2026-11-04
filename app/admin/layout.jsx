@@ -1,5 +1,6 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import MarcarEquipoAdmin from "@/app/_components/MarcarEquipoAdmin";
 
 const ADMIN_EMAILS = ["julii1295@gmail.com", "admin@neurai.dev"];
 
@@ -30,6 +31,7 @@ export default async function AdminLayout({ children }) {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <MarcarEquipoAdmin />
       {children}
     </div>
   );

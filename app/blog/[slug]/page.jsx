@@ -6,6 +6,11 @@ import styles from "../blog.module.css";
 import Link from "next/link";
 import BlogReader from "@/components/BlogReader/BlogReader";
 import BlogComments from "@/components/BlogComments/BlogComments";
+import { cookies, headers } from "next/headers";
+import { auth } from "@clerk/nextjs/server";
+import { getCurrentUserWithRole } from "@/lib/auth/server-roles";
+import { COOKIE_EQUIPO_ADMIN } from "@/lib/auth/equipo-admin";
+import MarcarEquipoAdmin from "@/app/_components/MarcarEquipoAdmin";
 
 async function getPostBySlug(slug) {
   const db = getSupabaseServerClient();
@@ -13,9 +18,26 @@ async function getPostBySlug(slug) {
   return data || null;
 }
 
+// Bots, rastreadores y generadores de vista previa de enlaces (WhatsApp, Facebook…)
+const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|meta-externalagent|whatsapp|telegram|discord|skype|embedly|vercel|headless|lighthouse|pagespeed|gtmetrix|ahrefs|semrush|mj12|dotbot|petal|bytespider|gpt|claude|anthropic|perplexity|ccbot|curl|wget|python|axios|node-fetch|go-http|java\//i;
+
+// No cuentan: bots, equipos del dueño (cookie puesta por MarcarEquipoAdmin) ni admins con sesión
+async function esVistaReal() {
+  const ua = (await headers()).get("user-agent") || "";
+  if (!ua || BOT_UA.test(ua)) return false;
+  if ((await cookies()).get(COOKIE_EQUIPO_ADMIN)) return false;
+  const { userId } = await auth();
+  if (userId) {
+    const { isAdmin } = await getCurrentUserWithRole();
+    if (isAdmin) return false;
+  }
+  return true;
+}
+
 async function incrementPostViews(slug) {
   // Best-effort view increment — ignore errors
   try {
+    if (!(await esVistaReal())) return;
     const db = getSupabaseServerClient();
     const { data: post } = await db.from('blog_posts').select('views').eq('slug', slug).single();
     if (post) {
@@ -124,6 +146,7 @@ export default async function BlogPost({ params }) {
 
   return (
     <div className={styles.newspaperContainer}>
+      <MarcarEquipoAdmin />
       <div className={styles.newspaper}>
         {/* Masthead */}
         <header className={styles.masthead}>

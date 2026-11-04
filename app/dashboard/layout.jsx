@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
+import MarcarEquipoAdmin from "@/app/_components/MarcarEquipoAdmin";
 
 // Create context for sidebar state
 const SidebarContext = createContext();
@@ -220,6 +221,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <AdminGuard>
+      <MarcarEquipoAdmin />
       <SidebarContext.Provider value={{ sidebarOpen, toggleSidebar }}>
         <div className="min-h-screen bg-gray-50 mt-8">
           {/* Mobile sidebar toggle - Posicionado para no interferir con navbar */}
