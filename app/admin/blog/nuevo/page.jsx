@@ -23,6 +23,7 @@ const CATEGORIES = [
   "Computadores",
   "Accesorios",
   "Software",
+  "Técnico en Sistemas",
 ];
 
 export default function NuevoArticulo() {
