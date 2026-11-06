@@ -239,6 +239,7 @@ function RespuestaPagoContent() {
 
             // Llama a reconcile (consulta ePayco y completa la orden si está
             // Aceptada) y, si aún no teníamos referencia, la toma de la respuesta.
+            // Devuelve la respuesta de reconcile para decidir si seguir esperando.
             const reconciliar = async () => {
               try {
                 const res = await fetch(reconcileUrl(reference, epaycoRef));
@@ -248,8 +249,10 @@ function RespuestaPagoContent() {
                   setRefEnCurso(reference);
                   setPaymentData((prev) => (prev ? { ...prev, reference } : prev));
                 }
+                return info;
               } catch (recErr) {
                 console.error("Error en reconciliación de pago:", recErr);
+                return null;
               }
             };
 
@@ -292,6 +295,14 @@ function RespuestaPagoContent() {
             // el cliente tenga que recargar. Máx ~5 min (60 intentos x 5s) para
             // cubrir con margen la latencia de PSE.
             const MAX_INTENTOS = 60;
+            // Si el cliente cerró la pasarela con la "X" sin pagar, ePayco
+            // vuelve sin ref_payco y nunca llega a existir una transacción:
+            // reconcile responde "sin-ref-payco" en cada intento. Esperar 5 min
+            // ahí desespera al cliente, así que tras una gracia corta (por si el
+            // webhook de un pago real está por llegar) lo damos por no pagado.
+            const MAX_INTENTOS_SIN_TRANSACCION = 3;
+            let intentosSinTransaccion = 0;
+            let estadoEpayco = null;
             // Si aún no se conoce la referencia (ePayco tarda en reportar la
             // transacción), también seguimos intentando: reconcile la resuelve
             // en cuanto ePayco responde o el webhook marca la orden.
@@ -302,14 +313,31 @@ function RespuestaPagoContent() {
               intento++
             ) {
               setVerificandoPago(true);
-              await reconciliar();
+              const info = await reconciliar();
               order = (await fetchOrder()) || order;
               if (estaCompletada(order) || estaRechazada(order)) break;
-              await wait(5000);
+              // ePayco confirmó que la transacción fue rechazada o falló.
+              if (info?.verified && (info.status === "DECLINED" || info.status === "ERROR")) {
+                estadoEpayco = info.status;
+                break;
+              }
+              if (!epaycoRef && info?.reason === "sin-ref-payco") {
+                intentosSinTransaccion++;
+                if (intentosSinTransaccion >= MAX_INTENTOS_SIN_TRANSACCION) {
+                  estadoEpayco = "CANCELLED";
+                  break;
+                }
+              }
+              await wait(intentosSinTransaccion > 0 ? 2000 : 5000);
             }
             setVerificandoPago(false);
 
             if (order) setOrderData(order);
+
+            if (estadoEpayco && !estaCompletada(order)) {
+              data.status = estadoEpayco;
+              setPaymentData((prev) => (prev ? { ...prev, status: estadoEpayco } : prev));
+            }
 
             // El pago cuenta como exitoso si la URL lo dice O la orden quedó
             // completada (tras el webhook o la reconciliación).
@@ -1012,9 +1040,22 @@ function RespuestaPagoContent() {
                 </>
               )}
               {status.type === "cancelled" && (
-                <p>
-                  Cuando estés listo para comprar, puedes volver al producto y completar el pago. ¡Te esperamos!
-                </p>
+                <>
+                  <p>
+                    Cuando estés listo para comprar, puedes volver al producto y completar el pago. ¡Te esperamos!
+                  </p>
+                  {/* Por si sí pagó y la confirmación de ePayco llegó tarde */}
+                  {(refEnCurso || refPaycoEnCurso) && (
+                    <button
+                      type="button"
+                      onClick={verificarPagoAhora}
+                      disabled={verificandoManual}
+                      className="mt-2 font-semibold underline hover:text-blue-600 disabled:opacity-60"
+                    >
+                      {verificandoManual ? "Verificando…" : "¿Ya pagaste? Verificar mi pago"}
+                    </button>
+                  )}
+                </>
               )}
               {status.type === "error" && (
                 <p>
