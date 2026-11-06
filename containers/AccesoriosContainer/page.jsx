@@ -735,8 +735,9 @@ const AccesoriosContainer = ({
       {/* max-w-4xl */}
       <div ref={containerRef} id="accesorios-container" className="w-full">
         <div className="mx-auto px-2 py-4 md:p-4">
-          {/* Breadcrumbs */}
+          {/* Breadcrumbs: solo el schema para SEO; en pantalla va la flecha de volver */}
           <Breadcrumbs
+            soloSchema
             items={[
               { name: "Accesorios", url: "/accesorios" },
               {
@@ -749,8 +750,22 @@ const AccesoriosContainer = ({
               },
             ]}
           />
-          <div className="flex items-start justify-between gap-4 mb-6">
-            <h1 className="text-3xl font-bold text-center flex-1 min-w-0">
+          <div className={styles.encabezado}>
+            <button
+              type="button"
+              onClick={() => {
+                // Si llegó desde otra página del sitio, volver; si entró
+                // directo (enlace compartido), ir a la categoría.
+                if (window.history.length > 1) router.back();
+                else router.push(`/accesorios/${categorySlug}`);
+              }}
+              className={styles.botonAtras}
+              aria-label="Ir atrás"
+              title="Ir atrás"
+            >
+              <ChevronLeft size={22} />
+            </button>
+            <h1 className={styles.tituloProducto} title={accesorio.nombre}>
               {accesorio.nombre}
             </h1>
             <div className="flex items-center gap-2 flex-shrink-0 relative z-10">
@@ -802,11 +817,12 @@ const AccesoriosContainer = ({
               {!isImageModalOpen && !showVideo && (
                 <button
                   onClick={openImageModal}
-                  className="absolute top-2 right-2 z-10 bg-white/90 hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800 text-gray-900 dark:text-white p-2.5 md:p-3 rounded-full transition-all duration-200 shadow-xl border-2 border-gray-300 dark:border-gray-600 hover:scale-110 "
+                  className={styles.botonExpandir}
                   aria-label="Ver imagen en pantalla completa"
                 >
                   <svg
-                    className="w-10 h-10 md:w-6 md:h-6"
+                    width="20"
+                    height="20"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

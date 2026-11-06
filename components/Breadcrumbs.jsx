@@ -8,7 +8,7 @@ import { ChevronRight, Home } from "lucide-react";
  * @param {Array} items - Array de objetos {name, url}
  * Ejemplo: [{name: "Inicio", url: "/"}, {name: "Accesorios", url: "/accesorios"}]
  */
-export default function Breadcrumbs({ items = [] }) {
+export default function Breadcrumbs({ items = [], soloSchema = false }) {
   if (!items || items.length === 0) return null;
 
   // Siempre incluir "Inicio" al principio si no está
@@ -37,7 +37,8 @@ export default function Breadcrumbs({ items = [] }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      {/* Visual breadcrumbs */}
+      {/* Visual breadcrumbs (se omiten con soloSchema: solo queda el JSON-LD para SEO) */}
+      {!soloSchema && (
       <nav
         aria-label="Breadcrumb"
         className="mb-6 text-sm"
@@ -77,6 +78,7 @@ export default function Breadcrumbs({ items = [] }) {
           })}
         </ol>
       </nav>
+      )}
     </>
   );
 }
