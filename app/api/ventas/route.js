@@ -87,7 +87,8 @@ export async function POST(request) {
       comprobante_pago,
       codigo_barras,
       numero_serie,
-      notas
+      notas,
+      fecha_venta,
     } = body;
 
     // Validaciones
@@ -141,6 +142,9 @@ export async function POST(request) {
     }
 
     const ahora = new Date().toISOString();
+    // Al agregar productos/servicios a una venta existente se reutiliza su
+    // fecha, para que queden en el mismo grupo y en la misma factura.
+    const fechaVenta = fecha_venta && !isNaN(Date.parse(fecha_venta)) ? fecha_venta : ahora;
     const numeroVenta = `V-${Date.now()}`;
     const precioCompraNum = parseFloat(precio_compra);
     const precioVentaNum = parseFloat(precio_venta);
@@ -151,7 +155,7 @@ export async function POST(request) {
       .insert({
         id: crypto.randomUUID(),
         numero_venta: numeroVenta,
-        fecha_venta: ahora,
+        fecha_venta: fechaVenta,
         producto_id: producto_id || null,
         producto_nombre: nombreProducto,
         cantidad,
