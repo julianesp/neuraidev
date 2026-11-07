@@ -19,12 +19,35 @@ import Image from "next/image";
  *   }
  *   onClose: () => void
  */
+// Tamaños de hoja. Los de media hoja escalan la factura (diseñada a ~190mm de
+// ancho) para que quepa en el ancho útil de la página.
+const FORMATOS = {
+  a4: { label: "A4", page: "A4", margen: "8mm 12mm", zoom: 1 },
+  carta: { label: "Carta", page: "letter", margen: "8mm 12mm", zoom: 1 },
+  "media-carta": { label: "Media carta (½ hoja carta)", page: "139.7mm 215.9mm", margen: "5mm", zoom: 129.7 / 190 },
+  a5: { label: "A5 (½ hoja A4)", page: "A5", margen: "5mm", zoom: 138 / 190 },
+};
+
 export default function FacturaVentaModal({ grupo, onClose }) {
   // El modal se renderiza en un portal a <body> para que el overlay sea hijo
   // directo del body; así la regla de impresión que oculta el resto de la
   // página (body > *:not(#factura-overlay)) funciona de forma fiable.
   const [montado, setMontado] = useState(false);
   useEffect(() => setMontado(true), []);
+
+  const [formato, setFormato] = useState("a4");
+  useEffect(() => {
+    try {
+      const guardado = localStorage.getItem("factura-formato");
+      if (guardado && FORMATOS[guardado]) setFormato(guardado);
+    } catch {}
+  }, []);
+  const cambiarFormato = (f) => {
+    setFormato(f);
+    try { localStorage.setItem("factura-formato", f); } catch {}
+  };
+  const fmtHoja = FORMATOS[formato];
+  const mediaHoja = fmtHoja.zoom < 1;
 
   if (!grupo || !montado) return null;
 
@@ -85,7 +108,7 @@ export default function FacturaVentaModal({ grupo, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Barra de acciones (no se imprime) ── */}
-        <div className="mb-4 flex items-center justify-between print:hidden">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2 print:hidden">
           <button
             onClick={onClose}
             className="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-100 transition-colors shadow"
@@ -93,19 +116,33 @@ export default function FacturaVentaModal({ grupo, onClose }) {
             <X className="w-5 h-5" />
             Cerrar
           </button>
+          <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={formato}
+            onChange={(e) => cambiarFormato(e.target.value)}
+            aria-label="Tamaño de hoja"
+            className="px-3 py-2 bg-white text-gray-700 rounded-lg shadow text-sm focus:ring-2 focus:ring-blue-500"
+          >
+            {Object.entries(FORMATOS).map(([id, f]) => (
+              <option key={id} value={id}>{f.label}</option>
+            ))}
+          </select>
           <button
             onClick={handleImprimir}
             className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors shadow"
           >
             <Download className="w-4 h-4" /> Imprimir / Descargar PDF
           </button>
+          </div>
         </div>
 
         {/* ══════════════ FACTURA (todo lo que se imprime) ══════════════ */}
         <div
           id="factura-container"
           className="bg-white shadow-2xl rounded-2xl overflow-hidden print:shadow-none print:rounded-none"
-          style={{ maxWidth: "210mm", margin: "0 auto" }}
+          style={mediaHoja
+            ? { width: "190mm", maxWidth: "none", margin: "0 auto", zoom: fmtHoja.zoom }
+            : { maxWidth: "210mm", margin: "0 auto" }}
         >
           {/* ── HEADER ── */}
           <div className="flex items-stretch min-h-[130px] print:min-h-0">
@@ -135,7 +172,7 @@ export default function FacturaVentaModal({ grupo, onClose }) {
             </div>
 
             <div
-              className="flex-1 flex flex-col justify-center px-7 py-5 print:px-5 print:py-4"
+              className="flex-1 flex flex-col justify-center items-end text-right px-7 py-5 print:px-5 print:py-4"
               style={{ background: "#f8f7ff" }}
             >
               <div className="space-y-0.5 text-xs text-gray-600 print:text-[10px]">
@@ -334,7 +371,13 @@ export default function FacturaVentaModal({ grupo, onClose }) {
             overflow: visible !important;
             background: #fff !important;
           }
-          @page { size: A4; margin: 8mm 12mm; }
+        }
+      `}</style>
+      {/* Tamaño de hoja elegido (se inyecta aparte porque cambia en vivo) */}
+      <style>{`
+        @media print {
+          @page { size: ${fmtHoja.page}; margin: ${fmtHoja.margen}; }
+          ${mediaHoja ? `#factura-container { width: 190mm !important; max-width: none !important; zoom: ${fmtHoja.zoom}; }` : ""}
         }
       `}</style>
     </div>,
