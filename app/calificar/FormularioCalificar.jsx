@@ -199,9 +199,11 @@ export default function FormularioCalificar({
     return u.toString();
   };
 
-  // Entrar con Facebook o Google en una ventana emergente: la página no se
-  // recarga y el formulario sigue tal cual. Si el navegador bloquea la
-  // ventana, se usa la redirección (vuelve a #calificar con el borrador).
+  // Entrar con Facebook o Google. En computador, en una ventana emergente: la
+  // página no se recarga y el formulario sigue tal cual. En celular (Safari de
+  // iPhone, navegadores dentro de WhatsApp/Facebook) la ventana emergente falla,
+  // así que se usa la redirección (vuelve a #calificar con el borrador). Si la
+  // ventana falla o la bloquean en computador, también se usa la redirección.
   const iniciarSesion = async (strategy) => {
     setError("");
     setConectando(true);
@@ -211,43 +213,59 @@ export default function FormularioCalificar({
       redirectUrl: "/calificar/sso-callback",
       redirectUrlComplete: urlDeVuelta(),
     };
+    const porRedireccion = async () => {
+      try {
+        await signIn.authenticateWithRedirect(params);
+      } catch (err) {
+        console.error("[calificar] login:", err);
+        // Ya había una sesión abierta (otra pestaña): basta con recargar
+        if (err?.errors?.[0]?.code === "session_exists") {
+          window.location.reload();
+          return;
+        }
+        setError("No se pudo iniciar sesión en este momento. Intenta de nuevo.");
+        setConectando(false);
+      }
+    };
+    const esCelular =
+      /Android|iPhone|iPad|iPod|Mobile|FBAN|FBAV|Instagram|WhatsApp/i.test(navigator.userAgent) ||
+      window.matchMedia?.("(pointer: coarse)").matches;
+    if (esCelular || typeof signIn.authenticateWithPopup !== "function") {
+      await porRedireccion();
+      return;
+    }
     // La ventana se abre aquí mismo (en el clic) para que no la bloqueen
     const ancho = 500;
     const alto = 650;
-    const conVentana = typeof signIn.authenticateWithPopup === "function";
-    const popup = conVentana
-      ? window.open(
-          "",
-          "neurai-login",
-          `width=${ancho},height=${alto},left=${Math.max(0, (window.screen.width - ancho) / 2)},top=${Math.max(0, (window.screen.height - alto) / 2)}`
-        )
-      : null;
+    const popup = window.open(
+      "",
+      "neurai-login",
+      `width=${ancho},height=${alto},left=${Math.max(0, (window.screen.width - ancho) / 2)},top=${Math.max(0, (window.screen.height - alto) / 2)}`
+    );
+    if (!popup) {
+      await porRedireccion();
+      return;
+    }
     // Si la cierra sin terminar, se reactivan los botones
-    const vigilar = popup
-      ? setInterval(() => {
-          if (popup.closed) {
-            clearInterval(vigilar);
-            setConectando(false);
-          }
-        }, 800)
-      : null;
-    try {
-      if (popup) {
-        await signIn.authenticateWithPopup({ ...params, popup });
-        try {
-          sessionStorage.removeItem(BORRADOR);
-        } catch {}
+    const vigilar = setInterval(() => {
+      if (popup.closed) {
+        clearInterval(vigilar);
         setConectando(false);
-      } else {
-        await signIn.authenticateWithRedirect(params);
       }
-    } catch (err) {
-      console.error("[calificar] login:", err);
-      popup?.close();
-      setError("No se pudo iniciar sesión en este momento. Intenta de nuevo.");
+    }, 800);
+    try {
+      await signIn.authenticateWithPopup({ ...params, popup });
+      try {
+        sessionStorage.removeItem(BORRADOR);
+      } catch {}
       setConectando(false);
+    } catch (err) {
+      console.error("[calificar] login con ventana:", err);
+      popup.close();
+      clearInterval(vigilar);
+      await porRedireccion();
     } finally {
-      if (vigilar) clearInterval(vigilar);
+      clearInterval(vigilar);
     }
   };
 
