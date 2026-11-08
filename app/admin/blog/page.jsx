@@ -169,8 +169,8 @@ export default function AdminBlogPanel() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
+          <div className="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow">
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Total
             </div>
@@ -178,7 +178,7 @@ export default function AdminBlogPanel() {
               {posts.length}
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <div className="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow">
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Publicados
             </div>
@@ -186,7 +186,7 @@ export default function AdminBlogPanel() {
               {posts.filter((p) => p.published).length}
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <div className="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow">
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Borradores
             </div>
@@ -194,7 +194,7 @@ export default function AdminBlogPanel() {
               {posts.filter((p) => !p.published).length}
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <div className="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow">
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Vistas Totales
             </div>
@@ -285,7 +285,7 @@ export default function AdminBlogPanel() {
                       <span className="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
                         {post.category}
                       </span>
-                      {post.featured && (
+                      {!!post.featured && (
                         <Star size={16} className="text-yellow-500 fill-yellow-500" />
                       )}
                     </div>
@@ -299,7 +299,7 @@ export default function AdminBlogPanel() {
 
                     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                       <span>👁️ {post.views || 0} vistas</span>
-                      {post.read_time && <span>⏱️ {post.read_time} min</span>}
+                      {post.read_time > 0 && <span>⏱️ {post.read_time} min</span>}
                       <span>
                         {new Date(
                           post.published_at || post.created_at
@@ -329,7 +329,7 @@ export default function AdminBlogPanel() {
                       {post.published ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
 
-                    {post.published && (
+                    {!!post.published && (
                       <Link
                         href={`/blog/${post.slug}`}
                         target="_blank"
