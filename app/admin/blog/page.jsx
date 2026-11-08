@@ -264,7 +264,7 @@ export default function AdminBlogPanel() {
             </Link>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {filteredPosts.map((post) => (
               <div
                 key={post.id}
@@ -329,16 +329,14 @@ export default function AdminBlogPanel() {
                       {post.published ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
 
-                    {!!post.published && (
-                      <Link
-                        href={`/blog/${post.slug}`}
-                        target="_blank"
-                        className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400"
-                        title="Ver artículo"
-                      >
-                        <ExternalLink size={20} />
-                      </Link>
-                    )}
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      target="_blank"
+                      className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400"
+                      title={post.published ? "Ver artículo" : "Vista previa del borrador"}
+                    >
+                      <ExternalLink size={20} />
+                    </Link>
 
                     <Link
                       href={`/admin/blog/editar/${post.id}`}

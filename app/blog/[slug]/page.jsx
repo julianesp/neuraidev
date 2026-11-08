@@ -14,8 +14,16 @@ import MarcarEquipoAdmin from "@/app/_components/MarcarEquipoAdmin";
 
 async function getPostBySlug(slug) {
   const db = getSupabaseServerClient();
-  const { data } = await db.from('blog_posts').select('*').eq('slug', slug).eq('published', true).single();
-  return data || null;
+  const { data } = await db.from('blog_posts').select('*').eq('slug', slug).single();
+  if (!data) return null;
+  // Los borradores solo los ven los admins (vista previa desde /admin/blog)
+  if (!data.published) {
+    const { userId } = await auth();
+    if (!userId) return null;
+    const { isAdmin } = await getCurrentUserWithRole();
+    if (!isAdmin) return null;
+  }
+  return data;
 }
 
 // Bots, rastreadores y generadores de vista previa de enlaces (WhatsApp, Facebook…)
@@ -95,7 +103,7 @@ export async function generateMetadata({ params }) {
       description: post.meta_description || post.excerpt,
       images: post.image_url ? [post.image_url] : [],
     },
-    robots: {
+    robots: !post.published ? { index: false, follow: false } : {
       index: true,
       follow: true,
       googleBot: {
@@ -148,6 +156,12 @@ export default async function BlogPost({ params }) {
     <div className={styles.newspaperContainer}>
       <MarcarEquipoAdmin />
       <div className={styles.newspaper}>
+        {!post.published && (
+          <div className={styles.draftBanner}>
+            Vista previa: este artículo es un borrador y solo tú lo puedes ver.{" "}
+            <Link href={`/admin/blog/editar/${post.id}`}>Editar</Link>
+          </div>
+        )}
         {/* Masthead */}
         <header className={styles.masthead}>
           <div className={styles.mastheadTop}>
@@ -184,7 +198,7 @@ export default async function BlogPost({ params }) {
           {post.excerpt && <p className={styles.subheadline} itemProp="description">{post.excerpt}</p>}
           <div className={styles.articleMeta}>
             <time dateTime={post.published_at || post.created_at} itemProp="datePublished">{today}</time>
-            {post.read_time && <span>{post.read_time} min de lectura</span>}
+            {post.read_time > 0 && <span>{post.read_time} min de lectura</span>}
             <span itemProp="author" itemScope itemType="https://schema.org/Person">
               Por <span itemProp="name">{post.author || 'Equipo Neurai.dev'}</span>
             </span>
@@ -226,7 +240,7 @@ export default async function BlogPost({ params }) {
 
 
         {/* Comentarios */}
-        <BlogComments slug={post.slug} />
+        {!!post.published && <BlogComments slug={post.slug} />}
 
         {/* Footer */}
         <div className={styles.ornament}>❖ ❖ ❖</div>
