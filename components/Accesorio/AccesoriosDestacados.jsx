@@ -104,7 +104,7 @@ const AccesoriosDestacados = () => {
       }
       renderPrecio={(accesorio) => (
         <div className="mt-2 flex items-center gap-2">
-          <span className="font-bold text-lg text-green-600">
+          <span className="font-bold text-lg text-blue-600">
             $
             {typeof accesorio.precio === "number"
               ? accesorio.precio.toLocaleString("es-CL")
