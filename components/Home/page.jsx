@@ -320,9 +320,6 @@ export default function Inicio() {
         {/* Productos Más Visitados - Diseño Bento Grid */}
         <MostVisitedProducts />
 
-        {/* Trabajos reales como técnico en sistemas → /servicios/tecnico-sistemas */}
-        <VitrinaTecnico />
-
         {/* Tiendas registradas en Neurai */}
         <section className={`${styles.tiendasDestacadas}`}>
           <TiendasDestacadas />
@@ -622,8 +619,10 @@ export default function Inicio() {
           <FAQ />
         </section>
 
-        {/* Section Technical Services Carousel */}
+        {/* Trabajos reales como técnico en sistemas (→ /servicios/tecnico-sistemas)
+            y, justo debajo, el carrusel de servicios técnicos */}
         <section className={`${styles.technicalServices}`}>
+          <VitrinaTecnico />
           <TechnicalServicesCarousel />
         </section>
 
