@@ -169,6 +169,20 @@ export function CartProvider({ children }) {
     [cart, promociones],
   );
 
+  // Parte del descuento de promociones que le toca a una línea del carrito
+  // (si hay varias líneas del mismo producto, p. ej. colores, se reparte
+  // según la cantidad de cada una). Sirve para mostrar el precio con
+  // descuento en cada producto y no solo en el total.
+  const getDescuentoLinea = (item) => {
+    if (item.seller_clerk_user_id) return 0;
+    const monto = promosCarrito.porLinea[String(item.id)] || 0;
+    if (!monto) return 0;
+    const totalProducto = cart
+      .filter((i) => String(i.id) === String(item.id) && !i.seller_clerk_user_id)
+      .reduce((s, i) => s + i.cantidad, 0);
+    return totalProducto ? Math.round((monto * item.cantidad) / totalProducto) : 0;
+  };
+
   // 15% de cliente de servicio técnico sobre los productos propios (después de
   // promociones), igual que en el checkout del servidor
   const baseDescuentoCliente =
@@ -195,6 +209,7 @@ export function CartProvider({ children }) {
     getTotalPrice,
     getSubtotal,
     descuentosPromociones: promosCarrito.descuentos,
+    getDescuentoLinea,
     descuentoCliente: descuentoCliente > 0
       ? { monto: descuentoCliente, porcentaje: descuentoUsable(user?.publicMetadata)?.porcentaje }
       : null,

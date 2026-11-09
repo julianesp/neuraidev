@@ -22,6 +22,7 @@ export default function ShoppingCart() {
     clearCart,
     descuentosPromociones,
     descuentoCliente,
+    getDescuentoLinea,
   } = useCart();
   const toast = useToast();
   const [showCheckout, setShowCheckout] = useState(false);
@@ -234,16 +235,29 @@ export default function ShoppingCart() {
                       </p>
                     )}
 
-                    <div className="flex items-baseline gap-2 mt-1">
-                      <p className="text-blue-600 dark:text-blue-400 font-bold">
-                        ${item.precio.toLocaleString("es-CO")}
-                      </p>
-                      {item.precio_original && item.precio_original !== item.precio && (
-                        <p className="text-xs text-gray-400 line-through">
-                          ${item.precio_original.toLocaleString("es-CO")}
-                        </p>
-                      )}
-                    </div>
+                    {(() => {
+                      // Precio por unidad con la promoción por cantidad ya aplicada
+                      const descuento = getDescuentoLinea(item);
+                      const unitario = Math.round(
+                        (item.precio * item.cantidad - descuento) / item.cantidad,
+                      );
+                      const tachado = descuento > 0 ? item.precio : item.precio_original;
+                      return (
+                        <div className="flex items-baseline gap-2 mt-1">
+                          <p className="text-blue-600 dark:text-blue-400 font-bold">
+                            ${unitario.toLocaleString("es-CO")}
+                            {descuento > 0 && (
+                              <span className="text-xs font-medium"> c/u</span>
+                            )}
+                          </p>
+                          {tachado && tachado !== unitario && (
+                            <p className="text-xs text-gray-400 line-through">
+                              ${tachado.toLocaleString("es-CO")}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    })()}
 
                     {item.stock !== undefined && item.stock <= 5 && (
                       <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">
@@ -289,7 +303,7 @@ export default function ShoppingCart() {
                         </button>
                       </div>
                       <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                        ${(item.precio * item.cantidad).toLocaleString("es-CO")}
+                        ${(item.precio * item.cantidad - getDescuentoLinea(item)).toLocaleString("es-CO")}
                       </span>
                     </div>
                   </div>
