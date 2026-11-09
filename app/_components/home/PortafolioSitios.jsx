@@ -4,12 +4,13 @@ import React from "react";
 import Link from "next/link";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { portafolioSitios } from "@/data/portafolioSitios";
-import LogoSitio from "./LogoSitio";
+import LogoSitio from "@/components/PortafolioSitios/LogoSitio";
 
 /**
  * Sección de la página de inicio que muestra los sitios web / PWAs del
  * portafolio, con un botón para acceder a cada uno y un acceso directo a la
- * página completa de desarrollo de software.
+ * página completa de desarrollo de software. En celular van en 2 columnas
+ * con tarjetas más compactas.
  */
 export default function PortafolioSitios() {
   return (
@@ -25,27 +26,32 @@ export default function PortafolioSitios() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {portafolioSitios.map((sitio) => (
             <div
               key={sitio.id}
-              className="flex flex-col items-center text-center bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-shadow border border-gray-100 dark:border-gray-700 p-6"
+              className="flex flex-col items-center text-center bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-shadow border border-gray-100 dark:border-gray-700 p-3 sm:p-6"
             >
-              <LogoSitio sitio={sitio} className="mb-4 bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600" />
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+              <div className="sm:hidden">
+                <LogoSitio sitio={sitio} size={64} className="mb-3 bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600" />
+              </div>
+              <div className="hidden sm:block">
+                <LogoSitio sitio={sitio} className="mb-4 bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600" />
+              </div>
+              <h3 className="text-sm sm:text-lg font-bold text-gray-900 dark:text-white mb-1 sm:mb-2 leading-snug">
                 {sitio.nombre}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mb-5 flex-grow">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-3 sm:mb-5 flex-grow">
                 {sitio.descripcion}
               </p>
               <Link
                 href={sitio.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2.5 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all shadow-sm"
+                className="inline-flex items-center justify-center gap-1 sm:gap-2 w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs sm:text-base px-2 sm:px-4 py-2 sm:py-2.5 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all shadow-sm"
               >
                 Visitar sitio
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </Link>
             </div>
           ))}

@@ -120,7 +120,7 @@ const TechnicalServicesCarousel = dynamic(
   { ssr: false },
 );
 const PortafolioSitios = dynamic(
-  () => import("@/components/PortafolioSitios/PortafolioSitios"),
+  () => import("@/app/_components/home/PortafolioSitios"),
   { ssr: false },
 );
 const BackToTop = dynamic(() => import("@/components/backTop/BackToTop"), {
