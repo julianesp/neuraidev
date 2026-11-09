@@ -31,6 +31,9 @@
   height: 340px;
   margin: 0 auto;
   outline: none;
+  // El scroll vertical sigue siendo del navegador; el gesto horizontal lo
+  // usa el coverflow para pasar de producto con el dedo.
+  touch-action: pan-y;
   flex: 1 1 auto;
 
   &:focus-visible {

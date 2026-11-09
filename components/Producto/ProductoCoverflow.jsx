@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import styles from "./ProductoCoverflow.module.scss";
@@ -47,6 +47,8 @@ export default function ProductoCoverflow({
   const [mouseEncima, setMouseEncima] = useState(false);
   const reduce = useReducedMotion();
   const total = productos.length;
+  // Deslizar con el dedo (celular): punto donde empezó el toque
+  const toque = useRef(null);
 
   const irA = useCallback(
     (i) => setIndice(((i % total) + total) % total),
@@ -80,6 +82,22 @@ export default function ProductoCoverflow({
 
   if (total === 0) return null;
 
+  const alTocar = (e) => {
+    const t = e.touches[0];
+    toque.current = { x: t.clientX, y: t.clientY };
+  };
+  // Solo cuenta si el gesto es horizontal y de al menos 40px (si no, es scroll)
+  const alSoltar = (e) => {
+    if (!toque.current) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - toque.current.x;
+    const dy = t.clientY - toque.current.y;
+    toque.current = null;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+    if (dx < 0) next();
+    else prev();
+  };
+
   const actual = productos[indice];
 
   return (
@@ -95,6 +113,8 @@ export default function ProductoCoverflow({
         role="group"
         aria-label={`Galería de ${etiqueta}: ${total} elementos, usa las flechas para navegar`}
         onKeyDown={onKeyDown}
+        onTouchStart={alTocar}
+        onTouchEnd={alSoltar}
       >
         {productos.map((producto, i) => {
           // Desplazamiento respecto al centro por el camino más corto.

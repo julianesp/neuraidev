@@ -768,7 +768,11 @@ $primary: $color-primario;
     justify-content: center;
     position: fixed;
     right: 0;
-    top: 50vh;
+    // Al 25% desde arriba. svh = alto de pantalla con la barra del navegador
+    // visible: no cambia al hacer scroll en el celular (vh sí, y el botón se
+    // movía). vh queda de respaldo para navegadores viejos.
+    top: 25vh;
+    top: 25svh;
     transform: translateY(-50%);
     z-index: 210;
     width: 36px;

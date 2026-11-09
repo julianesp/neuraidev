@@ -97,7 +97,7 @@ export default function AppAndroidPestana() {
   if (!visible) return null;
 
   return (
-    <div ref={ref} className="fixed left-0 top-1/2 -translate-y-1/2 z-[9990]">
+    <div ref={ref} className="fixed left-0 top-[25svh] -translate-y-1/2 z-[9990]">
       {/* Plegada: medio logo asomando desde el borde */}
       <button
         type="button"
