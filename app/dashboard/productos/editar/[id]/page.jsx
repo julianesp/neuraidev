@@ -251,10 +251,10 @@ export default function EditarProductoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-0 sm:p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-6 flex items-center gap-4">
+        <div className="mb-6 flex items-center gap-4 pr-14 lg:pr-0">
           <button
             onClick={() => router.back()}
             className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
@@ -274,7 +274,7 @@ export default function EditarProductoPage() {
         {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
+          className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-6"
         >
           <div className="space-y-6">
             {/* Información básica */}
