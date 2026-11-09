@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ShoppingBag } from "lucide-react";
 import TarjetaOpinion from "@/app/_components/calificar/TarjetaOpinion";
 import CintaMovil from "@/app/_components/calificar/CintaMovil";
+import CarruselOpiniones from "@/app/_components/calificar/CarruselOpiniones";
 import FormularioCalificar from "@/app/calificar/FormularioCalificar";
 import CompartirCalificar from "@/app/_components/calificar/CompartirCalificar";
 
@@ -104,20 +105,13 @@ export default function ClientesVitrina({ siempreFormulario = false }) {
           </div>
         )}
 
-        {/* Testimonios aprobados: fila que se desplaza para que todos vean
-            quién compró o pidió un servicio */}
+        {/* Testimonios aprobados: carrusel que avanza cada 3 s, con flechas
+            y pausa, para que la sección no crezca con cada opinión */}
         {testimonios.length > 0 && (
           <div className="mb-14">
-            <CintaMovil
+            <CarruselOpiniones
               items={testimonios}
-              etiqueta="opiniones"
-              minimo={6}
-              segundosPorItem={8}
-              render={(t) => (
-                <div className="w-[300px] sm:w-[340px] flex">
-                  <TarjetaOpinion opinion={t} />
-                </div>
-              )}
+              render={(t) => <TarjetaOpinion opinion={t} />}
             />
           </div>
         )}

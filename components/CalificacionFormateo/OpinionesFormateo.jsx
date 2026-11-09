@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Star, Quote } from "lucide-react";
 import TarjetaOpinion from "@/app/_components/calificar/TarjetaOpinion";
+import CarruselOpiniones from "@/app/_components/calificar/CarruselOpiniones";
 
 /**
  * Muestra en la página del servicio técnico las opiniones (comentario,
@@ -74,11 +75,11 @@ export default function OpinionesFormateo({ tipo = "formateo" }) {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {opiniones.map((o) => (
-            <TarjetaOpinion key={o.id} opinion={o} />
-          ))}
-        </div>
+        {/* Carrusel: la sección no crece aunque haya muchas opiniones */}
+        <CarruselOpiniones
+          items={opiniones}
+          render={(o) => <TarjetaOpinion opinion={o} />}
+        />
       </div>
     </section>
   );
