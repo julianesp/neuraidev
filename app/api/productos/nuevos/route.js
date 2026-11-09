@@ -3,13 +3,13 @@ import { d1Select } from '@/lib/db';
 import { conPreciosVigentes } from '@/lib/ofertas-server';
 
 async function obtenerProductosRecientes(limit = 10) {
-  // Ordenamos por created_at DESC, pero tratamos NULL como "muy reciente"
-  // (COALESCE con una fecha alta) para que los productos que se crearon sin
-  // created_at no queden al final del listado e invisibles bajo el LIMIT.
+  // Los más recientes por created_at. Los productos viejos sin created_at
+  // (migrados sin fecha) van al final: si se tomaban como "muy recientes"
+  // ocupaban todo el LIMIT y los que se agregan ahora (con fecha) no salían.
   const sql = `
     SELECT * FROM products
     WHERE disponible = 1 AND COALESCE(categoria, '') != 'servicios'
-    ORDER BY COALESCE(created_at, '9999-12-31') DESC, rowid DESC
+    ORDER BY created_at IS NULL, created_at DESC, rowid DESC
     LIMIT ?
   `;
   try {

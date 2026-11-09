@@ -214,6 +214,64 @@
 
 .acciones {
   margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Botón extra junto a "Ver" (p. ej. "Agregar" en promociones). */
+.botonAccion {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  color: #2563eb;
+  border: 2px solid #2563eb;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    background: #eff6ff;
+  }
+}
+
+/* Pausar / reanudar el avance automático. */
+.pausaWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.pausa {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &:hover {
+    background: #1d4ed8;
+  }
 }
 
 /* Botón "Ver" — lleva a la página de detalle del producto. */
@@ -342,5 +400,15 @@
 
   .contador {
     color: #a0aec0;
+  }
+
+  .botonAccion {
+    background: #1f2937;
+    color: #93c5fd;
+    border-color: #3b82f6;
+
+    &:hover {
+      background: #1e3a8a;
+    }
   }
 }

@@ -1,20 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { ShoppingCart, Check } from "lucide-react";
+import ProductoCoverflow from "@/components/Producto/ProductoCoverflow";
+import coverflowStyles from "@/components/Producto/ProductoCoverflow.module.scss";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import styles from "./PromocionesDestacadas.module.scss";
-import usePistaRebote from "./usePistaRebote";
 
 export default function PromocionesDestacadas() {
   const [promociones, setPromociones] = useState([]);
   const [productos, setProductos] = useState({});
   const [loading, setLoading] = useState(true);
-  const pistaRef = useRef(null);
-  const router = useRouter();
   const { addToCart } = useCart();
   const toast = useToast();
   // id de la promo recién agregada, para mostrar "Agregado" un momento
@@ -58,10 +55,22 @@ export default function PromocionesDestacadas() {
     return `-${promo.descuento_valor}%`;
   };
 
-  const calcularPrecioCombo = (promo) => promo.precio_promocion || 0;
-
   const calcularAhorro = (promo) =>
     (promo.precio_total || 0) - (promo.precio_promocion || 0);
+
+  // Imagen de la promo: la del primer producto incluido
+  const imagenPromo = (promo) => {
+    const producto = productos[promo.productos_ids?.[0]] || promo.productos?.[0];
+    if (!producto) return "https://placehold.co/400x400/e5e7eb/9ca3af?text=Promoci%C3%B3n";
+    const primera = Array.isArray(producto.imagenes) ? producto.imagenes[0] : null;
+    return (
+      producto.imagen_principal ||
+      (typeof primera === "string" ? primera : primera?.url) ||
+      "https://placehold.co/400x400/e5e7eb/9ca3af?text=Promoci%C3%B3n"
+    );
+  };
+
+  const formato = (n) => `$${Math.round(n || 0).toLocaleString("es-CO")}`;
 
   // Agrega los productos de la promo con la cantidad mínima que activa el
   // descuento (el carrito calcula el descuento solo). Respeta el stock.
@@ -101,19 +110,13 @@ export default function PromocionesDestacadas() {
     setTimeout(() => setAgregada((id) => (id === promo.id ? null : id)), 2000);
   };
 
-  const handleVerPromocion = (promo) => {
-    // Redirigir a la página de checkout de la promoción
-    router.push(`/promocion/${promo.id}`);
-  };
-
-  // Las tarjetas van de un lado al otro, chocan y rebotan
-  const pistaActiva = usePistaRebote(pistaRef, loading ? 0 : promociones.length);
-
   // Si no hay promociones o está cargando, no mostrar nada
   if (loading || promociones.length === 0) {
     return null;
   }
 
+  // Mismo coverflow que Destacados y Nuevos; avanza solo cada 3 s, con
+  // flechas y botón de pausa.
   return (
     <section className={styles.container}>
       <div className={styles.header}>
@@ -126,120 +129,70 @@ export default function PromocionesDestacadas() {
         </p>
       </div>
 
-      <div
-        ref={pistaRef}
-        className={`${styles.pista} ${pistaActiva ? styles.pistaActiva : ""}`}
-        aria-label="Promociones"
-      >
-        {promociones.map((promo, index) => (
-          <div key={promo.id} className={styles.movil} data-rebote>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
-            className={styles.card}
-            onClick={() => handleVerPromocion(promo)}
-          >
-            {/* Badge de tipo de promoción */}
-            <div
-              className={styles.badge}
-              style={{ backgroundColor: "#2563eb" }}
-            >
-              <span className={styles.badgeIcon}>{promo.icono}</span>
-              <span className={styles.badgeTexto}>{calcularDescuento(promo)}</span>
-            </div>
-
-            {/* Imágenes de productos */}
-            <div className={styles.productosImagenes}>
-              {promo.productos_ids.slice(0, 3).map((productoId, idx) => {
-                const producto = productos[productoId];
-                if (!producto) return null;
-
-                const imagen = producto.imagen_principal ||
-                              (producto.imagenes && producto.imagenes[0]?.url) ||
-                              (Array.isArray(producto.imagenes) && producto.imagenes[0]);
-
-                return (
-                  <div
-                    key={productoId}
-                    className={styles.productoImagen}
-                    style={{ zIndex: 3 - idx }}
-                  >
-                    {imagen ? (
-                      <img src={imagen} alt={producto.nombre} />
-                    ) : (
-                      <div className={styles.noImagen}>📦</div>
-                    )}
-                  </div>
-                );
-              })}
-              {promo.productos_ids.length > 3 && (
-                <div className={styles.masProductos}>
-                  +{promo.productos_ids.length - 3}
-                </div>
-              )}
-            </div>
-
-            {/* Información de la promoción */}
-            <div className={styles.info}>
-              <h3 className={styles.nombre}>{promo.nombre}</h3>
+      <ProductoCoverflow
+        productos={promociones}
+        etiqueta="promociones"
+        autoAvance={3000}
+        getImagen={imagenPromo}
+        getHref={(promo) => `/promocion/${promo.id}`}
+        renderBadgeIzq={(promo) => (
+          <div className={styles.badge}>
+            {promo.icono && <span>{promo.icono}</span>}
+            {calcularDescuento(promo)}
+          </div>
+        )}
+        renderPrecio={(promo) => {
+          const ahorro = calcularAhorro(promo);
+          const unidades = Number(promo.unidades) || 1;
+          return (
+            <div className={styles.precioInfo}>
               {promo.descripcion && (
                 <p className={styles.descripcion}>{promo.descripcion}</p>
               )}
-
-              {/* Precios */}
               <div className={styles.precios}>
-                <div className={styles.precioFinal}>
-                  ${Math.round(calcularPrecioCombo(promo)).toLocaleString("es-CO")}
-                </div>
-                <div className={styles.ahorro}>
-                  Ahorras: ${Math.round(calcularAhorro(promo)).toLocaleString("es-CO")}
-                </div>
-              </div>
-
-              {/* Cantidad de productos */}
-              <div className={styles.detalle}>
-                <span className={styles.cantidadProductos}>
-                  {promo.productos_ids.length} {promo.productos_ids.length === 1 ? 'producto' : 'productos'}
+                <span className={styles.precioFinal}>
+                  {formato(promo.precio_promocion)}
                 </span>
-                {(promo.cantidad_minima > 1 || promo.cantidad_maxima) && (
-                  <span className={styles.minimo}>
-                    {promo.cantidad_maxima
-                      ? `De ${promo.cantidad_minima} a ${promo.cantidad_maxima} unidades`
-                      : `Mín. ${promo.cantidad_minima} unidades`}
+                {ahorro > 0 && (
+                  <span className={styles.precioAntes}>
+                    {formato(promo.precio_total)}
                   </span>
                 )}
               </div>
-
-              {/* Botones */}
-              <div className={styles.botones}>
-                <button
-                  type="button"
-                  className={styles.btnCarrito}
-                  onClick={(e) => agregarAlCarrito(e, promo)}
-                >
-                  {agregada === promo.id ? (
-                    <>
-                      <Check size={16} /> Agregado
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingCart size={16} />
-                      <span className={styles.textoLargo}>Agregar al carrito</span>
-                      <span className={styles.textoCorto}>Agregar</span>
-                    </>
-                  )}
-                </button>
-                <button type="button" className={styles.btnVerMas}>
-                  <span className={styles.textoLargo}>Ver productos →</span>
-                  <span className={styles.textoCorto}>Ver →</span>
-                </button>
-              </div>
+              {ahorro > 0 && (
+                <p className={styles.ahorro}>
+                  Ahorras {formato(ahorro)}
+                  {unidades > 1 ? ` llevando ${unidades}` : ""}
+                </p>
+              )}
+              {(promo.cantidad_minima > 1 || promo.cantidad_maxima) && (
+                <p className={styles.minimo}>
+                  {promo.cantidad_maxima
+                    ? `De ${promo.cantidad_minima} a ${promo.cantidad_maxima} unidades`
+                    : `Mín. ${promo.cantidad_minima} unidades`}
+                </p>
+              )}
             </div>
-          </motion.div>
-          </div>
-        ))}
-      </div>
+          );
+        }}
+        renderAccion={(promo) => (
+          <button
+            type="button"
+            className={coverflowStyles.botonAccion}
+            onClick={(e) => agregarAlCarrito(e, promo)}
+          >
+            {agregada === promo.id ? (
+              <>
+                <Check /> Agregado
+              </>
+            ) : (
+              <>
+                <ShoppingCart /> Agregar
+              </>
+            )}
+          </button>
+        )}
+      />
     </section>
   );
 }

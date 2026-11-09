@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import styles from "./ProductoCoverflow.module.scss";
@@ -24,6 +24,10 @@ const LADOS = 2;
  * @param {Function} renderPrecio    (producto) => nodo del precio (opcional)
  * @param {string}   verTodosHref  ruta del enlace "ver todos" (opcional)
  * @param {string}   verTodosTexto texto del enlace "ver todos" (opcional)
+ * @param {Function} renderAccion  (producto) => botón extra junto a "Ver" (opcional)
+ * @param {number}   autoAvance    ms entre avances automáticos (opcional); muestra
+ *                                 botón de pausa y se detiene con el mouse encima
+ * @param {string}   etiqueta      nombre de los elementos para lectores de pantalla
  */
 export default function ProductoCoverflow({
   productos,
@@ -34,8 +38,13 @@ export default function ProductoCoverflow({
   renderPrecio,
   verTodosHref,
   verTodosTexto,
+  renderAccion,
+  autoAvance,
+  etiqueta = "productos",
 }) {
   const [indice, setIndice] = useState(0);
+  const [pausado, setPausado] = useState(false);
+  const [mouseEncima, setMouseEncima] = useState(false);
   const reduce = useReducedMotion();
   const total = productos.length;
 
@@ -60,18 +69,31 @@ export default function ProductoCoverflow({
     [prev, next],
   );
 
+  // Avance automático (p. ej. promociones cada 3 s). Con "reducir
+  // movimiento" no avanza solo.
+  const avanzando = Boolean(autoAvance) && total > 1 && !reduce;
+  useEffect(() => {
+    if (!avanzando || pausado || mouseEncima) return;
+    const id = setTimeout(() => irA(indice + 1), autoAvance);
+    return () => clearTimeout(id);
+  }, [avanzando, pausado, mouseEncima, autoAvance, indice, irA]);
+
   if (total === 0) return null;
 
   const actual = productos[indice];
 
   return (
-    <div className={styles.coverflow}>
+    <div
+      className={styles.coverflow}
+      onMouseEnter={avanzando ? () => setMouseEncima(true) : undefined}
+      onMouseLeave={avanzando ? () => setMouseEncima(false) : undefined}
+    >
       <div className={styles.cuerpo}>
       <div
         className={styles.escena}
         tabIndex={0}
         role="group"
-        aria-label={`Galería de productos: ${total} elementos, usa las flechas para navegar`}
+        aria-label={`Galería de ${etiqueta}: ${total} elementos, usa las flechas para navegar`}
         onKeyDown={onKeyDown}
       >
         {productos.map((producto, i) => {
@@ -173,6 +195,7 @@ export default function ProductoCoverflow({
           </h3>
           {renderPrecio && renderPrecio(actual)}
           <div className={styles.acciones}>
+            {renderAccion && renderAccion(actual)}
             <Link href={getHref(actual)} className={styles.botonVer}>
               Ver
             </Link>
@@ -198,6 +221,28 @@ export default function ProductoCoverflow({
       <div className={styles.contador}>
         {indice + 1} / {total}
       </div>
+
+      {avanzando && (
+        <div className={styles.pausaWrap}>
+          <button
+            type="button"
+            className={styles.pausa}
+            onClick={() => setPausado((v) => !v)}
+            aria-pressed={pausado}
+          >
+            {pausado ? (
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
+              </svg>
+            )}
+            {pausado ? "Reanudar" : "Pausar"}
+          </button>
+        </div>
+      )}
 
       {verTodosHref && (
         <div className={styles.verTodos}>
