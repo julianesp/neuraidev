@@ -1,12 +1,19 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import { Upload, Link as LinkIcon, Youtube, Film, X, CheckCircle } from 'lucide-react';
-import ProductVideo from './ProductVideo';
+import { useState, useRef } from "react";
+import {
+  Upload,
+  Link as LinkIcon,
+  Youtube,
+  Film,
+  X,
+  CheckCircle,
+} from "lucide-react";
+import ProductVideo from "./ProductVideo";
 
 interface VideoUploaderProps {
   value?: string | null;
-  onChange: (url: string | null, type: 'youtube' | 'vimeo' | 'direct') => void;
+  onChange: (url: string | null, type: "youtube" | "vimeo" | "direct") => void;
   label?: string;
 }
 
@@ -17,39 +24,39 @@ interface VideoUploaderProps {
 export default function VideoUploader({
   value = null,
   onChange,
-  label = 'Video del Producto',
+  label = "Video del Producto",
 }: VideoUploaderProps) {
-  const [uploadMethod, setUploadMethod] = useState<'url' | 'file'>('url');
-  const [videoUrl, setVideoUrl] = useState(value || '');
+  const [uploadMethod, setUploadMethod] = useState<"url" | "file">("url");
+  const [videoUrl, setVideoUrl] = useState(value || "");
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Detectar tipo de video
-  const detectVideoType = (url: string): 'youtube' | 'vimeo' | 'direct' => {
-    if (!url) return 'direct';
+  const detectVideoType = (url: string): "youtube" | "vimeo" | "direct" => {
+    if (!url) return "direct";
 
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      return 'youtube';
+    if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      return "youtube";
     }
-    if (url.includes('vimeo.com')) {
-      return 'vimeo';
+    if (url.includes("vimeo.com")) {
+      return "vimeo";
     }
     // Todo lo demás (incluye Supabase Storage, URLs directas, etc.)
-    return 'direct';
+    return "direct";
   };
 
   // Manejar cambio de URL
   const handleUrlChange = (url: string) => {
     setVideoUrl(url);
-    setError('');
+    setError("");
 
     if (url.trim()) {
       const type = detectVideoType(url);
       onChange(url, type);
     } else {
-      onChange(null, 'direct');
+      onChange(null, "direct");
     }
   };
 
@@ -57,25 +64,30 @@ export default function VideoUploader({
   const handleFileUpload = async (file: File) => {
     try {
       setUploading(true);
-      setError('');
+      setError("");
       setUploadProgress(0);
 
       // Validar tipo de archivo (algunos celulares no reportan el MIME, se mira la extensión)
-      const extension = file.name.split('.').pop()?.toLowerCase() || '';
-      const validExtensions = ['mp4', 'webm', 'mov', 'mkv', 'avi', '3gp'];
-      if (!file.type.startsWith('video/') && !validExtensions.includes(extension)) {
-        throw new Error('Formato no soportado. Usa MP4, WebM o MOV.');
+      const extension = file.name.split(".").pop()?.toLowerCase() || "";
+      const validExtensions = ["mp4", "webm", "mov", "mkv", "avi", "3gp"];
+      if (
+        !file.type.startsWith("video/") &&
+        !validExtensions.includes(extension)
+      ) {
+        throw new Error("Formato no soportado. Usa MP4, WebM o MOV.");
       }
 
-      const presignResponse = await fetch('/api/upload-video/presign', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const presignResponse = await fetch("/api/upload-video/presign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fileName: file.name, contentType: file.type }),
       });
 
       if (!presignResponse.ok) {
         const errorData = await presignResponse.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Error preparando la subida del video');
+        throw new Error(
+          errorData.error || "Error preparando la subida del video",
+        );
       }
 
       const { uploadUrl, url, contentType } = await presignResponse.json();
@@ -83,24 +95,29 @@ export default function VideoUploader({
       // XHR en vez de fetch para tener progreso real de subida
       await new Promise<void>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        xhr.open('PUT', uploadUrl);
-        xhr.setRequestHeader('Content-Type', contentType);
+        xhr.open("PUT", uploadUrl);
+        xhr.setRequestHeader("Content-Type", contentType);
         xhr.upload.onprogress = (e) => {
           if (e.lengthComputable) {
-            setUploadProgress(Math.min(99, Math.round((e.loaded / e.total) * 100)));
+            setUploadProgress(
+              Math.min(99, Math.round((e.loaded / e.total) * 100)),
+            );
           }
         };
         xhr.onload = () =>
           xhr.status >= 200 && xhr.status < 300
             ? resolve()
             : reject(new Error(`Error subiendo el video (${xhr.status})`));
-        xhr.onerror = () => reject(new Error('Error de red subiendo el video. Revisa tu conexión.'));
+        xhr.onerror = () =>
+          reject(
+            new Error("Error de red subiendo el video. Revisa tu conexión."),
+          );
         xhr.send(file);
       });
 
       setUploadProgress(100);
       setVideoUrl(url);
-      onChange(url, 'direct');
+      onChange(url, "direct");
 
       // Resetear progreso después de 2 segundos
       setTimeout(() => {
@@ -124,11 +141,11 @@ export default function VideoUploader({
 
   // Eliminar video
   const handleRemoveVideo = () => {
-    setVideoUrl('');
-    onChange(null, 'direct');
-    setError('');
+    setVideoUrl("");
+    onChange(null, "direct");
+    setError("");
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
@@ -143,11 +160,11 @@ export default function VideoUploader({
         <div className="flex gap-2">
           <button
             type="button"
-            onClick={() => setUploadMethod('url')}
+            onClick={() => setUploadMethod("url")}
             className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${
-              uploadMethod === 'url'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              uploadMethod === "url"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
             }`}
           >
             <LinkIcon className="w-3 h-3 inline mr-1" />
@@ -155,11 +172,11 @@ export default function VideoUploader({
           </button>
           <button
             type="button"
-            onClick={() => setUploadMethod('file')}
+            onClick={() => setUploadMethod("file")}
             className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${
-              uploadMethod === 'file'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              uploadMethod === "file"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
             }`}
           >
             <Upload className="w-3 h-3 inline mr-1" />
@@ -169,7 +186,7 @@ export default function VideoUploader({
       </div>
 
       {/* Método URL */}
-      {uploadMethod === 'url' && (
+      {uploadMethod === "url" && (
         <div className="space-y-3">
           <div className="flex gap-2">
             <input
@@ -191,28 +208,16 @@ export default function VideoUploader({
             )}
           </div>
 
-          {/* Sugerencias */}
-          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
-            <p className="text-xs text-blue-800 dark:text-blue-300 mb-2">
-              💡 <strong>Formatos soportados:</strong>
-            </p>
-            <ul className="text-xs text-blue-700 dark:text-blue-400 space-y-1 ml-4">
-              <li>• YouTube: https://www.youtube.com/watch?v=ABC123</li>
-              <li>• YouTube corto: https://youtu.be/ABC123</li>
-              <li>• Vimeo: https://vimeo.com/123456789</li>
-            </ul>
-          </div>
-
           {/* Tipo detectado */}
           {videoUrl && (
             <div className="flex items-center gap-2 text-sm">
-              {detectVideoType(videoUrl) === 'youtube' && (
+              {detectVideoType(videoUrl) === "youtube" && (
                 <span className="flex items-center gap-1 text-red-600 dark:text-red-400">
                   <Youtube className="w-4 h-4" />
                   YouTube detectado
                 </span>
               )}
-              {detectVideoType(videoUrl) === 'vimeo' && (
+              {detectVideoType(videoUrl) === "vimeo" && (
                 <span className="flex items-center gap-1 text-blue-600 dark:text-blue-400">
                   <Film className="w-4 h-4" />
                   Vimeo detectado
@@ -224,7 +229,7 @@ export default function VideoUploader({
       )}
 
       {/* Método Subir Archivo */}
-      {uploadMethod === 'file' && (
+      {uploadMethod === "file" && (
         <div className="space-y-3">
           <input
             ref={fileInputRef}
@@ -267,7 +272,9 @@ export default function VideoUploader({
                 <div className="flex items-center gap-2 text-green-800 dark:text-green-300">
                   <CheckCircle className="w-5 h-5" />
                   <div className="flex-1">
-                    <p className="text-sm font-medium">Video subido correctamente</p>
+                    <p className="text-sm font-medium">
+                      Video subido correctamente
+                    </p>
                     <p className="text-xs text-green-600 dark:text-green-400 mt-1 truncate">
                       {videoUrl}
                     </p>
@@ -292,7 +299,6 @@ export default function VideoUploader({
               </div>
             </div>
           )}
-
         </div>
       )}
 
@@ -306,7 +312,8 @@ export default function VideoUploader({
             URL: {videoUrl}
           </div>
           <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-            Tipo detectado: <span className="font-semibold">{detectVideoType(videoUrl)}</span>
+            Tipo detectado:{" "}
+            <span className="font-semibold">{detectVideoType(videoUrl)}</span>
           </div>
           <div className="w-full h-64 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
             <ProductVideo
@@ -324,9 +331,7 @@ export default function VideoUploader({
       {/* Error */}
       {error && (
         <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
-          <p className="text-sm text-red-800 dark:text-red-300">
-            ❌ {error}
-          </p>
+          <p className="text-sm text-red-800 dark:text-red-300">❌ {error}</p>
         </div>
       )}
     </div>

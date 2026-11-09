@@ -21,7 +21,11 @@ const COLORES_PREDEFINIDOS = [
   { nombre: "Beige", hex: "#D2B48C" },
 ];
 
-export default function ColorSelector({ value = [], onChange, label = "Colores Disponibles" }) {
+export default function ColorSelector({
+  value = [],
+  onChange,
+  label = "Colores Disponibles",
+}) {
   const [mostrarSelector, setMostrarSelector] = useState(false);
   const [colorPersonalizado, setColorPersonalizado] = useState("");
 
@@ -45,7 +49,7 @@ export default function ColorSelector({ value = [], onChange, label = "Colores D
 
   const getColorHex = (nombreColor) => {
     const colorPredefinido = COLORES_PREDEFINIDOS.find(
-      (c) => c.nombre.toLowerCase() === nombreColor.toLowerCase()
+      (c) => c.nombre.toLowerCase() === nombreColor.toLowerCase(),
     );
     return colorPredefinido?.hex;
   };
@@ -175,13 +179,6 @@ export default function ColorSelector({ value = [], onChange, label = "Colores D
             </button>
           </div>
         </div>
-      )}
-
-      {/* Mensaje si no hay colores */}
-      {value.length === 0 && !mostrarSelector && (
-        <p className="text-sm text-gray-500 dark:text-gray-400 italic">
-          No hay colores configurados. Haz clic en &quot;Agregar color&quot; para comenzar.
-        </p>
       )}
     </div>
   );

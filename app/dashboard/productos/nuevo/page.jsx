@@ -231,12 +231,17 @@ export default function NuevoProductoPage() {
                   >
                     {categorias.map((cat) => (
                       <option key={cat} value={cat}>
-                        {cat === "servicios" ? "servicios (servicio técnico en combo)" : cat}
+                        {cat === "servicios"
+                          ? "servicios (servicio técnico en combo)"
+                          : cat}
                       </option>
                     ))}
                   </select>
                   {formData.categoria === "servicios" && (
-                    <ServicioAplicaAFields formData={formData} setFormData={setFormData} />
+                    <ServicioAplicaAFields
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
                   )}
                 </div>
 
@@ -272,7 +277,8 @@ export default function NuevoProductoPage() {
                     className="flex-1 min-w-0 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                   <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    El número bajo las barras del empaque. Google lo usa para identificar el producto.
+                    El número bajo las barras del empaque. Google lo usa para
+                    identificar el producto.
                   </p>
                 </div>
 
@@ -350,7 +356,12 @@ export default function NuevoProductoPage() {
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={() => setFormData((prev) => ({ ...prev, stock: Math.max(0, (parseInt(prev.stock) || 0) - 1) }))}
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          stock: Math.max(0, (parseInt(prev.stock) || 0) - 1),
+                        }))
+                      }
                       className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-lg font-bold select-none"
                     >
                       −
@@ -366,7 +377,12 @@ export default function NuevoProductoPage() {
                     />
                     <button
                       type="button"
-                      onClick={() => setFormData((prev) => ({ ...prev, stock: (parseInt(prev.stock) || 0) + 1 }))}
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          stock: (parseInt(prev.stock) || 0) + 1,
+                        }))
+                      }
                       className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-lg font-bold select-none"
                     >
                       +
@@ -393,7 +409,10 @@ export default function NuevoProductoPage() {
                 </div>
               </div>
 
-              <PrecioEspecialFields formData={formData} setFormData={setFormData} />
+              {/* <PrecioEspecialFields
+                formData={formData}
+                setFormData={setFormData}
+              /> */}
             </div>
 
             {/* Imágenes */}
@@ -439,15 +458,6 @@ export default function NuevoProductoPage() {
                       </svg>
                     </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-purple-900 dark:text-purple-100 mb-1">
-                      ✨ El video se mostrará como primer elemento en la galería
-                    </p>
-                    <p className="text-xs text-purple-700 dark:text-purple-300">
-                      Puedes subir un video directamente (MP4) o pegar un enlace de YouTube/Vimeo.
-                      El video aparecerá automáticamente en la presentación del producto.
-                    </p>
-                  </div>
                 </div>
               </div>
 
@@ -460,7 +470,6 @@ export default function NuevoProductoPage() {
                     video_type: type,
                   }))
                 }
-                label="Video de Presentación"
               />
             </div>
 
@@ -469,65 +478,19 @@ export default function NuevoProductoPage() {
               <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
                 Colores del Producto
               </h2>
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
-                <p className="text-sm text-blue-800 dark:text-blue-300 mb-2">
-                  🎨 <strong>Configura los colores disponibles</strong>
-                </p>
-                <p className="text-xs text-blue-700 dark:text-blue-400">
-                  Los clientes podrán seleccionar el color que desean al agregar el producto al carrito.
-                  Puedes elegir entre colores predefinidos o agregar colores personalizados.
-                </p>
-              </div>
+
               <ColorSelector
                 value={formData.colores_disponibles}
                 onChange={(colores) =>
-                  setFormData((prev) => ({ ...prev, colores_disponibles: colores }))
+                  setFormData((prev) => ({
+                    ...prev,
+                    colores_disponibles: colores,
+                  }))
                 }
               />
             </div>
 
-            {/* Payment Link Nequi/Wompi */}
-            <div>
-              <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-                Pago con Nequi Negocios
-              </h2>
-              <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4 mb-4">
-                <p className="text-sm text-purple-800 dark:text-purple-300 mb-2">
-                  💡 <strong>Configura el enlace de pago de Nequi/Wompi</strong>
-                </p>
-                <p className="text-xs text-purple-700 dark:text-purple-400">
-                  Crea un enlace de pago en tu panel de Wompi/Nequi Negocios y pégalo aquí.
-                  Los clientes podrán pagar con Nequi directamente desde el carrito.
-                </p>
-              </div>
-              <div>
-                <label
-                  htmlFor="payment_link"
-                  className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
-                >
-                  Payment Link (Nequi/Wompi)
-                </label>
-                <input
-                  id="payment_link"
-                  type="url"
-                  name="payment_link"
-                  placeholder="https://checkout.nequi.wompi.co/l/..."
-                  value={formData.payment_link}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
-                />
-                {formData.payment_link && (
-                  <a
-                    href={formData.payment_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-blue-600 hover:underline dark:text-blue-400 mt-1 inline-block"
-                  >
-                    🔗 Probar enlace →
-                  </a>
-                )}
-              </div>
-            </div>
+            
 
             {/* Estados */}
             <div>
@@ -538,9 +501,15 @@ export default function NuevoProductoPage() {
                 {[
                   { name: "disponible", label: "Disponible" },
                   { name: "destacado", label: "Destacado" },
-                  { name: "vista_horizontal", label: "Vista Horizontal (ocupa 2 columnas)" },
+                  {
+                    name: "vista_horizontal",
+                    label: "Vista Horizontal (ocupa 2 columnas)",
+                  },
                 ].map(({ name, label }) => (
-                  <label key={name} className="flex items-center gap-3 cursor-pointer select-none">
+                  <label
+                    key={name}
+                    className="flex items-center gap-3 cursor-pointer select-none"
+                  >
                     <input
                       type="checkbox"
                       name={name}
@@ -548,10 +517,16 @@ export default function NuevoProductoPage() {
                       onChange={handleChange}
                       className="sr-only"
                     />
-                    <div className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${formData[name] ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600"}`}>
-                      <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${formData[name] ? "translate-x-5" : "translate-x-0"}`} />
+                    <div
+                      className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${formData[name] ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-600"}`}
+                    >
+                      <span
+                        className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${formData[name] ? "translate-x-5" : "translate-x-0"}`}
+                      />
                     </div>
-                    <span className={`text-sm font-medium ${formData[name] ? "text-blue-600 dark:text-blue-400" : "text-gray-600 dark:text-gray-400"}`}>
+                    <span
+                      className={`text-sm font-medium ${formData[name] ? "text-blue-600 dark:text-blue-400" : "text-gray-600 dark:text-gray-400"}`}
+                    >
                       {label}
                     </span>
                   </label>
