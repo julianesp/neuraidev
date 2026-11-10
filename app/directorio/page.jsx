@@ -143,12 +143,12 @@ export default async function DirectorioPage({ searchParams }) {
         </button>
       </form>
 
-      <div className="mt-4 text-center">
+      <div className="mt-6 text-center">
         <Link
           href="/directorio/mis-negocios"
-          className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:underline"
+          className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-7 py-3.5 text-base font-bold !text-white shadow-lg shadow-blue-600/30 transition-all duration-200 ease-out hover:scale-110 hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-600/50 hover:ring-4 hover:ring-blue-300 active:scale-100 dark:hover:ring-blue-500/60"
         >
-          <Store className="h-4 w-4" /> ¿Tienes un negocio? Publícalo gratis
+          <Store className="h-5 w-5" /> ¿Tienes un negocio? Publícalo gratis
         </Link>
       </div>
 
