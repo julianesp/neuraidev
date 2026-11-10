@@ -320,15 +320,7 @@ export default function MisNegociosPage() {
                 const dia = form.horario?.[d.id];
                 return (
                   <div key={d.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2">
-                    <label className="flex w-36 items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
-                      <input
-                        type="checkbox"
-                        checked={!!dia}
-                        onChange={(e) => alternarDia(d.id, e.target.checked)}
-                        className="h-4 w-4 accent-blue-600"
-                      />
-                      {d.nombre}
-                    </label>
+                    <span className="w-28 text-sm font-medium text-gray-900 dark:text-gray-100">{d.nombre}</span>
                     {dia ? (
                       <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                         <input
@@ -348,9 +340,25 @@ export default function MisNegociosPage() {
                           aria-label={`${d.nombre}: hora de cierre`}
                           required
                         />
+                        <button
+                          type="button"
+                          onClick={() => alternarDia(d.id, false)}
+                          className="ml-1 rounded-md border border-gray-300 px-2 py-1 text-xs text-gray-700 hover:border-gray-900 dark:border-gray-700 dark:text-gray-300"
+                        >
+                          Quitar
+                        </button>
                       </div>
                     ) : (
-                      <span className="text-sm text-gray-500">Cerrado</span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm text-gray-500">Cerrado</span>
+                        <button
+                          type="button"
+                          onClick={() => alternarDia(d.id, true)}
+                          className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium !text-white hover:bg-blue-700"
+                        >
+                          + Establecer hora
+                        </button>
+                      </div>
                     )}
                   </div>
                 );
