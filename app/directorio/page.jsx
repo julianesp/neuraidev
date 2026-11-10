@@ -8,8 +8,9 @@ import {
   nombreCategoria,
   nombreMunicipio,
 } from "@/lib/directorio/constantes";
-import { contarPor, listarPublicos } from "@/lib/directorio/negocios";
+import { contarPor, listarPublicos, masVisitados } from "@/lib/directorio/negocios";
 import TarjetaNegocio from "./_components/TarjetaNegocio";
+import CarruselVisitados from "./_components/CarruselVisitados";
 
 export const dynamic = "force-dynamic";
 
@@ -46,11 +47,13 @@ export default async function DirectorioPage({ searchParams }) {
   let resultado = { negocios: [], total: 0, pagina: 1, paginas: 1 };
   let porMunicipio = {};
   let porCategoria = {};
+  let visitados = [];
   try {
-    [resultado, porMunicipio, porCategoria] = await Promise.all([
+    [resultado, porMunicipio, porCategoria, visitados] = await Promise.all([
       listarPublicos(filtros),
       contarPor("municipio"),
       contarPor("categoria"),
+      masVisitados(12),
     ]);
   } catch (error) {
     console.error("[directorio] Error cargando:", error);
@@ -119,25 +122,29 @@ export default async function DirectorioPage({ searchParams }) {
         </Link>
       </div>
 
+      {!hayFiltros && visitados.length > 0 && <CarruselVisitados negocios={visitados} />}
+
       {!hayFiltros && (
         <>
+          {MUNICIPIOS.some((m) => porMunicipio[m.slug]) && (
           <section className="mt-10" aria-labelledby="h-municipios">
             <h2 id="h-municipios" className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
               Por municipio
             </h2>
             <div className="flex flex-wrap gap-2">
-              {MUNICIPIOS.map((m) => (
+              {MUNICIPIOS.filter((m) => porMunicipio[m.slug]).map((m) => (
                 <Link
                   key={m.slug}
                   href={href({}, { municipio: m.slug })}
                   className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-800 hover:border-blue-600 hover:text-blue-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
                 >
                   {m.nombre}
-                  <span className="ml-1.5 text-xs text-gray-500">{porMunicipio[m.slug] || 0}</span>
+                  <span className="ml-1.5 text-xs text-gray-500">{porMunicipio[m.slug]}</span>
                 </Link>
               ))}
             </div>
           </section>
+          )}
 
           <section className="mt-8" aria-labelledby="h-categorias">
             <h2 id="h-categorias" className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">

@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { after } from "next/server";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, Facebook, Globe, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
-import { obtenerPorSlug } from "@/lib/directorio/negocios";
+import { obtenerPorSlug, registrarVista } from "@/lib/directorio/negocios";
 import { urlWhatsapp } from "../_components/TarjetaNegocio";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +38,7 @@ export default async function FichaNegocioPage({ params }) {
   const { slug } = await params;
   const n = await cargar(slug);
   if (!n) notFound();
+  after(() => registrarVista(n.id).catch(() => {}));
 
   const lugar = nombreMunicipio(n.municipio);
   const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
