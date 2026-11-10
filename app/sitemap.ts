@@ -35,6 +35,7 @@ const STATIC_PATHS: { path: string; priority: number }[] = [
   { path: "/ofertas", priority: 0.7 },
   { path: "/clientes", priority: 0.5 },
   { path: "/colon", priority: 0.5 },
+  { path: "/directorio", priority: 0.8 },
   { path: "/noticias", priority: 0.5 },
   { path: "/sobre-nosotros", priority: 0.6 },
   { path: "/preguntas-frecuentes", priority: 0.6 },
@@ -130,5 +131,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("[sitemap] Error cargando blog:", error);
   }
 
-  return [...staticEntries, ...categoryEntries, ...productEntries, ...blogEntries];
+  // Fichas aprobadas del directorio del Putumayo
+  let directorioEntries: MetadataRoute.Sitemap = [];
+  try {
+    const fichas = await d1Select(
+      "SELECT slug, updated_at FROM directorio_negocios WHERE estado = 'aprobado'",
+    );
+    directorioEntries = (fichas || []).map((f: any) => {
+      const lastModified = fecha(f.updated_at);
+      return {
+        url: `${BASE_URL}/directorio/${f.slug}`,
+        ...(lastModified && { lastModified }),
+        priority: 0.6,
+      };
+    });
+  } catch (error) {
+    // La tabla puede no existir aún (migración pendiente).
+    console.error("[sitemap] Error cargando directorio:", error);
+  }
+
+  return [
+    ...staticEntries,
+    ...categoryEntries,
+    ...productEntries,
+    ...blogEntries,
+    ...directorioEntries,
+  ];
 }

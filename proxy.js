@@ -5,7 +5,8 @@ import { NextResponse } from "next/server";
 const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
   "/admin(.*)",
-  "/mi-negocio(.*)"
+  "/mi-negocio(.*)",
+  "/directorio/mis-negocios(.*)"
 ]);
 
 // Rutas de pago que deben ser completamente públicas (bypass completo)

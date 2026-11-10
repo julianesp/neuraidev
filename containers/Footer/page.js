@@ -45,6 +45,9 @@ const Footer = () => {
               <li>
                 <Link href="/ofertas">Ofertas</Link>
               </li>
+              <li>
+                <Link href="/directorio">Directorio Putumayo</Link>
+              </li>
             </ul>
           </div>
 
