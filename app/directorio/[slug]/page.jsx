@@ -53,6 +53,11 @@ export default async function FichaNegocioPage({ params }) {
   const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     `${n.direccion ? `${n.direccion}, ` : ""}${n.nombre}, ${lugar}, Putumayo, Colombia`
   )}`;
+  // Mapa incrustado (sin API key). Con dirección busca la dirección; sin ella, el negocio en el municipio.
+  const consultaMapa = n.direccion
+    ? `${n.direccion}, ${lugar}, Putumayo, Colombia`
+    : `${n.nombre}, ${lugar}, Putumayo, Colombia`;
+  const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(consultaMapa)}&output=embed&hl=es`;
   const reporte = `https://wa.me/573174503604?text=${encodeURIComponent(
     `Quiero reportar un problema con la ficha "${n.nombre}": https://neurai.dev/directorio/${n.slug}`
   )}`;
@@ -131,10 +136,31 @@ export default async function FichaNegocioPage({ params }) {
       )}
 
       <div className="mt-6 grid gap-6 md:grid-cols-[1fr_280px]">
-        <section>
+        <section className="space-y-6">
           {n.descripcion ? (
             <p className="whitespace-pre-line leading-relaxed text-gray-800 dark:text-gray-200">{n.descripcion}</p>
           ) : null}
+
+          <div>
+            <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Ubicación</h2>
+            <div className="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+              <iframe
+                title={`Mapa de ${n.nombre}`}
+                src={mapaEmbed}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+                className="h-72 w-full border-0 sm:h-80"
+              />
+            </div>
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              {n.direccion ? `${n.direccion}, ` : ""}
+              {lugar}.{" "}
+              <a href={mapa} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
+                Abrir en Google Maps
+              </a>
+            </p>
+          </div>
         </section>
 
         <aside className="space-y-3 rounded-xl border border-gray-200 p-4 dark:border-gray-800">
