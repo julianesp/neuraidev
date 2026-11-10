@@ -383,6 +383,16 @@ const NavBar = () => {
 
           <li role="none">
             <Link
+              href="/directorio"
+              title="Directorio de negocios y servicios del Putumayo"
+              onClick={handleLinkClick}
+            >
+              Directorio
+            </Link>
+          </li>
+
+          <li role="none">
+            <Link
               href="/sobre-nosotros"
               title="Sobre nosotros"
               onClick={handleLinkClick}

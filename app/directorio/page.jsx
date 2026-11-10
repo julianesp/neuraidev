@@ -11,6 +11,35 @@ import {
 import { contarPor, listarPublicos, masVisitados } from "@/lib/directorio/negocios";
 import TarjetaNegocio from "./_components/TarjetaNegocio";
 import CarruselVisitados from "./_components/CarruselVisitados";
+import CarruselProductos from "./_components/CarruselProductos";
+import { loadCategoryProducts } from "@/utils/loadCategoryProducts";
+import { generateProductSlug } from "@/utils/slugify";
+
+// Productos de la tienda para la fila de abajo: destacados primero.
+async function productosTienda() {
+  try {
+    const listas = await Promise.all(
+      ["celulares", "computadoras", "generales"].map(async (categoria) =>
+        ((await loadCategoryProducts(categoria)) || []).map((p) => ({ ...p, _cat: categoria }))
+      )
+    );
+    return listas
+      .flat()
+      .filter((p) => p.disponible && (p.imagenPrincipal || p.imagenes?.length) && generateProductSlug(p))
+      .sort((a, b) => (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0))
+      .slice(0, 16)
+      .map((p) => ({
+        id: p.id,
+        nombre: p.nombre,
+        precio: p.precio,
+        imagen: p.imagenPrincipal || p.imagenes?.[0]?.url,
+        href: `/accesorios/${p._cat}/${generateProductSlug(p)}`,
+      }));
+  } catch (error) {
+    console.error("[directorio] Error cargando productos:", error);
+    return [];
+  }
+}
 
 export const dynamic = "force-dynamic";
 
@@ -48,6 +77,7 @@ export default async function DirectorioPage({ searchParams }) {
   let porMunicipio = {};
   let porCategoria = {};
   let visitados = [];
+  const productos = await productosTienda();
   try {
     [resultado, porMunicipio, porCategoria, visitados] = await Promise.all([
       listarPublicos(filtros),
@@ -222,6 +252,8 @@ export default async function DirectorioPage({ searchParams }) {
           </nav>
         )}
       </section>
+
+      {productos.length > 0 && <CarruselProductos productos={productos} />}
     </main>
   );
 }
