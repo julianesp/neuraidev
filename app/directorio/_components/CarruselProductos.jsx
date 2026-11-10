@@ -1,15 +1,12 @@
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 
-const precio = (v) =>
-  new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(v);
-
 // Fila de productos de la tienda que transita continuamente.
 // Se detiene al pasar el mouse (o el foco) por encima.
 export default function CarruselProductos({ productos }) {
-  const veces = Math.max(1, Math.ceil(8 / productos.length));
+  const veces = Math.max(1, Math.ceil(14 / productos.length));
   const bloque = Array.from({ length: veces }, () => productos).flat();
-  const segundos = Math.max(30, bloque.length * 5);
+  const segundos = Math.max(30, bloque.length * 3);
 
   const tarjeta = (p, clave, oculto) => (
     <Link
@@ -17,23 +14,17 @@ export default function CarruselProductos({ productos }) {
       href={p.href}
       aria-hidden={oculto || undefined}
       tabIndex={oculto ? -1 : undefined}
-      className="group flex w-44 shrink-0 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white hover:border-blue-600 dark:border-gray-800 dark:bg-gray-900"
+      className="group flex w-28 shrink-0 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white hover:border-blue-600 dark:border-gray-800 dark:bg-gray-900"
     >
       <div className="aspect-square bg-gray-100 dark:bg-gray-800">
         {p.imagen ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={p.imagen} alt={p.nombre} loading="lazy" className="h-full w-full object-cover" />
+          <img src={p.imagen} alt={p.nombre} title={p.nombre} loading="lazy" className="h-full w-full object-cover" />
         ) : null}
       </div>
-      <div className="p-2.5">
-        <p className="line-clamp-2 text-sm font-medium text-gray-900 group-hover:text-blue-600 dark:text-gray-100">
-          {p.nombre}
-        </p>
-        <p className="mt-1 text-sm font-bold text-blue-600">{precio(p.precio)}</p>
-        <span className="mt-1.5 inline-block rounded-md bg-blue-600 px-2.5 py-1 text-xs font-medium text-white">
-          Ver
-        </span>
-      </div>
+      <span className="m-2 rounded-md bg-blue-600 px-2 py-1 text-center text-xs font-medium text-white">
+        Ver
+      </span>
     </Link>
   );
 
