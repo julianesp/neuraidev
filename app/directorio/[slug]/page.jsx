@@ -150,10 +150,10 @@ export default async function FichaNegocioPage({ params }) {
           ) : null}
           {n.telefono ? (
             <a
-              href={`tel:${n.telefono}`}
+              href={`tel:+${n.telefono}`}
               className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white hover:bg-blue-700"
             >
-              <Phone className="h-5 w-5" /> Llamar {n.telefono}
+              <Phone className="h-5 w-5" /> Llamar {n.telefono.replace(/^57/, "")}
             </a>
           ) : null}
 

@@ -117,7 +117,7 @@ export default function DashboardDirectorioPage() {
                     {nombreCategoria(n.categoria)} · {nombreMunicipio(n.municipio)}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {[n.whatsapp && `WhatsApp ${n.whatsapp}`, n.telefono && `Tel ${n.telefono}`].filter(Boolean).join(" · ")}
+                    {n.whatsapp ? `WhatsApp ${n.whatsapp}` : ""}
                   </p>
                   {n.owner_email && <p className="text-xs text-gray-500">Cuenta: {n.owner_email}</p>}
                   {n.descripcion && (

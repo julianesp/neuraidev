@@ -57,7 +57,7 @@ export default function TarjetaNegocio({ negocio: n }) {
           ) : null}
           {n.telefono ? (
             <a
-              href={`tel:${n.telefono}`}
+              href={`tel:+${n.telefono}`}
               className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg border border-blue-600 px-3 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30"
             >
               <Phone className="h-4 w-4" /> Llamar

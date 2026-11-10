@@ -17,7 +17,6 @@ const VACIO = {
   categoria: "",
   municipio: "",
   descripcion: "",
-  telefono: "",
   whatsapp: "",
   direccion: "",
   horario: null, // objeto { lun: {a:"08:00", c:"18:00"} | null, ... }
@@ -296,17 +295,19 @@ export default function MisNegociosPage() {
             />
           </label>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <label className="block">
-              <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">WhatsApp</span>
-              <input className={campo} inputMode="tel" value={form.whatsapp} onChange={set("whatsapp")} placeholder="3001234567" />
-            </label>
-            <label className="block">
-              <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">Teléfono</span>
-              <input className={campo} inputMode="tel" value={form.telefono} onChange={set("telefono")} placeholder="3001234567" />
-            </label>
-          </div>
-          <p className="-mt-2 text-xs text-gray-500">Escribe al menos uno de los dos.</p>
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">WhatsApp *</span>
+            <input
+              className={campo}
+              inputMode="tel"
+              value={form.whatsapp ? form.whatsapp.replace(/^57(?=3\d{9}$)/, "") : ""}
+              onChange={set("whatsapp")}
+              placeholder="3001234567"
+              maxLength={13}
+              required
+            />
+            <span className="mt-1 block text-xs text-gray-500">Es el número con el que te escribirán y te llamarán.</span>
+          </label>
 
           <label className="block">
             <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">Dirección</span>
