@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { after } from "next/server";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Clock, Facebook, Globe, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ArrowLeft, Clock, Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 import { obtenerPorSlug, registrarVista } from "@/lib/directorio/negocios";
+import { DIAS, formatearHora, parsearHorario } from "@/lib/directorio/horario";
 import { urlWhatsapp } from "../_components/TarjetaNegocio";
 
 export const dynamic = "force-dynamic";
@@ -41,6 +42,14 @@ export default async function FichaNegocioPage({ params }) {
   after(() => registrarVista(n.id).catch(() => {}));
 
   const lugar = nombreMunicipio(n.municipio);
+  const horario = parsearHorario(n.horario);
+  // Día de hoy en hora de Colombia, para resaltarlo en el horario.
+  const nombreHoy = new Intl.DateTimeFormat("es-CO", { weekday: "long", timeZone: "America/Bogota" })
+    .format(new Date())
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+  const hoy = DIAS.find((d) => d.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === nombreHoy)?.id;
   const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     `${n.direccion ? `${n.direccion}, ` : ""}${n.nombre}, ${lugar}, Putumayo, Colombia`
   )}`;
@@ -63,7 +72,7 @@ export default async function FichaNegocioPage({ params }) {
       addressRegion: "Putumayo",
       addressCountry: "CO",
     },
-    sameAs: [n.sitio_web, n.facebook, n.instagram].filter(Boolean),
+    sameAs: [n.facebook, n.instagram].filter(Boolean),
   };
 
   return (
@@ -159,18 +168,26 @@ export default async function FichaNegocioPage({ params }) {
                 </a>
               </span>
             </li>
-            {n.horario ? (
+            {horario ? (
+              <li className="flex gap-2">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
+                <dl className="grid flex-1 grid-cols-[auto_1fr] gap-x-3 gap-y-0.5">
+                  {DIAS.map((d) => (
+                    <div key={d.id} className={`col-span-2 grid grid-cols-subgrid ${d.id === hoy ? "font-semibold text-blue-600" : ""}`}>
+                      <dt>{d.nombre}</dt>
+                      <dd>
+                        {horario[d.id]
+                          ? `${formatearHora(horario[d.id].a)} - ${formatearHora(horario[d.id].c)}`
+                          : "Cerrado"}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </li>
+            ) : n.horario ? (
               <li className="flex gap-2">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
                 <span className="whitespace-pre-line">{n.horario}</span>
-              </li>
-            ) : null}
-            {n.sitio_web ? (
-              <li className="flex gap-2">
-                <Globe className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
-                <a href={n.sitio_web} target="_blank" rel="noopener noreferrer nofollow" className="break-all text-blue-600 hover:underline">
-                  Sitio web
-                </a>
               </li>
             ) : null}
             {n.facebook ? (

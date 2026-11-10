@@ -10,6 +10,7 @@ import {
   nombreCategoria,
   nombreMunicipio,
 } from "@/lib/directorio/constantes";
+import { DIAS, parsearHorario } from "@/lib/directorio/horario";
 
 const VACIO = {
   nombre: "",
@@ -19,8 +20,7 @@ const VACIO = {
   telefono: "",
   whatsapp: "",
   direccion: "",
-  horario: "",
-  sitio_web: "",
+  horario: null, // objeto { lun: {a:"08:00", c:"18:00"} | null, ... }
   facebook: "",
   instagram: "",
   logo_url: "",
@@ -82,7 +82,7 @@ export default function MisNegociosPage() {
     setAviso("");
   };
   const abrirEdicion = (n) => {
-    setForm({ ...VACIO, ...n, fotos: n.fotos || [] });
+    setForm({ ...VACIO, ...n, horario: parsearHorario(n.horario), fotos: n.fotos || [] });
     setEditId(n.id);
     setError("");
     setAviso("");
@@ -117,6 +117,19 @@ export default function MisNegociosPage() {
     } finally {
       setSubiendo(false);
     }
+  };
+
+  const cambiarDia = (id, valor) =>
+    setForm((f) => ({ ...f, horario: { ...(f.horario || {}), [id]: valor } }));
+  const alternarDia = (id, abierto) =>
+    cambiarDia(id, abierto ? { a: "08:00", c: "18:00" } : null);
+  const copiarATodos = () => {
+    const base = DIAS.map((d) => form.horario?.[d.id]).find(Boolean);
+    if (!base) return;
+    setForm((f) => ({
+      ...f,
+      horario: Object.fromEntries(DIAS.map((d) => [d.id, { ...base }])),
+    }));
   };
 
   const guardar = async (e) => {
@@ -300,16 +313,59 @@ export default function MisNegociosPage() {
             <input className={campo} value={form.direccion} onChange={set("direccion")} maxLength={160} placeholder="Calle 5 #3-20, barrio Centro" />
           </label>
 
-          <label className="block">
-            <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">Horario</span>
-            <textarea className={campo} rows={2} value={form.horario} onChange={set("horario")} maxLength={300} placeholder="Lunes a sábado 8am - 6pm" />
-          </label>
+          <fieldset>
+            <legend className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">Horario de atención</legend>
+            <div className="divide-y divide-gray-200 rounded-lg border border-gray-300 dark:divide-gray-800 dark:border-gray-700">
+              {DIAS.map((d) => {
+                const dia = form.horario?.[d.id];
+                return (
+                  <div key={d.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2">
+                    <label className="flex w-36 items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
+                      <input
+                        type="checkbox"
+                        checked={!!dia}
+                        onChange={(e) => alternarDia(d.id, e.target.checked)}
+                        className="h-4 w-4 accent-blue-600"
+                      />
+                      {d.nombre}
+                    </label>
+                    {dia ? (
+                      <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                        <input
+                          type="time"
+                          value={dia.a}
+                          onChange={(e) => cambiarDia(d.id, { ...dia, a: e.target.value })}
+                          className="rounded-md border border-gray-300 bg-white px-2 py-1 text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                          aria-label={`${d.nombre}: hora de apertura`}
+                          required
+                        />
+                        <span>a</span>
+                        <input
+                          type="time"
+                          value={dia.c}
+                          onChange={(e) => cambiarDia(d.id, { ...dia, c: e.target.value })}
+                          className="rounded-md border border-gray-300 bg-white px-2 py-1 text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                          aria-label={`${d.nombre}: hora de cierre`}
+                          required
+                        />
+                      </div>
+                    ) : (
+                      <span className="text-sm text-gray-500">Cerrado</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              onClick={copiarATodos}
+              className="mt-2 text-sm font-medium text-blue-600 hover:underline"
+            >
+              Copiar el primer horario a todos los días
+            </button>
+          </fieldset>
 
-          <div className="grid gap-4 sm:grid-cols-3">
-            <label className="block">
-              <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">Sitio web</span>
-              <input className={campo} value={form.sitio_web} onChange={set("sitio_web")} placeholder="minegocio.com" />
-            </label>
+          <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">Facebook</span>
               <input className={campo} value={form.facebook} onChange={set("facebook")} placeholder="facebook.com/minegocio" />

@@ -120,12 +120,12 @@ export async function PUT(request) {
     await d1Execute(
       `UPDATE directorio_negocios SET
          nombre=?, categoria=?, municipio=?, descripcion=?, telefono=?, whatsapp=?, direccion=?,
-         horario=?, sitio_web=?, facebook=?, instagram=?, logo_url=?, fotos=?,
+         horario=?, facebook=?, instagram=?, logo_url=?, fotos=?,
          estado=?, motivo_rechazo=?, updated_at=?
        WHERE id = ? AND owner_id = ?`,
       [
         datos.nombre, datos.categoria, datos.municipio, datos.descripcion, datos.telefono,
-        datos.whatsapp, datos.direccion, datos.horario, datos.sitio_web, datos.facebook,
+        datos.whatsapp, datos.direccion, datos.horario, datos.facebook,
         datos.instagram, datos.logo_url, JSON.stringify(datos.fotos),
         estado, estado === "pendiente" ? null : actual.motivo_rechazo, new Date().toISOString(),
         actual.id, u.id,
