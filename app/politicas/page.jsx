@@ -4,7 +4,7 @@ import React from "react";
 
 export default function PoliticasPage() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative">
       {/* Fondo con backdrop-filter */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-100/20 via-blue-50/15 to-blue-100/20 dark:from-blue-900/20 dark:via-blue-900/15 dark:to-blue-900/20"></div>
       <div className="absolute inset-0 backdrop-blur-[1px] bg-white/5 dark:bg-black/10"></div>

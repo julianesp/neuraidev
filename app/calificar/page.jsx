@@ -16,7 +16,7 @@ export default async function CalificarPage({ searchParams }) {
   const texto = (v, max) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-12 px-4">
       <FormularioCalificar
         nombreInicial={texto(params?.n, 80)}
         tipoInicial={["producto", "formateo", "web"].includes(params?.t) ? params.t : ""}

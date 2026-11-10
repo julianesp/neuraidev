@@ -93,7 +93,7 @@ export default async function DirectorioPage({ searchParams }) {
   const base = { q: filtros.q, municipio: filtros.municipio, categoria: filtros.categoria };
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-12">
+    <main className="mx-auto w-full max-w-6xl px-4 pt-24 pb-8 sm:pt-28 sm:pb-12">
       <header className="text-center">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
           Directorio de negocios del Putumayo

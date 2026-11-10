@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function NoticiasPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 py-12">
+    <div className="min-h-screen bg-white dark:bg-gray-900 pt-24 pb-12">
       <div className="container mx-auto px-4 max-w-4xl text-center">
         <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">
           Noticias

@@ -67,7 +67,7 @@ export default async function FichaNegocioPage({ params }) {
   };
 
   return (
-    <main className="mx-auto w-full max-w-4xl px-4 py-8">
+    <main className="mx-auto w-full max-w-4xl px-4 pt-24 pb-8 sm:pt-28">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <Link href="/directorio" className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline">

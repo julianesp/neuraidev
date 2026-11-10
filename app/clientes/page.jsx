@@ -11,7 +11,7 @@ const ClientesVitrina = dynamic(
 
 export default function ClientesPage() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative">
       {/* Fondo con backdrop-filter */}
       <div className="absolute inset-0 bg-gradient-to-br from-green-100/30 via-blue-50/20 to-teal-100/30 dark:from-green-900/20 dark:via-blue-900/15 dark:to-teal-900/20"></div>
       <div className="absolute inset-0 backdrop-blur-[1px] bg-white/10 dark:bg-black/10"></div>
