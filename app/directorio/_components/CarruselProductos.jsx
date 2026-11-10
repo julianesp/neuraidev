@@ -16,10 +16,10 @@ export default function CarruselProductos({ productos }) {
       tabIndex={oculto ? -1 : undefined}
       className="group flex w-28 shrink-0 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white hover:border-blue-600 dark:border-gray-800 dark:bg-gray-900"
     >
-      <div className="aspect-square bg-gray-100 dark:bg-gray-800">
+      <div className="relative h-28 w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
         {p.imagen ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={p.imagen} alt={p.nombre} title={p.nombre} loading="lazy" className="h-full w-full object-cover" />
+          <img src={p.imagen} alt={p.nombre} title={p.nombre} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
         ) : null}
       </div>
       <span className="m-2 rounded-md bg-blue-600 px-2 py-1 text-center text-xs font-medium text-white">
@@ -48,7 +48,7 @@ export default function CarruselProductos({ productos }) {
         @media (prefers-reduced-motion: reduce) { .prod-marquee-pista { animation: none; } .prod-marquee { overflow-x: auto; } }
       `}</style>
       <div className="prod-marquee overflow-hidden">
-        <div className="prod-marquee-pista flex w-max gap-3">
+        <div className="prod-marquee-pista flex w-max items-start gap-3">
           {bloque.map((p, i) => tarjeta(p, `a-${i}`, false))}
           {bloque.map((p, i) => tarjeta(p, `b-${i}`, true))}
         </div>
