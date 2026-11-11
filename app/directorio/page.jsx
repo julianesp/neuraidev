@@ -145,7 +145,7 @@ export default async function DirectorioPage({ searchParams }) {
 
       <div className="mt-6 text-center">
         <Link
-          href="/directorio/mis-negocios"
+          href="/directorio/publicar"
           className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-7 py-3.5 text-base font-bold !text-white shadow-lg shadow-blue-600/30 transition-all duration-200 ease-out hover:scale-110 hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-600/50 hover:ring-4 hover:ring-blue-300 active:scale-100 dark:hover:ring-blue-500/60"
         >
           <Store className="h-5 w-5" /> ¿Tienes un negocio? Publícalo gratis
@@ -215,7 +215,7 @@ export default async function DirectorioPage({ searchParams }) {
             {hayFiltros
               ? "No encontramos negocios con esos filtros."
               : "Aún no hay negocios publicados. ¡Sé el primero!"}{" "}
-            <Link href="/directorio/mis-negocios" className="font-medium text-blue-600 hover:underline">
+            <Link href="/directorio/publicar" className="font-medium text-blue-600 hover:underline">
               Publica el tuyo gratis
             </Link>
             .

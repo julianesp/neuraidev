@@ -9,6 +9,7 @@ import {
   parsearFotos,
   validarNegocio,
 } from "@/lib/directorio/negocios";
+import { resumenPorNegocios } from "@/lib/directorio/stats";
 import { notifyNewDirectorio } from "@/lib/notificationService";
 import { FOTOS_GRATIS, FOTOS_PLAN, limiteFotos, planActivo } from "@/lib/directorio/planes";
 
@@ -55,6 +56,8 @@ export async function GET() {
       [u.id]
     );
     const conPago = new Set(pagados.map((p) => p.negocio_id));
+    // Estadísticas: si la tabla aún no existe, el panel simplemente no las muestra.
+    const stats = await resumenPorNegocios(filas.map((f) => f.id)).catch(() => ({}));
     return NextResponse.json({
       negocios: filas.map((f) => ({
         ...f,
@@ -62,6 +65,7 @@ export async function GET() {
         plan_activo: planActivo(f.plan_hasta),
         en_prueba: planActivo(f.plan_hasta) && !conPago.has(f.id),
         limite_fotos: limiteFotos(f.plan_hasta),
+        stats: stats[f.id] || null,
       })),
     });
   } catch (error) {

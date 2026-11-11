@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MapPin, Phone, MessageCircle, Star } from "lucide-react";
+import EnlaceRastreado from "./EnlaceRastreado";
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 
 export const urlWhatsapp = (numero, nombre) =>
@@ -55,22 +56,26 @@ export default function TarjetaNegocio({ negocio: n }) {
         <div className="mt-auto pt-2">
           <div className="flex flex-col gap-2">
             {n.whatsapp ? (
-              <a
+              <EnlaceRastreado
+                negocioId={n.id}
+                tipo="whatsapp"
                 href={urlWhatsapp(n.whatsapp, n.nombre)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-1 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium !text-white hover:bg-blue-700"
               >
                 <MessageCircle className="h-4 w-4" /> WhatsApp
-              </a>
+              </EnlaceRastreado>
             ) : null}
             {n.telefono ? (
-              <a
+              <EnlaceRastreado
+                negocioId={n.id}
+                tipo="llamar"
                 href={`tel:+${n.telefono}`}
                 className="inline-flex items-center justify-center gap-1 rounded-lg border border-blue-600 px-3 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30"
               >
                 <Phone className="h-4 w-4" /> Llamar
-              </a>
+              </EnlaceRastreado>
             ) : null}
           </div>
         </div>

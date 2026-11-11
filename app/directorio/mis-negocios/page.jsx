@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ImagePlus, Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
+import { Eye, ImagePlus, Loader2, MapPin, MessageCircle, Pencil, Phone, Plus, Trash2, X } from "lucide-react";
 import {
   CATEGORIAS,
   MUNICIPIOS,
@@ -326,6 +326,28 @@ export default function MisNegociosPage() {
                       <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
                         <strong>Motivo:</strong> {n.motivo_rechazo}. Corrígelo y se revisará de nuevo.
                       </p>
+                    )}
+                    {n.stats && n.estado === "aprobado" && (
+                      <div className="mt-3">
+                        <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-gray-500">
+                          Tu negocio en los últimos 30 días
+                        </p>
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                          {[
+                            { k: "vista", etiqueta: "Visitas", Icono: Eye },
+                            { k: "whatsapp", etiqueta: "Te escribieron", Icono: MessageCircle },
+                            { k: "llamar", etiqueta: "Quisieron llamarte", Icono: Phone },
+                            { k: "mapa", etiqueta: "Pidieron cómo llegar", Icono: MapPin },
+                          ].map(({ k, etiqueta, Icono }) => (
+                            <div key={k} className="rounded-lg border border-blue-100 bg-blue-50 p-3 dark:border-blue-900/50 dark:bg-blue-900/20">
+                              <Icono className="h-4 w-4 text-blue-600" />
+                              <p className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-200">{n.stats.dias30[k]}</p>
+                              <p className="text-xs text-gray-700 dark:text-gray-300">{etiqueta}</p>
+                              <p className="text-[11px] text-gray-500">{n.stats.dias7[k]} esta semana</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     )}
                     <div className="mt-3 rounded-lg bg-gray-50 p-3 text-sm dark:bg-gray-800/60">
                       <p className="text-gray-800 dark:text-gray-200">

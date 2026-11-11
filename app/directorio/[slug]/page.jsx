@@ -7,6 +7,7 @@ import { ArrowLeft, Clock, Pencil, Facebook, Instagram, MapPin, MessageCircle, P
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 import { obtenerPorSlug, registrarVista } from "@/lib/directorio/negocios";
 import { DIAS, formatearHora, parsearHorario } from "@/lib/directorio/horario";
+import EnlaceRastreado from "../_components/EnlaceRastreado";
 import GaleriaFicha from "../_components/GaleriaFicha";
 import { urlWhatsapp } from "../_components/TarjetaNegocio";
 
@@ -171,31 +172,35 @@ export default async function FichaNegocioPage({ params }) {
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               {n.direccion ? `${n.direccion}, ` : ""}
               {lugar}.{" "}
-              <a href={mapa} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
+              <EnlaceRastreado negocioId={n.id} tipo="mapa" href={mapa} target="_blank" rel="noopener noreferrer" className="font-medium text-blue-600 hover:underline">
                 Abrir en Google Maps
-              </a>
+              </EnlaceRastreado>
             </p>
           </div>
         </section>
 
         <aside className="space-y-3 rounded-xl border border-gray-200 p-4 dark:border-gray-800">
           {n.whatsapp ? (
-            <a
+            <EnlaceRastreado
+              negocioId={n.id}
+              tipo="whatsapp"
               href={urlWhatsapp(n.whatsapp, n.nombre)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 font-medium !text-white hover:bg-blue-700"
             >
               <MessageCircle className="h-5 w-5" /> Escribir por WhatsApp
-            </a>
+            </EnlaceRastreado>
           ) : null}
           {n.telefono ? (
-            <a
+            <EnlaceRastreado
+              negocioId={n.id}
+              tipo="llamar"
               href={`tel:+${n.telefono}`}
               className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white hover:bg-blue-700"
             >
               <Phone className="h-5 w-5" /> Llamar {n.telefono.replace(/^57/, "")}
-            </a>
+            </EnlaceRastreado>
           ) : null}
 
           <ul className="space-y-2 pt-1 text-sm text-gray-700 dark:text-gray-300">
@@ -204,9 +209,9 @@ export default async function FichaNegocioPage({ params }) {
               <span>
                 {n.direccion ? `${n.direccion}, ` : ""}
                 {lugar}.{" "}
-                <a href={mapa} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                <EnlaceRastreado negocioId={n.id} tipo="mapa" href={mapa} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                   Cómo llegar
-                </a>
+                </EnlaceRastreado>
               </span>
             </li>
             {horario ? (
