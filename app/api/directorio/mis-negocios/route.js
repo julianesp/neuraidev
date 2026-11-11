@@ -10,9 +10,10 @@ import {
   validarNegocio,
 } from "@/lib/directorio/negocios";
 import { resumenPorNegocios } from "@/lib/directorio/stats";
+import { productosPorNegocios } from "@/lib/directorio/productos";
 import { ofertasPorNegocios } from "@/lib/directorio/ofertas";
 import { notifyNewDirectorio } from "@/lib/notificationService";
-import { FOTOS_GRATIS, FOTOS_PLAN, limiteFotos, limiteOfertas, planActivo } from "@/lib/directorio/planes";
+import { FOTOS_GRATIS, FOTOS_PLAN, limiteFotos, limiteOfertas, limiteProductos, planActivo } from "@/lib/directorio/planes";
 
 export const dynamic = "force-dynamic";
 
@@ -60,6 +61,7 @@ export async function GET() {
     // Estadísticas: si la tabla aún no existe, el panel simplemente no las muestra.
     const stats = await resumenPorNegocios(filas.map((f) => f.id)).catch(() => ({}));
     const ofertas = await ofertasPorNegocios(filas.map((f) => f.id)).catch(() => ({}));
+    const productos = await productosPorNegocios(filas.map((f) => f.id)).catch(() => ({}));
     return NextResponse.json({
       negocios: filas.map((f) => ({
         ...f,
@@ -70,6 +72,8 @@ export async function GET() {
         stats: stats[f.id] || null,
         ofertas: ofertas[f.id] || [],
         limite_ofertas: limiteOfertas(f.plan_hasta),
+        productos: productos[f.id] || [],
+        limite_productos: limiteProductos(f.plan_hasta),
       })),
     });
   } catch (error) {
@@ -173,6 +177,9 @@ export async function DELETE(request) {
     if (!u) return noAutenticado();
     const id = new URL(request.url).searchParams.get("id");
     await d1Execute("DELETE FROM directorio_negocios WHERE id = ? AND owner_id = ?", [id, u.id]);
+    // Limpia lo que colgaba del negocio (si ya no existe el negocio, no queda nada que mostrar).
+    await d1Execute("DELETE FROM directorio_productos WHERE negocio_id NOT IN (SELECT id FROM directorio_negocios)").catch(() => {});
+    await d1Execute("DELETE FROM directorio_ofertas WHERE negocio_id NOT IN (SELECT id FROM directorio_negocios)").catch(() => {});
     return NextResponse.json({ ok: true });
   } catch (error) {
     return responderError(error, "DELETE /api/directorio/mis-negocios");

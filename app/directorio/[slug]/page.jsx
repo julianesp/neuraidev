@@ -10,6 +10,8 @@ import { DIAS, estaAbierto, formatearHora, parsearHorario } from "@/lib/director
 import EnlaceRastreado from "../_components/EnlaceRastreado";
 import CompartirFicha from "../_components/CompartirFicha";
 import { formatearVence, ofertasPorNegocios } from "@/lib/directorio/ofertas";
+import { productosPorNegocios } from "@/lib/directorio/productos";
+import CatalogoFicha from "../_components/CatalogoFicha";
 import GaleriaFicha from "../_components/GaleriaFicha";
 import { urlWhatsapp } from "../_components/TarjetaNegocio";
 
@@ -47,6 +49,7 @@ export default async function FichaNegocioPage({ params }) {
   if (!n) notFound();
   after(() => registrarVista(n.id).catch(() => {}));
   const ofertas = (await ofertasPorNegocios([n.id]).catch(() => ({})))[n.id] || [];
+  const productos = (await productosPorNegocios([n.id]).catch(() => ({})))[n.id] || [];
 
   // ¿Quien mira es el dueño de la ficha? Entonces se muestra el botón de editar.
   let esDueno = false;
@@ -172,7 +175,7 @@ export default async function FichaNegocioPage({ params }) {
         </div>
       </header>
 
-      {n.fotos.length > 0 && <GaleriaFicha fotos={n.fotos} nombre={n.nombre} negocioId={n.id} whatsapp={n.whatsapp} slug={n.slug} />}
+      {n.fotos.length > 0 && <GaleriaFicha fotos={n.fotos} nombre={n.nombre} negocioId={n.id} whatsapp={productos.length === 0 ? n.whatsapp : ""} slug={n.slug} />}
 
       {ofertas.length > 0 && (
         <section className="mt-6 space-y-3" aria-label="Ofertas vigentes">
@@ -311,6 +314,7 @@ export default async function FichaNegocioPage({ params }) {
           </a>
         </aside>
       </div>
+      {productos.length > 0 && <CatalogoFicha productos={productos} negocio={n} />}
     </main>
   );
 }
