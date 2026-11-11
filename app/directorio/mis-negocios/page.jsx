@@ -117,7 +117,10 @@ export default function MisNegociosPage() {
       if (!res.ok) throw new Error(data.error || "No se pudo iniciar el pago");
       await cargarScriptEpayco();
       const { key, test, ...pago } = data.config;
+      // El lightbox de ePayco se agrega al final de la página y puede arrastrar el scroll hasta el footer.
+      const y = window.scrollY;
       window.ePayco.checkout.configure({ key, test }).open(pago);
+      [0, 150, 500, 1200].forEach((ms) => setTimeout(() => window.scrollTo({ top: y, behavior: "auto" }), ms));
     } catch (e) {
       setError(e.message);
     } finally {
@@ -159,17 +162,23 @@ export default function MisNegociosPage() {
     };
   }, [cargar]);
 
+  // Al cambiar entre lista y formulario la página cambia de alto: sin esto el
+  // navegador deja el scroll abajo y se ve el footer en vez del contenido.
+  const irArriba = () => window.scrollTo({ top: 0, behavior: "auto" });
+
   const abrirNuevo = () => {
     setForm({ ...VACIO });
     setEditId(null);
     setError("");
     setAviso("");
+    irArriba();
   };
   const abrirEdicion = (n) => {
     setForm({ ...VACIO, ...n, horario: parsearHorario(n.horario), fotos: n.fotos || [] });
     setEditId(n.id);
     setError("");
     setAviso("");
+    irArriba();
   };
 
   const subirLogo = async (file) => {
@@ -234,6 +243,7 @@ export default function MisNegociosPage() {
           : "Recibimos tu negocio. Lo revisaremos pronto y quedará publicado en el directorio."
       );
       setForm(null);
+      irArriba();
       await cargar();
     } catch (err) {
       setError(err.message);
@@ -578,7 +588,10 @@ export default function MisNegociosPage() {
             </button>
             <button
               type="button"
-              onClick={() => setForm(null)}
+              onClick={() => {
+                setForm(null);
+                irArriba();
+              }}
               className="rounded-lg border border-gray-300 px-5 py-2.5 text-gray-800 dark:border-gray-700 dark:text-gray-200"
             >
               Cancelar
