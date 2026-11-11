@@ -7,8 +7,10 @@ import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 export default function CarruselVisitados({ negocios }) {
   // Se repite hasta tener suficientes tarjetas para llenar la pantalla,
   // y se duplica el bloque para que el bucle sea continuo.
-  const veces = Math.max(1, Math.ceil(8 / negocios.length));
-  const bloque = Array.from({ length: veces }, () => negocios).flat();
+  // Con pocos negocios no se anima ni se repite: cada uno sale una sola vez.
+  // El movimiento continuo solo tiene sentido cuando hay suficientes para llenar la fila.
+  const animado = negocios.length >= 5;
+  const bloque = negocios;
   const segundos = Math.max(20, bloque.length * 4);
 
   const tarjeta = (n, clave, oculto) => {
@@ -56,12 +58,16 @@ export default function CarruselVisitados({ negocios }) {
         .dir-marquee:hover .dir-marquee-pista, .dir-marquee:focus-within .dir-marquee-pista { animation-play-state: paused; }
         @media (prefers-reduced-motion: reduce) { .dir-marquee-pista { animation: none; } .dir-marquee { overflow-x: auto; } }
       `}</style>
-      <div className="dir-marquee overflow-hidden">
-        <div className="dir-marquee-pista flex w-max gap-3">
-          {bloque.map((n, i) => tarjeta(n, `a-${i}`, false))}
-          {bloque.map((n, i) => tarjeta(n, `b-${i}`, true))}
+      {animado ? (
+        <div className="dir-marquee overflow-hidden">
+          <div className="dir-marquee-pista flex w-max gap-3">
+            {bloque.map((n, i) => tarjeta(n, `a-${i}`, false))}
+            {bloque.map((n, i) => tarjeta(n, `b-${i}`, true))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-wrap gap-3">{bloque.map((n, i) => tarjeta(n, `u-${i}`, false))}</div>
+      )}
     </section>
   );
 }

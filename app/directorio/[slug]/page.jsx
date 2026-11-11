@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { after } from "next/server";
+import { currentUser } from "@clerk/nextjs/server";
+import { d1SelectOne } from "@/lib/db-d1";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Clock, Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ArrowLeft, Clock, Pencil, Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 import { obtenerPorSlug, registrarVista } from "@/lib/directorio/negocios";
 import { DIAS, formatearHora, parsearHorario } from "@/lib/directorio/horario";
@@ -40,6 +42,18 @@ export default async function FichaNegocioPage({ params }) {
   const n = await cargar(slug);
   if (!n) notFound();
   after(() => registrarVista(n.id).catch(() => {}));
+
+  // ¿Quien mira es el dueño de la ficha? Entonces se muestra el botón de editar.
+  let esDueno = false;
+  try {
+    const user = await currentUser();
+    if (user) {
+      const fila = await d1SelectOne("SELECT owner_id FROM directorio_negocios WHERE id = ?", [n.id]);
+      esDueno = fila?.owner_id === user.id;
+    }
+  } catch {
+    esDueno = false;
+  }
 
   const lugar = nombreMunicipio(n.municipio);
   const horario = parsearHorario(n.horario);
@@ -87,6 +101,18 @@ export default async function FichaNegocioPage({ params }) {
       <Link href="/directorio" className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline">
         <ArrowLeft className="h-4 w-4" /> Volver al directorio
       </Link>
+
+      {esDueno && (
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-blue-50 px-4 py-3 dark:bg-blue-900/30">
+          <p className="text-sm text-blue-900 dark:text-blue-100">Este es tu negocio. Puedes cambiar sus datos y fotos.</p>
+          <Link
+            href={`/directorio/mis-negocios?editar=${n.id}`}
+            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold !text-white shadow transition hover:scale-105 hover:bg-blue-700"
+          >
+            <Pencil className="h-4 w-4" /> Editar mi negocio
+          </Link>
+        </div>
+      )}
 
       <header className="mt-4 flex items-start gap-4">
         {n.logo_url ? (

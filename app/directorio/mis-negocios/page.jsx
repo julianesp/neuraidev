@@ -53,6 +53,7 @@ export default function MisNegociosPage() {
   const [subiendo, setSubiendo] = useState(false);
   const [error, setError] = useState("");
   const [aviso, setAviso] = useState("");
+  const abrirDesdeUrl = useRef(false);
   const inputLogo = useRef(null);
   const inputFotos = useRef(null);
 
@@ -71,6 +72,16 @@ export default function MisNegociosPage() {
   useEffect(() => {
     cargar();
   }, [cargar]);
+
+  // Llegar con ?editar=<id> (botón de la ficha) abre directo el formulario de ese negocio.
+  useEffect(() => {
+    if (abrirDesdeUrl.current || negocios.length === 0) return;
+    const id = new URLSearchParams(window.location.search).get("editar");
+    abrirDesdeUrl.current = true;
+    const n = negocios.find((x) => x.id === id);
+    if (n) abrirEdicion(n);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [negocios]);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
