@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import { d1Execute, d1SelectOne } from "@/lib/db-d1";
 import { ErrorDirectorio } from "@/lib/directorio/negocios";
-import { crearProducto, validarProducto } from "@/lib/directorio/productos";
+import { actualizarProducto, crearProducto, validarProducto } from "@/lib/directorio/productos";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +31,19 @@ export async function POST(request) {
     return NextResponse.json({ id }, { status: 201 });
   } catch (error) {
     return responderError(error, "POST /api/directorio/productos");
+  }
+}
+
+// PUT { id, nombre, precio?, descripcion?, imagen_url? } → edita un producto propio
+export async function PUT(request) {
+  try {
+    const user = await currentUser().catch(() => null);
+    if (!user) return noAutenticado();
+    const body = await request.json();
+    await actualizarProducto(String(body.id || ""), user.id, validarProducto(body));
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return responderError(error, "PUT /api/directorio/productos");
   }
 }
 

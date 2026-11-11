@@ -134,7 +134,10 @@ export default function CarruselProductos({ productos }) {
         >
           <ShoppingBag className="h-5 w-5 text-blue-600" /> Productos de neurai.dev
         </h2>
-        <Link href="/accesorios" className="text-sm font-medium text-blue-600 hover:underline">
+        <Link
+          href="/accesorios"
+          className="inline-flex items-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold !text-white shadow transition-all hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
+        >
           Ver toda la tienda →
         </Link>
       </div>

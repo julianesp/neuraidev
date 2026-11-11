@@ -427,6 +427,7 @@ export default function MisNegociosPage() {
       )}
 
       {form && (
+        <>
         <form onSubmit={guardar} className="mt-6 space-y-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             {editId ? "Editar negocio" : "Nuevo negocio"}
@@ -652,6 +653,18 @@ export default function MisNegociosPage() {
             </button>
           </div>
         </form>
+
+        {editId && negocios.find((x) => x.id === editId) && (
+          <section className="mt-8 space-y-2 border-t border-gray-200 pt-6 dark:border-gray-800" aria-label="Productos y ofertas">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Productos y ofertas de este negocio</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Estos cambios se guardan al instante, no hace falta pulsar “Guardar cambios”.
+            </p>
+            <PanelProductos negocio={negocios.find((x) => x.id === editId)} alCambiar={cargar} />
+            <PanelOfertas negocio={negocios.find((x) => x.id === editId)} alCambiar={cargar} />
+          </section>
+        )}
+        </>
       )}
     </main>
   );

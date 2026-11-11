@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { ImagePlus, Loader2, Plus, ShoppingCart, Trash2, X } from "lucide-react";
+import { ImagePlus, Loader2, Pencil, Plus, ShoppingCart, Trash2, X } from "lucide-react";
 import { comprimirImagen } from "@/lib/directorio/comprimirImagen";
 import { PRODUCTOS_PLAN, pesos } from "@/lib/directorio/planes";
 
@@ -12,6 +12,7 @@ const VACIO = { nombre: "", precio: "", descripcion: "", imagen_url: "" };
 // Catálogo de un negocio: lista de productos (nombre, precio, foto) y formulario para agregar.
 export default function PanelProductos({ negocio, alCambiar }) {
   const [abierto, setAbierto] = useState(false);
+  const [editId, setEditId] = useState(null); // id del producto en edición (null = producto nuevo)
   const [form, setForm] = useState(VACIO);
   const [guardando, setGuardando] = useState(false);
   const [subiendo, setSubiendo] = useState(false);
@@ -48,13 +49,14 @@ export default function PanelProductos({ negocio, alCambiar }) {
     setError("");
     try {
       const res = await fetch("/api/directorio/productos", {
-        method: "POST",
+        method: editId ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, negocio_id: negocio.id }),
+        body: JSON.stringify(editId ? { ...form, id: editId } : { ...form, negocio_id: negocio.id }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "No se pudo agregar el producto");
+      if (!res.ok) throw new Error(data.error || "No se pudo guardar el producto");
       setForm(VACIO);
+      setEditId(null);
       setAbierto(false);
       alCambiar();
     } catch (err) {
@@ -62,6 +64,13 @@ export default function PanelProductos({ negocio, alCambiar }) {
     } finally {
       setGuardando(false);
     }
+  };
+
+  const editar = (p) => {
+    setForm({ nombre: p.nombre, precio: p.precio ? String(p.precio) : "", descripcion: p.descripcion || "", imagen_url: p.imagen_url || "" });
+    setEditId(p.id);
+    setError("");
+    setAbierto(true);
   };
 
   const alternar = async (p) => {
@@ -105,6 +114,14 @@ export default function PanelProductos({ negocio, alCambiar }) {
               </span>
               <button
                 type="button"
+                onClick={() => editar(p)}
+                aria-label={`Editar ${p.nombre}`}
+                className="inline-flex shrink-0 items-center gap-1 rounded-md border border-blue-600 px-2 py-1 text-xs font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30"
+              >
+                <Pencil className="h-3.5 w-3.5" /> Editar
+              </button>
+              <button
+                type="button"
                 onClick={() => alternar(p)}
                 className="shrink-0 rounded-md border border-gray-300 px-2 py-1 text-xs text-gray-800 hover:border-blue-600 dark:border-gray-700 dark:text-gray-200"
               >
@@ -127,7 +144,11 @@ export default function PanelProductos({ negocio, alCambiar }) {
         <>
           <button
             type="button"
-            onClick={() => setAbierto(true)}
+            onClick={() => {
+              setForm(VACIO);
+              setEditId(null);
+              setAbierto(true);
+            }}
             disabled={lleno}
             className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium !text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
@@ -224,12 +245,14 @@ export default function PanelProductos({ negocio, alCambiar }) {
               disabled={guardando || subiendo}
               className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium !text-white hover:bg-blue-700 disabled:opacity-50"
             >
-              {guardando && <Loader2 className="h-4 w-4 animate-spin" />} Agregar al catálogo
+              {guardando && <Loader2 className="h-4 w-4 animate-spin" />} {editId ? "Guardar producto" : "Agregar al catálogo"}
             </button>
             <button
               type="button"
               onClick={() => {
                 setAbierto(false);
+                setEditId(null);
+                setForm(VACIO);
                 setError("");
               }}
               className="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 dark:border-gray-700 dark:text-gray-200"
