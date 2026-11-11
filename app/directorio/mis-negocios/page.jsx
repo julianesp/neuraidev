@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Eye, ImagePlus, Loader2, MapPin, MessageCircle, Pencil, Phone, Plus, Trash2, X } from "lucide-react";
+import { Eye, ImagePlus, QrCode, Loader2, MapPin, MessageCircle, Pencil, Phone, Plus, Trash2, X } from "lucide-react";
 import {
   CATEGORIAS,
   MUNICIPIOS,
@@ -389,6 +389,14 @@ export default function MisNegociosPage() {
                           className="rounded-lg border border-blue-600 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30"
                         >
                           Ver publicado
+                        </Link>
+                      )}
+                      {n.estado === "aprobado" && (
+                        <Link
+                          href={`/directorio/cartel/${n.slug}`}
+                          className="inline-flex items-center gap-1 rounded-lg border border-blue-600 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30"
+                        >
+                          <QrCode className="h-3.5 w-3.5" /> Cartel con QR
                         </Link>
                       )}
                       <button

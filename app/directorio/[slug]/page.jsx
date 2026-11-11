@@ -3,11 +3,12 @@ import { after } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import { d1SelectOne } from "@/lib/db-d1";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Clock, Pencil, Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ArrowLeft, Clock, Pencil, QrCode, Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 import { obtenerPorSlug, registrarVista } from "@/lib/directorio/negocios";
-import { DIAS, formatearHora, parsearHorario } from "@/lib/directorio/horario";
+import { DIAS, estaAbierto, formatearHora, parsearHorario } from "@/lib/directorio/horario";
 import EnlaceRastreado from "../_components/EnlaceRastreado";
+import CompartirFicha from "../_components/CompartirFicha";
 import GaleriaFicha from "../_components/GaleriaFicha";
 import { urlWhatsapp } from "../_components/TarjetaNegocio";
 
@@ -59,6 +60,7 @@ export default async function FichaNegocioPage({ params }) {
 
   const lugar = nombreMunicipio(n.municipio);
   const horario = parsearHorario(n.horario);
+  const abierto = estaAbierto(n.horario);
   // Día de hoy en hora de Colombia, para resaltarlo en el horario.
   const nombreHoy = new Intl.DateTimeFormat("es-CO", { weekday: "long", timeZone: "America/Bogota" })
     .format(new Date())
@@ -118,6 +120,12 @@ export default async function FichaNegocioPage({ params }) {
           >
             <Pencil className="h-4 w-4" /> Editar mi negocio
           </Link>
+          <Link
+            href={`/directorio/cartel/${n.slug}`}
+            className="inline-flex items-center gap-2 rounded-lg border-2 border-blue-600 px-4 py-2 text-sm font-semibold text-blue-600 transition hover:bg-blue-100 dark:hover:bg-blue-900/40"
+          >
+            <QrCode className="h-4 w-4" /> Cartel con QR
+          </Link>
         </div>
       )}
 
@@ -146,6 +154,19 @@ export default async function FichaNegocioPage({ params }) {
             </Link>
           </div>
           <h1 className="mt-2 text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">{n.nombre}</h1>
+          {abierto !== null && (
+            <span
+              className={`mt-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${
+                abierto ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300"
+              }`}
+            >
+              <span className={`h-2 w-2 rounded-full ${abierto ? "bg-white" : "bg-gray-400"}`} />
+              {abierto ? "Abierto ahora" : "Cerrado ahora"}
+            </span>
+          )}
+          <div className="mt-3">
+            <CompartirFicha url={`https://neurai.dev/directorio/${n.slug}`} nombre={n.nombre} />
+          </div>
         </div>
       </header>
 

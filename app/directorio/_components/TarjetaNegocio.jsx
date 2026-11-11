@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MapPin, Phone, MessageCircle, Star } from "lucide-react";
+import { estaAbierto } from "@/lib/directorio/horario";
 import EnlaceRastreado from "./EnlaceRastreado";
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 
@@ -10,6 +11,7 @@ export const urlWhatsapp = (numero, nombre) =>
 
 export default function TarjetaNegocio({ negocio: n }) {
   const portada = n.fotos?.[0] || n.logo_url;
+  const abierto = estaAbierto(n.horario);
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
       <div className="relative aspect-[16/10] bg-gray-100 dark:bg-gray-800">
@@ -37,9 +39,23 @@ export default function TarjetaNegocio({ negocio: n }) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <span className="w-fit rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/40 dark:text-blue-200">
-          {nombreCategoria(n.categoria)}
-        </span>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="w-fit rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/40 dark:text-blue-200">
+            {nombreCategoria(n.categoria)}
+          </span>
+          {abierto !== null && (
+            <span
+              className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${
+                abierto
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300"
+              }`}
+            >
+              <span className={`h-1.5 w-1.5 rounded-full ${abierto ? "bg-white" : "bg-gray-400"}`} />
+              {abierto ? "Abierto ahora" : "Cerrado"}
+            </span>
+          )}
+        </div>
         <h3 className="text-base font-semibold leading-snug text-gray-900 dark:text-gray-100">
           <Link href={`/directorio/${n.slug}`} className="hover:text-blue-600">
             {n.nombre}

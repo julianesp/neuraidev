@@ -71,6 +71,7 @@ export default async function DirectorioPage({ searchParams }) {
     municipio: municipioValido(sp.municipio) ? sp.municipio : "",
     categoria: categoriaValida(sp.categoria) ? sp.categoria : "",
     pagina: sp.pagina,
+    abierto: sp.abierto === "1",
   };
 
   let resultado = { negocios: [], total: 0, pagina: 1, paginas: 1 };
@@ -89,8 +90,8 @@ export default async function DirectorioPage({ searchParams }) {
     console.error("[directorio] Error cargando:", error);
   }
 
-  const hayFiltros = filtros.q || filtros.municipio || filtros.categoria;
-  const base = { q: filtros.q, municipio: filtros.municipio, categoria: filtros.categoria };
+  const hayFiltros = filtros.q || filtros.municipio || filtros.categoria || filtros.abierto;
+  const base = { q: filtros.q, municipio: filtros.municipio, categoria: filtros.categoria, abierto: filtros.abierto ? "1" : "" };
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 pt-24 pb-8 sm:pt-28 sm:pb-12">
@@ -105,6 +106,7 @@ export default async function DirectorioPage({ searchParams }) {
       </header>
 
       <form action="/directorio" className="mx-auto mt-6 grid max-w-3xl gap-2 sm:grid-cols-[1fr_auto_auto_auto]">
+        {filtros.abierto && <input type="hidden" name="abierto" value="1" />}
         <input
           name="q"
           defaultValue={filtros.q}
@@ -142,6 +144,21 @@ export default async function DirectorioPage({ searchParams }) {
           <Search className="h-4 w-4" /> Buscar
         </button>
       </form>
+
+      <div className="mt-3 flex justify-center">
+        <Link
+          href={href(base, { abierto: filtros.abierto ? "" : "1", pagina: "" })}
+          aria-pressed={filtros.abierto}
+          className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition ${
+            filtros.abierto
+              ? "border-blue-600 bg-blue-600 !text-white"
+              : "border-gray-300 bg-white text-gray-800 hover:border-blue-600 hover:text-blue-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
+          }`}
+        >
+          <span className={`h-2 w-2 rounded-full ${filtros.abierto ? "bg-white" : "bg-blue-600"}`} />
+          Abierto ahora
+        </Link>
+      </div>
 
       <div className="mt-6 text-center">
         <Link
