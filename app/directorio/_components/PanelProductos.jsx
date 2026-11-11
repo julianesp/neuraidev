@@ -92,7 +92,7 @@ export default function PanelProductos({ negocio, alCambiar }) {
     <div className="mt-3">
       <p className="mb-1.5 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-gray-500">
         <ShoppingCart className="h-3.5 w-3.5" /> Catálogo{" "}
-        {sinPlan ? "(parte del plan)" : `(${productos.length}/${negocio.limite_productos})`}
+        {sinPlan ? "(catálogo)" : `(${productos.length}/${negocio.limite_productos})`}
       </p>
 
       {productos.length > 0 && (

@@ -14,7 +14,7 @@ import { comprimirImagen } from "@/lib/directorio/comprimirImagen";
 import PanelProductos from "../_components/PanelProductos";
 import PanelOfertas from "../_components/PanelOfertas";
 import SelectorUbicacion from "../_components/SelectorUbicacion";
-import { FOTOS_GRATIS, FOTOS_PLAN, PLANES, pesos } from "@/lib/directorio/planes";
+import { DIRECTORIO_GRATIS, FOTOS_GRATIS, FOTOS_PLAN, PLANES, pesos } from "@/lib/directorio/planes";
 
 const VACIO = {
   nombre: "",
@@ -355,6 +355,7 @@ export default function MisNegociosPage() {
 
                     <PanelOfertas negocio={n} alCambiar={cargar} />
 
+                    {!DIRECTORIO_GRATIS && (
                     <div className="mt-3 rounded-lg bg-gray-50 p-3 text-sm dark:bg-gray-800/60">
                       <p className="text-gray-800 dark:text-gray-200">
                         {n.plan_activo ? (
@@ -388,6 +389,7 @@ export default function MisNegociosPage() {
                         </button>
                       </div>
                     </div>
+                    )}
                     <div className="mt-3 flex flex-wrap gap-2">
                       {n.estado === "aprobado" && (
                         <Link

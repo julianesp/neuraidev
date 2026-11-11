@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import { d1Execute, d1Select, d1SelectOne } from "@/lib/db-d1";
-import { PLANES } from "@/lib/directorio/planes";
+import { DIRECTORIO_GRATIS, PLANES } from "@/lib/directorio/planes";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +22,10 @@ export async function POST(request) {
   try {
     const u = await usuario();
     if (!u) return NextResponse.json({ error: "Inicia sesión para pagar." }, { status: 401 });
+
+    if (DIRECTORIO_GRATIS) {
+      return NextResponse.json({ error: "El directorio es gratis por ahora: no necesitas pagar." }, { status: 400 });
+    }
 
     const { negocio_id, plan: planId } = await request.json();
     const plan = PLANES[planId];

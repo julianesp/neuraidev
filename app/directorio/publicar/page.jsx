@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BarChart3, Camera, Clock, MapPin, MessageCircle, Search, Check } from "lucide-react";
-import { FOTOS_GRATIS, FOTOS_PLAN, OFERTAS_GRATIS, OFERTAS_PLAN, PLANES, PRODUCTOS_PLAN, TRIAL_DIAS, pesos } from "@/lib/directorio/planes";
+import { DIRECTORIO_GRATIS, FOTOS_GRATIS, FOTOS_PLAN, OFERTAS_GRATIS, OFERTAS_PLAN, PLANES, PRODUCTOS_PLAN, TRIAL_DIAS, pesos } from "@/lib/directorio/planes";
 
 export const metadata = {
   title: "Publica tu negocio en el directorio del Putumayo",
@@ -24,7 +24,15 @@ const PASOS = [
   { n: "3", titulo: "Queda publicada", texto: "Al guardar, tu ficha ya es visible para todo el Putumayo. Sin esperas." },
 ];
 
-const PREGUNTAS = [
+const PREGUNTAS_GRATIS = [
+  { p: "¿Tiene costo publicar?", r: `No. Publicar tu ficha es gratis, con hasta ${FOTOS_PLAN} fotos, catálogo de hasta ${PRODUCTOS_PLAN} productos y ${OFERTAS_PLAN} ofertas a la vez.` },
+  { p: "¿Necesito tarjeta para empezar?", r: "No. Para publicar solo necesitas una cuenta de Google." },
+  { p: "¿Cuánto tarda en publicarse?", r: "Es inmediato: apenas guardas tu ficha ya está visible. Si algún contenido no cumple las normas del directorio, lo podemos suspender." },
+  { p: "¿Puedo editar mi ficha después?", r: "Sí, cuando quieras: cambiar fotos, horario, teléfono o ubicación. Los cambios de datos simples se ven de inmediato." },
+  { p: "¿Puedo tener más de un negocio?", r: "Sí, hasta 5 por cuenta." },
+];
+
+const PREGUNTAS_PAGO = [
   { p: "¿Tiene costo publicar?", r: `Publicar tu ficha es gratis, con hasta ${FOTOS_GRATIS} fotos. Si quieres hasta ${FOTOS_PLAN} fotos puedes activar un plan, y los primeros ${TRIAL_DIAS} días los pruebas sin pagar.` },
   { p: "¿Necesito tarjeta para empezar?", r: "No. Para publicar solo necesitas una cuenta de Google. Pagas únicamente si decides activar el plan de más fotos." },
   { p: "¿Cuánto tarda en publicarse?", r: "Es inmediato: apenas guardas tu ficha ya está visible. Si algún contenido no cumple las normas del directorio, lo podemos suspender." },
@@ -32,6 +40,8 @@ const PREGUNTAS = [
   { p: "¿Qué pasa si no renuevo el plan?", r: `Tu negocio sigue publicado con su ficha, horario, mapa y WhatsApp. Se muestran ${FOTOS_GRATIS} fotos y el catálogo de productos se oculta; todo se conserva y reaparece cuando renueves.` },
   { p: "¿Puedo tener más de un negocio?", r: "Sí, hasta 5 por cuenta." },
 ];
+
+const PREGUNTAS = DIRECTORIO_GRATIS ? PREGUNTAS_GRATIS : PREGUNTAS_PAGO;
 
 export default function PublicarPage() {
   return (
@@ -97,6 +107,7 @@ export default function PublicarPage() {
       </section>
 
       {/* Planes */}
+      {!DIRECTORIO_GRATIS && (
       <section className="mt-16" aria-labelledby="h-planes">
         <h2 id="h-planes" className="mb-2 text-center text-2xl font-bold text-gray-900 dark:text-white">
           Empieza gratis, crece cuando quieras
@@ -142,6 +153,7 @@ export default function PublicarPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Preguntas */}
       <section className="mt-16" aria-labelledby="h-preguntas">

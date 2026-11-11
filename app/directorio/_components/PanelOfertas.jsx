@@ -117,7 +117,7 @@ export default function PanelOfertas({ negocio, alCambiar }) {
           {lleno && (
             <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">
               {negocio.limite_ofertas === 1
-                ? `Con el plan activo puedes tener hasta ${OFERTAS_PLAN} ofertas a la vez. Quita la actual para publicar otra.`
+                ? `Puedes tener hasta ${OFERTAS_PLAN} ofertas a la vez. Quita la actual para publicar otra.`
                 : "Llegaste al máximo de ofertas vigentes. Quita una para publicar otra."}
             </p>
           )}
