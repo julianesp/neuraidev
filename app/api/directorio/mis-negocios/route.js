@@ -10,6 +10,7 @@ import {
   validarNegocio,
 } from "@/lib/directorio/negocios";
 import { notifyNewDirectorio } from "@/lib/notificationService";
+import { FOTOS_GRATIS, FOTOS_PLAN, limiteFotos, planActivo } from "@/lib/directorio/planes";
 
 export const dynamic = "force-dynamic";
 
@@ -49,8 +50,19 @@ export async function GET() {
       `SELECT * FROM directorio_negocios WHERE owner_id = ? ORDER BY created_at DESC`,
       [u.id]
     );
+    const pagados = await d1Select(
+      "SELECT negocio_id, COUNT(*) AS n FROM directorio_pagos WHERE owner_id = ? AND estado = 'aprobado' GROUP BY negocio_id",
+      [u.id]
+    );
+    const conPago = new Set(pagados.map((p) => p.negocio_id));
     return NextResponse.json({
-      negocios: filas.map((f) => ({ ...f, fotos: parsearFotos(f.fotos) })),
+      negocios: filas.map((f) => ({
+        ...f,
+        fotos: parsearFotos(f.fotos),
+        plan_activo: planActivo(f.plan_hasta),
+        en_prueba: planActivo(f.plan_hasta) && !conPago.has(f.id),
+        limite_fotos: limiteFotos(f.plan_hasta),
+      })),
     });
   } catch (error) {
     return responderError(error, "GET /api/directorio/mis-negocios");
@@ -63,7 +75,8 @@ export async function POST(request) {
     const u = await usuario();
     if (!u) return noAutenticado();
 
-    const datos = validarNegocio(await request.json());
+    // Toda ficha nueva arranca con 30 días de prueba: hasta 15 fotos.
+    const datos = validarNegocio(await request.json(), FOTOS_PLAN);
 
     if (!u.esAdmin) {
       const { n } = (await d1SelectOne(
@@ -105,7 +118,11 @@ export async function PUT(request) {
     );
     if (!actual) throw new ErrorDirectorio("No encontramos ese negocio en tu cuenta.", 404);
 
-    const datos = validarNegocio(body);
+    // Sin plan vigente no se pueden agregar fotos por encima de las 6 gratis
+    // (se respetan las que ya tenía guardadas, que quedan ocultas al público).
+    const existentes = parsearFotos(actual.fotos).length;
+    const maxFotos = planActivo(actual.plan_hasta) ? FOTOS_PLAN : Math.max(FOTOS_GRATIS, existentes);
+    const datos = validarNegocio(body, maxFotos);
     const requiereRevision =
       !u.esAdmin &&
       actual.estado === "aprobado" &&

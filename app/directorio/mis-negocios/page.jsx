@@ -5,12 +5,12 @@ import Link from "next/link";
 import { ImagePlus, Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
 import {
   CATEGORIAS,
-  MAX_FOTOS,
   MUNICIPIOS,
   nombreCategoria,
   nombreMunicipio,
 } from "@/lib/directorio/constantes";
 import { DIAS, parsearHorario } from "@/lib/directorio/horario";
+import { FOTOS_GRATIS, FOTOS_PLAN, PLANES, pesos } from "@/lib/directorio/planes";
 
 const VACIO = {
   nombre: "",
@@ -44,6 +44,20 @@ async function subirImagen(file) {
   return data.url;
 }
 
+const fechaLarga = (iso) =>
+  new Date(iso).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Bogota" });
+
+function cargarScriptEpayco() {
+  return new Promise((resolve, reject) => {
+    if (window.ePayco?.checkout) return resolve();
+    const script = document.createElement("script");
+    script.src = "https://checkout.epayco.co/checkout.js";
+    script.onload = () => (window.ePayco?.checkout ? resolve() : reject(new Error("ePayco no se inicializó")));
+    script.onerror = () => reject(new Error("No se pudo cargar ePayco. Revisa tu conexión."));
+    document.head.appendChild(script);
+  });
+}
+
 export default function MisNegociosPage() {
   const [negocios, setNegocios] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -53,6 +67,8 @@ export default function MisNegociosPage() {
   const [subiendo, setSubiendo] = useState(false);
   const [error, setError] = useState("");
   const [aviso, setAviso] = useState("");
+  const [pagando, setPagando] = useState(null); // "<negocioId>:<plan>" mientras se abre el checkout
+  const [verificandoPago, setVerificandoPago] = useState(false);
   const abrirDesdeUrl = useRef(false);
   const inputLogo = useRef(null);
   const inputFotos = useRef(null);
@@ -84,6 +100,64 @@ export default function MisNegociosPage() {
   }, [negocios]);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  // Fotos permitidas en el formulario: una ficha nueva arranca en prueba (15).
+  const limiteForm = editId ? (negocios.find((n) => n.id === editId)?.limite_fotos ?? FOTOS_GRATIS) : FOTOS_PLAN;
+
+  const pagar = async (negocio, plan) => {
+    setError("");
+    setPagando(`${negocio.id}:${plan}`);
+    try {
+      const res = await fetch("/api/directorio/pago", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ negocio_id: negocio.id, plan }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "No se pudo iniciar el pago");
+      await cargarScriptEpayco();
+      const { key, test, ...pago } = data.config;
+      window.ePayco.checkout.configure({ key, test }).open(pago);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setPagando(null);
+    }
+  };
+
+  // Al volver de ePayco (o al abrir la página) se revisa si hay un pago reciente:
+  // PSE/Nequi se confirman por webhook unos minutos después, así que se consulta cada 5 s.
+  useEffect(() => {
+    let activo = true;
+    let intentos = 0;
+    const revisar = async () => {
+      try {
+        const res = await fetch("/api/directorio/pago");
+        const { pago } = await res.json();
+        if (!activo || !pago) return setVerificandoPago(false);
+        if (pago.estado === "aprobado") {
+          setVerificandoPago(false);
+          if (Date.now() - new Date(pago.created_at).getTime() < 30 * 60_000) {
+            setAviso("¡Pago recibido! Tu plan ya está activo: puedes subir hasta 15 fotos.");
+          }
+          return cargar();
+        }
+        if (pago.estado === "pendiente" && Date.now() - new Date(pago.created_at).getTime() < 30 * 60_000) {
+          setVerificandoPago(true);
+          if (++intentos < 60) setTimeout(revisar, 5000);
+          else setVerificandoPago(false);
+        } else {
+          setVerificandoPago(false);
+        }
+      } catch {
+        setVerificandoPago(false);
+      }
+    };
+    revisar();
+    return () => {
+      activo = false;
+    };
+  }, [cargar]);
 
   const abrirNuevo = () => {
     setForm({ ...VACIO });
@@ -118,7 +192,7 @@ export default function MisNegociosPage() {
     setSubiendo(true);
     setError("");
     try {
-      const disponibles = MAX_FOTOS - form.fotos.length;
+      const disponibles = limiteForm - form.fotos.length;
       const urls = [];
       for (const f of lista.slice(0, disponibles)) urls.push(await subirImagen(f));
       setForm((f) => ({ ...f, fotos: [...f.fotos, ...urls] }));
@@ -184,10 +258,19 @@ export default function MisNegociosPage() {
         Publica tu negocio o servicio gratis para que cualquier persona del Putumayo te encuentre y te contacte.
       </p>
 
+      {verificandoPago && (
+        <p className="mt-4 flex items-center gap-2 rounded-lg bg-blue-50 px-4 py-3 text-sm text-blue-900 dark:bg-blue-900/30 dark:text-blue-100">
+          <Loader2 className="h-4 w-4 animate-spin" /> Estamos confirmando tu pago con ePayco. Puede tardar un par de minutos.
+        </p>
+      )}
       {aviso && (
         <p className="mt-4 rounded-lg bg-blue-50 px-4 py-3 text-sm text-blue-900 dark:bg-blue-900/30 dark:text-blue-100">
           {aviso}
         </p>
+      )}
+
+      {!form && error && (
+        <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
       )}
 
       {!form && (
@@ -228,6 +311,39 @@ export default function MisNegociosPage() {
                         <strong>Motivo:</strong> {n.motivo_rechazo}. Corrígelo y se revisará de nuevo.
                       </p>
                     )}
+                    <div className="mt-3 rounded-lg bg-gray-50 p-3 text-sm dark:bg-gray-800/60">
+                      <p className="text-gray-800 dark:text-gray-200">
+                        {n.plan_activo ? (
+                          <>
+                            <strong>{n.en_prueba ? "Prueba gratis" : "Plan activo"}</strong> hasta el {fechaLarga(n.plan_hasta)} ·
+                            hasta {FOTOS_PLAN} fotos
+                          </>
+                        ) : (
+                          <>
+                            <strong>Plan vencido.</strong> Solo se muestran {FOTOS_GRATIS} fotos; las demás reaparecen al
+                            activar el plan.
+                          </>
+                        )}
+                      </p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        <button
+                          onClick={() => pagar(n, "mensual")}
+                          disabled={!!pagando}
+                          className="inline-flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1.5 font-medium !text-white hover:bg-blue-700 disabled:opacity-50"
+                        >
+                          {pagando === `${n.id}:mensual` && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+                          1 mes · {pesos(PLANES.mensual.precio)}
+                        </button>
+                        <button
+                          onClick={() => pagar(n, "semestral")}
+                          disabled={!!pagando}
+                          className="inline-flex items-center gap-1 rounded-lg border-2 border-blue-600 px-3 py-1.5 font-medium text-blue-600 hover:bg-blue-50 disabled:opacity-50 dark:hover:bg-blue-900/30"
+                        >
+                          {pagando === `${n.id}:semestral` && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+                          6 meses · {pesos(PLANES.semestral.precio)} (ahorras {pesos(PLANES.mensual.precio * 6 - PLANES.semestral.precio)})
+                        </button>
+                      </div>
+                    </div>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {n.estado === "aprobado" && (
                         <Link
@@ -417,7 +533,7 @@ export default function MisNegociosPage() {
 
           <div>
             <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">
-              Fotos ({form.fotos.length}/{MAX_FOTOS})
+              Fotos ({form.fotos.length}/{limiteForm})
             </span>
             <div className="flex flex-wrap gap-2">
               {form.fotos.map((url) => (
@@ -434,7 +550,7 @@ export default function MisNegociosPage() {
                   </button>
                 </div>
               ))}
-              {form.fotos.length < MAX_FOTOS && (
+              {form.fotos.length < limiteForm && (
                 <button
                   type="button"
                   onClick={() => inputFotos.current?.click()}

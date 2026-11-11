@@ -36,7 +36,7 @@ export default function DashboardDirectorioPage() {
     cargar();
   }, [cargar]);
 
-  const accion = async (n, tipo) => {
+  const accion = async (n, tipo, meses) => {
     let motivo;
     if (tipo === "rechazar") {
       motivo = window.prompt("Motivo del rechazo (se le muestra al dueño):", "");
@@ -47,7 +47,7 @@ export default function DashboardDirectorioPage() {
       await fetch("/api/admin/directorio", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: n.id, accion: tipo, motivo }),
+        body: JSON.stringify({ id: n.id, accion: tipo, motivo, meses }),
       });
       await cargar();
     } finally {
@@ -120,6 +120,12 @@ export default function DashboardDirectorioPage() {
                     {n.whatsapp ? `WhatsApp ${n.whatsapp}` : ""}
                   </p>
                   {n.owner_email && <p className="text-xs text-gray-500">Cuenta: {n.owner_email}</p>}
+                  {n.plan_hasta && (
+                    <p className="text-xs text-gray-500">
+                      Plan hasta {new Date(n.plan_hasta).toLocaleDateString("es-CO")}
+                      {new Date(n.plan_hasta) < new Date() ? " (vencido)" : ""}
+                    </p>
+                  )}
                   {n.descripcion && (
                     <p className="mt-1 line-clamp-3 text-sm text-gray-800 dark:text-gray-200">{n.descripcion}</p>
                   )}
@@ -156,6 +162,20 @@ export default function DashboardDirectorioPage() {
                       className="inline-flex items-center gap-1 rounded-lg border border-blue-600 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 disabled:opacity-50 dark:hover:bg-blue-900/30"
                     >
                       <Star className="h-4 w-4" /> {n.destacado ? "Quitar destacado" : "Destacar"}
+                    </button>
+                    <button
+                      onClick={() => accion(n, "extender_plan", 1)}
+                      disabled={actionId === n.id}
+                      className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm text-gray-800 hover:border-blue-600 disabled:opacity-50 dark:border-gray-700 dark:text-gray-200"
+                    >
+                      +1 mes de plan
+                    </button>
+                    <button
+                      onClick={() => accion(n, "extender_plan", 6)}
+                      disabled={actionId === n.id}
+                      className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm text-gray-800 hover:border-blue-600 disabled:opacity-50 dark:border-gray-700 dark:text-gray-200"
+                    >
+                      +6 meses
                     </button>
                     <Link
                       href={`/directorio/${n.slug}`}

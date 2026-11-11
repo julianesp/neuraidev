@@ -3,6 +3,8 @@ import { currentUser } from "@clerk/nextjs/server";
 import { d1Select, d1Execute } from "@/lib/db-d1";
 import { isAdminServer } from "@/lib/auth/server-roles";
 import { parsearFotos } from "@/lib/directorio/negocios";
+import { d1SelectOne } from "@/lib/db-d1";
+import { sumarMeses } from "@/lib/directorio/planes";
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +44,8 @@ export async function GET(request) {
 export async function PATCH(request) {
   try {
     if (!(await requireAdmin())) return prohibido();
-    const { id, accion, motivo } = await request.json();
+    const body = await request.json();
+    const { id, accion, motivo } = body;
     if (!id) return NextResponse.json({ error: "Falta el id" }, { status: 400 });
     const ahora = new Date().toISOString();
 
@@ -59,6 +62,15 @@ export async function PATCH(request) {
     } else if (accion === "destacar" || accion === "quitar_destacado") {
       await d1Execute(`UPDATE directorio_negocios SET destacado=?, updated_at=? WHERE id=?`, [
         accion === "destacar" ? 1 : 0,
+        ahora,
+        id,
+      ]);
+    } else if (accion === "extender_plan") {
+      const meses = [1, 6].includes(Number(body.meses)) ? Number(body.meses) : 0;
+      if (!meses) return NextResponse.json({ error: "Meses no válidos" }, { status: 400 });
+      const actual = await d1SelectOne("SELECT plan_hasta FROM directorio_negocios WHERE id = ?", [id]);
+      await d1Execute("UPDATE directorio_negocios SET plan_hasta = ?, updated_at = ? WHERE id = ?", [
+        sumarMeses(actual?.plan_hasta, meses),
         ahora,
         id,
       ]);
