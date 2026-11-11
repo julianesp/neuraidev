@@ -11,7 +11,8 @@ export default function TarjetaNegocio({ negocio: n }) {
   const portada = n.fotos?.[0] || n.logo_url;
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
-      <Link href={`/directorio/${n.slug}`} className="relative block aspect-[16/10] bg-gray-100 dark:bg-gray-800">
+      <div className="relative aspect-[16/10] bg-gray-100 dark:bg-gray-800">
+      <Link href={`/directorio/${n.slug}`} className="block h-full w-full" aria-label={`Ver ${n.nombre}`}>
         {portada ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={portada} alt={n.nombre} loading="lazy" className="h-full w-full object-cover" />
@@ -26,6 +27,13 @@ export default function TarjetaNegocio({ negocio: n }) {
           </span>
         ) : null}
       </Link>
+        <Link
+          href={`/directorio/${n.slug}`}
+          className="absolute bottom-3 left-3 inline-flex items-center justify-center rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-bold !text-white shadow-lg transition-all hover:scale-105 hover:bg-blue-700 hover:shadow-xl"
+        >
+          Ver
+        </Link>
+      </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
         <span className="w-fit rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/40 dark:text-blue-200">
@@ -44,8 +52,8 @@ export default function TarjetaNegocio({ negocio: n }) {
           </span>
         </p>
 
-        <div className="mt-auto flex items-end gap-2 pt-2">
-          <div className="flex min-w-0 flex-1 flex-col gap-2">
+        <div className="mt-auto pt-2">
+          <div className="flex flex-col gap-2">
             {n.whatsapp ? (
               <a
                 href={urlWhatsapp(n.whatsapp, n.nombre)}
@@ -65,12 +73,6 @@ export default function TarjetaNegocio({ negocio: n }) {
               </a>
             ) : null}
           </div>
-          <Link
-            href={`/directorio/${n.slug}`}
-            className="inline-flex shrink-0 items-center justify-center rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-bold !text-white shadow transition-all hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
-          >
-            Ver
-          </Link>
         </div>
       </div>
     </article>
