@@ -15,7 +15,7 @@ export default function CarruselProductos({ productos }) {
 
   const contenedor = useRef(null);
   const pausa = useRef({ hover: false, toque: false, arrastre: false, hasta: 0 });
-  const arrastre = useRef({ x: 0, scroll: 0, movido: false });
+  const arrastre = useRef({ x: 0, scroll: 0, movido: false, presionado: false });
 
   useEffect(() => {
     const el = contenedor.current;
@@ -67,24 +67,33 @@ export default function CarruselProductos({ productos }) {
   };
 
   // ── Mouse: arrastrar para mover ──
+  // El puntero solo se captura cuando de verdad se arrastra (>5px); si se capturara al presionar,
+  // el clic iría al contenedor y el botón "Ver" no abriría el producto.
   const alPresionar = (e) => {
     if (e.pointerType !== "mouse" || e.button !== 0) return;
-    const el = contenedor.current;
-    arrastre.current = { x: e.clientX, scroll: el.scrollLeft, movido: false };
-    pausa.current.arrastre = true;
-    el.setPointerCapture?.(e.pointerId);
+    arrastre.current = { x: e.clientX, scroll: contenedor.current.scrollLeft, movido: false, presionado: true };
   };
   const alMover = (e) => {
-    if (!pausa.current.arrastre) return;
-    const dx = e.clientX - arrastre.current.x;
-    if (Math.abs(dx) > 5) arrastre.current.movido = true;
-    contenedor.current.scrollLeft = arrastre.current.scroll - dx;
+    const a = arrastre.current;
+    if (!a.presionado) return;
+    const dx = e.clientX - a.x;
+    if (!a.movido) {
+      if (Math.abs(dx) <= 5) return;
+      a.movido = true;
+      pausa.current.arrastre = true;
+      contenedor.current.setPointerCapture?.(e.pointerId);
+    }
+    contenedor.current.scrollLeft = a.scroll - dx;
   };
   const alSoltar = (e) => {
-    if (!pausa.current.arrastre) return;
-    pausa.current.arrastre = false;
-    contenedor.current.releasePointerCapture?.(e.pointerId);
-    reanudarLuego();
+    const a = arrastre.current;
+    if (!a.presionado) return;
+    a.presionado = false;
+    if (pausa.current.arrastre) {
+      pausa.current.arrastre = false;
+      contenedor.current.releasePointerCapture?.(e.pointerId);
+      reanudarLuego();
+    }
   };
   // Si se arrastró, no abrir el producto al soltar el mouse.
   const alHacerClic = (e) => {
