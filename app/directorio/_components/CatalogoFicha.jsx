@@ -2,7 +2,7 @@ import { ShoppingCart } from "lucide-react";
 import { pesos } from "@/lib/directorio/planes";
 import EnlaceRastreado from "./EnlaceRastreado";
 
-// Catálogo público del negocio: cada producto con foto, nombre, precio y botón "Pedir"
+// Catálogo público del negocio: cada producto con foto, nombre, precio y botón "Lo quiero"
 // que abre WhatsApp con el mensaje del pedido ya escrito.
 export default function CatalogoFicha({ productos, negocio }) {
   const enlacePedido = (p) => {
@@ -62,7 +62,7 @@ export default function CatalogoFicha({ productos, negocio }) {
                   rel="noopener noreferrer"
                   className="mt-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-sm font-bold !text-white transition-all hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
                 >
-                  <ShoppingCart className="h-4 w-4" /> Pedir
+                  <ShoppingCart className="h-4 w-4" /> Lo quiero
                 </EnlaceRastreado>
               ) : null}
             </div>

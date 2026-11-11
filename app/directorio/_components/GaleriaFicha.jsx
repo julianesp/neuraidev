@@ -44,7 +44,7 @@ export default function GaleriaFicha({ fotos, nombre, negocioId, whatsapp, slug 
     setToqueX(null);
   };
 
-  // "Pedir": abre WhatsApp del negocio con un mensaje listo que incluye el enlace de la foto elegida.
+  // "Lo quiero": abre WhatsApp del negocio con un mensaje listo que incluye el enlace de la foto elegida.
   const enlacePedido = (url) =>
     `https://wa.me/${whatsapp}?text=${encodeURIComponent(
       `Hola, quiero pedir esto de ${nombre}: ${url}\n\nLo vi en https://neurai.dev/directorio/${slug}`
@@ -95,7 +95,7 @@ export default function GaleriaFicha({ fotos, nombre, negocioId, whatsapp, slug 
                 onClick={contarPedido}
                 className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold !text-white shadow-lg transition-all hover:scale-110 hover:bg-blue-700 hover:shadow-xl"
               >
-                <ShoppingCart className="h-4 w-4" /> Pedir
+                <ShoppingCart className="h-4 w-4" /> Lo quiero
               </a>
             )}
           </div>
@@ -169,7 +169,7 @@ export default function GaleriaFicha({ fotos, nombre, negocioId, whatsapp, slug 
               }}
               className="absolute bottom-12 left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-2 rounded-xl bg-blue-600 px-8 py-3 text-lg font-bold !text-white shadow-xl transition-all hover:scale-110 hover:bg-blue-700"
             >
-              <ShoppingCart className="h-5 w-5" /> Pedir esto
+              <ShoppingCart className="h-5 w-5" /> Lo quiero
             </a>
           )}
 

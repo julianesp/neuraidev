@@ -14,7 +14,7 @@ const BENEFICIOS = [
   { Icono: MessageCircle, titulo: "WhatsApp directo", texto: "Un toque y el cliente te escribe con el mensaje listo. Sin intermediarios ni comisiones." },
   { Icono: MapPin, titulo: "Mapa de Google", texto: "Tu ubicación exacta con el botón “Cómo llegar”, para que nadie se pierda de camino a tu local." },
   { Icono: Clock, titulo: "Horario y ofertas", texto: "Muestra tu horario por día con la insignia “Abierto ahora” y publica ofertas con fecha que ve todo el que entra al directorio." },
-  { Icono: Camera, titulo: "Catálogo con precios", texto: "Muestra tus productos con foto y precio. Cada uno tiene un botón “Pedir” que le abre tu WhatsApp con el pedido ya escrito." },
+  { Icono: Camera, titulo: "Catálogo con precios", texto: "Muestra tus productos con foto y precio. Cada uno tiene un botón “Lo quiero” que le abre tu WhatsApp con el pedido ya escrito." },
   { Icono: BarChart3, titulo: "Mira tus resultados", texto: "Cuántas personas vieron tu ficha, te escribieron, quisieron llamarte o pidieron cómo llegar." },
 ];
 
