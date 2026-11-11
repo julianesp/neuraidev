@@ -7,6 +7,7 @@ import { ArrowLeft, Clock, Pencil, Facebook, Instagram, MapPin, MessageCircle, P
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 import { obtenerPorSlug, registrarVista } from "@/lib/directorio/negocios";
 import { DIAS, formatearHora, parsearHorario } from "@/lib/directorio/horario";
+import GaleriaFicha from "../_components/GaleriaFicha";
 import { urlWhatsapp } from "../_components/TarjetaNegocio";
 
 export const dynamic = "force-dynamic";
@@ -147,31 +148,7 @@ export default async function FichaNegocioPage({ params }) {
         </div>
       </header>
 
-      {n.fotos.length > 0 && (
-        <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {n.fotos.map((url, i) => (
-            <a
-              key={url}
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`block overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 ${
-                i === 0 ? "col-span-2 row-span-2 aspect-[4/3]" : "aspect-square"
-              }`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={url}
-                alt={`${n.nombre} foto ${i + 1}`}
-                loading={i === 0 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "auto"}
-                decoding="async"
-                className="h-full w-full object-cover"
-              />
-            </a>
-          ))}
-        </div>
-      )}
+      {n.fotos.length > 0 && <GaleriaFicha fotos={n.fotos} nombre={n.nombre} />}
 
       <div className="mt-6 grid gap-6 md:grid-cols-[1fr_280px]">
         <section className="space-y-6">
