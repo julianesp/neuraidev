@@ -172,7 +172,7 @@ export default async function FichaNegocioPage({ params }) {
         </div>
       </header>
 
-      {n.fotos.length > 0 && <GaleriaFicha fotos={n.fotos} nombre={n.nombre} />}
+      {n.fotos.length > 0 && <GaleriaFicha fotos={n.fotos} nombre={n.nombre} negocioId={n.id} whatsapp={n.whatsapp} slug={n.slug} />}
 
       {ofertas.length > 0 && (
         <section className="mt-6 space-y-3" aria-label="Ofertas vigentes">
