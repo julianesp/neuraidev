@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { after } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import { d1SelectOne } from "@/lib/db-d1";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, Pencil, QrCode, Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
-import { obtenerPorSlug, registrarVista } from "@/lib/directorio/negocios";
+import { obtenerPorSlug } from "@/lib/directorio/negocios";
 import { DIAS, estaAbierto, formatearHora, parsearHorario } from "@/lib/directorio/horario";
 import EnlaceRastreado from "../_components/EnlaceRastreado";
+import RegistrarVista from "../_components/RegistrarVista";
 import CompartirFicha from "../_components/CompartirFicha";
 import { formatearVence, ofertasPorNegocios } from "@/lib/directorio/ofertas";
 import { productosPorNegocios } from "@/lib/directorio/productos";
@@ -47,7 +47,6 @@ export default async function FichaNegocioPage({ params }) {
   const { slug } = await params;
   const n = await cargar(slug);
   if (!n) notFound();
-  after(() => registrarVista(n.id).catch(() => {}));
   const ofertas = (await ofertasPorNegocios([n.id]).catch(() => ({})))[n.id] || [];
   const productos = (await productosPorNegocios([n.id]).catch(() => ({})))[n.id] || [];
 
@@ -110,6 +109,7 @@ export default async function FichaNegocioPage({ params }) {
 
   return (
     <main className="mx-auto w-full max-w-4xl px-4 pt-24 pb-8 sm:pt-28">
+      <RegistrarVista negocioId={n.id} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <Link href="/directorio" className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline">
