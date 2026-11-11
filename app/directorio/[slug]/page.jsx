@@ -3,7 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { d1SelectOne } from "@/lib/db-d1";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, Pencil, QrCode, Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
-import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
+import { esEjemplo, nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 import { obtenerPorSlug } from "@/lib/directorio/negocios";
 import { DIAS, estaAbierto, formatearHora, parsearHorario } from "@/lib/directorio/horario";
 import EnlaceRastreado from "../_components/EnlaceRastreado";
@@ -172,7 +172,12 @@ export default async function FichaNegocioPage({ params }) {
               {lugar}
             </Link>
           </div>
-          <h1 className="mt-2 text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">{n.nombre}</h1>
+          <h1 className="mt-2 flex flex-wrap items-center gap-2 text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
+            {n.nombre}
+            {esEjemplo(n.slug) && (
+              <span className="rounded-full border border-blue-600 bg-white px-2.5 py-0.5 text-xs font-bold text-blue-700">Ejemplo</span>
+            )}
+          </h1>
           {abierto !== null && (
             <span
               className={`mt-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${

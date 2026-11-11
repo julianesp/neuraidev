@@ -2,7 +2,7 @@ import Link from "next/link";
 import { MapPin, Phone, MessageCircle, Star, Tag } from "lucide-react";
 import { estaAbierto } from "@/lib/directorio/horario";
 import EnlaceRastreado from "./EnlaceRastreado";
-import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
+import { esEjemplo, nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 
 export const urlWhatsapp = (numero, nombre) =>
   `https://wa.me/${numero}?text=${encodeURIComponent(
@@ -32,6 +32,11 @@ export default function TarjetaNegocio({ negocio: n, oferta = null }) {
         {n.destacado ? (
           <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white">
             <Star className="h-3 w-3" /> Destacado
+          </span>
+        ) : null}
+        {esEjemplo(n.slug) ? (
+          <span className={`absolute left-2 inline-flex items-center rounded-full border border-blue-600 bg-white px-2 py-0.5 text-xs font-bold text-blue-700 shadow ${n.destacado ? "top-9" : "top-2"}`}>
+            Ejemplo
           </span>
         ) : null}
       </Link>
