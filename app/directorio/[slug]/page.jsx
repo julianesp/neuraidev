@@ -200,7 +200,7 @@ export default async function FichaNegocioPage({ params }) {
               href={urlWhatsapp(n.whatsapp, n.nombre)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 rounded-lg bg-[#25D366] px-4 py-2.5 font-medium text-white hover:opacity-90"
+              className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 font-medium !text-white hover:bg-blue-700"
             >
               <MessageCircle className="h-5 w-5" /> Escribir por WhatsApp
             </a>

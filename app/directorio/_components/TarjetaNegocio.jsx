@@ -44,25 +44,33 @@ export default function TarjetaNegocio({ negocio: n }) {
           </span>
         </p>
 
-        <div className="mt-auto flex gap-2 pt-2">
-          {n.whatsapp ? (
-            <a
-              href={urlWhatsapp(n.whatsapp, n.nombre)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-[#25D366] px-3 py-2 text-sm font-medium text-white hover:opacity-90"
-            >
-              <MessageCircle className="h-4 w-4" /> WhatsApp
-            </a>
-          ) : null}
-          {n.telefono ? (
-            <a
-              href={`tel:+${n.telefono}`}
-              className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg border border-blue-600 px-3 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30"
-            >
-              <Phone className="h-4 w-4" /> Llamar
-            </a>
-          ) : null}
+        <div className="mt-auto flex items-end gap-2 pt-2">
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
+            {n.whatsapp ? (
+              <a
+                href={urlWhatsapp(n.whatsapp, n.nombre)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium !text-white hover:bg-blue-700"
+              >
+                <MessageCircle className="h-4 w-4" /> WhatsApp
+              </a>
+            ) : null}
+            {n.telefono ? (
+              <a
+                href={`tel:+${n.telefono}`}
+                className="inline-flex items-center justify-center gap-1 rounded-lg border border-blue-600 px-3 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30"
+              >
+                <Phone className="h-4 w-4" /> Llamar
+              </a>
+            ) : null}
+          </div>
+          <Link
+            href={`/directorio/${n.slug}`}
+            className="inline-flex shrink-0 items-center justify-center rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-bold !text-white shadow transition-all hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
+          >
+            Ver
+          </Link>
         </div>
       </div>
     </article>
