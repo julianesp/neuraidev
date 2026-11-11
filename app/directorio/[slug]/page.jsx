@@ -64,14 +64,19 @@ export default async function FichaNegocioPage({ params }) {
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
   const hoy = DIAS.find((d) => d.nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === nombreHoy)?.id;
-  const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${n.direccion ? `${n.direccion}, ` : ""}${n.nombre}, ${lugar}, Putumayo, Colombia`
-  )}`;
   // Mapa incrustado (sin API key). Con dirección busca la dirección; sin ella, el negocio en el municipio.
-  const consultaMapa = n.direccion
+  const tienePin = n.lat != null && n.lng != null;
+  const consultaMapa = tienePin
+    ? `${n.lat},${n.lng}`
+    : n.direccion
     ? `${n.direccion}, ${lugar}, Putumayo, Colombia`
     : `${n.nombre}, ${lugar}, Putumayo, Colombia`;
-  const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(consultaMapa)}&output=embed&hl=es`;
+  const mapa = tienePin
+    ? `https://www.google.com/maps/search/?api=1&query=${n.lat},${n.lng}`
+    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        `${n.direccion ? `${n.direccion}, ` : ""}${n.nombre}, ${lugar}, Putumayo, Colombia`
+      )}`;
+  const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(consultaMapa)}&z=${tienePin ? 17 : 15}&output=embed&hl=es`;
   const reporte = `https://wa.me/573174503604?text=${encodeURIComponent(
     `Quiero reportar un problema con la ficha "${n.nombre}": https://neurai.dev/directorio/${n.slug}`
   )}`;

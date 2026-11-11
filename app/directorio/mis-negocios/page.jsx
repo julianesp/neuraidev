@@ -10,6 +10,7 @@ import {
   nombreMunicipio,
 } from "@/lib/directorio/constantes";
 import { DIAS, parsearHorario } from "@/lib/directorio/horario";
+import SelectorUbicacion from "../_components/SelectorUbicacion";
 import { FOTOS_GRATIS, FOTOS_PLAN, PLANES, pesos } from "@/lib/directorio/planes";
 
 const VACIO = {
@@ -19,6 +20,8 @@ const VACIO = {
   descripcion: "",
   whatsapp: "",
   direccion: "",
+  lat: null,
+  lng: null,
   horario: null, // objeto { lun: {a:"08:00", c:"18:00"} | null, ... }
   facebook: "",
   instagram: "",
@@ -450,6 +453,18 @@ export default function MisNegociosPage() {
             <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">Dirección</span>
             <input className={campo} value={form.direccion} onChange={set("direccion")} maxLength={160} placeholder="Calle 5 #3-20, barrio Centro" />
           </label>
+
+          <div>
+            <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">
+              Ubicación en el mapa
+            </span>
+            <SelectorUbicacion
+              municipio={form.municipio}
+              lat={form.lat ?? null}
+              lng={form.lng ?? null}
+              onChange={({ lat, lng }) => setForm((f) => ({ ...f, lat, lng }))}
+            />
+          </div>
 
           <fieldset>
             <legend className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">Horario de atención</legend>
