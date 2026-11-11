@@ -99,6 +99,8 @@ export default function CarruselProductos({ productos }) {
     <Link
       key={clave}
       href={p.href}
+      target="_blank"
+      rel="noopener noreferrer"
       draggable={false}
       aria-hidden={oculto || undefined}
       tabIndex={oculto ? -1 : undefined}
