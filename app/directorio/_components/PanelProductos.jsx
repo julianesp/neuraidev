@@ -188,6 +188,34 @@ export default function PanelProductos({ negocio, alCambiar }) {
             </div>
           </div>
 
+          {negocio.fotos?.length > 0 && (
+            <div>
+              <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">
+                …o usa una foto que ya tienes en tu galería
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {negocio.fotos.map((url) => (
+                  <button
+                    type="button"
+                    key={url}
+                    onClick={() => setForm((f) => ({ ...f, imagen_url: url }))}
+                    aria-label="Usar esta foto"
+                    aria-pressed={form.imagen_url === url}
+                    className={`h-14 w-14 overflow-hidden rounded-lg border-2 ${
+                      form.imagen_url === url ? "border-blue-600 ring-2 ring-blue-300" : "border-transparent hover:border-blue-400"
+                    }`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={url} alt="" className="h-full w-full object-cover" />
+                  </button>
+                ))}
+              </div>
+              <span className="mt-1 block text-xs text-gray-500">
+                Así esa misma foto de tu galería lleva el nombre, el precio y el botón “Lo quiero”, sin repetirse.
+              </span>
+            </div>
+          )}
+
           {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
 
           <div className="flex gap-2">

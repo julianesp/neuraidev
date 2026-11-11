@@ -11,7 +11,6 @@ import RegistrarVista from "../_components/RegistrarVista";
 import CompartirFicha from "../_components/CompartirFicha";
 import { formatearVence, ofertasPorNegocios } from "@/lib/directorio/ofertas";
 import { productosPorNegocios } from "@/lib/directorio/productos";
-import CatalogoFicha from "../_components/CatalogoFicha";
 import GaleriaFicha from "../_components/GaleriaFicha";
 import { urlWhatsapp } from "../_components/TarjetaNegocio";
 
@@ -50,6 +49,20 @@ export default async function FichaNegocioPage({ params }) {
   const ofertas = (await ofertasPorNegocios([n.id]).catch(() => ({})))[n.id] || [];
   // Vender por catálogo (y "Lo quiero" en las fotos) es parte del plan: sin plan vigente no se muestra.
   const productos = n.plan_activo ? (await productosPorNegocios([n.id]).catch(() => ({})))[n.id] || [] : [];
+
+  // Una sola galería: las fotos del negocio y los productos del catálogo. Si una foto es un producto,
+  // esa misma imagen lleva su nombre, precio y el botón "Lo quiero"; los productos con otra imagen se agregan al final.
+  const itemsGaleria = [];
+  const usados = new Set();
+  for (const url of n.fotos) {
+    const p = productos.find((x) => x.imagen_url === url && !usados.has(x.id));
+    if (p) usados.add(p.id);
+    itemsGaleria.push({ url, producto: p ? { id: p.id, nombre: p.nombre, precio: p.precio, disponible: !!p.disponible } : undefined });
+  }
+  for (const p of productos) {
+    if (usados.has(p.id)) continue;
+    itemsGaleria.push({ url: p.imagen_url || "", producto: { id: p.id, nombre: p.nombre, precio: p.precio, disponible: !!p.disponible } });
+  }
 
   // ¿Quien mira es el dueño de la ficha? Entonces se muestra el botón de editar.
   let esDueno = false;
@@ -176,7 +189,16 @@ export default async function FichaNegocioPage({ params }) {
         </div>
       </header>
 
-      {n.fotos.length > 0 && <GaleriaFicha fotos={n.fotos} nombre={n.nombre} negocioId={n.id} whatsapp={n.plan_activo && productos.length === 0 ? n.whatsapp : ""} slug={n.slug} />}
+      {itemsGaleria.length > 0 && (
+        <GaleriaFicha
+          items={itemsGaleria}
+          nombre={n.nombre}
+          negocioId={n.id}
+          whatsapp={n.plan_activo ? n.whatsapp : ""}
+          slug={n.slug}
+          pedirFotosSueltas={productos.length === 0}
+        />
+      )}
 
       {ofertas.length > 0 && (
         <section className="mt-6 space-y-3" aria-label="Ofertas vigentes">
@@ -315,7 +337,6 @@ export default async function FichaNegocioPage({ params }) {
           </a>
         </aside>
       </div>
-      {productos.length > 0 && <CatalogoFicha productos={productos} negocio={n} />}
     </main>
   );
 }
