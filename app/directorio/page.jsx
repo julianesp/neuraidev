@@ -11,6 +11,8 @@ import {
 import { contarPor, listarPublicos, masVisitados } from "@/lib/directorio/negocios";
 import TarjetaNegocio from "./_components/TarjetaNegocio";
 import CarruselVisitados from "./_components/CarruselVisitados";
+import OfertasHoy from "./_components/OfertasHoy";
+import { ofertasPorNegocios, ofertasVigentes } from "@/lib/directorio/ofertas";
 import CarruselProductos from "./_components/CarruselProductos";
 import { loadCategoryProducts } from "@/utils/loadCategoryProducts";
 import { generateProductSlug } from "@/utils/slugify";
@@ -78,6 +80,8 @@ export default async function DirectorioPage({ searchParams }) {
   let porMunicipio = {};
   let porCategoria = {};
   let visitados = [];
+  let ofertasHoy = [];
+  let ofertasDeTarjetas = {};
   const productos = await productosTienda();
   try {
     [resultado, porMunicipio, porCategoria, visitados] = await Promise.all([
@@ -88,6 +92,16 @@ export default async function DirectorioPage({ searchParams }) {
     ]);
   } catch (error) {
     console.error("[directorio] Error cargando:", error);
+  }
+  // Ofertas: si la tabla aún no existe o falla, el directorio sigue funcionando sin ellas.
+  try {
+    [ofertasHoy, ofertasDeTarjetas] = await Promise.all([
+      ofertasVigentes(20),
+      ofertasPorNegocios(resultado.negocios.map((n) => n.id)),
+    ]);
+  } catch {
+    ofertasHoy = [];
+    ofertasDeTarjetas = {};
   }
 
   const hayFiltros = filtros.q || filtros.municipio || filtros.categoria || filtros.abierto;
@@ -169,6 +183,8 @@ export default async function DirectorioPage({ searchParams }) {
         </Link>
       </div>
 
+      {!hayFiltros && ofertasHoy.length > 0 && <OfertasHoy ofertas={ofertasHoy} />}
+
       {!hayFiltros && visitados.length > 0 && <CarruselVisitados negocios={visitados} />}
 
       {!hayFiltros && (
@@ -240,7 +256,7 @@ export default async function DirectorioPage({ searchParams }) {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {resultado.negocios.map((n) => (
-              <TarjetaNegocio key={n.id} negocio={n} />
+              <TarjetaNegocio key={n.id} negocio={n} oferta={ofertasDeTarjetas[n.id]?.[0] || null} />
             ))}
           </div>
         )}

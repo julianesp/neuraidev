@@ -11,6 +11,7 @@ import {
 } from "@/lib/directorio/constantes";
 import { DIAS, parsearHorario } from "@/lib/directorio/horario";
 import { comprimirImagen } from "@/lib/directorio/comprimirImagen";
+import PanelOfertas from "../_components/PanelOfertas";
 import SelectorUbicacion from "../_components/SelectorUbicacion";
 import { FOTOS_GRATIS, FOTOS_PLAN, PLANES, pesos } from "@/lib/directorio/planes";
 
@@ -349,6 +350,8 @@ export default function MisNegociosPage() {
                         </div>
                       </div>
                     )}
+                    <PanelOfertas negocio={n} alCambiar={cargar} />
+
                     <div className="mt-3 rounded-lg bg-gray-50 p-3 text-sm dark:bg-gray-800/60">
                       <p className="text-gray-800 dark:text-gray-200">
                         {n.plan_activo ? (

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, Phone, MessageCircle, Star } from "lucide-react";
+import { MapPin, Phone, MessageCircle, Star, Tag } from "lucide-react";
 import { estaAbierto } from "@/lib/directorio/horario";
 import EnlaceRastreado from "./EnlaceRastreado";
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
@@ -9,7 +9,7 @@ export const urlWhatsapp = (numero, nombre) =>
     `Hola, vi tu negocio${nombre ? ` "${nombre}"` : ""} en neurai.dev/directorio y quisiera más información.`
   )}`;
 
-export default function TarjetaNegocio({ negocio: n }) {
+export default function TarjetaNegocio({ negocio: n, oferta = null }) {
   const portada = n.fotos?.[0] || n.logo_url;
   const abierto = estaAbierto(n.horario);
   return (
@@ -24,6 +24,11 @@ export default function TarjetaNegocio({ negocio: n }) {
             {n.nombre.charAt(0).toUpperCase()}
           </div>
         )}
+        {oferta ? (
+          <span className="absolute right-2 top-2 inline-flex max-w-[70%] items-center gap-1 truncate rounded-full bg-blue-600 px-2.5 py-1 text-xs font-bold text-white shadow">
+            <Tag className="h-3 w-3 shrink-0" /> <span className="truncate">Oferta: {oferta.titulo}</span>
+          </span>
+        ) : null}
         {n.destacado ? (
           <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-blue-600 px-2 py-0.5 text-xs font-medium text-white">
             <Star className="h-3 w-3" /> Destacado

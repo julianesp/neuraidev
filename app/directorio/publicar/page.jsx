@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BarChart3, Camera, Clock, MapPin, MessageCircle, Search, Check } from "lucide-react";
-import { FOTOS_GRATIS, FOTOS_PLAN, PLANES, TRIAL_DIAS, pesos } from "@/lib/directorio/planes";
+import { FOTOS_GRATIS, FOTOS_PLAN, OFERTAS_GRATIS, OFERTAS_PLAN, PLANES, TRIAL_DIAS, pesos } from "@/lib/directorio/planes";
 
 export const metadata = {
   title: "Publica tu negocio en el directorio del Putumayo",
@@ -13,7 +13,7 @@ const BENEFICIOS = [
   { Icono: Search, titulo: "Te encuentran", texto: "Aparece cuando buscan por municipio o categoría: droguerías en Sibundoy, hoteles en Colón, restaurantes en Mocoa…" },
   { Icono: MessageCircle, titulo: "WhatsApp directo", texto: "Un toque y el cliente te escribe con el mensaje listo. Sin intermediarios ni comisiones." },
   { Icono: MapPin, titulo: "Mapa de Google", texto: "Tu ubicación exacta con el botón “Cómo llegar”, para que nadie se pierda de camino a tu local." },
-  { Icono: Clock, titulo: "Horario por día", texto: "Muestra cuándo abres y cierras cada día de la semana." },
+  { Icono: Clock, titulo: "Horario y ofertas", texto: "Muestra tu horario por día con la insignia “Abierto ahora” y publica ofertas con fecha que ve todo el que entra al directorio." },
   { Icono: Camera, titulo: "Fotos de tu negocio", texto: "Muestra tu local, tus productos o tus trabajos con una galería que se amplía al tocarla." },
   { Icono: BarChart3, titulo: "Mira tus resultados", texto: "Cuántas personas vieron tu ficha, te escribieron, quisieron llamarte o pidieron cómo llegar." },
 ];
@@ -102,14 +102,14 @@ export default function PublicarPage() {
           Empieza gratis, crece cuando quieras
         </h2>
         <p className="mb-6 text-center text-gray-600 dark:text-gray-400">
-          Publicar es gratis. Con el plan muestras más fotos de tu negocio.
+          Publicar es gratis. Con el plan muestras más fotos y publicas más ofertas.
         </p>
         <div className="grid gap-4 md:grid-cols-3">
           <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
             <h3 className="font-semibold text-gray-900 dark:text-white">Gratis</h3>
             <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">$0</p>
             <ul className="mt-4 space-y-2 text-sm text-gray-700 dark:text-gray-300">
-              {[`Ficha completa con hasta ${FOTOS_GRATIS} fotos`, "WhatsApp, mapa y horario", "Estadísticas de tu ficha"].map((t) => (
+              {[`Ficha completa con hasta ${FOTOS_GRATIS} fotos`, "WhatsApp, mapa y horario", `${OFERTAS_GRATIS} oferta vigente a la vez`, "Estadísticas de tu ficha"].map((t) => (
                 <li key={t} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />{t}</li>
               ))}
             </ul>
@@ -121,7 +121,7 @@ export default function PublicarPage() {
               {pesos(PLANES.mensual.precio)}<span className="text-base font-normal text-gray-500"> /mes</span>
             </p>
             <ul className="mt-4 space-y-2 text-sm text-gray-700 dark:text-gray-300">
-              {[`Hasta ${FOTOS_PLAN} fotos en tu galería`, "Todo lo del plan gratis", "Cancelas cuando quieras"].map((t) => (
+              {[`Hasta ${FOTOS_PLAN} fotos en tu galería`, `Hasta ${OFERTAS_PLAN} ofertas vigentes a la vez`, "Todo lo del plan gratis"].map((t) => (
                 <li key={t} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />{t}</li>
               ))}
             </ul>
@@ -135,7 +135,7 @@ export default function PublicarPage() {
               {pesos(PLANES.semestral.precio)}<span className="text-base font-normal text-gray-500"> /6 meses</span>
             </p>
             <ul className="mt-4 space-y-2 text-sm text-gray-700 dark:text-gray-300">
-              {[`Hasta ${FOTOS_PLAN} fotos en tu galería`, "Un solo pago, medio año tranquilo", "Equivale a unos $8.300 al mes"].map((t) => (
+              {[`Hasta ${FOTOS_PLAN} fotos y ${OFERTAS_PLAN} ofertas a la vez`, "Un solo pago, medio año tranquilo", "Equivale a unos $8.300 al mes"].map((t) => (
                 <li key={t} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />{t}</li>
               ))}
             </ul>

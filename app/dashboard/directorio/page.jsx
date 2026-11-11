@@ -55,6 +55,12 @@ export default function DashboardDirectorioPage() {
     }
   };
 
+  const quitarOferta = async (o) => {
+    if (!window.confirm(`¿Quitar la oferta "${o.titulo}"?`)) return;
+    await fetch(`/api/admin/directorio?oferta=${encodeURIComponent(o.id)}`, { method: "DELETE" });
+    await cargar();
+  };
+
   const eliminar = async (n) => {
     if (!window.confirm(`¿Eliminar "${n.nombre}" definitivamente?`)) return;
     setActionId(n.id);
@@ -128,6 +134,23 @@ export default function DashboardDirectorioPage() {
                   )}
                   {n.descripcion && (
                     <p className="mt-1 line-clamp-3 text-sm text-gray-800 dark:text-gray-200">{n.descripcion}</p>
+                  )}
+                  {n.ofertas?.length > 0 && (
+                    <div className="mt-2 space-y-1">
+                      {n.ofertas.map((o) => (
+                        <p key={o.id} className="flex items-center gap-2 rounded-md bg-blue-50 px-2 py-1 text-xs text-blue-900 dark:bg-blue-900/30 dark:text-blue-100">
+                          <span className="min-w-0 flex-1 truncate">
+                            Oferta: <strong>{o.titulo}</strong> (vence {o.vence})
+                          </span>
+                          <button
+                            onClick={() => quitarOferta(o)}
+                            className="shrink-0 rounded border border-blue-300 px-1.5 py-0.5 hover:border-blue-900"
+                          >
+                            Quitar
+                          </button>
+                        </p>
+                      ))}
+                    </div>
                   )}
                   {n.estado === "rechazado" && n.motivo_rechazo && (
                     <p className="mt-1 text-sm text-gray-700 dark:text-gray-300">Motivo: {n.motivo_rechazo}</p>

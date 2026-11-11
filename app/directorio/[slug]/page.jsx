@@ -9,6 +9,7 @@ import { obtenerPorSlug, registrarVista } from "@/lib/directorio/negocios";
 import { DIAS, estaAbierto, formatearHora, parsearHorario } from "@/lib/directorio/horario";
 import EnlaceRastreado from "../_components/EnlaceRastreado";
 import CompartirFicha from "../_components/CompartirFicha";
+import { formatearVence, ofertasPorNegocios } from "@/lib/directorio/ofertas";
 import GaleriaFicha from "../_components/GaleriaFicha";
 import { urlWhatsapp } from "../_components/TarjetaNegocio";
 
@@ -45,6 +46,7 @@ export default async function FichaNegocioPage({ params }) {
   const n = await cargar(slug);
   if (!n) notFound();
   after(() => registrarVista(n.id).catch(() => {}));
+  const ofertas = (await ofertasPorNegocios([n.id]).catch(() => ({})))[n.id] || [];
 
   // ¿Quien mira es el dueño de la ficha? Entonces se muestra el botón de editar.
   let esDueno = false;
@@ -171,6 +173,30 @@ export default async function FichaNegocioPage({ params }) {
       </header>
 
       {n.fotos.length > 0 && <GaleriaFicha fotos={n.fotos} nombre={n.nombre} />}
+
+      {ofertas.length > 0 && (
+        <section className="mt-6 space-y-3" aria-label="Ofertas vigentes">
+          {ofertas.map((o) => (
+            <div
+              key={o.id}
+              className="flex gap-4 rounded-xl border-2 border-blue-600 bg-blue-50 p-4 dark:bg-blue-900/20"
+            >
+              {o.imagen_url && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={o.imagen_url} alt="" className="h-20 w-20 shrink-0 rounded-lg object-cover" />
+              )}
+              <div>
+                <span className="rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-bold text-white">Oferta</span>
+                <p className="mt-1 text-lg font-bold text-gray-900 dark:text-white">{o.titulo}</p>
+                {o.descripcion && <p className="text-sm text-gray-700 dark:text-gray-300">{o.descripcion}</p>}
+                <p className="mt-1 text-xs font-medium text-blue-700 dark:text-blue-200">
+                  Vence el {formatearVence(o.vence)}
+                </p>
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
 
       <div className="mt-6 grid gap-6 md:grid-cols-[1fr_280px]">
         <section className="space-y-6">

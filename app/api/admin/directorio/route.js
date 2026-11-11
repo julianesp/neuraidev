@@ -5,6 +5,7 @@ import { isAdminServer } from "@/lib/auth/server-roles";
 import { parsearFotos } from "@/lib/directorio/negocios";
 import { d1SelectOne } from "@/lib/db-d1";
 import { sumarMeses } from "@/lib/directorio/planes";
+import { ofertasPorNegocios } from "@/lib/directorio/ofertas";
 
 export const dynamic = "force-dynamic";
 
@@ -30,8 +31,9 @@ export async function GET(request) {
     const conteo = await d1Select(
       "SELECT estado, COUNT(*) AS n FROM directorio_negocios GROUP BY estado"
     );
+    const ofertas = await ofertasPorNegocios(filas.map((f) => f.id)).catch(() => ({}));
     return NextResponse.json({
-      negocios: filas.map((f) => ({ ...f, fotos: parsearFotos(f.fotos) })),
+      negocios: filas.map((f) => ({ ...f, fotos: parsearFotos(f.fotos), ofertas: ofertas[f.id] || [] })),
       conteo: Object.fromEntries(conteo.map((c) => [c.estado, c.n])),
     });
   } catch (error) {
@@ -88,9 +90,16 @@ export async function PATCH(request) {
 export async function DELETE(request) {
   try {
     if (!(await requireAdmin())) return prohibido();
-    const id = new URL(request.url).searchParams.get("id");
+    const params = new URL(request.url).searchParams;
+    const oferta = params.get("oferta");
+    if (oferta) {
+      await d1Execute("DELETE FROM directorio_ofertas WHERE id = ?", [oferta]);
+      return NextResponse.json({ ok: true });
+    }
+    const id = params.get("id");
     if (!id) return NextResponse.json({ error: "Falta el id" }, { status: 400 });
     await d1Execute("DELETE FROM directorio_negocios WHERE id = ?", [id]);
+    await d1Execute("DELETE FROM directorio_ofertas WHERE negocio_id = ?", [id]).catch(() => {});
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Error en DELETE /api/admin/directorio:", error);
