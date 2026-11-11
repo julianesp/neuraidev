@@ -100,14 +100,16 @@ export async function POST(request) {
       }
     }
 
-    const estado = u.esAdmin ? "aprobado" : "pendiente";
+    // Publicación automática: no hay que esperar aprobación. El admin recibe un aviso y puede
+    // suspender la ficha después si hace falta.
+    const estado = "aprobado";
     const { id, slug } = await insertarNegocio(datos, {
       ownerId: u.id,
       ownerEmail: u.email,
       estado,
     });
 
-    if (estado === "pendiente") {
+    if (!u.esAdmin) {
       after(() => notifyNewDirectorio({ ...datos, slug, correo: u.email }));
     }
     return NextResponse.json({ id, slug, estado }, { status: 201 });
@@ -135,16 +137,9 @@ export async function PUT(request) {
     const existentes = parsearFotos(actual.fotos).length;
     const maxFotos = planActivo(actual.plan_hasta) ? FOTOS_PLAN : Math.max(FOTOS_GRATIS, existentes);
     const datos = validarNegocio(body, maxFotos);
-    const requiereRevision =
-      !u.esAdmin &&
-      actual.estado === "aprobado" &&
-      (datos.nombre !== actual.nombre ||
-        datos.descripcion !== (actual.descripcion || "") ||
-        datos.logo_url !== (actual.logo_url || "") ||
-        JSON.stringify(datos.fotos) !== JSON.stringify(parsearFotos(actual.fotos)));
-
-    // Si lo habían rechazado, al corregirlo vuelve a revisión.
-    const estado = requiereRevision || actual.estado === "rechazado" ? "pendiente" : actual.estado;
+    // Los cambios se publican al instante. Solo una ficha que el admin había rechazado
+    // vuelve a revisión cuando el dueño la corrige.
+    const estado = actual.estado === "rechazado" ? "pendiente" : actual.estado;
 
     await d1Execute(
       `UPDATE directorio_negocios SET
@@ -162,7 +157,7 @@ export async function PUT(request) {
     );
 
     if (estado === "pendiente" && actual.estado !== "pendiente") {
-      after(() => notifyNewDirectorio({ ...datos, slug: actual.slug, correo: u.email, edicion: true }));
+      after(() => notifyNewDirectorio({ ...datos, slug: actual.slug, correo: u.email, edicion: true, revision: true }));
     }
     return NextResponse.json({ ok: true, estado });
   } catch (error) {

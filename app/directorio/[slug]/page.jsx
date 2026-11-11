@@ -48,7 +48,8 @@ export default async function FichaNegocioPage({ params }) {
   const n = await cargar(slug);
   if (!n) notFound();
   const ofertas = (await ofertasPorNegocios([n.id]).catch(() => ({})))[n.id] || [];
-  const productos = (await productosPorNegocios([n.id]).catch(() => ({})))[n.id] || [];
+  // Vender por catálogo (y "Lo quiero" en las fotos) es parte del plan: sin plan vigente no se muestra.
+  const productos = n.plan_activo ? (await productosPorNegocios([n.id]).catch(() => ({})))[n.id] || [] : [];
 
   // ¿Quien mira es el dueño de la ficha? Entonces se muestra el botón de editar.
   let esDueno = false;
@@ -175,7 +176,7 @@ export default async function FichaNegocioPage({ params }) {
         </div>
       </header>
 
-      {n.fotos.length > 0 && <GaleriaFicha fotos={n.fotos} nombre={n.nombre} negocioId={n.id} whatsapp={productos.length === 0 ? n.whatsapp : ""} slug={n.slug} />}
+      {n.fotos.length > 0 && <GaleriaFicha fotos={n.fotos} nombre={n.nombre} negocioId={n.id} whatsapp={n.plan_activo && productos.length === 0 ? n.whatsapp : ""} slug={n.slug} />}
 
       {ofertas.length > 0 && (
         <section className="mt-6 space-y-3" aria-label="Ofertas vigentes">

@@ -6,13 +6,13 @@ import { Check, ExternalLink, Loader2, Star, Trash2, X } from "lucide-react";
 import { nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 
 const TABS = [
-  { id: "pendiente", nombre: "Pendientes" },
   { id: "aprobado", nombre: "Publicados" },
-  { id: "rechazado", nombre: "Rechazados" },
+  { id: "pendiente", nombre: "Por revisar" },
+  { id: "rechazado", nombre: "Suspendidos" },
 ];
 
 export default function DashboardDirectorioPage() {
-  const [estado, setEstado] = useState("pendiente");
+  const [estado, setEstado] = useState("aprobado");
   const [negocios, setNegocios] = useState([]);
   const [conteo, setConteo] = useState({});
   const [cargando, setCargando] = useState(true);
@@ -39,7 +39,7 @@ export default function DashboardDirectorioPage() {
   const accion = async (n, tipo, meses) => {
     let motivo;
     if (tipo === "rechazar") {
-      motivo = window.prompt("Motivo del rechazo (se le muestra al dueño):", "");
+      motivo = window.prompt("Motivo de la suspensión (se le muestra al dueño):", "");
       if (motivo === null) return;
     }
     setActionId(n.id);
@@ -80,7 +80,7 @@ export default function DashboardDirectorioPage() {
           href="/directorio/mis-negocios"
           className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
         >
-          Publicar una ficha (se aprueba sola)
+          Publicar una ficha
         </Link>
       </div>
 
@@ -174,7 +174,7 @@ export default function DashboardDirectorioPage() {
                     disabled={actionId === n.id}
                     className="inline-flex items-center gap-1 rounded-lg border border-gray-300 px-3 py-1.5 text-sm text-gray-800 hover:border-gray-900 disabled:opacity-50 dark:border-gray-700 dark:text-gray-200"
                   >
-                    <X className="h-4 w-4" /> Rechazar
+                    <X className="h-4 w-4" /> Suspender
                   </button>
                 )}
                 {n.estado === "aprobado" && (

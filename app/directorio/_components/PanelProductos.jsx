@@ -19,6 +19,7 @@ export default function PanelProductos({ negocio, alCambiar }) {
   const inputImg = useRef(null);
 
   const productos = negocio.productos || [];
+  const sinPlan = negocio.limite_productos === 0;
   const lleno = productos.length >= negocio.limite_productos;
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
@@ -81,7 +82,8 @@ export default function PanelProductos({ negocio, alCambiar }) {
   return (
     <div className="mt-3">
       <p className="mb-1.5 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-gray-500">
-        <ShoppingCart className="h-3.5 w-3.5" /> Catálogo ({productos.length}/{negocio.limite_productos})
+        <ShoppingCart className="h-3.5 w-3.5" /> Catálogo{" "}
+        {sinPlan ? "(parte del plan)" : `(${productos.length}/${negocio.limite_productos})`}
       </p>
 
       {productos.length > 0 && (
@@ -133,8 +135,8 @@ export default function PanelProductos({ negocio, alCambiar }) {
           </button>
           {lleno && (
             <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">
-              {negocio.limite_productos < PRODUCTOS_PLAN
-                ? `Con el plan activo puedes tener hasta ${PRODUCTOS_PLAN} productos. Quita uno para agregar otro.`
+              {sinPlan
+                ? `Tu plan venció: el catálogo no se muestra ni se pueden publicar productos. Actívalo para volver a vender con hasta ${PRODUCTOS_PLAN} productos${productos.length ? " (los que ya creaste se conservan)" : ""}.`
                 : "Llegaste al máximo de productos. Quita uno para agregar otro."}
             </p>
           )}
