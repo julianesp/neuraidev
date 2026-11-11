@@ -160,7 +160,14 @@ export default async function FichaNegocioPage({ params }) {
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt={`${n.nombre} foto ${i + 1}`} loading="lazy" className="h-full w-full object-cover" />
+              <img
+                src={url}
+                alt={`${n.nombre} foto ${i + 1}`}
+                loading={i === 0 ? "eager" : "lazy"}
+                fetchPriority={i === 0 ? "high" : "auto"}
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
             </a>
           ))}
         </div>

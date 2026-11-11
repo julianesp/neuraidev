@@ -10,6 +10,7 @@ import {
   nombreMunicipio,
 } from "@/lib/directorio/constantes";
 import { DIAS, parsearHorario } from "@/lib/directorio/horario";
+import { comprimirImagen } from "@/lib/directorio/comprimirImagen";
 import SelectorUbicacion from "../_components/SelectorUbicacion";
 import { FOTOS_GRATIS, FOTOS_PLAN, PLANES, pesos } from "@/lib/directorio/planes";
 
@@ -38,9 +39,11 @@ const ESTADOS = {
 const campo =
   "w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white";
 
-async function subirImagen(file) {
+async function subirImagen(file, opciones) {
+  // Se reduce el peso antes de subir: así la ficha carga rápido para quien la visita.
+  const liviana = await comprimirImagen(file, opciones);
   const fd = new FormData();
-  fd.append("file", file);
+  fd.append("file", liviana);
   const res = await fetch("/api/upload-image", { method: "POST", body: fd });
   const data = await res.json();
   if (!res.ok || !data.url) throw new Error(data.error || "No se pudo subir la imagen");
@@ -189,7 +192,7 @@ export default function MisNegociosPage() {
     setSubiendo(true);
     setError("");
     try {
-      const url = await subirImagen(file);
+      const url = await subirImagen(file, { maxLado: 800 });
       setForm((f) => ({ ...f, logo_url: url }));
     } catch (e) {
       setError(e.message);
