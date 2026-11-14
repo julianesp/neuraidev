@@ -207,19 +207,16 @@ export default function ProductoCoverflow({
         </button>
       </div>
 
-      {/* Info del producto central a la derecha: nombre + precio + botón Ver */}
+      {/* Solo el botón "Ver" debajo de la imagen (sin nombre ni precio) */}
       {actual && (
         <div className={styles.info}>
-          <h3 className={styles.titulo}>
-            <Link href={getHref(actual)}>{actual.nombre}</Link>
-          </h3>
-          {renderPrecio && renderPrecio(actual)}
-          <div className={styles.acciones}>
-            {renderAccion && renderAccion(actual)}
-            <Link href={getHref(actual)} className={styles.botonVer}>
-              Ver
-            </Link>
-          </div>
+          <Link
+            href={getHref(actual)}
+            className={styles.botonVer}
+            aria-label={`Ver ${actual.nombre}`}
+          >
+            Ver
+          </Link>
         </div>
       )}
       </div>
