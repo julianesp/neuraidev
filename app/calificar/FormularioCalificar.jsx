@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Star, CheckCircle2, Search, X, Pause, Play } from "lucide-react";
 import { useClerk, useReverification, useSignIn, useUser } from "@clerk/nextjs";
@@ -62,6 +62,8 @@ export default function FormularioCalificar({
   const [catalogo, setCatalogo] = useState([]);
   const [cintaPausada, setCintaPausada] = useState(false); // botón (celular)
   const [mouseEncima, setMouseEncima] = useState(false); // hover (computador)
+  const cintaRef = useRef(null);
+  const cintaEstado = useRef({ pos: 0, tocando: false, arrastrando: false, movido: false, x0: 0, s0: 0, timer: null });
   const [estrellas, setEstrellas] = useState(0);
   const [hover, setHover] = useState(0);
   const [mensaje, setMensaje] = useState("");
@@ -97,6 +99,35 @@ export default function FormularioCalificar({
       : null;
 
   // Al volver de Facebook/Google se recupera lo que ya había escrito
+  // Cinta autodesplazable que además se puede arrastrar con el dedo o el mouse
+  useEffect(() => {
+    const el = cintaRef.current;
+    if (!el || catalogo.length === 0) return;
+    const st = cintaEstado.current;
+    const reducir = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const velocidad = reducir ? 0 : 30; // px por segundo
+    let raf;
+    let ultimo = performance.now();
+    const paso = (t) => {
+      const dt = Math.min(t - ultimo, 100) / 1000;
+      ultimo = t;
+      const mitad = el.scrollWidth / 2;
+      // si el usuario movió la cinta, seguimos desde donde la dejó
+      if (Math.abs(el.scrollLeft - st.pos) > 1.5) st.pos = el.scrollLeft;
+      if (!cintaPausada && !mouseEncima && !st.tocando && !st.arrastrando && velocidad > 0) {
+        st.pos += velocidad * dt;
+      }
+      if (mitad > 0) {
+        if (st.pos >= mitad) st.pos -= mitad;
+        if (st.pos < 0) st.pos += mitad;
+      }
+      if (Math.abs(el.scrollLeft - st.pos) > 0.01) el.scrollLeft = st.pos;
+      raf = requestAnimationFrame(paso);
+    };
+    raf = requestAnimationFrame(paso);
+    return () => cancelAnimationFrame(raf);
+  }, [catalogo.length, cintaPausada, mouseEncima]);
+
   useEffect(() => {
     try {
       const b = JSON.parse(sessionStorage.getItem(BORRADOR) || "null");
@@ -608,17 +639,55 @@ export default function FormularioCalificar({
                 </button>
               </div>
               <div
-                className="overflow-hidden motion-reduce:overflow-x-auto rounded-xl bg-gray-50 dark:bg-gray-900/40 py-3 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+                ref={cintaRef}
+                className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing select-none rounded-xl bg-gray-50 dark:bg-gray-900/40 py-3 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
                 onPointerEnter={(e) => e.pointerType === "mouse" && setMouseEncima(true)}
                 onPointerLeave={(e) => e.pointerType === "mouse" && setMouseEncima(false)}
+                onTouchStart={() => {
+                  const st = cintaEstado.current;
+                  clearTimeout(st.timer);
+                  st.tocando = true;
+                }}
+                onTouchEnd={() => {
+                  const st = cintaEstado.current;
+                  clearTimeout(st.timer);
+                  // espera a que termine la inercia antes de reanudar
+                  st.timer = setTimeout(() => (st.tocando = false), 1500);
+                }}
+                onPointerDown={(e) => {
+                  if (e.pointerType !== "mouse") return;
+                  const st = cintaEstado.current;
+                  st.arrastrando = true;
+                  st.movido = false;
+                  st.x0 = e.clientX;
+                  st.s0 = cintaRef.current.scrollLeft;
+                  e.currentTarget.setPointerCapture(e.pointerId);
+                }}
+                onPointerMove={(e) => {
+                  const st = cintaEstado.current;
+                  if (!st.arrastrando) return;
+                  const dx = e.clientX - st.x0;
+                  if (Math.abs(dx) > 5) st.movido = true;
+                  cintaRef.current.scrollLeft = st.s0 - dx;
+                }}
+                onPointerUp={(e) => {
+                  const st = cintaEstado.current;
+                  if (!st.arrastrando) return;
+                  st.arrastrando = false;
+                  e.currentTarget.releasePointerCapture?.(e.pointerId);
+                }}
+                onClickCapture={(e) => {
+                  // si fue un arrastre, no elegir el producto sobre el que se soltó
+                  const st = cintaEstado.current;
+                  if (st.movido) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    st.movido = false;
+                  }
+                }}
+                onDragStart={(e) => e.preventDefault()}
               >
-                <ul
-                  className="flex w-max animate-[cinta_var(--duracion)_linear_infinite] motion-reduce:animate-none"
-                  style={{
-                    "--duracion": `${Math.max(catalogo.length * 2.5, 20)}s`,
-                    animationPlayState: cintaPausada || mouseEncima ? "paused" : "running",
-                  }}
-                >
+                <ul className="flex w-max">
                   {/* La lista va dos veces para que la vuelta sea continua */}
                   {[...catalogo, ...catalogo].map((p, i) => {
                     const marcado = elegido(p.id);
