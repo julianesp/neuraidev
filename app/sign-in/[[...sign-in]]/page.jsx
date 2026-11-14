@@ -3,12 +3,13 @@
 import { SignIn } from "@clerk/nextjs";
 import { esES } from "@clerk/localizations";
 import Link from "next/link";
-import { clerkAppearance } from "@/lib/clerkAppearance";
+import { clerkAppearance, clerkSocialCss } from "@/lib/clerkAppearance";
 
 export default function SignInPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-50 px-4 py-12">
       <div className="w-full max-w-md">
+        <style dangerouslySetInnerHTML={{ __html: clerkSocialCss }} />
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Bienvenido a Neurai.dev
