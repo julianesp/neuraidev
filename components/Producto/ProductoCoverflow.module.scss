@@ -8,6 +8,15 @@
   width: 100%;
 }
 
+/* Título pequeño de la sección (Productos nuevos / Productos destacados) */
+.tituloSeccion {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a202c;
+}
+
 /* Cuerpo: en móvil apila (imagen arriba, info abajo); en desktop, imagen a la
    izquierda e info a la derecha. */
 .cuerpo {
@@ -350,6 +359,10 @@
 
 /* Modo oscuro */
 :global(.dark) {
+  .tituloSeccion {
+    color: #f7fafc;
+  }
+
   .foto {
     background: #2d3748;
   }

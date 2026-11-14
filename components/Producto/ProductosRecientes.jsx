@@ -91,6 +91,7 @@ const ProductosRecientes = () => {
 
   return (
     <ProductoCoverflow
+      titulo="Productos nuevos"
       productos={recientes}
       getImagen={getProductoImagenUrl}
       getHref={(producto) => `/accesorios/${producto.categoria}/${producto.id}`}

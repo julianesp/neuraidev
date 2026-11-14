@@ -765,10 +765,10 @@ const AccesoriosContainer = ({
             >
               <ChevronLeft size={22} />
             </button>
-            <h1 className={styles.tituloProducto} title={accesorio.nombre}>
+            <h1 style={{ position: 'absolute', width: 1, height: 1, margin: -1, padding: 0, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
               {accesorio.nombre}
             </h1>
-            <div className="flex items-center gap-2 flex-shrink-0 relative z-10">
+            <div className="flex items-center gap-2 flex-shrink-0 relative z-10" style={{ marginLeft: "auto" }}>
               {userIsAdmin && (
                 <>
                   <Link
@@ -803,7 +803,6 @@ const AccesoriosContainer = ({
                   </button>
                 </>
               )}
-              <FavoriteButton producto={accesorio} size="large" />
             </div>
           </div>
           <div
@@ -838,6 +837,31 @@ const AccesoriosContainer = ({
               )}
 
               <div className="h-full w-full relative overflow-hidden rounded-lg">
+                {/* Favorito dentro de la imagen, arriba a la derecha */}
+                <div style={{ position: 'absolute', top: 12, right: 12, zIndex: 20 }}>
+                  <FavoriteButton producto={accesorio} size="medium" />
+                </div>
+                {/* Nombre sobre la imagen: fondo oscuro, letras blancas, varias líneas si es largo */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 10,
+                    background: "rgba(0,0,0,0.75)",
+                    color: "#fff",
+                    padding: "10px 64px 10px 16px",
+                    fontSize: "1.05rem",
+                    fontWeight: 600,
+                    lineHeight: 1.3,
+                    overflowWrap: "anywhere",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {accesorio.nombre}
+                </div>
                 {/* Mostrar video si existe y showVideo es true */}
                 {showVideo && accesorio.video_url && mainSlideIndex === -1 && (
                   <div

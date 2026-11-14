@@ -94,7 +94,33 @@ export default function ProductoDetalle({ producto }: Props) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         {/* Galería de imágenes y video */}
         <div className="space-y-3">
-          <div className="w-full h-64 sm:h-80 md:h-96 lg:h-[400px] bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
+          <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[400px] bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
+            {/* Favorito dentro de la imagen, arriba a la derecha */}
+            <div style={{ position: 'absolute', top: 12, right: 12, zIndex: 20 }}>
+              <FavoriteButton producto={producto} size="medium" />
+            </div>
+            {/* Nombre sobre la imagen: fondo oscuro, letras blancas, varias líneas si es largo.
+                Con video va arriba para no tapar los controles. */}
+            <h1
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                ...(tipoMediaSeleccionado === 'video' && producto.video_url
+                  ? { top: 0, padding: '10px 64px 10px 16px' }
+                  : { bottom: 0, padding: '10px 16px' }),
+                zIndex: 10,
+                margin: 0,
+                background: 'rgba(0,0,0,0.75)',
+                color: '#fff',
+                fontSize: '1.05rem',
+                fontWeight: 600,
+                lineHeight: 1.3,
+                overflowWrap: 'anywhere',
+              }}
+            >
+              {producto.nombre}
+            </h1>
             {/* Mostrar video o imagen según selección */}
             {tipoMediaSeleccionado === 'video' && producto.video_url ? (
               <ProductVideo
@@ -212,7 +238,6 @@ export default function ProductoDetalle({ producto }: Props) {
           {/* Título y precio */}
           <div>
             <div className="flex items-start justify-between gap-4 mb-2">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white flex-1">{producto.nombre}</h1>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <a
                   href={`https://wa.me/573174503604?text=${encodeURIComponent(`Hola! Tengo una pregunta sobre este producto:\n\n*${producto.nombre}*\nPrecio: $${precio.toLocaleString()} COP\nLink: `)}`}
@@ -235,7 +260,6 @@ export default function ProductoDetalle({ producto }: Props) {
                   />
                   Consultar
                 </a>
-                <FavoriteButton producto={producto} size="large" />
               </div>
             </div>
 

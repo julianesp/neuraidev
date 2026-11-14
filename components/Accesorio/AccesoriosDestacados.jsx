@@ -85,6 +85,7 @@ const AccesoriosDestacados = () => {
 
   return (
     <ProductoCoverflow
+      titulo="Productos destacados"
       productos={destacados}
       getImagen={getAccesorioImagenUrl}
       getHref={(accesorio) =>

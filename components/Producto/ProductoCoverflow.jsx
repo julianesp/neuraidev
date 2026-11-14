@@ -27,6 +27,7 @@ const LADOS = 2;
  * @param {Function} renderAccion  (producto) => botón extra junto a "Ver" (opcional)
  * @param {number}   autoAvance    ms entre avances automáticos (opcional); muestra
  *                                 botón de pausa y se detiene con el mouse encima
+ * @param {string}   titulo        título pequeño de la sección (opcional)
  * @param {string}   etiqueta      nombre de los elementos para lectores de pantalla
  */
 export default function ProductoCoverflow({
@@ -41,6 +42,7 @@ export default function ProductoCoverflow({
   renderAccion,
   autoAvance,
   etiqueta = "productos",
+  titulo,
 }) {
   const [indice, setIndice] = useState(0);
   const [pausado, setPausado] = useState(false);
@@ -106,6 +108,7 @@ export default function ProductoCoverflow({
       onMouseEnter={avanzando ? () => setMouseEncima(true) : undefined}
       onMouseLeave={avanzando ? () => setMouseEncima(false) : undefined}
     >
+      {titulo && <h2 className={styles.tituloSeccion}>{titulo}</h2>}
       <div className={styles.cuerpo}>
       <div
         className={styles.escena}
