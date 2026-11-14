@@ -56,6 +56,11 @@
 
   // Mejorar visibilidad con animación de pulso
   animation: pulse-subtle 2s ease-in-out infinite;
+  background-color: #2563eb !important; // azul principal del sitio
+
+  &:hover {
+    background-color: #1d4ed8 !important;
+  }
 
   // Pegado a la esquina superior derecha (el modal ya cubre el menú)
   top: 0.75rem !important;
@@ -86,10 +91,10 @@
 
 @keyframes pulse-subtle {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
   }
   50% {
-    box-shadow: 0 0 0 8px rgba(220, 38, 38, 0);
+    box-shadow: 0 0 0 8px rgba(37, 99, 235, 0);
   }
 }
 

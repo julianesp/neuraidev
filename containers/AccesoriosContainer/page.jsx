@@ -1489,7 +1489,7 @@ const AccesoriosContainer = ({
                 e.stopPropagation();
                 closeImageModal();
               }}
-              className={`fixed   md:top-6 md:right-6 bg-red-600 hover:bg-red-700 text-white p-3 md:p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white hover:scale-110 cursor-pointer z-[100000] ${styles.buttonCloseModal}`}
+              className={`fixed   md:top-6 md:right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 md:p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white hover:scale-110 cursor-pointer z-[100000] ${styles.buttonCloseModal}`}
               aria-label="Cerrar imagen expandida"
               type="button"
             >
