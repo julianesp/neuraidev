@@ -2,9 +2,11 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import styles from "./AIChat.module.scss";
 
 export default function AIChat() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -158,6 +160,9 @@ export default function AIChat() {
       setIsLoading(false);
     }
   };
+
+  // El panel de administración es espacio del dueño: sin botón del asistente
+  if (pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin")) return null;
 
   return (
     <>
