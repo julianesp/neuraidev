@@ -57,9 +57,13 @@
   // Mejorar visibilidad con animación de pulso
   animation: pulse-subtle 2s ease-in-out infinite;
 
+  // Pegado a la esquina superior derecha (el modal ya cubre el menú)
+  top: 0.75rem !important;
+  right: 0.75rem !important;
+
   @media (min-width: 768px) {
-    top: 5.5rem !important;
-    right: 1.5rem !important;
+    top: 1rem !important;
+    right: 1rem !important;
     padding: 1rem !important;
 
     svg {
