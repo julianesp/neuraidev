@@ -35,7 +35,6 @@ import { useUser } from "@clerk/nextjs";
 import { isAdmin } from "@/lib/auth/roles";
 import SafeHtmlRenderer from "@/components/SafeHtmlRenderer";
 import ProductVideo from "@/components/ProductVideo";
-import NequiPaymentBadge from "@/components/NequiPaymentBadge";
 import SortableImageUploader from "@/components/SortableImageUploader";
 
 // Componente principal mejorado
@@ -1230,13 +1229,6 @@ const AccesoriosContainer = ({
                 </div>
               )}
               </div>
-
-              {/* Banner de Descuento Nequi */}
-              {accesorio.stock > 0 && (
-                <div className="mt-6">
-                  <NequiPaymentBadge descuento={10} variant="banner" />
-                </div>
-              )}
 
               {/* Botón de WhatsApp */}
               {accesorio.stock === 0 ? (
