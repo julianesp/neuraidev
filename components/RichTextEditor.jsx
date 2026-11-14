@@ -51,6 +51,7 @@ export default function RichTextEditor({ value, onChange, label }) {
 
   const MenuButton = ({ onClick, isActive, children, title }) => (
     <button
+        type="button"
       type="button"
       onClick={onClick}
       className={`p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors ${
@@ -162,6 +163,7 @@ export default function RichTextEditor({ value, onChange, label }) {
           <span className="text-xs text-gray-600 dark:text-gray-400 mr-1">Color:</span>
           {["#000000", "#EF4444", "#3B82F6", "#10B981", "#F59E0B", "#8B5CF6"].map((color) => (
             <button
+        type="button"
               key={color}
               type="button"
               onClick={() => editor.chain().focus().setColor(color).run()}
