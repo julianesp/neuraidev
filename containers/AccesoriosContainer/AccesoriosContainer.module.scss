@@ -395,8 +395,8 @@
   justify-content: center;
   z-index: 10; // Asegurar que estén por encima de otros elementos
   cursor: pointer;
-  // Siempre negras con flecha blanca (también en modo oscuro)
-  background-color: #000 !important;
+  // Siempre azul principal con flecha blanca (también en modo oscuro)
+  background-color: #2563eb !important;
   color: #fff !important;
   border: 2px solid #fff !important;
   width: 3rem;
@@ -419,9 +419,9 @@
   }
 }
 
-// Flechas de la imagen expandida: mismo estilo que las del carrusel (negras, flecha blanca)
+// Flechas de la imagen expandida: mismo estilo que las del carrusel (azul principal, flecha blanca)
 .flechaModal {
-  background-color: #000 !important;
+  background-color: #2563eb !important;
   color: #fff !important;
   border: 2px solid #fff !important;
 }
