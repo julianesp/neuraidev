@@ -1587,7 +1587,7 @@ const AccesoriosContainer = ({
                               : prevIndex - 1,
                           );
                         }}
-                        className="fixed left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-2 md:p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white/30 cursor-pointer hover:scale-110 dark:bg-gray-700"
+                        className={`fixed left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white p-2 md:p-4 rounded-full transition-all duration-200 shadow-2xl cursor-pointer hover:scale-110 ${styles.flechaModal}`}
                         aria-label="Imagen anterior"
                         type="button"
                         style={{ zIndex: 9999999, pointerEvents: "auto" }}
@@ -1607,7 +1607,7 @@ const AccesoriosContainer = ({
                               : prevIndex + 1,
                           );
                         }}
-                        className="fixed right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-2 md:p-4 rounded-full transition-all duration-200 shadow-2xl border-2 border-white/30 cursor-pointer hover:scale-110 dark:bg-gray-700"
+                        className={`fixed right-2 md:right-4 top-1/2 transform -translate-y-1/2 text-white p-2 md:p-4 rounded-full transition-all duration-200 shadow-2xl cursor-pointer hover:scale-110 ${styles.flechaModal}`}
                         aria-label="Imagen siguiente"
                         type="button"
                         style={{ zIndex: 9999999, pointerEvents: "auto" }}

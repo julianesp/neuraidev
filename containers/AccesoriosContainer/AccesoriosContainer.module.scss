@@ -395,17 +395,35 @@
   justify-content: center;
   z-index: 10; // Asegurar que estén por encima de otros elementos
   cursor: pointer;
-  border: 1px solid #fff;
+  // Siempre negras con flecha blanca (también en modo oscuro)
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+  width: 3rem;
+  height: 3rem;
+  padding: 0 !important;
+
+  :global(svg) {
+    width: 28px;
+    height: 28px;
+  }
 
   @media screen and (max-width: 767px) {
-    width: 2rem;
-    height: 2rem;
+    width: 2.75rem;
+    height: 2.75rem;
 
     :global(svg) {
-      width: 16px;
-      height: 16px;
+      width: 26px;
+      height: 26px;
     }
   }
+}
+
+// Flechas de la imagen expandida: mismo estilo que las del carrusel (negras, flecha blanca)
+.flechaModal {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
 }
 
 .boton {
