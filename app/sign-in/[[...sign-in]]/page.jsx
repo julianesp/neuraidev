@@ -3,6 +3,7 @@
 import { SignIn } from "@clerk/nextjs";
 import { esES } from "@clerk/localizations";
 import Link from "next/link";
+import { clerkAppearance } from "@/lib/clerkAppearance";
 
 export default function SignInPage() {
   return (
@@ -19,12 +20,7 @@ export default function SignInPage() {
 
         <SignIn
           localization={esES}
-          appearance={{
-            elements: {
-              rootBox: "mx-auto",
-              card: "shadow-xl",
-            },
-          }}
+          appearance={clerkAppearance}
           routing="path"
           path="/sign-in"
           signUpUrl="/sign-up"

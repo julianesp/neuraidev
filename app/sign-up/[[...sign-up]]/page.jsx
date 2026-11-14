@@ -3,6 +3,7 @@
 import { SignUp } from "@clerk/nextjs";
 import { esES } from "@clerk/localizations";
 import Link from "next/link";
+import { clerkAppearance } from "@/lib/clerkAppearance";
 import { useState, useEffect } from "react";
 
 export default function SignUpPage() {
@@ -33,12 +34,7 @@ export default function SignUpPage() {
 
         <SignUp
           localization={esES}
-          appearance={{
-            elements: {
-              rootBox: "mx-auto",
-              card: "shadow-xl",
-            },
-          }}
+          appearance={clerkAppearance}
           routing="path"
           path="/sign-up"
           signInUrl="/sign-in"
