@@ -6,10 +6,21 @@ import { useToast } from "@/contexts/ToastContext";
 import { ShoppingCart, Plus, Minus, AlertTriangle, X } from "lucide-react";
 import ProductColorPicker from "./ProductColorPicker";
 
-export default function AddToCartButton({ producto }) {
+export default function AddToCartButton({
+  producto,
+  cantidad: cantidadExterna, // opcional: cantidad controlada desde fuera
+  onCantidadChange,
+  ocultarSelector = false, // el selector − / + se muestra en otro lugar de la ficha
+}) {
   const { addToCart, cart } = useCart();
   const toast = useToast();
-  const [cantidad, setCantidad] = useState(1);
+  const [cantidadInterna, setCantidadInterna] = useState(1);
+  const controlado = cantidadExterna !== undefined && onCantidadChange;
+  const cantidad = controlado ? cantidadExterna : cantidadInterna;
+  const setCantidad = (v) =>
+    controlado
+      ? onCantidadChange(typeof v === "function" ? v(cantidadExterna) : v)
+      : setCantidadInterna(v);
   const [variacionSeleccionada, setVariacionSeleccionada] = useState(null);
   const [colorSeleccionado, setColorSeleccionado] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -276,6 +287,7 @@ export default function AddToCartButton({ producto }) {
       </div>
 
       {/* Selector de cantidad */}
+      {!ocultarSelector && (
       <div className="flex items-center gap-3">
         <span className="text-sm font-medium text-gray-700">Cantidad:</span>
         <div className="flex items-center border border-gray-300 rounded-lg">
@@ -298,6 +310,7 @@ export default function AddToCartButton({ producto }) {
           </button>
         </div>
       </div>
+      )}
 
       {/* Botón de agregar al carrito */}
       <button

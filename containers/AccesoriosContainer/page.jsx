@@ -74,6 +74,7 @@ const AccesoriosContainer = ({
   const [isMobile, setIsMobile] = useState(false);
   const [imageError, setImageError] = useState({}); // Controlar errores de carga de imágenes
   const [imageRetries, setImageRetries] = useState({}); // Controlar reintentos de carga
+  const [cantidadCompra, setCantidadCompra] = useState(1); // selector − / + junto al precio
   const [isImageModalOpen, setIsImageModalOpen] = useState(false); // Modal de imagen expandida
   const [currentUrl, setCurrentUrl] = useState(""); // URL actual para evitar problemas de hidratación
   const [showVideo, setShowVideo] = useState(false); // Controlar si se muestra video o imagen
@@ -1112,6 +1113,7 @@ const AccesoriosContainer = ({
 
             {/* Columna 3: Stock, Precio y Botones de Acción */}
             <div className="flex flex-col">
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
               <div>
                 {/* Información adicional del producto */}
                 <div className="mt-4 space-y-3">
@@ -1200,6 +1202,35 @@ const AccesoriosContainer = ({
                 </div>
               </div>
 
+              {/* Cantidad: título arriba y botones − / + debajo, en el espacio libre a la derecha */}
+              {accesorio.stock > 0 && (
+                <div style={{ marginTop: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: "0.95rem", fontWeight: 600 }}>Cantidad</span>
+                  <div style={{ display: "flex", alignItems: "center", border: "1px solid #d1d5db", borderRadius: 12, overflow: "hidden" }}>
+                    <button
+                      type="button"
+                      onClick={() => setCantidadCompra((c) => Math.max(1, c - 1))}
+                      aria-label="Disminuir cantidad"
+                      style={{ width: 44, height: 44, fontSize: "1.4rem", fontWeight: 700, background: "#eff6ff", color: "#2563eb", border: 0, cursor: "pointer" }}
+                    >
+                      −
+                    </button>
+                    <span style={{ minWidth: 44, textAlign: "center", fontSize: "1.15rem", fontWeight: 700 }}>
+                      {cantidadCompra}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setCantidadCompra((c) => Math.min(accesorio.stock || c + 1, c + 1))}
+                      aria-label="Aumentar cantidad"
+                      style={{ width: 44, height: 44, fontSize: "1.4rem", fontWeight: 700, background: "#2563eb", color: "#fff", border: 0, cursor: "pointer" }}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              )}
+              </div>
+
               {/* Banner de Descuento Nequi */}
               {accesorio.stock > 0 && (
                 <div className="mt-6">
@@ -1248,7 +1279,12 @@ const AccesoriosContainer = ({
               ) : (
                 <div className="space-y-3 mt-6">
                   {/* Botón de agregar al carrito con selección de método de pago */}
-                  <AddToCartButton producto={accesorio} />
+                  <AddToCartButton
+                    producto={accesorio}
+                    cantidad={cantidadCompra}
+                    onCantidadChange={setCantidadCompra}
+                    ocultarSelector
+                  />
 
                   {/* Producto + servicio técnico (instalación, configuración…) */}
                   <ServiciosCombo producto={accesorio} />
