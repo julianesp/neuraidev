@@ -11,6 +11,7 @@ export default function ProductosPage() {
   const [busqueda, setBusqueda] = useState("");
   const [categoriaFiltro, setCategoriaFiltro] = useState("");
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+  const [statFiltro, setStatFiltro] = useState(""); // "", disponibles, destacados, sinstock
 
   useEffect(() => {
     if (!user) return;
@@ -71,7 +72,12 @@ export default function ProductosPage() {
       p.nombre?.toLowerCase().includes(busqueda.toLowerCase()) ||
       p.descripcion?.toLowerCase().includes(busqueda.toLowerCase());
     const matchCategoria = !categoriaFiltro || p.categoria === categoriaFiltro;
-    return matchBusqueda && matchCategoria;
+    const matchStat =
+      !statFiltro ||
+      (statFiltro === "disponibles" && p.disponible) ||
+      (statFiltro === "destacados" && p.destacado) ||
+      (statFiltro === "sinstock" && p.stock === 0);
+    return matchBusqueda && matchCategoria && matchStat;
   }) : [];
 
   const categorias = Array.isArray(productos) ? [...new Set(productos.map((p) => p.categoria))] : [];
@@ -97,40 +103,33 @@ export default function ProductosPage() {
           </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              Total Productos
-            </div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">
-              {Array.isArray(productos) ? productos.length : 0}
-            </div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              Disponibles
-            </div>
-            <div className="text-2xl font-bold text-green-600">
-              {Array.isArray(productos) ? productos.filter((p) => p.disponible).length : 0}
-            </div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              Destacados
-            </div>
-            <div className="text-2xl font-bold text-blue-600">
-              {Array.isArray(productos) ? productos.filter((p) => p.destacado).length : 0}
-            </div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              Sin Stock
-            </div>
-            <div className="text-2xl font-bold text-red-600">
-              {Array.isArray(productos) ? productos.filter((p) => p.stock === 0).length : 0}
-            </div>
-          </div>
+        {/* Stats: pulsables, filtran la lista de abajo */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
+          {[
+            { key: "", label: "Total Productos", valor: Array.isArray(productos) ? productos.length : 0, color: "text-gray-900 dark:text-white" },
+            { key: "disponibles", label: "Disponibles", valor: Array.isArray(productos) ? productos.filter((p) => p.disponible).length : 0, color: "text-blue-600" },
+            { key: "destacados", label: "Destacados", valor: Array.isArray(productos) ? productos.filter((p) => p.destacado).length : 0, color: "text-blue-600" },
+            { key: "sinstock", label: "Sin Stock", valor: Array.isArray(productos) ? productos.filter((p) => p.stock === 0).length : 0, color: "text-gray-900 dark:text-white" },
+          ].map((stat) => {
+            const activo = statFiltro === stat.key;
+            return (
+              <button
+                key={stat.label}
+                type="button"
+                onClick={() => {
+                  setStatFiltro(stat.key);
+                  document.getElementById("lista-productos")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                aria-pressed={activo}
+                className={`text-left bg-white dark:bg-gray-800 rounded-lg p-4 shadow transition-all hover:shadow-md active:scale-[0.98] ${
+                  activo ? "ring-2 ring-blue-600" : "ring-1 ring-transparent"
+                }`}
+              >
+                <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
+                <div className={`text-2xl font-bold ${stat.color}`}>{stat.valor}</div>
+              </button>
+            );
+          })}
         </div>
 
         {/* Toolbar */}
@@ -199,7 +198,7 @@ export default function ProductosPage() {
         </div>
 
         {/* Vista móvil: tarjetas */}
-        <div className="md:hidden space-y-3">
+        <div id="lista-productos" className="md:hidden space-y-3 scroll-mt-24">
           {productosFiltrados.length === 0 ? (
             <div className="text-center py-12 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-lg shadow">
               No se encontraron productos
