@@ -224,17 +224,6 @@ export default function ProductoDetalle({ producto }: Props) {
 
         {/* Información del producto */}
         <div className="space-y-4">
-          {/* Breadcrumb */}
-          <nav className="text-sm text-gray-600 dark:text-gray-400">
-            <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400">Inicio</Link>
-            <span className="mx-2">/</span>
-            <Link href={`/accesorios/${producto.categoria}`} className="hover:text-blue-600 dark:hover:text-blue-400 capitalize">
-              {producto.categoria.replace('-', ' ')}
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-gray-900 dark:text-white">{producto.nombre}</span>
-          </nav>
-
           {/* Título y precio */}
           <div>
             <div className="flex items-start justify-between gap-4 mb-2">

@@ -735,7 +735,7 @@ const AccesoriosContainer = ({
       <ProductSchema producto={accesorio} />
       {/* max-w-4xl */}
       <div ref={containerRef} id="accesorios-container" className="w-full">
-        <div className="mx-auto px-2 py-4 md:p-4">
+        <div className="mx-auto px-2 pt-0 pb-4 md:p-4">
           {/* Breadcrumbs: solo el schema para SEO; en pantalla va la flecha de volver */}
           <Breadcrumbs
             soloSchema
@@ -751,10 +751,12 @@ const AccesoriosContainer = ({
               },
             ]}
           />
+          <h1 style={{ position: 'absolute', width: 1, height: 1, margin: -1, padding: 0, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
+            {accesorio.nombre}
+          </h1>
+          {/* Barra de admin: solo si hay botones; así no queda hueco bajo el menú */}
+          {userIsAdmin && (
           <div className={styles.encabezado}>
-            <h1 style={{ position: 'absolute', width: 1, height: 1, margin: -1, padding: 0, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
-              {accesorio.nombre}
-            </h1>
             <div className="flex items-center gap-2 flex-shrink-0 relative z-10" style={{ marginLeft: "auto" }}>
               {userIsAdmin && (
                 <>
@@ -792,6 +794,7 @@ const AccesoriosContainer = ({
               )}
             </div>
           </div>
+          )}
           <div
             className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-32 ${styles.accesorioContainer}`}
           >
@@ -824,8 +827,8 @@ const AccesoriosContainer = ({
               )}
 
               <div className="h-full w-full relative overflow-hidden rounded-lg">
-                {/* Favorito dentro de la imagen, arriba a la derecha */}
-                <div style={{ position: 'absolute', top: 12, right: 12, zIndex: 20 }}>
+                {/* Favorito dentro de la imagen, abajo a la izquierda (no choca con el nombre) */}
+                <div style={{ position: 'absolute', bottom: 12, left: 12, zIndex: 20 }}>
                   <FavoriteButton producto={accesorio} size="medium" />
                 </div>
                 {/* Nombre sobre la imagen: fondo oscuro, letras blancas, varias líneas si es largo */}
@@ -834,8 +837,8 @@ const AccesoriosContainer = ({
                   style={{
                     position: "absolute",
                     top: 10,
-                    left: 56,
-                    right: 56,
+                    left: 12,
+                    right: 12,
                     zIndex: 10,
                     background: "rgba(0,0,0,0.75)",
                     color: "#fff",
