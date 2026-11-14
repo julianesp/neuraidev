@@ -29,7 +29,18 @@ export default function AddToCartButton({
   const [showNoStockModal, setShowNoStockModal] = useState(false);
 
   // Obtener colores disponibles desde metadata
-  const coloresDisponibles = producto.metadata?.colores_disponibles || [];
+  // (en D1 la metadata puede venir como texto JSON)
+  let metadataProducto = producto.metadata;
+  if (typeof metadataProducto === "string") {
+    try {
+      metadataProducto = JSON.parse(metadataProducto);
+    } catch {
+      metadataProducto = {};
+    }
+  }
+  const coloresDisponibles = Array.isArray(metadataProducto?.colores_disponibles)
+    ? metadataProducto.colores_disponibles
+    : [];
 
   // Normalizar datos del producto para manejar diferentes formatos
   const productData = {
@@ -114,6 +125,15 @@ export default function AddToCartButton({
       setColorSeleccionado(color);
     }
 
+    // Si el producto tiene colores, hay que elegir uno antes de comprar
+    if (coloresDisponibles.length > 0 && !color && !colorSeleccionado) {
+      toast.warning("Por favor elige un color", {
+        title: "Color requerido",
+        duration: 4000,
+      });
+      return;
+    }
+
     // Verificar si hay variaciones
     if (tieneVariaciones && !variacionSeleccionada) {
       toast.warning("Por favor selecciona una variación", {
@@ -139,7 +159,7 @@ export default function AddToCartButton({
     const cantidadEnCarrito = cart.reduce((total, item) => {
       if (
         item.id === producto.id &&
-        JSON.stringify(item.variacion) === JSON.stringify(variacionSeleccionada || color)
+        JSON.stringify(item.variacion) === JSON.stringify(variacionSeleccionada || color || colorSeleccionado)
       ) {
         return total + item.cantidad;
       }
@@ -161,7 +181,7 @@ export default function AddToCartButton({
     }
 
     // Usar color seleccionado como variación si existe, sino usar variación normal
-    const variacionFinal = color || variacionSeleccionada;
+    const variacionFinal = color || colorSeleccionado || variacionSeleccionada;
 
     const success = await addToCart(
       productData,
@@ -273,6 +293,15 @@ export default function AddToCartButton({
             ))}
           </div>
         </div>
+      )}
+
+      {/* Selector de color (solo si el producto tiene colores disponibles) */}
+      {coloresDisponibles.length > 0 && (
+        <ProductColorPicker
+          coloresDisponibles={coloresDisponibles}
+          colorSeleccionado={colorSeleccionado}
+          onColorChange={setColorSeleccionado}
+        />
       )}
 
       {/* Indicador de stock */}
