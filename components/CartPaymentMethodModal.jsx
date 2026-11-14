@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { X, CreditCard, Download, MessageCircle, Copy, Check, UserPlus, LogIn } from "lucide-react";
 import { generateNequiInvoicePDF } from "@/utils/generateNequiInvoicePDF";
 import { useUser } from "@clerk/nextjs";
+import { generateProductSlug, buildProductUrl } from "@/utils/slugify";
 
 /**
  * Modal para seleccionar método de pago desde el carrito
@@ -189,6 +190,12 @@ export default function CartPaymentMethodModal({
     }
   };
 
+  // Enlace público del producto, para saber exactamente cuál quiere comprar el cliente
+  const enlaceProducto = (item) => {
+    const url = buildProductUrl(item.categoria || "generales", generateProductSlug(item));
+    return `${window.location.origin}${url}`;
+  };
+
   const enviarPorWhatsApp = () => {
     let mensaje = `Hola! 👋\n\n`;
     mensaje += `Quiero confirmar mi pago por Nequi:\n\n`;
@@ -198,6 +205,7 @@ export default function CartPaymentMethodModal({
 
     cart.forEach((item, index) => {
       mensaje += `${index + 1}. ${item.nombre}${item.variacion ? ` - ${item.variacion}` : ''} (x${item.cantidad})\n`;
+      mensaje += `   🔗 ${enlaceProducto(item)}\n`;
     });
 
     mensaje += `\n💰 Total pagado: $${totalConDescuento.toLocaleString('es-CO')}\n`;
@@ -216,6 +224,7 @@ export default function CartPaymentMethodModal({
 
     cart.forEach((item, index) => {
       mensaje += `${index + 1}. ${item.nombre}${item.variacion ? ` - ${item.variacion}` : ''} (x${item.cantidad})\n`;
+      mensaje += `   🔗 ${enlaceProducto(item)}\n`;
     });
 
     mensaje += `\n💰 Total: $${totalPrice.toLocaleString('es-CO')}\n`;
