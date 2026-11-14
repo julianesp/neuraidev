@@ -2,6 +2,7 @@
 
 // components/AccesoriosContainer.jsx
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -751,20 +752,6 @@ const AccesoriosContainer = ({
             ]}
           />
           <div className={styles.encabezado}>
-            <button
-              type="button"
-              onClick={() => {
-                // Si llegó desde otra página del sitio, volver; si entró
-                // directo (enlace compartido), ir a la categoría.
-                if (window.history.length > 1) router.back();
-                else router.push(`/accesorios/${categorySlug}`);
-              }}
-              className={styles.botonAtras}
-              aria-label="Ir atrás"
-              title="Ir atrás"
-            >
-              <ChevronLeft size={22} />
-            </button>
             <h1 style={{ position: 'absolute', width: 1, height: 1, margin: -1, padding: 0, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
               {accesorio.nombre}
             </h1>
@@ -846,14 +833,16 @@ const AccesoriosContainer = ({
                   aria-hidden="true"
                   style={{
                     position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
+                    top: 10,
+                    left: 56,
+                    right: 56,
                     zIndex: 10,
                     background: "rgba(0,0,0,0.75)",
                     color: "#fff",
-                    padding: "10px 64px 10px 16px",
-                    fontSize: "1.05rem",
+                    textAlign: "center",
+                    borderRadius: 14,
+                    padding: "8px 14px",
+                    fontSize: "1rem",
                     fontWeight: 600,
                     lineHeight: 1.3,
                     overflowWrap: "anywhere",
@@ -1450,9 +1439,10 @@ const AccesoriosContainer = ({
       </div>
 
       {/* Modal de imagen expandida - FUERA del contenedor principal */}
-      {isImageModalOpen && (
+      {isImageModalOpen && typeof document !== "undefined" && createPortal(
         <div
-          className="fixed inset-0 z-[99999] bg-black/95 dark:bg-black/98 backdrop-blur-md overflow-hidden"
+          className="fixed inset-0 z-[99999] bg-black dark:bg-black backdrop-blur-md overflow-hidden"
+          style={{ zIndex: 2147483000 }}
           onClick={closeImageModal}
         >
           <div className="absolute inset-0 flex items-center justify-center">
@@ -1645,7 +1635,8 @@ const AccesoriosContainer = ({
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Modal de edición de imágenes (solo admin) */}
