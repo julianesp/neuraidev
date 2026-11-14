@@ -4,6 +4,25 @@ import { useState } from "react";
 import { Upload, X, Image as ImageIcon, Plus } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
 
+// Reduce fotos pesadas del celular antes de subirlas (el límite del servidor es 4MB)
+async function reducirImagen(file) {
+  try {
+    if (!file.type.startsWith("image/") || file.type === "image/gif" || file.type === "image/svg+xml") return file;
+    if (file.size <= 1.5 * 1024 * 1024) return file;
+    const bitmap = await createImageBitmap(file);
+    const escala = Math.min(1, 1920 / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(bitmap.width * escala);
+    canvas.height = Math.round(bitmap.height * escala);
+    canvas.getContext("2d").drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise((res) => canvas.toBlob(res, "image/jpeg", 0.85));
+    if (!blob || blob.size >= file.size) return file;
+    return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".jpg", { type: "image/jpeg" });
+  } catch {
+    return file;
+  }
+}
+
 export default function ImageUploader({
   value,
   onChange,
@@ -22,7 +41,7 @@ export default function ImageUploader({
       setUploading(true);
       const uploadPromises = files.map(async (file) => {
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", await reducirImagen(file));
 
         // Obtener el token de Clerk para enviarlo en el header
         const token = await getToken();
@@ -40,7 +59,12 @@ export default function ImageUploader({
         // Verificar si la respuesta es JSON
         const contentType = response.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {
-          throw new Error("Error de autenticación. Por favor, recarga la página e inicia sesión nuevamente.");
+          if (response.status === 413) {
+            throw new Error("La imagen es demasiado pesada (máximo 4MB). Elige una más liviana.");
+          }
+          throw new Error(
+            `El servidor respondió con un error inesperado (HTTP ${response.status}). Intenta de nuevo en un momento.`
+          );
         }
 
         if (!response.ok) {
