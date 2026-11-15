@@ -102,7 +102,15 @@ export async function POST(request) {
     if (body.website) {
       return NextResponse.json({ success: true }, { status: 201 });
     }
-    const tipo = TIPOS.includes(body.tipo) ? body.tipo : 'producto';
+    // Puede elegir varias cosas a la vez (compra + servicio técnico + web):
+    // llega como lista o como texto "producto,formateo" y se guarda así en `tipo`
+    const pedidos = (Array.isArray(body.tipo) ? body.tipo : String(body.tipo || '').split(','))
+      .map((t) => String(t).trim());
+    const tipos = TIPOS.filter((t) => pedidos.includes(t));
+    if (tipos.length === 0) tipos.push('producto');
+    const tipo = tipos.join(',');
+    const conProducto = tipos.includes('producto');
+    const conServicio = tipos.some((t) => t !== 'producto');
 
     // Solo se califica con cuenta (Google o Facebook): así la opinión lleva
     // la foto real del cliente y queda ligada a su cuenta
@@ -115,14 +123,14 @@ export async function POST(request) {
     }
 
     // Obligatorio decir qué compró o qué servicio pidió
-    const productos = tipo === 'producto' ? await productosDelCatalogo(body.productos) : [];
-    if (tipo === 'producto' && productos.length === 0) {
+    const productos = conProducto ? await productosDelCatalogo(body.productos) : [];
+    if (conProducto && productos.length === 0) {
       return NextResponse.json(
         { error: 'Elige el producto o los productos que compraste' },
         { status: 400 }
       );
     }
-    if (tipo !== 'producto' && !producto_relacionado?.trim()) {
+    if (conServicio && !producto_relacionado?.trim()) {
       return NextResponse.json(
         { error: 'Escribe qué servicio te hicimos' },
         { status: 400 }
@@ -163,16 +171,18 @@ export async function POST(request) {
     const origen = fb ? fb.imageUrl || user.imageUrl : user.hasImage ? user.imageUrl : null;
     if (origen) avatarUrl = await copiarImagenAR2(origen, `testimonios/${id}`);
 
-    const productoTexto =
-      tipo === 'producto'
-        ? productos.map((p) => p.nombre).join(', ')
-        : producto_relacionado.trim();
+    const productoTexto = [
+      productos.map((p) => p.nombre).join(', '),
+      conServicio ? producto_relacionado.trim() : '',
+    ]
+      .filter(Boolean)
+      .join(' · ');
     const fila = {
       id,
       cliente_email: emailCuenta || cliente_email?.trim() || null,
       cliente_nombre: cliente_nombre.trim(),
       mensaje: mensaje.trim(),
-      producto_relacionado: productoTexto.slice(0, 120),
+      producto_relacionado: productoTexto.slice(0, 240),
       productos_json: productos.length ? JSON.stringify(productos) : null,
       calificacion: calif,
       tipo,

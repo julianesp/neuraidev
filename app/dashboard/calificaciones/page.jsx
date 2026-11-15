@@ -374,7 +374,7 @@ export default function CalificacionesPage() {
                         <p className="text-xs text-gray-400">{t.cliente_email}</p>
                       )}
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                        {NOMBRE_TIPO[t.tipo] || "Compra"}
+                        {String(t.tipo || "").split(",").map((x) => NOMBRE_TIPO[x]).filter(Boolean).join(" + ") || "Compra"}
                         {t.producto_relacionado && ` · ${t.producto_relacionado}`}
                       </p>
                       {t.estado !== "aprobado" && (

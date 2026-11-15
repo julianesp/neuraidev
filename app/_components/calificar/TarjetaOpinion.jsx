@@ -112,11 +112,18 @@ export default function TarjetaOpinion({ opinion }) {
           <p className="font-semibold text-gray-900 dark:text-white truncate">
             {o.cliente_nombre}
           </p>
-          {TIPO_TEXTO[o.tipo] && (
-            <span className="inline-block text-[11px] font-semibold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/50 px-2 py-0.5 rounded-full mb-1">
-              {TIPO_TEXTO[o.tipo]}
-            </span>
-          )}
+          {/* Puede ser varias cosas a la vez ("producto,formateo") */}
+          {String(o.tipo || "")
+            .split(",")
+            .filter((t) => TIPO_TEXTO[t])
+            .map((t) => (
+              <span
+                key={t}
+                className="inline-block text-[11px] font-semibold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/50 px-2 py-0.5 rounded-full mb-1 mr-1"
+              >
+                {TIPO_TEXTO[t]}
+              </span>
+            ))}
           {o.calificacion > 0 && (
             <div className="flex text-amber-400">
               {Array.from({ length: 5 }).map((_, i) => (

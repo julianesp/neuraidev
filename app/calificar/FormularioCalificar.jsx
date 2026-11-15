@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Star, CheckCircle2, Search, X, Pause, Play } from "lucide-react";
+import { Star, CheckCircle2, Check, Search, X, Pause, Play } from "lucide-react";
 import { useClerk, useReverification, useSignIn, useUser } from "@clerk/nextjs";
 
 // Borrador del formulario mientras el cliente va y vuelve de Facebook/Google
@@ -53,7 +53,20 @@ export default function FormularioCalificar({
 }) {
   const Titulo = embebido ? "h2" : "h1";
   const [nombre, setNombre] = useState(nombreInicial);
-  const [tipo, setTipo] = useState(tipoInicial || "producto");
+  // Puede marcar varias cosas: compró un producto y además le hicimos un servicio
+  const [tipos, setTipos] = useState([tipoInicial || "producto"]);
+  const conProducto = tipos.includes("producto");
+  const conServicio = tipos.some((t) => t !== "producto");
+  const alternarTipo = (valor) => {
+    setError("");
+    setTipos((lista) =>
+      lista.includes(valor)
+        ? lista.length > 1
+          ? lista.filter((t) => t !== valor)
+          : lista // siempre queda al menos una opción marcada
+        : TIPOS.map((t) => t.valor).filter((v) => v === valor || lista.includes(v))
+    );
+  };
   const [producto, setProducto] = useState(productoInicial);
   const [productos, setProductos] = useState([]);
   const [busqueda, setBusqueda] = useState("");
@@ -134,7 +147,7 @@ export default function FormularioCalificar({
       if (!b) return;
       sessionStorage.removeItem(BORRADOR);
       if (b.nombre) setNombre(b.nombre);
-      if (b.tipo) setTipo(b.tipo);
+      if (Array.isArray(b.tipos) && b.tipos.length) setTipos(b.tipos);
       if (b.producto) setProducto(b.producto);
       if (Array.isArray(b.productos)) setProductos(b.productos);
       if (b.estrellas) setEstrellas(b.estrellas);
@@ -189,7 +202,7 @@ export default function FormularioCalificar({
   }, [busqueda]);
 
   // Todo el catálogo para la cinta de productos (se carga una sola vez)
-  const mostrarCinta = userListo && isSignedIn && tipo === "producto";
+  const mostrarCinta = userListo && isSignedIn && conProducto;
   useEffect(() => {
     if (!mostrarCinta || catalogo.length) return;
     fetch("/api/productos/buscar?calificar=1&todos=1")
@@ -218,7 +231,7 @@ export default function FormularioCalificar({
     try {
       sessionStorage.setItem(
         BORRADOR,
-        JSON.stringify({ nombre, tipo, producto, productos, estrellas, mensaje })
+        JSON.stringify({ nombre, tipos, producto, productos, estrellas, mensaje })
       );
     } catch {}
   };
@@ -325,9 +338,9 @@ export default function FormularioCalificar({
     setError("");
     if (!estrellas) return setError("Toca las estrellas para calificar.");
     if (!isSignedIn) return setError("Entra con Facebook o Google para calificar.");
-    if (tipo === "producto" && productos.length === 0)
+    if (conProducto && productos.length === 0)
       return setError("Elige el producto o los productos que compraste.");
-    if (tipo !== "producto" && !producto.trim())
+    if (conServicio && !producto.trim())
       return setError("Escribe qué servicio te hicimos.");
     if (!nombre.trim()) return setError("Escribe tu nombre.");
     if (!mensaje.trim()) return setError("Cuéntanos en pocas palabras cómo te fue.");
@@ -341,9 +354,9 @@ export default function FormularioCalificar({
           cliente_nombre: nombre,
           mensaje,
           calificacion: estrellas,
-          tipo,
-          producto_relacionado: tipo === "producto" ? "" : producto,
-          productos: tipo === "producto" ? productos.map((p) => p.id) : [],
+          tipo: tipos.join(","),
+          producto_relacionado: conServicio ? producto : "",
+          productos: conProducto ? productos.map((p) => p.id) : [],
           website: trampa,
         }),
       });
@@ -498,20 +511,22 @@ export default function FormularioCalificar({
       </p>
 
       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        ¿Qué fue?
+        ¿Qué fue? <span className="text-gray-500 dark:text-gray-400 font-normal">(puedes elegir varias)</span>
       </label>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
         {TIPOS.map((t) => (
           <button
             key={t.valor}
             type="button"
-            onClick={() => setTipo(t.valor)}
-            className={`text-sm px-3 py-2 rounded-lg border transition-colors ${
-              tipo === t.valor
+            onClick={() => alternarTipo(t.valor)}
+            aria-pressed={tipos.includes(t.valor)}
+            className={`text-sm px-3 py-2 rounded-lg border transition-colors inline-flex items-center justify-center gap-1.5 ${
+              tipos.includes(t.valor)
                 ? "border-blue-600 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 font-semibold"
                 : "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
             }`}
           >
+            {tipos.includes(t.valor) && <Check className="w-4 h-4 shrink-0" aria-hidden="true" />}
             {t.texto}
           </button>
         ))}
@@ -528,7 +543,7 @@ export default function FormularioCalificar({
         </p>
       </div>
 
-      {tipo === "producto" ? (
+      {conProducto && (
         <div className="mb-4">
           <label htmlFor="buscar-producto" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             ¿Qué compraste? <span className="text-blue-600">*</span>
@@ -734,17 +749,24 @@ export default function FormularioCalificar({
             </div>
           )}
         </div>
-      ) : (
+      )}
+      {conServicio && (
         <>
           <label htmlFor="producto" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            ¿Qué servicio te hicimos? <span className="text-blue-600">*</span>
+            {tipos.filter((t) => t !== "producto").length > 1 ? "¿Qué servicios te hicimos?" : "¿Qué servicio te hicimos?"} <span className="text-blue-600">*</span>
           </label>
           <input
             id="producto"
             value={producto}
             onChange={(e) => setProducto(e.target.value)}
             maxLength={120}
-            placeholder={tipo === "web" ? "Ej.: página web para mi negocio…" : "Ej.: formateo de portátil, cambio de pantalla…"}
+            placeholder={
+              tipos.includes("web") && tipos.includes("formateo")
+                ? "Ej.: formateo de portátil y página web para mi negocio…"
+                : tipos.includes("web")
+                  ? "Ej.: página web para mi negocio…"
+                  : "Ej.: formateo de portátil, cambio de pantalla…"
+            }
             className="w-full px-4 py-2 mb-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
           />
         </>

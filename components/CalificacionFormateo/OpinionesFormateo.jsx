@@ -30,7 +30,7 @@ export default function OpinionesFormateo({ tipo = "formateo" }) {
       .then((data) => {
         if (!activo) return;
         const lista = (data.testimonios || []).filter(
-          (t) => t.tipo === tipo
+          (t) => String(t.tipo || "").split(",").includes(tipo)
         );
         setOpiniones(lista);
         setCargado(true);

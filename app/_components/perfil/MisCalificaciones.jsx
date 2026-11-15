@@ -57,7 +57,7 @@ export default function MisCalificaciones({ calificaciones = [] }) {
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 italic mt-2">&ldquo;{c.mensaje}&rdquo;</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  {TIPO[c.tipo] || "Compra"}
+                  {String(c.tipo || "").split(",").map((t) => TIPO[t]).filter(Boolean).join(" + ") || "Compra"}
                   {c.producto_relacionado && ` · ${c.producto_relacionado}`} ·{" "}
                   {new Date(c.created_at).toLocaleDateString("es-CO", {
                     day: "numeric",
