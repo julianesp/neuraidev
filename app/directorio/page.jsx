@@ -3,6 +3,7 @@ import { Search, Store } from "lucide-react";
 import {
   CATEGORIAS,
   MUNICIPIOS,
+  MUNICIPIOS_ALTO_PUTUMAYO,
   categoriaValida,
   municipioValido,
   nombreCategoria,
@@ -133,7 +134,7 @@ export default async function DirectorioPage({ searchParams }) {
           className="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
         >
           <option value="">Todo el Putumayo</option>
-          {MUNICIPIOS.map((m) => (
+          {MUNICIPIOS_ALTO_PUTUMAYO.map((m) => (
             <option key={m.slug} value={m.slug}>
               {m.nombre}
             </option>
