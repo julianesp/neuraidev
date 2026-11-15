@@ -1440,7 +1440,7 @@ const AccesoriosContainer = ({
 
                         {/* Badge de stock o agotado */}
                         {isOutOfStock && (
-                          <div className="absolute top-3 left-3 z-20 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                          <div className="absolute top-3 left-3 z-20 bg-gray-900 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
                             AGOTADO
                           </div>
                         )}

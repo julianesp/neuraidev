@@ -1,77 +1,111 @@
 "use client";
 
 import { useState } from "react";
-import { Tag } from "lucide-react";
+import { ChevronUp } from "lucide-react";
+
+const ALTO_PRECIO = 44; // lo que sube el nombre para dejar ver el precio
 
 /**
- * Parte inferior de la tarjeta de producto, estilo kiosko: el precio va encima
- * del nombre, tapado por un panel oscuro. La pestaña de la esquina redondeada
- * (abajo a la derecha) invita a tocar: el panel se abre hacia afuera, girando
- * sobre su borde superior y saliendo de la tarjeta hacia el frente, como la
- * ventana de un kiosko, y deja ver el precio. Tocar de nuevo lo cierra.
+ * Parte inferior de la tarjeta de producto: el nombre va en un panel oscuro
+ * elegante que tapa el precio. En la esquina inferior derecha (la redondeada)
+ * hay una esquina doblada que se levanta sola cada tanto, invitando a tocar:
+ * al tocarla, el panel del nombre sube y deja ver el precio debajo. Tocar de
+ * nuevo lo baja. Funciona con el dedo (celular / tablet) y con el mouse.
  */
 export default function PanelKiosko({ nombre, children }) {
   const [abierto, setAbierto] = useState(false);
 
   const alternar = (e) => {
-    // La tarjeta es un enlace: tocar el panel no debe abrir el producto
+    // La tarjeta es un enlace: tocar la esquina no debe abrir el producto
     e.preventDefault();
     e.stopPropagation();
     setAbierto((v) => !v);
   };
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 z-20 bg-black/60 backdrop-blur-sm rounded-br-[28px]">
-      {/* Precio (encima del nombre), tapado por la ventana del kiosko.
-          Posición en style: el SCSS de la tarjeta fuerza 140px a cualquier .relative en celular */}
-      <div style={{ position: "relative", height: 48, perspective: "420px", perspectiveOrigin: "50% 100%" }}>
-        <div className="absolute inset-0 flex items-center px-3">{children}</div>
+    // Posición en style: el SCSS de la tarjeta fuerza 140px a cualquier .relative en celular
+    <div className="kiosko absolute bottom-0 left-0 right-0 z-20" style={{ minHeight: ALTO_PRECIO + 8 }}>
+      {/* Precio: queda debajo del panel del nombre */}
+      <div
+        className="absolute bottom-0 left-0 right-0 flex items-center px-3 rounded-br-[28px]"
+        style={{ height: ALTO_PRECIO, background: "#0b0f17" }}
+      >
+        {children}
+      </div>
 
+      {/* Panel del nombre: sube al tocar la esquina */}
+      <div
+        className="kiosko-panel rounded-br-[28px]"
+        style={{
+          position: "relative",
+          minHeight: ALTO_PRECIO + 8,
+          transform: abierto ? `translateY(-${ALTO_PRECIO}px)` : "translateY(0)",
+          transition: "transform 520ms cubic-bezier(0.34, 1.35, 0.64, 1), box-shadow 520ms ease",
+          background: "linear-gradient(180deg, rgba(55,65,81,0.92) 0%, rgba(31,41,55,0.96) 55%, rgba(17,24,39,0.98) 100%)",
+          borderTop: "1px solid rgba(255,255,255,0.14)",
+          boxShadow: abierto ? "0 10px 18px -6px rgba(0,0,0,0.6)" : "0 -2px 8px rgba(0,0,0,0.25)",
+          backdropFilter: "blur(6px)",
+        }}
+      >
+        {/* Nombre más pequeño y en hasta 3 líneas para que quepa completo
+            (whiteSpace en style: el SCSS de la tarjeta lo deja en una sola línea en celular) */}
+        <h3
+          className="kiosko-nombre font-semibold text-white pl-3 pr-11 py-2.5 line-clamp-3"
+          style={{ whiteSpace: "normal", lineHeight: 1.25 }}
+        >
+          {nombre}
+        </h3>
+
+        {/* Esquina doblada: distintivo de que se puede tocar */}
         <button
           type="button"
           onClick={alternar}
           aria-expanded={abierto}
           aria-label={abierto ? `Ocultar precio de ${nombre}` : `Ver precio de ${nombre}`}
-          className="kiosko-ventana absolute inset-0 text-left"
-          style={{
-            transformOrigin: "top center",
-            // Abierta: sale hacia el frente y hacia arriba, fuera de la tarjeta
-            transform: abierto ? "rotateX(80deg) translateZ(2px)" : "rotateX(0deg)",
-            transition: "transform 650ms cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 650ms ease, filter 650ms ease",
-            background: "linear-gradient(180deg, #374151 0%, #1f2937 55%, #111827 100%)",
-            borderTop: "1px solid rgba(255,255,255,0.18)",
-            boxShadow: abierto
-              ? "0 10px 14px -8px rgba(0,0,0,0.45)"
-              : "inset 0 1px 0 rgba(255,255,255,0.08), 0 -1px 4px rgba(0,0,0,0.3)",
-            filter: abierto ? "brightness(1.25)" : "none",
-          }}
+          className="kiosko-esquina absolute bottom-0 right-0 w-11 h-11 rounded-br-[28px] overflow-hidden"
+          style={{ position: "absolute", border: "none", background: "transparent", padding: 0, boxShadow: "none" }}
         >
-          {/* Pestaña: distintivo de que se puede tocar */}
-          <span
-            className={`absolute top-1/2 -translate-y-1/2 right-2 inline-flex items-center gap-1 rounded-full bg-white text-gray-900 text-xs font-bold px-2.5 py-1 shadow-md ${
-              abierto ? "" : "kiosko-pista"
-            }`}
-          >
-            <Tag className="w-3.5 h-3.5" aria-hidden="true" />
-            Ver precio
-          </span>
+          <span aria-hidden="true" className={`kiosko-doblez ${abierto ? "" : "kiosko-pista"}`} />
+          <ChevronUp
+            aria-hidden="true"
+            className="absolute bottom-1.5 right-2 w-4 h-4 text-gray-900"
+            style={{
+              transform: abierto ? "rotate(180deg)" : "none",
+              transition: "transform 400ms ease",
+            }}
+          />
         </button>
       </div>
 
-      <h3 className="font-bold text-base text-white px-3 pt-1 pb-3 line-clamp-2">{nombre}</h3>
-
       <style>{`
-        .kiosko-ventana .lucide { fill: none; }
-        @keyframes kiosko-pista {
-          0%, 78%, 100% { transform: translateY(-50%) rotate(0deg); }
-          84% { transform: translateY(calc(-50% - 3px)) rotate(-4deg); }
-          90% { transform: translateY(-50%) rotate(3deg); }
-          95% { transform: translateY(calc(-50% - 1px)) rotate(0deg); }
+        .kiosko .lucide { fill: none; }
+        .kiosko .kiosko-nombre { font-size: 0.8125rem !important; }
+        @media (min-width: 1024px) { .kiosko .kiosko-nombre { font-size: 0.875rem !important; } }
+        .kiosko-doblez {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          /* la hoja doblada: claro arriba-izquierda, sombra en el pliegue */
+          background: linear-gradient(315deg, #e5e7eb 0%, #f9fafb 48%, rgba(0,0,0,0.35) 50%, transparent 56%);
+          border-top-left-radius: 10px;
+          transform-origin: 100% 100%;
+          box-shadow: -2px -2px 6px rgba(0,0,0,0.25);
+          transition: transform 300ms ease;
         }
-        .kiosko-pista { animation: kiosko-pista 3.2s ease-in-out infinite; }
+        .kiosko-esquina:hover .kiosko-doblez,
+        .kiosko-esquina:focus-visible .kiosko-doblez { transform: scale(1.12); }
+        @keyframes kiosko-pista {
+          0%, 70%, 100% { transform: scale(1); }
+          78% { transform: scale(1.22); }
+          86% { transform: scale(0.96); }
+          92% { transform: scale(1.08); }
+        }
+        .kiosko-pista { animation: kiosko-pista 3s ease-in-out infinite; }
         @media (prefers-reduced-motion: reduce) {
           .kiosko-pista { animation: none; }
-          .kiosko-ventana { transition: none !important; }
+          .kiosko-panel { transition: none !important; }
         }
       `}</style>
     </div>
