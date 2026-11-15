@@ -11,6 +11,7 @@ export default function AddToCartButton({
   cantidad: cantidadExterna, // opcional: cantidad controlada desde fuera
   onCantidadChange,
   ocultarSelector = false, // el selector − / + se muestra en otro lugar de la ficha
+  onColorChange, // opcional: avisa el color elegido y su foto (para mostrarla en la galería)
 }) {
   const { addToCart, cart } = useCart();
   const toast = useToast();
@@ -41,6 +42,15 @@ export default function AddToCartButton({
   const coloresDisponibles = Array.isArray(metadataProducto?.colores_disponibles)
     ? metadataProducto.colores_disponibles
     : [];
+  // Foto de cada color (se asigna en el panel al editar el producto)
+  const imagenesPorColor =
+    metadataProducto?.imagenes_por_color && typeof metadataProducto.imagenes_por_color === "object"
+      ? metadataProducto.imagenes_por_color
+      : {};
+  const elegirColor = (c) => {
+    setColorSeleccionado(c);
+    onColorChange?.(c, imagenesPorColor[c] || null);
+  };
 
   // Normalizar datos del producto para manejar diferentes formatos
   const productData = {
@@ -183,8 +193,10 @@ export default function AddToCartButton({
     // Usar color seleccionado como variación si existe, sino usar variación normal
     const variacionFinal = color || colorSeleccionado || variacionSeleccionada;
 
+    // En el carrito se ve la foto del color elegido (si tiene una asignada)
+    const fotoColor = imagenesPorColor[color || colorSeleccionado];
     const success = await addToCart(
-      productData,
+      fotoColor ? { ...productData, imagen_principal: fotoColor } : productData,
       cantidad,
       variacionFinal,
     );
@@ -300,7 +312,7 @@ export default function AddToCartButton({
         <ProductColorPicker
           coloresDisponibles={coloresDisponibles}
           colorSeleccionado={colorSeleccionado}
-          onColorChange={setColorSeleccionado}
+          onColorChange={elegirColor}
         />
       )}
 

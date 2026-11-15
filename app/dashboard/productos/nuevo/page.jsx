@@ -6,6 +6,7 @@ import { ArrowLeft, Save } from "lucide-react";
 import ImageUploader from "@/components/ImageUploader";
 import VideoUploader from "@/components/VideoUploader";
 import ColorSelector from "@/components/ColorSelector";
+import FotosPorColor from "@/app/_components/dashboard/FotosPorColor";
 import RichTextEditor from "@/components/RichTextEditor";
 import Swal from "sweetalert2";
 import BarcodeScannerInput from "@/components/dashboard/BarcodeScannerInput";
@@ -41,6 +42,7 @@ export default function NuevoProductoPage() {
     video_type: "direct",
     payment_link: "",
     colores_disponibles: [],
+    imagenes_por_color: {},
   });
 
   const categorias = [
@@ -91,6 +93,12 @@ export default function NuevoProductoPage() {
       }
       if (formData.colores_disponibles.length > 0) {
         metadata.colores_disponibles = formData.colores_disponibles;
+        const fotosColor = Object.fromEntries(
+          Object.entries(formData.imagenes_por_color || {}).filter(([c, url]) =>
+            url && formData.colores_disponibles.includes(c)
+          )
+        );
+        if (Object.keys(fotosColor).length) metadata.imagenes_por_color = fotosColor;
       }
 
       const productoData = {
@@ -487,6 +495,12 @@ export default function NuevoProductoPage() {
                     colores_disponibles: colores,
                   }))
                 }
+              />
+              <FotosPorColor
+                colores={formData.colores_disponibles}
+                imagenes={formData.imagenes}
+                value={formData.imagenes_por_color}
+                onChange={(mapa) => setFormData((prev) => ({ ...prev, imagenes_por_color: mapa }))}
               />
             </div>
 

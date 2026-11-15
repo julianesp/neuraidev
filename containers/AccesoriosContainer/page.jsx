@@ -1276,6 +1276,17 @@ const AccesoriosContainer = ({
                     cantidad={cantidadCompra}
                     onCantidadChange={setCantidadCompra}
                     ocultarSelector
+                    onColorChange={(_color, foto) => {
+                      // Al elegir un color, la galería muestra la foto de ese color
+                      if (!foto) return;
+                      const idx = (accesorio?.imagenes || []).findIndex(
+                        (img) => (typeof img === "object" && img ? img.url : img) === foto
+                      );
+                      if (idx >= 0) {
+                        setShowVideo(false);
+                        setMainSlideIndex(idx);
+                      }
+                    }}
                   />
 
                   {/* Producto + servicio técnico (instalación, configuración…) */}

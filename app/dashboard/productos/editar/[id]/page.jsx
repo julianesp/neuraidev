@@ -7,6 +7,7 @@ import SortableImageUploader from "@/components/SortableImageUploader";
 import VideoUploader from "@/components/VideoUploader";
 import RichTextEditor from "@/components/RichTextEditor";
 import ColorSelector from "@/components/ColorSelector";
+import FotosPorColor from "@/app/_components/dashboard/FotosPorColor";
 import Swal from "sweetalert2";
 import BarcodeScannerInput from "@/components/dashboard/BarcodeScannerInput";
 import PrecioEspecialFields, {
@@ -43,6 +44,7 @@ export default function EditarProductoPage() {
     video_type: "direct",
     payment_link: "",
     colores_disponibles: [],
+    imagenes_por_color: {},
     metadata: {}, // Guardar metadata completo para preservarlo
   });
 
@@ -93,6 +95,7 @@ export default function EditarProductoPage() {
         video_type: producto.video_type || "direct",
         payment_link: producto.metadata?.payment_link || "",
         colores_disponibles: producto.metadata?.colores_disponibles || [],
+        imagenes_por_color: producto.metadata?.imagenes_por_color || {},
         metadata: producto.metadata || {}, // Preservar metadata completo
       });
     } catch (error) {
@@ -159,6 +162,15 @@ export default function EditarProductoPage() {
       if (!paymentLink) {
         delete metadataActualizado.payment_link;
       }
+
+      // Foto de cada color (solo de colores que siguen existiendo)
+      const fotosColor = Object.fromEntries(
+        Object.entries(formData.imagenes_por_color || {}).filter(([c, url]) =>
+          url && formData.colores_disponibles.includes(c)
+        )
+      );
+      if (Object.keys(fotosColor).length) metadataActualizado.imagenes_por_color = fotosColor;
+      else delete metadataActualizado.imagenes_por_color;
 
       // Si no hay colores, eliminar del metadata
       if (!formData.colores_disponibles.length) {
@@ -581,6 +593,12 @@ export default function EditarProductoPage() {
                 onChange={(colores) =>
                   setFormData((prev) => ({ ...prev, colores_disponibles: colores }))
                 }
+              />
+              <FotosPorColor
+                colores={formData.colores_disponibles}
+                imagenes={formData.imagenes}
+                value={formData.imagenes_por_color}
+                onChange={(mapa) => setFormData((prev) => ({ ...prev, imagenes_por_color: mapa }))}
               />
             </div>
 
