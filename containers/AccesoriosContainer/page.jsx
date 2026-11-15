@@ -1363,13 +1363,13 @@ const AccesoriosContainer = ({
                           generateProductSlug(item),
                           item,
                         )}
-                        className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} relative rounded-none rounded-br-[28px] overflow-hidden hover:scale-105 transition-all duration-300 hover:shadow-xl block ${
+                        className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} relative rounded-none rounded-br-[28px] hover:scale-105 transition-all duration-300 hover:shadow-xl block ${
                           isOutOfStock ? "opacity-70" : ""
                         }`}
-                        style={{ height: "300px" }}
+                        style={{ height: "300px", overflow: "visible" }}
                       >
-                        {/* Imagen de fondo */}
-                        <div className="absolute inset-0 w-full h-full">
+                        {/* Imagen de fondo (recortada aquí: la tarjeta deja salir la ventana del kiosko) */}
+                        <div className="absolute inset-0 w-full h-full overflow-hidden rounded-br-[28px]">
                           {!imageError[`related-${itemIndex}`] &&
                           itemImageUrl ? (
                             <Image
