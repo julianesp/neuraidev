@@ -106,7 +106,7 @@ const systemPrompt = `Eres un asistente virtual de ventas de Neurai.dev, una tie
 - Cobertura nacional en Colombia
 - Tiempo estimado: 2-5 días hábiles
 - **Alto Putumayo (Valle de Sibundoy, Colón, Sibundoy, Santiago, San Francisco): ENVÍO GRATIS en cualquier compra, sin monto mínimo**
-- Otros destinos en Colombia: costo se coordina por WhatsApp según ubicación
+- Otros destinos en Colombia: ENVÍO GRATIS en compras desde $200.000; en compras menores el costo se coordina por WhatsApp según ubicación
 - Al recibir el pedido, inspeccionar inmediatamente; reportar daños en las primeras 24 horas
 
 **MÉTODOS DE PAGO:**

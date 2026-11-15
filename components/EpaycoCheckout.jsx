@@ -18,6 +18,9 @@ export default function EpaycoCheckout({ onClose }) {
   const ENVIO_GRATIS_MINIMO = 50000;
   const calificaEnvioGratis = getTotalPrice() >= ENVIO_GRATIS_MINIMO;
   const faltaParaEnvioGratis = ENVIO_GRATIS_MINIMO - getTotalPrice();
+  // Resto de Colombia: envío gratis desde este monto
+  const ENVIO_GRATIS_NACIONAL = 200000;
+  const calificaEnvioGratisNacional = getTotalPrice() >= ENVIO_GRATIS_NACIONAL;
 
   const [loading, setLoading] = useState(false);
   const [customerData, setCustomerData] = useState({
@@ -399,7 +402,7 @@ export default function EpaycoCheckout({ onClose }) {
             value={customerData.name}
             onChange={handleChange}
             placeholder="Ingrese su nombre"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
           />
         </div>
 
@@ -418,7 +421,7 @@ export default function EpaycoCheckout({ onClose }) {
             value={customerData.email}
             onChange={handleChange}
             placeholder="Ingrese su correo electrónico"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
           />
         </div>
 
@@ -437,7 +440,7 @@ export default function EpaycoCheckout({ onClose }) {
             value={customerData.phone}
             onChange={handleChange}
             placeholder="3001234567"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
           />
         </div>
 
@@ -456,7 +459,7 @@ export default function EpaycoCheckout({ onClose }) {
             value={customerData.address}
             onChange={handleChange}
             placeholder="Ingrese su dirección"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
           />
         </div>
 
@@ -475,7 +478,7 @@ export default function EpaycoCheckout({ onClose }) {
             value={customerData.city}
             onChange={handleChange}
             placeholder="Ingrese su ciudad"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
           />
         </div>
 
@@ -494,7 +497,7 @@ export default function EpaycoCheckout({ onClose }) {
             value={customerData.region}
             onChange={handleChange}
             placeholder="Ej: Putumayo"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
           />
         </div>
 
@@ -502,8 +505,8 @@ export default function EpaycoCheckout({ onClose }) {
         <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mt-4">
           <div className="flex justify-between items-center text-lg font-bold text-gray-900 dark:text-white">
             <span>Total a pagar:</span>
-            <span className="text-green-600 dark:text-green-400">
-              ${getTotalPrice().toFixed(2)}
+            <span className="text-blue-600 dark:text-blue-400">
+              ${getTotalPrice().toLocaleString("es-CO")}
             </span>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
@@ -511,11 +514,11 @@ export default function EpaycoCheckout({ onClose }) {
           </p>
         </div>
 
-        {/* Información de Envíos */}
-        <div className="mt-4 border-2 border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
-          <div className="flex items-start gap-3">
+        {/* Información de Envíos: solo azul de marca; lo que no aplica, con opacidad */}
+        <div className="mt-4 border-2 border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/40 rounded-lg p-4">
+          <h3 className="font-bold text-blue-900 dark:text-blue-100 text-sm mb-3 flex items-center gap-2">
             <svg
-              className="w-6 h-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5"
+              className="w-5 h-5 text-blue-600 dark:text-blue-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -524,97 +527,65 @@ export default function EpaycoCheckout({ onClose }) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
               />
             </svg>
-            <div className="flex-1">
-              <h3 className="font-bold text-green-900 dark:text-green-100 text-sm mb-2 flex items-center gap-2">
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                  />
-                </svg>
-                Política de Envíos
-              </h3>
+            Política de Envíos
+          </h3>
 
-              {/* Envío gratis (solo desde el mínimo) */}
-              {calificaEnvioGratis ? (
-                <div className="mb-3 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-md p-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <svg
-                      className="w-5 h-5 text-green-600 dark:text-green-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="font-semibold text-green-800 dark:text-green-200 text-sm">
-                      ✓ Envío GRATIS al Alto Putumayo
-                    </span>
-                  </div>
-                  <p className="text-xs text-green-700 dark:text-green-300 ml-7">
-                    Para todo el <strong>Alto Putumayo</strong> (Valle de
-                    Sibundoy, Colón, Sibundoy, Santiago, San Francisco)
-                  </p>
-                  <p className="text-xs text-green-600 dark:text-green-400 ml-7 mt-1 font-medium">
-                    ¡Tu compra califica para envío gratis!
-                  </p>
-                </div>
-              ) : (
-                <div className="mb-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-md p-3">
-                  <p className="text-xs text-amber-800 dark:text-amber-200">
-                    Añade{" "}
-                    <span className="font-bold">
-                      ${faltaParaEnvioGratis.toLocaleString("es-CO")}
-                    </span>{" "}
-                    más para <strong>envío GRATIS</strong> al Alto Putumayo.
-                  </p>
-                  <p className="text-xs text-amber-700 dark:text-amber-300 mt-1">
-                    Válido en compras desde $
-                    {ENVIO_GRATIS_MINIMO.toLocaleString("es-CO")} (Valle de
-                    Sibundoy, Colón, Sibundoy, Santiago, San Francisco).
-                  </p>
-                </div>
-              )}
-
-              {/* Otros destinos */}
-              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-md p-3">
-                <div className="flex items-center gap-2 mb-1">
-                  <svg
-                    className="w-5 h-5 text-amber-600 dark:text-amber-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                    />
-                  </svg>
-                  <span className="font-semibold text-amber-800 dark:text-amber-200 text-sm">
-                    Otros destinos
-                  </span>
-                </div>
-                <p className="text-xs text-amber-700 dark:text-amber-300 ml-7">
-                  El costo y método de envío se coordinará por WhatsApp después
-                  del pago
+          {/* Alto Putumayo (gratis desde el mínimo) */}
+          <div
+            className={`mb-3 bg-white dark:bg-gray-800 border rounded-md p-3 ${
+              calificaEnvioGratis
+                ? "border-blue-600"
+                : "border-blue-200 dark:border-blue-800 opacity-70"
+            }`}
+          >
+            {calificaEnvioGratis ? (
+              <>
+                <p className="font-semibold text-blue-700 dark:text-blue-300 text-sm">
+                  ✓ Envío GRATIS al Alto Putumayo
                 </p>
-              </div>
-            </div>
+                <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
+                  Valle de Sibundoy, Colón, Sibundoy, Santiago, San Francisco.
+                  ¡Tu compra califica!
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-xs text-gray-700 dark:text-gray-300">
+                  Añade{" "}
+                  <span className="font-bold text-blue-700 dark:text-blue-300">
+                    ${faltaParaEnvioGratis.toLocaleString("es-CO")}
+                  </span>{" "}
+                  más para <strong>envío GRATIS</strong> al Alto Putumayo.
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  Desde ${ENVIO_GRATIS_MINIMO.toLocaleString("es-CO")} (Valle de
+                  Sibundoy, Colón, Sibundoy, Santiago, San Francisco).
+                </p>
+              </>
+            )}
+          </div>
+
+          {/* Otros destinos (gratis desde $200.000) */}
+          <div
+            className={`bg-white dark:bg-gray-800 border rounded-md p-3 ${
+              calificaEnvioGratisNacional
+                ? "border-blue-600"
+                : "border-blue-200 dark:border-blue-800 opacity-70"
+            }`}
+          >
+            <p className="font-semibold text-blue-700 dark:text-blue-300 text-sm">
+              {calificaEnvioGratisNacional ? "✓ Otros destinos: envío GRATIS" : "Otros destinos"}
+            </p>
+            <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
+              Envío <strong>GRATIS</strong> desde $
+              {ENVIO_GRATIS_NACIONAL.toLocaleString("es-CO")} en adelante.
+              {calificaEnvioGratisNacional
+                ? " ¡Tu compra califica!"
+                : " En compras menores, el costo y método de envío se coordinan por WhatsApp después del pago."}
+            </p>
           </div>
         </div>
 
@@ -629,7 +600,7 @@ export default function EpaycoCheckout({ onClose }) {
           <button
             onClick={handlePayment}
             disabled={loading}
-            className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-green-400 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

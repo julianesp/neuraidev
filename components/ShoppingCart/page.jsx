@@ -260,7 +260,7 @@ export default function ShoppingCart() {
                     })()}
 
                     {item.stock !== undefined && item.stock <= 5 && (
-                      <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">
+                      <p className="text-xs text-blue-700 dark:text-blue-300 mt-0.5">
                         ¡Últimas {item.stock} unidades!
                       </p>
                     )}
@@ -317,7 +317,7 @@ export default function ShoppingCart() {
               <div className="flex-1 overflow-y-auto px-5 py-4">
                 <button
                   onClick={() => setShowCheckout(false)}
-                  className="mb-3 text-sm text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 flex items-center gap-1"
+                  className="mb-3 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1"
                 >
                   ← Volver
                 </button>
@@ -330,13 +330,13 @@ export default function ShoppingCart() {
                   <div className="rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/60 px-3 py-2">
                     {calificaEnvioGratis ? (
                       <p className="text-xs text-blue-800 dark:text-blue-200">
-                        <span className="font-semibold text-green-600 dark:text-green-400">✓ Envío GRATIS</span>{" "}
+                        <span className="font-semibold text-blue-700 dark:text-blue-300">✓ Envío GRATIS</span>{" "}
                         al Alto Putumayo
                       </p>
                     ) : (
                       <p className="text-xs text-blue-800 dark:text-blue-200">
                         Añade{" "}
-                        <span className="font-semibold text-green-600 dark:text-green-400">
+                        <span className="font-semibold text-blue-700 dark:text-blue-300">
                           ${faltaParaEnvioGratis.toLocaleString("es-CO")}
                         </span>{" "}
                         más para <strong>envío GRATIS</strong> (mínimo $
@@ -344,7 +344,7 @@ export default function ShoppingCart() {
                       </p>
                     )}
                     <p className="text-[11px] text-blue-600/70 dark:text-blue-300/70 mt-0.5">
-                      Otros destinos: se coordina por WhatsApp
+                      Otros destinos: envío GRATIS desde $200.000; en compras menores se coordina por WhatsApp
                     </p>
                   </div>
 
@@ -361,7 +361,7 @@ export default function ShoppingCart() {
 
                   {/* Aviso de mezcla */}
                   {hayMezcla && (
-                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-lg p-3 text-xs text-amber-800 dark:text-amber-300">
+                    <div className="bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-lg p-3 text-xs text-blue-900 dark:text-blue-100">
                       ⚠️ Tu carrito tiene productos de <strong>Neurai</strong> y de{" "}
                       <strong>tiendas externas</strong>. Cada grupo se paga por separado.
                     </div>
@@ -369,7 +369,7 @@ export default function ShoppingCart() {
 
                   {/* Aviso bajo mínimo ePayco */}
                   {itemsPropios.length > 0 && bajoMinimo && (
-                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-lg p-3 text-xs text-amber-800 dark:text-amber-300 space-y-1">
+                    <div className="bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-lg p-3 text-xs text-blue-900 dark:text-blue-100 space-y-1">
                       <p className="font-semibold">⚠️ Total menor al mínimo de ePayco ($5.000)</p>
                       <p>
                         Agrega otro producto, o paga{" "}
@@ -387,7 +387,7 @@ export default function ShoppingCart() {
                       className={`w-full font-bold py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2 group ${
                         bajoMinimo
                           ? "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
-                          : "bg-green-600 hover:bg-green-700 text-white"
+                          : "bg-blue-600 hover:bg-blue-700 text-white"
                       }`}
                     >
                       <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
