@@ -7,6 +7,15 @@ export const metadata = {
   description:
     "Que te encuentren los clientes del Putumayo: ficha con fotos, WhatsApp directo, mapa y horario. Publica tu negocio gratis y mira cuántos te contactan.",
   alternates: { canonical: "/directorio/publicar" },
+  openGraph: {
+    title: "Publica tu negocio gratis en el Directorio del Putumayo",
+    description:
+      "Ficha con fotos, WhatsApp directo, mapa y horario. Publica tu negocio gratis y mira cuántos te contactan.",
+    url: "/directorio/publicar",
+    siteName: "neurai.dev",
+    locale: "es_CO",
+    type: "website",
+  },
 };
 
 const BENEFICIOS = [

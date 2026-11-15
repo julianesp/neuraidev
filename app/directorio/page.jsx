@@ -133,7 +133,7 @@ export default async function DirectorioPage({ searchParams }) {
           defaultValue={filtros.municipio}
           className="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
         >
-          <option value="">Todo el Putumayo</option>
+          <option value="">Lugar</option>
           {MUNICIPIOS_ALTO_PUTUMAYO.map((m) => (
             <option key={m.slug} value={m.slug}>
               {m.nombre}
