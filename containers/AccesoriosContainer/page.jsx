@@ -22,6 +22,7 @@ import ShareButton from "@/components/ShareButton";
 // import ProductMetaTags from "@/components/ProductMetaTags"; // REMOVIDO: Causa conflictos con generateMetadata
 import PriceWithDiscount from "@/components/PriceWithDiscount";
 import AddToCartButton from "@/components/AddToCartButton";
+import PanelKiosko from "@/app/_components/productos/PanelKiosko";
 import EtiquetaOferta from "@/app/_components/precios/EtiquetaOferta";
 import ServiciosCombo from "@/app/_components/servicios/ServiciosCombo";
 import ProductSchema from "@/components/ProductSchema";
@@ -1362,7 +1363,7 @@ const AccesoriosContainer = ({
                           generateProductSlug(item),
                           item,
                         )}
-                        className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} relative rounded-lg overflow-hidden hover:scale-105 transition-all duration-300 hover:shadow-xl block ${
+                        className={`${styles.relatedItemCard} ${styles.otrosAccesoriosItem} relative rounded-none rounded-br-[28px] overflow-hidden hover:scale-105 transition-all duration-300 hover:shadow-xl block ${
                           isOutOfStock ? "opacity-70" : ""
                         }`}
                         style={{ height: "300px" }}
@@ -1445,16 +1446,14 @@ const AccesoriosContainer = ({
                         )}
 
                         {/* Información del producto en la parte inferior */}
-                        <div className="absolute bottom-0 left-0 right-0 p-3 z-20 bg-black/50 backdrop-blur-sm rounded-b-lg">
-                          <h3 className="font-bold text-base text-white mb-2 line-clamp-2">
-                            {item.nombre || ""}
-                          </h3>
+                        {/* Kiosko: el precio aparece al levantar el toldo */}
+                        <PanelKiosko nombre={item.nombre || ""}>
                           <PriceWithDiscount
                             precio={item.precio}
                             showBadge={false}
                             className="text-white text-xl font-bold drop-shadow-lg"
                           />
-                        </div>
+                        </PanelKiosko>
                       </Link>
                     );
                   })}
