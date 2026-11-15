@@ -5,6 +5,8 @@ import { useToast } from "@/contexts/ToastContext";
 import { calcularDescuentosPromociones } from "@/lib/promociones";
 import { useUser } from "@clerk/nextjs";
 import { montoDescuentoCliente, descuentoUsable } from "@/lib/descuento-cliente";
+import { leerMetadata } from "@/lib/stockColor";
+import { buildProductUrl, generateProductSlug } from "@/utils/slugify";
 
 const CartContext = createContext();
 
@@ -50,6 +52,28 @@ export function CartProvider({ children }) {
 
   // Agregar producto al carrito
   const addToCart = async (producto, cantidad = 1, variacion = null) => {
+    // Producto con colores: el color es obligatorio (el stock se lleva por color).
+    // Los botones rápidos de las tarjetas no lo eligen: se lleva al cliente a la
+    // ficha para que lo elija ahí.
+    const colores = leerMetadata(producto?.metadata).colores_disponibles;
+    if (Array.isArray(colores) && colores.length > 0 && !(typeof variacion === "string" && colores.includes(variacion))) {
+      if (colores.length === 1) {
+        variacion = colores[0];
+      } else {
+        toast.warning("Este producto viene en varios colores: elige el tuyo.", {
+          title: "Elige el color",
+          duration: 4000,
+        });
+        if (typeof window !== "undefined") {
+          window.location.href = buildProductUrl(
+            producto.categoria || "generales",
+            generateProductSlug(producto)
+          );
+        }
+        return false;
+      }
+    }
+
     setCart((prevCart) => {
       const existingItemIndex = prevCart.findIndex(
         (item) =>
