@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Star, CheckCircle2, Check, Search, X, Pause, Play } from "lucide-react";
+import { Star, CheckCircle2, Search, X, Pause, Play } from "lucide-react";
 import { useClerk, useReverification, useSignIn, useUser } from "@clerk/nextjs";
 
 // Borrador del formulario mientras el cliente va y vuelve de Facebook/Google
@@ -520,13 +520,12 @@ export default function FormularioCalificar({
             type="button"
             onClick={() => alternarTipo(t.valor)}
             aria-pressed={tipos.includes(t.valor)}
-            className={`text-sm px-3 py-2 rounded-lg border transition-colors inline-flex items-center justify-center gap-1.5 ${
+            className={`text-sm px-3 py-2 rounded-lg border-2 transition-colors ${
               tipos.includes(t.valor)
-                ? "border-blue-600 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 font-semibold"
-                : "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+                ? "border-blue-600 bg-blue-100 dark:bg-blue-900/60 text-blue-900 dark:text-blue-100 font-semibold shadow-md"
+                : "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300"
             }`}
           >
-            {tipos.includes(t.valor) && <Check className="w-4 h-4 shrink-0" aria-hidden="true" />}
             {t.texto}
           </button>
         ))}
