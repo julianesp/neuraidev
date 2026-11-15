@@ -294,3 +294,152 @@
     color: #a0aec0;
   }
 }
+
+// ── Formulario por pasos (una pregunta a la vez) ──
+.progreso {
+  margin-bottom: 24px;
+}
+
+.progresoTexto {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 8px;
+
+  :global(.dark) & {
+    color: #60a5fa;
+  }
+}
+
+.barra {
+  height: 6px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+
+  :global(.dark) & {
+    background: #4a5568;
+  }
+}
+
+.barraRelleno {
+  height: 100%;
+  background: #2563eb;
+  border-radius: inherit;
+  transition: width 0.35s ease;
+}
+
+.paso {
+  display: flex;
+  flex-direction: column;
+  min-height: 150px;
+  animation: entrarPaso 0.3s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes entrarPaso {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.pregunta {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 14px;
+
+  :global(.dark) & {
+    color: #f7fafc;
+  }
+}
+
+.opciones {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.opcion {
+  padding: 14px 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #374151;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    border-color: #93c5fd;
+  }
+
+  :global(.dark) & {
+    background: #1a202c;
+    border-color: #4a5568;
+    color: #e2e8f0;
+  }
+}
+
+.opcionActiva {
+  border-color: #2563eb;
+  background: #dbeafe;
+  color: #1e3a8a;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+
+  :global(.dark) & {
+    border-color: #2563eb;
+    background: rgba(37, 99, 235, 0.3);
+    color: #dbeafe;
+  }
+}
+
+.ayuda {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.navegacion {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+
+  .submitButton {
+    flex: 1;
+    width: auto;
+    margin-top: 0;
+  }
+}
+
+.botonAtras {
+  padding: 14px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4b5563;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background: #e5e7eb;
+  }
+
+  :global(.dark) & {
+    background: #4a5568;
+    color: #e2e8f0;
+  }
+}
