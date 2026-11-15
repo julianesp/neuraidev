@@ -2,7 +2,8 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Search, Filter, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, Filter, X, Layers } from "lucide-react";
+import AgruparPorColor from "@/app/_components/dashboard/AgruparPorColor";
 
 export default function ProductosPage() {
   const { user } = useUser();
@@ -12,6 +13,12 @@ export default function ProductosPage() {
   const [categoriaFiltro, setCategoriaFiltro] = useState("");
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [statFiltro, setStatFiltro] = useState(""); // "", disponibles, destacados, sinstock
+  // Selección para agrupar productos iguales de distinto color en uno solo
+  const [seleccion, setSeleccion] = useState([]);
+  const [agrupando, setAgrupando] = useState(false);
+  const alternarSeleccion = (id) =>
+    setSeleccion((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
+  const [recargar, setRecargar] = useState(0);
 
   useEffect(() => {
     if (!user) return;
@@ -41,7 +48,7 @@ export default function ProductosPage() {
 
     cargar();
     return () => { cancelled = true; };
-  }, [user]);
+  }, [user, recargar]);
 
 
   async function handleEliminar(id) {
@@ -211,6 +218,13 @@ export default function ProductosPage() {
               >
                 {/* Fila superior: imagen + nombre + categoría */}
                 <div className="flex items-center gap-3 mb-3">
+                  <input
+                    type="checkbox"
+                    checked={seleccion.includes(producto.id)}
+                    onChange={() => alternarSeleccion(producto.id)}
+                    aria-label={`Seleccionar ${producto.nombre} para agrupar`}
+                    className="w-5 h-5 accent-blue-600 flex-shrink-0"
+                  />
                   {producto.imagen_principal ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -285,6 +299,9 @@ export default function ProductosPage() {
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
+                  <th className="pl-4 py-3 w-8">
+                    <span className="sr-only">Seleccionar</span>
+                  </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Producto
                   </th>
@@ -311,6 +328,15 @@ export default function ProductosPage() {
                     key={producto.id}
                     className="hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
+                    <td className="pl-4 py-4">
+                      <input
+                        type="checkbox"
+                        checked={seleccion.includes(producto.id)}
+                        onChange={() => alternarSeleccion(producto.id)}
+                        aria-label={`Seleccionar ${producto.nombre} para agrupar`}
+                        className="w-4 h-4 accent-blue-600"
+                      />
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         {producto.imagen_principal && (
@@ -398,6 +424,45 @@ export default function ProductosPage() {
             </div>
           )}
         </div>
+
+        {/* Barra para agrupar los seleccionados (mismo producto, distinto color) */}
+        {seleccion.length > 0 && (
+          <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-xl bg-white dark:bg-gray-800 border-2 border-blue-600 rounded-2xl shadow-xl p-3 flex items-center gap-3">
+            <span className="text-sm text-gray-700 dark:text-gray-200 flex-1">
+              {seleccion.length} seleccionado{seleccion.length > 1 ? "s" : ""}
+              {seleccion.length < 2 && " · elige otro del mismo producto"}
+            </span>
+            <button
+              type="button"
+              onClick={() => setSeleccion([])}
+              className="text-sm text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 px-2"
+            >
+              Quitar
+            </button>
+            <button
+              type="button"
+              disabled={seleccion.length < 2}
+              onClick={() => setAgrupando(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold disabled:opacity-60"
+            >
+              <Layers className="w-4 h-4" />
+              Agrupar por color
+            </button>
+          </div>
+        )}
+
+        {agrupando && (
+          <AgruparPorColor
+            productos={seleccion.map((id) => productos.find((p) => p.id === id)).filter(Boolean)}
+            onClose={() => setAgrupando(false)}
+            onListo={(r) => {
+              setAgrupando(false);
+              setSeleccion([]);
+              setRecargar((n) => n + 1);
+              alert(`Listo: un solo producto con ${r.colores.length} colores (${r.colores.join(", ")}) y ${r.stock} unidades. Los demás quedaron ocultos.`);
+            }}
+          />
+        )}
       </div>
     </div>
   );

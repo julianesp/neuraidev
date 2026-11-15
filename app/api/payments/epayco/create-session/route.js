@@ -71,7 +71,8 @@ async function recalcularTotalServidor(items) {
       return { ok: false, error: "Hay productos sin identificador en el carrito" };
     }
     const cantidad = Math.min(Math.max(parseInt(item.quantity || item.cantidad, 10) || 1, 1), 999);
-    normalizados.push({ id, name: item.name || item.nombre, cantidad });
+    const color = typeof item.color === "string" ? item.color.slice(0, 60) : null;
+    normalizados.push({ id, name: item.name || item.nombre, cantidad, color });
   }
 
   const ids = [...new Set(normalizados.map((i) => i.id))];
@@ -106,6 +107,8 @@ async function recalcularTotalServidor(items) {
       name: producto.nombre || item.name,
       quantity: item.cantidad,
       price: precio,
+      // color elegido: al aprobarse el pago se descuenta del stock de ese color
+      ...(item.color && { color: item.color }),
     });
   }
 

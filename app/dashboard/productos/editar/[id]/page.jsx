@@ -45,6 +45,7 @@ export default function EditarProductoPage() {
     payment_link: "",
     colores_disponibles: [],
     imagenes_por_color: {},
+    stock_por_color: {},
     metadata: {}, // Guardar metadata completo para preservarlo
   });
 
@@ -96,6 +97,7 @@ export default function EditarProductoPage() {
         payment_link: producto.metadata?.payment_link || "",
         colores_disponibles: producto.metadata?.colores_disponibles || [],
         imagenes_por_color: producto.metadata?.imagenes_por_color || {},
+        stock_por_color: producto.metadata?.stock_por_color || {},
         metadata: producto.metadata || {}, // Preservar metadata completo
       });
     } catch (error) {
@@ -172,6 +174,15 @@ export default function EditarProductoPage() {
       if (Object.keys(fotosColor).length) metadataActualizado.imagenes_por_color = fotosColor;
       else delete metadataActualizado.imagenes_por_color;
 
+      // Unidades por color (solo colores que siguen existiendo); el total es la suma
+      const stockColor = Object.fromEntries(
+        Object.entries(formData.stock_por_color || {}).filter(([c, n]) =>
+          formData.colores_disponibles.includes(c) && Number.isFinite(n)
+        )
+      );
+      if (Object.keys(stockColor).length) metadataActualizado.stock_por_color = stockColor;
+      else delete metadataActualizado.stock_por_color;
+
       // Si no hay colores, eliminar del metadata
       if (!formData.colores_disponibles.length) {
         delete metadataActualizado.colores_disponibles;
@@ -184,7 +195,9 @@ export default function EditarProductoPage() {
         precio_oferta: especial.precio_oferta,
         categoria: formData.categoria,
         marca: formData.marca || null,
-        stock: parseInt(formData.stock) || 0,
+        stock: Object.keys(stockColor).length
+          ? Object.values(stockColor).reduce((t, n) => t + n, 0)
+          : parseInt(formData.stock) || 0,
         sku: formData.sku || null,
         codigo_barras: formData.codigo_barras.replace(/\s/g, "") || null,
         disponible: formData.disponible,
@@ -599,6 +612,17 @@ export default function EditarProductoPage() {
                 imagenes={formData.imagenes}
                 value={formData.imagenes_por_color}
                 onChange={(mapa) => setFormData((prev) => ({ ...prev, imagenes_por_color: mapa }))}
+                stock={formData.stock_por_color}
+                onStockChange={(mapa) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    stock_por_color: mapa,
+                    // el stock total pasa a ser la suma de los colores
+                    ...(Object.keys(mapa).length && {
+                      stock: Object.values(mapa).reduce((t, n) => t + n, 0),
+                    }),
+                  }))
+                }
               />
             </div>
 

@@ -5,6 +5,7 @@ import { useCart } from "@/context/CartContext";
 import { useToast } from "@/contexts/ToastContext";
 import { ShoppingCart, Plus, Minus, AlertTriangle, X } from "lucide-react";
 import ProductColorPicker from "./ProductColorPicker";
+import { stockPorColor } from "@/lib/stockColor";
 
 export default function AddToCartButton({
   producto,
@@ -47,6 +48,13 @@ export default function AddToCartButton({
     metadataProducto?.imagenes_por_color && typeof metadataProducto.imagenes_por_color === "object"
       ? metadataProducto.imagenes_por_color
       : {};
+  // Unidades por color (si el producto las maneja): un color agotado no se puede elegir
+  const stockColores = stockPorColor(metadataProducto);
+  const [vendidosColor, setVendidosColor] = useState({}); // lo agregado en esta visita
+  const stockDelColor = (c) =>
+    stockColores && c && c in stockColores
+      ? Math.max(stockColores[c] - (vendidosColor[c] || 0), 0)
+      : null;
   const elegirColor = (c) => {
     setColorSeleccionado(c);
     onColorChange?.(c, imagenesPorColor[c] || null);
@@ -153,10 +161,16 @@ export default function AddToCartButton({
       return;
     }
 
-    // Verificar stock en tiempo real desde D1
-    let stockActual = stockDisponible ?? producto.stock ?? 999;
+    // Verificar stock en tiempo real desde D1 (del color elegido, si maneja stock por color)
+    const colorElegido = color || colorSeleccionado;
+    const porColor = stockDelColor(colorElegido) !== null;
+    let stockActual = porColor ? stockDelColor(colorElegido) : stockDisponible ?? producto.stock ?? 999;
     try {
-      const res = await fetch(`/api/products/stock?id=${encodeURIComponent(producto.id)}`);
+      const res = await fetch(
+        `/api/products/stock?id=${encodeURIComponent(producto.id)}${
+          porColor ? `&color=${encodeURIComponent(colorElegido)}` : ""
+        }`
+      );
       if (res.ok) {
         const data = await res.json();
         stockActual = data.stock ?? stockActual;
@@ -208,7 +222,12 @@ export default function AddToCartButton({
     }
 
     // Actualizar stock disponible después de agregar
-    setStockDisponible(stockActual - cantidad);
+    if (porColor) {
+      setVendidosColor((v) => ({ ...v, [colorElegido]: (v[colorElegido] || 0) + cantidad }));
+      setStockDisponible((s) => (s === null ? s : Math.max(s - cantidad, 0)));
+    } else {
+      setStockDisponible(stockActual - cantidad);
+    }
 
     // Mostrar mensaje de éxito
     toast.success(
@@ -227,9 +246,15 @@ export default function AddToCartButton({
     }, 2000);
   };
 
+  // Stock que se muestra: el del color elegido si tiene stock propio
+  const stockMostrado =
+    stockDelColor(colorSeleccionado) !== null
+      ? Math.min(stockDelColor(colorSeleccionado), stockDisponible ?? Infinity)
+      : stockDisponible;
+
   const incrementar = () => {
-    if (stockDisponible !== null && cantidad >= stockDisponible) {
-      toast.warning(`Solo hay ${stockDisponible} unidades disponibles`, {
+    if (stockMostrado !== null && cantidad >= stockMostrado) {
+      toast.warning(`Solo hay ${stockMostrado} unidades disponibles`, {
         title: "Stock Limitado",
         duration: 3000,
       });
@@ -313,6 +338,11 @@ export default function AddToCartButton({
           coloresDisponibles={coloresDisponibles}
           colorSeleccionado={colorSeleccionado}
           onColorChange={elegirColor}
+          stockPorColor={
+            stockColores
+              ? Object.fromEntries(coloresDisponibles.map((c) => [c, stockDelColor(c)]))
+              : null
+          }
         />
       )}
 
@@ -320,10 +350,11 @@ export default function AddToCartButton({
       <div className="text-sm text-gray-600">
         <span
           className="font-semibold"
-          style={stockDisponible <= 5 ? { color: "#0070f3" } : {}}
+          style={stockMostrado <= 5 ? { color: "#0070f3" } : {}}
         >
-          {stockDisponible <= 5 ? "¡Últimas unidades! " : ""}
-          Stock disponible: <strong>{stockDisponible}</strong>
+          {stockMostrado <= 5 ? "¡Últimas unidades! " : ""}
+          Stock disponible{colorSeleccionado && stockDelColor(colorSeleccionado) !== null ? ` (${colorSeleccionado})` : ""}:{" "}
+          <strong>{stockMostrado}</strong>
         </span>
       </div>
 

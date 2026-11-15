@@ -23,7 +23,8 @@ const COLORES_PREDEFINIDOS = {
 export default function ProductColorPicker({
   coloresDisponibles = [],
   colorSeleccionado,
-  onColorChange
+  onColorChange,
+  stockPorColor = null, // { color: unidades } — un color en 0 sale agotado
 }) {
   // Si solo hay un color disponible, seleccionarlo automáticamente
   useEffect(() => {
@@ -54,16 +55,21 @@ export default function ProductColorPicker({
           {coloresDisponibles.map((color, index) => {
             const hex = getColorHex(color);
             const isSelected = colorSeleccionado === color;
+            const agotado = stockPorColor?.[color] === 0;
 
             return (
               <button
                 key={index}
                 type="button"
-                onClick={() => onColorChange(color)}
+                onClick={() => !agotado && onColorChange(color)}
+                disabled={agotado}
+                title={agotado ? `${color}: agotado` : undefined}
                 className={`
                   flex items-center gap-2 px-3 py-2 rounded-lg border-2 transition-all
-                  ${isSelected
-                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md scale-105"
+                  ${agotado
+                    ? "border-gray-200 dark:border-gray-700 opacity-40 cursor-not-allowed"
+                    : isSelected
+                    ? "border-blue-600 bg-blue-50 dark:bg-blue-900/30 shadow-md scale-105"
                     : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow"
                   }
                 `}
@@ -85,6 +91,7 @@ export default function ProductColorPicker({
                     : "text-gray-700 dark:text-gray-300"
                 }`}>
                   {color}
+                  {agotado && <span className="ml-1 text-xs">(agotado)</span>}
                 </span>
                 {isSelected && (
                   <svg
@@ -106,7 +113,7 @@ export default function ProductColorPicker({
       </div>
 
       {!colorSeleccionado && coloresDisponibles.length > 1 && (
-        <p className="text-xs text-orange-600 dark:text-orange-400 flex items-center gap-1">
+        <p className="text-xs text-blue-700 dark:text-blue-300 flex items-center gap-1">
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
           </svg>

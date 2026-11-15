@@ -289,6 +289,7 @@ export default function EpaycoCheckout({ onClose }) {
             name: item.nombre,
             quantity: item.cantidad,
             price: item.precio,
+            ...(typeof item.variacion === "string" && { color: item.variacion }),
           })),
         }),
       });
