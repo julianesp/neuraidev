@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import styles from "@/components/NavBar/NavBar.module.scss";
 import ThemeSwitcher from "@/app/_components/ThemeSwitcher";
 import StoreStatus from "../StoreStatus";
@@ -17,6 +16,7 @@ import { isAdmin } from "@/lib/auth/roles";
 import CartIcon from "../CartIcon";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
 import { useMinecraftTheme } from "@/contexts/MinecraftThemeContext";
+import LogoNeurai from "@/components/LogoNeurai/LogoNeurai";
 
 const NavBar = () => {
   const { user } = useUser();
@@ -25,15 +25,11 @@ const NavBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [serviciosDropdownOpen, setServiciosDropdownOpen] = useState(false);
   const [negociosDropdownOpen, setNegociosDropdownOpen] = useState(false);
-  const [imageError, setImageError] = useState({});
   const [showAccessibilityPanel, setShowAccessibilityPanel] = useState(false);
   const menuRef = useRef(null);
   const dropdownRef = useRef(null);
   const serviciosDropdownRef = useRef(null);
   const negociosDropdownRef = useRef(null);
-
-  // Define unique ID for the logo image
-  const logoImageId = "navbar-logo";
 
   const [mounted, setMounted] = useState(false);
 
@@ -155,18 +151,9 @@ const NavBar = () => {
       <div className={styles.logo}>
         <Link href="/" aria-label="Ir a la página principal">
           <div className={styles.container__principal}>
-            <Image
-              alt="Neurai.dev - Logo de la empresa"
-              src="https://media.neurai.dev/logo.png"
-              width={30}
-              height={30}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority={true}
-              quality={85}
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+MTMftoJJoNY6mHQvGgBFO15tquD7xZg="
-              onError={() =>
-                setImageError((prev) => ({ ...prev, [logoImageId]: true }))
-              }
+            <LogoNeurai
+              size="var(--nav-logo-size, 50px)"
+              title="Neurai.dev - Logo de la empresa"
             />
           </div>
         </Link>

@@ -1,0 +1,514 @@
+// =============================================================================
+// Logo neurai.dev en Sass (SCSS) — misma figura que logo-neurai.css
+// -----------------------------------------------------------------------------
+// Todo se dibuja dentro de un círculo de 1em; el tamaño lo da --logo-size
+// (font-size), así que cada medida en em escala con el logo.
+// Al pasar el mouse se guiña el ojo derecho del dueño (el humano).
+//
+// Markup que necesita (en React cambia class por className={styles.x}):
+//
+// <span class="logo" role="img" aria-label="neurai.dev" style="--logo-size:120px">
+//   <span class="sweater"></span>
+//   <span class="neck"></span>
+//   <span class="collar"></span>
+//   <span class="earH"></span>
+//   <span class="earR"></span>
+//   <span class="head">
+//     <span class="robotShade"></span>
+//     <span class="plateA"></span>
+//     <span class="plateB"></span>
+//     <span class="plateC"></span>
+//     <span class="divider"></span>
+//     <span class="cheek"></span>
+//     <span class="brow"></span>
+//     <span class="eyeH"><span class="iris"></span><span class="lid"></span></span>
+//     <span class="winkLine"></span>
+//     <span class="socket"><span class="eyeR"></span></span>
+//     <span class="nose"></span>
+//     <span class="mouthH"></span>
+//     <span class="mouthR"></span>
+//   </span>
+//   <span class="hair"></span>
+//   <span class="tuft"></span>
+// </span>
+// =============================================================================
+
+/*! Archivo generado desde logo-neurai.scss — no lo edites a mano.
+    Compilar:  pnpm exec sass --no-source-map --watch diseno/logo-neurai.scss diseno/logo-neurai.css */
+
+// ---------- Paleta ----------
+$ink: #0a0a0a;
+$skin: #d08a55;
+$skin-shade: #a8663a;
+$robot: #2f6fa8;
+$robot-mid: #1f4f80;
+$robot-dark: #183d66;
+$hair: #141414;
+$eye-white: #f6efe6;
+$glow-light: #7fd6ff;
+$glow: #2aa8ff;
+$sweater: #14284a;
+$bg: #0b1628;
+
+// ---------- Trazos y tiempos ----------
+$line: 0.026em;
+$line-thin: 0.018em;
+$wink-in: 120ms cubic-bezier(0.3, 0, 0.2, 1);
+$wink-out: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+
+// Cuándo se activa el guiño: hover del logo, hover/foco de un enlace que lo
+// contenga, o forzado con data-wink="true". Se usa dentro de cada pieza.
+@mixin wink {
+  .logo:hover &,
+  a:hover .logo &,
+  a:focus-visible .logo &,
+  .logo[data-wink="true"] & {
+    @content;
+  }
+}
+
+.logo {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+  box-sizing: border-box;
+  width: 1em;
+  height: 1em;
+  font-size: var(--logo-size, 48px);
+  line-height: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  isolation: isolate;
+  background: radial-gradient(circle at 50% 42%, #16305a 0%, #0f2143 38%, $bg 72%);
+  box-shadow: inset 0 0 0 0.02em rgba($glow-light, 0.12);
+
+  span {
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+  }
+}
+
+// ---------- Busto ----------
+
+.sweater {
+  left: 0;
+  top: 0.855em;
+  width: 1em;
+  height: 0.5em;
+  background: linear-gradient(180deg, #1a3360 0%, $sweater 45%, #0f1f3a 100%);
+  border: $line solid $ink;
+  border-radius: 46% 46% 0 0 / 30% 30% 0 0;
+  z-index: 1;
+}
+
+.neck {
+  left: 0.385em;
+  top: 0.72em;
+  width: 0.23em;
+  height: 0.16em;
+  background: linear-gradient(90deg, $skin-shade 0 50%, $robot-dark 50% 100%);
+  border-left: $line solid $ink;
+  border-right: $line solid $ink;
+  z-index: 2;
+}
+
+.collar {
+  left: 0.325em;
+  top: 0.835em;
+  width: 0.35em;
+  height: 0.2em;
+  background: linear-gradient(180deg, #1d3c6e 0%, $sweater 60%);
+  border: $line solid $ink;
+  border-radius: 40% 40% 0 0 / 35% 35% 0 0;
+  z-index: 3;
+}
+
+%ear {
+  top: 0.41em;
+  width: 0.09em;
+  height: 0.17em;
+  border: $line solid $ink;
+  z-index: 2;
+}
+
+.earH {
+  @extend %ear;
+  left: 0.155em;
+  background: radial-gradient(ellipse at 65% 50%, $skin-shade 0 30%, $skin 34%);
+  border-radius: 60% 30% 30% 60% / 55% 40% 40% 55%;
+}
+
+.earR {
+  @extend %ear;
+  right: 0.155em;
+  background: radial-gradient(ellipse at 35% 50%, $robot-dark 0 30%, $robot-mid 34%);
+  border-radius: 30% 60% 60% 30% / 40% 55% 55% 40%;
+}
+
+// ---------- Cabeza ----------
+
+.head {
+  left: 0.21em;
+  top: 0.1em;
+  width: 0.58em;
+  height: 0.69em;
+  background: linear-gradient(90deg, $skin 0 50%, $robot 50% 100%);
+  border: $line solid $ink;
+  border-radius: 50% 50% 46% 46% / 44% 44% 56% 56%;
+  overflow: hidden;
+  z-index: 4;
+}
+
+// sombra lateral del lado robot
+.robotShade {
+  right: -6%;
+  top: 10%;
+  width: 26%;
+  height: 90%;
+  background: $robot-mid;
+  border-left: $line-thin solid $ink;
+  border-radius: 70% 0 0 40% / 50% 0 0 50%;
+}
+
+// placas del lado robot
+.plateA {
+  left: 54%;
+  top: 4%;
+  width: 40%;
+  height: 34%;
+  border-left: $line-thin solid $ink;
+  border-top: $line-thin solid $ink;
+  border-radius: 70% 0 0 0 / 70% 0 0 0;
+}
+
+.plateB {
+  left: 52%;
+  top: 70%;
+  width: 34%;
+  height: 40%;
+  border-top: $line-thin solid $ink;
+  border-right: $line-thin solid $ink;
+  border-radius: 0 45% 0 0 / 0 40% 0 0;
+}
+
+.plateC {
+  left: 60%;
+  top: 28%;
+  width: 36%;
+  height: 4%;
+  border-top: $line-thin solid $ink;
+  border-radius: 50% 50% 0 0;
+}
+
+// línea central que divide humano / robot
+.divider {
+  left: calc(50% - #{$line-thin} / 2);
+  top: 0;
+  width: $line-thin;
+  height: 100%;
+  background: $ink;
+  z-index: 3;
+}
+
+// ---------- Pelo ----------
+
+.hair {
+  left: 0.17em;
+  top: 0.045em;
+  width: 0.44em;
+  height: 0.25em;
+  background:
+    radial-gradient(ellipse 40% 25% at 45% 30%, #262626, transparent),
+    $hair;
+  border: $line-thin solid $ink;
+  border-radius: 50% 55% 75% 30% / 70% 75% 65% 55%;
+  z-index: 8;
+
+  // patilla izquierda
+  &::before {
+    content: "";
+    position: absolute;
+    left: 2%;
+    top: 55%;
+    width: 16%;
+    height: 105%;
+    background: $hair;
+    border-radius: 30% 0 70% 60% / 20% 0 60% 40%;
+  }
+}
+
+// copete hacia la derecha
+.tuft {
+  left: 0.45em;
+  top: 0.055em;
+  width: 0.17em;
+  height: 0.12em;
+  background: $hair;
+  border-radius: 10% 90% 20% 80% / 20% 90% 30% 70%;
+  transform: rotate(14deg);
+  z-index: 8;
+}
+
+// ---------- Lado humano (aquí ocurre el guiño) ----------
+
+.brow {
+  left: 12%;
+  top: 36%;
+  width: 30%;
+  height: 6%;
+  background: $hair;
+  border-radius: 40% 60% 30% 30% / 70% 90% 30% 30%;
+  transform-origin: 80% 50%;
+  transform: rotate(-4deg);
+  transition: transform $wink-out;
+  z-index: 6;
+
+  @include wink {
+    transform: translateY(28%) rotate(4deg); // la ceja baja
+    transition: transform $wink-in;
+  }
+}
+
+.eyeH {
+  left: 14%;
+  top: 45%;
+  width: 27%;
+  height: 9.5%;
+  background: $eye-white;
+  border: $line-thin solid $ink;
+  border-radius: 50% 50% 45% 45% / 80% 80% 50% 50%;
+  overflow: hidden;
+  transition: opacity 60ms linear 60ms;
+  z-index: 6;
+
+  @include wink {
+    opacity: 0;
+    transition: opacity 40ms linear 90ms;
+  }
+}
+
+.iris {
+  left: 30%;
+  top: 2%;
+  width: 46%;
+  height: 120%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 32%, #fff 0 12%, transparent 14%),
+    radial-gradient(circle at 50% 50%, #120a05 0 30%, #5a3418 34% 70%, #2a1608 74%);
+}
+
+// párpado: baja desde arriba en el guiño
+.lid {
+  inset: 0;
+  background: linear-gradient(180deg, $skin 0 80%, $skin-shade 100%);
+  transform-origin: 50% 0;
+  transform: scaleY(0);
+  transition: transform $wink-out;
+
+  @include wink {
+    transform: scaleY(1);
+    transition: transform $wink-in;
+  }
+}
+
+// línea del ojo cerrado (^ suave)
+.winkLine {
+  left: 13%;
+  top: 46%;
+  width: 29%;
+  height: 9%;
+  border-top: $line solid $ink;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  opacity: 0;
+  transform: scaleX(0.6);
+  transition: opacity 80ms linear, transform $wink-out;
+  z-index: 7;
+
+  @include wink {
+    opacity: 1;
+    transform: scaleX(1);
+    transition: opacity 60ms linear 80ms, transform $wink-in 80ms;
+  }
+}
+
+// pómulo: sube un poco al guiñar
+.cheek {
+  left: 12%;
+  top: 56%;
+  width: 26%;
+  height: 8%;
+  border-top: $line-thin solid $skin-shade;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  opacity: 0.85;
+  transition: transform $wink-out;
+  z-index: 6;
+
+  @include wink {
+    transform: translateY(-30%);
+    transition: transform $wink-in;
+  }
+}
+
+.nose {
+  left: 39%;
+  top: 55%;
+  width: 11%;
+  height: 11%;
+  border-left: $line-thin solid $ink;
+  border-bottom: $line-thin solid $ink;
+  border-radius: 0 0 0 70%;
+  background: linear-gradient(90deg, transparent 40%, rgba($skin-shade, 0.6));
+  z-index: 6;
+}
+
+%mouth {
+  top: 70%;
+  height: 7%;
+  border-bottom: $line solid $ink;
+  z-index: 6;
+}
+
+.mouthH {
+  @extend %mouth;
+  left: 22%;
+  width: 29%;
+  border-radius: 0 0 0 100% / 0 0 0 100%;
+  transform-origin: 100% 100%;
+  transition: transform $wink-out;
+
+  @include wink {
+    transform: rotate(7deg); // sonríe más del lado humano
+    transition: transform $wink-in;
+  }
+}
+
+.mouthR {
+  @extend %mouth;
+  left: 50%;
+  width: 22%;
+  border-radius: 0 0 100% 0 / 0 0 100% 0;
+}
+
+// ---------- Lado robot: ojo ----------
+
+.socket {
+  left: 55%;
+  top: 36%;
+  width: 37%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: $robot-dark;
+  border: $line-thin solid $ink;
+  z-index: 6;
+}
+
+.eyeR {
+  left: 12%;
+  top: 12%;
+  width: 76%;
+  height: 76%;
+  border-radius: 50%;
+  border: $line-thin solid $ink;
+  background: radial-gradient(
+    circle,
+    #eafaff 0 10%,
+    $glow-light 18% 34%,
+    $glow 38% 54%,
+    #0b3d6e 58% 66%,
+    $robot-mid 70%
+  );
+  box-shadow:
+    0 0 0.03em $glow,
+    0 0 0.07em rgba($glow, 0.75);
+  animation: neuraiPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes neuraiPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0.03em $glow,
+      0 0 0.06em rgba($glow, 0.6);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 0 0.04em $glow-light,
+      0 0 0.11em rgba($glow, 0.95);
+    filter: brightness(1.15);
+  }
+}
+
+// ---------- Guiño automático (data-wink="auto"): intro de carga ----------
+// Dos guiños en 3 s: cerrado de 0.85–1.35 s y de 1.9–2.3 s.
+
+.logo[data-wink="auto"] .lid {
+  animation: neuraiAutoLid 3s both;
+}
+
+.logo[data-wink="auto"] .eyeH {
+  animation: neuraiAutoOjo 3s both;
+}
+
+.logo[data-wink="auto"] .winkLine {
+  animation: neuraiAutoLinea 3s both;
+}
+
+.logo[data-wink="auto"] .brow {
+  animation: neuraiAutoCeja 3s both;
+}
+
+.logo[data-wink="auto"] .cheek {
+  animation: neuraiAutoPomulo 3s both;
+}
+
+.logo[data-wink="auto"] .mouthH {
+  animation: neuraiAutoBoca 3s both;
+}
+
+@keyframes neuraiAutoLid {
+  0%, 26%, 48%, 61%, 79%, 100% { transform: scaleY(0); }
+  30%, 45%, 65%, 76% { transform: scaleY(1); }
+}
+
+@keyframes neuraiAutoOjo {
+  0%, 28%, 47%, 63%, 78%, 100% { opacity: 1; }
+  30%, 45%, 65%, 76% { opacity: 0; }
+}
+
+@keyframes neuraiAutoLinea {
+  0%, 28%, 47%, 63%, 78%, 100% { opacity: 0; transform: scaleX(0.6); }
+  31%, 45%, 66%, 76% { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes neuraiAutoCeja {
+  0%, 26%, 49%, 61%, 80%, 100% { transform: rotate(-4deg); }
+  30%, 45%, 65%, 76% { transform: translateY(28%) rotate(4deg); }
+}
+
+@keyframes neuraiAutoPomulo {
+  0%, 26%, 49%, 61%, 80%, 100% { transform: none; }
+  30%, 45%, 65%, 76% { transform: translateY(-30%); }
+}
+
+@keyframes neuraiAutoBoca {
+  0%, 26%, 49%, 61%, 80%, 100% { transform: none; }
+  30%, 45%, 65%, 76% { transform: rotate(7deg); }
+}
+
+// ---------- Accesibilidad ----------
+
+@media (prefers-reduced-motion: reduce) {
+  .eyeR {
+    animation: none;
+  }
+
+  .logo span,
+  .logo span::before {
+    transition-duration: 0ms !important;
+    transition-delay: 0ms !important;
+  }
+}

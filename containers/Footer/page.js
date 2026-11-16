@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
+import LogoNeurai from "@/components/LogoNeurai/LogoNeurai";
 import styles from "./Footer.module.scss";
 import RedesFlotantes from "@/app/_components/RedesFlotantes";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
@@ -194,13 +194,7 @@ const Footer = () => {
         <div className={styles.footerTop}>
           <div className={styles.brandSection}>
             <Link href="/" className={styles.logoLink}>
-              <Image
-                src="https://media.neurai.dev/logo.png"
-                alt="Neurai.dev"
-                width={80}
-                height={80}
-                className={styles.logo}
-              />
+              <LogoNeurai size={120} title="Neurai.dev" />
             </Link>
             <h3 className={styles.brandName}>neurai.dev</h3>
             <p className={styles.brandTagline}>

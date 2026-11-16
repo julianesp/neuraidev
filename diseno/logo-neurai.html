@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo neurai.dev</title>
+<!--
+  Página de prueba del logo (no se publica). Ábrela con doble clic.
+  Los estilos se editan en logo-neurai.scss y se compilan a logo-neurai.css:
+    pnpm exec sass --no-source-map --watch diseno/logo-neurai.scss diseno/logo-neurai.css
+  (con --watch se recompila solo cada vez que guardas; recarga el navegador).
+-->
+<link rel="stylesheet" href="logo-neurai.css">
+<style>
+  /* Estilos solo de esta página de prueba */
+  body { margin: 0; font-family: system-ui, sans-serif; background: #f3f4f6; color: #111827; }
+  main { max-width: 900px; margin: 0 auto; padding: 32px 16px; }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  p { color: #4b5563; margin: 0 0 24px; }
+  .fila { display: flex; flex-wrap: wrap; gap: 32px; align-items: center; padding: 24px; background: #fff; border-radius: 12px; margin-bottom: 16px; }
+  .fila.oscura { background: #111827; }
+  .fila small { display: block; text-align: center; margin-top: 6px; color: #6b7280; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Logo neurai.dev</h1>
+  <p>Pasa el mouse sobre cualquier logo para que guiñe el ojo derecho.</p>
+
+  <div class="fila">
+    <figure data-size="40"><small>40px</small></figure>
+    <figure data-size="50"><small>50px</small></figure>
+    <figure data-size="120"><small>120px</small></figure>
+    <figure data-size="300"><small>300px</small></figure>
+  </div>
+
+  <div class="fila oscura">
+    <figure data-size="120"><small>fondo oscuro</small></figure>
+    <figure data-size="120" data-wink="true"><small>guiño fijo (data-wink)</small></figure>
+    <figure data-size="120" data-wink="auto"><small>intro: 2 guiños (recarga)</small></figure>
+  </div>
+</main>
+
+<!-- Markup del logo (una sola vez); se clona en cada <figure data-size> -->
+<template id="logo">
+  <span class="logo" role="img" aria-label="neurai.dev">
+    <span class="sweater"></span>
+    <span class="neck"></span>
+    <span class="collar"></span>
+    <span class="earH"></span>
+    <span class="earR"></span>
+    <span class="head">
+      <span class="robotShade"></span>
+      <span class="plateA"></span>
+      <span class="plateB"></span>
+      <span class="plateC"></span>
+      <span class="divider"></span>
+      <span class="cheek"></span>
+      <span class="brow"></span>
+      <span class="eyeH">
+        <span class="iris"></span>
+        <span class="lid"></span>
+      </span>
+      <span class="winkLine"></span>
+      <span class="socket">
+        <span class="eyeR"></span>
+      </span>
+      <span class="nose"></span>
+      <span class="mouthH"></span>
+      <span class="mouthR"></span>
+    </span>
+    <span class="hair"></span>
+    <span class="tuft"></span>
+  </span>
+</template>
+
+<script>
+  const plantilla = document.getElementById("logo").content.firstElementChild;
+  document.querySelectorAll("figure[data-size]").forEach((fig) => {
+    const logo = plantilla.cloneNode(true);
+    logo.style.setProperty("--logo-size", fig.dataset.size + "px");
+    if (fig.dataset.wink) logo.dataset.wink = fig.dataset.wink;
+    fig.style.margin = "0";
+    fig.prepend(logo);
+  });
+</script>
+</body>
+</html>

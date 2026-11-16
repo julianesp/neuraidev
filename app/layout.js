@@ -2,6 +2,8 @@ import React from "react";
 import NavBar from "@/components/NavBar/page";
 import ConditionalFooter from "@/components/ConditionalFooter";
 import SplashScreen from "../components/SplashScreen";
+import IntroLogo from "../components/IntroLogo/IntroLogo";
+import { INTRO_LOGO_SCRIPT } from "../components/IntroLogo/introScript";
 import StructuredData from "@/components/StructuredData";
 import FAQSchema from "@/components/FAQSchema";
 import AOSInit from "@/components/AOSInit";
@@ -167,6 +169,8 @@ export default function RootLayout({ children }) {
           {/* Tema claro/oscuro según la hora o el modo fijado (lib/tema.js),
               antes de pintar para que no parpadee */}
           <script dangerouslySetInnerHTML={{ __html: TEMA_INIT_SCRIPT }} />
+          {/* Intro del logo: solo la primera carga de la sesión */}
+          <script dangerouslySetInnerHTML={{ __html: INTRO_LOGO_SCRIPT }} />
           <link
             rel="icon"
             type="image/png"
@@ -239,6 +243,8 @@ export default function RootLayout({ children }) {
                   <CartProvider>
                     {/* Entrada de la PWA instalada (logo sobre nubes azules) */}
                     <SplashScreen />
+                    {/* Intro del sitio web: logo con guiño 3 s sobre el sitio desenfocado */}
+                    <IntroLogo />
                     <div className={styles.layoutContainer}>
                       <NavBar />
                       <main

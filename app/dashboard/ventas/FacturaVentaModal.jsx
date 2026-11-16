@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, Printer, Download } from "lucide-react";
-import Image from "next/image";
+import LogoNeurai from "@/components/LogoNeurai/LogoNeurai";
 
 /**
  * Modal de factura imprimible para una venta agrupada del historial.
@@ -151,14 +151,11 @@ export default function FacturaVentaModal({ grupo, onClose }) {
               style={{ width: "42%", background: "linear-gradient(160deg,#1e0a4b 0%,#0d1e6b 50%,#062060 100%)" }}
             >
               <div className="flex items-center gap-3">
-                <div className="bg-white rounded-lg p-0.5 shadow flex-shrink-0">
-                  <Image
-                    src="/images/logo.png"
-                    alt="neurai.dev"
-                    width={54}
-                    height={54}
-                    className="rounded-md object-contain print:w-9 print:h-9"
-                  />
+                <div
+                  className="bg-white rounded-lg p-0.5 shadow flex-shrink-0 flex print:[--factura-logo-size:36px]"
+                  style={{ WebkitPrintColorAdjust: "exact", printColorAdjust: "exact" }}
+                >
+                  <LogoNeurai size="var(--factura-logo-size, 54px)" title="neurai.dev" />
                 </div>
                 <div>
                   <p className="text-white font-black text-2xl leading-none tracking-tight print:text-lg">

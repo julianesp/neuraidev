@@ -23,16 +23,11 @@
   align-items: center;
   cursor: pointer;
 
+  // Tamaño del logo CSS (LogoNeurai lee --nav-logo-size): 50px en móvil/tablet
+  --nav-logo-size: 50px;
+
   @media (max-width: 1023px) {
     order: 1; // Logo primero solo en móvil/tablet
-  }
-
-  & a {
-    & img {
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-    }
   }
 }
 
@@ -420,19 +415,9 @@
     height: 50px;
     justify-content: space-between;
 
-    & .container__principal {
-      & img {
-        width: 30px;
-      }
-    }
-
+    // En escritorio la barra mide 50px de alto: logo a 40px
     & .logo {
-      & a {
-        & img {
-          width: 40px;
-          height: 40px;
-        }
-      }
+      --nav-logo-size: 40px;
     }
   }
 

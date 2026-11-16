@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import LogoNeurai from "@/components/LogoNeurai/LogoNeurai";
 import styles from "../styles/components/SplashScreen.module.scss";
 
 // Tiempo mínimo en pantalla para que alcancen a verse las nubes cruzando
@@ -130,14 +130,9 @@ export default function SplashScreen() {
       </div>
 
       <div className={styles.tarjeta}>
-        <Image
-          src="/favicon.svg"
-          alt=""
-          width={112}
-          height={112}
-          className={styles.logo}
-          priority
-        />
+        <span className={styles.logo}>
+          <LogoNeurai size={112} title="neurai.dev" />
+        </span>
         <h1 className={styles.title}>neurai.dev</h1>
 
         <div className={styles.progreso}>
