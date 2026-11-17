@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./Colon.module.scss";
+import LugaresColon from "./LugaresColon";
 
 export default function ColonPage() {
   const [config, setConfig] = useState(null);
@@ -48,6 +49,9 @@ export default function ColonPage() {
           )}
         </div>
       </div>
+
+      {/* Lugares: parque, termales, iglesia… */}
+      <LugaresColon />
 
       {/* Grid de eventos */}
       <section className={styles.eventosSection}>
