@@ -162,14 +162,23 @@ export async function POST(request) {
       normalizedExtension = "jpg";
     }
 
-    const storageFileName = `productos/${timestamp}-${randomString}.${normalizedExtension}`;
+    // marca=neurai → foto pública (p. ej. Colón): se reduce a 2400 px y se le
+    // incrusta «Foto tomada por neurai.dev». Siempre sale en JPEG.
+    const conMarca = formData.get("marca") === "neurai" && !["svg", "gif"].includes(fileExtension);
+    if (conMarca) normalizedExtension = "jpg";
+
+    const storageFileName = `${conMarca ? "colon" : "productos"}/${timestamp}-${randomString}.${normalizedExtension}`;
 
     // Convertir el archivo a buffer
     const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    let buffer = Buffer.from(arrayBuffer);
+    if (conMarca) {
+      const { fotoConMarca } = await import("@/lib/marcaAgua");
+      buffer = await fotoConMarca(buffer, { lado: 2400, calidad: 82 });
+    }
 
     // Determinar el contentType correcto
-    let contentType = file.type;
+    let contentType = conMarca ? "image/jpeg" : file.type;
     if (!contentType || contentType === "application/octet-stream") {
       // Si el móvil no envió el tipo correcto, determinarlo por extensión
       const mimeMap = {

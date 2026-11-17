@@ -16,6 +16,7 @@ import {
 async function subirArchivoR2(file) {
   const fd = new FormData();
   fd.append("file", file);
+  fd.append("marca", "neurai"); // incrusta «Foto tomada por neurai.dev»
   const up = await fetch("/api/upload-image", { method: "POST", body: fd });
   const data = await up.json();
   if (!up.ok || !data.url) throw new Error(data.error || "No se pudo subir la imagen");

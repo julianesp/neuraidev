@@ -6,15 +6,21 @@
 //   <n>.jpg     → 2400 px, para el visor a pantalla completa
 //   <n>-sm.jpg  →  900 px, para la cuadrícula
 //
-// Para agregar un lugar nuevo (termales, iglesia…): subir sus fotos a
-// myTown/<id>/ en esos dos tamaños y añadir un bloque a este arreglo.
+// Cada foto lleva incrustado «Foto tomada por neurai.dev».
+//
+// Para agregar un lugar nuevo (termales, iglesia…):
+//   1. Subir los originales a R2, p. ej. myTown/termales/originales/
+//   2. node --env-file=.env.local scripts/colon-fotos.mjs termales myTown/termales/originales/
+//   3. Añadir un bloque a este arreglo con la cantidad de fotos que imprime.
 
 const CDN = "https://images.neurai.dev/myTown";
+// Subir este número si se reprocesan fotos con el mismo nombre (rompe la caché).
+const VERSION = 2;
 
 function fotosDe(carpeta, cantidad, alt) {
   return Array.from({ length: cantidad }, (_, i) => ({
-    src: `${CDN}/${carpeta}/${i + 1}.jpg`,
-    thumb: `${CDN}/${carpeta}/${i + 1}-sm.jpg`,
+    src: `${CDN}/${carpeta}/${i + 1}.jpg?v=${VERSION}`,
+    thumb: `${CDN}/${carpeta}/${i + 1}-sm.jpg?v=${VERSION}`,
     alt: `${alt} — foto ${i + 1}`,
   }));
 }
