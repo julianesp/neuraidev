@@ -28,7 +28,6 @@ const FOTOS_ORIGINALES = {
   computer_2: [
     "https://media.neurai.dev/working/computer_2/IMG_20250612_100716.jpg",
     "https://media.neurai.dev/working/computer_2/IMG_20250612_100731.jpg",
-    "https://media.neurai.dev/working/computer_2/IMG_20250612_113531.jpg",
     "https://media.neurai.dev/working/computer_2/IMG_20250612_115352.jpg",
     "https://media.neurai.dev/working/computer_2/IMG_20250612_115404.jpg",
     "https://media.neurai.dev/working/computer_2/IMG_20250612_115637.jpg",

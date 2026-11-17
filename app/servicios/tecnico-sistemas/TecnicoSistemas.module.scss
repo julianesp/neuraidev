@@ -1,7 +1,12 @@
 .container {
   width: 100%;
+  max-width: 100vw;
   min-height: 100vh;
   background: #f7fafc;
+  /* Nada de esta página puede ensanchar el viewport en celular
+     (las fotos laterales del coverflow se salían por los lados). */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .hero {
@@ -232,6 +237,7 @@
 .trabajos {
   padding: 80px 20px;
   background: #f7fafc;
+  overflow: hidden;
 }
 
 .trabajosIntro {

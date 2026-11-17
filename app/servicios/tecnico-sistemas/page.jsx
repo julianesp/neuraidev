@@ -39,7 +39,6 @@ const trabajosBase = [
     fotos: [
       "https://media.neurai.dev/working/computer_2/IMG_20250612_100716.jpg",
       "https://media.neurai.dev/working/computer_2/IMG_20250612_100731.jpg",
-      "https://media.neurai.dev/working/computer_2/IMG_20250612_113531.jpg",
       "https://media.neurai.dev/working/computer_2/IMG_20250612_115352.jpg",
       "https://media.neurai.dev/working/computer_2/IMG_20250612_115404.jpg",
       "https://media.neurai.dev/working/computer_2/IMG_20250612_115637.jpg",
@@ -157,9 +156,29 @@ function Lightbox({ fotos, indiceInicial, onClose }) {
 
 // ── Galería de un trabajo ─────────────────────────────────────────────────────
 
-function GaleriaTrabajo({ trabajo }) {
+function GaleriaTrabajo({ trabajo, numero }) {
   const [lightboxFotos, setLightboxFotos] = useState(null);
   const [lightboxIndice, setLightboxIndice] = useState(0);
+  // Fotos cuya URL ya no existe (p. ej. borradas del bucket): se ocultan
+  // para no mostrar un recuadro vacío con el texto alternativo.
+  const [rotas, setRotas] = useState(() => new Set());
+
+  useEffect(() => {
+    let activo = true;
+    trabajo.fotos.forEach((url) => {
+      const img = new window.Image();
+      img.onerror = () => {
+        if (activo) setRotas((prev) => new Set(prev).add(url));
+      };
+      img.src = url;
+    });
+    return () => {
+      activo = false;
+    };
+  }, [trabajo.fotos]);
+
+  const fotos = trabajo.fotos.filter((url) => !rotas.has(url));
+  if (fotos.length === 0) return null;
 
   const abrirLightbox = (fotos, indice) => {
     setLightboxFotos(fotos);
@@ -170,13 +189,14 @@ function GaleriaTrabajo({ trabajo }) {
     <>
       <div className={styles.trabajoItem}>
         <div className={styles.trabajoHeader}>
-          <span className={styles.trabajoNumero}>{trabajo.id}</span>
+          <span className={styles.trabajoNumero}>{numero}</span>
           <h3 className={styles.trabajoTitulo}>{trabajo.titulo}</h3>
         </div>
         <div className={styles.trabajoDivider} />
 
         <Coverflow
-          fotos={trabajo.fotos}
+          key={fotos.length}
+          fotos={fotos}
           titulo={trabajo.titulo}
           onAbrir={abrirLightbox}
         />
@@ -292,8 +312,8 @@ export default function TecnicoSistemas() {
           el diagnóstico hasta la entrega del equipo.
         </p>
 
-        {trabajos.map((trabajo) => (
-          <GaleriaTrabajo key={trabajo.id} trabajo={trabajo} />
+        {trabajos.map((trabajo, i) => (
+          <GaleriaTrabajo key={trabajo.id} trabajo={trabajo} numero={i + 1} />
         ))}
       </section>
 
