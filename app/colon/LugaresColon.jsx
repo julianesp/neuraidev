@@ -8,7 +8,7 @@ import styles from "./Colon.module.scss";
 /**
  * Lugares de Colón: cada lugar (parque, termales, iglesia…) aparece como una
  * tarjeta; al tocarla se despliegan sus fotos. Tocar una foto abre el visor a
- * pantalla completa con zoom y descarga.
+ * pantalla completa con zoom.
  */
 export default function LugaresColon() {
   const [abierto, setAbierto] = useState(null); // id del lugar desplegado
@@ -137,7 +137,6 @@ function Visor({ lugar, indiceInicial, onClose }) {
   const [indice, setIndice] = useState(indiceInicial);
   const [zoom, setZoom] = useState(1);
   const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [descargando, setDescargando] = useState(false);
   const [montado, setMontado] = useState(false);
 
   const escenaRef = useRef(null);
@@ -298,29 +297,6 @@ function Visor({ lugar, indiceInicial, onClose }) {
       : null;
   };
 
-  const descargar = async () => {
-    const nombre = `colon-${lugar.id}-${indice + 1}-neurai.jpg`;
-    setDescargando(true);
-    try {
-      const resp = await fetch(foto.src, { mode: "cors" });
-      if (!resp.ok) throw new Error(String(resp.status));
-      const blob = await resp.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = nombre;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    } catch {
-      // Si el navegador bloquea la descarga, abrir la foto para guardarla a mano.
-      window.open(foto.src, "_blank", "noopener");
-    } finally {
-      setDescargando(false);
-    }
-  };
-
   if (!montado) return null;
 
   return createPortal(
@@ -382,16 +358,6 @@ function Visor({ lugar, indiceInicial, onClose }) {
             title="Acercar (+)"
           >
             <IconoMas />
-          </button>
-          <button
-            type="button"
-            className={styles.visorBoton}
-            onClick={descargar}
-            disabled={descargando}
-            aria-label="Descargar foto"
-            title="Descargar"
-          >
-            <IconoDescargar />
           </button>
           <button
             ref={cerrarRef}
@@ -456,13 +422,6 @@ function IconoMenos() {
   return (
     <svg {...svgProps}>
       <path d="M5 12h14" />
-    </svg>
-  );
-}
-function IconoDescargar() {
-  return (
-    <svg {...svgProps}>
-      <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />
     </svg>
   );
 }

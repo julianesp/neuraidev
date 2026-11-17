@@ -616,14 +616,6 @@
   right: 12px;
 }
 
-/* En celular, el zoom se hace pellizcando: se ocultan − / % / + para que
-   quepan descargar y cerrar sin apretar la barra. */
-@media (max-width: 420px) {
-  .visorHerramientas .visorBoton:nth-child(-n + 3) {
-    display: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .visor,
   .lugar {
