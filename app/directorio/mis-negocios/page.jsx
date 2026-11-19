@@ -9,7 +9,7 @@ import {
   nombreCategoria,
   nombreMunicipio,
 } from "@/lib/directorio/constantes";
-import { DIAS, parsearHorario } from "@/lib/directorio/horario";
+import { DIAS, cierresProximos, fechaBogota, formatearFecha, parsearHorario } from "@/lib/directorio/horario";
 import { comprimirImagen } from "@/lib/directorio/comprimirImagen";
 import PanelProductos from "../_components/PanelProductos";
 import PanelOfertas from "../_components/PanelOfertas";
@@ -22,6 +22,7 @@ const VACIO = {
   municipio: "",
   descripcion: "",
   whatsapp: "",
+  telefono: "", // vacío = se llama al mismo WhatsApp
   direccion: "",
   lat: null,
   lng: null,
@@ -80,6 +81,7 @@ export default function MisNegociosPage() {
   const abrirDesdeUrl = useRef(false);
   const inputLogo = useRef(null);
   const inputFotos = useRef(null);
+  const [fechaCierre, setFechaCierre] = useState("");
 
   const cargar = useCallback(async () => {
     try {
@@ -182,7 +184,14 @@ export default function MisNegociosPage() {
     irArriba();
   };
   const abrirEdicion = (n) => {
-    setForm({ ...VACIO, ...n, horario: parsearHorario(n.horario), fotos: n.fotos || [] });
+    setForm({
+      ...VACIO,
+      ...n,
+      horario: parsearHorario(n.horario),
+      // Si el teléfono es el mismo WhatsApp, el campo queda vacío ("el mismo del WhatsApp").
+      telefono: n.telefono && n.telefono !== n.whatsapp ? n.telefono.replace(/^57(?=(3|60)\d{8}$)/, "") : "",
+      fotos: n.fotos || [],
+    });
     setEditId(n.id);
     setError("");
     setAviso("");
@@ -229,9 +238,25 @@ export default function MisNegociosPage() {
     if (!base) return;
     setForm((f) => ({
       ...f,
-      horario: Object.fromEntries(DIAS.map((d) => [d.id, { ...base }])),
+      horario: { ...f.horario, ...Object.fromEntries(DIAS.map((d) => [d.id, { ...base }])) },
     }));
   };
+
+  // Días puntuales en que no se abre (viaje, festivo, vacaciones).
+  const cierres = cierresProximos(form?.horario);
+  const agregarCierre = () => {
+    if (!fechaCierre || fechaCierre < fechaBogota()) return;
+    setForm((f) => ({
+      ...f,
+      horario: { ...(f.horario || {}), cierres: [...new Set([...cierresProximos(f.horario), fechaCierre])].sort() },
+    }));
+    setFechaCierre("");
+  };
+  const quitarCierre = (fecha) =>
+    setForm((f) => ({
+      ...f,
+      horario: { ...(f.horario || {}), cierres: cierresProximos(f.horario).filter((x) => x !== fecha) },
+    }));
 
   const guardar = async (e) => {
     e.preventDefault();
@@ -488,7 +513,22 @@ export default function MisNegociosPage() {
               maxLength={13}
               required
             />
-            <span className="mt-1 block text-xs text-gray-500">Es el número con el que te escribirán y te llamarán.</span>
+            <span className="mt-1 block text-xs text-gray-500">Es el número al que te escribirán por WhatsApp.</span>
+          </label>
+
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">Teléfono para llamadas</span>
+            <input
+              className={campo}
+              inputMode="tel"
+              value={form.telefono || ""}
+              onChange={set("telefono")}
+              placeholder="Opcional: otro celular o fijo (6084201234)"
+              maxLength={13}
+            />
+            <span className="mt-1 block text-xs text-gray-500">
+              Si lo dejas vacío, te llamarán al mismo número del WhatsApp.
+            </span>
           </label>
 
           <label className="block">
@@ -566,6 +606,51 @@ export default function MisNegociosPage() {
             >
               Copiar el primer horario a todos los días
             </button>
+          </fieldset>
+
+          <fieldset>
+            <legend className="mb-1 block text-sm font-medium text-gray-800 dark:text-gray-200">Días que no vas a estar</legend>
+            <p className="mb-2 text-xs text-gray-500">
+              ¿Viaje, festivo o vacaciones? Marca esas fechas: ese día tu ficha dirá «Cerrado» y los clientes lo sabrán antes de ir.
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              <input
+                type="date"
+                value={fechaCierre}
+                min={fechaBogota()}
+                onChange={(e) => setFechaCierre(e.target.value)}
+                className="rounded-md border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                aria-label="Fecha en que no abrirás"
+              />
+              <button
+                type="button"
+                onClick={agregarCierre}
+                disabled={!fechaCierre}
+                className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium !text-white hover:bg-blue-700 disabled:opacity-50"
+              >
+                + Agregar día
+              </button>
+            </div>
+            {cierres.length > 0 && (
+              <ul className="mt-2 flex flex-wrap gap-2">
+                {cierres.map((fecha) => (
+                  <li
+                    key={fecha}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 py-1 pl-3 pr-1 text-sm text-gray-800 dark:bg-gray-800 dark:text-gray-200"
+                  >
+                    <span className="first-letter:uppercase">{formatearFecha(fecha)}</span>
+                    <button
+                      type="button"
+                      onClick={() => quitarCierre(fecha)}
+                      aria-label={`Quitar ${formatearFecha(fecha)}`}
+                      className="rounded-full p-0.5 text-gray-500 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-700 dark:hover:text-white"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </fieldset>
 
           <div className="grid gap-4 sm:grid-cols-2">

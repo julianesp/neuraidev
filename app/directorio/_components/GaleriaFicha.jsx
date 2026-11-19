@@ -51,15 +51,17 @@ export default function GaleriaFicha({ items, nombre, negocioId, whatsapp, slug,
   };
 
   // Mensaje de WhatsApp del pedido: producto con nombre y precio, o foto suelta.
+  // Va UN solo enlace, a /directorio/<slug>/ver/<clave>: esa página trae la foto como vista previa
+  // (og:image), así que en el chat del negocio la imagen aparece sola, sin tener que abrir nada.
+  // (WhatsApp solo arma la vista previa del primer enlace; un enlace directo al .jpg no la muestra).
   const enlacePedido = (it) => {
     const p = it.producto;
+    const enlace = it.url && it.clave
+      ? `https://neurai.dev/directorio/${slug}/ver/${it.clave}`
+      : `https://neurai.dev/directorio/${slug}`;
     const lineas = p
-      ? [
-          `Hola, quiero pedir: ${p.nombre}${p.precio ? ` (${pesos(p.precio)})` : ""} de ${nombre}.`,
-          it.url || "",
-          `Lo vi en https://neurai.dev/directorio/${slug}`,
-        ]
-      : [`Hola, quiero pedir esto de ${nombre}:`, it.url, `Lo vi en https://neurai.dev/directorio/${slug}`];
+      ? [`Hola, quiero pedir: ${p.nombre}${p.precio ? ` (${pesos(p.precio)})` : ""} de ${nombre}.`, enlace]
+      : [`Hola, quiero pedir esto de ${nombre}:`, enlace];
     return `https://wa.me/${whatsapp}?text=${encodeURIComponent(lineas.filter(Boolean).join("\n\n"))}`;
   };
   // Cada toque en "Lo quiero" cuenta como "te escribieron" en las estadísticas del dueño.

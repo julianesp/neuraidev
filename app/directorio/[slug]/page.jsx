@@ -2,10 +2,19 @@ import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { d1SelectOne } from "@/lib/db-d1";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Clock, Pencil, QrCode, Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ArrowLeft, CalendarX, Clock, Pencil, QrCode, Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { esEjemplo, nombreCategoria, nombreMunicipio } from "@/lib/directorio/constantes";
 import { obtenerPorSlug } from "@/lib/directorio/negocios";
-import { DIAS, estaAbierto, formatearHora, parsearHorario } from "@/lib/directorio/horario";
+import {
+  DIAS,
+  cierresProximos,
+  estaAbierto,
+  fechaBogota,
+  formatearFecha,
+  formatearHora,
+  parsearHorario,
+  tieneHorasSemanales,
+} from "@/lib/directorio/horario";
 import EnlaceRastreado from "../_components/EnlaceRastreado";
 import RegistrarVista from "../_components/RegistrarVista";
 import CompartirFicha from "../_components/CompartirFicha";
@@ -54,14 +63,24 @@ export default async function FichaNegocioPage({ params }) {
   // esa misma imagen lleva su nombre, precio y el botón "Lo quiero"; los productos con otra imagen se agregan al final.
   const itemsGaleria = [];
   const usados = new Set();
-  for (const url of n.fotos) {
+  // `clave` identifica la foto en /directorio/<slug>/ver/<clave>: ese enlace va en el mensaje de
+  // WhatsApp y trae la foto como vista previa (así el negocio la ve sin tener que abrir el enlace).
+  n.fotos.forEach((url, i) => {
     const p = productos.find((x) => x.imagen_url === url && !usados.has(x.id));
     if (p) usados.add(p.id);
-    itemsGaleria.push({ url, producto: p ? { id: p.id, nombre: p.nombre, precio: p.precio, disponible: !!p.disponible } : undefined });
-  }
+    itemsGaleria.push({
+      url,
+      clave: p ? `p-${p.id}` : `f-${i}`,
+      producto: p ? { id: p.id, nombre: p.nombre, precio: p.precio, disponible: !!p.disponible } : undefined,
+    });
+  });
   for (const p of productos) {
     if (usados.has(p.id)) continue;
-    itemsGaleria.push({ url: p.imagen_url || "", producto: { id: p.id, nombre: p.nombre, precio: p.precio, disponible: !!p.disponible } });
+    itemsGaleria.push({
+      url: p.imagen_url || "",
+      clave: `p-${p.id}`,
+      producto: { id: p.id, nombre: p.nombre, precio: p.precio, disponible: !!p.disponible },
+    });
   }
 
   // ¿Quien mira es el dueño de la ficha? Entonces se muestra el botón de editar.
@@ -77,7 +96,10 @@ export default async function FichaNegocioPage({ params }) {
   }
 
   const lugar = nombreMunicipio(n.municipio);
-  const horario = parsearHorario(n.horario);
+  const horarioObj = parsearHorario(n.horario);
+  const horario = tieneHorasSemanales(horarioObj) ? horarioObj : null;
+  const cierres = cierresProximos(horarioObj);
+  const cerradoHoy = cierres.includes(fechaBogota());
   const abierto = estaAbierto(n.horario);
   // Día de hoy en hora de Colombia, para resaltarlo en el horario.
   const nombreHoy = new Intl.DateTimeFormat("es-CO", { weekday: "long", timeZone: "America/Bogota" })
@@ -185,7 +207,7 @@ export default async function FichaNegocioPage({ params }) {
               }`}
             >
               <span className={`h-2 w-2 rounded-full ${abierto ? "bg-white" : "bg-gray-400"}`} />
-              {abierto ? "Abierto ahora" : "Cerrado ahora"}
+              {abierto ? "Abierto ahora" : cerradoHoy ? "Hoy no abre" : "Cerrado ahora"}
             </span>
           )}
           <div className="mt-3">
@@ -292,6 +314,22 @@ export default async function FichaNegocioPage({ params }) {
                 </EnlaceRastreado>
               </span>
             </li>
+            {cierres.length > 0 && (
+              <li className="flex gap-2">
+                <CalendarX className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
+                <div>
+                  <p className="font-semibold text-gray-900 dark:text-white">Días que no abre</p>
+                  <ul className="mt-0.5 space-y-0.5">
+                    {cierres.slice(0, 8).map((f) => (
+                      <li key={f} className={`first-letter:uppercase ${f === fechaBogota() ? "font-semibold text-blue-600" : ""}`}>
+                        {formatearFecha(f)}
+                        {f === fechaBogota() ? " (hoy)" : ""}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            )}
             {horario ? (
               <li className="flex gap-2">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
@@ -300,7 +338,9 @@ export default async function FichaNegocioPage({ params }) {
                     <div key={d.id} className={`col-span-2 grid grid-cols-subgrid ${d.id === hoy ? "font-semibold text-blue-600" : ""}`}>
                       <dt>{d.nombre}</dt>
                       <dd>
-                        {horario[d.id]
+                        {d.id === hoy && cerradoHoy
+                          ? "Hoy no abre"
+                          : horario[d.id]
                           ? `${formatearHora(horario[d.id].a)} - ${formatearHora(horario[d.id].c)}`
                           : "Cerrado"}
                       </dd>
@@ -308,7 +348,7 @@ export default async function FichaNegocioPage({ params }) {
                   ))}
                 </dl>
               </li>
-            ) : n.horario ? (
+            ) : n.horario && !horarioObj ? (
               <li className="flex gap-2">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
                 <span className="whitespace-pre-line">{n.horario}</span>
