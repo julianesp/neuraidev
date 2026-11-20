@@ -16,6 +16,7 @@ import {
 import {
   apiLugares,
   borrarLugarMedia,
+  fechaLegible,
   subirArchivosLugar,
   textoEstado,
 } from "@/app/colon/subirMedia";
@@ -286,12 +287,17 @@ function LugarTarjeta({ lugar, media, primero, ultimo, accion, recargar }) {
         <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
           {media.map((m, j) => (
             <div key={m.id} className="relative rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
-              <div className="aspect-[4/3]">
+              <div className="relative aspect-[4/3]">
                 {m.tipo === "video" ? (
                   <video src={`${m.url}#t=0.1`} preload="metadata" muted playsInline className="w-full h-full object-cover" />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={m.thumb_url || m.url} alt="" loading="lazy" className="w-full h-full object-cover" />
+                )}
+                {m.fecha_toma && (
+                  <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-black/60 text-white text-xs">
+                    {fechaLegible(m.fecha_toma)}
+                  </span>
                 )}
               </div>
               {j === 0 && (

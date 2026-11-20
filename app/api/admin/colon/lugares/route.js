@@ -13,7 +13,7 @@ import { isAdminServer } from '@/lib/auth/server-roles';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 // Las fotos originales del celular pueden ser de 200 MP: procesarlas toma tiempo.
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 const BUCKET = process.env.CLOUDFLARE_R2_BUCKET_NAME;
 const CDN = process.env.NEXT_PUBLIC_CLOUDFLARE_R2_PUBLIC_URL || 'https://images.neurai.dev';
@@ -59,6 +59,27 @@ async function siguienteOrden(lugarId) {
   );
   return (r?.m || 0) + 1;
 }
+
+// Fecha en que se tomó: EXIF de la foto (hora local del celular) o, si no
+// hay, la fecha del archivo que manda el navegador. Formato 'YYYY-MM-DD HH:MM'.
+const FECHA_RE = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
+
+async function fechaExif(buffer) {
+  try {
+    const exifr = (await import('exifr')).default;
+    const e = await exifr.parse(buffer, {
+      pick: ['DateTimeOriginal', 'CreateDate'],
+      reviveValues: false,
+    });
+    const v = e?.DateTimeOriginal || e?.CreateDate;
+    const m = typeof v === 'string' && v.match(/^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2})/);
+    return m ? `${m[1]}-${m[2]}-${m[3]} ${m[4]}:${m[5]}` : null;
+  } catch {
+    return null;
+  }
+}
+
+const fechaCliente = (v) => (typeof v === 'string' && FECHA_RE.test(v) ? v : null);
 
 const err = (msg, status = 400) => NextResponse.json({ error: msg }, { status });
 
@@ -120,18 +141,20 @@ export async function POST(request) {
     if (body.accion === 'video') {
       const id = crypto.randomUUID();
       const url = `${CDN}/${key}`;
+      const fecha = fechaCliente(body.fecha_archivo);
       await d1Execute(
-        `INSERT INTO colon_lugar_media (id, lugar_id, tipo, url, thumb_url, claves, orden, created_at)
-         VALUES (?, ?, 'video', ?, NULL, ?, ?, ?)`,
-        [id, lugarId, url, JSON.stringify([key]), await siguienteOrden(lugarId), ahora]
+        `INSERT INTO colon_lugar_media (id, lugar_id, tipo, url, thumb_url, claves, orden, created_at, fecha_toma)
+         VALUES (?, ?, 'video', ?, NULL, ?, ?, ?, ?)`,
+        [id, lugarId, url, JSON.stringify([key]), await siguienteOrden(lugarId), ahora, fecha]
       );
-      return NextResponse.json({ media: { id, tipo: 'video', url } });
+      return NextResponse.json({ media: { id, tipo: 'video', url, fecha_toma: fecha } });
     }
 
     if (body.accion === 'foto') {
       const obj = await r2.send(new GetObjectCommand({ Bucket: BUCKET, Key: key }));
       const original = Buffer.from(await obj.Body.transformToByteArray());
 
+      const fecha = (await fechaExif(original)) || fechaCliente(body.fecha_archivo);
       const sharp = (await import('sharp')).default;
       const { fotoConMarca } = await import('@/lib/marcaAgua');
 
@@ -152,8 +175,16 @@ export async function POST(request) {
       const nombre = key.split('/').pop().replace(/\.[^.]+$/, '');
       const grande = `myTown/${lugarId}/${nombre}.jpg`;
       const chica = `myTown/${lugarId}/${nombre}-sm.jpg`;
-      for (const [destino, lado, calidad] of [[grande, 2400, 82], [chica, 900, 78]]) {
-        const buf = await fotoConMarca(base, { lado, calidad });
+      const completa = `myTown/${lugarId}/${nombre}-full.jpg`;
+      // [destino, origen, lado, calidad]: la completa sale del original sin
+      // reducir (resolución del celular); las otras dos de la copia de 2400 px.
+      for (const [destino, origen, lado, calidad] of [
+        [completa, original, 100000, 90],
+        [grande, base, 2400, 82],
+        [chica, base, 900, 78],
+      ]) {
+        // mozjpeg es varias veces más lento: en 200 MP no vale la pena.
+        const buf = await fotoConMarca(origen, { lado, calidad, mozjpeg: destino !== completa });
         await r2.send(
           new PutObjectCommand({
             Bucket: BUCKET,
@@ -168,12 +199,13 @@ export async function POST(request) {
       const id = crypto.randomUUID();
       const url = `${CDN}/${grande}`;
       const thumb = `${CDN}/${chica}`;
+      const full = `${CDN}/${completa}`;
       await d1Execute(
-        `INSERT INTO colon_lugar_media (id, lugar_id, tipo, url, thumb_url, claves, orden, created_at)
-         VALUES (?, ?, 'foto', ?, ?, ?, ?, ?)`,
-        [id, lugarId, url, thumb, JSON.stringify([grande, chica, key]), await siguienteOrden(lugarId), ahora]
+        `INSERT INTO colon_lugar_media (id, lugar_id, tipo, url, thumb_url, full_url, claves, orden, created_at, fecha_toma)
+         VALUES (?, ?, 'foto', ?, ?, ?, ?, ?, ?, ?)`,
+        [id, lugarId, url, thumb, full, JSON.stringify([grande, chica, completa, key]), await siguienteOrden(lugarId), ahora, fecha]
       );
-      return NextResponse.json({ media: { id, tipo: 'foto', url, thumb_url: thumb } });
+      return NextResponse.json({ media: { id, tipo: 'foto', url, thumb_url: thumb, full_url: full, fecha_toma: fecha } });
     }
 
     return err('Acción no válida');

@@ -23,6 +23,26 @@ export async function borrarLugarMedia({ mediaId, lugarId }) {
   if (!r.ok) throw new Error(data.error || `Error ${r.status}`);
 }
 
+// Fecha del archivo en el celular (hora local): en fotos y vídeos de la cámara
+// coincide con la de captura. El servidor prefiere el EXIF de la foto si existe.
+function fechaArchivo(archivo) {
+  if (!archivo.lastModified) return null;
+  const d = new Date(archivo.lastModified);
+  const p = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+/** 'YYYY-MM-DD HH:MM' → «16 de noviembre de 2026, 1:52 p. m.» */
+export function fechaLegible(fecha, { hora = true } = {}) {
+  const m = typeof fecha === "string" && fecha.match(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$/);
+  if (!m) return "";
+  const d = new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
+  const texto = d.toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" });
+  return hora
+    ? `${texto}, ${d.toLocaleTimeString("es-CO", { hour: "numeric", minute: "2-digit" })}`
+    : texto;
+}
+
 function subirConProgreso(url, archivo, contentType, onProgreso) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -64,7 +84,12 @@ export async function subirArchivosLugar(lugarId, archivos, onCola) {
       });
       await subirConProgreso(uploadUrl, archivo, contentType, (p) => actualizar(i, { progreso: p }));
       actualizar(i, { estado: "procesando", progreso: 100 });
-      await apiLugares("POST", { accion: tipo, lugar_id: lugarId, key });
+      await apiLugares("POST", {
+        accion: tipo,
+        lugar_id: lugarId,
+        key,
+        fecha_archivo: fechaArchivo(archivo),
+      });
       actualizar(i, { estado: "listo" });
       ok++;
     } catch (err) {

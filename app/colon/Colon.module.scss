@@ -477,6 +477,21 @@
   }
 }
 
+/* Fecha en que se tomó, sobre la miniatura */
+.lugarFecha {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
 /* Icono de reproducir sobre las miniaturas de vídeo */
 .lugarPlay {
   position: absolute;
@@ -664,6 +679,18 @@
   &:disabled {
     opacity: 0.5;
   }
+}
+
+.visorFecha {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.visorCargando {
+  font-weight: 400;
+  opacity: 0.85;
 }
 
 .visorVideo {

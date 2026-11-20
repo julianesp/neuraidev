@@ -26,7 +26,7 @@ export async function GET() {
         `SELECT id, titulo, descripcion FROM colon_lugares ORDER BY orden ASC, created_at ASC`
       ).catch(() => null),
       d1Select(
-        `SELECT id, lugar_id, tipo, url, thumb_url FROM colon_lugar_media
+        `SELECT id, lugar_id, tipo, url, thumb_url, full_url, fecha_toma FROM colon_lugar_media
          ORDER BY orden ASC, created_at ASC`
       ).catch(() => []),
     ]);

@@ -8,6 +8,7 @@ import { lugares as lugaresRespaldo } from "./lugares";
 import {
   apiLugares,
   borrarLugarMedia,
+  fechaLegible,
   subirArchivosLugar,
   textoEstado,
 } from "./subirMedia";
@@ -36,6 +37,8 @@ export default function LugaresColon({ lugaresDb, media = [], onCambio }) {
           tipo: m.tipo,
           src: m.url,
           thumb: m.thumb_url || m.url,
+          full: m.full_url || null,
+          fecha: m.fecha_toma || null,
           alt: `${titulo} — ${m.tipo === "video" ? "vídeo" : "foto"}`,
           key: `${m.id}-${i}`,
         }));
@@ -192,6 +195,11 @@ export default function LugaresColon({ lugaresDb, media = [], onCambio }) {
                         decoding="async"
                         draggable={false}
                       />
+                    )}
+                    {foto.fecha && (
+                      <span className={styles.lugarFecha}>
+                        {fechaLegible(foto.fecha, { hora: false })}
+                      </span>
                     )}
                   </button>
                   {admin && foto.id && (
@@ -383,7 +391,8 @@ function NuevoLugar({ onCreado }) {
 // ── Visor a pantalla completa ────────────────────────────────────────────────
 
 const ZOOM_MIN = 1;
-const ZOOM_MAX = 5;
+const ZOOM_MAX = 5; // sin versión original
+const ZOOM_MAX_ORIGINAL = 16; // con la foto en resolución del celular
 const limitar = (v, min, max) => Math.min(max, Math.max(min, v));
 
 function Visor({ lugar, indiceInicial, onClose }) {
@@ -402,6 +411,31 @@ function Visor({ lugar, indiceInicial, onClose }) {
 
   const foto = fotos[indice];
   const esVideo = foto.tipo === "video";
+  const zoomMax = foto.full ? ZOOM_MAX_ORIGINAL : ZOOM_MAX;
+
+  // Resolución original (la del celular): se descarga al hacer zoom, porque
+  // pesa decenas de MB; mientras tanto se ve la versión de 2400 px.
+  const [completas, setCompletas] = useState(() => new Set());
+  const [cargandoCompleta, setCargandoCompleta] = useState(false);
+  const usarCompleta = !!foto.full && completas.has(foto.full);
+
+  useEffect(() => {
+    if (esVideo || zoom <= 1 || !foto.full || completas.has(foto.full)) return;
+    let vigente = true;
+    setCargandoCompleta(true);
+    const img = new window.Image();
+    img.onload = () => {
+      if (!vigente) return;
+      setCompletas((c) => new Set(c).add(foto.full));
+      setCargandoCompleta(false);
+    };
+    img.onerror = () => vigente && setCargandoCompleta(false);
+    img.src = foto.full;
+    return () => {
+      vigente = false;
+      setCargandoCompleta(false);
+    };
+  }, [zoom, foto.full, esVideo, completas]);
 
   const reiniciarZoom = useCallback(() => {
     setZoom(1);
@@ -428,11 +462,11 @@ function Visor({ lugar, indiceInicial, onClose }) {
 
   const cambiarZoom = useCallback(
     (nuevo) => {
-      const z = limitar(nuevo, ZOOM_MIN, ZOOM_MAX);
+      const z = limitar(nuevo, ZOOM_MIN, zoomMax);
       setZoom(z);
       setPos((p) => acotar({ x: (p.x * z) / zoom, y: (p.y * z) / zoom }, z));
     },
-    [zoom, acotar]
+    [zoom, acotar, zoomMax]
   );
 
   useEffect(() => setMontado(true), []);
@@ -443,8 +477,8 @@ function Visor({ lugar, indiceInicial, onClose }) {
       else if (e.key === "ArrowLeft") prev();
       else if (e.key === "ArrowRight") next();
       else if (esVideo) return;
-      else if (e.key === "+" || e.key === "=") cambiarZoom(zoom + 0.5);
-      else if (e.key === "-") cambiarZoom(zoom - 0.5);
+      else if (e.key === "+" || e.key === "=") cambiarZoom(zoom * 1.5);
+      else if (e.key === "-") cambiarZoom(zoom / 1.5);
       else if (e.key === "0") reiniciarZoom();
     };
     window.addEventListener("keydown", onKey);
@@ -515,7 +549,7 @@ function Visor({ lugar, indiceInicial, onClose }) {
 
     if (g.tipo === "pellizco" && punteros.current.size === 2) {
       const [a, b] = [...punteros.current.values()];
-      const z = limitar((g.zoom * Math.hypot(a.x - b.x, a.y - b.y)) / g.dist, ZOOM_MIN, ZOOM_MAX);
+      const z = limitar((g.zoom * Math.hypot(a.x - b.x, a.y - b.y)) / g.dist, ZOOM_MIN, zoomMax);
       setZoom(z);
       setPos((p) => acotar(p, z));
     } else if (g.tipo === "arrastre") {
@@ -581,7 +615,7 @@ function Visor({ lugar, indiceInicial, onClose }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img
           key={foto.src}
-          src={foto.src}
+          src={usarCompleta ? foto.full : foto.src}
           alt={foto.alt}
           className={styles.visorImg}
           style={{
@@ -598,13 +632,25 @@ function Visor({ lugar, indiceInicial, onClose }) {
       <div className={styles.visorBarra}>
         <span className={styles.visorContador}>
           {indice + 1} / {total}
+          {cargandoCompleta && (
+            <span className={styles.visorCargando}> · Cargando resolución original…</span>
+          )}
+          {usarCompleta && !cargandoCompleta && (
+            <span className={styles.visorCargando}> · Resolución original</span>
+          )}
+          {foto.fecha && (
+            <span className={styles.visorFecha}>
+              {esVideo ? "Grabado el " : "Tomada el "}
+              {fechaLegible(foto.fecha)}
+            </span>
+          )}
         </span>
         <div className={styles.visorHerramientas}>
           {!esVideo && (<>
           <button
             type="button"
             className={styles.visorBoton}
-            onClick={() => cambiarZoom(zoom - 0.5)}
+            onClick={() => cambiarZoom(zoom / 1.5)}
             disabled={zoom <= ZOOM_MIN}
             aria-label="Alejar"
             title="Alejar (−)"
@@ -623,8 +669,8 @@ function Visor({ lugar, indiceInicial, onClose }) {
           <button
             type="button"
             className={styles.visorBoton}
-            onClick={() => cambiarZoom(zoom + 0.5)}
-            disabled={zoom >= ZOOM_MAX}
+            onClick={() => cambiarZoom(zoom * 1.5)}
+            disabled={zoom >= zoomMax}
             aria-label="Acercar"
             title="Acercar (+)"
           >
