@@ -9,7 +9,6 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { d1Select, d1SelectOne, d1Execute } from '@/lib/db-d1';
 import { isAdminServer } from '@/lib/auth/server-roles';
-import { lugares as lugaresFijos } from '@/app/colon/lugares';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -50,7 +49,6 @@ const slug = (s) =>
 
 async function lugarExiste(id) {
   if (!id || !/^[a-z0-9-]{1,40}$/.test(id)) return false;
-  if (lugaresFijos.some((l) => l.id === id)) return true;
   return !!(await d1SelectOne(`SELECT id FROM colon_lugares WHERE id = ?`, [id]));
 }
 
@@ -185,6 +183,71 @@ export async function POST(request) {
   }
 }
 
+// Intercambia la posición de una fila con su vecina (dir -1 sube, +1 baja)
+// y deja el orden numerado 1..n.
+async function mover(tabla, filtro, params, id, dir) {
+  const filas = await d1Select(
+    `SELECT id FROM ${tabla} ${filtro} ORDER BY orden ASC, created_at ASC`,
+    params
+  );
+  const i = filas.findIndex((f) => f.id === id);
+  const j = i + (dir < 0 ? -1 : 1);
+  if (i < 0 || j < 0 || j >= filas.length) return;
+  [filas[i], filas[j]] = [filas[j], filas[i]];
+  for (const [n, f] of filas.entries()) {
+    await d1Execute(`UPDATE ${tabla} SET orden = ? WHERE id = ?`, [n + 1, f.id]);
+  }
+}
+
+// PATCH /api/admin/colon/lugares — según body.accion:
+//   'editar_lugar' { id, titulo, descripcion? }
+//   'mover_lugar'  { id, dir: -1 | 1 }
+//   'mover_media'  { id, dir: -1 | 1 }   (la primera foto es la portada)
+//   'portada'      { id }                → pasa esa foto/vídeo al primer lugar
+export async function PATCH(request) {
+  try {
+    if (!(await requireAdmin())) return err('No autorizado', 403);
+    const body = await request.json();
+    const id = String(body.id || '');
+    if (!id) return err('Falta id');
+
+    if (body.accion === 'editar_lugar') {
+      const titulo = (body.titulo || '').trim();
+      if (!titulo) return err('El nombre del lugar es requerido');
+      await d1Execute(`UPDATE colon_lugares SET titulo = ?, descripcion = ? WHERE id = ?`, [
+        titulo.slice(0, 80),
+        (body.descripcion || '').trim().slice(0, 600) || null,
+        id,
+      ]);
+      return NextResponse.json({ ok: true });
+    }
+
+    if (body.accion === 'mover_lugar') {
+      await mover('colon_lugares', '', [], id, Number(body.dir));
+      return NextResponse.json({ ok: true });
+    }
+
+    if (body.accion === 'mover_media' || body.accion === 'portada') {
+      const fila = await d1SelectOne(`SELECT lugar_id FROM colon_lugar_media WHERE id = ?`, [id]);
+      if (!fila) return err('No encontrado', 404);
+      if (body.accion === 'mover_media') {
+        await mover('colon_lugar_media', 'WHERE lugar_id = ?', [fila.lugar_id], id, Number(body.dir));
+      } else {
+        await d1Execute(
+          `UPDATE colon_lugar_media SET orden = (SELECT COALESCE(MIN(orden), 0) - 1 FROM colon_lugar_media WHERE lugar_id = ?) WHERE id = ?`,
+          [fila.lugar_id, id]
+        );
+      }
+      return NextResponse.json({ ok: true });
+    }
+
+    return err('Acción no válida');
+  } catch (error) {
+    console.error('Error en PATCH /api/admin/colon/lugares:', error);
+    return err('Error al guardar', 500);
+  }
+}
+
 // DELETE /api/admin/colon/lugares?media_id=…  → borra una foto/vídeo
 // DELETE /api/admin/colon/lugares?lugar_id=…  → borra un lugar creado desde la página
 export async function DELETE(request) {
@@ -200,9 +263,6 @@ export async function DELETE(request) {
       if (filas.length === 0) return err('No encontrado', 404);
       await d1Execute(`DELETE FROM colon_lugar_media WHERE id = ?`, [mediaId]);
     } else if (lugarId) {
-      if (lugaresFijos.some((l) => l.id === lugarId)) {
-        return err('Este lugar es fijo y no se puede borrar desde aquí');
-      }
       filas = await d1Select(`SELECT id, claves FROM colon_lugar_media WHERE lugar_id = ?`, [lugarId]);
       await d1Execute(`DELETE FROM colon_lugar_media WHERE lugar_id = ?`, [lugarId]);
       await d1Execute(`DELETE FROM colon_lugares WHERE id = ?`, [lugarId]);

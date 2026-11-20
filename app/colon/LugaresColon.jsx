@@ -4,7 +4,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useUser } from "@clerk/nextjs";
 import { isAdmin } from "@/lib/auth/roles";
-import { lugares as lugaresFijos } from "./lugares";
+import { lugares as lugaresRespaldo } from "./lugares";
+import {
+  apiLugares,
+  borrarLugarMedia,
+  subirArchivosLugar,
+  textoEstado,
+} from "./subirMedia";
 import styles from "./Colon.module.scss";
 
 /**
@@ -12,11 +18,12 @@ import styles from "./Colon.module.scss";
  * tarjeta; al tocarla se despliegan sus fotos y vídeos. Tocar uno abre el
  * visor a pantalla completa (con zoom en las fotos).
  *
- * Los lugares vienen de app/colon/lugares.js (fijos) y de D1 (creados aquí
- * mismo). Con la cuenta de administrador aparecen los controles para crear
- * lugares y subir/borrar fotos y vídeos sin salir de la página.
+ * Los lugares y sus fotos viven en D1 y se editan en /dashboard/colon (nombre,
+ * descripción, orden, portada…). Con la cuenta de administrador también se
+ * pueden crear lugares y subir/borrar fotos y vídeos aquí mismo.
+ * lugaresDb: undefined = cargando · null = la API falló (se usa app/colon/lugares.js).
  */
-export default function LugaresColon({ lugaresDb = [], media = [], onCambio }) {
+export default function LugaresColon({ lugaresDb, media = [], onCambio }) {
   const { user } = useUser();
   const admin = isAdmin(user);
 
@@ -32,14 +39,14 @@ export default function LugaresColon({ lugaresDb = [], media = [], onCambio }) {
           alt: `${titulo} — ${m.tipo === "video" ? "vídeo" : "foto"}`,
           key: `${m.id}-${i}`,
         }));
-    return [
-      ...lugaresFijos.map((l) => ({
+    if (lugaresDb === undefined) return [];
+    if (lugaresDb === null) {
+      return lugaresRespaldo.map((l) => ({
         ...l,
-        fijo: true,
-        fotos: [...l.fotos.map((f) => ({ ...f, tipo: "foto" })), ...deDb(l.id, l.titulo)],
-      })),
-      ...lugaresDb.map((l) => ({ ...l, fijo: false, fotos: deDb(l.id, l.titulo) })),
-    ];
+        fotos: l.fotos.map((f) => ({ ...f, tipo: "foto" })),
+      }));
+    }
+    return lugaresDb.map((l) => ({ ...l, fotos: deDb(l.id, l.titulo) }));
   }, [lugaresDb, media]);
 
   const [abierto, setAbierto] = useState(null); // id del lugar desplegado
@@ -210,90 +217,29 @@ export default function LugaresColon({ lugaresDb = [], media = [], onCambio }) {
 
 // ── Administración (solo con la cuenta de admin) ─────────────────────────────
 
-const API = "/api/admin/colon/lugares";
-
-async function postJson(body) {
-  const r = await fetch(API, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const data = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(data.error || `Error ${r.status}`);
-  return data;
-}
-
-function subirConProgreso(url, archivo, contentType, onProgreso) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("PUT", url);
-    xhr.setRequestHeader("Content-Type", contentType);
-    xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable) onProgreso(Math.round((e.loaded / e.total) * 100));
-    };
-    xhr.onload = () =>
-      xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error(`Subida falló (${xhr.status})`));
-    xhr.onerror = () => reject(new Error("Sin conexión durante la subida"));
-    xhr.send(archivo);
-  });
-}
-
 function SubirMedia({ lugar, onCambio, onLugarBorrado }) {
   const inputRef = useRef(null);
   const [cola, setCola] = useState([]); // { nombre, estado, progreso, error }
   const ocupado = cola.some((c) => c.estado === "subiendo" || c.estado === "procesando");
 
-  const actualizar = (i, cambios) =>
-    setCola((c) => c.map((item, j) => (j === i ? { ...item, ...cambios } : item)));
-
   const elegir = async (e) => {
     const archivos = [...(e.target.files || [])];
     e.target.value = "";
     if (archivos.length === 0) return;
-    setCola(archivos.map((a) => ({ nombre: a.name, estado: "esperando", progreso: 0 })));
-
-    let alguno = false;
-    // Uno por uno: con datos móviles varias subidas a la vez se estorban.
-    for (const [i, archivo] of archivos.entries()) {
-      try {
-        actualizar(i, { estado: "subiendo" });
-        const { uploadUrl, key, contentType, tipo } = await postJson({
-          accion: "presign",
-          lugar_id: lugar.id,
-          fileName: archivo.name,
-          contentType: archivo.type,
-        });
-        await subirConProgreso(uploadUrl, archivo, contentType, (p) => actualizar(i, { progreso: p }));
-        actualizar(i, { estado: "procesando", progreso: 100 });
-        await postJson({ accion: tipo, lugar_id: lugar.id, key });
-        actualizar(i, { estado: "listo" });
-        alguno = true;
-      } catch (err) {
-        actualizar(i, { estado: "error", error: err.message });
-      }
-    }
-    if (alguno) await onCambio?.();
+    const ok = await subirArchivosLugar(lugar.id, archivos, setCola);
+    if (ok > 0) await onCambio?.();
   };
 
   const borrarLugar = async () => {
     if (!window.confirm(`¿Borrar «${lugar.titulo}» con todas sus fotos y vídeos?`)) return;
-    const r = await fetch(`${API}?lugar_id=${encodeURIComponent(lugar.id)}`, { method: "DELETE" });
-    if (r.ok) {
+    try {
+      await borrarLugarMedia({ lugarId: lugar.id });
       onLugarBorrado?.();
       await onCambio?.();
+    } catch (err) {
+      window.alert(err.message);
     }
   };
-
-  const textoEstado = (c) =>
-    c.estado === "subiendo"
-      ? `Subiendo ${c.progreso}%`
-      : c.estado === "procesando"
-        ? "Procesando…"
-        : c.estado === "listo"
-          ? "Listo"
-          : c.estado === "error"
-            ? c.error
-            : "En espera";
 
   return (
     <div className={styles.adminPanel}>
@@ -306,11 +252,12 @@ function SubirMedia({ lugar, onCambio, onLugarBorrado }) {
         >
           <IconoSubir /> {ocupado ? "Subiendo…" : "Subir fotos o vídeos"}
         </button>
-        {!lugar.fijo && (
-          <button type="button" className={styles.adminBotonSecundario} onClick={borrarLugar} disabled={ocupado}>
-            Borrar lugar
-          </button>
-        )}
+        <a href="/dashboard/colon#lugares" className={styles.adminBotonSecundario}>
+          Editar nombre y orden
+        </a>
+        <button type="button" className={styles.adminBotonSecundario} onClick={borrarLugar} disabled={ocupado}>
+          Borrar lugar
+        </button>
         <input
           ref={inputRef}
           type="file"
@@ -342,8 +289,12 @@ function BorrarMedia({ id, tipo, onCambio }) {
   const borrar = async () => {
     if (!window.confirm(`¿Borrar este ${tipo === "video" ? "vídeo" : "foto"}?`)) return;
     setBorrando(true);
-    const r = await fetch(`${API}?media_id=${encodeURIComponent(id)}`, { method: "DELETE" });
-    if (r.ok) await onCambio?.();
+    try {
+      await borrarLugarMedia({ mediaId: id });
+      await onCambio?.();
+    } catch (err) {
+      window.alert(err.message);
+    }
     setBorrando(false);
   };
   return (
@@ -372,7 +323,7 @@ function NuevoLugar({ onCreado }) {
     setGuardando(true);
     setError("");
     try {
-      const { lugar } = await postJson({ accion: "crear_lugar", titulo, descripcion });
+      const { lugar } = await apiLugares("POST", { accion: "crear_lugar", titulo, descripcion });
       setTitulo("");
       setDescripcion("");
       setAbierto(false);

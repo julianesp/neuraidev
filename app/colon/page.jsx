@@ -8,7 +8,7 @@ import LugaresColon from "./LugaresColon";
 export default function ColonPage() {
   const [config, setConfig] = useState(null);
   const [eventos, setEventos] = useState([]);
-  const [lugaresDb, setLugaresDb] = useState([]);
+  const [lugaresDb, setLugaresDb] = useState(undefined); // undefined = cargando
   const [media, setMedia] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -19,11 +19,12 @@ export default function ColonPage() {
         .then((data) => {
           setConfig(data.config || { titulo: "Colón, Putumayo" });
           setEventos(Array.isArray(data.eventos) ? data.eventos : []);
-          setLugaresDb(Array.isArray(data.lugares) ? data.lugares : []);
+          setLugaresDb(Array.isArray(data.lugares) ? data.lugares : null);
           setMedia(Array.isArray(data.media) ? data.media : []);
         })
         .catch(() => {
           setConfig((c) => c || { titulo: "Colón, Putumayo" });
+          setLugaresDb((l) => (l === undefined ? null : l));
         })
         .finally(() => setLoading(false)),
     []

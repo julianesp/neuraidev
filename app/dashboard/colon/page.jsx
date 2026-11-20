@@ -11,6 +11,7 @@ import {
   X,
   Star,
 } from "lucide-react";
+import LugaresAdmin from "./LugaresAdmin";
 
 // Sube un archivo a R2 vía el endpoint existente. Devuelve { url, path }.
 async function subirArchivoR2(file) {
@@ -312,8 +313,8 @@ export default function ColonDashboardPage() {
         Página de Colón
       </h1>
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-        Gestiona la imagen de fondo, la foto de perfil y los eventos que se
-        muestran en{" "}
+        Gestiona la imagen de fondo, la foto de perfil, los lugares (nombre,
+        fotos y vídeos) y los eventos que se muestran en{" "}
         <a
           href="/colon"
           target="_blank"
@@ -457,6 +458,9 @@ export default function ColonDashboardPage() {
               </button>
             </div>
           </div>
+
+          {/* ── Lugares: parque, termales, iglesia… ── */}
+          <LugaresAdmin />
 
           {/* ── Eventos ── */}
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3">

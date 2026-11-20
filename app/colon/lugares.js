@@ -1,4 +1,6 @@
-// Lugares de Colón, cada uno con su propia sección y galería en /colon.
+// RESPALDO: los lugares de Colón ahora viven en D1 (colon_lugares +
+// colon_lugar_media) y se editan en /dashboard/colon. Este archivo solo se usa
+// si la API falla. «El parque» se copió a D1 el 20-nov-2026.
 //
 // Las fotos viven en R2 (bucket neurai-pos-images, carpeta myTown/<lugar>/).
 // Las fotos originales del celular pesan 25–45 MB (200 MP) y Cloudflare no
