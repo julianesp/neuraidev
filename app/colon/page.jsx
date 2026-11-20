@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./Colon.module.scss";
 import LugaresColon from "./LugaresColon";
@@ -8,20 +8,30 @@ import LugaresColon from "./LugaresColon";
 export default function ColonPage() {
   const [config, setConfig] = useState(null);
   const [eventos, setEventos] = useState([]);
+  const [lugaresDb, setLugaresDb] = useState([]);
+  const [media, setMedia] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const cargar = useCallback(
+    () =>
+      fetch("/api/colon", { cache: "no-store" })
+        .then((r) => r.json())
+        .then((data) => {
+          setConfig(data.config || { titulo: "Colón, Putumayo" });
+          setEventos(Array.isArray(data.eventos) ? data.eventos : []);
+          setLugaresDb(Array.isArray(data.lugares) ? data.lugares : []);
+          setMedia(Array.isArray(data.media) ? data.media : []);
+        })
+        .catch(() => {
+          setConfig((c) => c || { titulo: "Colón, Putumayo" });
+        })
+        .finally(() => setLoading(false)),
+    []
+  );
+
   useEffect(() => {
-    fetch("/api/colon")
-      .then((r) => r.json())
-      .then((data) => {
-        setConfig(data.config || { titulo: "Colón, Putumayo" });
-        setEventos(Array.isArray(data.eventos) ? data.eventos : []);
-      })
-      .catch(() => {
-        setConfig({ titulo: "Colón, Putumayo" });
-      })
-      .finally(() => setLoading(false));
-  }, []);
+    cargar();
+  }, [cargar]);
 
   return (
     <main className={styles.container}>
@@ -51,7 +61,7 @@ export default function ColonPage() {
       </div>
 
       {/* Lugares: parque, termales, iglesia… */}
-      <LugaresColon />
+      <LugaresColon lugaresDb={lugaresDb} media={media} onCambio={cargar} />
 
       {/* Grid de eventos */}
       <section className={styles.eventosSection}>

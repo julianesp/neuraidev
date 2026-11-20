@@ -19,9 +19,23 @@ export async function GET() {
        ORDER BY orden ASC, created_at DESC`
     );
 
+    // Lugares creados y fotos/vídeos subidos desde la propia página (admin).
+    // Si las tablas fallan, la página sigue mostrando los lugares fijos.
+    const [lugares, media] = await Promise.all([
+      d1Select(
+        `SELECT id, titulo, descripcion FROM colon_lugares ORDER BY orden ASC, created_at ASC`
+      ).catch(() => []),
+      d1Select(
+        `SELECT id, lugar_id, tipo, url, thumb_url FROM colon_lugar_media
+         ORDER BY orden ASC, created_at ASC`
+      ).catch(() => []),
+    ]);
+
     return NextResponse.json({
       config: config || { titulo: 'Colón, Putumayo' },
       eventos,
+      lugares,
+      media,
     });
   } catch (error) {
     console.error('Error en GET /api/colon:', error);

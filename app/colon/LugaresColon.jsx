@@ -1,25 +1,56 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { lugares } from "./lugares";
+import { useUser } from "@clerk/nextjs";
+import { isAdmin } from "@/lib/auth/roles";
+import { lugares as lugaresFijos } from "./lugares";
 import styles from "./Colon.module.scss";
 
 /**
  * Lugares de Colón: cada lugar (parque, termales, iglesia…) aparece como una
- * tarjeta; al tocarla se despliegan sus fotos. Tocar una foto abre el visor a
- * pantalla completa con zoom.
+ * tarjeta; al tocarla se despliegan sus fotos y vídeos. Tocar uno abre el
+ * visor a pantalla completa (con zoom en las fotos).
+ *
+ * Los lugares vienen de app/colon/lugares.js (fijos) y de D1 (creados aquí
+ * mismo). Con la cuenta de administrador aparecen los controles para crear
+ * lugares y subir/borrar fotos y vídeos sin salir de la página.
  */
-export default function LugaresColon() {
+export default function LugaresColon({ lugaresDb = [], media = [], onCambio }) {
+  const { user } = useUser();
+  const admin = isAdmin(user);
+
+  const lugares = useMemo(() => {
+    const deDb = (lugarId, titulo) =>
+      media
+        .filter((m) => m.lugar_id === lugarId)
+        .map((m, i) => ({
+          id: m.id,
+          tipo: m.tipo,
+          src: m.url,
+          thumb: m.thumb_url || m.url,
+          alt: `${titulo} — ${m.tipo === "video" ? "vídeo" : "foto"}`,
+          key: `${m.id}-${i}`,
+        }));
+    return [
+      ...lugaresFijos.map((l) => ({
+        ...l,
+        fijo: true,
+        fotos: [...l.fotos.map((f) => ({ ...f, tipo: "foto" })), ...deDb(l.id, l.titulo)],
+      })),
+      ...lugaresDb.map((l) => ({ ...l, fijo: false, fotos: deDb(l.id, l.titulo) })),
+    ];
+  }, [lugaresDb, media]);
+
   const [abierto, setAbierto] = useState(null); // id del lugar desplegado
   const [visor, setVisor] = useState(null); // { lugar, indice }
   const galeriaRef = useRef(null);
 
   // Enlace directo: /colon#parque abre ese lugar.
   useEffect(() => {
-    const id = window.location.hash.slice(1);
+    const id = decodeURIComponent(window.location.hash.slice(1));
     if (lugares.some((l) => l.id === id)) setAbierto(id);
-  }, []);
+  }, [lugares]);
 
   const alternar = (id) => {
     const nuevo = abierto === id ? null : id;
@@ -35,7 +66,7 @@ export default function LugaresColon() {
     galeriaRef.current.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   }, [abierto]);
 
-  if (lugares.length === 0) return null;
+  if (lugares.length === 0 && !admin) return null;
   const lugarAbierto = lugares.find((l) => l.id === abierto);
 
   return (
@@ -44,9 +75,26 @@ export default function LugaresColon() {
         Lugares de Colón
       </h2>
 
+      {admin && (
+        <NuevoLugar
+          onCreado={async (lugar) => {
+            await onCambio?.();
+            setAbierto(lugar.id);
+            window.history.replaceState(null, "", `#${lugar.id}`);
+          }}
+        />
+      )}
+
       <div className={styles.lugaresGrid}>
         {lugares.map((lugar) => {
           const activo = lugar.id === abierto;
+          const portada = lugar.fotos.find((f) => f.tipo === "foto") || lugar.fotos[0];
+          const nFotos = lugar.fotos.filter((f) => f.tipo === "foto").length;
+          const nVideos = lugar.fotos.length - nFotos;
+          const meta = [
+            nFotos ? `${nFotos} ${nFotos === 1 ? "foto" : "fotos"}` : null,
+            nVideos ? `${nVideos} ${nVideos === 1 ? "vídeo" : "vídeos"}` : null,
+          ].filter(Boolean).join(" · ") || "Sin fotos aún";
           return (
             <button
               key={lugar.id}
@@ -56,12 +104,16 @@ export default function LugaresColon() {
               aria-expanded={activo}
               aria-controls={`galeria-${lugar.id}`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={lugar.fotos[0]?.thumb} alt="" loading="lazy" decoding="async" />
+              {portada?.tipo === "video" ? (
+                <video src={`${portada.src}#t=0.1`} preload="metadata" muted playsInline />
+              ) : portada ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={portada.thumb} alt="" loading="lazy" decoding="async" />
+              ) : null}
               <span className={styles.lugarCardOverlay}>
                 <span className={styles.lugarCardTitulo}>{lugar.titulo}</span>
                 <span className={styles.lugarCardMeta}>
-                  {lugar.fotos.length} fotos · {activo ? "Ocultar" : "Ver fotos"}
+                  {meta} · {activo ? "Ocultar" : "Ver"}
                 </span>
               </span>
             </button>
@@ -91,26 +143,57 @@ export default function LugaresColon() {
             </button>
           </header>
 
-          <div className={styles.lugarGrid}>
-            {lugarAbierto.fotos.map((foto, i) => (
-              <button
-                key={foto.src}
-                type="button"
-                className={`${styles.lugarFoto} ${i === 0 ? styles.lugarFotoGrande : ""}`}
-                onClick={() => setVisor({ lugar: lugarAbierto, indice: i })}
-                aria-label={`Ampliar: ${foto.alt}`}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={i === 0 ? foto.src : foto.thumb}
-                  alt={foto.alt}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                  draggable={false}
-                />
-              </button>
-            ))}
-          </div>
+          {admin && (
+            <SubirMedia
+              lugar={lugarAbierto}
+              onCambio={onCambio}
+              onLugarBorrado={() => {
+                setAbierto(null);
+                window.history.replaceState(null, "", window.location.pathname);
+              }}
+            />
+          )}
+
+          {lugarAbierto.fotos.length === 0 ? (
+            <p className={styles.vacio}>Este lugar aún no tiene fotos ni vídeos.</p>
+          ) : (
+            <div className={styles.lugarGrid}>
+              {lugarAbierto.fotos.map((foto, i) => (
+                <div
+                  key={foto.key || foto.src}
+                  className={`${styles.lugarFotoWrap} ${i === 0 ? styles.lugarFotoGrande : ""}`}
+                >
+                  <button
+                    type="button"
+                    className={styles.lugarFoto}
+                    onClick={() => setVisor({ lugar: lugarAbierto, indice: i })}
+                    aria-label={`Ampliar: ${foto.alt}`}
+                  >
+                    {foto.tipo === "video" ? (
+                      <>
+                        <video src={`${foto.src}#t=0.1`} preload="metadata" muted playsInline />
+                        <span className={styles.lugarPlay} aria-hidden="true">
+                          <IconoPlay />
+                        </span>
+                      </>
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={i === 0 ? foto.src : foto.thumb}
+                        alt={foto.alt}
+                        loading={i === 0 ? "eager" : "lazy"}
+                        decoding="async"
+                        draggable={false}
+                      />
+                    )}
+                  </button>
+                  {admin && foto.id && (
+                    <BorrarMedia id={foto.id} tipo={foto.tipo} onCambio={onCambio} />
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </article>
       )}
 
@@ -122,6 +205,227 @@ export default function LugaresColon() {
         />
       )}
     </section>
+  );
+}
+
+// ── Administración (solo con la cuenta de admin) ─────────────────────────────
+
+const API = "/api/admin/colon/lugares";
+
+async function postJson(body) {
+  const r = await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || `Error ${r.status}`);
+  return data;
+}
+
+function subirConProgreso(url, archivo, contentType, onProgreso) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", url);
+    xhr.setRequestHeader("Content-Type", contentType);
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgreso(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () =>
+      xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error(`Subida falló (${xhr.status})`));
+    xhr.onerror = () => reject(new Error("Sin conexión durante la subida"));
+    xhr.send(archivo);
+  });
+}
+
+function SubirMedia({ lugar, onCambio, onLugarBorrado }) {
+  const inputRef = useRef(null);
+  const [cola, setCola] = useState([]); // { nombre, estado, progreso, error }
+  const ocupado = cola.some((c) => c.estado === "subiendo" || c.estado === "procesando");
+
+  const actualizar = (i, cambios) =>
+    setCola((c) => c.map((item, j) => (j === i ? { ...item, ...cambios } : item)));
+
+  const elegir = async (e) => {
+    const archivos = [...(e.target.files || [])];
+    e.target.value = "";
+    if (archivos.length === 0) return;
+    setCola(archivos.map((a) => ({ nombre: a.name, estado: "esperando", progreso: 0 })));
+
+    let alguno = false;
+    // Uno por uno: con datos móviles varias subidas a la vez se estorban.
+    for (const [i, archivo] of archivos.entries()) {
+      try {
+        actualizar(i, { estado: "subiendo" });
+        const { uploadUrl, key, contentType, tipo } = await postJson({
+          accion: "presign",
+          lugar_id: lugar.id,
+          fileName: archivo.name,
+          contentType: archivo.type,
+        });
+        await subirConProgreso(uploadUrl, archivo, contentType, (p) => actualizar(i, { progreso: p }));
+        actualizar(i, { estado: "procesando", progreso: 100 });
+        await postJson({ accion: tipo, lugar_id: lugar.id, key });
+        actualizar(i, { estado: "listo" });
+        alguno = true;
+      } catch (err) {
+        actualizar(i, { estado: "error", error: err.message });
+      }
+    }
+    if (alguno) await onCambio?.();
+  };
+
+  const borrarLugar = async () => {
+    if (!window.confirm(`¿Borrar «${lugar.titulo}» con todas sus fotos y vídeos?`)) return;
+    const r = await fetch(`${API}?lugar_id=${encodeURIComponent(lugar.id)}`, { method: "DELETE" });
+    if (r.ok) {
+      onLugarBorrado?.();
+      await onCambio?.();
+    }
+  };
+
+  const textoEstado = (c) =>
+    c.estado === "subiendo"
+      ? `Subiendo ${c.progreso}%`
+      : c.estado === "procesando"
+        ? "Procesando…"
+        : c.estado === "listo"
+          ? "Listo"
+          : c.estado === "error"
+            ? c.error
+            : "En espera";
+
+  return (
+    <div className={styles.adminPanel}>
+      <div className={styles.adminAcciones}>
+        <button
+          type="button"
+          className={styles.adminBoton}
+          onClick={() => inputRef.current?.click()}
+          disabled={ocupado}
+        >
+          <IconoSubir /> {ocupado ? "Subiendo…" : "Subir fotos o vídeos"}
+        </button>
+        {!lugar.fijo && (
+          <button type="button" className={styles.adminBotonSecundario} onClick={borrarLugar} disabled={ocupado}>
+            Borrar lugar
+          </button>
+        )}
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*,video/*"
+          multiple
+          hidden
+          onChange={elegir}
+        />
+      </div>
+      <p className={styles.adminNota}>
+        Se publican al instante. Las fotos se reducen y llevan la marca «Foto tomada por neurai.dev».
+      </p>
+      {cola.length > 0 && (
+        <ul className={styles.adminCola}>
+          {cola.map((c, i) => (
+            <li key={i} className={c.estado === "error" ? styles.adminColaError : undefined}>
+              <span className={styles.adminColaNombre}>{c.nombre}</span>
+              <span>{textoEstado(c)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function BorrarMedia({ id, tipo, onCambio }) {
+  const [borrando, setBorrando] = useState(false);
+  const borrar = async () => {
+    if (!window.confirm(`¿Borrar este ${tipo === "video" ? "vídeo" : "foto"}?`)) return;
+    setBorrando(true);
+    const r = await fetch(`${API}?media_id=${encodeURIComponent(id)}`, { method: "DELETE" });
+    if (r.ok) await onCambio?.();
+    setBorrando(false);
+  };
+  return (
+    <button
+      type="button"
+      className={styles.adminBorrar}
+      onClick={borrar}
+      disabled={borrando}
+      aria-label={tipo === "video" ? "Borrar vídeo" : "Borrar foto"}
+      title="Borrar"
+    >
+      <IconoCerrar />
+    </button>
+  );
+}
+
+function NuevoLugar({ onCreado }) {
+  const [abierto, setAbierto] = useState(false);
+  const [titulo, setTitulo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [guardando, setGuardando] = useState(false);
+  const [error, setError] = useState("");
+
+  const guardar = async (e) => {
+    e.preventDefault();
+    setGuardando(true);
+    setError("");
+    try {
+      const { lugar } = await postJson({ accion: "crear_lugar", titulo, descripcion });
+      setTitulo("");
+      setDescripcion("");
+      setAbierto(false);
+      await onCreado?.(lugar);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  if (!abierto) {
+    return (
+      <div className={styles.adminBarra}>
+        <button type="button" className={styles.adminBoton} onClick={() => setAbierto(true)}>
+          <IconoMas /> Agregar lugar
+        </button>
+        <span className={styles.adminNota}>
+          Modo administrador: abre un lugar para subirle fotos o vídeos.
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <form className={styles.adminForm} onSubmit={guardar}>
+      <input
+        className={styles.adminInput}
+        placeholder="Nombre del lugar (p. ej. Termales)"
+        value={titulo}
+        onChange={(e) => setTitulo(e.target.value)}
+        required
+        maxLength={80}
+        autoFocus
+      />
+      <textarea
+        className={styles.adminInput}
+        placeholder="Descripción (opcional)"
+        value={descripcion}
+        onChange={(e) => setDescripcion(e.target.value)}
+        rows={2}
+        maxLength={400}
+      />
+      {error && <p className={styles.adminError}>{error}</p>}
+      <div className={styles.adminAcciones}>
+        <button type="submit" className={styles.adminBoton} disabled={guardando || !titulo.trim()}>
+          {guardando ? "Guardando…" : "Crear lugar"}
+        </button>
+        <button type="button" className={styles.adminBotonSecundario} onClick={() => setAbierto(false)}>
+          Cancelar
+        </button>
+      </div>
+    </form>
   );
 }
 
@@ -146,6 +450,7 @@ function Visor({ lugar, indiceInicial, onClose }) {
   const ultimoToque = useRef(0);
 
   const foto = fotos[indice];
+  const esVideo = foto.tipo === "video";
 
   const reiniciarZoom = useCallback(() => {
     setZoom(1);
@@ -186,13 +491,14 @@ function Visor({ lugar, indiceInicial, onClose }) {
       if (e.key === "Escape") onClose();
       else if (e.key === "ArrowLeft") prev();
       else if (e.key === "ArrowRight") next();
+      else if (esVideo) return;
       else if (e.key === "+" || e.key === "=") cambiarZoom(zoom + 0.5);
       else if (e.key === "-") cambiarZoom(zoom - 0.5);
       else if (e.key === "0") reiniciarZoom();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose, prev, next, cambiarZoom, reiniciarZoom, zoom]);
+  }, [onClose, prev, next, cambiarZoom, reiniciarZoom, zoom, esVideo]);
 
   // Bloquear el scroll de la página mientras el visor está abierto.
   useEffect(() => {
@@ -212,16 +518,18 @@ function Visor({ lugar, indiceInicial, onClose }) {
     const el = escenaRef.current;
     if (!el) return;
     const onWheel = (e) => {
+      if (esVideo) return;
       e.preventDefault();
       cambiarZoom(zoom * (e.deltaY < 0 ? 1.15 : 1 / 1.15));
     };
     el.addEventListener("wheel", onWheel, { passive: false });
     return () => el.removeEventListener("wheel", onWheel);
-  }, [montado, zoom, cambiarZoom]);
+  }, [montado, zoom, cambiarZoom, esVideo]);
 
   // Precargar las vecinas para que el cambio sea inmediato.
   useEffect(() => {
     [fotos[(indice + 1) % total], fotos[(indice - 1 + total) % total]].forEach((f) => {
+      if (f.tipo === "video") return;
       const img = new window.Image();
       img.src = f.src;
     });
@@ -229,7 +537,7 @@ function Visor({ lugar, indiceInicial, onClose }) {
 
   // ── Gestos: arrastrar (con zoom), pellizcar, deslizar (sin zoom), doble toque
   const onPointerDown = (e) => {
-    if (e.target.closest("button")) return;
+    if (e.target.closest("button, video")) return;
     escenaRef.current.setPointerCapture(e.pointerId);
     punteros.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
@@ -309,7 +617,17 @@ function Visor({ lugar, indiceInicial, onClose }) {
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {esVideo ? (
+          <video
+            key={foto.src}
+            src={foto.src}
+            className={styles.visorVideo}
+            controls
+            autoPlay
+            playsInline
+          />
+        ) : (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           key={foto.src}
           src={foto.src}
@@ -322,6 +640,7 @@ function Visor({ lugar, indiceInicial, onClose }) {
           }}
           draggable={false}
         />
+        )}
       </div>
 
       {/* Barra superior: contador + herramientas + cerrar */}
@@ -330,6 +649,7 @@ function Visor({ lugar, indiceInicial, onClose }) {
           {indice + 1} / {total}
         </span>
         <div className={styles.visorHerramientas}>
+          {!esVideo && (<>
           <button
             type="button"
             className={styles.visorBoton}
@@ -359,6 +679,7 @@ function Visor({ lugar, indiceInicial, onClose }) {
           >
             <IconoMas />
           </button>
+          </>)}
           <button
             ref={cerrarRef}
             type="button"
@@ -436,6 +757,20 @@ function IconoFlecha({ derecha }) {
   return (
     <svg {...svgProps} width={26} height={26}>
       <path d={derecha ? "M9 5l7 7-7 7" : "M15 5l-7 7 7 7"} />
+    </svg>
+  );
+}
+function IconoPlay() {
+  return (
+    <svg {...svgProps} width={28} height={28} fill="currentColor" stroke="none">
+      <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" />
+    </svg>
+  );
+}
+function IconoSubir() {
+  return (
+    <svg {...svgProps} width={18} height={18}>
+      <path d="M12 16V4M6 10l6-6 6 6M4 20h16" />
     </svg>
   );
 }

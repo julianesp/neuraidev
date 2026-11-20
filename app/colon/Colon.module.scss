@@ -287,7 +287,8 @@
     transform 0.2s cubic-bezier(0.23, 1, 0.32, 1),
     box-shadow 0.2s ease;
 
-  img {
+  img,
+  video {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -310,7 +311,8 @@
       transform: translateY(-4px);
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
 
-      img {
+      img,
+      video {
         transform: scale(1.05);
       }
     }
@@ -429,7 +431,8 @@
   background: #e2e8f0;
   cursor: zoom-in;
 
-  img {
+  img,
+  video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -443,16 +446,22 @@
   }
 
   @media (hover: hover) and (pointer: fine) {
-    &:hover img {
+    &:hover img,
+    &:hover video {
       transform: scale(1.04);
     }
   }
 }
 
 @media (max-width: 767px) {
-  .lugarFoto:last-child:nth-child(even) {
+  .lugarFotoWrap:last-child:nth-child(even) {
     grid-column: span 2;
   }
+}
+
+.lugarFotoWrap {
+  position: relative;
+  min-width: 0;
 }
 
 .lugarFotoGrande {
@@ -460,9 +469,209 @@
 
   @media (min-width: 768px) {
     grid-row: span 2;
-    aspect-ratio: auto;
-    height: 100%;
+
+    .lugarFoto {
+      aspect-ratio: auto;
+      height: 100%;
+    }
   }
+}
+
+/* Icono de reproducir sobre las miniaturas de vídeo */
+.lugarPlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  pointer-events: none;
+
+  svg {
+    margin-left: 3px;
+  }
+}
+
+/* ── Controles de administrador (solo con la cuenta admin) ─────────────── */
+
+.adminBarra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-bottom: 16px;
+}
+
+.adminPanel {
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px dashed #93c5fd;
+  border-radius: 12px;
+  background: #eff6ff;
+}
+
+.adminAcciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.adminBoton,
+.adminBotonSecundario {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 3px solid #2563eb;
+    outline-offset: 2px;
+  }
+}
+
+.adminBoton {
+  border: 0;
+  background: #2563eb;
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: #1d4ed8;
+  }
+}
+
+.adminBotonSecundario {
+  border: 1px solid #cbd5e0;
+  background: #fff;
+  color: #2d3748;
+
+  &:hover:not(:disabled) {
+    border-color: #2563eb;
+    color: #1d4ed8;
+  }
+}
+
+.adminNota {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #4a5568;
+
+  .adminBarra & {
+    margin-top: 0;
+  }
+}
+
+.adminCola {
+  margin-top: 10px;
+  display: grid;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: #2d3748;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+
+.adminColaNombre {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.adminColaError,
+.adminError {
+  color: #dc2626;
+}
+
+.adminForm {
+  display: grid;
+  gap: 10px;
+  max-width: 520px;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px dashed #93c5fd;
+  border-radius: 12px;
+  background: #eff6ff;
+}
+
+.adminInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e0;
+  border-radius: 10px;
+  background: #fff;
+  color: #1a202c;
+  font-size: 16px; /* evita el zoom automático en iOS */
+  resize: vertical;
+
+  &:focus {
+    outline: 2px solid #2563eb;
+    outline-offset: 0;
+    border-color: #2563eb;
+  }
+}
+
+/* Botón para borrar una foto/vídeo (esquina de la miniatura) */
+.adminBorrar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  cursor: pointer;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover:not(:disabled) {
+    background: #000;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.visorVideo {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  margin: auto;
+  background: #000;
 }
 
 /* Visor a pantalla completa: se monta en <body> por encima de todo,
@@ -665,6 +874,24 @@
 
   .lugarCard {
     background: #2d3748;
+  }
+
+  .adminPanel,
+  .adminForm {
+    background: rgba(37, 99, 235, 0.08);
+    border-color: #1e3a8a;
+  }
+
+  .adminNota,
+  .adminCola {
+    color: #cbd5e0;
+  }
+
+  .adminInput,
+  .adminBotonSecundario {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: #e2e8f0;
   }
 
   .lugarCerrar {
