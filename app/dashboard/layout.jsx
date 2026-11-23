@@ -30,6 +30,7 @@ import {
   Wrench,
   MapPin,
   BookUser,
+  Heart,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -165,6 +166,12 @@ export default function DashboardLayout({ children }) {
       icon: BookUser,
       current: pathname?.startsWith("/dashboard/directorio"),
       badge: "Nuevo",
+    },
+    {
+      name: "Invitación",
+      href: "/dashboard/invitacion",
+      icon: Heart,
+      current: pathname?.startsWith("/dashboard/invitacion"),
     },
     {
       name: "Noticias",
