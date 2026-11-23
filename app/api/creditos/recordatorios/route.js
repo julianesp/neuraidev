@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
+import { currentUser } from '@clerk/nextjs/server';
+import { isAdminServer } from '@/lib/auth/server-roles';
 import { getSupabaseServerClient } from '@/lib/db';
 import { sendEmail } from '@/lib/emailService';
 import { enviarPlantilla, formatearPesos } from '@/lib/whatsapp';
@@ -104,10 +105,13 @@ function construirEmailRecordatorio(credito) {
 // POST - Enviar recordatorio de pago por email a un cliente con crédito
 export async function POST(request) {
   try {
-    const { userId } = await auth();
+    const user = await currentUser();
 
-    if (!userId) {
+    if (!user) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+    }
+    if (!isAdminServer(user)) {
+      return NextResponse.json({ error: 'Solo un administrador puede enviar recordatorios' }, { status: 403 });
     }
 
     const body = await request.json();
