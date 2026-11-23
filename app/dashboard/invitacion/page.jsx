@@ -5,40 +5,22 @@ import { useState, useEffect, useRef } from "react";
 // 8 botones "Sí" + 1 botón "No" (el último, abajo a la derecha de la cuadrícula 3×3)
 const BOTONES_SI = Array.from({ length: 8 }, (_, i) => i);
 
-// Chispas de cada fuego artificial (ángulos alrededor del centro)
-const CHISPAS = Array.from({ length: 10 }, (_, i) => (360 / 10) * i);
-
-// Posiciones de los fuegos alrededor de cada botón (en % del botón)
-const FUEGOS = [
-  { top: "-18%", left: "-10%", delay: 0 },
-  { top: "-22%", left: "105%", delay: 0.7 },
-  { top: "110%", left: "-8%", delay: 1.3 },
-  { top: "112%", left: "100%", delay: 0.4 },
+// Cada botón zumba con su propio ritmo y retraso, para que no vibren todos a la vez
+const ZUMBIDOS = [
+  { delay: 0, dur: 3.1 },
+  { delay: 1.7, dur: 2.6 },
+  { delay: 0.6, dur: 3.8 },
+  { delay: 2.9, dur: 2.9 },
+  { delay: 1.1, dur: 3.4 },
+  { delay: 3.6, dur: 2.4 },
+  { delay: 2.2, dur: 4.1 },
+  { delay: 0.3, dur: 3.0 },
 ];
-
-function FuegoArtificial({ top, left, delay }) {
-  return (
-    <span className="fuego" style={{ top, left, animationDelay: `${delay}s` }} aria-hidden="true">
-      {CHISPAS.map((ang, i) => (
-        <span
-          key={i}
-          className="chispa"
-          style={{
-            "--ang": `${ang}deg`,
-            animationDelay: `${delay}s`,
-            background: i % 3 === 0 ? "#ffffff" : i % 2 === 0 ? "#60a5fa" : "#2563eb",
-          }}
-        />
-      ))}
-    </span>
-  );
-}
 
 export default function InvitacionPage() {
   // paso: "pregunta" | "guino" | "whatsapp" | "enviado" | "triste"
   const [paso, setPaso] = useState("pregunta");
   const [whatsapp, setWhatsapp] = useState("");
-  const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
   const inputRef = useRef(null);
 
@@ -61,19 +43,8 @@ export default function InvitacionPage() {
       return;
     }
     setError("");
-    setEnviando(true);
-    try {
-      await fetch("/api/admin/invitacion", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ whatsapp: numero }),
-      });
-    } catch {
-      // aunque falle el aviso, se muestra la confirmación y el número queda en pantalla
-    } finally {
-      setEnviando(false);
-      setPaso("enviado");
-    }
+    setWhatsapp(numero);
+    setPaso("enviado");
   };
 
   const reiniciar = () => {
@@ -91,13 +62,14 @@ export default function InvitacionPage() {
       <div className="mt-12 grid grid-cols-3 gap-6 sm:gap-10 w-full max-w-md">
         {BOTONES_SI.map((i) => (
           <div key={i} className="relative">
-            {FUEGOS.map((f, k) => (
-              <FuegoArtificial key={k} {...f} delay={f.delay + i * 0.23} />
-            ))}
             <button
               type="button"
               onClick={() => setPaso("guino")}
-              className="relative z-10 w-full rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-lg py-3 shadow-lg shadow-blue-600/30 transition"
+              style={{
+                animationDelay: `${ZUMBIDOS[i].delay}s`,
+                animationDuration: `${ZUMBIDOS[i].dur}s`,
+              }}
+              className="zumbido relative z-10 w-full rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-lg py-3 shadow-lg shadow-blue-600/30 transition"
             >
               Sí
             </button>
@@ -106,10 +78,9 @@ export default function InvitacionPage() {
         <button
           type="button"
           onClick={() => setPaso("triste")}
-          aria-label="No"
-          className="w-full rounded-xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 active:scale-95 text-2xl py-2.5 transition"
+          className="w-full rounded-xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 active:scale-95 text-gray-800 dark:text-gray-100 font-bold text-lg py-3 transition"
         >
-          🙁
+          No
         </button>
       </div>
 
@@ -153,10 +124,9 @@ export default function InvitacionPage() {
               {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
               <button
                 type="submit"
-                disabled={enviando}
-                className="mt-5 w-full rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-3 transition"
+                className="mt-5 w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 transition"
               >
-                {enviando ? "Enviando…" : "Enviar"}
+                Enviar
               </button>
             </form>
           )}
@@ -165,6 +135,7 @@ export default function InvitacionPage() {
             <div className="aparecer text-center">
               <div className="carita">😉</div>
               <p className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">¡Gracias! Te escribo pronto</p>
+              <p className="mt-2 text-2xl tracking-widest text-blue-600 font-bold">{whatsapp}</p>
               <button
                 type="button"
                 onClick={reiniciar}
@@ -178,41 +149,25 @@ export default function InvitacionPage() {
       )}
 
       <style jsx global>{`
-        .fuego {
-          position: absolute;
-          width: 0;
-          height: 0;
-          pointer-events: none;
+        .zumbido {
+          animation-name: zumbido;
+          animation-iteration-count: infinite;
+          animation-timing-function: linear;
         }
-        .chispa {
-          position: absolute;
-          left: -2px;
-          top: -2px;
-          width: 4px;
-          height: 4px;
-          border-radius: 9999px;
-          opacity: 0;
-          animation: estallido 2.2s ease-out infinite;
-        }
-        @keyframes estallido {
-          0% {
-            transform: rotate(var(--ang)) translateX(0) scale(1);
-            opacity: 0;
+        /* vibra rápido al inicio del ciclo y luego descansa */
+        @keyframes zumbido {
+          0%, 22%, 100% {
+            transform: translate(0, 0) rotate(0);
           }
-          8% {
-            opacity: 1;
-          }
-          45% {
-            transform: rotate(var(--ang)) translateX(16px) scale(0.9);
-            opacity: 1;
-          }
-          70% {
-            transform: rotate(var(--ang)) translateX(20px) translateY(4px) scale(0.4);
-            opacity: 0;
-          }
-          100% {
-            opacity: 0;
-          }
+          2% { transform: translate(-2px, 1px) rotate(-3deg); }
+          4% { transform: translate(2px, -1px) rotate(3deg); }
+          6% { transform: translate(-2px, -1px) rotate(-3deg); }
+          8% { transform: translate(2px, 1px) rotate(3deg); }
+          10% { transform: translate(-2px, 1px) rotate(-2deg); }
+          12% { transform: translate(2px, -1px) rotate(2deg); }
+          14% { transform: translate(-1px, 0) rotate(-1deg); }
+          16% { transform: translate(1px, 0) rotate(1deg); }
+          18% { transform: translate(-1px, 0) rotate(0); }
         }
         .carita {
           font-size: clamp(6rem, 28vw, 12rem);
@@ -233,10 +188,8 @@ export default function InvitacionPage() {
           }
         }
         @media (prefers-reduced-motion: reduce) {
-          .chispa {
+          .zumbido {
             animation: none;
-            opacity: 0.6;
-            transform: rotate(var(--ang)) translateX(14px);
           }
           .carita,
           .aparecer {
