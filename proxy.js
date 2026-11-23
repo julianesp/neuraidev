@@ -12,7 +12,8 @@ const isProtectedRoute = createRouteMatcher([
 // Rutas de pago que deben ser completamente públicas (bypass completo)
 const isPaymentRoute = createRouteMatcher([
   "/api/payments(.*)",
-  "/api/webhooks(.*)"
+  "/api/webhooks(.*)",
+  "/api/whatsapp/webhook"
 ]);
 
 export default clerkMiddleware(async (auth, request) => {

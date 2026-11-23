@@ -3,6 +3,7 @@ import { getSupabaseClient } from "@/lib/db";
 import { decrementMultipleProductsStock } from "@/lib/productService";
 import { createInvoiceRecord } from "@/lib/invoiceGenerator";
 import { notifyNewSale } from "@/lib/notificationService";
+import { enviarPlantilla, whatsappConfigurado, formatearPesos } from "@/lib/whatsapp";
 import { validarFirmaEpayco } from "@/lib/epayco/signature";
 import { notificarPagoAprobado, notificarNuevaVentaAdmin } from "@/lib/pushService";
 import { crearMensajeSistemaPedido } from "@/lib/chatSoporte";
@@ -304,6 +305,24 @@ export async function POST(request) {
             if (notificationSent) log("✅ Telegram enviado");
           } catch (notificationError) {
             logError("⚠️ Error enviando notificación:", notificationError);
+          }
+
+          // WhatsApp al comprador: plantilla "pedido_confirmado" (aprobada por Meta)
+          try {
+            const telefonoCliente = order.customer_phone || body.x_customer_phone;
+            if (telefonoCliente && whatsappConfigurado()) {
+              const nombreCliente = (order.customer_name || body.x_customer_name || 'cliente').split(' ')[0];
+              const numero = order.numero_orden || reference;
+              const r = await enviarPlantilla(
+                telefonoCliente,
+                'pedido_confirmado',
+                [nombreCliente, numero, formatearPesos(amount)],
+                `Pago confirmado del pedido ${numero} por ${formatearPesos(amount)}`
+              );
+              log(r.ok ? "✅ WhatsApp de confirmación enviado" : `⚠️ WhatsApp no enviado: ${r.error}`);
+            }
+          } catch (waError) {
+            logError("⚠️ Error enviando WhatsApp al comprador:", waError);
           }
 
           // Push al comprador (si su orden quedó ligada a un usuario Clerk)

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { getSupabaseServerClient } from '@/lib/db';
 import { sendEmail } from '@/lib/emailService';
+import { enviarPlantilla, formatearPesos } from '@/lib/whatsapp';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://neurai.dev';
 
@@ -110,7 +111,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { credito_id } = body;
+    const { credito_id, canal = 'email' } = body;
 
     if (!credito_id) {
       return NextResponse.json(
@@ -133,6 +134,36 @@ export async function POST(request) {
         { error: 'Crédito no encontrado' },
         { status: 404 }
       );
+    }
+
+    if (canal === 'whatsapp') {
+      if (credito.estado === 'pagado_total') {
+        return NextResponse.json({ error: 'Este crédito ya está pagado' }, { status: 400 });
+      }
+      if (!credito.telefono_cliente) {
+        return NextResponse.json({ error: 'Este crédito no tiene teléfono del cliente' }, { status: 400 });
+      }
+      const fechaLimite = new Date(credito.fecha_limite_pago).toLocaleDateString('es-CO', {
+        day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Bogota',
+      });
+      const nombre = (credito.nombre_cliente || 'cliente').split(' ')[0];
+      const r = await enviarPlantilla(
+        credito.telefono_cliente,
+        'recordatorio_credito',
+        [nombre, credito.producto_nombre, formatearPesos(credito.monto_pendiente), fechaLimite],
+        `Recordatorio de crédito: ${credito.producto_nombre}, saldo ${formatearPesos(credito.monto_pendiente)}, vence ${fechaLimite}`
+      );
+      if (!r.ok) {
+        return NextResponse.json({ error: `No se pudo enviar el WhatsApp: ${r.error}` }, { status: 502 });
+      }
+      await db
+        .from('creditos')
+        .update({
+          numero_recordatorios: (credito.numero_recordatorios || 0) + 1,
+          fecha_ultimo_recordatorio: new Date().toISOString(),
+        })
+        .eq('id', credito_id);
+      return NextResponse.json({ success: true, message: `Recordatorio enviado por WhatsApp a ${credito.telefono_cliente}` });
     }
 
     if (!credito.email_cliente) {

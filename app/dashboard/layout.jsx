@@ -31,6 +31,7 @@ import {
   MapPin,
   BookUser,
   Heart,
+  MessageCircle,
 } from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -165,6 +166,13 @@ export default function DashboardLayout({ children }) {
       href: "/dashboard/directorio",
       icon: BookUser,
       current: pathname?.startsWith("/dashboard/directorio"),
+      badge: "Nuevo",
+    },
+    {
+      name: "WhatsApp",
+      href: "/dashboard/whatsapp",
+      icon: MessageCircle,
+      current: pathname?.startsWith("/dashboard/whatsapp"),
       badge: "Nuevo",
     },
     {

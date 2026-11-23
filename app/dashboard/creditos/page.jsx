@@ -7,6 +7,7 @@ import {
   Plus,
   Search,
   Mail,
+  MessageCircle,
   Calendar,
   DollarSign,
   User,
@@ -61,14 +62,14 @@ export default function CreditosPage() {
     }
   }
 
-  async function enviarRecordatorio(credito) {
+  async function enviarRecordatorio(credito, canal = "email") {
     try {
-      setEnviandoRecordatorio(credito.id);
+      setEnviandoRecordatorio(`${credito.id}:${canal}`);
 
       const response = await fetch("/api/creditos/recordatorios", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ credito_id: credito.id }),
+        body: JSON.stringify({ credito_id: credito.id, canal }),
       });
 
       const data = await response.json();
@@ -77,7 +78,10 @@ export default function CreditosPage() {
         Swal.fire({
           icon: "success",
           title: "¡Recordatorio enviado!",
-          text: `Se envió un email a ${credito.email_cliente}`,
+          text:
+            canal === "whatsapp"
+              ? `Se envió un WhatsApp a ${credito.telefono_cliente}`
+              : `Se envió un email a ${credito.email_cliente}`,
           timer: 3000,
         });
         cargarCreditos();
@@ -372,10 +376,10 @@ export default function CreditosPage() {
                     </Link>
                     <button
                       onClick={() => enviarRecordatorio(credito)}
-                      disabled={enviandoRecordatorio === credito.id || credito.estado === 'pagado_total'}
+                      disabled={enviandoRecordatorio === `${credito.id}:email` || credito.estado === 'pagado_total'}
                       className="flex-1 lg:flex-none inline-flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
                     >
-                      {enviandoRecordatorio === credito.id ? (
+                      {enviandoRecordatorio === `${credito.id}:email` ? (
                         <>Enviando...</>
                       ) : (
                         <>
@@ -384,6 +388,22 @@ export default function CreditosPage() {
                         </>
                       )}
                     </button>
+                    {credito.telefono_cliente && (
+                      <button
+                        onClick={() => enviarRecordatorio(credito, "whatsapp")}
+                        disabled={enviandoRecordatorio === `${credito.id}:whatsapp` || credito.estado === 'pagado_total'}
+                        className="flex-1 lg:flex-none inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
+                      >
+                        {enviandoRecordatorio === `${credito.id}:whatsapp` ? (
+                          <>Enviando...</>
+                        ) : (
+                          <>
+                            <MessageCircle className="w-4 h-4" />
+                            WhatsApp
+                          </>
+                        )}
+                      </button>
+                    )}
                     <button
                       onClick={() => eliminarCredito(credito.id)}
                       className="flex-1 lg:flex-none inline-flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
