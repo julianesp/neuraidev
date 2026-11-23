@@ -40,7 +40,7 @@ export default function InvitacionPage() {
     e.preventDefault();
     const numero = whatsapp.replace(/\D/g, "");
     if (numero.length < 10) {
-      setError("Escribe un número de WhatsApp válido (10 dígitos).");
+      setError("Escriba un número de WhatsApp válido (10 dígitos).");
       return;
     }
     setError("");
@@ -120,7 +120,7 @@ export default function InvitacionPage() {
             >
               <div className="text-5xl">😉</div>
               <label htmlFor="wa" className="mt-3 block text-lg font-semibold text-gray-900 dark:text-white">
-                Escribe tu WhatsApp
+                Su WhatsApp
               </label>
               <input
                 id="wa"
@@ -149,7 +149,7 @@ export default function InvitacionPage() {
           {paso === "enviado" && (
             <div className="aparecer text-center">
               <div className="carita">😉</div>
-              <p className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">¡Gracias! Te escribo pronto</p>
+              <p className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">¡Gracias! Le escribo pronto</p>
               <p className="mt-2 text-2xl tracking-widest text-blue-600 font-bold">{whatsapp}</p>
               <button
                 type="button"
