@@ -22,6 +22,7 @@ export default function InvitacionPage() {
   const [paso, setPaso] = useState("pregunta");
   const [whatsapp, setWhatsapp] = useState("");
   const [error, setError] = useState("");
+  const [enviando, setEnviando] = useState(false);
   const inputRef = useRef(null);
 
   // Tras el guiño, pasa a pedir el WhatsApp
@@ -43,8 +44,21 @@ export default function InvitacionPage() {
       return;
     }
     setError("");
-    setWhatsapp(numero);
-    setPaso("enviado");
+    setEnviando(true);
+    try {
+      const res = await fetch("/api/admin/invitacion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ whatsapp: numero }),
+      });
+      if (!res.ok) throw new Error();
+      setWhatsapp(numero);
+      setPaso("enviado");
+    } catch {
+      setError("No se pudo guardar. Inténtalo de nuevo.");
+    } finally {
+      setEnviando(false);
+    }
   };
 
   const reiniciar = () => {
@@ -124,9 +138,10 @@ export default function InvitacionPage() {
               {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
               <button
                 type="submit"
-                className="mt-5 w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 transition"
+                disabled={enviando}
+                className="mt-5 w-full rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-3 transition"
               >
-                Enviar
+                {enviando ? "Enviando…" : "Enviar"}
               </button>
             </form>
           )}

@@ -171,7 +171,13 @@ export default function DashboardLayout({ children }) {
       name: "Invitación",
       href: "/dashboard/invitacion",
       icon: Heart,
-      current: pathname?.startsWith("/dashboard/invitacion"),
+      current: pathname === "/dashboard/invitacion",
+    },
+    {
+      name: "Respuestas invitación",
+      href: "/dashboard/invitacion/respuestas",
+      icon: MessageSquare,
+      current: pathname === "/dashboard/invitacion/respuestas",
     },
     {
       name: "Noticias",
