@@ -1,4 +1,11 @@
 allowBuilds:
+  '@parcel/watcher': true
+  '@tsparticles/engine': true
+  core-js: true
+  esbuild: true
+  sharp: true
+  tsparticles-engine: true
+  unrs-resolver: true
   '@clerk/shared': true
   react-tsparticles: true
   workerd: true
