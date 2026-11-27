@@ -1,0 +1,45 @@
+# Publica neurai.dev en Cloudflare Workers en cada push a main
+# (reemplaza el despliegue automático que hacía Vercel).
+name: Publicar en Cloudflare
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-cloudflare
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      # Las NEXT_PUBLIC_* se incrustan en el build (los secretos de servidor
+      # ya están guardados en el Worker y no pasan por aquí).
+      - name: Variables públicas del build
+        run: printf '%s\n' "$ENV_PUBLICAS" > .env.production.local
+        env:
+          ENV_PUBLICAS: ${{ secrets.ENV_PUBLICAS }}
+
+      - name: Build (vinext)
+        run: pnpm run build:vinext
+
+      - name: Publicar en Cloudflare
+        run: npx cf deploy --prebuilt --message "GitHub ${GITHUB_SHA::7}"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: b85347650ec6de9ad5b2873c3389d0e6
