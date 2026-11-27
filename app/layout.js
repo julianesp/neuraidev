@@ -23,7 +23,7 @@ import Script from "next/script";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { ToastContainer } from "@/components/Toast";
 import { ClerkProvider } from "@clerk/nextjs";
-import { esES } from "@clerk/localizations";
+import { esES } from "@clerk/localizations/es-ES";
 import AIChat from "@/components/AIChat/AIChat";
 import ChatSoporte from "@/components/ChatSoporte/ChatSoporte";
 import { CartProvider } from "@/context/CartContext";

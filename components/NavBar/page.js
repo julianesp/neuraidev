@@ -11,7 +11,7 @@ import {
   UserButton,
   useUser,
 } from "@clerk/nextjs";
-import { esES } from "@clerk/localizations";
+import { esES } from "@clerk/localizations/es-ES";
 import { isAdmin } from "@/lib/auth/roles";
 import CartIcon from "../CartIcon";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";

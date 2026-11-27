@@ -173,3 +173,6 @@ out/
 
 # clerk configuration (can include secrets)
 /.clerk/
+.vinext/
+.cloudflare/
+.dev.vars

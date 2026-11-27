@@ -173,7 +173,7 @@ export async function POST(request) {
     const arrayBuffer = await file.arrayBuffer();
     let buffer = Buffer.from(arrayBuffer);
     if (conMarca) {
-      const { fotoConMarca } = await import("@/lib/marcaAgua");
+      const { fotoConMarca } = await import("@/lib/imagenesCloudflare");
       buffer = await fotoConMarca(buffer, { lado: 2400, calidad: 82 });
     }
 

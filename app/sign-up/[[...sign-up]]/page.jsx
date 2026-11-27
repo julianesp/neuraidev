@@ -1,7 +1,7 @@
 "use client";
 
 import { SignUp } from "@clerk/nextjs";
-import { esES } from "@clerk/localizations";
+import { esES } from "@clerk/localizations/es-ES";
 import Link from "next/link";
 import { clerkAppearance, clerkSocialCss } from "@/lib/clerkAppearance";
 import { useState, useEffect } from "react";

@@ -1,3 +1,7 @@
+allowBuilds:
+  '@clerk/shared': true
+  react-tsparticles: true
+  workerd: true
 onlyBuiltDependencies:
   - '@clerk/shared'
   - '@parcel/watcher'

@@ -74,6 +74,12 @@ const nextConfig = {
           },
         ],
       },
+      // Subdominio de prueba de la migración a Cloudflare: que Google no lo indexe
+      {
+        source: "/(.*)",
+        has: [{ type: "host", value: "prueba.neurai.dev" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
       {
         source: "/api/(.*)",
         headers: [
@@ -208,6 +214,13 @@ const nextConfig = {
   // Redirecciones para manejar variaciones de URL
   async redirects() {
     return [
+      // www → dominio principal (antes lo hacía vercel.json); .well-known queda fuera
+      {
+        source: "/:path((?!\\.well-known/).*)",
+        has: [{ type: "host", value: "www.neurai.dev" }],
+        destination: "https://neurai.dev/:path",
+        permanent: true,
+      },
       // Redirecciones para la sección de computadoras
       {
         source: "/accesorios/computacio/:slug*",

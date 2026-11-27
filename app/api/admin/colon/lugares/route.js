@@ -155,18 +155,14 @@ export async function POST(request) {
       const original = Buffer.from(await obj.Body.transformToByteArray());
 
       const fecha = (await fechaExif(original)) || fechaCliente(body.fecha_archivo);
-      const sharp = (await import('sharp')).default;
-      const { fotoConMarca } = await import('@/lib/marcaAgua');
+      // Cloudflare Workers: el binding IMAGES reemplaza a sharp
+      const { fotoConMarca, aJpeg } = await import('@/lib/imagenesCloudflare');
 
       // Se decodifica el original (puede ser enorme) una sola vez y de esa
       // copia de 2400 px salen las dos versiones con la marca.
       let base;
       try {
-        base = await sharp(original, { limitInputPixels: false, failOn: 'none' })
-          .rotate()
-          .resize(2400, 2400, { fit: 'inside', withoutEnlargement: true })
-          .jpeg({ quality: 95 })
-          .toBuffer();
+        base = await aJpeg(original, { width: 2400, height: 2400, fit: 'scale-down', quality: 95 });
       } catch (e) {
         console.error('Colón: no se pudo leer la foto', key, e);
         return err('No se pudo leer la foto. Usa JPG, PNG o WebP.', 422);
@@ -183,8 +179,16 @@ export async function POST(request) {
         [grande, base, 2400, 82],
         [chica, base, 900, 78],
       ]) {
-        // mozjpeg es varias veces más lento: en 200 MP no vale la pena.
-        const buf = await fotoConMarca(origen, { lado, calidad, mozjpeg: destino !== completa });
+        let buf;
+        try {
+          buf = await fotoConMarca(origen, { lado, calidad });
+        } catch (e) {
+          // IMAGES acepta hasta 20 MB / ~100 MP: si el original es más grande,
+          // la versión «completa» sale de la copia de 2400 px.
+          if (destino !== completa) throw e;
+          console.warn('Colón: original muy grande para la versión completa', key, e?.message);
+          buf = await fotoConMarca(base, { lado: 2400, calidad });
+        }
         await r2.send(
           new PutObjectCommand({
             Bucket: BUCKET,
