@@ -23,6 +23,9 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.1152.0
         version: 3.1152.0
+      '@clerk/backend':
+        specifier: ^2.33.3
+        version: 2.33.3(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@clerk/localizations':
         specifier: ^3.31.0
         version: 3.37.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -224,6 +227,9 @@ importers:
       pg:
         specifier: ^8.11.3
         version: 8.20.0
+      prop-types:
+        specifier: ^15.8.1
+        version: 15.8.1
       qrcode:
         specifier: ^1.5.4
         version: 1.5.4
